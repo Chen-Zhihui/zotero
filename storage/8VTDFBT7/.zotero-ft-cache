@@ -1,0 +1,73 @@
+
+HackCV
+
+    日报
+    资讯
+    博客
+
+    关于
+
+聊聊 caffe 和 caffe2
+
+    聊聊 caffe 和 caffe2
+    2017/04/24 07:43
+
+    前几天 facebook 开源的 caffe2 ，让我们在深度学习框架上又多了一个选择。 caffe2 宣称是 轻量级 、 模块化 和 可扩展 的一个框架， code once，run anywhere 。作为一个老 caffe 玩家，自是要好好研究一番。
+    依赖处理
+
+    第一版 caffe 的依赖是个让人头疼的事，尤其是在公司旧版的服务器上安装时，需要花费大量的时间折腾。服务器的系统旧，python的版本低（2.4），直接升级可能会影响现有服务，所以只能源码编译安装各种依赖。当时比较头疼的问题有两个：
+        依赖里面套着依赖： glog 需要 gflags ， gflags 需要 cmake （版本低了，好像也会有问题）， numpy 依赖python的版本和 Cython ，等等。
+        解决完一台的问题，下一台还会出现新问题。
+
+    当然，现在有了 docker ，这些都不再是问题了。但当时前前后后安装了好多遍，又是改代码，又是改Makefile，每次都挺麻烦。
+
+    记得当时为了简化依赖，我还开了个坑 simple_Caffe ，准备做两件事：
+        去掉依赖，有些依赖其实并不会用到，比如数据库部分，我只用到lmdb，就不需要leveldb和hdf5的依赖。
+        把training和inference分开，众所周知，training是个费时费力的活，为了得到一个有效的模型，需要多台机器长时间的工作，但inference也许仅仅需要一台就够了，而inference也仅是载入模型权重参数，构建网络，可以对依赖做简化的。
+
+    但后来深度学习的工作告一段落，懒癌发作，就一直没填坑 :P
+
+    现在新版的 caffe2 通过简化依赖，按需配置，完美的解决了这些问题。在 caffe2 的文件夹中，只有 core 和 proto 两个文件夹是必须的，其他都是可配置的。而所谓的 code once，run everywhere ，核心就在于此。
+
+     Deep_Learning/caffe2/caffe2(master⚡)» tree -d . . ├── binaries ├── contrib │   ├── docker-ubuntu-14.04 │   ├── gloo │   ├── mpscnn-fb │   ├── nccl │   ├── nervana │   ├── nnpack │   ├── prof │   ├── snpe-fb │   ├── torch │   └── warpctc ├── core ├── cuda_rtc ├── db ├── distributed ├── experiments │   ├── operators │   └── python ├── image ├── mkl │   └── operators ├── mpi ├── operators ├── proto ├── python │   ├── docs │   ├── examples │   ├── helpers │   ├── layers │   ├── mint │   │   ├── static │   │   │   └── css │   │   └── templates │   ├── models │   ├── operator_test │   ├── predictor │   ├── tutorial │   └── tutorials │   ├── experimental │   └── images ├── queue ├── sgd ├── test │   └── assets └── utils ├── mkl └── threadpool 48 directories  
+
+    这样，就可以针对不同的需求做不同的选择，灵活性更大。
+    Net 组成方式
+
+    第一版的 caffe 的 Net 由粒度较粗的 layer 组成，即每个 layer 的 weight 和 bias 都以 layer 级别存储，这样做虽然简单直观，但有以下几个问题：
+        针对具体平台做优化时，就会比较繁琐，现有的代码只有GPU和CPU的版本，即 forward_cpu ， forward_gpu ，如果针对arm优化，则不仅仅添加该 layer 的arm实现，还要修改其他地方的代码。
+        添加新的 layer 实现，需要修改 caffe.proto 文件，重新编译，而且当新的 layer 是已有几个 layer 的组合时，比如 LRN layer ，就由 split layer 、 power layer 和 pooling layer 组成，复用起来稍有复杂。
+        weight 和 bias 参数和 layer 绑定在一起， finetune 也会稍显复杂，修改 Net 的prototext文件，指定哪些 layer 的参数保持不变，哪些 layer 的参数需要重新学习。
+
+    其实最后一个问题是我经常所遇到的问题，感谢开源，有很多现成的模型可以直接使用，我一般会挑选合适的模型进行 finetune ，很少会从零开始训练（只有个家用级别的GPU，也训不起来，哈哈）。做的多了，就会想，如果可方便的方式进行 finetune 就好了，比如我基本都在搞分类识别，基本都会保留前几层的卷积参数不动，用来提取中级特征，如果 Net 的组成方式更加灵活，不同的训练可以载入使用相同的 layer ，类似与 数据并行 ，就可以同时训练出好几组模型了。
+
+    新版 caffe2 的 Net 组成，也采用了 tensorflow、mxnet 等这些框架使用 operator 方式，由更细粒度的 operator 组合而成。当粒度变小时，可以做的优化就更多了：
+        多平台的支持变得更加容易了， operator 仅仅是处理数据的逻辑，这就可以有针对性的优化。这个优化不仅包括单个 operator 在新平台的支持，还包括多个 operator 组合的优化。
+        layer 变成了 operator 的组合，剥离了 weight 和 bias 的参数，一方面生成新的 layer 更加方便，另一方面也可对 weight 和 bias 控制。就像 o u t p u t = f ( w x + b ) o u t p u t = f ( w x + b ) o u t p u t = f ( w x + b ) ，当把 w 和 b 都当成了参数，就可以把 一个函数 变成 一类函数 了。
+        最大的好处，我觉得还是可以声明式的编写神经网络了，这个和第一版 caffe 相比，就类似使用所见即所得的方式 vs 使用latex 编写文档一样。
+
+    在源码的 scripts 文件夹中，可以看到iOS、Android、Raspberry PI、windows等平台的编译脚本，而仅仅改动几行，就可以支持watchOS，很好很强大，具体可以看看这个 Pull Request 。
+    基础数据 Blob
+
+    caffe2 中把 caffe 中的 Blob 进行扩展，支持了更多的类型，这就让 Binary Net 和模型的量化压缩变得可行。这两个在工业界应该关注更多一些，毕竟关乎成本，它们可以让模型在现有的 CPU 机器上可实用，进一步可以应用到手机端。目前动辄几十、几百MB的模型，怎么嵌入到手机端，确实是个大问题啊（怪不得 facebook 的 iOS 端的安装包越来越大，会不会和这个有关？哈哈）。
+    总结
+
+    caffe2 可以看作是 caffe 更细粒度的重构，在实用的基础上，增加了扩展性和灵活性。作为 caffe 的重度用户，caffe2 解决了我的好几个痛点，后续我会从源码角度进行深入学习，会在树莓派上进行测试，同时我业余也在使用 golang 进行第一版 caffe 模型的量化压缩和可视化的研究，即 gocaffe ，对这方面感兴趣的朋友可以关注微博或者微信公众号：hackcv，一起交流学习。
+
+We collect, create and publish awesome free AI related resources. Learn More
+
+Join our Newsletter for update.
+浏览
+
+    日报
+    资讯
+    资源
+
+关于
+
+    关于
+    微博
+    Twitter
+
+微信公众号
+Copyright © HackCV , All rights reserved.- ↑ Back to top

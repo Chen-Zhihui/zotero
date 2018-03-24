@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://assets-cdn.github.com/">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com/">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-KDZfnHRZjn4xEe2VuPe5iA8c+O1aNoowrYTe3DQQR97UQDzf5HZ15My/ytImCLmX5X6kBM8kwtuUVj5H+DOZbA==" rel="stylesheet" href="frameworks-7d09971c51977b60c6626362003ef38a.css">
+  <link crossorigin="anonymous" media="all" integrity="sha512-10kcctO8aIQaIV96pvdbnSF/NKsMQoRXQzn0Kdnx7nUufnPUDMGp1xp57ilQnZjZVbF9NZu74pHIf0knSEha7Q==" rel="stylesheet" href="github-c4d5af25254cfc8bb30ae5cb6f074c97.css">
+  
+  
+  
+  
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>wy1iu/sphereface: Implementation for &lt;SphereFace: Deep Hypersphere Embedding for Face Recognition&gt; in CVPR'17.</title>
+    <meta name="description" content="GitHub is where people build software. More than 27 million people use GitHub to discover, fork, and contribute to over 80 million projects.">
+  <link rel="search" type="application/opensearchdescription+xml" href="https://github.com/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/u/12522381?s=400&amp;v=4"><meta property="og:site_name" content="GitHub"><meta property="og:type" content="object"><meta property="og:title" content="wy1iu/sphereface"><meta property="og:url" content="https://github.com/wy1iu/sphereface"><meta property="og:description" content="sphereface - Implementation for &lt;SphereFace: Deep Hypersphere Embedding for Face Recognition&gt; in CVPR'17.">
+
+  <link rel="assets" href="https://assets-cdn.github.com/">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6MjU2ODMxODg5OjM0ZWFiOGVkZmY5MGE3MGI0ZmFiZDdkNGEwODZjZTgyMDRkMmVmM2Q0OWFjMWVhNTBjOTkyMGJmOTMyMmMyYmE=--e701afbf1ddd91fdc935ba1c5bc5d6704585c960">
+  <meta name="pjax-timeout" content="1000">
+  <link rel="sudo-modal" href="https://github.com/sessions/sudo_modal">
+  <meta name="request-id" content="2119:18B5B:25CC26E:47873FA:5AB4FE12" data-pjax-transient="">
+
+
+  
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient="">
+
+    <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+  <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+  <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+    <meta name="google-analytics" content="UA-3769691-2">
+
+<meta name="octolytics-host" content="collector.githubapp.com"><meta name="octolytics-app-id" content="github"><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event"><meta name="octolytics-dimension-request_id" content="2119:18B5B:25CC26E:47873FA:5AB4FE12"><meta name="octolytics-dimension-region_edge" content="iad"><meta name="octolytics-dimension-region_render" content="iad"><meta name="octolytics-actor-id" content="12552758"><meta name="octolytics-actor-login" content="Chen-Zhihui"><meta name="octolytics-actor-hash" content="756830ef2832c7e92e50d9938104614afc1e7c27bc0e459eba383a82c53fb868">
+<meta name="hydro-events-url" content="https://github.com/hydro_browser_events">
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;" data-pjax-transient="true">
+
+
+
+
+  <meta class="js-ga-set" name="dimension1" content="Logged In">
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="Chen-Zhihui">
+
+      <meta name="expected-hostname" content="github.com">
+    <meta name="js-proxy-site-detection-payload" content="ZWQ2MmJkM2Y5MmU2NjQ5ODc3MDM4ZTZlM2NlZWIxNWY2ZGNhZmJiNDliNDZlNjg3MTUyMTNjZjFkMTY2MzhlZnx7InJlbW90ZV9hZGRyZXNzIjoiMS4xODAuMjE0LjEzNiIsInJlcXVlc3RfaWQiOiIyMTE5OjE4QjVCOjI1Q0MyNkU6NDc4NzNGQTo1QUI0RkUxMiIsInRpbWVzdGFtcCI6MTUyMTgxMDk2NCwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,FREE_TRIALS,MARKETPLACE_INSIGHTS,MARKETPLACE_INSIGHTS_CONVERSION_PERCENTAGES,HOVERCARDS">
+
+  <meta name="html-safe-nonce" content="bc2c4eddcd7ead974c2214e14aa47089f1ee4bb2">
+
+  <meta http-equiv="x-pjax-version" content="4c471cab80716eb6f77f5ef8acea9218">
+  
+
+      <link href="https://github.com/wy1iu/sphereface/commits/master.atom" rel="alternate" title="Recent Commits to sphereface:master" type="application/atom+xml">
+
+  <meta name="description" content="sphereface - Implementation for &lt;SphereFace: Deep Hypersphere Embedding for Face Recognition&gt; in CVPR'17.">
+  <meta name="go-import" content="github.com/wy1iu/sphereface git https://github.com/wy1iu/sphereface.git">
+
+  <meta name="octolytics-dimension-user_id" content="12522381"><meta name="octolytics-dimension-user_login" content="wy1iu"><meta name="octolytics-dimension-repository_id" content="97740046"><meta name="octolytics-dimension-repository_nwo" content="wy1iu/sphereface"><meta name="octolytics-dimension-repository_public" content="true"><meta name="octolytics-dimension-repository_is_fork" content="false"><meta name="octolytics-dimension-repository_network_root_id" content="97740046"><meta name="octolytics-dimension-repository_network_root_nwo" content="wy1iu/sphereface"><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false">
+
+
+    <link rel="canonical" href="https://github.com/wy1iu/sphereface" data-pjax-transient="">
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://assets-cdn.github.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+<link rel="manifest" href="https://github.com/manifest.json" crossorigin="use-credentials">
+
+  </head>
+
+  <body class="logged-in env-production">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="bg-black text-white p-3 show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+
+        
+<header class="Header  f5" role="banner">
+  <div class="d-flex flex-justify-between px-3 container-lg">
+    <div class="d-flex flex-justify-between ">
+      <div class="">
+        <a class="header-logo-invertocat" href="https://github.com/" data-hotkey="g d" aria-label="Homepage" data-ga-click="Header, go to dashboard, icon:logo">
+  <svg height="32" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+
+      </div>
+
+    </div>
+
+    <div class="HeaderMenu d-flex flex-justify-between flex-auto">
+      <div class="d-flex">
+            <div class="">
+              <div class="header-search scoped-search site-scoped-search js-site-search" role="search">
+  <!-- '"` --><!-- </textarea></xmp> --><form class="js-site-search-form" data-scoped-search-url="/wy1iu/sphereface/search" data-unscoped-search-url="/search" action="/wy1iu/sphereface/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+    <label class="form-control header-search-wrapper js-chromeless-input-container">
+        <a class="header-search-scope no-underline" href="https://github.com/wy1iu/sphereface">This repository</a>
+      <input class="form-control header-search-input js-site-search-focus js-site-search-field is-clearable" data-hotkey="s,/" name="q" placeholder="Search" aria-label="Search this repository" data-unscoped-placeholder="Search GitHub" data-scoped-placeholder="Search" autocapitalize="off" type="text">
+        <input class="js-site-search-type-field" name="type" type="hidden">
+    </label>
+</form></div>
+
+            </div>
+
+          <ul class="d-flex pl-2 flex-items-center text-bold list-style-none" role="navigation">
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g p" data-ga-click="Header, click, Nav menu - item:pulls context:user" aria-label="Pull requests you created" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls" href="https://github.com/pulls">
+                Pull requests
+</a>            </li>
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g i" data-ga-click="Header, click, Nav menu - item:issues context:user" aria-label="Issues you created" data-selected-links="/issues /issues/assigned /issues/mentioned /issues" href="https://github.com/issues">
+                Issues
+</a>            </li>
+                <li>
+                  <a class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-selected-links=" /marketplace" href="https://github.com/marketplace">
+                    Marketplace
+</a>                </li>
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href="https://github.com/explore">
+                Explore
+</a>            </li>
+          </ul>
+      </div>
+
+      <div class="d-flex">
+        
+<ul class="user-nav d-flex flex-items-center list-style-none" id="user-links">
+  <li class="dropdown js-menu-container">
+    <span class="d-inline-block  px-2">
+      
+    <a aria-label="You have unread notifications" class="notification-indicator tooltipped tooltipped-s  js-socket-channel js-notification-indicator" data-hotkey="g n" data-ga-click="Header, go to notifications, icon:unread" data-channel="notification-changed:12552758" href="https://github.com/notifications">
+        <span class="mail-status unread"></span>
+        <svg class="octicon octicon-bell" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"></path></svg>
+</a>
+    </span>
+  </li>
+
+  <li class="dropdown js-menu-container">
+    <details class="dropdown-details details-reset js-dropdown-details d-flex px-2 flex-items-center">
+      <summary class="HeaderNavlink" aria-label="Create new…" data-ga-click="Header, create new, icon:add">
+        <svg class="octicon octicon-plus float-left mr-1 mt-1" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"></path></svg>
+        <span class="dropdown-caret mt-1"></span>
+      </summary>
+
+      <ul class="dropdown-menu dropdown-menu-sw">
+        
+<a class="dropdown-item" href="https://github.com/new" data-ga-click="Header, create new repository">
+  New repository
+</a>
+
+  <a class="dropdown-item" href="https://github.com/new/import" data-ga-click="Header, import a repository">
+    Import repository
+  </a>
+
+<a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, create new gist">
+  New gist
+</a>
+
+  <a class="dropdown-item" href="https://github.com/organizations/new" data-ga-click="Header, create new organization">
+    New organization
+  </a>
+
+
+
+  <div class="dropdown-divider"></div>
+  <div class="dropdown-header">
+    <span title="wy1iu/sphereface">This repository</span>
+  </div>
+    <a class="dropdown-item" href="https://github.com/wy1iu/sphereface/issues/new" data-ga-click="Header, create new issue">
+      New issue
+    </a>
+
+      </ul>
+    </details>
+  </li>
+
+  <li class="dropdown js-menu-container">
+
+    <details class="dropdown-details details-reset js-dropdown-details d-flex pl-2 flex-items-center">
+      <summary class="HeaderNavlink name mt-1" aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar">
+        <img alt="@Chen-Zhihui" class="avatar float-left mr-1" src="12552758.png" width="20" height="20">
+        <span class="dropdown-caret"></span>
+      </summary>
+
+      <ul class="dropdown-menu dropdown-menu-sw">
+        <li class="dropdown-header header-nav-current-user css-truncate">
+          Signed in as <strong class="css-truncate-target">Chen-Zhihui</strong>
+        </li>
+
+        <li class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item" href="https://github.com/Chen-Zhihui" data-ga-click="Header, go to profile, text:your profile">
+          Your profile
+        </a></li>
+        <li><a class="dropdown-item" href="https://github.com/Chen-Zhihui?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">
+          Your stars
+        </a></li>
+          <li><a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, your gists, text:your gists">Your gists</a></li>
+
+        <li class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item" href="https://help.github.com/" data-ga-click="Header, go to help, text:help">
+          Help
+        </a></li>
+
+        <li><a class="dropdown-item" href="https://github.com/settings/profile" data-ga-click="Header, go to settings, icon:settings">
+          Settings
+        </a></li>
+
+        <li><!-- '"` --><!-- </textarea></xmp> --><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="AwJ/o0z6dWUdXpy4Bo1Avm4mCl9SDFDkKdGAty87hJS3gRY8O/x6Tlwgkr1d0y9igWtMEa+xarKSG3LGZjx9qw==" type="hidden">
+          <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
+            Sign out
+          </button>
+        </form></li>
+      </ul>
+    </details>
+  </li>
+</ul>
+
+
+
+        <!-- '"` --><!-- </textarea></xmp> --><form class="sr-only right-0" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="FgilBcoKfRgUiHb3kjX9Fvf1A4vCNtQB6+FWbewgEVqii8yavQxyM1X2ePLJa5LKGLhFxT+L7ldQK6QcpSfoZQ==" type="hidden">
+          <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
+            Sign out
+          </button>
+</form>      </div>
+    </div>
+  </div>
+</header>
+
+      
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+</div>
+
+
+
+  <div role="main" class="application-main ">
+        <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <div id="js-repo-pjax-container" data-pjax-container="">
+      
+
+
+
+
+
+  <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav  ">
+    <div class="repohead-details-container clearfix container">
+
+      <ul class="pagehead-actions">
+  <li>
+        <!-- '"` --><!-- </textarea></xmp> --><form data-autosubmit="true" data-remote="true" class="js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="/igmVqlax78Q9sPhYFx5lLgUFfrSs2bFUrDnPkyRnnJKGdFGrBgZOPjn2TbQTEbpWJDT4U88wEWBfouBe15rTw==" type="hidden">      <input name="repository_id" id="repository_id" value="97740046" class="form-control" type="hidden">
+
+        <div class="select-menu js-menu-container js-select-menu">
+          <a href="https://github.com/wy1iu/sphereface/subscription" class="btn btn-sm btn-with-count select-menu-button js-menu-target" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Toggle repository notifications menu" data-ga-click="Repository, click Watch settings, action:files#disambiguate">
+            <span class="js-select-button">
+                <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                Watch
+            </span>
+          </a>
+          <a class="social-count js-social-count" href="https://github.com/wy1iu/sphereface/watchers" aria-label="86 users are watching this repository">
+            86
+          </a>
+
+        <div class="select-menu-modal-holder">
+          <div class="select-menu-modal subscription-menu-modal js-menu-content">
+            <div class="select-menu-header js-navigation-enable" tabindex="-1">
+              <svg class="octicon octicon-x js-menu-close" role="img" aria-label="Close" viewBox="0 0 12 16" version="1.1" width="12" height="16"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+              <span class="select-menu-title">Notifications</span>
+            </div>
+
+              <div class="select-menu-list js-navigation-container" role="menu">
+
+                <div class="select-menu-item js-navigation-item selected" role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_included" value="included" checked="checked" type="radio">
+                    <span class="select-menu-item-heading">Not watching</span>
+                    <span class="description">Be notified when participating or @mentioned.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                      Watch
+                    </span>
+                  </div>
+                </div>
+
+                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_subscribed" value="subscribed" type="radio">
+                    <span class="select-menu-item-heading">Watching</span>
+                    <span class="description">Be notified of all conversations.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                        Unwatch
+                    </span>
+                  </div>
+                </div>
+
+                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_ignore" value="ignore" type="radio">
+                    <span class="select-menu-item-heading">Ignoring</span>
+                    <span class="description">Never be notified.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-mute" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.81v10.38c0 .67-.81 1-1.28.53L3 10H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2l3.72-3.72C7.19 1.81 8 2.14 8 2.81zm7.53 3.22l-1.06-1.06-1.97 1.97-1.97-1.97-1.06 1.06L11.44 8 9.47 9.97l1.06 1.06 1.97-1.97 1.97 1.97 1.06-1.06L13.56 8l1.97-1.97z"></path></svg>
+                        Stop ignoring
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+</form>
+  </li>
+
+  <li>
+    
+  <div class="js-toggler-container js-social-container starring-container ">
+    <!-- '"` --><!-- </textarea></xmp> --><form class="starred js-social-form" action="/wy1iu/sphereface/unstar" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="MeF4NvKVrQVLswmZkqnpSIQpOkRYd8VDeiTDrADr1k4TpnmvCk57Fq/WEZCredP8tF6GvOoimAF9l1RmL9fz2A==" type="hidden">
+      <input name="context" value="repository" type="hidden">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar wy1iu/sphereface" data-ga-click="Repository, click unstar button, action:files#disambiguate; text:Unstar">
+        <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path></svg>
+        Unstar
+      </button>
+        <a class="social-count js-social-count" href="https://github.com/wy1iu/sphereface/stargazers" aria-label="655 users starred this repository">
+          655
+        </a>
+</form>
+    <!-- '"` --><!-- </textarea></xmp> --><form class="unstarred js-social-form" action="/wy1iu/sphereface/star" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="HrctXxvQMykOo9gZuc9nrTDwYxWReUaD/Z8Qqc9q1esWGIe5jB5rG/o7HtodXnrKidQREXfsRDvTORzfV5lxvw==" type="hidden">
+      <input name="context" value="repository" type="hidden">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Star this repository" title="Star wy1iu/sphereface" data-ga-click="Repository, click star button, action:files#disambiguate; text:Star">
+        <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"></path></svg>
+        Star
+      </button>
+        <a class="social-count js-social-count" href="https://github.com/wy1iu/sphereface/stargazers" aria-label="655 users starred this repository">
+          655
+        </a>
+</form>  </div>
+
+  </li>
+
+  <li>
+          <a href="#fork-destination-box" class="btn btn-sm btn-with-count" title="Fork your own copy of wy1iu/sphereface to your account" aria-label="Fork your own copy of wy1iu/sphereface to your account" rel="facebox" data-ga-click="Repository, show fork modal, action:files#disambiguate; text:Fork">
+              <svg class="octicon octicon-repo-forked" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+            Fork
+          </a>
+
+          <div id="fork-destination-box" style="display: none;">
+            <h2 class="facebox-header" data-facebox-id="facebox-header">Where should we fork this repository?</h2>
+            <include-fragment src="" class="js-fork-select-fragment fork-select-fragment" data-url="/wy1iu/sphereface/fork?fragment=1">
+              <img alt="Loading" src="octocat-spinner-128.gif" width="64" height="64">
+            </include-fragment>
+          </div>
+
+    <a href="https://github.com/wy1iu/sphereface/network" class="social-count" aria-label="279 users forked this repository">
+      279
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+  <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" href="https://github.com/wy1iu">wy1iu</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="https://github.com/wy1iu/sphereface">sphereface</a></strong>
+
+</h1>
+
+    </div>
+    
+<nav class="reponav js-repo-nav js-sidenav-container-pjax container" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" data-pjax="#js-repo-pjax-container">
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /wy1iu/sphereface" href="https://github.com/wy1iu/sphereface">
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /wy1iu/sphereface/issues" href="https://github.com/wy1iu/sphereface/issues">
+        <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+        <span itemprop="name">Issues</span>
+        <span class="Counter">37</span>
+        <meta itemprop="position" content="2">
+</a>    </span>
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /wy1iu/sphereface/pulls" href="https://github.com/wy1iu/sphereface/pulls">
+      <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">1</span>
+      <meta itemprop="position" content="3">
+</a>  </span>
+
+    <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /wy1iu/sphereface/projects" href="https://github.com/wy1iu/sphereface/projects">
+      <svg class="octicon octicon-project" viewBox="0 0 15 16" version="1.1" width="15" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      Projects
+      <span class="Counter">0</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" data-hotkey="g w" data-selected-links="repo_wiki /wy1iu/sphereface/wiki" href="https://github.com/wy1iu/sphereface/wiki">
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+      Wiki
+</a>
+
+  <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse /wy1iu/sphereface/pulse" href="https://github.com/wy1iu/sphereface/pulse">
+    <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path></svg>
+    Insights
+</a>
+
+</nav>
+
+
+  </div>
+
+<div class="container new-discussion-timeline experiment-repo-nav  ">
+  <div class="repository-content ">
+
+    
+  
+
+  <div class="js-repo-meta-container">
+  <div class="repository-meta mb-0  js-repo-meta-edit js-details-container ">
+    <div class="repository-meta-content col-11 mb-1">
+          <span class="col-11 text-gray-dark mr-2" itemprop="about">
+            Implementation for &lt;SphereFace: Deep Hypersphere Embedding for Face Recognition&gt; in CVPR'17.
+          </span>
+    </div>
+
+  </div>
+
+    <div class="mb-3 repository-topics-container js-repository-topics-container js-details-container">
+      <div id="topics-list-container" data-url="/wy1iu/sphereface/settings/topics">
+          <div class="list-topics-container f6 mt-1">
+      <a href="https://github.com/topics/face-recognition" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:face-recognition">
+        face-recognition
+      </a>
+      <a href="https://github.com/topics/caffe" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:caffe">
+        caffe
+      </a>
+      <a href="https://github.com/topics/sphereface" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:sphereface">
+        sphereface
+      </a>
+      <a href="https://github.com/topics/cvpr-2017" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:cvpr-2017">
+        cvpr-2017
+      </a>
+      <a href="https://github.com/topics/face-detection" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:face-detection">
+        face-detection
+      </a>
+      <a href="https://github.com/topics/angular-softmax" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:angular-softmax">
+        angular-softmax
+      </a>
+  </div>
+
+
+      </div>
+
+    </div>
+</div>
+
+
+
+  <div class="overall-summary overall-summary-bottomless">
+    <div class="stats-switcher-viewport js-stats-switcher-viewport">
+      <div class="stats-switcher-wrapper">
+      <ul class="numbers-summary">
+        <li class="commits">
+          <a data-pjax="" href="https://github.com/wy1iu/sphereface/commits/master">
+              <svg class="octicon octicon-history" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z"></path></svg>
+              <span class="num text-emphasized">
+                80
+              </span>
+              commits
+          </a>
+        </li>
+        <li>
+          <a data-pjax="" href="https://github.com/wy1iu/sphereface/branches">
+            <svg class="octicon octicon-git-branch" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 0 0-1-3.72C.88 1 0 1.89 0 3a2 2 0 0 0 1 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+            <span class="num text-emphasized">
+              1
+            </span>
+            branch
+          </a>
+        </li>
+
+        <li>
+          <a href="https://github.com/wy1iu/sphereface/releases">
+            <svg class="octicon octicon-tag" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.73 1.73C7.26 1.26 6.62 1 5.96 1H3.5C2.13 1 1 2.13 1 3.5v2.47c0 .66.27 1.3.73 1.77l6.06 6.06c.39.39 1.02.39 1.41 0l4.59-4.59a.996.996 0 0 0 0-1.41L7.73 1.73zM2.38 7.09c-.31-.3-.47-.7-.47-1.13V3.5c0-.88.72-1.59 1.59-1.59h2.47c.42 0 .83.16 1.13.47l6.14 6.13-4.73 4.73-6.13-6.15zM3.01 3h2v2H3V3h.01z"></path></svg>
+            <span class="num text-emphasized">
+              0
+            </span>
+            releases
+          </a>
+        </li>
+
+        <li>
+            <a href="https://github.com/wy1iu/sphereface/graphs/contributors">
+  <svg class="octicon octicon-organization" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4"></path></svg>
+    <span class="num text-emphasized">
+      2
+    </span>
+    contributors
+</a>
+
+        </li>
+          <li>
+            <a href="https://github.com/wy1iu/sphereface/blob/master/LICENSE">
+              <svg class="octicon octicon-law" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
+                MIT
+            </a>
+          </li>
+      </ul>
+
+        <div class="repository-lang-stats">
+          <ol class="repository-lang-stats-numbers">
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=jupyter-notebook" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#DA5B0B;"></span>
+                  <span class="lang">Jupyter Notebook</span>
+                  <span class="percent">57.8%</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=c%2B%2B" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#f34b7d;"></span>
+                  <span class="lang">C++</span>
+                  <span class="percent">33.1%</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=python" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#3572A5;"></span>
+                  <span class="lang">Python</span>
+                  <span class="percent">4.1%</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=cuda" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#3A4E3A;"></span>
+                  <span class="lang">Cuda</span>
+                  <span class="percent">2.5%</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=cmake" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#ccc;"></span>
+                  <span class="lang">CMake</span>
+                  <span class="percent">1.2%</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wy1iu/sphereface/search?l=matlab" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#e16737;"></span>
+                  <span class="lang">Matlab</span>
+                  <span class="percent">0.5%</span>
+                </a>
+            </li>
+            <li>
+                <span>
+                  <span class="color-block language-color" style="background-color:#ededed;"></span>
+                  <span class="lang">Other</span>
+                  <span class="percent">0.8%</span>
+                </span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+      <span class="language-color" aria-label="Jupyter Notebook 57.8%" style="width:57.8%; background-color:#DA5B0B;" itemprop="keywords">Jupyter Notebook</span>
+      <span class="language-color" aria-label="C++ 33.1%" style="width:33.1%; background-color:#f34b7d;" itemprop="keywords">C++</span>
+      <span class="language-color" aria-label="Python 4.1%" style="width:4.1%; background-color:#3572A5;" itemprop="keywords">Python</span>
+      <span class="language-color" aria-label="Cuda 2.5%" style="width:2.5%; background-color:#3A4E3A;" itemprop="keywords">Cuda</span>
+      <span class="language-color" aria-label="CMake 1.2%" style="width:1.2%; background-color:#ccc;" itemprop="keywords">CMake</span>
+      <span class="language-color" aria-label="Matlab 0.5%" style="width:0.5%; background-color:#e16737;" itemprop="keywords">Matlab</span>
+      <span class="language-color" aria-label="Other 0.8%" style="width:0.8%; background-color:#ededed;" itemprop="keywords">Other</span>
+    </div>
+
+
+    <include-fragment src="/wy1iu/sphereface/show_partial?partial=tree%2Frecently_touched_branches_list"></include-fragment>
+
+  <div class="file-navigation in-mid-page">
+
+    <details class="get-repo-select-menu js-get-repo-select-menu float-right position-relative dropdown-details details-reset">
+  <summary class="btn btn-sm btn-primary">
+    Clone or download
+    <span class="dropdown-caret"></span>
+  </summary>
+  <div class="position-relative">
+    <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container  js-get-repo-modal">
+
+      <div class="get-repo-modal-options">
+          <div class="clone-options https-clone-options">
+              <!-- '"` --><!-- </textarea></xmp> --><form data-remote="true" action="/users/set_protocol?protocol_selector=ssh&amp;protocol_type=clone" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="o2feLjsPU0+iuhmz31XvFG3Ko55Glr1ANTKawvcJDnRUdkiLJOEIdjNnevLx4bQVbFQvjPZzNBOryP5eVuHMDQ==" type="hidden"><button type="submit" class="btn-link btn-change-protocol js-toggler-target float-right">Use SSH</button></form>
+
+            <h4 class="mb-1">
+              Clone with HTTPS
+              <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
+                <svg class="octicon octicon-question" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+              </a>
+            </h4>
+            <p class="mb-2 get-repo-decription-text">
+              Use Git or checkout with SVN using the web URL.
+            </p>
+
+            <div class="input-group">
+  <input class="form-control input-monospace input-sm js-url-field" value="https://github.com/wy1iu/sphereface.git" aria-label="Clone this repository at https://github.com/wy1iu/sphereface.git" readonly="readonly" type="text">
+  <div class="input-group-button">
+    <clipboard-copy value="https://github.com/wy1iu/sphereface.git" aria-label="Copy to clipboard" class="btn btn-sm tooltipped tooltipped-s" copied-label="Copied!">
+      <svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
+    </clipboard-copy>
+  </div>
+</div>
+
+          </div>
+
+          <div class="clone-options ssh-clone-options">
+              <!-- '"` --><!-- </textarea></xmp> --><form data-remote="true" action="/users/set_protocol?protocol_selector=https&amp;protocol_type=clone" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="kWX61WEVw622bwGUu1KeIeyQ9r68s4wSKJjTfrTakJ9mdGxwfvuYlCeyYtWV5sUg7Q56rAxWBUG2YrfiFTJS5g==" type="hidden"><button type="submit" class="btn-link btn-change-protocol js-toggler-target float-right">Use HTTPS</button></form>
+
+              <h4 class="mb-1">
+                Clone with SSH
+                <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
+                  <svg class="octicon octicon-question" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+                </a>
+              </h4>
+              <p class="mb-2 get-repo-decription-text">
+                Use an SSH key and passphrase from account.
+              </p>
+
+              <div class="input-group">
+  <input class="form-control input-monospace input-sm js-url-field" value="git@github.com:wy1iu/sphereface.git" aria-label="Clone this repository at git@github.com:wy1iu/sphereface.git" readonly="readonly" type="text">
+  <div class="input-group-button">
+    <clipboard-copy value="git@github.com:wy1iu/sphereface.git" aria-label="Copy to clipboard" class="btn btn-sm tooltipped tooltipped-s" copied-label="Copied!">
+      <svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
+    </clipboard-copy>
+  </div>
+</div>
+
+          </div>
+        <div class="mt-2">
+          
+<a href="https://github.com/wy1iu/sphereface/archive/master.zip" class="btn btn-outline get-repo-btn
+" rel="nofollow" data-ga-click="Repository, download zip, location:repo overview">
+  Download ZIP
+</a>
+
+        </div>
+      </div>
+
+      <div class="js-modal-download-mac py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching GitHub Desktop<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://desktop.github.com/">download GitHub Desktop</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-windows py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching GitHub Desktop<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://desktop.github.com/">download GitHub Desktop</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-xcode py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching Xcode<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://developer.apple.com/xcode/">download Xcode</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-visual-studio py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching Visual Studio<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://visualstudio.github.com/">download the GitHub extension for Visual Studio</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+    </div>
+  </div>
+</details>
+
+
+  <div class="BtnGroup float-right">
+      
+  <!-- '"` --><!-- </textarea></xmp> --><form class="BtnGroup-form" action="/wy1iu/sphereface/new/master" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="wL+EyEfeOAo1DBgvxDiEHQS/jH1TMHQXk2iBXcrtacNOe9W22wGo21q529lzPbgr5HygtFYqly15dHbtqevxXA==" type="hidden">
+    <button class="btn btn-sm BtnGroup-item" type="submit" data-disable-with="Creating file…">
+      Create new file
+    </button>
+</form>
+
+      
+  <a href="https://github.com/wy1iu/sphereface/upload/master" class="btn btn-sm BtnGroup-item">
+    Upload files
+  </a>
+
+
+    <a href="https://github.com/wy1iu/sphereface/find/master" class="btn btn-sm empty-icon float-right BtnGroup-item" data-pjax="" data-hotkey="t" data-ga-click="Repository, find file, location:repo overview">
+      Find file
+    </a>
+  </div>
+
+  
+<div class="select-menu branch-select-menu js-menu-container js-select-menu float-left">
+  <button class=" btn btn-sm select-menu-button js-menu-target css-truncate" data-hotkey="w" type="button" aria-label="Switch branches or tags" aria-expanded="false" aria-haspopup="true">
+      <i>Branch:</i>
+      <span class="js-select-button css-truncate-target">master</span>
+  </button>
+
+  <div class="select-menu-modal-holder js-menu-content js-navigation-container" data-pjax="">
+
+    <div class="select-menu-modal">
+      <div class="select-menu-header">
+        <svg class="octicon octicon-x js-menu-close" role="img" aria-label="Close" viewBox="0 0 12 16" version="1.1" width="12" height="16"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+        <span class="select-menu-title">Switch branches/tags</span>
+      </div>
+
+      <div class="select-menu-filters">
+        <div class="select-menu-text-filter">
+          <input aria-label="Filter branches/tags" id="context-commitish-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter branches/tags" type="text">
+        </div>
+        <div class="select-menu-tabs">
+          <ul>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="branches" data-filter-placeholder="Filter branches/tags" class="js-select-menu-tab" role="tab">Branches</a>
+            </li>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="tags" data-filter-placeholder="Find a tag…" class="js-select-menu-tab" role="tab">Tags</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="branches" role="menu">
+
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+            <a class="select-menu-item js-navigation-item js-navigation-open selected" href="https://github.com/wy1iu/sphereface/tree/master" data-name="master" data-skip-pjax="true" rel="nofollow">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path></svg>
+              <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text">
+                master
+              </span>
+            </a>
+        </div>
+
+          <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tags">
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+        </div>
+
+        <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+        <a href="https://github.com/wy1iu/sphereface/pull/new/master" class="btn btn-sm new-pull-request-btn" data-pjax="" data-ga-click="Repository, new pull request, location:repo overview">
+          New pull request
+        </a>
+
+  <div class="breadcrumb">
+    
+  </div>
+</div>
+
+
+  
+
+<include-fragment src="/wy1iu/sphereface/tree-commit/0056a7d27d05f2815a276cb26471f0348d6dd8da" class="commit-tease commit-loader">
+  <div class="blank">
+    <img alt="" class="loader" src="octocat-spinner-32-EAF2F5.gif" width="16" height="16">
+    Fetching latest commit…
+  </div>
+  <div class="loader-error">
+    Cannot retrieve the latest commit at this time.
+  </div>
+</include-fragment>
+
+
+<div class="file-wrap">
+
+  <a class="d-none js-permalink-shortcut" data-hotkey="y" href="https://github.com/wy1iu/sphereface/tree/0056a7d27d05f2815a276cb26471f0348d6dd8da">Permalink</a>
+
+  <table class="files js-navigation-container js-active-navigation-container" data-pjax="">
+
+
+    <tbody>
+      <tr class="warning include-fragment-error">
+        <td class="icon"><svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"></path></svg></td>
+        <td class="content" colspan="3">Failed to load latest commit information.</td>
+      </tr>
+
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="preprocess" id="bcddc12254ae9daee50758b17eee54a2-339a92c62d62fe4309f2e8c78010a778628a0706" href="https://github.com/wy1iu/sphereface/tree/master/preprocess">preprocess</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="fix most of the bugs
+
+1. most of the bugs are fixed.
+2. one model is released
+3. add more details in readme" class="message" href="https://github.com/wy1iu/sphereface/commit/7f9acb157c78a99dbefd041fce9f188400bbb4e5">fix most of the bugs</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-08-09T17:10:21Z">Aug 10, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="test" id="098f6bcd4621d373cade4e832627b4f6-10f7a02998c393abac62eaefd5f6cb342c8f69af" href="https://github.com/wy1iu/sphereface/tree/master/test">test</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="minor correction" class="message" href="https://github.com/wy1iu/sphereface/commit/2679f8e5f9fddba8c701d0bdfec4abad3dfe3479">minor correction</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-09-05T12:47:46Z">Sep 5, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="tools" id="4a931512ce65bdc9ca6808adf92d8783-93f395ba171bb17496aff744bb0b3a062d75520e" href="https://github.com/wy1iu/sphereface/tree/master/tools">tools</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="update v1.0" class="message" href="https://github.com/wy1iu/sphereface/commit/966c44c90511c7c88aab1af066bc69eb569e907f">update v1.0</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-07-21T07:25:24Z">Jul 21, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="train" id="61b3a8faa9c1091806675c230a9abe64-ed8848db38b77cee4bba9daf2a12c57a2d3df17a" href="https://github.com/wy1iu/sphereface/tree/master/train">train</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="sphereface-64" class="message" href="https://github.com/wy1iu/sphereface/commit/8e370a02f4cfe7b977f8ff83b08fdc015a5b3c37">sphereface-64</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2018-02-02T13:19:37Z">Feb 2, 2018</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title=".gitmodules" id="8903239df476d7401cf9e76af0252622-9de99cf05a5de0ad60a47daca7868349b4ea030c" href="https://github.com/wy1iu/sphereface/blob/master/.gitmodules">.gitmodules</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="update v1.0" class="message" href="https://github.com/wy1iu/sphereface/commit/966c44c90511c7c88aab1af066bc69eb569e907f">update v1.0</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-07-21T07:25:24Z">Jul 21, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="LICENSE" id="9879d6db96fd29134fc802214163b95a-437627495618e07acef7aced8764d62ff37e3eed" itemprop="license" href="https://github.com/wy1iu/sphereface/blob/master/LICENSE">LICENSE</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Update and rename license to LICENSE" class="message" href="https://github.com/wy1iu/sphereface/commit/50047da6b021a96f73298d2b67fcd1984e5cd77f">Update and rename license to LICENSE</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-10-05T01:25:20Z">Oct 5, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="README.md" id="04c6e90faac2675aa89e2176d2eec7d8-513869b2f6fd078f568d993971bd2fb00fdaed4b" href="https://github.com/wy1iu/sphereface/blob/master/README.md">README.md</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Update README.md" class="message" href="https://github.com/wy1iu/sphereface/commit/0056a7d27d05f2815a276cb26471f0348d6dd8da">Update README.md</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2018-03-20T20:56:53Z">Mar 21, 2018</time-ago></span>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+
+  <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+    <h3>
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+      README.md
+    </h3>
+
+      <article class="markdown-body entry-content" itemprop="text"><h1><a id="user-content-sphereface--deep-hypersphere-embedding-for-face-recognition" class="anchor" aria-hidden="true" href="#sphereface--deep-hypersphere-embedding-for-face-recognition"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><em>SphereFace</em> : Deep Hypersphere Embedding for Face Recognition</h1>
+<p>By Weiyang Liu, Yandong Wen, Zhiding Yu, Ming Li, Bhiksha Raj and Le Song</p>
+<h3><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h3>
+<p>SphereFace is released under the MIT License (refer to the LICENSE file for details).</p>
+<h3><a id="user-content-update" class="anchor" aria-hidden="true" href="#update"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update</h3>
+<ul>
+<li>
+<p><strong>2018.2.1</strong>: As requested, the prototxt files for SphereFace-64 are released.</p>
+</li>
+<li>
+<p><strong>2018.1.27</strong>: We updated the appendix of our SphereFace paper with useful experiments and analysis. Take a look <a href="http://wyliu.com/papers/LiuCVPR17v3.pdf" rel="nofollow">here</a>. The content contains:</p>
+<ul>
+<li>The intuition of removing the last ReLU;</li>
+<li>Why do we want to normalize the weights other than because we need more geometric interpretation?</li>
+<li>Empirical experiment of zeroing out the biases;</li>
+<li>More 2D visualization of A-Softmax loss on MNIST;</li>
+<li><strong>Angular Fisher score</strong> for evaluating the angular 
+feature discriminativeness, which is a new and straightforward evluation
+ metric other than the final accuracy.</li>
+<li>Experiments of SphereFace on MegaFace with different convolutional layers;</li>
+<li>The annealing optimization strategy for A-Softmax loss;</li>
+<li>Details of the 3-patch ensemble strategy in MegaFace challenge;</li>
+</ul>
+</li>
+<li>
+<p><strong>2018.1.20</strong>: We updated some resources to summarize the current advances in angular margin learning. Take a look <a href="#resources-for-angular-margin-learning">here</a>.</p>
+</li>
+</ul>
+<h3><a id="user-content-contents" class="anchor" aria-hidden="true" href="#contents"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contents</h3>
+<ol start="0">
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#citation">Citation</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#models">Models</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#video-demo">Video Demo</a></li>
+<li><a href="#note">Note</a></li>
+<li><a href="#third-party-re-implementation">Third-party re-implementation</a></li>
+<li><a href="#resources-for-angular-margin-learning">Resources for angular margin learning</a></li>
+</ol>
+<h3><a id="user-content-introduction" class="anchor" aria-hidden="true" href="#introduction"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h3>
+<p>The repository contains the entire pipeline (including all the preprocessings) for deep face recognition with <strong><code>SphereFace</code></strong>. The recognition pipeline contains three major steps: face detection, face alignment and face recognition.</p>
+<p>SphereFace is a recently proposed face recognition method. It was initially described in an <a href="https://arxiv.org/abs/1704.08063" rel="nofollow">arXiv technical report</a> and then published in <a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Liu_SphereFace_Deep_Hypersphere_CVPR_2017_paper.pdf" rel="nofollow">CVPR 2017</a>. The most up-to-date paper with more experiments can be found at <a href="https://arxiv.org/abs/1704.08063" rel="nofollow">arXiv</a> or <a href="http://wyliu.com/papers/LiuCVPR17v3.pdf" rel="nofollow">here</a>. To facilitate the face recognition research, we give an example of training on <a href="http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html" rel="nofollow">CAISA-WebFace</a> and testing on <a href="http://vis-www.cs.umass.edu/lfw/" rel="nofollow">LFW</a> using the <strong>20-layer CNN architecture</strong> described in the paper (i.e. SphereFace-20).</p>
+<p>In SphereFace, our network architecures use residual units as 
+building blocks, but are quite different from the standrad ResNets  
+(e.g., BatchNorm is not used, the prelu replaces the relu, different 
+initializations, etc). We proposed 4-layer, 20-layer, 36-layer and 
+64-layer architectures for face recognition (details can be found in the
+ paper and <a href="https://github.com/wy1iu/sphereface/blob/master/train/code/sphereface_model.prototxt">prototxt files</a>).
+ We provided the 20-layer architecure as an example here. If our 
+proposed architectures also help your research, please consider to cite 
+our paper.</p>
+<p>SphereFace achieves the state-of-the-art verification performance (previously No.1) in <a href="http://megaface.cs.washington.edu/results/facescrub.html#3" rel="nofollow">MegaFace Challenge</a> under the small training set protocol.</p>
+<h3><a id="user-content-citation" class="anchor" aria-hidden="true" href="#citation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Citation</h3>
+<p>If you find <strong>SphereFace</strong> useful in your research, please consider to cite:</p>
+<pre><code>@InProceedings{Liu_2017_CVPR,
+  title = {SphereFace: Deep Hypersphere Embedding for Face Recognition},
+  author = {Liu, Weiyang and Wen, Yandong and Yu, Zhiding and Li, Ming and Raj, Bhiksha and Song, Le},
+  booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year = {2017}
+}
+</code></pre>
+<p>Our another closely-related previous work in ICML'16 (<a href="https://github.com/wy1iu/LargeMargin_Softmax_Loss">more</a>):</p>
+<pre><code>@InProceedings{Liu_2016_ICML,
+  title = {Large-Margin Softmax Loss for Convolutional Neural Networks},
+  author = {Liu, Weiyang and Wen, Yandong and Yu, Zhiding and Yang, Meng},
+  booktitle = {Proceedings of The 33rd International Conference on Machine Learning},
+  year = {2016}
+}
+</code></pre>
+<h3><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h3>
+<ol>
+<li>Requirements for <code>Matlab</code></li>
+<li>Requirements for <code>Caffe</code> and <code>matcaffe</code> (see: <a href="http://caffe.berkeleyvision.org/installation.html" rel="nofollow">Caffe installation instructions</a>)</li>
+<li>Requirements for <code>MTCNN</code> (see: <a href="https://github.com/kpzhang93/MTCNN_face_detection_alignment">MTCNN - face detection &amp; alignment</a>) and <code>Pdollar toolbox</code> (see: <a href="https://github.com/pdollar/toolbox">Piotr's Image &amp; Video Matlab Toolbox</a>).</li>
+</ol>
+<h3><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h3>
+<ol>
+<li>
+<p>Clone the SphereFace repository. We'll call the directory that you cloned SphereFace as <strong><code>SPHEREFACE_ROOT</code></strong>.</p>
+<div class="highlight highlight-source-shell"><pre>git clone --recursive https://github.com/wy1iu/sphereface.git</pre></div>
+</li>
+<li>
+<p>Build Caffe and matcaffe</p>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> <span class="pl-smi">$SPHEREFACE_ROOT</span>/tools/caffe-sphereface
+<span class="pl-c"><span class="pl-c">#</span> Now follow the Caffe installation instructions here:</span>
+<span class="pl-c"><span class="pl-c">#</span> http://caffe.berkeleyvision.org/installation.html</span>
+make all -j8 <span class="pl-k">&amp;&amp;</span> make matcaffe</pre></div>
+</li>
+</ol>
+<h3><a id="user-content-usage" class="anchor" aria-hidden="true" href="#usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h3>
+<p><em>After successfully completing the <a href="#installation">installation</a></em>, you are ready to run all the following experiments.</p>
+<h4><a id="user-content-part-1-preprocessing" class="anchor" aria-hidden="true" href="#part-1-preprocessing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 1: Preprocessing</h4>
+<p><strong>Note:</strong> In this part, we assume you are in the directory <strong><code>$SPHEREFACE_ROOT/preprocess/</code></strong></p>
+<ol>
+<li>
+<p>Download the training set (<code>CASIA-WebFace</code>) and test set (<code>LFW</code>) and place them in <strong><code>data/</code></strong>.</p>
+<div class="highlight highlight-source-shell"><pre>mv /your_path/CASIA_WebFace  data/
+./code/get_lfw.sh
+tar xvf data/lfw.tgz -C data/</pre></div>
+<p>Please make sure that the directory of <strong><code>data/</code></strong> contains two datasets.</p>
+</li>
+<li>
+<p>Detect faces and facial landmarks in CAISA-WebFace and LFW datasets using <code>MTCNN</code> (see: <a href="https://github.com/kpzhang93/MTCNN_face_detection_alignment">MTCNN - face detection &amp; alignment</a>).</p>
+<div class="highlight highlight-source-matlab"><pre># In Matlab Command Window
+<span class="pl-s"><span class="pl-smi">run</span> code/face_detect_demo.m</span></pre></div>
+<p>This will create a file <code>dataList.mat</code> in the directory of <strong><code>result/</code></strong>.</p>
+</li>
+<li>
+<p>Align faces to a canonical pose using similarity transformation.</p>
+<div class="highlight highlight-source-matlab"><pre># In Matlab Command Window
+<span class="pl-s"><span class="pl-smi">run</span> code/face_align_demo.m</span></pre></div>
+<p>This will create two folders (<strong><code>CASIA-WebFace-112X96/</code></strong> and <strong><code>lfw-112X96/</code></strong>) in the directory of <strong><code>result/</code></strong>, containing the aligned face images.</p>
+</li>
+</ol>
+<h4><a id="user-content-part-2-train" class="anchor" aria-hidden="true" href="#part-2-train"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 2: Train</h4>
+<p><strong>Note:</strong> In this part, we assume you are in the directory <strong><code>$SPHEREFACE_ROOT/train/</code></strong></p>
+<ol>
+<li>
+<p>Get a list of training images and labels.</p>
+<pre lang="Shell&amp;Matlab"><code>mv ../preprocess/result/CASIA-WebFace-112X96 data/
+# In Matlab Command Window
+run code/get_list.m
+</code></pre>
+<p>The aligned face images in folder <strong><code>CASIA-WebFace-112X96/</code></strong> are moved from <em><strong>preprocess</strong></em> folder to <em><strong>train</strong></em> folder. A list <code>CASIA-WebFace-112X96.txt</code> is created in the directory of <strong><code>data/</code></strong> for the subsequent training.</p>
+</li>
+<li>
+<p>Train the sphereface model.</p>
+<div class="highlight highlight-source-shell"><pre>./code/sphereface_train.sh 0,1</pre></div>
+<p>After training, a model <code>sphereface_model_iter_28000.caffemodel</code> and a corresponding log file <code>sphereface_train.log</code> are placed in the directory of <code>result/sphereface/</code>.</p>
+</li>
+</ol>
+<h4><a id="user-content-part-3-test" class="anchor" aria-hidden="true" href="#part-3-test"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 3: Test</h4>
+<p><strong>Note:</strong> In this part, we assume you are in the directory <strong><code>$SPHEREFACE_ROOT/test/</code></strong></p>
+<ol>
+<li>
+<p>Get the pair list of LFW (<a href="http://vis-www.cs.umass.edu/lfw/#views" rel="nofollow">view 2</a>).</p>
+<div class="highlight highlight-source-shell"><pre>mv ../preprocess/result/lfw-112X96 data/
+./code/get_pairs.sh</pre></div>
+<p>Make sure that the LFW dataset and<code>pairs.txt</code> in the directory of <strong><code>data/</code></strong></p>
+</li>
+<li>
+<p>Extract deep features and test on LFW.</p>
+<div class="highlight highlight-source-matlab"><pre># In Matlab Command Window
+<span class="pl-s"><span class="pl-smi">run</span> code/evaluation.m</span></pre></div>
+<p>Finally we have the <code>sphereface_model.caffemodel</code>, extracted features <code>pairs.mat</code> in folder <strong><code>result/</code></strong>, and accuracy on LFW like this:</p>
+<table>
+<thead>
+<tr>
+<th align="center">fold</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">AVE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">ACC</td>
+<td align="center">99.33%</td>
+<td align="center">99.17%</td>
+<td align="center">98.83%</td>
+<td align="center">99.50%</td>
+<td align="center">99.17%</td>
+<td align="center">99.83%</td>
+<td align="center">99.17%</td>
+<td align="center">98.83%</td>
+<td align="center">99.83%</td>
+<td align="center">99.33%</td>
+<td align="center">99.30%</td>
+</tr></tbody></table>
+</li>
+</ol>
+<h3><a id="user-content-models" class="anchor" aria-hidden="true" href="#models"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Models</h3>
+<ol>
+<li>Visualizations of network architecture (tools from <a href="http://ethereon.github.io/netscope/quickstart.html" rel="nofollow">ethereon</a>):
+<ul>
+<li>SphereFace-20: <a href="http://ethereon.github.io/netscope/#/gist/20f6ddf70a35dec5019a539a502bccc5" rel="nofollow">link</a></li>
+</ul>
+</li>
+<li>Model file
+<ul>
+<li>SphereFace-20: <a href="https://drive.google.com/open?id=0B_geeR2lTMegb2F6dmlmOXhWaVk" rel="nofollow">Google Drive</a> | <a href="http://pan.baidu.com/s/1qY5FTF2" rel="nofollow">Baidu</a></li>
+</ul>
+</li>
+</ol>
+<h3><a id="user-content-results" class="anchor" aria-hidden="true" href="#results"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Results</h3>
+<ol>
+<li>
+<p>Following the instruction, we go through the entire pipeline for 5 
+times. The accuracies on LFW are shown below. Generally, we report the 
+average but we release the <a href="#models">model-3</a> here.</p>
+<table>
+<thead>
+<tr>
+<th align="center">Experiment</th>
+<th align="center">#1</th>
+<th align="center">#2</th>
+<th align="center">#3 (released)</th>
+<th align="center">#4</th>
+<th align="center">#5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">ACC</td>
+<td align="center">99.24%</td>
+<td align="center">99.20%</td>
+<td align="center"><strong>99.30%</strong></td>
+<td align="center">99.27%</td>
+<td align="center">99.13%</td>
+</tr></tbody></table>
+</li>
+<li>
+<p>Other intermediate results:</p>
+<ul>
+<li>LFW features: <a href="https://drive.google.com/open?id=0B_geeR2lTMegenU0cGJYZmlRUlU" rel="nofollow">Google Drive</a> | <a href="http://pan.baidu.com/s/1o8QIMUY" rel="nofollow">Baidu</a></li>
+<li>Training log: <a href="https://drive.google.com/open?id=0B_geeR2lTMegcWkxdVV4X1FOaFU" rel="nofollow">Google Drive</a> | <a href="http://pan.baidu.com/s/1i5QmXrJ" rel="nofollow">Baidu</a></li>
+</ul>
+</li>
+</ol>
+<h3><a id="user-content-video-demo" class="anchor" aria-hidden="true" href="#video-demo"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Video Demo</h3>
+<p><a href="https://www.youtube.com/watch?v=P6jEzzwoYWs" rel="nofollow"><img src="68747470733a2f2f696d672e796f75747562652e636f6d2f76692f50366.jpeg" alt="SphereFace Demo" data-canonical-src="https://img.youtube.com/vi/P6jEzzwoYWs/0.jpg" style="max-width:100%;"></a></p>
+<p>Please click the image to watch the Youtube video. For Youku users, click <a href="http://t.cn/RCZ0w1c" rel="nofollow">here</a>.</p>
+<p>Details:</p>
+<ol>
+<li>It is an <strong>open-set</strong> face recognition scenario. The video is processed frame by frame, following the same pipeline in this repository.</li>
+<li>Gallery set consists of 6 identities. Each main character has only 1
+ gallery face image. All the detected faces are included in probe set.</li>
+<li>There is no overlap between gallery set and training set (CASIA-WebFace).</li>
+<li>The scores between each probe face and gallery set are computed by 
+cosine similarity. If the maximal score of a probe face is smaller than a
+ pre-definded threshold, the probe face would be considered as an 
+outlier.</li>
+<li>Main characters are labeled by boxes with different colors. (
+<a target="_blank" href="https://camo.githubusercontent.com/c9a406a0af8fd804cd374160bd9bd27f5114f6be/68747470733a2f2f706c616365686f6c642e69742f31352f6666303030302f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f666630303030.png" alt="#ff0000" data-canonical-src="https://placehold.it/15/ff0000/000000?text=+" style="max-width:100%;"></a>Rachel,
+<a target="_blank" href="https://camo.githubusercontent.com/666a619e4917dd8804d128f9cf8961e72c76092d/68747470733a2f2f706c616365686f6c642e69742f31352f6666666630302f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f666666663030.png" alt="#ffff00" data-canonical-src="https://placehold.it/15/ffff00/000000?text=+" style="max-width:100%;"></a>Monica,
+<a target="_blank" href="https://camo.githubusercontent.com/fab8d6884d42b68e39e417a89768b2ee3e56ce2a/68747470733a2f2f706c616365686f6c642e69742f31352f6666383066662f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f666638306666.png" alt="#ff80ff" data-canonical-src="https://placehold.it/15/ff80ff/000000?text=+" style="max-width:100%;"></a>Phoebe,
+<a target="_blank" href="https://camo.githubusercontent.com/bb49f2c7028f504a96de67fb48e466c0b90d2f48/68747470733a2f2f706c616365686f6c642e69742f31352f3030666666662f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f303066666666.png" alt="#00ffff" data-canonical-src="https://placehold.it/15/00ffff/000000?text=+" style="max-width:100%;"></a>Joey,
+<a target="_blank" href="https://camo.githubusercontent.com/19494328e7659d44789482103c1c49917f719e60/68747470733a2f2f706c616365686f6c642e69742f31352f3030303066662f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f303030306666.png" alt="#0000ff" data-canonical-src="https://placehold.it/15/0000ff/000000?text=+" style="max-width:100%;"></a>Chandler,
+<a target="_blank" href="https://camo.githubusercontent.com/76cee32b4f09a2a9fb49ad572d88c84e071115c4/68747470733a2f2f706c616365686f6c642e69742f31352f3030666630302f3030303030303f746578743d2b"><img src="68747470733a2f2f706c616365686f6c642e69742f31352f303066663030.png" alt="#00ff00" data-canonical-src="https://placehold.it/15/00ff00/000000?text=+" style="max-width:100%;"></a>Ross)</li>
+</ol>
+<h3><a id="user-content-note" class="anchor" aria-hidden="true" href="#note"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Note</h3>
+<ol>
+<li>
+<p><strong>Backward gradient</strong></p>
+<ul>
+<li>In this implementation, we did not strictly follow the equations in 
+paper. Instead, we normalize the scale of gradient. It can be 
+interpreted as a varying strategy for learning rate to help converge 
+more stably. Similar idea and intuition also appear in <a href="https://arxiv.org/pdf/1707.04822.pdf" rel="nofollow">normalized gradients</a> and <a href="https://www.stats.ox.ac.uk/%7Elienart/blog_opti_pgd.html" rel="nofollow">projected gradient descent</a>.</li>
+<li>More specifically, if the original gradient of <em><strong>f</strong></em> w.r.t <em><strong>x</strong></em> can be written as <strong>df/dx = coeff_w *  w + coeff_x * x</strong>, we use the normalized version <strong>[df/dx] = (coeff_w * w + coeff_x * x) / norm_wx</strong> to perform backward propragation, where <strong>norm_wx</strong> is <strong>sqrt(coeff_w^2 + coeff_x^2)</strong>. The same operation is also applied to the gradient of <em><strong>f</strong></em> w.r.t <em><strong>w</strong></em>.</li>
+<li>In fact, you do not necessarily need to use the original gradient, 
+since the original gradient sometimes is not an optimal design. One 
+important criterion for modifying the backprop gradient is that the new 
+"gradient" (strictly speaking, it is not a gradient anymore) need to 
+make the objective value decrease stably and consistently. (In terms of 
+some failure cases for gradient-based back-prop, I recommand <a href="https://www.youtube.com/watch?v=jWVZnkTfB3c" rel="nofollow">a great talk</a> by <a href="https://www.cs.huji.ac.il/%7Eshais/" rel="nofollow">Shai Shalev-Shwartz</a>)</li>
+<li>If you use the original gradient to do the backprop, you could still
+ make it work but may need different lambda settings, iteration number 
+and learning rate decay strategy.</li>
+</ul>
+</li>
+<li>
+<p><strong>Lambda</strong> and <strong>Note for training (When the loss becomes 87)</strong></p>
+<ul>
+<li>Please refer to our previous <a href="https://github.com/wy1iu/LargeMargin_Softmax_Loss#notes-for-training">note and explanation</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong>According to recent advances, using feature normalization 
+with a tunable scaling parameter s can significantly improve the 
+performance of SphereFace on MegaFace challenge</strong></p>
+<ul>
+<li>This is supported by the experiments done by <a href="https://arxiv.org/abs/1801.09414" rel="nofollow">CosFace</a>. Similar idea also appears in <a href="https://arxiv.org/abs/1801.05599" rel="nofollow">additive margin softmax</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Difficulties in convergence</strong>
+- When you encounter difficulties in convergence (it may appear if you use <em>SphereFace</em> in another dataset), usually there are a few easy ways to address it.</p>
+<ul>
+<li>First, try to use large mini-batch size.</li>
+<li>Second, try to use PReLU instead of ReLU.</li>
+<li>Third, increase the width and depth of our network.</li>
+<li>Fourth, try to use better initialization. For example, use the 
+pretrained model from the original softmax loss (it is also equivalent 
+to finetuning).</li>
+<li>Last and the most effective thing you could try is to change the hyper-parameters for lambda_min, lambda and its decay speed.</li>
+</ul>
+</li>
+</ol>
+<h3><a id="user-content-third-party-re-implementation" class="anchor" aria-hidden="true" href="#third-party-re-implementation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Third-party re-implementation</h3>
+<ul>
+<li>PyTorch: <a href="https://github.com/clcarwin/sphereface_pytorch">code</a> by <a href="https://github.com/clcarwin">clcarwin</a>.</li>
+<li>TensorFlow: <a href="https://github.com/pppoe/tensorflow-sphereface-asoftmax">code</a> by <a href="https://github.com/pppoe">pppoe</a>.</li>
+<li>TensorFlow: <a href="https://github.com/hujun100/tensorflow-sphereface">code</a> by <a href="https://github.com/hujun100">hujun100</a>.</li>
+<li>TensorFlow: <a href="https://github.com/andrewhuman/sphereloss_tensorflow">code</a> by <a href="https://github.com/andrewhuman">andrewhuman</a></li>
+<li>MXNet: <a href="https://github.com/deepinsight/insightface">code</a> by <a href="https://github.com/deepinsight">deepinsight</a> (by setting loss-type=1: SphereFace)</li>
+<li>Caffe2: <a href="https://github.com/tpys/face-recognition-caffe2">code</a> by <a href="https://github.com/tpys">tpys</a>.</li>
+<li>Trained on MS-1M: <a href="https://github.com/KaleidoZhouYN/Sphereface-Ms-celeb-1M">code</a> by <a href="https://github.com/KaleidoZhouYN">KaleidoZhouYN</a>.</li>
+<li>System: <a href="https://github.com/tpys/face-everthing">A cool face demo system</a> using SphereFace by <a href="https://github.com/tpys">tpys</a>.</li>
+<li>Third-party pretrained models: <a href="https://github.com/goodluckcwl/Sphereface-model">code</a> by <a href="https://github.com/goodluckcwl">goodluckcwl</a></li>
+</ul>
+<h3><a id="user-content-resources-for-angular-margin-learning" class="anchor" aria-hidden="true" href="#resources-for-angular-margin-learning"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resources for angular margin learning</h3>
+<p><a href="https://github.com/wy1iu/LargeMargin_Softmax_Loss">L-Softmax loss</a> and <a href="https://github.com/wy1iu/sphereface">SphereFace</a>
+ present a promising framework for angular representation learning, 
+which is shown very effective in deep face recognition. We are super 
+excited that our works has inspired many well-performing methods (and 
+loss functions). We list a few of them for your potential reference:</p>
+<ul>
+<li>Additive margin softmax: <a href="https://arxiv.org/abs/1801.05599" rel="nofollow">paper</a> and <a href="https://github.com/happynear/AMSoftmax">code</a></li>
+<li>CosFace: <a href="https://arxiv.org/abs/1801.09414" rel="nofollow">paper</a></li>
+<li>ArcFace/InsightFace: <a href="https://arxiv.org/abs/1801.07698" rel="nofollow">paper</a> and <a href="https://github.com/deepinsight/insightface">code</a></li>
+<li>NormFace: <a href="https://arxiv.org/abs/1704.06369" rel="nofollow">paper</a> and <a href="https://github.com/happynear/NormFace">code</a></li>
+<li>L2-Softmax: <a href="https://arxiv.org/abs/1703.09507" rel="nofollow">paper</a></li>
+<li>von Mises-Fisher Mixture Model: <a href="https://arxiv.org/abs/1706.04264" rel="nofollow">paper</a></li>
+<li>COCO loss: <a href="https://arxiv.org/pdf/1710.00870.pdf" rel="nofollow">paper</a> and <a href="https://github.com/sciencefans/coco_loss">code</a></li>
+<li>Angular Triplet Loss: <a href="https://github.com/KaleidoZhouYN/Angular-Triplet-Loss">code</a></li>
+</ul>
+<p>To evaluate the effectiveness of the angular margin learning method, you may consider to use the <strong>angular Fisher score</strong> proposed in <a href="http://wyliu.com/papers/LiuCVPR17v3.pdf" rel="nofollow">the Appendix E of our SphereFace Paper</a>.</p>
+<p>Disclaimer: Some of these methods may not necessarily be inspired by 
+us, but we still list them due to its relevance and excellence.</p>
+<h3><a id="user-content-contact" class="anchor" aria-hidden="true" href="#contact"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contact</h3>
+<p><a href="https://wyliu.com/" rel="nofollow">Weiyang Liu</a> and <a href="https://ydwen.github.io/" rel="nofollow">Yandong Wen</a></p>
+<p>Questions can also be left as issues in the repository. We will be happy to answer them.</p>
+</article>
+  </div>
+
+
+  </div>
+  <div class="modal-backdrop js-touch-events"></div>
+</div>
+
+    </div>
+  </div>
+
+  </div>
+
+      
+<div class="footer container-lg px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between py-6 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">© 2018 <span title="0.79155s from unicorn-1281523405-f5sl1">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a href="https://help.github.com/articles/github-terms-of-service/" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
+        <li class="mr-3"><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
+        <li class="mr-3"><a href="https://help.github.com/articles/github-security/" data-ga-click="Footer, go to security, text:security">Security</a></li>
+        <li class="mr-3"><a href="https://status.github.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com/">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon" href="https://github.com/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+    <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+      <li class="mr-3"><a href="https://developer.github.com/" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com/" data-ga-click="Footer, go to training, text:training">Training</a></li>
+      <li class="mr-3"><a href="https://shop.github.com/" data-ga-click="Footer, go to shop, text:shop">Shop</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to blog, text:blog" href="https://github.com/blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"></path></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+    </button>
+    You can't perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-UY14WNvBolNxGQwXsQ1s2vWj1UrqdF0OKpjniFCKTznZjhrFGYe5sNXbmS2n4Xx/Ijr/MEDVnzt+zn2bmDHhMA==" type="application/javascript" src="compat-af4f19572e1d43f69746f70aa5f01dc9.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-x/h5ncgWPzwaiT/CAUIhkfXDKF+ES1Raml0STig3oMzQln1y7i6VznM1lTo0TM5JfY8pIp9zc9kcyBFS2q/r9Q==" type="application/javascript" src="frameworks-70361af718ac8e05b3aaf9cf0c4cc8bd.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-HS4d3n5WkIYOTT9HXVuOq3igkAk9ZqE/jvWGBvNF9F5AE68WUlKAkywzRNn3v+BcwKqPtwoNhyr3JRA7bHxePQ==" type="application/javascript" src="github-6df5d6f70023b7d0db8303ef9484889c.js"></script>
+    
+    
+    
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner d-none">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"></path></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <div class="facebox" id="facebox" style="display:none;">
+  <div class="facebox-popup">
+    <div class="facebox-content" role="dialog" aria-labelledby="facebox-header" aria-describedby="facebox-description">
+    </div>
+    <button type="button" class="facebox-close js-facebox-close" aria-label="Close modal">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"></path></svg>
+    </button>
+  </div>
+</div>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large px-3 pb-3 my-3" style="width:360px;">
+  </div>
+</div>
+
+<div id="hovercard-aria-description" class="sr-only">
+  Press h to open a hovercard with more details.
+</div>
+
+
+  
+
+
+</body></html>
