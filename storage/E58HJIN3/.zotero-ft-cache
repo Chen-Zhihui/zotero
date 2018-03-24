@@ -1,0 +1,189 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 17
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 97
+    Star 97
+    Fork
+    Where should we fork this repository?
+    Loading
+    52
+
+OAID / FaceDetection
+Code Issues 3 Pull requests 0 Projects 0 Wiki Insights
+C++ project to implement MTCNN, a perfect face detect algorithm, on different DL frameworks. The most popular frameworks: caffe/mxnet/tensorflow, are all suppported now
+mtcnn mxnet caffe tensorflow cplusplus face-detection facenet cnn tensorflow-mtcnn
+
+    8 commits
+    2 branches
+    0 releases
+    2 contributors
+    Apache-2.0
+
+    C++ 48.7%
+    C 48.7%
+    Makefile 2.5%
+    Shell 0.1%
+
+C++ C Makefile Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+2017-11-04(before-reconstructure) master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	include 	mtcc project initialization 	Jul 15, 2017
+	libmtcnn 	Limit batch size for Rnet and Onet for caffe. 	Aug 21, 2017
+	models 	mtcc project initialization 	Jul 15, 2017
+	tf_dist 	Add arm64 libtensorflow.so 	Jul 19, 2017
+	LICENSE 	Initial commit 	Jul 15, 2017
+	Makefile 	mtcc project initialization 	Jul 15, 2017
+	README.md 	Version 0.1.0 	Feb 11, 2018
+	camera.cpp 	mtcc project initialization 	Jul 15, 2017
+	makefile.mk 	Version 0.1.0 	Feb 11, 2018
+	run.sh 	Version 0.1.0 	Feb 11, 2018
+	test.cpp 	mtcc project initialization 	Jul 15, 2017
+	test.jpg 	mtcc project initialization 	Jul 15, 2017
+README.md
+MTCNN C++ Implementation
+
+This is a C++ project to implement MTCNN, a perfect face detect algorithm, on different DL frameworks.
+The most popular frameworks: caffe/mxnet/tensorflow, are all suppported now.
+Build
+
+    Bulid caffe, mxnet or tensorflow first   Please edit makefile.mk (set xxx_ON flags to enable corresponding dp framework) to select one or more to be supported
+
+        Build Caffe-HRT, refer to Caffe-HRT Release notes
+
+        Build MXNet-HRT, refer to MXNet-HRT release notes
+
+        Build tensorflow, to generate libtensorflow.so, please use:
+
+                bazel build --config=opt //tensorflow/tools/lib_package:libtensorflow
+
+        the tarball, bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz, includes the libtensorflow.so and c header files
+
+    Edit Makefile to set CAFFE_ROOT , MXNET_ROOT or TENSORFLOW_ROOT to the right path in your machine. For example : CAFFE_ROOT=/usr/local/AID/Caffe-HRT/.
+
+    make -j4
+
+Run
+
+If the basic work is ready (build caffe/Mxnet/Tensorflow sucessfully) followed by above steps. You can run the test now.
+1. Test on single picture:
+
+ ./test -f photo_fname [ -t DL_type] [-s] -f photo_fname picture to be detected -t DL_type DL frame: "caffe" , "mxnet"(default) or "tensorflow" -s Save face chop into jpg files  
+
+The new picture, which boxed face and 5 landmark points will be created and saved as "new.jpg"
+2. Test on camera (DL Framework is caffe)
+
+ ./run.sh  
+
+Release History
+Version 0.1.0 - 2018-2-11
+
+    Modified readme file.
+    Modified makefile.mk.
+    Add run.sh script
+
+Credit
+MTCNN algorithm
+
+https://github.com/kpzhang93/MTCNN_face_detection_alignment
+MTCNN C++ on Caffe
+
+https://github.com/wowo200/MTCNN
+MTCNN python on Mxnet
+
+https://github.com/pangyupo/mxnet_mtcnn_face_detection
+MTCNN python on Tensorflow
+
+FaceNet uses MTCNN to align face
+
+https://github.com/davidsandberg/facenet
+
+From this directory:
+
+ facenet/src/align  
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

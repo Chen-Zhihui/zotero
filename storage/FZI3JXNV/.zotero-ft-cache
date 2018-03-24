@@ -1,0 +1,255 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 75
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 540
+    Star 540
+    Fork
+    Where should we fork this repository?
+    Loading
+    251
+
+ppwwyyxx / OpenPano
+Code Issues 4 Pull requests 0 Projects 0 Wiki Insights
+OpenPano: Automatic Panorama Stitching From Scratch
+panorama sift bundle-adjustment
+
+    431 commits
+    1 branch
+    1 release
+    3 contributors
+    MIT
+
+    C++ 92.4%
+    Python 4.6%
+    CMake 1.2%
+    Makefile 1.1%
+    Shell 0.7%
+
+C++ Python CMake Makefile Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+0.1
+Nothing to show
+New pull request
+Latest commit 7ad3d16 Jan 9, 2018
+@ppwwyyxx
+ppwwyyxx Remove the use of some forward declarations ( #56 )
+Permalink
+	Failed to load latest commit information.
+	results 	add uav results 	Jul 6, 2016
+	src 	Remove the use of some forward declarations ( #56 ) 	Jan 9, 2018
+	.gitignore 	This MR can make it work in vs2015 ( #26 ) 	Dec 16, 2016
+	.travis.yml 	use rev to also speedup pairwise matcher 	Dec 9, 2016
+	CMakeLists.txt 	warnings & cmake refactor 	Aug 4, 2017
+	LICENSE 	Update LICENSE 	May 19, 2017
+	README.md 	update readme 	Sep 28, 2017
+README.md
+OpenPano
+
+cmu0
+Introduction
+
+OpenPano is a panorama stitching program written in C++ from scratch (without any vision libraries). It mainly follows the routine described in the paper Automatic Panoramic Image Stitching using Invariant Features , which is also the one used by AutoStitch .
+
+Build Status
+Compile Dependencies:
+
+    gcc >= 4.7 (Or VS2015)
+    Eigen
+    FLANN (already included in the repository, slightly modified)
+    CImg (optional. already included in the repository)
+    libjpeg (optional if you only work with png files)
+    cmake or make
+
+Eigen, CImg and FLANN are header-only, to simplify the compilation on different platforms. CImg and libjpeg are only used to read and write images, so you can easily get rid of them.
+
+On ArchLinux, install dependencies by: sudo pacman -S gcc sed cmake make libjpeg eigen
+
+On Ubuntu, install dependencies by: sudo apt install build-essential sed cmake libjpeg-dev libeigen3-dev
+Compile:
+Linux / OSX / WSL (bash on windows)
+
+ $ make -C src  
+
+or
+
+ $ mkdir build && cd build && cmake .. && make  
+
+The default clang on OSX doesn't contain openmp support. You may need gcc or different clang. See #16.
+Windows (VS2015)
+
+    Install cmake
+    Set environment variable Eigen3_DIR to {YOUR_EIGEN3_DIRECTORY}/eigen3/cmake .
+    Open visual studio Developer Command Prompt .
+    cd path/to/OpenPano
+    cmake .
+    Open the VS2015 project and compile the project
+    copy config.cfg to the directory containing image-stitching.exe
+
+Options:
+
+Three modes are available (set/unset the options in config.cfg ):
+
+    cylinder mode. Give better results if:
+        You are only turning left (or right) when taking the images (as is usually done), no translations or other type of rotations allowed.
+        Images are taken with the same camera, with a known FOCAL_LENGTH set in config.
+        Images are given in the left-to-right order. (I might fix this in the future)
+
+    camera estimation mode . No translation is the only requirement on cameras. It can usually work well as long as you don't have too few images. But it's slower because it needs to perform pairwise matches.
+
+    translation mode . Simply stitch images together by affine transformation. It works when camera performs pure translation and scene points are roughly at the same depth. It also requires ordered input.
+
+Some options you may care:
+
+    FOCAL_LENGTH : focal length of your camera in 35mm equivalent . Only useful in cylinder mode.
+    ORDERED_INPUT : whether input images are ordered sequentially. has to be 1 in CYLINDER and TRANS mode.
+    CROP : whether to crop the final image to avoid irregular white border.
+
+Other parameters are quality-related. The default values are generally good for images with more than 0.7 megapixels. If your images are too small and cannot produce satisfactory results, it might be better to resize your images rather than tune the parameters.
+Run:
+
+ $ ./image-stitching <file1> <file2> ...  
+
+The output file is out.jpg . You can play with the example data to start with.
+
+Before dealing with very large images (4 megapixels or more), it's better to resize them. (I might add this feature in the future)
+
+In cylinder/translation mode, the input file names need to have the correct order.
+Examples ( All original data available for download ):
+
+Zijing Apartment in Tsinghua University: dorm
+
+"Myselves": myself
+
+Carnegie Mellon University from 38 images apple
+
+Newell-Simon Hall in CMU (this one is hard because objects are closer): nsh
+
+A full-view pano built from UAV images: uav
+
+For more examples, see results .
+Speed & Memory:
+
+Tested on Intel Core i7-6700HQ, with ESTIMATE_CAMERA mode:
+
+    11 ordered images of size 600x400: 3.2s.
+    13 ordered images of size 1500x1112: 6s.
+    38 unordered images of size 1300x867 (high vertical FOV): 51s.
+
+Memory consumption is known to be huge with default libc allocator. Simply using a modern allocator (e.g. tcmalloc, jemalloc) can help a lot. Also, setting LAZY_READ to 1 can save memory at the cost of a minor slow down.
+
+Peak memory in bytes (assume each input has the same w & h):
+
+    Without LAZY_READ option: max(finalw * finalh * 12, #photos * w * h * 12 + #photos * #matched_pairs * 96 + #keypoints * 520)
+    With LAZY_READ option: max(finalw * finalh * 16, #threads * w * h * 12, #photos * #matched_pairs * 96 + #keypoints * 520)
+
+Algorithms
+
+    Features: SIFT
+    Transformation: use RANSAC to estimate a homography or affine transformation.
+    Optimization: focal estimation, bundle adjustment , and some straightening tricks.
+
+For details, see my blog post .
+Quality Guidelines
+
+To get the best stitching quality:
+
+    While rotating the camera for different shots, try to keep the position of camera lens static.
+    Keep the exposure parameters unchanged.
+    Do not shoot on moving objects.
+    Objects far away will stitch better.
+    The algorithm doesn't work well with wide-angle cameras where images are distorted heavily. Camera parameters are needed to undistort the images.
+
+TODOs
+
+    run bundle adjustment on sphere lens instead of perspective lens
+    improve feature detector and matching
+    use LAZY_READ & 1 byte image in both blender to reduce peak memory
+    clean up use of copies of ImageRef
+    faster gaussian blur kernel
+    port some hotspot (e.g. dist.cc ) to neon
+    support read/write EXIF metadata to:
+        get focal length, distortion, etc
+        allow pano to be viewed on Facebook
+    python bindings
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

@@ -1,0 +1,182 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 56
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 513
+    Star 513
+    Fork
+    Where should we fork this repository?
+    Loading
+    283
+
+tianzhi0549 / CTPN
+Code Issues 55 Pull requests 1 Projects 0 Wiki Insights
+Detecting Text in Natural Image with Connectionist Text Proposal Network http://textdet.com
+ocr text-detection
+
+    12 commits
+    1 branch
+    0 releases
+    2 contributors
+
+    Jupyter Notebook 50.7%
+    C++ 38.5%
+    Python 4.8%
+    Cuda 2.6%
+    CMake 1.5%
+    Protocol Buffer 0.7%
+    Other 1.2%
+
+Jupyter Notebook C++ Python Cuda CMake Protocol Buffer Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit 879306d Mar 25, 2017 1
+@tianzhi0549
+tianzhi0549 committed Mar 25, 2017 add usage of other Caffe
+Permalink
+	Failed to load latest commit information.
+	caffe 	remove unused tests and add missing layers. 	Mar 9, 2017
+	demo_images 	initial commit. 	Nov 17, 2016
+	models 	initial commit. 	Nov 17, 2016
+	src 	support cpu mode. 	Dec 25, 2016
+	tools 	support cpu mode. 	Dec 25, 2016
+	.gitignore 	initial commit. 	Nov 17, 2016
+	Dockerfile 	Update Dockerfile 	Mar 22, 2017
+	LICENSE 	Update LICENSE 	Nov 21, 2016
+	Makefile 	initial commit. 	Nov 17, 2016
+	README.md 	add usage of other Caffe 	Mar 26, 2017
+README.md
+Detecting Text in Natural Image with Connectionist Text Proposal Network
+
+The codes are used for implementing CTPN for scene text detection, described in:
+
+ Z. Tian, W. Huang, T. He, P. He and Y. Qiao: Detecting Text in Natural Image with Connectionist Text Proposal Network, ECCV, 2016.  
+
+Online demo is available at: textdet.com
+
+These demo codes (with our trained model) are for text-line detection (without side-refiement part).
+Required hardware
+
+You need a GPU. If you use CUDNN, about 1.5GB free memory is required. If you don't use CUDNN, you will need about 5GB free memory, and the testing time will slightly increase. Therefore, we strongly recommend to use CUDNN.
+
+It's also possible to run the program on CPU only, but it's extremely slow due to the non-optimal CPU implementation.
+Required softwares
+
+Python2.7, cython and all what Caffe depends on.
+How to run this code
+
+    Clone this repository with git clone https://github.com/tianzhi0549/CTPN.git . It will checkout the codes of CTPN and Caffe we ship.
+
+    Install the caffe we ship with codes bellow.
+
+        Install caffe's dependencies. You can follow this tutorial . Note: we need Python support. The CUDA version we need is 7.0.
+
+        Enter the directory caffe .
+
+        Run cp Makefile.config.example Makefile.config .
+
+        Open Makefile.config and set WITH_PYTHON_LAYER := 1 . If you want to use CUDNN, please also set CUDNN := 1 . Uncomment the CPU_ONLY :=1 if you want to compile it without GPU.
+
+        Note: To use CUDNN, you need to download CUDNN from NVIDIA's official website, and install it in advance. The CUDNN version we use is 3.0.
+
+        Run make -j && make pycaffe .
+
+    After Caffe is set up, you need to download a trained model (about 78M) from Google Drive or our website , and then populate it into directory models . The model's name should be ctpn_trained_model.caffemodel .
+
+    Now, be sure you are in the root directory of the codes. Run make to compile some cython files.
+
+    Run python tools/demo.py for a demo. Or python tools/demo.py --no-gpu to run it under CPU mode.
+
+How to use other Caffe
+
+If you may want to use other Caffe instead of the one we ship for some reasons, you need to migrate the following layers into the Caffe.
+
+    Reverse
+    Transpose
+    Lstm
+
+License
+
+The codes are released under the MIT License.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

@@ -1,0 +1,190 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 74
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 954
+    Star 954
+    Fork
+    Where should we fork this repository?
+    Loading
+    377
+
+gliese581gg / YOLO_tensorflow
+Code Issues 28 Pull requests 1 Projects 0 Wiki Insights
+tensorflow implementation of 'YOLO : Real-Time Object Detection'
+
+    18 commits
+    1 branch
+    0 releases
+    2 contributors
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit 120fa8c Dec 6, 2017
+@gliese581gg
+gliese581gg committed Dec 6, 2017 Merge pull request #25 from bryant1410/master …
+
+ Fix broken headings in Markdown files
+
+Thanks!
+
+Permalink
+	Failed to load latest commit information.
+	YOLO_weight_extractor 	Fix broken Markdown headings 	Apr 18, 2017
+	test 	2016.02.15, version 0.1 	Feb 15, 2016
+	weights 	2016.02.15, version 0.1 	Feb 15, 2016
+	LICENSE 	2016.02.15, version 0.1 	Feb 15, 2016
+	README.md 	Fix broken Markdown headings 	Apr 18, 2017
+	YOLO_face_tf.py 	Add files via upload 	Feb 21, 2017
+	YOLO_small_tf.py 	2016_02_16 bugfix 	Feb 16, 2016
+	YOLO_tiny_tf.py 	2016_02_16 added 	Feb 16, 2016
+README.md
+YOLO_tensorflow
+
+(Version 0.3, Last updated :2017.02.21)
+1.Introduction
+
+This is tensorflow implementation of the YOLO:Real-Time Object Detection
+
+It can only do predictions using pretrained YOLO_small & YOLO_tiny network for now.
+
+(+ YOLO_face detector from https://github.com/quanhua92/darknet )
+
+I extracted weight values from darknet's (.weight) files.
+
+My code does not support training. Use darknet for training.
+
+Original code(C implementation) & paper : http://pjreddie.com/darknet/yolo/
+2.Install
+
+(1) Download code
+
+(2) Download YOLO weight file from
+
+YOLO_small : https://drive.google.com/file/d/0B2JbaJSrWLpza08yS2FSUnV2dlE/view?usp=sharing
+
+YOLO_tiny : https://drive.google.com/file/d/0B2JbaJSrWLpza0FtQlc3ejhMTTA/view?usp=sharing
+
+YOLO_face : https://drive.google.com/file/d/0B2JbaJSrWLpzMzR5eURGN2dMTk0/view?usp=sharing
+
+(3) Put the 'YOLO_(version).ckpt' in the 'weight' folder of downloaded code
+3.Usage
+
+(1) direct usage with default settings (display on console, show output image, no output file writing)
+
+ python YOLO_(small or tiny)_tf.py -fromfile (input image filename)  
+
+(2) direct usage with custom settings
+
+ python YOLO_(small or tiny)_tf.py argvs where argvs are -fromfile (input image filename) : input image file -disp_console (0 or 1) : whether display results on terminal or not -imshow (0 or 1) : whether display result image or not -tofile_img (output image filename) : output image file -tofile_txt (output txt filename) : output text file (contains class, x, y, w, h, probability)  
+
+(3) import on other scripts
+
+ import YOLO_(small or tiny)_tf yolo = YOLO_(small or tiny)_tf.YOLO_TF() yolo.disp_console = (True or False, default = True) yolo.imshow = (True or False, default = True) yolo.tofile_img = (output image filename) yolo.tofile_txt = (output txt filename) yolo.filewrite_img = (True or False, default = False) yolo.filewrite_txt = (True of False, default = False) yolo.detect_from_file(filename) yolo.detect_from_cvmat(cvmat)  
+
+4.Requirements
+
+    Tensorflow
+    Opencv2
+
+5.Copyright
+
+According to the LICENSE file of the original code,
+
+    Me and original author hold no liability for any damages
+    Do not use this on commercial!
+
+6.Changelog
+
+2016/02/15 : First upload!
+
+2016/02/16 : Added YOLO_tiny, Fixed bug that ignores one of the boxes in grid when both boxes detected valid objects
+
+2016/08/26 : Uploaded weight file converter! (darknet weight -> tensorflow ckpt)
+
+2017/02/21 : Added YOLO_face (Thanks https://github.com/quanhua92/darknet )
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

@@ -1,0 +1,225 @@
+
+Softmax function
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Julianoks ( talk  | contribs ) at 16:27, 10 March 2018 (Maps to an open interval because the numerators, e^x, are greater than 0 for all x) . The present address (URL) is a permanent link to this version.
+Revision as of 16:27, 10 March 2018 by Julianoks ( talk  | contribs ) (Maps to an open interval because the numerators, e^x, are greater than 0 for all x)
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to: navigation , search
+
+In mathematics , the softmax function , or normalized exponential function , [1] : 198 is a generalization of the logistic function that "squashes" a K -dimensional vector z {\displaystyle \mathbf {z} } \mathbf {z} of arbitrary real values to a K -dimensional vector σ ( z ) {\displaystyle \sigma (\mathbf {z} )} \sigma (\mathbf {z} ) of real values in the range (0, 1) that add up to 1. The function is given by
+
+    σ : R K → ( 0 , 1 ) K {\displaystyle \sigma :\mathbb {R} ^{K}\to (0,1)^{K}} {\displaystyle \sigma :\mathbb {R} ^{K}\to (0,1)^{K}} 
+    σ ( z ) j = e z j ∑ k = 1 K e z k {\displaystyle \sigma (\mathbf {z} )_{j}={\frac {e^{z_{j}}}{\sum _{k=1}^{K}e^{z_{k}}}}} \sigma (\mathbf {z} )_{j}={\frac {e^{z_{j}}}{\sum _{k=1}^{K}e^{z_{k}}}}    for j = 1, …, K .
+
+In probability theory , the output of the softmax function can be used to represent a categorical distribution – that is, a probability distribution over K different possible outcomes. In fact, it is the gradient-log-normalizer of the categorical probability distribution. [ further explanation needed ] [ citation needed ]
+
+The softmax function is used in various multiclass classification methods, such as multinomial logistic regression (also known as softmax regression) [1] : 206–209 [1] , multiclass linear discriminant analysis , naive Bayes classifiers , and artificial neural networks . [2] Specifically, in multinomial logistic regression and linear discriminant analysis, the input to the function is the result of K distinct linear functions , and the predicted probability for the j 'th class given a sample vector x and a weighting vector w is:
+
+    P ( y = j ∣ x ) = e x T w j ∑ k = 1 K e x T w k {\displaystyle P(y=j\mid \mathbf {x} )={\frac {e^{\mathbf {x} ^{\mathsf {T}}\mathbf {w} _{j}}}{\sum _{k=1}^{K}e^{\mathbf {x} ^{\mathsf {T}}\mathbf {w} _{k}}}}} {\displaystyle P(y=j\mid \mathbf {x} )={\frac {e^{\mathbf {x} ^{\mathsf {T}}\mathbf {w} _{j}}}{\sum _{k=1}^{K}e^{\mathbf {x} ^{\mathsf {T}}\mathbf {w} _{k}}}}} 
+
+This can be seen as the composition of K linear functions x ↦ x T w 1 , … , x ↦ x T w K {\displaystyle \mathbf {x} \mapsto \mathbf {x} ^{\mathsf {T}}\mathbf {w} _{1},\ldots ,\mathbf {x} \mapsto \mathbf {x} ^{\mathsf {T}}\mathbf {w} _{K}} \mathbf {x} \mapsto \mathbf {x} ^{\mathsf {T}}\mathbf {w} _{1},\ldots ,\mathbf {x} \mapsto \mathbf {x} ^{\mathsf {T}}\mathbf {w} _{K} and the softmax function (where x T w {\displaystyle \mathbf {x} ^{\mathsf {T}}\mathbf {w} } \mathbf {x} ^{\mathsf {T}}\mathbf {w} denotes the inner product of x {\displaystyle \mathbf {x} } \mathbf {x} and w {\displaystyle \mathbf {w} } \mathbf {w} ). The operation is equivalent to applying a linear operator defined by w {\displaystyle \mathbf {w} } \mathbf {w} to vectors x {\displaystyle \mathbf {x} } \mathbf {x} , thus transforming the original, probably highly-dimensional, input to vectors in a K -dimensional space R K {\displaystyle R^{K}} {\displaystyle R^{K}} .
+
+Contents
+ [ hide ] 
+
+    1 Example
+    2 Artificial neural networks
+    3 Reinforcement learning
+    4 Softmax normalization
+    5 Relation with the Boltzmann distribution
+    6 See also
+    7 References
+
+Example [ edit ]
+
+If we take an input of [1, 2, 3, 4, 1, 2, 3], the softmax of that is [0.024, 0.064, 0.175, 0.475, 0.024, 0.064, 0.175]. The output has most of its weight where the '4' was in the original input. This is what the function is normally used for: to highlight the largest values and suppress values which are significantly below the maximum value. But note: softmax is not scale invariant, so if the input were [0.1, 0.2, 0.3, 0.4, 0.1, 0.2, 0.3] (which sums to 1.6) the softmax would be [0.125, 0.138, 0.153, 0.169, 0.125, 0.138, 0.153]. This shows that for values between 0 and 1 softmax in fact de-emphasizes the maximum value (note that 0.169 is not only less than 0.475, it is also less than the initial value of 0.4).
+
+Computation of this example using simple Python code:
+
+ >>>  import  math 
+>>>  z  =  [ 1.0 ,  2.0 ,  3.0 ,  4.0 ,  1.0 ,  2.0 ,  3.0 ] 
+>>>  z_exp  =  [ math . exp ( i )  for  i  in  z ] 
+>>>  print ([ round ( i ,  2 )  for  i  in  z_exp ]) 
+[2.72, 7.39, 20.09, 54.6, 2.72, 7.39, 20.09] 
+>>>  sum_z_exp  =  sum ( z_exp ) 
+>>>  print ( round ( sum_z_exp ,  2 )) 
+114.98 
+>>>  softmax  =  [ round ( i  /  sum_z_exp ,  3 )  for  i  in  z_exp ] 
+>>>  print ( softmax ) 
+[0.024, 0.064, 0.175, 0.475, 0.024, 0.064, 0.175] 
+
+Here is an example of Julia code:
+
+ julia>  A  =  [ 1.0 ,  2.0 ,  3.0 ,  4.0 ,  1.0 ,  2.0 ,  3.0 ] 
+7-element Array{Float64,1}: 
+1.0 
+2.0 
+3.0 
+4.0 
+1.0 
+2.0 
+3.0 
+
+julia>  exp . ( A )  ./  sum ( exp . ( A )) 
+7-element Array{Float64,1}: 
+0.0236405 
+0.0642617 
+0.174681 
+0.474833 
+0.0236405 
+0.0642617 
+0.174681 
+
+Artificial neural networks [ edit ]
+
+The softmax function is often used in the final layer of a neural network-based classifier. Such networks are commonly trained under a log loss (or cross-entropy ) regime, giving a non-linear variant of multinomial logistic regression.
+
+Since the function maps a vector and a specific index i to a real value, the derivative needs to take the index into account:
+
+    ∂ ∂ q k σ ( q , i ) = ⋯ = σ ( q , i ) ( δ i k − σ ( q , k ) ) {\displaystyle {\frac {\partial }{\partial q_{k}}}\sigma ({\textbf {q}},i)=\cdots =\sigma ({\textbf {q}},i)(\delta _{ik}-\sigma ({\textbf {q}},k))} {\displaystyle {\frac {\partial }{\partial q_{k}}}\sigma ({\textbf {q}},i)=\cdots =\sigma ({\textbf {q}},i)(\delta _{ik}-\sigma ({\textbf {q}},k))} 
+
+Here, the Kronecker delta is used for simplicity (cf. the derivative of a sigmoid function , being expressed via the function itself).
+
+See Multinomial logit for a probability model which uses the softmax activation function.
+Reinforcement learning [ edit ]
+
+In the field of reinforcement learning , a softmax function can be used to convert values into action probabilities. The function commonly used is: [3]
+
+    P t ( a ) = exp ⁡ ( q t ( a ) / τ ) ∑ i = 1 n exp ⁡ ( q t ( i ) / τ ) , {\displaystyle P_{t}(a)={\frac {\exp(q_{t}(a)/\tau )}{\sum _{i=1}^{n}\exp(q_{t}(i)/\tau )}}{\text{,}}} P_{t}(a)={\frac {\exp(q_{t}(a)/\tau )}{\sum _{i=1}^{n}\exp(q_{t}(i)/\tau )}}{\text{,}} 
+
+where the action value q t ( a ) {\displaystyle q_{t}(a)} q_{t}(a) corresponds to the expected reward of following action a and τ {\displaystyle \tau } \tau is called a temperature parameter (in allusion to statistical mechanics ). For high temperatures ( τ → ∞ {\displaystyle \tau \to \infty } \tau \to \infty ), all actions have nearly the same probability and the lower the temperature, the more expected rewards affect the probability. For a low temperature ( τ → 0 + {\displaystyle \tau \to 0^{+}} \tau \to 0^{+} ), the probability of the action with the highest expected reward tends to 1.
+Softmax normalization [ edit ]
+
+Sigmoidal or Softmax normalization is a way of reducing the influence of extreme values or outliers in the data without removing them from the dataset. It is useful given outlier data, which we wish to include in the dataset while still preserving the significance of data within a standard deviation of the mean. The data are nonlinearly transformed using one of the sigmoidal functions.
+
+The logistic sigmoid function: [4]
+
+    x i ′ ≡ 1 1 + e − ( x i − μ i ) / σ i {\displaystyle x_{i}'\equiv {\frac {1}{1+e^{-(x_{i}-\mu _{i})/\sigma _{i}}}}} {\displaystyle x_{i}'\equiv {\frac {1}{1+e^{-(x_{i}-\mu _{i})/\sigma _{i}}}}} 
+
+The hyperbolic tangent function, tanh: [4]
+
+    x i ′ ≡ 1 − e − ( x i − μ i ) / σ i 1 + e − ( x i − μ i ) / σ i {\displaystyle x_{i}'\equiv {\frac {1-e^{-(x_{i}-\mu _{i})/\sigma _{i}}}{1+e^{-(x_{i}-\mu _{i})/\sigma _{i}}}}} {\displaystyle x_{i}'\equiv {\frac {1-e^{-(x_{i}-\mu _{i})/\sigma _{i}}}{1+e^{-(x_{i}-\mu _{i})/\sigma _{i}}}}} 
+
+The sigmoid function limits the range of the normalized data to values between 0 and 1. The sigmoid function is almost linear near the mean and has smooth nonlinearity at both extremes, ensuring that all data points are within a limited range. This maintains the resolution of most values within a standard deviation of the mean.
+
+The hyperbolic tangent function, tanh, limits the range of the normalized data to values between −1 and 1. The hyperbolic tangent function is almost linear near the mean, but has a slope of half that of the sigmoid function. Like sigmoid, it has smooth , monotonic nonlinearity at both extremes. Also, like the sigmoid function, it remains differentiable everywhere and the sign of the derivative (slope) is unaffected by the normalization. This ensures that optimization and numerical integration algorithms can continue to rely on the derivative to estimate changes to the output (normalized value) that will be produced by changes to the input in the region near any linearisation point.
+Relation with the Boltzmann distribution [ edit ]
+
+The softmax function also happens to be the probability of an atom being found in a quantum state of energy ε i {\displaystyle \varepsilon _{i}} \varepsilon _{i} when the atom is part of an ensemble that has reached thermal equilibrium at temperature T {\displaystyle T} T . This is known as the Boltzmann distribution . The expected relative occupancy of each state is e − ε i / k B T {\displaystyle e^{-\varepsilon _{i}/k_{B}T}} {\displaystyle e^{-\varepsilon _{i}/k_{B}T}} , and this is normalised so that the sum over energy levels sums to 1. In this analogy, the input to the softmax function is the negative energy of each quantum state divided by k B T {\displaystyle k_{B}T} k_BT .
+See also [ edit ]
+
+    Softplus
+    Multinomial logistic regression
+    Dirichlet distribution – an alternative way to sample categorical distributions
+    Smooth maximum
+
+References [ edit ]
+
+    ^ Jump up to: a b Bishop, Christopher M. (2006). Pattern Recognition and Machine Learning . Springer.  
+    Jump up ^ ai-faq What is a softmax activation function?
+    Jump up ^ Sutton, R. S. and Barto A. G. Reinforcement Learning: An Introduction . The MIT Press, Cambridge, MA, 1998. Softmax Action Selection
+    ^ Jump up to: a b Artificial Neural Networks: An Introduction . 2005. pp. 16–17.  
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Softmax_function&oldid=829752166 "
+Categories :
+
+    Computational neuroscience
+    Logistic regression
+    Artificial neural networks
+    Functions and mappings
+
+Hidden categories:
+
+    Wikipedia articles needing clarification from December 2016
+    All articles with unsourced statements
+    Articles with unsourced statements from February 2018
+    Articles with example Python code
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Español
+    فارسی
+    Français
+    Italiano
+    Norsk
+    Русский
+    Українська
+    Tiếng Việt
+    中文
+
+Edit links
+
+    This page was last edited on 10 March 2018, at 16:27.
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

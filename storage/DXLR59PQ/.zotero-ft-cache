@@ -1,0 +1,185 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 245
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,785
+    Star 1,785
+    Fork
+    Where should we fork this repository?
+    Loading
+    850
+
+ShiqiYu / libfacedetection
+Code Issues 15 Pull requests 0 Projects 0 Wiki Insights
+A fast binary library for face detection and face landmark detection in images. The face detection speed can reach 1500FPS. You can use it free of charge with any purpose.
+
+    53 commits
+    1 branch
+    0 releases
+    1 contributor
+
+    C++ 100.0%
+
+C++
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit 2f6cbeb Dec 29, 2017
+@ShiqiYu
+ShiqiYu speedup using NEON …
+
+ ~ 20% speed improved.
+
+Permalink
+	Failed to load latest commit information.
+	bin 	speedup using NEON 	Dec 29, 2017
+	example 	68-point landmark detection added 	Jan 20, 2017
+	images 	readme update 	Jan 22, 2017
+	include 	correct the error comments in the head file 	Feb 13, 2017
+	lib 	Windows XP compatible 	Dec 4, 2017
+	ChangeLog 	Landmark detection speedup. From 1.7ms to 0.8ms per face. 	Feb 24, 2017
+	FDDB-results-of-4functions.png 	speed up 2x to 3x & parallelization is disabled 	Oct 6, 2016
+	LICENSE 	Speedup 1.2x 	Jun 8, 2016
+	README.md 	Added the URL for ARM binary evaluation library. 	Sep 30, 2017
+README.md
+libfacedetection
+
+This is a binary library for face detection and face landmark detection in images. The 32-bit and 64-bit dll files are provided. To achieve better performance, the 64-bit dll is recommended.
+
+examples/libfacedetect-example.cpp shows how to use the library.
+
+Examples
+Comparison on Windows
+Method 	Time 	FPS 	Time 	FPS 	Time 	FPS 	Misc
+	Win32 	Win32 	X64 	X64 	X64 	X64 	
+	Single-thread 	Single-thread 	Single-thread 	Single-thread 	Multi-thread 	Multi-thread 	
+OpenCV 	-- 	-- 	-- 	-- 	12.33ms 	81.1 	Yaw angle: -60 to 60 degrees
+frontal 	2.92ms 	342.5 	2.41ms 	414.9 	0.652ms 	1533.1 	Yaw angle: -60 to 60 degrees
+frontal-surveillance 	3.83ms 	261.1 	3.37ms 	269.7 	0.944ms 	1059.8 	Yaw angle: -70 to 70 degrees
+multiview 	7.12ms 	140.4 	5.81ms 	172.1 	1.597ms 	626.4 	Yaw angle: -90 to 90 degrees
+multiview_reinforce 	10.95ms 	91.3 	9.15ms 	109.3 	2.725ms 	367.0 	Yaw angle: -90 to 90 degrees
+
+    Face detection only, and no landmark detection included.
+    640x480 image size (VGA), scale=1.2, minimal window size = 48.
+    Intel(R) Core(TM) i7-4770 CPU @ 3.4GHz.
+    OpenCV classifier file: haarcascade_frontalface_alt.xml
+
+Comparison on ARM
+Method 	Time 	FPS 	Misc
+frontal 	12.5ms 	80.0 	Yaw angle: -60 to 60 degrees
+frontal-surveillance 	15.7ms 	63.7 	Yaw angle: -70 to 70 degrees
+multiview 	27.8ms 	36.0 	Yaw angle: -90 to 90 degrees
+multiview_reinforce 	38.4ms 	26.0 	Yaw angle: -90 to 90 degrees
+
+    Face detection only, and no landmark detection included.
+    640x480 image size (VGA), scale=1.2, minimal window size = 48
+    NVIDIA TK1 "4-Plus-1" 2.32GHz ARM quad-core Cortex-A15 CPU
+    Multi-core parallelization is disabled.
+    C programming language, and no SIMD instruction is used.
+
+The dll cannot run on ARM. The library should be recompiled from source code for ARM compatibility. If you need the source code, a commercial license is needed.
+Binary library for ARM
+
+The binary evaluation library for ARM can be downloaded at https://github.com/OAID/YSQfastfd . The detection functions can only be called about 2000 times for evaluation.
+Accuracy evaluation
+
+FDDB: http://vis-www.cs.umass.edu/fddb/index.html
+
+Evaluation on FDDB
+
+    scale=1.08
+    minimal window size = 16
+    the heights of the face rectangles are scaled to 1.2 to fit the ground truth data in FDDB.
+
+Author
+
+    Shiqi Yu, shiqi.yu@gmail.com
+
+Contributors
+
+    Jia Wu
+    Shengyin Wu
+    Dong Xu
+
+    The result image was taken by Chloé Calmon .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

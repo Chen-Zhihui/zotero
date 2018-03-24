@@ -1,0 +1,407 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 300
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 3,955
+    Star 3,955
+    Fork
+    Where should we fork this repository?
+    Loading
+    1,046
+
+tiny-dnn / tiny-dnn
+Code Issues 229 Pull requests 23 Projects 2 Wiki Insights
+header only, dependency-free deep learning framework in C++14 http://tiny-dnn.readthedocs.io
+c-plus-plus deep-learning machine-learning neural-network
+
+    998 commits
+    12 branches
+    6 releases
+    71 contributors
+
+    C++ 90.3%
+    CMake 9.4%
+    Other 0.3%
+
+C++ CMake Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+Randl-patch-1 coverity_scan feat/decouple_activations feat/generic-computational-graph feat/parameters_refactor feat/tensor_integration feat/xtensor_integration fix/assertion_failed fix/openmp fix/refactor_caffe_example insert-assertion master
+Nothing to show
+v1.0.0a3 v1.0.0a2 v1.0.0a v0.1.1 v0.1.0 v0.0.1
+Nothing to show
+New pull request
+Latest commit 1c52594 Mar 12, 2018
+@edeforas @beru
+edeforas and beru added example sinus_fit ( #942 ) …
+
+ * added example sinus_fit
+
+* applied clang format
+
+* simpler sample comments
+
+* applied clang-format 4.0.0
+
+* fixes clang-format and cpplint
+
+* changed author to use common headers
+
+* code review, comments fixes
+
+* code review: updated cotire example name
+
+Permalink
+	Failed to load latest commit information.
+	.travis 	homebrew/science deprecated 	Feb 11, 2018
+	benchmarks 	fix build errors in examples and benchmarks ( #890 ) 	Dec 17, 2017
+	cereal 	Consistent use of preprocessor macros ( #903 ) 	Nov 12, 2017
+	cmake 	Bug fix and add an example for CBLAS fc_op. 	Feb 20, 2018
+	data 	revert binary files 	Oct 14, 2015
+	docker/ dev-env 	clang format 	Dec 22, 2017
+	docs 	Minor style fixes ( #852 ) 	Aug 12, 2017
+	examples 	added example sinus_fit ( #942 ) 	Mar 12, 2018
+	scripts 	code clean up for cpplint 	Feb 20, 2018
+	test 	add asinh activation function 	Feb 19, 2018
+	third_party 	Update third_party/stb ( #685 ) 	May 5, 2017
+	tiny_dnn 	fix build error on Linux 	Mar 5, 2018
+	vc/ vc14 	drop Visual Studio 12 support in Appveyor ( #496 ) 	Jan 3, 2017
+	.clang-format 	Add clang-tiny to cmake ( #530 ) 	Feb 13, 2017
+	.gitattributes 	first commit 	Dec 17, 2012
+	.gitignore 	Add image utilities & simplify examples ( #337 ) 	Oct 13, 2016
+	.travis.yml 	code clean up for cpplint ( #795 ) 	Jul 23, 2017
+	AUTHORS 	Update file header comments and AUTHORS file ( #677 ) 	May 13, 2017
+	CMakeLists.txt 	Bug fix and add an example for CBLAS fc_op. 	Feb 20, 2018
+	CONTRIBUTING.md 	Minor style fixes ( #852 ) 	Aug 12, 2017
+	LICENSE 	tiny-cnn -> tiny-dnn 	Aug 19, 2016
+	README.md 	add asinh activation function 	Feb 19, 2018
+	appveyor.yml 	Xtensor integration ( #739 ) ( #751 ) 	Jun 6, 2017
+	dev-env.sh 	update Dockerfile ( #812 ) 	Aug 5, 2017
+README.md
+
+
+-----------------
+
+Join the chat at https://gitter.im/tiny-dnn/users Docs License Coverage Status
+
+tiny-dnn is a C++14 implementation of deep learning. It is suitable for deep learning on limited computational resource, embedded systems and IoT devices.
+Linux/Mac OS 	Windows
+Build Status 	Build status
+Table of contents
+
+    Features
+    Comparison with other libraries
+    Supported networks
+    Dependencies
+    Build
+    Examples
+    Contributing
+    References
+    License
+    Gitter rooms
+
+Check out the documentation for more info.
+What's New
+
+    2016/11/30 v1.0.0a3 is released!
+    2016/9/14 tiny-dnn v1.0.0alpha is released!
+    2016/8/7 tiny-dnn is now moved to organization account, and renamed into tiny-dnn :)
+    2016/7/27 tiny-dnn v0.1.1 released!
+
+Features
+
+    Reasonably fast, without GPU:
+        With TBB threading and SSE/AVX vectorization.
+        98.8% accuracy on MNIST in 13 minutes training (@Core i7-3520M).
+    Portable & header-only:
+        Runs anywhere as long as you have a compiler which supports C++14.
+        Just include tiny_dnn.h and write your model in C++. There is nothing to install.
+    Easy to integrate with real applications:
+        No output to stdout/stderr.
+        A constant throughput (simple parallelization model, no garbage collection).
+        Works without throwing an exception.
+        Can import caffe's model .
+    Simply implemented:
+        A good library for learning neural networks.
+
+Comparison with other libraries
+
+Please see wiki page .
+Supported networks
+layer-types
+
+    core
+        fully-connected
+        dropout
+        linear operation
+        power
+    convolution
+        convolutional
+        average pooling
+        max pooling
+        deconvolutional
+        average unpooling
+        max unpooling
+    normalization
+        contrast normalization (only forward pass)
+        batch normalization
+    split/merge
+        concat
+        slice
+        elementwise-add
+
+activation functions
+
+    tanh
+    asinh
+    sigmoid
+    softmax
+    softplus
+    softsign
+    rectified linear(relu)
+    leaky relu
+    identity
+    scaled tanh
+    exponential linear units(elu)
+    scaled exponential linear units (selu)
+
+loss functions
+
+    cross-entropy
+    mean squared error
+    mean absolute error
+    mean absolute error with epsilon range
+
+optimization algorithms
+
+    stochastic gradient descent (with/without L2 normalization)
+    momentum and Nesterov momentum
+    adagrad
+    rmsprop
+    adam
+    adamax
+
+Dependencies
+
+Nothing. All you need is a C++14 compiler (gcc 4.9+, clang 3.6+ or VS 2015+).
+Build
+
+tiny-dnn is header-only, so there's nothing to build . If you want to execute sample program or unit tests, you need to install cmake and type the following commands:
+
+ cmake . -DBUILD_EXAMPLES=ON make  
+
+Then change to examples directory and run executable files.
+
+If you would like to use IDE like Visual Studio or Xcode, you can also use cmake to generate corresponding files:
+
+ cmake . -G "Xcode" # for Xcode users cmake . -G "NMake Makefiles" # for Windows Visual Studio users  
+
+Then open .sln file in visual studio and build(on windows/msvc), or type make command(on linux/mac/windows-mingw).
+
+Some cmake options are available:
+options 	description 	default 	additional requirements to use
+USE_TBB 	Use Intel TBB for parallelization 	OFF 1 	Intel TBB
+USE_OMP 	Use OpenMP for parallelization 	OFF 1 	OpenMP Compiler
+USE_SSE 	Use Intel SSE instruction set 	ON 	Intel CPU which supports SSE
+USE_AVX 	Use Intel AVX instruction set 	ON 	Intel CPU which supports AVX
+USE_AVX2 	Build tiny-dnn with AVX2 library support 	OFF 	Intel CPU which supports AVX2
+USE_NNPACK 	Use NNPACK for convolution operation 	OFF 	Acceleration package for neural networks on multi-core CPUs
+USE_OPENCL 	Enable/Disable OpenCL support (experimental) 	OFF 	The open standard for parallel programming of heterogeneous systems
+USE_LIBDNN 	Use Greentea LibDNN for convolution operation with GPU via OpenCL (experimental) 	OFF 	An universal convolution implementation supporting CUDA and OpenCL
+USE_SERIALIZER 	Enable model serialization 	ON 2 	-
+USE_DOUBLE 	Use double precision computations instead of single precision 	OFF 	-
+USE_ASAN 	Use Address Sanitizer 	OFF 	clang or gcc compiler
+USE_IMAGE_API 	Enable Image API support 	ON 	-
+USE_GEMMLOWP 	Enable gemmlowp support 	OFF 	-
+BUILD_TESTS 	Build unit tests 	OFF 3 	-
+BUILD_EXAMPLES 	Build example projects 	OFF 	-
+BUILD_DOCS 	Build documentation 	OFF 	Doxygen
+PROFILE 	Build unit tests 	OFF 	gprof
+
+1 tiny-dnn use C++14 standard library for parallelization by default.
+
+2 If you don't use serialization, you can switch off to speedup compilation time.
+
+3 tiny-dnn uses Google Test as default framework to run unit tests. No pre-installation required, it's automatically downloaded during CMake configuration.
+
+For example, type the following commands if you want to use Intel TBB and build tests:
+
+ cmake -DUSE_TBB=ON -DBUILD_TESTS=ON . 
+
+Customize configurations
+
+You can edit include/config.h to customize default behavior.
+Examples
+
+Construct convolutional neural networks
+
+ # include  " tiny_dnn/tiny_dnn.h "  
+using  namespace  tiny_dnn ; 
+using  namespace  tiny_dnn ::activation ; 
+using  namespace  tiny_dnn ::layers ; 
+
+void  construct_cnn () {
+    using  namespace  tiny_dnn ; 
+
+    network<sequential> net;
+
+    // add layers 
+    net << conv ( 32 , 32 , 5 , 1 , 6 ) << tanh ()  // in:32x32x1, 5x5conv, 6fmaps 
+        << ave_pool ( 28 , 28 , 6 , 2 ) << tanh () // in:28x28x6, 2x2pooling 
+        << fc ( 14  * 14  * 6 , 120 ) << tanh ()   // in:14x14x6, out:120 
+        << fc ( 120 , 10 );                     // in:120, out:10 
+
+    assert (net. in_data_size () == 32  * 32 );
+    assert (net. out_data_size () == 10 );
+
+    // load MNIST dataset 
+    std::vector< label_t > train_labels;
+    std::vector< vec_t > train_images;
+
+    parse_mnist_labels ( " train-labels.idx1-ubyte "  , &train_labels);
+    parse_mnist_images ( " train-images.idx3-ubyte "  , &train_images, - 1.0 , 1.0 , 2 , 2 );
+
+    // declare optimization algorithm 
+    adagrad optimizer;
+
+    // train (50-epoch, 30-minibatch) 
+    net. train <mse, adagrad>(optimizer, train_images, train_labels, 30 , 50 );
+
+    // save 
+    net. save ( " net "  );
+
+    // load 
+    // network<sequential> net2; 
+    // net2.load("net"); 
+}
+
+Construct multi-layer perceptron (mlp)
+
+ # include  " tiny_dnn/tiny_dnn.h "  
+using  namespace  tiny_dnn ; 
+using  namespace  tiny_dnn ::activation ; 
+using  namespace  tiny_dnn ::layers ; 
+
+void  construct_mlp () {
+    network<sequential> net;
+
+    net << fc ( 32  * 32 , 300 ) << sigmoid () << fc ( 300 , 10 );
+
+    assert (net. in_data_size () == 32  * 32 );
+    assert (net. out_data_size () == 10 );
+}
+
+Another way to construct mlp
+
+ # include  " tiny_dnn/tiny_dnn.h "  
+using  namespace  tiny_dnn ; 
+using  namespace  tiny_dnn ::activation ; 
+
+void  construct_mlp () {
+    auto  mynet = make_mlp< tanh >({ 32  * 32 , 300 , 10  });
+
+    assert (mynet. in_data_size () == 32  * 32 );
+    assert (mynet. out_data_size () == 10 );
+}
+
+For more samples, read examples/main.cpp or MNIST example page.
+Contributing
+
+Since deep learning community is rapidly growing, we'd love to get contributions from you to accelerate tiny-dnn development! For a quick guide to contributing, take a look at the Contribution Documents .
+References
+
+[1] Y. Bengio, Practical Recommendations for Gradient-Based Training of Deep Architectures. arXiv:1206.5533v2, 2012
+
+[2] Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, Gradient-based learning applied to document recognition. Proceedings of the IEEE, 86, 2278-2324.
+
+Other useful reference lists:
+
+    UFLDL Recommended Readings
+    deeplearning.net reading list
+
+License
+
+The BSD 3-Clause License
+Gitter rooms
+
+We have gitter rooms for discussing new features & QA. Feel free to join us!
+developers 	https://gitter.im/tiny-dnn/developers
+users 	https://gitter.im/tiny-dnn/users
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

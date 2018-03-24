@@ -1,0 +1,427 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 50
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,037
+    Star 1,037
+    Fork
+    Where should we fork this repository?
+    Loading
+    203
+
+titu1994 / Neural-Style-Transfer
+Code Issues 1 Pull requests 0 Projects 0 Wiki Insights
+Keras Implementation of Neural Style Transfer from the paper "A Neural Algorithm of Artistic Style" ( http://arxiv.org/abs/1508.06576 ) in Keras 2.0+
+
+    272 commits
+    1 branch
+    32 releases
+    5 contributors
+    Apache-2.0
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+v0.2.7.2 v0.2.7.1 v0.2.7 v0.2.6.3 v0.2.6.2 v0.2.6.1 v0.2.6 v0.2.5.3 v0.2.5.2 v0.2.5.1 v0.2.5 v0.2.4.1 v0.2.4 v0.2.3.2 v0.2.3.1 v0.2.3 v0.2.2.2 v0.2.2.1 v0.2.2 v0.2.1.1 v0.2.1 v0.2 v0.1.6 v0.1.5 v0.1.4.1 v0.1.4 v0.1.3 v0.1.2 v0.1.1 v0.1.0 1.0.0 0.1.1
+Nothing to show
+New pull request
+Latest commit 037a8a7 Aug 9, 2017
+@titu1994
+titu1994 committed Aug 9, 2017 Fix content_loss shape inference for Theano
+Permalink
+	Failed to load latest commit information.
+	.idea 	Fix "tuple index out of range" bug 	Jun 24, 2017
+	images 	Update gif 	Mar 29, 2017
+	script_helper 	Fix content_loss shape inference for Theano 	Aug 9, 2017
+	Guide.md 	Update Guide.md 	Oct 28, 2016
+	INetwork.py 	Fix content_loss shape inference for Theano 	Aug 9, 2017
+	LICENCE 	Create LICENCE 	Sep 30, 2016
+	MRFNetwork.py 	Corrected support for python 2.7 	Oct 25, 2016
+	Network.py 	Fix content_loss shape inference for Theano 	Aug 9, 2017
+	README.md 	Typo fix in Readme 	Jul 20, 2017
+	color_transfer.py 	Improved color transfer 	Jun 29, 2017
+	improved_neural_doodle.py 	Better support for python 2 	Jun 28, 2017
+	mask_transfer.py 	Better support for python 2 	Jun 28, 2017
+	neural_doodle.py 	Better support for python 2 	Jun 28, 2017
+README.md
+Neural Style Transfer & Neural Doodles
+
+Implementation of Neural Style Transfer from the paper A Neural Algorithm of Artistic Style in Keras 2.0+
+
+INetwork implements and focuses on certain improvements suggested in Improving the Neural Algorithm of Artistic Style .
+
+Color Preservation is based on the paper Preserving Color in Neural Artistic Style Transfer .
+
+Masked Style Transfer is based on the paper Show, Divide and Neural: Weighted Style Transfer
+Guide
+
+See the guide for details regarding how to use the script to acheive the best results
+
+It also explains how to setup Theano (with GPU support) on both Windows and Linux. Theano on Windows is a long and tedious process, so the guide can speed up the process by simply letting you finish all the steps in the correct order, so as not to screw up the finicky Theano + Windows setup.
+
+The Script Helper program can be downloaded from the Releases tab of this repository, Script Helper Releases . Extract it into any folder and run the Neural Style Transfer.exe program. On Linux, you will need to install Mono C# to run the script helper program.
+Examples
+Single Style Transfer
+
+blue moon lake starry night
+
+Results after 100 iterations using the INetwork
+blue moon lake style transfer
+
+DeepArt.io result (1000 iterations and using improvements such as Markov Random Field Regularization)
+Style Transfer with Color Preservation
+
+An example of color preservation with Kinkaku-ji, a Buddhist temple, as the content image and Monet's "Water Lilies" as the art style:
+
+
+Kinkaku color preservation kinkaku style transfer
+
+As an example, here are two images of the Sagano Bamboo Forest with the "pattened-leaf" style, with and without color preservation
+
+sagano bamboo forest style transfer color preservation sagano bamboo forest style transfer
+
+Color preservation can also be done using a mask. Using the color_transfer.py script and supplying a mask image, in which white regions will allow the content's colors to be transfered and black regions will keep the style-generated colors.
+
+Below, the content image is "Sunlit Mountain", with the style image as "Seated Nude" by Picasso. Notice that the color preservation mask ensures that color transfer occurs only for the sky region, while the mountains are untouched.
+
+Style Interpolation
+
+Style weight and Content weight can be manipulated to get drastically different results.
+
+Leonid Afremov's "Misty Mood" is the style image and "Dipping Sun" is the content image :
+Style=1, Content=1000 	Style=1, Content=1 	Style=1000, Content=1
+		
+Multiple Style Transfer
+
+The next few images use the Blue Moon Lake as a content image and Vincent Van Gogh's "Starry Night" and Georgia O'Keeffe's "Red Canna" as the style images:
+
+The below are the results after 50 iterations using 3 different style weights :
+Starry Night : 1.0, Red Canna 0.2 	Starry Night : 1.0, Red Canna 0.4 	Starry Night : 1.0, Red Canna 1.0
+		
+Masked Style Transfer
+
+Supplying an additional binary mask for each style, we can apply the style to a selected region and preserve the content in other regions.We can also use multiple masks to apply 2 different styles in 2 different regions of the same content image.
+
+Note that with the mask_transfer.py script, a single content image can be masked with 1 mask to preserve content in blackend regions and preserve style transfer in whitened regions in the generated image. Currently, only content can be transfered in a post processed manner.
+
+"The Starry Night" is used as the style image in the below images. The mask tries to preserve the woman's shape and color, while applying the style to all other regions. Results are very good, as "The Starry Night" has a tendency to overpower the content shape and color.
+dawn sky anime
+
+dawn sky style transfer anime
+
+Another example of masked style transfer is provided below. "Winter Wolf" is used as the content image and "Bamboo Forest" is used as the style image. The mask attempts to preserve the darkened cloudy sky, and apply the style only to the mountains and the wolf itself.
+
+winter wolf style transfer
+
+These last few images use "Cherry Blossoms" as the content image, and uses two styles : "Candy Style" and Monet's "Water Lillies" using their respective masks to create an image with unique results.
+
+Texture Transfer
+
+Utilizing a style image with a very distinctive texture, we can apply this texture to the content without any alterating in the algorithm. It is to be noted that the style image must possess a very strong texture to transfer correctly.
+
+The below is an example of the content image "Aurea Luna", with the texture images which are available in the /style/metals directory, which are Silver and Gold. Color Preservation is applied to both images, and a mask is applied on the "Burnt Gold" image to style just the circle and not the entire square image.
+
+aurea luna golden moon clow reed
+
+molten silver moon burnt gold moon
+All Transfer Techniques
+
+Each of these techniques can be used together, or in stages to generate stunning images.
+
+In the folowing image, I have used Masked style transfer in a multi scale style transfer technique - with scales of 192x192, 384x384, 768x768, applied a super resolution algorithm (4x and then downscaled to 1920x1080), applied color transfer and mask transfer again to sharpen the edges, used a simple sharpening algorithm and then finally denoise algorithm.
+
+ancient city japanese
+
+Result :
+ancient city japanese
+Various results with / without Color Preservation
+
+Example of various styles (with and without color preservation). Images of the "Lost Grounds" from .Hack G.U.
+Neural Doodle Examples
+
+Renoit Style + Content Image
+
+Monet Style + Doodle Creation
+
+Van Gogh + Doodle Creation
+Weights (VGG 16)
+
+Weights are now automatically downloaded and cached in the ~/.keras (Users//.keras for Windows) folder under the 'models' subdirectory. The weights are a smaller version which include only the Convolutional layers without Zero Padding Layers, thereby increasing the speed of execution.
+
+Note: Requires the latest version of Keras (1.0.7+) due to use of new methods to get files and cache them into .keras directory.
+Modifications to original implementation :
+
+    Uses 'conv5_2' output to measure content loss. Original paper utilizes 'conv4_2' output
+
+    Initial image used for image is the base image (instead of random noise image) This method tends to create better output images, however parameters have to be well tuned. Therefore their is a argument 'init_image' which can take the options 'content' or 'noise'
+
+    Can use AveragePooling2D inplace of MaxPooling2D layers The original paper uses AveragePooling for better results, but this can be changed to use MaxPooling2D layers via the argument --pool_type="max" . By default MaxPoooling is used, since if offers sharper images, but AveragePooling applies the style better in some cases (especially when style image is the "Starry Night" by Van Gogh).
+
+    Style weight scaling
+
+    Rescaling of image to original dimensions, using lossy upscaling present
+
+    Maintain aspect ratio of intermediate and final stage images, using lossy upscaling
+
+Improvements in INetwork
+
+    Improvement 3.1 in paper : Geometric Layer weight adjustment for Style inference
+    Improvement 3.2 in paper : Using all layers of VGG-16 for style inference
+    Improvement 3.3 in paper : Activation Shift of gram matrix
+    Improvement 3.5 in paper : Correlation Chain
+
+These improvements are almost same as the Chain Blurred version, however a few differences exist :
+
+    Blurring of gram matrix G is not used, as in the paper the author concludes that the results are often not major, and convergence speed is greatly diminished due to very complex gradients.
+    Only one layer for Content inference instead of using all the layers as suggested in the Chain Blurred version.
+    Does not use CNN MRF network, but applies these modifications to the original algorithm.
+    All of this is applied on the VGG-16 network, not on the VGG-19 network. It is trivial to extrapolate this to the VGG-19 network. Simply adding the layer names to the feature_layers list will be sufficient to apply these changes to the VGG-19 network.
+
+Script Helper
+
+It is a C# program written to more easily generate the arguments for the python script Network.py or INetwork.py (Using Neural Style Transfer tab) and neural_doodle.py or improved_neural_doodle.py script (Using Neural Doodle Tab)
+
+    Upon first run, it will request the python path. Traverse your directory to locate the python.exe of your choice (Anaconda is tested)
+    The script helper program code is available at: https://github.com/titu1994/Neural-Style-Transfer-Windows The program runs on Linux using Mono
+
+Benefits
+
+    Allows Style Transfer, Neural Doodles, Color Transfer and Masked Style Transfer easily
+    Automatically executes the script based on the arguments.
+    Easy selection of images (Content, Style (Multiple Selection allowed), Output Prefix)
+    Easy parameter selection
+    Easily generate argument list, if command line execution is preferred.
+    Creates log folders for each execution so settings can be preserved
+    Runs on Windows (Native) and Linux (Using Mono)
+
+To use multiple style images, when the image choice window opens, select all style images as needed. Pass multiple style weights by using a space between each style weight in the parameters section.
+Usage
+Neural Style Transfer
+
+Both Network.py and INetwork.py have similar usage styles, and share all parameters.
+
+Network.py / INetwork.py
+
+ python network.py/inetwork.py "/path/to/content image" "path/to/style image" "result prefix or /path/to/result prefix"  
+
+To pass multiple style images, after passing the content image path, seperate each style path with a space
+
+ python inetwork.py "/path/to/content image" "path/to/style image 1" "path/to/style image 2" ... "result prefix or /path/to/result prefix" --style_weight 1.0 1.0 ...  
+
+There are various parameters discussed below which can be modified to alter the output image. Note that many parameters require the command to be enclosed in double quotes ( " " ).
+
+Example:
+
+ python inetwork.py "/path/to/content image" "path/to/style image" "result prefix or /path/to/result prefix" --preserve_color "True" --pool_type "ave" --rescale_method "bicubic" --content_layer "conv4_2"  
+
+To perform color preservation on an already generated image, use the color_transform.py as below. It will save the image in the same folder as the generated image with "_original_color" suffix.
+
+ python color_transfer.py "path/to/content/image" "path/to/generated/image"  
+
+A mask can also be supplied to color preservation script, using the --mask argument, where the white region signifies that color preservation should be done there, and black regions signify the color should not be preserved here.
+
+ python color_transfer.py "path/to/content/image" "path/to/generated/image" --mask "/path/to/mask/image"  
+
+A note on mask images:
+
+    They should be binary images (only black and white)
+    White represents parts of the image that you want style transfer to occur
+    Black represents parts of the image that you want to preserve the content
+    Be careful of the order in which mask images are presented in Multi Style Multi Mask generation. They have a 1 : 1 mapping between style images and style masks.
+    When using the Script Helper program, it may happen that the masks are being ordered incorrectly due to name-wise sorting. Therefore, rename the masks in alphabetic order to correct this flaw.
+
+As a general example, here is the list of parameters to generate a multi style multi mask image:
+
+ python network.py "Japanese-cherry-widescreen-wallpaper-Picture-1366x768.jpg" "candy-style.jpg" "water-lilies-1919-2.jpg" \ "Cherry Blossom" --style_masks "cherry-blossom-1.jpg" "cherry-blossom-2.jpg" --content_weight 5 --style_weight 1.0 1.0 \ --num_iter 20 --model "vgg16" --content_loss_type 0  
+
+Like Color Transfer, single mask style transfer can also be applied as a post processing step instead of directly doing so in the style transfer script. You can preserve some portion of the content image in the generated image using the post processing script mask_transfer.py .
+
+Example:
+
+ python mask_transfer.py "path/to/content/image" "path/to/generated/image" "path/to/content/mask"  
+
+Neural Doodles
+
+Both the neural_doodle.py and improved_neural_doodle.py script share similar usage styles.
+
+neural_doodle.py & improved_neural_doodle.py
+
+ python neural_doodle.py --nlabels -style-image --style-mask --target-mask --content-image --target-image-prefix  
+
+Example 1 : Doodle using a style image, style mask and target mask (from keras examples)
+
+ python neural_doodle.py --nlabels 4 --style-image Monet/style.png \ --style-mask Monet/style_mask.png --target-mask Monet/target_mask.png \ --target-image-prefix generated/monet  
+
+Example 2: Doodle using a style image, style mask, target mask and an optional content image.
+
+ python neural_doodle.py --nlabels 4 --style-image Renoir/style.png \ --style-mask Renoir/style_mask.png --target-mask Renoir/target_mask.png \ --content-image Renoir/creek.jpg \ --target-image-prefix generated/renoir  
+
+Multiple phases Example : Doodle using a style image, style mask, target mask and using it multiple times to acheive better results.
+
+    Assume that an image has a size (400 x 600).
+    Divide the image size by 4 (100 x 125)
+    Create 1st doodle according to the below script #1 (--img_size 100)
+    Create 2nd doodle according to the below script #2 (Note that we pass 1st doodle as content image here) (--img_size 200)
+    Create 3rd and last doodle acc to below script #3 (Note we pass 2nd doodle as content image here) (Do not put img_size parameter)
+
+ # Script 1 python improved_neural_doodle.py --nlabels 4 --style-image srcl.jpg --style-mask srcl-m.png --target-mask dst-m.png --target-image-prefix ./doodle3-100 --num_iter 50 --img_size 100 --min_improvement 5.0 # Script 2 python improved_neural_doodle.py --nlabels 4 --style-image srcl.jpg --style-mask srcl-m.png --target-mask dst-m.png --target-image-prefix ./doodle3-200 --num_iter 50 --content-image ./doodle3-100_at_iteration_XXXX.png --img_size 200 --min_improvement 2.5 ############# Replace XXXX by last iteration number ################ # Script 3 python improved_neural_doodle.py --nlabels 4 --style-image srcl.jpg --style-mask srcl-m.png --target-mask dst-m.png --target-image-prefix ./doodle3-500 --num_iter 50 --content-image ./doodle3-200_at_iteration_XXXX.png ############# Replace XXXX by last iteration number ################  
+
+Color Transfer (Post Processing)
+
+Color transfer can be performed after the stylized image has already been generated. This can be done via the color_transfer.py script or via the Color Transfer tab in the Script Helper. Note that the script will save the image in the same folder as the generated image with "_original_color" suffix.
+
+Example:
+
+ python color_transfer.py "path/to/content/image" "path/to/generated/image"  
+
+A mask can also be supplied to color preservation script, using the --mask argument, where the white region signifies that color preservation should be done there, and black regions signify the color should not be preserved here.
+
+ python color_transfer.py "path/to/content/image" "path/to/generated/image" --mask "/path/to/mask/image"  
+
+Using the --hist_match parameter set to 1, it will perform histogram color matching instead of direct color transfer
+
+ python color_transfer.py "path/to/content/image" "path/to/generated/image" --hist_match 1  
+
+Please note that for masks for color preservation and for style transfer have different representations. Color preservations will preserve white areas as content colors, and mask transfer will preserve black areas as content image.
+Masked Style Transfer (Post Processing)
+
+If the general requirement is to preserve some portions of the content in the stylized image, then it can simply be done as a post processing step using the mask_transfer.py script or the Mask Transfer tab of the Script Helper.
+
+For now, only the content can be preserved (by coloring the area black in the mask). To perform multi style multi mask style transfer, you must supply the styles and masks to the neural style script and let it run for several iterations. This cannot be done as a post processing step.
+
+Example:
+
+ python mask_transfer.py "path/to/content/image" "path/to/generated/image" "path/to/content/mask"  
+
+Parameters (Neural Style)
+
+ --style_masks : Multiple style masks may be provided for masking certain regions of an image for style transfer. Number of style_weight parameters must match number of style masks. --color_mask : A single color mask, which defines the region where the color must be preserved. --image_size : Allows to set the Gram Matrix size. Default is 400 x 400, since it produces good results fast. --num_iter : Number of iterations. Default is 10. Test the output with 10 iterations, and increase to improve results. --init_image : Can be "content", "noise" or "gray". Default is "content", since it reduces reproduction noise. "gray" is useful when you want only the color of the style to be used in the image. --pool_type : Pooling type. MaxPooling ("max") is default. For smoother images, use AveragePooling ("ave"). --model : Can be "vgg16" or "vgg19". Changes between use of VGG 16 or VGG 19 model. --content_loss_type : Can be 0, 1 or 2. 0 does not add any scaling of the loss. 1 = 1 / (2 * sqrt(channels) * sqrt(width * height)) 2 = 1 / (channels * width * height) --preserve_color : Preserves the original color space of the content image, while applying only style. Post processing technique on final image, therefore does not harm quality of style. --min_improvement : Sets the minimum improvement required to continue training. Default is 0.0, indicating no minimum threshold. Advised values are 0.05 or 0.01 --content_weight : Weightage given to content in relation to style. Default if 0.025 --style_weight : Weightage given to style. Default is 1. When using multiple styles, seperate each style weight with a space --style_scale : Scales the style_weight. Default is 1. --total_variation_weight : Regularization factor. Smaller values tend to produce crisp images, but 0 is not useful. Default = 8.5E-5 --rescale_image : Rescale image to original dimensions after each iteration. (Bilinear upscaling) --rescale_method : Rescaling algorithm. Default is bilinear. Options are nearest, bilinear, bicubic and cubic. --maintain_aspect_ratio : Rescale the image just to the original aspect ratio. Size will be (gram_matrix_size, gram_matrix_size * aspect_ratio). Default is True --content_layer : Selects the content layer. Paper suggests conv4_2, but better results can be obtained from conv5_2. Default is conv5_2.  
+
+Parameters (Neural Doodle)
+
+ --nlabels : Number of colors or labels in mask image --image_size : Allows to set the Gram Matrix size. Default is -1, which means that it uses style image size automatically. --num_iter : Number of iterations. Default is 10. Test the output with 10 iterations, and increase to improve results. --preserve_color : Preserves the original color space of the content image, while applying only style. Post processing technique on final image, therefore does not harm quality of style. Works only when using content image for guided style transfer --min_improvement : Minimum improvement in percentage required to continue training. Set to 0.0 to disable. --content_weight : Weightage given to content in relation to style. Default if 0.1 --style_weight : Weightage given to style in relation to content. Default is 1. --total_variation_weight : Regularization factor. Smaller values tend to produce crisp images, but 0 is not useful. Default = 8.5E-5 --region_style_weight : Weight for region style regularization. Keep it set to 1.0 unless testing for experimental purposes.  
+
+Parameters (Color Transfer)
+
+ --masks : Optional, performs masked color transfer --hist_match : Performs histogram color matching if set to 1. Default is 0.  
+
+Network.py in action
+
+Alt Text
+Requirements
+
+    Theano / Tensorflow
+    Keras
+    CUDA (GPU) -- Recommended
+    CUDNN (GPU) -- Recommended
+    Scipy + PIL
+    Numpy
+    h5py
+
+Speed
+
+On a 980M GPU, the time required for each epoch depends on mainly image size (gram matrix size) :
+
+For a 400x400 gram matrix, each epoch takes approximately 8-10 seconds.
+For a 512x512 gram matrix, each epoch takes approximately 15-18 seconds.
+For a 600x600 gram matrix, each epoch takes approximately 24-28 seconds.
+
+For Masked Style Transfer, the speed is now same as if using no mask. This was acheived by preventing gradient computation of the mask multiplied with the style and content features.
+
+For Multiple Style Transfer, INetwork.py requires slightly more time (~2x single style transfer as shown above for 2 styles, ~3x for 3 styles and so on). Results are better with INetwork.py in multiple style transfer.
+
+For Multi Style Multi Mask Style Transfer, the speed is now same as if using multiple styles only. It was acheived by preventing gradient computation of the mask multiplied with the style and content features.
+
+    For multi style multi mask network, Network.py requires roughly 24 (previously 72) seconds per iteration, whereas INetwork.py requires 87 (previously 248) seconds per iteration
+
+Issues
+
+    Due to usage of content image as initial image, output depends heavily on parameter tuning.
+    Test to see if the image is appropriate in the first 10 epochs, and if it is correct, increase the number of iterations to smoothen and improve the quality of the output.
+    Due to small gram sizes, the output image is usually small.
+    To correct this, use the implementations of this paper "Image Super-Resolution Using Deep Convolutional Networks" http://arxiv.org/abs/1501.00092 to upscale the images with minimal loss.
+    Some implementations of the above paper for Windows : https://github.com/lltcggie/waifu2x-caffe/releases
+    (Download the waifu2x-caffe.zip and extract, program supports English)
+    Implementation of Markov Random Field Regularization and Patch Match algorithm are currently being tested. MRFNetwork.py contains the basic code, which need to be integrated to use MRF and Patch Match as in Image Analogies paper Combining Markov Random Fields and Convolutional Neural Networks for Image Synthesis
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

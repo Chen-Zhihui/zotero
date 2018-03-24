@@ -1,0 +1,238 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 440
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 7,793
+    Star 7,793
+    Fork
+    Where should we fork this repository?
+    Loading
+    1,849
+
+tflearn / tflearn
+Code Issues 480 Pull requests 15 Projects 0 Wiki Insights
+Deep learning library featuring a higher-level API for TensorFlow. http://tflearn.org
+tflearn tensorflow neural-network deep-learning machine-learning data-science
+
+    588 commits
+    8 branches
+    7 releases
+    110 contributors
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+0.1.0 0.2.0 0.2.2 0.3.0 0.3.1 0.3.2 0.4.0 master
+Nothing to show
+0.3.2 0.3.1 0.3.0 0.2.2 0.2.1 0.2.0 0.1.0
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	docs 	Extract method from duplicate code in dnn ( #1010 ) 	Feb 11, 2018
+	examples 	VGG19 Network and weights ( #1003 ) 	Jan 24, 2018
+	tests 	Fix tflearn.activation on callable object ( #805 ) 	Jun 23, 2017
+	tflearn 	Tensorflow updated the attribute ( #1024 ) 	Mar 23, 2018
+	tutorials 	Update quickstart.md ( #659 ) 	Mar 12, 2017
+	.gitignore 	add pytest cov for test coverage 	Sep 19, 2016
+	.travis.yml 	fix bug 	Apr 5, 2017
+	ACKNOWLEDGMENTS 	[WIP] new estimators ( #994 ) 	Jan 10, 2018
+	CONTRIBUTING.md 	initial release 	Mar 31, 2016
+	LICENSE 	initial release 	Mar 31, 2016
+	README.md 	updating tflearn to version 0.3.1 ( #763 ) 	May 19, 2017
+	RELEASE.md 	TFlearn 0.3.2 release 	Jun 18, 2017
+	setup.cfg 	initial release 	Mar 31, 2016
+	setup.py 	TFlearn 0.3.2 release 	Jun 18, 2017
+README.md
+
+Build Status PyPI version License Join the chat at https://gitter.im/einsteinsci/betterbeginnings
+TFLearn: Deep learning library featuring a higher-level API for TensorFlow.
+
+TFlearn is a modular and transparent deep learning library built on top of Tensorflow. It was designed to provide a higher-level API to TensorFlow in order to facilitate and speed-up experimentations, while remaining fully transparent and compatible with it.
+
+TFLearn features include:
+
+    Easy-to-use and understand high-level API for implementing deep neural networks, with tutorial and examples.
+    Fast prototyping through highly modular built-in neural network layers, regularizers, optimizers, metrics...
+    Full transparency over Tensorflow. All functions are built over tensors and can be used independently of TFLearn.
+    Powerful helper functions to train any TensorFlow graph, with support of multiple inputs, outputs and optimizers.
+    Easy and beautiful graph visualization, with details about weights, gradients, activations and more...
+    Effortless device placement for using multiple CPU/GPU.
+
+The high-level API currently supports most of recent deep learning models, such as Convolutions, LSTM, BiRNN, BatchNorm, PReLU, Residual networks, Generative networks... In the future, TFLearn is also intended to stay up-to-date with latest deep learning techniques.
+
+Note: Latest TFLearn (v0.3) is only compatible with TensorFlow v1.0 and over.
+Overview
+
+ # Classification 
+tflearn.init_graph( num_cores = 8 , gpu_memory_fraction = 0.5 )
+
+net =  tflearn.input_data( shape = [ None , 784 ])
+net =  tflearn.fully_connected(net, 64 )
+net =  tflearn.dropout(net, 0.5 )
+net =  tflearn.fully_connected(net, 10 , activation = ' softmax '  )
+net =  tflearn.regression(net, optimizer = ' adam '  , loss = ' categorical_crossentropy '  )
+
+model =  tflearn.DNN(net)
+model.fit(X, Y)
+
+ # Sequence Generation 
+net =  tflearn.input_data( shape = [ None , 100 , 5000 ])
+net =  tflearn.lstm(net, 64 )
+net =  tflearn.dropout(net, 0.5 )
+net =  tflearn.fully_connected(net, 5000 , activation = ' softmax '  )
+net =  tflearn.regression(net, optimizer = ' adam '  , loss = ' categorical_crossentropy '  )
+
+model =  tflearn.SequenceGenerator(net, dictionary = idx, seq_maxlen = 100 )
+model.fit(X, Y)
+model.generate( 50 , temperature = 1.0 )
+
+There are many more examples available here .
+Installation
+
+TensorFlow Installation
+
+TFLearn requires Tensorflow (version 1.0+) to be installed.
+
+To install TensorFlow, simply run:
+
+ pip install tensorflow  
+
+or, with GPU-support:
+
+ pip install tensorflow-gpu  
+
+For more details see TensorFlow installation instructions
+
+TFLearn Installation
+
+To install TFLearn, the easiest way is to run
+
+For the bleeding edge version (recommended):
+
+ pip install git + https: // github.com / tflearn / tflearn.git
+
+For the latest stable version:
+
+ pip install tflearn
+
+Otherwise, you can also install from source by running (from source folder):
+
+ python setup.py install
+
+    For more details, please see the Installation Guide .
+
+Getting Started
+
+See Getting Started with TFLearn to learn about TFLearn basic functionalities or start browsing TFLearn Tutorials .
+Examples
+
+There are many neural network implementation available, see Examples .
+Documentation
+
+http://tflearn.org/doc_index
+Model Visualization
+
+Graph
+
+Graph Visualization
+
+Loss & Accuracy (multiple runs)
+
+Loss Visualization
+
+Layers
+
+Layers Visualization
+Contributions
+
+This is the first release of TFLearn, if you find any bug, please report it in the GitHub issues section.
+
+Improvements and requests for new features are more than welcome! Do not hesitate to twist and tweak TFLearn, and send pull-requests.
+
+For more info: Contribute to TFLearn .
+License
+
+MIT License
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

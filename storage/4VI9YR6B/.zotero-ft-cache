@@ -1,0 +1,249 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 36
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 459
+    Star 459
+    Fork
+    Where should we fork this repository?
+    Loading
+    211
+
+BichenWuUCB / squeezeDet
+Code Issues 44 Pull requests 7 Projects 0 Wiki Insights
+A tensorflow implementation for SqueezeDet, a convolutional neural network for object detection.
+
+    60 commits
+    1 branch
+    0 releases
+    2 contributors
+    BSD-2-Clause
+
+    Python 78.8%
+    C++ 19.0%
+    Shell 2.1%
+    Makefile 0.1%
+
+Python C++ Shell Makefile
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit e7c0860 Nov 23, 2017
+@BichenWuUCB
+BichenWuUCB Update README.md
+Permalink
+	Failed to load latest commit information.
+	README 	bichen: fixed train/eval scripts. Added images for README.md 	Dec 10, 2016
+	data 	bichen: added a script to randomly split train-val set. 	Dec 23, 2016
+	scripts 	bichen: improved training and evaluation scripts. 	May 24, 2017
+	src 	bichen: fixed demo.py to load SqueezeDet+. Fixed squeezeDetPlus.py. 	May 31, 2017
+	.gitignore 	added requirements.txt 	Feb 28, 2017
+	LICENSE 	Initial commit 	Dec 9, 2016
+	README.md 	Update README.md 	Nov 23, 2017
+	requirements.txt 	Fix tensorflow-gpu requirement 	Mar 3, 2017
+README.md
+SqueezeDet: Unified, Small, Low Power Fully Convolutional Neural Networks for Real-Time Object Detection for Autonomous Driving
+
+By Bichen Wu, Alvin Wan, Forrest Iandola, Peter H. Jin, Kurt Keutzer (UC Berkeley & DeepScale)
+
+This repository contains a tensorflow implementation of SqueezeDet, a convolutional neural network based object detector described in our paper: https://arxiv.org/abs/1612.01051 . If you find this work useful for your research, please consider citing:
+
+ @inproceedings{squeezedet, Author = {Bichen Wu and Forrest Iandola and Peter H. Jin and Kurt Keutzer}, Title = {SqueezeDet: Unified, Small, Low Power Fully Convolutional Neural Networks for Real-Time Object Detection for Autonomous Driving}, Journal = {arXiv:1612.01051}, Year = {2016} }  
+
+Installation:
+
+The following instructions are written for Linux-based distros.
+
+    Clone the SqueezeDet repository:
+
+     git clone https://github.com/BichenWuUCB/squeezeDet.git
+
+    Let's call the top level directory of SqueezeDet $SQDT_ROOT .
+
+    (Optional) Setup your own virtual environment.
+        The following assumes python is the Python2.7 executable. Navigate to your user home directory, and create the virtual environment there.
+
+     cd  ~ 
+    virtualenv env --python=python
+
+        Launch the virtual environment.
+
+     source  env/bin/activate
+
+    Use pip to install required Python packages:
+
+     pip install -r requirements.txt
+
+Demo:
+
+    Download SqueezeDet model parameters from here , untar it, and put it under $SQDT_ROOT/data/ If you are using command line, type:
+
+     cd  $SQDT_ROOT /data/
+    wget https://www.dropbox.com/s/a6t3er8f03gdl4z/model_checkpoints.tgz
+    tar -xzvf model_checkpoints.tgz
+    rm model_checkpoints.tgz
+
+    Now we can run the demo. To detect the sample image $SQDT_ROOT/data/sample.png ,
+
+     cd  $SQDT_ROOT /
+    python ./src/demo.py
+
+    If the installation is correct, the detector should generate this image: alt text
+
+    To detect other image(s), use the flag --input_path=./data/*.png to point to input image(s). Input image(s) will be scaled to the resolution of 1242x375 (KITTI image resolution), so it works best when original resolution is close to that.
+
+    SqueezeDet is a real-time object detector, which can be used to detect videos. The video demo will be released later.
+
+Training/Validation:
+
+    Download KITTI object detection dataset: images and labels . Put them under $SQDT_ROOT/data/KITTI/ . Unzip them, then you will get two directories: $SQDT_ROOT/data/KITTI/training/ and $SQDT_ROOT/data/KITTI/testing/ .
+
+    Now we need to split the training data into a training set and a vlidation set.
+
+     cd  $SQDT_ROOT /data/KITTI/
+    mkdir ImageSets
+    cd  ./ImageSets
+    ls ../training/image_2/ |  grep " .png "   |  sed s/.png// >  trainval.txt
+
+    trainval.txt contains indices to all the images in the training data. In our experiments, we randomly split half of indices in trainval.txt into train.txt to form a training set and rest of them into val.txt to form a validation set. For your convenience, we provide a script to split the train-val set automatically. Simply run
+
+     cd  $SQDT_ROOT /data/
+    python random_split_train_val.py
+
+    then you should get the train.txt and val.txt under $SQDT_ROOT/data/KITTI/ImageSets .
+
+    When above two steps are finished, the structure of $SQDT_ROOT/data/KITTI/ should at least contain:
+
+     $SQDT_ROOT /data/KITTI/
+                      | - > training/
+                      |      | - >  image_2/00 **** .png
+                      |      L- >  label_2/00 **** .txt
+                      | - > testing/
+                      |      L- >  image_2/00 **** .png
+                      L- > ImageSets/
+                            | - >  trainval.txt
+                            | - >  train.txt
+                            L- >  val.txt
+
+    Next, download the CNN model pretrained for ImageNet classification:
+
+     cd  $SQDT_ROOT /data/
+    # SqueezeNet 
+    wget https://www.dropbox.com/s/fzvtkc42hu3xw47/SqueezeNet.tgz
+    tar -xzvf SqueezeNet.tgz
+    # ResNet50  
+    wget https://www.dropbox.com/s/p65lktictdq011t/ResNet.tgz
+    tar -xzvf ResNet.tgz
+    # VGG16 
+    wget https://www.dropbox.com/s/zxd72nj012lzrlf/VGG16.tgz
+    tar -xzvf VGG16.tgz
+
+    Now we can start training. Training script can be found in $SQDT_ROOT/scripts/train.sh , which contains commands to train 4 models: SqueezeDet, SqueezeDet+, VGG16+ConvDet, ResNet50+ConvDet.
+
+     cd  $SQDT_ROOT /
+    ./scripts/train.sh -net (squeezeDet | squeezeDet+ | vgg16 | resnet50) -train_dir /tmp/bichen/logs/squeezedet -gpu 0
+
+    Training logs are saved to the directory specified by -train_dir . GPU id is specified by -gpu . Network to train is specificed by -net
+
+    Before evaluation, you need to first compile the official evaluation script of KITTI dataset
+
+     cd  $SQDT_ROOT /src/dataset/kitti-eval
+    make
+
+    Then, you can launch the evaluation script (in parallel with training) by
+
+     cd  $SQDT_ROOT /
+    ./scripts/eval.sh -net (squeezeDet | squeezeDet+ | vgg16 | resnet50) -eval_dir /tmp/bichen/logs/squeezedet -image_set (train | val) -gpu 1
+
+    Note that -train_dir in the training script should be the same as -eval_dir in the evaluation script to make it easy for tensorboard to load logs.
+
+    You can run two evaluation scripts to simultaneously evaluate the model on training and validation set. The training script keeps dumping checkpoint (model parameters) to the training directory once every 1000 steps (step size can be changed). Once a new checkpoint is saved, evaluation threads load the new checkpoint file and evaluate them on training and validation set.
+
+    Finally, to monitor training and evaluation process, you can use tensorboard by
+
+     tensorboard --logdir= $LOG_DIR 
+
+    Here, $LOG_DIR is the directory where your training and evaluation threads dump log events, which should be the same as -train_dir and -eval_dir specified in train.sh and eval.sh . From tensorboard, you should be able to see a lot of information including loss, average precision, error analysis, example detections, model visualization, etc.
+
+    alt text alt text alt text
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

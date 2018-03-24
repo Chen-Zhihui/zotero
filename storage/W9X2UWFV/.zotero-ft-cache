@@ -1,0 +1,187 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 7
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 26
+    Star 26
+    Fork
+    Where should we fork this repository?
+    Loading
+    19
+
+cjhanks / PyUDT
+Code Issues 3 Pull requests 0 Projects 0 Insights
+No description, website, or topics provided.
+
+    61 commits
+    3 branches
+    0 releases
+    2 contributors
+
+    C++ 65.0%
+    Python 33.5%
+    Shell 1.5%
+
+C++ Python Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+devel epoll-fixes master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	example 	Merge branch 'sendrecvfile' 	Jan 3, 2013
+	lib/ udt4 	Epoll fix ref #6 	May 29, 2013
+	src 	Epoll fix ref #6 	May 29, 2013
+	test 	Add nose test for basic socket functionality 	May 29, 2013
+	.gitignore 	Re-organize 	Dec 18, 2012
+	.gitmodules 	Udt now has a git repo, use theirs rather than my hosted mirror 	May 29, 2013
+	MANIFEST.in 	Add setup manifest for headers and change function call to support 	Dec 24, 2012
+	README.md 	Still work in progress, however documented to reflect change 	May 29, 2013
+	bootstrap.sh 	Add the bootstrap initializer 	Dec 24, 2012
+	setup.py 	Epoll fix ref #6 	May 29, 2013
+README.md
+PyUDT
+
+PyUDT is a python binding to the high-performance UDT library .
+
+This extension will only work with CPython on a Linux system. Some minor fixes may be needed to make it function on Unix, and there is no attempt to make it functional on Windows.`
+Installation
+
+In this module is a submodule ./udt which links to the Sourceforge GIT repo of the UDT development. Alternatively you can use your own installation.
+
+Note that the standard udt Makefile does not specify an install command, the local extension will look in the usual places, however you may need to change setup.py if you have installed to an unusual place.
+Usage
+
+Using pydoc udt4 and pydoct udt4.pyudt are the best sources for documentation, there exists no external documentation.
+The code is fairly well commented, especially when the interface differs from the C++ API interface.
+
+There are no documented examples however there are unit tests in ./test/ which accomplish more or less the same goal.
+
+The library is broken up into two independent parts:
+
+    Content imported from the udt4 interface
+    Content imported from the udt4.pyudt interface
+
+udt4
+
+ import  udt4 as  udt 
+
+The plain udt4 import seeks to have a near 1-to-1 correspondence with the base UDT C++ library. There are no classes, only function calls where the first argument is a reference to a udt4.UDTSOCKET type, which is internally represented by the UDTSOCKET C-type (though for convenience reasons retains some information about how it was created).
+
+udt4.UDTSOCKET
+
+ # Raw socket object.  
+
+Classes designed to be operated on by udt4 functions.
+
+socket =  udt4.socket( ...  ) 
+print (socket)                   # <type 'UDTSOCKET'>  
+
+udt4.UDTepoll
+
+ epoll  =  udt4.UDTepoll() 
+print (epoll)                    # <type 'UDTepoll'>  
+
+epoll.add_usock( < type  ' UDTSOCKET '  >  socket, int (flags)) 
+
+udt4.pyudt
+
+ from  udt4 import  pyudt as  udt  
+
+The pyudt implementation tries to more closely match the python socket interface where possible. Not all functions available in socket are available in pyudt.UdtSocket() .
+
+Classes designed to work with other pyudt classes.
+
+pyudt.UdtSocket()
+
+ socket =  pyudt.UdtSocket( ...  ) 
+print (socket)                   # <udt4.pyudt.UdtSocket object>  
+
+pyudt.Epoll()
+
+ epoll =  pyudt.Epoll() 
+print (epoll)                    # <udt4.pyudt.Epoll object>  
+
+epoll.add_usock( < udt4.pyudt.UdtSocket object >  socket, int (flags)) 
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

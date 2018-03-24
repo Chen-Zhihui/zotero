@@ -1,0 +1,166 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 36
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 829
+    Star 829
+    Fork
+    Where should we fork this repository?
+    Loading
+    125
+
+zo7 / deconvfaces
+Code Issues 2 Pull requests 0 Projects 0 Wiki Insights
+Generating faces with deconvolution networks
+deep-learning keras animation
+
+    64 commits
+    1 branch
+    0 releases
+    3 contributors
+    MIT
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	faces 	Initialize identity vector to zero 	Jan 12, 2017
+	img 	Add example gif 	Sep 5, 2016
+	jaffe 	Add semantic rating for the JAFFE dataset 	Jan 12, 2017
+	params 	Remove extra params files 	Oct 9, 2016
+	.gitignore 	Add option to choose optimizer 	Aug 24, 2016
+	LICENSE 	Add license 	Sep 26, 2016
+	README.md 	Rename "facegen" -> "faces" 	Sep 30, 2016
+	faces.py 	add use_jaffee flag throughout 	Jan 12, 2017
+	requirements.txt 	Add requirements.txt 	Jan 10, 2017
+README.md
+Generating Faces with Deconvolution Networks
+
+Example generations
+
+This repo contains code to train and interface with a deconvolution network adapted from this paper to generate faces using data from the Radboud Faces Database . Requires Keras , NumPy , SciPy , and tqdm with Python 3 to use.
+
+A blog post describing this project can be found here .
+Training New Models
+
+To train a new model, simply run:
+
+ python3 faces.py train path/to/data  
+
+You can specify the number of deconvolution layers with -d to generate larger images, assuming your GPU has the memory for it. You can play with the batch size and the number of kernels per layer (using -b and -k respectively) until it fits in memory, although this may result in worse results or longer training.
+
+Using 6 deconvolution layers with a batch size of 8 and the default number of kernels per layer, a model was trained on an Nvidia Titan X card (12 GB) to generate 512x640 images in a little over a day.
+Generating Images
+
+To generate images using a trained model, you can specify parameters in a yaml file and run:
+
+ python3 faces.py generate -m path/to/model -o output/directory -f path/to/params.yaml  
+
+There are four different modes you can use to generate images:
+
+    single , produce a single image.
+    random , produce a set of random images.
+    drunk , similar to random, but produces a more contiguous sequence of images.
+    interpolate , animate between a set of specified keyframes.
+
+You can find examples of these files in the params directory, which should give you a good idea of how to format these and what's available.
+Examples
+
+Interpolating between identities and emotions:
+
+Interpolating between identities and emotions
+
+Interpolating between orientations: (which the model is unable to learn)
+
+Interpolating between orientation
+
+Random generations (using "drunk" mode):
+
+Random generations
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

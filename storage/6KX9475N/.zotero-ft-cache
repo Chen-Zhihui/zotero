@@ -1,0 +1,238 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 22
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 106
+    Star 106
+    Fork
+    Where should we fork this repository?
+    Loading
+    45
+
+securesocketfunneling / udt
+Code Issues 3 Pull requests 1 Projects 0 Wiki Insights
+Boost asio UDT implementation (stream over asio datagram socket, reliability over UDP)
+
+    17 commits
+    4 branches
+    0 releases
+    2 contributors
+
+    C++ 64.5%
+    CMake 35.5%
+
+C++ CMake
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: develop
+Switch branches/tags
+
+    Branches
+    Tags
+
+develop-high-precision-timer-scheduler develop feature/custom-timer master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	cmake-ms 	draft of boost asio udt implementation 	Sep 3, 2015
+	cmake-unix 	draft of boost asio udt implementation 	Sep 3, 2015
+	cmake 	draft of boost asio udt implementation 	Sep 3, 2015
+	src 	Fix x64 compilation warnings 	Sep 26, 2015
+	third_party 	draft of boost asio udt implementation 	Sep 3, 2015
+	tools 	Refactoring tests 	Sep 18, 2015
+	.gitignore 	draft of boost asio udt implementation 	Sep 3, 2015
+	CMakeLists.txt 	Add benchmark timer source test 	Sep 9, 2015
+	LICENSE.md 	draft of boost asio udt implementation 	Sep 3, 2015
+	README.md 	Fix compile issue for Mac OS 	Sep 22, 2015
+README.md
+Boost asio UDT implementation
+
+This project is a an implementation of the UDT protocol based on Boost asio components and philosophy (socket, timer, asynchronous model).
+How to use
+
+The library complies with asio's API.
+
+As you would have used TCP socket :
+
+    boost::asio::ip::tcp::socket
+    boost::asio::ip::tcp::acceptor
+    boost::asio::ip::tcp::resolver
+    boost::asio::ip::tcp::resolver::query
+
+The library provides UDT socket :
+
+    ip::udt<>::socket
+    ip::udt<>::acceptor
+    ip::udt<>::resolver
+    ip::udt<>::resolver::query
+
+UDT protocol can be customized with template parameters :
+
+    The first one is a Logger. By default there is no logging but it is possible to use a FileLogger which log internal variables for statistics. A python script is available to display logs as graphs.
+    The second one is the congestion algorithm. By default, this is the standard congestion algorithm. Feel free to suggest and implement your own algorithm.
+
+At the moment, this library does not support the rendez-vous connection feature.
+
+Examples :
+
+    client
+    server
+
+Feel free to contribute, leave feedbacks or report issues !
+How to build examples (client, server) or unit tests
+Requirements
+
+    Winrar >= 5.2.1 (Third party builds on windows)
+    Boost >= 1.56.0
+    Google Test >= 1.7.0
+    CMake >= 2.8.11
+    C++11 compiler (Visual Studio 2013, Clang, g++, etc.)
+
+Build test executables on Windows
+
+    Go in project directory
+
+ cd  PROJECT_PATH
+
+    Copy Boost archive in third_party/boost
+
+ cp boost_1_XX_Y.tar.bz2 PROJECT_PATH/third_party/boost
+
+    CopyCopy GTest archive in third_party/gtest
+
+ cp gtest-1.X.Y.zip PROJECT_PATH/third_party/gtest
+
+    Generate project
+
+ mkdir PROJECT_PATH/build
+cd  PROJECT_PATH/build
+cmake ../
+
+    Build project
+
+ cd  PROJECT_PATH/build
+cmake --build .  --config Debug | Release
+
+Build test executables on Linux
+
+    Go in project directory
+
+ cd  PROJECT_PATH
+
+    Copy Boost archive in third_party/boost
+
+ cp boost_1_XX_Y.tar.bz2 PROJECT_PATH/third_party/boost
+
+    Copy GTest archive in third_party/gtest
+
+ cp gtest-1.X.Y.zip PROJECT_PATH/third_party/gtest
+
+    Generate project
+
+ mkdir PROJECT_PATH/build
+cd  PROJECT_PATH/build
+cmake -DCMAKE_BUILD_TYPE=Release | Debug ../
+
+    Build project
+
+ cmake --build .  -- -j
+
+Build test executables on Mac OS
+
+    Go in project directory
+
+ cd  PROJECT_PATH
+
+    Copy Boost archive in third_party/boost
+
+ cp boost_1_XX_Y.tar.bz2 PROJECT_PATH/third_party/boost
+
+    Copy GTest archive in third_party/gtest
+
+ cp gtest-1.X.Y.zip PROJECT_PATH/third_party/gtest
+
+    Generate project
+
+ mkdir PROJECT_PATH/build
+cd  PROJECT_PATH/build
+cmake ..
+
+    Build project
+
+ cmake --build . 
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

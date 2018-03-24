@@ -1,0 +1,195 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 154
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,405
+    Star 1,405
+    Fork
+    Where should we fork this repository?
+    Loading
+    251
+
+dmlc / nnvm
+Code Issues 25 Pull requests 7 Projects 0 Wiki Insights
+Bring deep learning to bare metal
+computation-graph deep-learning optimization deployment nnvm tvm cuda opencl rocm metal
+
+    310 commits
+    3 branches
+    1 release
+    53 contributors
+    Apache-2.0
+
+    C++ 51.6%
+    Python 43.5%
+    CMake 2.2%
+    Shell 1.5%
+    Other 1.2%
+
+C++ Python CMake Shell Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master mxnet sparse
+Nothing to show
+v0.8
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	amalgamation 	Fix lint, temporary add amaga back ( #170 ) 	Oct 13, 2017
+	cmake 	add cmake with windows ( #40 ) 	Sep 9, 2016
+	dmlc-core @ 42823a7 	Add end-to-end SGX ResNet inference example ( #388 ) 	Mar 9, 2018
+	docs 	[DOCS] add a solution to installation error because of the old submod… 	Mar 7, 2018
+	examples 	Add end-to-end SGX ResNet inference example ( #388 ) 	Mar 9, 2018
+	include/ nnvm 	[FIX] several bugs found when using NNVM ( #391 ) 	Mar 16, 2018
+	make 	Make choice of archiver configurable ( #288 ) 	Jan 1, 2018
+	python 	[Keras] fix dropout bug ( #399 ) 	Mar 20, 2018
+	src 	[FIX] several bugs found when using NNVM ( #391 ) 	Mar 16, 2018
+	tests 	[Keras] fix dropout bug ( #399 ) 	Mar 20, 2018
+	tutorials 	Documentation errors updated ( #392 ) 	Mar 15, 2018
+	tvm @ 6287a99 	[OP] Experimental assign op ( #389 ) 	Mar 11, 2018
+	.gitignore 	[GRADIENT] Register more gradient operators ( #300 ) 	Jan 18, 2018
+	.gitmodules 	[OP] Initial checkin of nnvm core op folders 	Oct 6, 2017
+	.travis.yml 	[ATTR/SYMBOL] Expose op_name attr to python ( #132 ) 	Jul 28, 2017
+	CMakeLists.txt 	Change TOPI ops to use C++ implementation where applicable ( #357 ) 	Feb 7, 2018
+	Jenkinsfile 	[DOCS] Add install docs, fix Jenkins ( #57 ) 	Oct 6, 2017
+	LICENSE 	Change license file to be detectable by github ( #72 ) 	Oct 13, 2016
+	Makefile 	Change TOPI ops to use C++ implementation where applicable ( #357 ) 	Feb 7, 2018
+	NEWS.md 	[DOCS] Add install docs, fix Jenkins ( #57 ) 	Oct 6, 2017
+	README.md 	Update README.md 	Oct 7, 2017
+README.md
+NNVM: Open Compiler for AI Frameworks
+
+Build Status GitHub license
+
+Installation | Documentation | Tutorials | Release Notes
+
+NNVM compiler offers reusable computation graph optimization and compilation for deep learning systems. It is backed by the TVM stack and provides modules to:
+
+    Represent deep learning workloads from front-end frameworks via a graph IR.
+    Optimize computation graphs to improve performance.
+    Compile into executable modules and deploy to different hardware backends with minimum dependency.
+
+NNVM is designed to add new frontend, operators and graph optimizations in a decentralized fashion without changing the core interface. The compiled module can be deployed to server, mobile, embedded devices and browsers with minimum dependency, in languages including c++, python, javascript, java, objective-c. Checkout our release announcement
+
+The following code snippet demonstrates the general workflow of nnvm compiler.
+
+ import  tvm
+from  tvm.contrib import  graph_runtime, rpc
+import  nnvm.frontend
+import  nnvm.compiler
+
+# GET model from frameworks 
+# change xyz to supported framework name. 
+graph, params =  nnvm.frontend.from_xyz( ... )
+
+# OPTIMIZE and COMPILE the graph to get a deployable module 
+# target can be "opencl", "llvm", "metal" or any target supported by tvm 
+target =  " cuda "  
+graph, lib, params =  nnvm.compiler.build(graph, target, { " data "  , data_shape}, params = params)
+
+# DEPLOY and run on gpu(0) 
+module =  graph_runtime.create(graph, lib, tvm.gpu( 0 ))
+module.set_input( ** params)
+module.run( data = data_array)
+output =  tvm.nd.empty(out_shape, ctx = tvm.gpu( 0 ))
+module.get_output( 0 , output)
+
+# DEPLOY to REMOTE mobile/rasp/browser with minimum tvm rpc runtime 
+# useful for quick experiments on mobile devices 
+remote =  rpc.connect(remote_host, remote_port)
+lib.export_library( " mylib.so "  )
+remote.upload( " mylib.so "  )
+rlib =  rpc.load_module( " mylib.so "  )
+# run on remote device 
+rmodule =  graph_runtime.create(graph, rlib, remote.gpu( 0 ))
+rmodule.set_input( ** params)
+rmodule.run()
+
+License
+
+Licensed under an Apache-2.0 license.
+Links
+
+    TinyFlow on how you can use NNVM to build a TensorFlow like API.
+    Apache MXNet uses NNVM as a backend.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

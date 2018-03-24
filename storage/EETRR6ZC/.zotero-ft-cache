@@ -1,0 +1,292 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 125
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,547
+    Star 1,547
+    Fork
+    Where should we fork this repository?
+    Loading
+    672
+
+balancap / SSD-Tensorflow
+Code Issues 144 Pull requests 7 Projects 0 Wiki Insights
+Single Shot MultiBox Detector in TensorFlow
+tensorflow ssd deep-learning yolo object-detection
+
+    125 commits
+    2 branches
+    0 releases
+    2 contributors
+
+    Jupyter Notebook 74.4%
+    Python 25.6%
+
+Jupyter Notebook Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+fix_training master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit e0e3104 Apr 10, 2017
+@balancap
+balancap committed Apr 10, 2017 UPDATE: Tweaking pre-processing!
+Permalink
+	Failed to load latest commit information.
+	checkpoints 	ADD: SSD 300 TF checkpoints and demo images. 	Jan 28, 2017
+	datasets 	ADD: Pascal VOC 07 & 12 statistics. 	Apr 10, 2017
+	demo 	ADD: SSD 300 TF checkpoints and demo images. 	Jan 28, 2017
+	deployment 	CLEAN: Training script and model_deploy.py 	Feb 2, 2017
+	nets 	FIX: dropout in SSD VGG network. 	Apr 10, 2017
+	notebooks 	FIX: NHWC default parameter in SSD Notebook. 	Apr 6, 2017
+	pictures 	UPDATE: Readme and SSD Notebook. 	Feb 22, 2017
+	preprocessing 	UPDATE: Tweaking pre-processing! 	Apr 10, 2017
+	tf_extended 	UPDATE: Tweaking pre-processing! 	Apr 10, 2017
+	.gitignore 	UPDATE: .gitignore 	Apr 7, 2017
+	COMMANDS.md 	UPDATE: commands.md file... 	Apr 10, 2017
+	README.md 	UPDATE: Readme with two steps training. 	Apr 10, 2017
+	caffe_to_tensorflow.py 	FIX: Caffe to TensorFlow script, number of classes. 	Feb 27, 2017
+	eval_ssd_network.py 	UPDATE: Data format in training script. Changed to NCHW by default. 	Apr 6, 2017
+	inspect_checkpoint.py 	FIX: Fine tuning of ImageNet models, adding checkpoint scope parameter. 	Mar 9, 2017
+	tf_convert_data.py 	UPDATE: Pascal VOC implementation: convert to TFRecords. 	Jan 20, 2017
+	tf_utils.py 	UPDATE: Logging information for fine-tuning checkpoint. 	Apr 10, 2017
+	train_ssd_network.py 	UPDATE: Data format in training script. Changed to NCHW by default. 	Apr 6, 2017
+README.md
+SSD: Single Shot MultiBox Detector in TensorFlow
+
+SSD is an unified framework for object detection with a single network. It has been originally introduced in this research article .
+
+This repository contains a TensorFlow re-implementation of the original Caffe code . At present, it only implements VGG-based SSD networks (with 300 and 512 inputs), but the architecture of the project is modular, and should make easy the implementation and training of other SSD variants (ResNet or Inception based for instance). Present TF checkpoints have been directly converted from SSD Caffe models.
+
+The organisation is inspired by the TF-Slim models repository containing the implementation of popular architectures (ResNet, Inception and VGG). Hence, it is separated in three main parts:
+
+    datasets: interface to popular datasets (Pascal VOC, COCO, ...) and scripts to convert the former to TF-Records;
+    networks: definition of SSD networks, and common encoding and decoding methods (we refer to the paper on this precise topic);
+    pre-processing: pre-processing and data augmentation routines, inspired by original VGG and Inception implementations.
+
+SSD minimal example
+
+The SSD Notebook contains a minimal example of the SSD TensorFlow pipeline. Shortly, the detection is made of two main steps: running the SSD network on the image and post-processing the output using common algorithms (top-k filtering and Non-Maximum Suppression algorithm).
+
+Here are two examples of successful detection outputs:
+
+To run the notebook you first have to unzip the checkpoint files in ./checkpoint
+
+ unzip ssd_300_vgg.ckpt.zip
+
+and then start a jupyter notebook with
+
+ jupyter notebook notebooks/ssd_notebook.ipynb
+
+Datasets
+
+The current version only supports Pascal VOC datasets (2007 and 2012). In order to be used for training a SSD model, the former need to be converted to TF-Records using the tf_convert_data.py script:
+
+ DATASET_DIR=./VOC2007/test/
+OUTPUT_DIR=./tfrecords
+python tf_convert_data.py \
+    --dataset_name=pascalvoc \
+    --dataset_dir= ${DATASET_DIR}  \
+    --output_name=voc_2007_train \
+    --output_dir= ${OUTPUT_DIR} 
+
+Note the previous command generated a collection of TF-Records instead of a single file in order to ease shuffling during training.
+Evaluation on Pascal VOC 2007
+
+The present TensorFlow implementation of SSD models have the following performances:
+Model 	Training data 	Testing data 	mAP 	FPS
+SSD-300 VGG-based 	VOC07+12 trainval 	VOC07 test 	0.778 	-
+SSD-300 VGG-based 	VOC07+12+COCO trainval 	VOC07 test 	0.817 	-
+SSD-512 VGG-based 	VOC07+12+COCO trainval 	VOC07 test 	0.837 	-
+
+We are working hard at reproducing the same performance as the original Caffe implementation !
+
+After downloading and extracting the previous checkpoints, the evaluation metrics should be reproducible by running the following command:
+
+ EVAL_DIR=./logs/
+CHECKPOINT_PATH=./checkpoints/VGG_VOC0712_SSD_300x300_ft_iter_120000.ckpt
+python eval_ssd_network.py \
+    --eval_dir= ${EVAL_DIR}  \
+    --dataset_dir= ${DATASET_DIR}  \
+    --dataset_name=pascalvoc_2007 \
+    --dataset_split_name=test \
+    --model_name=ssd_300_vgg \
+    --checkpoint_path= ${CHECKPOINT_PATH}  \
+    --batch_size=1
+
+The evaluation script provides estimates on the recall-precision curve and compute the mAP metrics following the Pascal VOC 2007 and 2012 guidelines.
+
+In addition, if one wants to experiment/test a different Caffe SSD checkpoint, the former can be converted to TensorFlow checkpoints as following:
+
+ CAFFE_MODEL=./ckpts/SSD_300x300_ft_VOC0712/VGG_VOC0712_SSD_300x300_ft_iter_120000.caffemodel
+python caffe_to_tensorflow.py \
+    --model_name=ssd_300_vgg \
+    --num_classes=21 \
+    --caffemodel_path= ${CAFFE_MODEL} 
+
+Training
+
+The script train_ssd_network.py is in charged of training the network. Similarly to TF-Slim models, one can pass numerous options to the training process (dataset, optimiser, hyper-parameters, model, ...). In particular, it is possible to provide a checkpoint file which can be use as starting point in order to fine-tune a network.
+Fine-tuning existing SSD checkpoints
+
+The easiest way to fine the SSD model is to use as pre-trained SSD network (VGG-300 or VGG-512). For instance, one can fine a model starting from the former as following:
+
+ DATASET_DIR=./tfrecords
+TRAIN_DIR=./logs/
+CHECKPOINT_PATH=./checkpoints/ssd_300_vgg.ckpt
+python train_ssd_network.py \
+    --train_dir= ${TRAIN_DIR}  \
+    --dataset_dir= ${DATASET_DIR}  \
+    --dataset_name=pascalvoc_2012 \
+    --dataset_split_name=train \
+    --model_name=ssd_300_vgg \
+    --checkpoint_path= ${CHECKPOINT_PATH}  \
+    --save_summaries_secs=60 \
+    --save_interval_secs=600 \
+    --weight_decay=0.0005 \
+    --optimizer=adam \
+    --learning_rate=0.001 \
+    --batch_size=32
+
+Note that in addition to the training script flags, one may also want to experiment with data augmentation parameters (random cropping, resolution, ...) in ssd_vgg_preprocessing.py or/and network parameters (feature layers, anchors boxes, ...) in ssd_vgg_300/512.py
+
+Furthermore, the training script can be combined with the evaluation routine in order to monitor the performance of saved checkpoints on a validation dataset. For that purpose, one can pass to training and validation scripts a GPU memory upper limit such that both can run in parallel on the same device. If some GPU memory is available for the evaluation script, the former can be run in parallel as follows:
+
+ EVAL_DIR= ${TRAIN_DIR} /eval
+python eval_ssd_network.py \
+    --eval_dir= ${EVAL_DIR}  \
+    --dataset_dir= ${DATASET_DIR}  \
+    --dataset_name=pascalvoc_2007 \
+    --dataset_split_name=test \
+    --model_name=ssd_300_vgg \
+    --checkpoint_path= ${TRAIN_DIR}  \
+    --wait_for_checkpoints=True \
+    --batch_size=1 \
+    --max_num_batches=500
+
+Fine-tuning a network trained on ImageNet
+
+One can also try to build a new SSD model based on standard architecture (VGG, ResNet, Inception, ...) and set up on top of it the multibox layers (with specific anchors, ratios, ...). For that purpose, you can fine-tune a network by only loading the weights of the original architecture, and initialize randomly the rest of network. For instance, in the case of the VGG-16 architecture , one can train a new model as following:
+
+ DATASET_DIR=./tfrecords
+TRAIN_DIR=./log/
+CHECKPOINT_PATH=./checkpoints/vgg_16.ckpt
+python train_ssd_network.py \
+    --train_dir= ${TRAIN_DIR}  \
+    --dataset_dir= ${DATASET_DIR}  \
+    --dataset_name=pascalvoc_2007 \
+    --dataset_split_name=train \
+    --model_name=ssd_300_vgg \
+    --checkpoint_path= ${CHECKPOINT_PATH}  \
+    --checkpoint_model_scope=vgg_16 \
+    --checkpoint_exclude_scopes=ssd_300_vgg/conv6,ssd_300_vgg/conv7,ssd_300_vgg/block8,ssd_300_vgg/block9,ssd_300_vgg/block10,ssd_300_vgg/block11,ssd_300_vgg/block4_box,ssd_300_vgg/block7_box,ssd_300_vgg/block8_box,ssd_300_vgg/block9_box,ssd_300_vgg/block10_box,ssd_300_vgg/block11_box \
+    --trainable_scopes=ssd_300_vgg/conv6,ssd_300_vgg/conv7,ssd_300_vgg/block8,ssd_300_vgg/block9,ssd_300_vgg/block10,ssd_300_vgg/block11,ssd_300_vgg/block4_box,ssd_300_vgg/block7_box,ssd_300_vgg/block8_box,ssd_300_vgg/block9_box,ssd_300_vgg/block10_box,ssd_300_vgg/block11_box \
+    --save_summaries_secs=60 \
+    --save_interval_secs=600 \
+    --weight_decay=0.0005 \
+    --optimizer=adam \
+    --learning_rate=0.001 \
+    --learning_rate_decay_factor=0.94 \
+    --batch_size=32
+
+Hence, in the former command, the training script randomly initializes the weights belonging to the checkpoint_exclude_scopes and load from the checkpoint file vgg_16.ckpt the remaining part of the network. Note that we also specify with the trainable_scopes parameter to first only train the new SSD components and left the rest of VGG network unchanged. Once the network has converged to a good first result (~0.5 mAP for instance), you can fine-tuned the complete network as following:
+
+ DATASET_DIR=./tfrecords
+TRAIN_DIR=./log_finetune/
+CHECKPOINT_PATH=./log/model.ckpt-N
+python train_ssd_network.py \
+    --train_dir= ${TRAIN_DIR}  \
+    --dataset_dir= ${DATASET_DIR}  \
+    --dataset_name=pascalvoc_2007 \
+    --dataset_split_name=train \
+    --model_name=ssd_300_vgg \
+    --checkpoint_path= ${CHECKPOINT_PATH}  \
+    --checkpoint_model_scope=vgg_16 \
+    --save_summaries_secs=60 \
+    --save_interval_secs=600 \
+    --weight_decay=0.0005 \
+    --optimizer=adam \
+    --learning_rate=0.00001 \
+    --learning_rate_decay_factor=0.94 \
+    --batch_size=32
+
+A number of pre-trained weights of popular deep architectures can be found on TF-Slim models page .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

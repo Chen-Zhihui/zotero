@@ -1,0 +1,194 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 141
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 2,455
+    Star 2,455
+    Fork
+    Where should we fork this repository?
+    Loading
+    529
+
+oarriaga / face_classification
+Code Issues 8 Pull requests 1 Projects 0 Wiki Insights
+Real-time face detection and emotion/gender classification using fer2013/imdb datasets with a keras CNN model and openCV.
+
+    137 commits
+    2 branches
+    1 release
+    4 contributors
+    MIT
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master v2
+Nothing to show
+v1.0
+Nothing to show
+New pull request
+Latest commit eb5d76f Dec 1, 2017
+@oarriaga
+oarriaga committed Dec 1, 2017 Update README.md
+Permalink
+	Failed to load latest commit information.
+	datasets 	Added datasets directory and instructions for training/downloading th… 	Jun 30, 2017
+	images 	Added results from technical report the repo 	Jul 14, 2017
+	src 	Rename endpoint. 	Sep 19, 2017
+	trained_models 	Deleted log files from repo 	Jul 14, 2017
+	.gitignore 	Deleted log files from repo 	Jul 14, 2017
+	Dockerfile 	Rename endpoint and fix opencv version. 	Sep 19, 2017
+	LICENSE 	Initial commit 	Feb 9, 2017
+	README.md 	Update README.md 	Dec 1, 2017
+	REQUIREMENTS.txt 	Update REQUIREMENTS.txt 	Jul 23, 2017
+	report.pdf 	updated report 	Oct 23, 2017
+README.md
+Face classification and detection from the B-IT-BOTS robotics team .
+
+Real-time face detection and emotion/gender classification using fer2013/IMDB datasets with a keras CNN model and openCV.
+
+    IMDB gender classification test accuracy: 96%.
+    fer2013 emotion classification test accuracy: 66%.
+
+For more information please consult the publication
+Emotion/gender examples:
+
+alt tag
+
+Guided back-prop alt tag
+
+Real-time demo:
+
+B-IT-BOTS robotics team :) alt tag
+Instructions
+Run real-time emotion demo:
+
+    python3 video_emotion_color_demo.py
+
+Run real-time guided back-prop demo:
+
+    python3 image_gradcam_demo.py
+
+Make inference on single images:
+
+    python3 image_emotion_gender_demo.py <image_path>
+
+e.g.
+
+    python3 image_emotion_gender_demo.py ../images/test_image.jpg
+
+Running with Docker
+
+With a few steps one can get its own face classification and detection running. Follow the commands below:
+
+    docker pull ekholabs/face-classifier
+    docker run -d -p 8084:8084 --name=face-classifier ekholabs/face-classifier
+    curl -v -F image=@[path_to_image] http://localhost:8084/classifyImage > image.png
+
+To train previous/new models for emotion classification:
+
+    Download the fer2013.tar.gz file from here
+
+    Move the downloaded file to the datasets directory inside this repository.
+
+    Untar the file:
+
+    tar -xzf fer2013.tar
+
+    Run the train_emotion_classification.py file
+
+    python3 train_emotion_classifier.py
+
+To train previous/new models for gender classification:
+
+    Download the imdb_crop.tar file from here (It's the 7GB button with the tittle Download faces only).
+
+    Move the downloaded file to the datasets directory inside this repository.
+
+    Untar the file:
+
+    tar -xfv imdb_crop.tar
+
+    Run the train_gender_classification.py file
+
+    python3 train_gender_classifier.py
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

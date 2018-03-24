@@ -1,0 +1,201 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 18
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 194
+    Star 194
+    Fork
+    Where should we fork this repository?
+    Loading
+    32
+
+ArunMichaelDsouza / tensorflow-image-detection
+Code Issues 2 Pull requests 0 Projects 0 Wiki Insights
+A generic image detection program that uses Google's Machine Learning library, Tensorflow and a pre-trained Deep Learning Convolutional Neural Network model called Inception.
+image-detection machine-learning deep-learning deep-neural-networks convolutional-neural-networks tensorflow
+
+    28 commits
+    1 branch
+    0 releases
+    2 contributors
+    MIT
+
+    Python 99.3%
+    Shell 0.7%
+
+Python Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit 8ff7c79 Mar 13, 2018
+@ArunMichaelDsouza
+ArunMichaelDsouza CLI output image updated
+Permalink
+	Failed to load latest commit information.
+	.gitignore 	Gitignore updated 	May 28, 2017
+	LICENSE 	Initial commit 	May 27, 2017
+	README.md 	Readme updated 	Mar 13, 2018
+	classify.py 	File dialog support added with PR #3 	Mar 13, 2018
+	cli-output.png 	CLI output image updated 	Mar 13, 2018
+	file-dialog.png 	Readme updated 	Mar 13, 2018
+	result.png 	Result image updated 	May 28, 2017
+	retrain.py 	TensorFlow retrain script added 	May 27, 2017
+	train.sh 	Transfer learning bash script updated with python 3 support 	Mar 13, 2018
+README.md
+tensorflow-image-detection
+
+A generic image detection program that uses Google's Machine Learning library, Tensorflow and a pre-trained Deep Learning Convolutional Neural Network model called Inception .
+
+This model has been pre-trained for the ImageNet Large Visual Recognition Challenge using the data from 2012, and it can differentiate between 1,000 different classes, like Dalmatian, dishwasher etc. The program applies Transfer Learning to this existing model and re-trains it to classify a new set of images.
+
+This is a generic setup and can be used to classify almost any kind of image. I created a small demo that classifies two image data sets - my photos and my girlfriend's photos, and returns a prediction score denoting the possibility of it being my image or my girlfriend's image.
+
+Installation
+
+Make sure you have Python 3 installed, then install Tensorflow on your system, and clone this repo.
+
+Usage
+Prepare the image data sets
+
+In order to start the transfer learning process, a folder named training_dataset needs to be created in the root of the project folder. This folder will contain the image data sets for all the subjects, for whom the classification is to be performed.
+
+Create the training_dataset folder and add the images for all the data sets in the following manner -
+
+ / 
+| 
+| 
+----  / training_dataset
+|     | 
+|     | 
+|     ----  / arun
+|     |     arun1 . jpg 
+|     |     arun2 . jpg 
+|     |     ... 
+|     | 
+|     | 
+|     ----  / erica
+|          erica1 . jpg 
+|          erica2 . jpg 
+|          ... 
+| 
+|      
+
+This enables classification of images between the arun and erica data sets.
+
+    Make sure to include multiple variants of the subject (side profiles, zoomed in images etc.), the more the images, the better is the result.
+
+Initiate transfer learning
+
+Go to the project directory and run -
+
+ $ bash train . sh 
+
+This script installs the Inception model and initiates the re-training process for the specified image data sets.
+
+Once the process is complete, it will return a training accuracy somewhere between 85% - 100% .
+
+The training summaries , retrained graphs and retrained labels will be saved in a folder named tf_files .
+Classify objects
+
+ python3 classify . py 
+
+This opens up the file dialog using which you can select your input file.
+
+Once the input file is selected, the classifier will output the predictions for each data set. A prediction score between 0.8 to 1 is considered to be optimal.
+
+
+Results
+
+
+License
+
+MIT License
+
+Copyright (c) 2017 Arun Michael Dsouza
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

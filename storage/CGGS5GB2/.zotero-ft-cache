@@ -1,0 +1,154 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 24
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 246
+    Star 246
+    Fork
+    Where should we fork this repository?
+    Loading
+    66
+
+pplonski / keras2cpp
+Code Issues 9 Pull requests 1 Projects 0 Wiki Insights
+This is a bunch of code to port Keras neural network model into pure C++.
+neural-network keras machine-learning
+
+    47 commits
+    1 branch
+    0 releases
+    5 contributors
+    MIT
+
+    C++ 66.0%
+    Python 30.1%
+    Shell 3.9%
+
+C++ Python Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Latest commit 7ced9d5 Aug 28, 2017
+@pplonski
+pplonski add tanh activation
+Permalink
+	Failed to load latest commit information.
+	example 	border_mode=same example 	Nov 22, 2016
+	LICENSE 	Initial commit 	May 2, 2016
+	README.md 	minor style fix for main readme 	Jun 9, 2017
+	dump_to_simple_cpp.py 	Add testing framework 	Jan 13, 2017
+	example_main.cc 	Add testing framework 	Jan 13, 2017
+	keras_model.cc 	add tanh activation 	Aug 28, 2017
+	keras_model.h 	add DataChunkFlat constructors with the vector initialization 	Feb 21, 2017
+	test_compare.py 	Add testing framework 	Jan 13, 2017
+	test_run.sh 	add tanh activation 	Aug 28, 2017
+	test_run_cnn.cc 	Add testing framework 	Jan 13, 2017
+	test_run_cnn.py 	Add testing framework 	Jan 13, 2017
+README.md
+keras2cpp
+
+This is a bunch of code to port Keras neural network model into pure C++. Neural network weights and architecture are stored in plain text file and input is presented as vector<vector<vector<float> > > in case of image. The code is prepared to support simple Convolutional network (from MNIST example) but can be easily extended. There are implemented only ReLU and Softmax activations.
+
+It is working with the Theano backend - support for Tensorflow will be added soon.
+Usage
+
+    Save your network weights and architecture.
+    Dump network structure to plain text file with dump_to_simple_cpp.py script.
+    Use network with code from keras_model.h and keras_model.cc files - see example below.
+
+Example
+
+    Run one iteration of simple CNN on MNIST data with example/mnist_cnn_one_iteration.py script. It will produce files with architecture example/my_nn_arch.json and weights in HDF5 format example/my_nn_weights.h5 .
+    Dump network to plain text file python dump_to_simple_cpp.py -a example/my_nn_arch.json -w example/my_nn_weights.h5 -o example/dumped.nnet .
+    Compile example g++ -std=c++11 keras_model.cc example_main.cc - see code in example_main.cc .
+    Run binary ./a.out - you shoul get the same output as in step one from Keras.
+
+Testing
+
+If you want to test dumping for your network, please use test_run.sh script. Please provide there your network architecture and weights. The script do following job:
+
+    Dump network into text file.
+    Generate random sample.
+    Compute predictions from keras and keras2cpp on generated sample.
+    Compare predictions.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

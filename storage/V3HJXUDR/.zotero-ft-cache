@@ -1,0 +1,210 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 36
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 319
+    Star 319
+    Fork
+    Where should we fork this repository?
+    Loading
+    67
+
+daviddao / awesome-very-deep-learning
+Code Issues 0 Pull requests 0 Projects 0 Wiki Insights
+A curated list of papers and code about very deep neural networks
+highway-network deep-learning densenet resnet awesome-list machine-learning vin
+
+    27 commits
+    1 branch
+    0 releases
+    3 contributors
+    Apache-2.0
+
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	LICENSE 	Initial commit 	Apr 6, 2016
+	README.md 	adding "reversible residual networks" 	Jan 24, 2018
+README.md
+
+
+awesome-very-deep-learning is a curated list for papers and code about implementing and training very deep neural networks.
+Value Iteration Networks
+
+Value Iteration Networks are very deep networks that have tied weights and perform approximate value iteration. They are used as an internal (model-based) planning module.
+Papers
+
+    Value Iteration Networks (2016) [ original code ], introduces VINs (Value Iteration Networks). The author shows that one can perform value iteration using iterative usage of convolutions and channel-wise pooling. It is able to generalize better in environments where a network needs to plan. NIPS 2016 best paper.
+
+Densely Connected Convolutional Networks
+
+Densely Connected Convolutional Networks are very deep neural networks consisting of dense blocks. Within dense blocks, each layer receives the the feature maps of all preceding layers. This leverages feature reuse and thus substantially reduces the model size (parameters).
+Papers
+
+    Densely Connected Convolutional Networks (2016) [ original code ], introduces DenseNets and shows that it outperforms ResNets in CIFAR10 and 100 by a large margin (especially when not using data augmentation), while only requiring half the parameters. CVPR 2017 best paper.
+
+Implementations
+
+    Authors' Caffe Implementation
+    Authors' more memory-efficient Torch Implementation .
+    Tensorflow Implementation by Yixuan Li.
+    Tensorflow Implementation by Laurent Mazare.
+    Lasagne Implementation by Jan Schlüter.
+    Keras Implementation by tdeboissiere.
+    Keras Implementation by Roberto de Moura Estevão Filho.
+    Chainer Implementation by Toshinori Hanya.
+    Chainer Implementation by Yasunori Kudo.
+    PyTorch Implementation (including BC structures) by Andreas Veit
+    PyTorch Implementation
+
+Deep Residual Learning
+
+Deep Residual Networks are a family of extremely deep architectures (up to 1000 layers) showing compelling accuracy and nice convergence behaviors. Instead of learning a new representation at each layer, deep residual networks use identity mappings to learn residuals.
+Papers
+
+    The Reversible Residual Network: Backpropagation Without Storing Activations [ code ] constructs reversible residual layers (no need to store activations) and surprisingly finds out that reversible layers don't impact final performance.
+    Squeeze-and-Excitation Networks [ original code ], introduces Squeeze-and-Excitation (SE) block, that adaptively recalibrates channel-wise feature responses. It achieved the 1st place on ILSVRC17.
+    Aggregated Residual Transformation for Deep Neural Networks (2016) , introduces ResNeXt, which aggregates a set of transformations within a a res-block. It achieved the 2nd place on ILSVRC16.
+    Residual Networks of Residual Networks: Multilevel Residual Networks (2016) , adds multi-level hierarchical residual mappings and shows that this improves the accuracy of deep networks
+    Wide Residual Networks (2016) [ orginal code ], studies wide residual neural networks and shows that making residual blocks wider outperforms deeper and thinner network architectures
+    Swapout: Learning an ensemble of deep architectures (2016) , improving accuracy by randomly applying dropout, skipforward and residual units per layer
+    Deep Networks with Stochastic Depth (2016) [ original code ], dropout with residual layers as regularizer
+    Identity Mappings in Deep Residual Networks (2016) [ original code ], improving the original proposed residual units by reordering batchnorm and activation layers
+    Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning (2016) , inception network with residual connections
+    Deep Residual Learning for Image Recognition (2015) [ original code ], original paper introducing residual neural networks
+
+Implementations
+
+    Torch by Facebook AI Research (FAIR), with training code in Torch and pre-trained ResNet-18/34/50/101 models for ImageNet : blog , code
+    Torch, CIFAR-10, with ResNet-20 to ResNet-110, training code, and curves: code
+    Lasagne, CIFAR-10, with ResNet-32 and ResNet-56 and training code: code
+    Neon, CIFAR-10, with pre-trained ResNet-32 to ResNet-110 models, training code, and curves: code
+    Neon, Preactivation layer implementation: code
+    Torch, MNIST, 100 layers: blog , code
+    A winning entry in Kaggle's right whale recognition challenge: blog , code
+    Neon, Place2 (mini), 40 layers: blog , code
+    Tensorflow with tflearn, with CIFAR-10 and MNIST: code
+    Tensorflow with skflow, with MNIST: code
+    Stochastic dropout in Keras: code
+    ResNet in Chainer: code
+    Stochastic dropout in Chainer: code
+    Wide Residual Networks in Keras: code
+    ResNet in TensorFlow 0.9+ with pretrained caffe weights: code
+    ResNet in PyTorch: code
+
+In addition, this [code] ( https://github.com/ry/tensorflow-resnet ) by Ryan Dahl helps to convert the pre-trained models to TensorFlow.
+Highway Networks
+
+Highway Networks take inspiration from Long Short Term Memory (LSTM) and allow training of deep, efficient networks (with hundreds of layers) with conventional gradient-based methods
+Papers
+
+    Recurrent Highway Networks (2016) [ original code ], introducing recurrent highway networks, which increases space depth in recurrent networks
+    Training Very Deep Networks (2015) , introducing highway neural networks
+
+Implementations
+
+    Lasagne: code
+    Caffe: code
+    Torch: code
+    Tensorflow: blog , code
+    PyTorch: code
+
+Very Deep Learning Theory
+
+Theories in very deep learning concentrate on the ideas that very deep networks with skip connections are able to efficiently approximate recurrent computations (similar to the recurrent connections in the visual cortex) or are actually exponential ensembles of shallow networks
+Papers
+
+    Identity Matters in Deep Learning considers identity parameterizations from a theoretical perspective and proofs that arbitrarily deep linear residual networks have no spurious local optima
+    The Shattered Gradients Problem: If resnets are the answer, then what is the question? argues that gradients of very deep networks resemble white noise (thus are harder to optimize). Resnets are more resistant to shattering (decaying sublinearly)
+    Skip Connections as Effective Symmetry-Breaking hypothesizes that ResNets improve performance by breaking symmetries
+    Highway and Residual Networks learn Unrolled Iterative Estimation , argues that instead of learning a new representation at each layer, the layers within a stage rather work as an iterative refinement of the same features.
+    Demystifying ResNet , shows mathematically that 2-shortcuts in ResNets achieves the best results because they have non-degenerate depth-invariant initial condition numbers (in comparison to 1 or 3-shortcuts), making it easy for the optimisation algorithm to escape from the initial point.
+    Wider or Deeper? Revisiting the ResNet Model for Visual Recognition , extends results from Veit et al. and shows that it is actually a linear ensemble of subnetworks. Wide ResNet work well, because current very deep networks are actually over-deepened (hence not trained end-to-end), due to the much shorter effective path length.
+    Residual Networks are Exponential Ensembles of Relatively Shallow Networks , shows that ResNets behaves just like ensembles of shallow networks in test time. This suggests that in addition to describing neural networks in terms of width and depth, there is a third dimension: multiplicity, the size of the implicit ensemble
+    Bridging the Gaps Between Residual Learning, Recurrent Neural Networks and Visual Cortex , shows that ResNets with shared weights work well too although having fewer parameters
+    A Simple Way to Initialize Recurrent Networks of Rectified Linear Units , pre-ResNet Hinton paper that suggested, that the identity matrix could be useful for the initialization of deep networks
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.
