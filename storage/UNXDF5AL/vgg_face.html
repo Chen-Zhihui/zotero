@@ -1,0 +1,260 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keywords" value="vgg face cnn face recognition">
+<meta name="description=" content=" VGG Face CNN descriptor model and results
+page">
+<title>
+VGG Face Descriptor
+</title>
+<link rel="stylesheet" type="text/css" href="vggcss.css" media="all">
+<link rel="stylesheet" type="text/css" href="vggdata.css" media="all">
+<link rel="stylesheet" type="text/css" href="vggdatawide.css" media="all">
+<link rel="stylesheet" type="text/css" href="listpubli.css" media="all">
+
+<style type="text/css">
+.slidingDiv {
+    display:none;
+    background-color: #BDBDBD;
+    padding:5px;
+    margin-top:1px;
+    border-bottom:5px solid #1C1C1C;
+    border-top:5px solid #1C1C1C; 
+    zoom: 1;
+}
+</style>
+
+<script async="" src="analytics"></script><script async="" src="analytics"></script><script type="text/javascript" async="" src="ga"></script><script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="usecookies.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67283445-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+<body>
+<div class="slidingDiv" style="display: block;">
+    <table style="vertical-align:middle">
+    <tbody><tr>
+        <td>
+        <p align="center">
+        <b>Cookies</b>
+        </p>
+        <p align="left">This website uses Google Analytics to help us
+        improve the website content.  This requires the use of
+        standard Google Analytics cookies, as well as a cookie to
+        record your response to this confirmation request. If this is
+        OK with you, please click 'Accept cookies', otherwise you will
+        see this notice on every page. For more information, please <a href="http://www.admin.ox.ac.uk/dataprotection/cookies/">click
+        here</a>.</p>
+        </td>
+        <td>
+        <button id="hide">Accept cookies</button>
+        </td>
+    </tr>
+    </tbody></table>
+</div>
+
+<div id="vgg_header">
+<table style="width:100%;">
+<tbody><tr>
+<td>
+<div style="font-size:30px; font-weight: bold; letter-spacing: 0.2em;">
+<a href="http://www.robots.ox.ac.uk/%7Evgg/">Visual Geometry Group</a>
+</div>
+<div style="font-size:15px; font-weight:bold; color:white;">
+Department of Engineering Science, University of Oxford
+</div>
+</td>
+<td style="width: 50%">
+<!-- <img src="http://www.ox.ac.uk/images/hi_res/2241_ox_brand3_pos_rect.gif" style="float:right;" /> -->
+<img style="float:right;width:225px;" src="oxlogo_transparent.png">
+</td>
+</tr>
+</tbody></table>
+</div>
+<h2>VGG Face Descriptor</h2>
+
+<div id="main" style="width: 70%;">
+<h4>
+    <a href="http://www.robots.ox.ac.uk/%7Eomkar/">Omkar M. Parkhi</a>,
+    <a href="http://www.vlfeat.org/%7Evedaldi/">Andrea Vedaldi</a>,
+    <a href="http://www.robots.ox.ac.uk/%7Eaz/">Andrew Zisserman</a>    
+<br>
+<br>
+</h4>
+
+<h3>Overview</h3>
+<p>
+<br>
+
+This page contains the download links for the source code for computing the <b>VGG-Face</b> CNN descriptor, described in [1].
+<br>
+<br>
+The VGG-Face CNN descriptors are computed using our CNN implementation 
+based on the VGG-Very-Deep-16 CNN architecture as described in [1] and 
+are evaluated on
+the Labeled Faces in the Wild [2] and the YouTube Faces [3] dataset. 
+<br>
+<br>
+Additionally the code also contains our fast implementation of the DPM Face detector of [3] using the cascade DPM code of [4].
+<br>
+Details of how to crop the face given a detection can be found in 
+vgg_face_matconvnet package below in class faceCrop in +lib/+face_proc 
+directory.
+<br>
+<br>
+
+
+These models can be used for non-commercial research purposes under  <a href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution License</a>. 
+
+</p>
+<h3>Results</h3>
+<img src="table.png" height="200px">
+<br>
+<p>
+
+</p><h3>Downloads</h3>
+<br>
+<p>
+  </p><table style="margin: 0pt 0pt 2em; text-align: left;" border="0" cellpadding="5">
+    <tbody><tr>
+        <th>Filename</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><a href="http://www.robots.ox.ac.uk/%7Evgg/software/vgg_face/src/vgg_face_matconvnet.tar.gz">vgg_face_matconvnet.tar.gz</a></td>
+        <td>Face detection and VGG Face descriptor source code and models (MatConvNet)</td>
+    </tr>    
+    <tr>
+        <td><a href="http://www.robots.ox.ac.uk/%7Evgg/software/vgg_face/src/vgg_face_torch.tar.gz">vgg_face_torch.tar.gz</a></td>
+        <td>VGG Face descriptor source code and models (Torch)</td>
+    </tr>        
+    <tr>
+        <td><a href="http://www.robots.ox.ac.uk/%7Evgg/software/vgg_face/src/vgg_face_caffe.tar.gz">vgg_face_caffe.tar.gz</a></td>
+        <td>VGG Face descriptor source code and models (Caffe)</td>
+    </tr>        
+  </tbody></table>
+<p></p>
+
+<h3>Relevant Publications</h3>
+<p>
+
+</p><div class="ref">
+  <div class="authors">[1]
+   O. M. Parkhi,
+   A. Vedaldi,
+   A. Zisserman
+  </div>
+  <div class="title">
+   <a href="http://www.robots.ox.ac.uk/%7Evgg/publications/2015/Parkhi15/parkhi15.pdf">
+    Deep Face Recognition
+   </a> &nbsp; 
+</div>
+  <div class="conf">
+   British Machine Vision Conference,  2015
+  </div>
+  <div class="links">
+     <a onclick='if (document.getElementById("BIBParkhi15").style.display=="none") document.getElementById("BIBParkhi15").style.display="block"; else document.getElementById("BIBParkhi15").style.display="none";'> Bibtex </a> |  <a onclick='if (document.getElementById("ABSParkhi15").style.display=="none") document.getElementById("ABSParkhi15").style.display="block"; else document.getElementById("ABSParkhi15").style.display="none";'> Abstract </a> |  <a href="http://www.robots.ox.ac.uk/%7Evgg/publications/2015/Parkhi15/parkhi15.pdf"> PDF </a> | <a href="http://www.robots.ox.ac.uk/%7Evgg/publications/2015/Parkhi15/poster.pdf"> Poster </a> | 
+ <a href="http://www.robots.ox.ac.uk/%7Evgg/publications/2015/Parkhi15/presentation.pptx"> Presentation </a> | 
+ <a href="http://www.robots.ox.ac.uk/%7Evgg/software/vgg_face/"> Models and Code </a> |  <a href="http://www.robots.ox.ac.uk/%7Evgg/publications/2015/Parkhi15"> All </a>   </div>
+  <div style="display: none;" class="BibtexExpand" id="BIBParkhi15">
+   <pre class="bibtex">@InProceedings{Parkhi15,
+  author       = "Parkhi, O. M. and Vedaldi, A. and Zisserman, A.",
+  title        = "Deep Face Recognition",
+  booktitle    = "British Machine Vision Conference",
+  year         = "2015",
+}
+</pre>
+
+  </div>
+  <div style="display: none;" class="AbstractExpand" id="ABSParkhi15"><br>
+
+   The goal of this paper is face recognition -- from either a single
+photograph or from a set of faces tracked in a video. Recent progress
+in this area has been due to two factors: (i) end to end learning for
+the task using a convolutional neural network (CNN), and (ii) the
+availability of very large scale training datasets.
+
+We make two contributions: first, we show how a very large scale dataset (2.6M
+images, over 2.6K people) can be assembled by a combination of
+automation and human in the loop, and discuss the trade off between
+data purity and time; second, we traverse through the complexities of deep
+network training and face recognition to present methods and procedures to
+achieve comparable state of the art results on the standard LFW and YTF
+face benchmarks.  </div>
+ </div>
+ 
+ <br>
+
+ <div class="ref">
+  <div class="authors"> [2]
+   G. B. Huang, M. Ramesh, T. Berg, E. Learned-Miller
+  </div>
+  <div class="title">
+   Labeled faces in the wild: A database for studying face recognition in unconstrained environments.
+  </div>
+  <div class="conf">
+   Technical Report 07-49, University of Massachusetts, Amherst, 2007.
+  </div>
+ </div>
+ 
+<br>
+
+ <div class="ref">
+  <div class="authors"> [3]
+   L. Wolf, T. Hassner, I. Maoz
+  </div>
+  <div class="title">
+   Face Recognition in Unconstrained Videos with Matched Background Similarity.
+  </div>
+  <div class="conf">
+   Computer Vision and Pattern Recognition (CVPR), 2011.
+  </div>
+ </div>
+<br>
+
+ <div class="ref">
+  <div class="authors"> [4]
+   M. Mathias, R. Benenson, M. Pedersoli, L. Van Gool
+  </div>
+  <div class="title">
+   Face detection without bells and whistles.
+  </div>
+  <div class="conf">
+   European Conference on Computer Vision, 2014.
+  </div>
+ </div>
+
+<br>
+
+  <div class="ref">
+  <div class="authors"> [5]
+   P. Felzenszwalb, R. Girshick, D. McAllester
+  </div>
+  <div class="title">
+   Cascade Object Detection with Deformable Part Models.
+  </div>
+  <div class="conf">
+   Computer Vision and Pattern Recognition (CVPR), 2010.
+  </div>
+ </div>
+
+ <br>
+ 
+
+ 
+ 
+<div id="footbar">
+Page maintained by <a href="mailto:vgg-webmasters@robots.ox.ac.takethisout.uk"><tt>vgg-webmasters</tt></a> at the <tt>robots.ox.ac.uk</tt> domain.
+<br>
+Last updated 04th September 2015.
+</div>
+
+
+
+</div></body></html>

@@ -1,15 +1,15 @@
 {
 	"translatorID": "6614a99-479a-4524-8e30-686e4d66663e",
+	"translatorType": 4,
 	"label": "Nature Publishing Group",
 	"creator": "Aurimas Vinckevicius",
 	"target": "^https?://(www\\.)?nature\\.com/([^?/]+/)?(journal|archive|research|topten|search|full|abs|current_issue\\.htm|most\\.htm|articles/)",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2018-02-03 18:26:58"
+	"lastUpdated": "2018-03-27 06:00:00"
 }
 
 /**
@@ -465,6 +465,7 @@ function isNature(url) {
 }
 
 function detectWeb(doc, url) {
+	if (url.endsWith('.pdf')) return false;
 	if (url.search(/\/(full|abs)\/[^\/]+($|\?|#)|\/fp\/.+?[?&]lang=ja(?:&|$)|\/articles\//) != -1) {
 		return 'journalArticle';
 
@@ -728,10 +729,9 @@ function doWeb(doc, url) {
 			//return false; //keep going so we can report this to zotero.org instead of "silently" failing
 		}
 		var items = {};
-		var title, url;
 		for (var i = 0; i < nodes.length; i++) {
-			title = Zotero.Utilities.xpathText(nodes[i], titlex, null, '');
-			link = Zotero.Utilities.xpath(nodes[i], linkx);
+			let title = Zotero.Utilities.xpathText(nodes[i], titlex, null, '');
+			let link = Zotero.Utilities.xpath(nodes[i], linkx);
 			if (title && link.length == 1) {
 				items[link[0].href] = title.trim();
 			}

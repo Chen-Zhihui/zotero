@@ -1,0 +1,144 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 3
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 10
+    Star 10
+    Fork
+    Where should we fork this repository?
+    Loading
+    7
+
+biokoda / actordb_driver
+Code Issues 1 Pull requests 0 Projects 0 Wiki Insights
+actordb storage engine
+
+    490 commits
+    5 branches
+    29 releases
+    1 contributor
+
+    C 99.5%
+    Other 0.5%
+
+C Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+lmdb lmdbthr master singlecon wthreads
+Nothing to show
+0.10.25 0.10.24 0.10.23 0.10.22 0.10.21 0.10.20 0.10.19 0.10.18 0.10.17 0.10.16 0.10.15 0.10.14 0.10.13 0.10.10 0.10.8 0.10.7 0.10.5 0.10.4 0.10.3 0.10.2 0.10.1 0.10 0.9pre9 0.9pre8 0.9pre7 0.9pre5 0.9pre4 0.9pre2 0.9pre1
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	c_src 	sqlite 3.18.0 	Apr 25, 2017
+	src 	bump version 	Apr 26, 2017
+	test 	string rand bytes 	Dec 17, 2017
+	Makefile 	remove unused crap 	Mar 23, 2016
+	README.md 	switch to lfqueue 	Mar 4, 2016
+	rebar.config 	rebar3 	Aug 11, 2017
+README.md
+
+ActorDB interface to SQLite and LMDB.
+
+c_src/actordb_driver_nif.c - erlang interface
+
+c_src/wal.c - interface between SQLite and LMDB. Identical API to original SQLite WAL implementation.
+
+c_src/mdb.c - LMDB
+
+c_src/sqlite3.c - SQLite amalgamation code without wal.c
+
+c_src/queue.c - old work queue.
+
+c_src/lfqueue.c - lock free queue used atm.
+
+c_src/wbuf.c - another lock free experiment that is not used. A lock free write buffer.
+
+c_src/tool.c - actordb_tool application.
+
+c_src/nullvfs.c - an SQLite VFS that does nothing because we don't need sqlite files. Everything is in LMDB through the WAL API.
+
+c_src/lz4.c - LZ4 compression. Every SQLite page stored in LMDB is compressed using LZ4.
+
+c_src/noerl.c - Erlang-less app that uses our SQLite+LMDB engine. Used for easy profiling and debugging.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

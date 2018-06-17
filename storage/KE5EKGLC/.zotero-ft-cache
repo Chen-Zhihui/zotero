@@ -1,0 +1,313 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 82
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 242
+    Star 242
+    Fork
+    Where should we fork this repository?
+    Loading
+    148
+
+datastax / cpp-driver
+Code Pull requests 5 Projects 0 Wiki Insights
+DataStax C/C++ Driver for Apache Cassandra https://docs.datastax.com/en/develope…
+
+    1,735 commits
+    8 branches
+    30 releases
+    46 contributors
+    Apache-2.0
+
+    C++ 58.2%
+    Java 16.6%
+    Scala 14.9%
+    C 6.4%
+    Batchfile 1.9%
+    CMake 1.8%
+    Other 0.2%
+
+C++ Java Scala C Batchfile CMake Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+1.0 2.0 CPP-539 CPP-550-562 CPP-578 gh-pages master travis_update
+Nothing to show
+2.8.1 2.8.0 2.7.1 2.7.0 2.6.0 2.5.0 2.4.3 2.4.2 2.4.1 2.4.0 2.3.0 2.2.2 2.2.1 2.2.0 2.2.0-beta1 2.1.0 2.1.0-beta 2.0.1 2.0.0 1.0.4 1.0.3 1.0.2 1.0.1 1.0.0 1.0.0-rc1 1.0.0-beta5 1.0.0-beta4 1.0.0-beta3 1.0.0-beta2 1.0.0-beta1
+Nothing to show
+New pull request
+Latest commit 3d88847 Feb 14, 2018
+@mpenick @mikefero
+mpenick and mikefero CPP-572 - Fix DC-aware unit test
+Permalink
+	Failed to load latest commit information.
+	bin 	CPP-449: Adding Visual Studio 2017 to automated build script 	Sep 21, 2017
+	cmake/ modules 	CPP-531 - Migrating boost test for Cassandra data types ( #402 ) 	Feb 13, 2018
+	examples 	Fix project folders in cmake 	Nov 9, 2017
+	gtests 	CPP-572 - Fix DC-aware unit test 	Feb 14, 2018
+	include 	Release preparations for v2.8.1 	Feb 14, 2018
+	packaging 	CPP-471: Removing dates from copyright headers 	Nov 10, 2017
+	src 	CPP-572 - DC aware policy query plan returns hosts that are not conne… 	Feb 13, 2018
+	test 	CPP-531 - Migrating boost test for Cassandra data types ( #402 ) 	Feb 13, 2018
+	topics 	CPP-471: Removing mention of IRC 	Nov 10, 2017
+	.gitignore 	CPP-536 - Port unit tests to gtest 	Oct 28, 2017
+	.travis.yml 	CPP-536 - Port unit tests to gtest 	Oct 28, 2017
+	CHANGELOG.md 	Release preparations for v2.8.1 	Feb 14, 2018
+	CMakeLists.txt 	Fix statically linked examples 	Nov 9, 2017
+	CONTRIBUTING.md 	Fixing typo in CONTRIBUTING.md 	Apr 17, 2015
+	Doxyfile.in 	Fixed header docs for new features 	Mar 15, 2016
+	LICENSE.txt 	initial version based on libCql 	Aug 22, 2013
+	README.md 	CPP-471: Removing dates from copyright headers 	Nov 10, 2017
+	appveyor.yml 	CPP-536 - Publish unit test xml in appveyor 	Oct 28, 2017
+	build.yaml 	Release preparations for v2.8.1 	Feb 14, 2018
+	cassconfig.hpp.in 	Merge pull request #361 from devnexen/randomization_changes 	Sep 21, 2017
+	cmake_uninstall.cmake.in 	Improved and refactored CMake build system. 	Sep 3, 2013
+	docs.yaml 	Release preparations for v2.8.1 	Feb 14, 2018
+	vc_build.bat 	Release preparations for v2.8.1 	Feb 14, 2018
+README.md
+DataStax C/C++ Driver for Apache Cassandra
+
+Build Status: Linux Build Status: Windows
+
+A modern, feature-rich] and highly tunable C/C++ client library for Apache Cassandra 2.1+ using exclusively Cassandra's binary protocol and Cassandra Query Language v3. Use the DSE C/C++ driver for better compatibility and support for DataStax Enterprise .
+Getting the Driver
+
+Binary versions of the driver, available for multiple operating systems and multiple architectures, can be obtained from our download server . The source code is made available via GitHub . If using DataStax Enterprise use the DSE C/C++ driver instead .
+
+Packages for the driver's dependencies, libuv (1.x) and OpenSSL, are also provided under the dependencies directory for each platform (if applicable). Note : CentOS and Ubuntu use the version of OpenSSL provided with the distribution:
+
+    CentOS 6
+    CentOS 7
+    Ubuntu 14.04
+    Ubuntu 16.04
+    Windows
+
+Note : DataStax products do not support big-endian systems.
+What's New in 2.5/2.6
+
+    Support for duration
+    Speculative execution
+    Idempotent statements
+    SSL can be enabled without re-initializing the underlying library (e.g. OpenSSL)
+
+More information about features included in 2.3 can be found in this blog post .
+Upgrading from 2.0 or 2.1 to 2.2+
+
+The new schema metadata API in 2.2 required some breaking API changes. Applications that used the previous schema metadata API from 2.0 and 2.1 will require some small modifications to use the new API. More information about the new schema metadata API can be found in this blog post .
+Upgrading from 1.0 to 2.0+
+
+There were a couple breaking API changes between 1.0 and 2.0 that are documented here .
+Features
+
+    Asynchronous API
+    Simple , Prepared , and Batch statements
+    Asynchronous I/O , parallel execution , and request pipelining
+    Connection pooling
+    Automatic node discovery
+    Automatic reconnection
+    Configurable load balancing
+    Works with any cluster size
+    Authentication
+    SSL
+    Latency-aware routing
+    Performance metrics
+    Tuples and UDTs
+    Nested collections
+    Retry policies
+    Client-side timestamps
+    Data types
+    Idle connection heartbeats
+    Support for materialized view and secondary index metadata
+    Support for clustering key order, frozen<> and Cassandra version metadata
+    Blacklist , whitelist DC , and blacklist DC load balancing policies
+    Custom authenticators
+    Reverse DNS with SSL peer identity verification support
+    Randomized contact points
+
+Compatibility
+
+This driver works exclusively with the Cassandra Query Language v3 (CQL3) and Cassandra's native protocol. The current version works with:
+
+    Apache Cassandra versions 2.1, 2.2 and 3.0+
+    Architectures: 32-bit (x86) and 64-bit (x64)
+    Compilers: GCC 4.1.2+, Clang 3.4+, and MSVC 2010/2012/2013/2015/2017
+
+If using DataStax Enterprise the DSE C/C++ driver provides more features and better compatibility. A complete compatibility matrix for both Apache Cassandra and DataStax Enterprise can be found here .
+Documentation
+
+    Home
+    API
+    Getting Started
+    Building
+
+Getting Help
+
+    JIRA: https://datastax-oss.atlassian.net/browse/CPP
+    Mailing List: https://groups.google.com/a/lists.datastax.com/forum/#!forum/cpp-driver-user
+    DataStax Academy via Slack: https://academy.datastax.com/slack
+
+Feedback Requested
+
+Help us focus our efforts! Provide your input on the C/C++ Driver Platform and Runtime Survey (we kept it short).
+Examples
+
+The driver includes several examples in the examples directory.
+A Simple Example
+
+ # include  < cassandra.h >  
+# include  < stdio.h >  
+
+int  main ( int  argc, char * argv[]) {
+  /* Setup and connect to cluster */  
+  CassFuture* connect_future = NULL ;
+  CassCluster* cluster = cass_cluster_new ();
+  CassSession* session = cass_session_new ();
+  char * hosts = " 127.0.0.1 "  ;
+  if  (argc > 1 ) {
+    hosts = argv[ 1 ];
+  }
+
+  /* Add contact points */  
+  cass_cluster_set_contact_points (cluster, hosts);
+
+  /* Provide the cluster object as configuration to connect the session */  
+  connect_future = cass_session_connect (session, cluster);
+
+  if  ( cass_future_error_code (connect_future) == CASS_OK) {
+    CassFuture* close_future = NULL ;
+
+    /* Build statement and execute query */  
+    const  char * query = " SELECT release_version FROM system.local "  ;
+    CassStatement* statement = cass_statement_new (query, 0 );
+
+    CassFuture* result_future = cass_session_execute (session, statement);
+
+    if  ( cass_future_error_code (result_future) == CASS_OK) {
+      /* Retrieve result set and get the first row */  
+      const  CassResult* result = cass_future_get_result (result_future);
+      const  CassRow* row = cass_result_first_row (result);
+
+      if  (row) {
+        const  CassValue* value = cass_row_get_column_by_name (row, " release_version "  );
+
+        const  char * release_version;
+        size_t  release_version_length;
+        cass_value_get_string (value, &release_version, &release_version_length);
+        printf ( " release_version: ' %.*s ' \n "  , ( int )release_version_length, release_version);
+      }
+
+      cass_result_free (result);
+    } else  {
+      /* Handle error */  
+      const  char * message;
+      size_t  message_length;
+      cass_future_error_message (result_future, &message, &message_length);
+      fprintf (stderr, " Unable to run query: ' %.*s ' \n "  , ( int )message_length, message);
+    }
+
+    cass_statement_free (statement);
+    cass_future_free (result_future);
+
+    /* Close the session */  
+    close_future = cass_session_close (session);
+    cass_future_wait (close_future);
+    cass_future_free (close_future);
+  } else  {
+    /* Handle error */  
+    const  char * message;
+    size_t  message_length;
+    cass_future_error_message (connect_future, &message, &message_length);
+    fprintf (stderr, " Unable to connect: ' %.*s ' \n "  , ( int )message_length, message);
+  }
+
+  cass_future_free (connect_future);
+  cass_cluster_free (cluster);
+  cass_session_free (session);
+
+  return  0 ;
+}
+
+License
+
+Copyright (c) DataStax, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

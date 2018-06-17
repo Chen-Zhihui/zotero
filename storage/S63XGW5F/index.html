@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html class="client-js" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Rectifier (neural networks) - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Rectifier_(neural_networks)","wgTitle":"Rectifier (neural networks)","wgCurRevisionId":830269188,"wgRevisionId":830269188,"wgArticleId":37862937,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["CS1 maint: Uses authors parameter","CS1 maint: Uses editors parameter","Articles containing potentially dated statements from 2018","All articles containing potentially dated statements","Artificial neural networks"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Rectifier_(neural_networks)","wgRelevantArticleId":37862937,"wgRequestId":"WrXuEQpAICIAACcNob4AAABE","wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgPreferredVariant":"en","wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikibaseItemId":"Q7303176","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":false,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.math.styles":"ready","ext.cite.styles":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.math.scripts","ext.cite.a11y","site","mediawiki.page.startup","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","mmv.head","mmv.bootstrap.autostart","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="load_003.css">
+<script async="" src="load.php"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load.css">
+<link rel="stylesheet" href="load_002.css">
+<meta name="generator" content="MediaWiki 1.31.0-wmf.26">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-crossorigin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Rectifier_and_softplus_functions.svg/1200px-Rectifier_and_softplus_functions.svg.png">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit">
+<link rel="edit" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit">
+<link rel="apple-touch-icon" href="https://en.wikipedia.org/static/apple-touch/wikipedia.png">
+<link rel="shortcut icon" href="https://en.wikipedia.org/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikipedia.org/w/api.php?action=rsd">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="https://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Rectifier_%28neural_networks%29">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+<script src="load_002.php"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Rectifier_neural_networks rootpage-Rectifier_neural_networks skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">Rectifier (neural networks)</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"><div class="mw-revision"><div id="mw-revision-info-current"><table id="revision-info-current" class="plainlinks fmbox fmbox-system" role="presentation"><tbody><tr><td class="mbox-text"><b>This is the <a href="https://en.wikipedia.org/wiki/Help:Page_history" title="Help:Page history">current revision</a> of this page, as edited by <span id="mw-revision-name"><a href="https://en.wikipedia.org/wiki/Special:Contributions/207.107.150.250" class="mw-userlink mw-anonuserlink" title="Special:Contributions/207.107.150.250"><bdi>207.107.150.250</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:207.107.150.250" class="mw-usertoollinks-talk" title="User talk:207.107.150.250">talk</a>)</span></span> at <span id="mw-revision-date">20:05, 13 March 2018</span><span id="mw-revision-summary"> <span class="comment">(Scale invariance for positive values only)</span></span>. The present address (URL) is a <a href="https://en.wikipedia.org/wiki/Help:Permanent_link" title="Help:Permanent link">permanent link</a> to this version.</b></td></tr></tbody></table><div id="revision-info-current-plain" style="display: none;">Revision as of 20:05, 13 March 2018 by <a href="https://en.wikipedia.org/wiki/Special:Contributions/207.107.150.250" class="mw-userlink mw-anonuserlink" title="Special:Contributions/207.107.150.250"><bdi>207.107.150.250</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:207.107.150.250" class="mw-usertoollinks-talk" title="User talk:207.107.150.250">talk</a>)</span> <span class="comment">(Scale invariance for positive values only)</span></div>
+</div><div id="mw-revision-nav">(<a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;diff=prev&amp;oldid=830269188" title="Rectifier (neural networks)">diff</a>) <a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;direction=prev&amp;oldid=830269188" title="Rectifier (neural networks)">← Previous revision</a>&nbsp;| Latest revision (diff)&nbsp;| Newer revision → (diff)</div></div></div>
+								<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="mw-parser-output"><div class="thumb tright">
+<div class="thumbinner" style="width:222px;"><a href="https://en.wikipedia.org/wiki/File:Rectifier_and_softplus_functions.svg" class="image"><img alt="" src="220px-Rectifier_and_softplus_functions.png" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Rectifier_and_softplus_functions.svg/330px-Rectifier_and_softplus_functions.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Rectifier_and_softplus_functions.svg/440px-Rectifier_and_softplus_functions.svg.png 2x" data-file-width="495" data-file-height="360" width="220" height="160"></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="https://en.wikipedia.org/wiki/File:Rectifier_and_softplus_functions.svg" class="internal" title="Enlarge"></a></div>
+Plot of the rectifier (blue) and softplus (green) functions near <span class="nowrap"><i>x</i> = 0</span></div>
+</div>
+</div>
+<p>In the context of <a href="https://en.wikipedia.org/wiki/Artificial_neural_network" title="Artificial neural network">artificial neural networks</a>, the <b>rectifier</b> is an <a href="https://en.wikipedia.org/wiki/Activation_function" title="Activation function">activation function</a> defined as the positive part of its argument:</p>
+<p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)=x^{+}=\max(0,x)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <msup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>+</mo>
+          </mrow>
+        </msup>
+        <mo>=</mo>
+        <mo movablelimits="true" form="prefix">max</mo>
+        <mo stretchy="false">(</mo>
+        <mn>0</mn>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)=x^{+}=\max(0,x)}</annotation>
+  </semantics>
+</math></span><img src="bb2c32931fad595832c8e66f2f73760ebcbc0096.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:23.116ex; height:3.009ex;" alt="{\displaystyle f(x)=x^{+}=\max(0,x)}"></span>,</p>
+<p>where <i>x</i> is the input to a neuron. This is also known as a <a href="https://en.wikipedia.org/wiki/Ramp_function" title="Ramp function">ramp function</a> and is analogous to <a href="https://en.wikipedia.org/wiki/Half-wave_rectification" class="mw-redirect" title="Half-wave rectification">half-wave rectification</a> in electrical engineering. This <a href="https://en.wikipedia.org/wiki/Activation_function" title="Activation function">activation function</a> was first introduced to a dynamical network by Hahnloser et al. in a 2000 paper in Nature<sup id="cite_ref-Hahnloser2000_1-0" class="reference"><a href="#cite_note-Hahnloser2000-1">[1]</a></sup> with strong <a href="https://en.wikipedia.org/wiki/Biological" class="mw-redirect" title="Biological">biological</a> motivations and mathematical justifications.<sup id="cite_ref-Hahnloser2001_2-0" class="reference"><a href="#cite_note-Hahnloser2001-2">[2]</a></sup>. It has been demonstrated for the first time in 2011 to enable better training of deeper networks <sup id="cite_ref-glorot2011_3-0" class="reference"><a href="#cite_note-glorot2011-3">[3]</a></sup>, compared to the widely used activation functions prior to 2011, i.e., the <a href="https://en.wikipedia.org/wiki/Logistic_function" title="Logistic function">logistic sigmoid</a> (which is inspired by <a href="https://en.wikipedia.org/wiki/Probability_theory" title="Probability theory">probability theory</a>; see <a href="https://en.wikipedia.org/wiki/Logistic_regression" title="Logistic regression">logistic regression</a>) and its more practical<sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[4]</a></sup> counterpart, the <a href="https://en.wikipedia.org/wiki/Hyperbolic_function" title="Hyperbolic function">hyperbolic tangent</a>. The rectifier is, as of 2018<sup class="plainlinks noexcerpt noprint asof-tag update" style="display:none;"><a class="external text" href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit">[update]</a></sup>, the most popular activation function for <a href="https://en.wikipedia.org/wiki/Deep_learning" title="Deep learning">deep neural networks</a>.<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[5]</a></sup><sup id="cite_ref-6" class="reference"><a href="#cite_note-6">[6]</a></sup></p>
+<p>A unit employing the rectifier is also called a <b>rectified linear unit</b> (<b>ReLU</b>).<sup id="cite_ref-nair2010_7-0" class="reference"><a href="#cite_note-nair2010-7">[7]</a></sup></p>
+<p>A smooth approximation to the rectifier is the <a href="https://en.wikipedia.org/wiki/Analytic_function" title="Analytic function">analytic function</a></p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)=\log(1+\exp x),}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mi>log</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mn>1</mn>
+        <mo>+</mo>
+        <mi>exp</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>,</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)=\log(1+\exp x),}</annotation>
+  </semantics>
+</math></span><img src="b298c44fca08f68206626c12818296d1bb89346c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:22.216ex; height:2.843ex;" alt="{\displaystyle f(x)=\log(1+\exp x),}"></span></dd>
+</dl>
+<p>which is called the <b>softplus</b> function.<sup id="cite_ref-8" class="reference"><a href="#cite_note-8">[8]</a></sup> The derivative of softplus is <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f'(x)=\exp x/(1+\exp x)=1/(1+\exp(-x))}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>f</mi>
+          <mo>′</mo>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mi>exp</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mi>x</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo>/</mo>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mn>1</mn>
+        <mo>+</mo>
+        <mi>exp</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mn>1</mn>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo>/</mo>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mn>1</mn>
+        <mo>+</mo>
+        <mi>exp</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mo>−<!-- − --></mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f'(x)=\exp x/(1+\exp x)=1/(1+\exp(-x))}</annotation>
+  </semantics>
+</math></span><img src="4994190a6bc106b3dea78c55018aab00e5897a89.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:45.491ex; height:3.009ex;" alt="{\displaystyle f'(x)=\exp x/(1+\exp x)=1/(1+\exp(-x))}"></span>, i.e. the <a href="https://en.wikipedia.org/wiki/Logistic_function" title="Logistic function">logistic function</a>.</p>
+<p>Rectified linear units find applications in <a href="https://en.wikipedia.org/wiki/Computer_vision" title="Computer vision">computer vision</a><sup id="cite_ref-glorot2011_3-1" class="reference"><a href="#cite_note-glorot2011-3">[3]</a></sup> and <a href="https://en.wikipedia.org/wiki/Speech_recognition" title="Speech recognition">speech recognition</a><sup id="cite_ref-tothl2013_9-0" class="reference"><a href="#cite_note-tothl2013-9">[9]</a></sup><sup id="cite_ref-maas2014_10-0" class="reference"><a href="#cite_note-maas2014-10">[10]</a></sup> using <a href="https://en.wikipedia.org/wiki/Deep_learning" title="Deep learning">deep neural nets</a>.</p>
+<p></p>
+<div id="toc" class="toc">
+<div class="toctitle" dir="ltr" xml:lang="en" lang="en">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Variants"><span class="tocnumber">1</span> <span class="toctext">Variants</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Noisy_ReLUs"><span class="tocnumber">1.1</span> <span class="toctext">Noisy ReLUs</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#Leaky_ReLUs"><span class="tocnumber">1.2</span> <span class="toctext">Leaky ReLUs</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#ELUs"><span class="tocnumber">1.3</span> <span class="toctext">ELUs</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-5"><a href="#Advantages"><span class="tocnumber">2</span> <span class="toctext">Advantages</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#Potential_problems"><span class="tocnumber">3</span> <span class="toctext">Potential problems</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#See_also"><span class="tocnumber">4</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#References"><span class="tocnumber">5</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+<p></p>
+<h2><span class="mw-headline" id="Variants">Variants</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=1" title="Edit section: Variants">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<h3><span class="mw-headline" id="Noisy_ReLUs">Noisy ReLUs</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=2" title="Edit section: Noisy ReLUs">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Rectified linear units can be extended to include <a href="https://en.wikipedia.org/wiki/Gaussian_noise" title="Gaussian noise">Gaussian noise</a>, making them noisy ReLUs, giving<sup id="cite_ref-nair2010_7-1" class="reference"><a href="#cite_note-nair2010-7">[7]</a></sup></p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)=\max(0,x+Y)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mo movablelimits="true" form="prefix">max</mo>
+        <mo stretchy="false">(</mo>
+        <mn>0</mn>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo>+</mo>
+        <mi>Y</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)=\max(0,x+Y)}</annotation>
+  </semantics>
+</math></span><img src="914d071e5205a3c8f9e004b4d0d1abffe346acfd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:21.791ex; height:2.843ex;" alt="f(x)=\max(0,x+Y)"></span>, with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Y\sim {\mathcal {N}}(0,\sigma (x))}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Y</mi>
+        <mo>∼<!-- ∼ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">N</mi>
+          </mrow>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mn>0</mn>
+        <mo>,</mo>
+        <mi>σ<!-- σ --></mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Y\sim {\mathcal {N}}(0,\sigma (x))}</annotation>
+  </semantics>
+</math></span><img src="f7551c423d3f2bdb87108b7f6bdb48ff237bc1c8.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:15.621ex; height:3.009ex;" alt="Y\sim {\mathcal {N}}(0,\sigma (x))"></span></dd>
+</dl>
+<p>Noisy ReLUs have been used with some success in <a href="https://en.wikipedia.org/wiki/Restricted_Boltzmann_machine" title="Restricted Boltzmann machine">restricted Boltzmann machines</a> for computer vision tasks.<sup id="cite_ref-nair2010_7-2" class="reference"><a href="#cite_note-nair2010-7">[7]</a></sup></p>
+<h3><span class="mw-headline" id="Leaky_ReLUs">Leaky ReLUs</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=3" title="Edit section: Leaky ReLUs">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Leaky ReLUs allow a small, non-zero gradient when the unit is not active.<sup id="cite_ref-maas2014_10-1" class="reference"><a href="#cite_note-maas2014-10">[10]</a></sup></p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\0.01x&amp;{\mbox{otherwise}}\end{cases}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow>
+            <mo>{</mo>
+            <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+              <mtr>
+                <mtd>
+                  <mi>x</mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>if&nbsp;</mtext>
+                    </mstyle>
+                  </mrow>
+                  <mi>x</mi>
+                  <mo>&gt;</mo>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mn>0.01</mn>
+                  <mi>x</mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>otherwise</mtext>
+                    </mstyle>
+                  </mrow>
+                </mtd>
+              </mtr>
+            </mtable>
+            <mo fence="true" stretchy="true" symmetric="true"></mo>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\0.01x&amp;{\mbox{otherwise}}\end{cases}}}</annotation>
+  </semantics>
+</math></span><img src="01d5ac8361d825fe42fbde1ed42047aeac1e6160.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:27.374ex; height:6.176ex;" alt="f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\0.01x&amp;{\mbox{otherwise}}\end{cases}}"></span></dd>
+</dl>
+<p>Parametric ReLUs take this idea further by making the coefficient of 
+leakage into a parameter that is learned along with the other neural 
+network parameters.<sup id="cite_ref-prelu_11-0" class="reference"><a href="#cite_note-prelu-11">[11]</a></sup></p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\ax&amp;{\mbox{otherwise}}\end{cases}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow>
+            <mo>{</mo>
+            <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+              <mtr>
+                <mtd>
+                  <mi>x</mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>if&nbsp;</mtext>
+                    </mstyle>
+                  </mrow>
+                  <mi>x</mi>
+                  <mo>&gt;</mo>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mi>a</mi>
+                  <mi>x</mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>otherwise</mtext>
+                    </mstyle>
+                  </mrow>
+                </mtd>
+              </mtr>
+            </mtable>
+            <mo fence="true" stretchy="true" symmetric="true"></mo>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\ax&amp;{\mbox{otherwise}}\end{cases}}}</annotation>
+  </semantics>
+</math></span><img src="6883e7bff0d9ac2f89caa6c905be539bf7c13d65.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:24.47ex; height:6.176ex;" alt="f(x)={\begin{cases}x&amp;{\mbox{if }}x&gt;0\\ax&amp;{\mbox{otherwise}}\end{cases}}"></span></dd>
+</dl>
+<p>Note that for <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle a\leq 1}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>a</mi>
+        <mo>≤<!-- ≤ --></mo>
+        <mn>1</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle a\leq 1}</annotation>
+  </semantics>
+</math></span><img src="61c05a42305d4e23e657d8c185a4cf45bc4c29e2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:5.491ex; height:2.343ex;" alt="{\displaystyle a\leq 1}"></span>, this is equivalent to</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)=\max(x,ax)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mo movablelimits="true" form="prefix">max</mo>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo>,</mo>
+        <mi>a</mi>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)=\max(x,ax)}</annotation>
+  </semantics>
+</math></span><img src="50883a83c6ce19e78b75bb2003a7a88e1edc4646.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:18.574ex; height:2.843ex;" alt="f(x)=\max(x,ax)"></span></dd>
+</dl>
+<p>and thus has a relation to "maxout" networks.<sup id="cite_ref-prelu_11-1" class="reference"><a href="#cite_note-prelu-11">[11]</a></sup></p>
+<h3><span class="mw-headline" id="ELUs">ELUs</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=4" title="Edit section: ELUs">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Exponential linear units try to make the mean activations closer to 
+zero which speeds up learning. It has been shown that ELUs can obtain 
+higher classification accuracy than ReLUs.<sup id="cite_ref-12" class="reference"><a href="#cite_note-12">[12]</a></sup></p>
+<p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x\geq 0\\a(e^{x}-1)&amp;{\mbox{otherwise}}\end{cases}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow>
+            <mo>{</mo>
+            <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+              <mtr>
+                <mtd>
+                  <mi>x</mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>if&nbsp;</mtext>
+                    </mstyle>
+                  </mrow>
+                  <mi>x</mi>
+                  <mo>≥<!-- ≥ --></mo>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mi>a</mi>
+                  <mo stretchy="false">(</mo>
+                  <msup>
+                    <mi>e</mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                    </mrow>
+                  </msup>
+                  <mo>−<!-- − --></mo>
+                  <mn>1</mn>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mstyle displaystyle="false" scriptlevel="0">
+                      <mtext>otherwise</mtext>
+                    </mstyle>
+                  </mrow>
+                </mtd>
+              </mtr>
+            </mtable>
+            <mo fence="true" stretchy="true" symmetric="true"></mo>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x\geq 0\\a(e^{x}-1)&amp;{\mbox{otherwise}}\end{cases}}}</annotation>
+  </semantics>
+</math></span><img src="b777aa837ca498c0744ea19815cae9f32c44be4c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:31.208ex; height:6.176ex;" alt="{\displaystyle f(x)={\begin{cases}x&amp;{\mbox{if }}x\geq 0\\a(e^{x}-1)&amp;{\mbox{otherwise}}\end{cases}}}"></span></p>
+<p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle a}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>a</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle a}</annotation>
+  </semantics>
+</math></span><img src="ffd2487510aa438433a2579450ab2b3d557e5edc.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.23ex; height:1.676ex;" alt="a"></span> is a hyper-parameter to be tuned and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle a\geq 0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>a</mi>
+        <mo>≥<!-- ≥ --></mo>
+        <mn>0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle a\geq 0}</annotation>
+  </semantics>
+</math></span><img src="c33f2f7ac8b81e1296d581427bdb2d30a50a2b12.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:5.491ex; height:2.343ex;" alt="a\geq 0"></span> is a constraint.</p>
+<h2><span class="mw-headline" id="Advantages">Advantages</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=5" title="Edit section: Advantages">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul>
+<li>Biological plausibility: One-sided, compared to the <a href="https://en.wikipedia.org/wiki/Antisymmetric_relation" title="Antisymmetric relation">antisymmetry</a> of <a href="https://en.wikipedia.org/wiki/Tanh" class="mw-redirect" title="Tanh">tanh</a>.</li>
+<li>Sparse activation: For example, in a randomly initialized network, 
+only about 50% of hidden units are activated (having a non-zero output).</li>
+<li>Efficient gradient propagation: No <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem" title="Vanishing gradient problem">vanishing or exploding gradient</a> problems.</li>
+<li>Efficient computation: Only comparison, addition and multiplication.</li>
+<li>Scale-invariant: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \max(0,ax)=a\max(0,x){\mbox{ for }}a\geq 0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo movablelimits="true" form="prefix">max</mo>
+        <mo stretchy="false">(</mo>
+        <mn>0</mn>
+        <mo>,</mo>
+        <mi>a</mi>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mi>a</mi>
+        <mo movablelimits="true" form="prefix">max</mo>
+        <mo stretchy="false">(</mo>
+        <mn>0</mn>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mstyle displaystyle="false" scriptlevel="0">
+            <mtext>&nbsp;for&nbsp;</mtext>
+          </mstyle>
+        </mrow>
+        <mi>a</mi>
+        <mo>≥<!-- ≥ --></mo>
+        <mn>0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \max(0,ax)=a\max(0,x){\mbox{ for }}a\geq 0}</annotation>
+  </semantics>
+</math></span><img src="d63c8b54fc9e70103e54c7b30093c821fc2dde1e.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:34.706ex; height:2.843ex;" alt="{\displaystyle \max(0,ax)=a\max(0,x){\mbox{ for }}a\geq 0}"></span>.</li>
+</ul>
+<p>Rectifying activation functions were used to separate specific 
+excitation and unspecific inhibition in the Neural Abstraction Pyramid, 
+which was trained in a supervised way to learn several computer vision 
+tasks<sup id="cite_ref-NeuralAbstractionPyramid_13-0" class="reference"><a href="#cite_note-NeuralAbstractionPyramid-13">[13]</a></sup>. In 2011,<sup id="cite_ref-glorot2011_3-2" class="reference"><a href="#cite_note-glorot2011-3">[3]</a></sup> the use of the rectifier as a non-linearity has been shown to enable training deep <a href="https://en.wikipedia.org/wiki/Supervised_learning" title="Supervised learning">supervised</a> neural networks without requiring <a href="https://en.wikipedia.org/wiki/Unsupervised_learning" title="Unsupervised learning">unsupervised</a> pre-training. Rectified linear units, compared to <a href="https://en.wikipedia.org/wiki/Sigmoid_function" title="Sigmoid function">sigmoid function</a>
+ or similar activation functions, allow for faster and effective 
+training of deep neural architectures on large and complex datasets.</p>
+<h2><span class="mw-headline" id="Potential_problems">Potential problems</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=6" title="Edit section: Potential problems">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul>
+<li>Non-differentiable at zero: however it is differentiable anywhere 
+else, including points arbitrarily close to (but not equal to) zero.</li>
+<li>Non-zero centered</li>
+<li>Unbounded</li>
+<li>Dying ReLU problem: ReLU neurons can sometimes be pushed into states
+ in which they become inactive for essentially all inputs. In this 
+state, no gradients flow backward through the neuron, and so the neuron 
+becomes stuck in a perpetually inactive state and "dies." In some cases,
+ large numbers of neurons in a network can become stuck in dead states, 
+effectively decreasing the model capacity. This problem typically arises
+ when the learning rate is set too high. It may be mitigated by using 
+Leaky ReLUs instead.</li>
+</ul>
+<h2><span class="mw-headline" id="See_also">See also</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=7" title="Edit section: See also">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Softmax_function" title="Softmax function">Softmax function</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sigmoid_function" title="Sigmoid function">Sigmoid function</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Tobit_model" title="Tobit model">Tobit model</a></li>
+</ul>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit&amp;section=8" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="reflist columns references-column-width" style="-moz-column-width: 30em; -webkit-column-width: 30em; column-width: 30em; list-style-type: decimal;">
+<ol class="references">
+<li id="cite_note-Hahnloser2000-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-Hahnloser2000_1-0">^</a></b></span> <span class="reference-text"><cite class="citation conference">R Hahnloser, R. Sarpeshkar, M A Mahowald, R. J. Douglas, H.S. Seung (2000). <i>Digital selection and analogue amplification coexist in a cortex-inspired silicon circuit</i>. <i>Nature</i>. <b>405</b>. pp.&nbsp;947–951.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=conference&amp;rft.jtitle=Nature&amp;rft.atitle=Digital+selection+and+analogue+amplification+coexist+in+a+cortex-inspired+silicon+circuit&amp;rft.volume=405&amp;rft.pages=947-951&amp;rft.date=2000&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>)</span></span></li>
+<li id="cite_note-Hahnloser2001-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-Hahnloser2001_2-0">^</a></b></span> <span class="reference-text"><cite class="citation conference">R Hahnloser, H.S. Seung (2001). <i>Permitted and Forbidden Sets in Symmetric Threshold-Linear Networks</i>. NIPS 2001.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Permitted+and+Forbidden+Sets+in+Symmetric+Threshold-Linear+Networks&amp;rft.date=2001&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>)</span></span></li>
+<li id="cite_note-glorot2011-3"><span class="mw-cite-backlink">^ <a href="#cite_ref-glorot2011_3-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-glorot2011_3-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-glorot2011_3-2"><sup><i><b>c</b></i></sup></a></span> <span class="reference-text"><cite class="citation conference">Xavier Glorot, Antoine Bordes and <a href="https://en.wikipedia.org/wiki/Yoshua_Bengio" title="Yoshua Bengio">Yoshua Bengio</a> (2011). <a rel="nofollow" class="external text" href="http://jmlr.org/proceedings/papers/v15/glorot11a/glorot11a.pdf"><i>Deep sparse rectifier neural networks</i></a> <span style="font-size:85%;">(PDF)</span>. AISTATS.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Deep+sparse+rectifier+neural+networks&amp;rft.date=2011&amp;rft_id=http%3A%2F%2Fjmlr.org%2Fproceedings%2Fpapers%2Fv15%2Fglorot11a%2Fglorot11a.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>)</span></span></li>
+<li id="cite_note-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-4">^</a></b></span> <span class="reference-text"><cite class="citation encyclopaedia"><a href="https://en.wikipedia.org/wiki/Yann_LeCun" title="Yann LeCun">Yann LeCun</a>, <a href="https://en.wikipedia.org/wiki/Leon_Bottou" class="mw-redirect" title="Leon Bottou">Leon Bottou</a>, Genevieve B. Orr and <a href="https://en.wikipedia.org/wiki/Klaus-Robert_M%C3%BCller" title="Klaus-Robert Müller">Klaus-Robert Müller</a> (1998). <a rel="nofollow" class="external text" href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">"Efficient BackProp"</a> <span style="font-size:85%;">(PDF)</span>. In G. Orr and K. Müller. <i>Neural Networks: Tricks of the Trade</i>. Springer.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.atitle=Efficient+BackProp&amp;rft.btitle=Neural+Networks%3A+Tricks+of+the+Trade&amp;rft.pub=Springer&amp;rft.date=1998&amp;rft_id=http%3A%2F%2Fyann.lecun.com%2Fexdb%2Fpublis%2Fpdf%2Flecun-98b.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>) CS1 maint: Uses editors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_editors_parameter" title="Category:CS1 maint: Uses editors parameter">link</a>)</span></span></li>
+<li id="cite_note-5"><span class="mw-cite-backlink"><b><a href="#cite_ref-5">^</a></b></span> <span class="reference-text"><cite class="citation journal">LeCun, Yann; Bengio, Yoshua; Hinton, Geoffrey (2015). "Deep learning". <i>Nature</i>. <b>521</b> (7553): 436–444. <a href="https://en.wikipedia.org/wiki/Bibcode" title="Bibcode">Bibcode</a>:<a rel="nofollow" class="external text" href="http://adsabs.harvard.edu/abs/2015Natur.521..436L">2015Natur.521..436L</a>. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1038%2Fnature14539">10.1038/nature14539</a>. <a href="https://en.wikipedia.org/wiki/PubMed_Identifier" class="mw-redirect" title="PubMed Identifier">PMID</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.ncbi.nlm.nih.gov/pubmed/26017442">26017442</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Nature&amp;rft.atitle=Deep+learning&amp;rft.volume=521&amp;rft.issue=7553&amp;rft.pages=436-444&amp;rft.date=2015&amp;rft_id=info%3Apmid%2F26017442&amp;rft_id=info%3Adoi%2F10.1038%2Fnature14539&amp;rft_id=info%3Abibcode%2F2015Natur.521..436L&amp;rft.aulast=LeCun&amp;rft.aufirst=Yann&amp;rft.au=Bengio%2C+Yoshua&amp;rft.au=Hinton%2C+Geoffrey&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-6"><span class="mw-cite-backlink"><b><a href="#cite_ref-6">^</a></b></span> <span class="reference-text"><cite class="citation arxiv">Ramachandran, Prajit; Barret, Zoph; Quoc, V. Le (October 16, 2017). "Searching for Activation Functions". <a href="https://en.wikipedia.org/wiki/ArXiv" title="ArXiv">arXiv</a>:<span class="plainlinks"><a rel="nofollow" class="external text" href="https://arxiv.org/abs/1710.05941">1710.05941</a> <img alt="Freely accessible" src="9px-Lock-green.png" title="Freely accessible" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" width="9" height="14"></span> [<a rel="nofollow" class="external text" href="https://arxiv.org/archive/cs.NE">cs.NE</a>].</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=preprint&amp;rft.jtitle=arXiv&amp;rft.atitle=Searching+for+Activation+Functions&amp;rft.date=2017-10-16&amp;rft_id=info%3Aarxiv%2F1710.05941&amp;rft.aulast=Ramachandran&amp;rft.aufirst=Prajit&amp;rft.au=Barret%2C+Zoph&amp;rft.au=Quoc%2C+V.+Le&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-nair2010-7"><span class="mw-cite-backlink">^ <a href="#cite_ref-nair2010_7-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-nair2010_7-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-nair2010_7-2"><sup><i><b>c</b></i></sup></a></span> <span class="reference-text"><cite class="citation conference">Vinod Nair and <a href="https://en.wikipedia.org/wiki/Geoffrey_Hinton" title="Geoffrey Hinton">Geoffrey Hinton</a> (2010). <a rel="nofollow" class="external text" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2010_NairH10.pdf"><i>Rectified linear units improve restricted Boltzmann machines</i></a> <span style="font-size:85%;">(PDF)</span>. <a href="https://en.wikipedia.org/wiki/International_Conference_on_Machine_Learning" title="International Conference on Machine Learning">ICML</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Rectified+linear+units+improve+restricted+Boltzmann+machines&amp;rft.date=2010&amp;rft_id=http%3A%2F%2Fmachinelearning.wustl.edu%2Fmlpapers%2Fpaper_files%2Ficml2010_NairH10.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>)</span></span></li>
+<li id="cite_note-8"><span class="mw-cite-backlink"><b><a href="#cite_ref-8">^</a></b></span> <span class="reference-text">C. Dugas, Y. Bengio, F. Bélisle, C. Nadeau, R. Garcia, NIPS'2000, (2001),<a rel="nofollow" class="external text" href="http://papers.nips.cc/paper/1920-incorporating-second-order-functional-knowledge-for-better-option-pricing.pdf">Incorporating Second-Order Functional Knowledge for Better Option Pricing</a>.</span></li>
+<li id="cite_note-tothl2013-9"><span class="mw-cite-backlink"><b><a href="#cite_ref-tothl2013_9-0">^</a></b></span> <span class="reference-text"><cite class="citation conference">László Tóth (2013). <a rel="nofollow" class="external text" href="http://www.inf.u-szeged.hu/%7Etothl/pubs/ICASSP2013.pdf"><i>Phone Recognition with Deep Sparse Rectifier Neural Networks</i></a> <span style="font-size:85%;">(PDF)</span>. <a href="https://en.wikipedia.org/wiki/International_Conference_on_Acoustics,_Speech_and_Signal_Processing" class="mw-redirect" title="International Conference on Acoustics, Speech and Signal Processing">ICASSP</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Phone+Recognition+with+Deep+Sparse+Rectifier+Neural+Networks&amp;rft.date=2013&amp;rft_id=http%3A%2F%2Fwww.inf.u-szeged.hu%2F~tothl%2Fpubs%2FICASSP2013.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span><span class="citation-comment" style="display:none; color:#33aa33; margin-left:0.3em">CS1 maint: Uses authors parameter (<a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">link</a>)</span></span></li>
+<li id="cite_note-maas2014-10"><span class="mw-cite-backlink">^ <a href="#cite_ref-maas2014_10-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-maas2014_10-1"><sup><i><b>b</b></i></sup></a></span> <span class="reference-text">Andrew L. Maas, Awni Y. Hannun, Andrew Y. Ng (2014). <a rel="nofollow" class="external text" href="http://web.stanford.edu/%7Eawni/papers/relu_hybrid_icml2013_final.pdf">Rectifier Nonlinearities Improve Neural Network Acoustic Models</a></span></li>
+<li id="cite_note-prelu-11"><span class="mw-cite-backlink">^ <a href="#cite_ref-prelu_11-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-prelu_11-1"><sup><i><b>b</b></i></sup></a></span> <span class="reference-text"><cite class="citation arxiv">He,
+ Kaiming; Zhang, Xiangyu; Ren, Shaoqing; Sun, Jian (2015). "Delving Deep
+ into Rectifiers: Surpassing Human-Level Performance on Image <i>Net</i> Classification". <a href="https://en.wikipedia.org/wiki/ArXiv" title="ArXiv">arXiv</a>:<span class="plainlinks"><a rel="nofollow" class="external text" href="https://arxiv.org/abs/1502.01852">1502.01852</a> <img alt="Freely accessible" src="9px-Lock-green.png" title="Freely accessible" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" width="9" height="14"></span> [<a rel="nofollow" class="external text" href="https://arxiv.org/archive/cs.CV">cs.CV</a>].</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=preprint&amp;rft.jtitle=arXiv&amp;rft.atitle=Delving+Deep+into+Rectifiers%3A+Surpassing+Human-Level+Performance+on+Image+Net+Classification&amp;rft.date=2015&amp;rft_id=info%3Aarxiv%2F1502.01852&amp;rft.aulast=He&amp;rft.aufirst=Kaiming&amp;rft.au=Zhang%2C+Xiangyu&amp;rft.au=Ren%2C+Shaoqing&amp;rft.au=Sun%2C+Jian&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-12"><span class="mw-cite-backlink"><b><a href="#cite_ref-12">^</a></b></span> <span class="reference-text"><cite class="citation arxiv">Clevert,
+ Djork-Arné; Unterthiner, Thomas; Hochreiter, Sepp (2015). "Fast and 
+Accurate Deep Network Learning by Exponential Linear Units (ELUs)". <a href="https://en.wikipedia.org/wiki/ArXiv" title="ArXiv">arXiv</a>:<span class="plainlinks"><a rel="nofollow" class="external text" href="https://arxiv.org/abs/1511.07289">1511.07289</a> <img alt="Freely accessible" src="9px-Lock-green.png" title="Freely accessible" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" width="9" height="14"></span> [<a rel="nofollow" class="external text" href="https://arxiv.org/archive/cs.LG">cs.LG</a>].</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=preprint&amp;rft.jtitle=arXiv&amp;rft.atitle=Fast+and+Accurate+Deep+Network+Learning+by+Exponential+Linear+Units+%28ELUs%29&amp;rft.date=2015&amp;rft_id=info%3Aarxiv%2F1511.07289&amp;rft.aulast=Clevert&amp;rft.aufirst=Djork-Arn%C3%A9&amp;rft.au=Unterthiner%2C+Thomas&amp;rft.au=Hochreiter%2C+Sepp&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+<li id="cite_note-NeuralAbstractionPyramid-13"><span class="mw-cite-backlink"><b><a href="#cite_ref-NeuralAbstractionPyramid_13-0">^</a></b></span> <span class="reference-text"><cite class="citation book">Behnke, Sven (2003). <a rel="nofollow" class="external text" href="https://www.researchgate.net/publication/220688219_Hierarchical_Neural_Networks_for_Image_Interpretation"><i>Hierarchical Neural Networks for Image Interpretation</i></a>. Lecture Notes in Computer Science. <b>2766</b>. Springer. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1007%2Fb11963">10.1007/b11963</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Hierarchical+Neural+Networks+for+Image+Interpretation&amp;rft.series=Lecture+Notes+in+Computer+Science&amp;rft.pub=Springer&amp;rft.date=2003&amp;rft_id=info%3Adoi%2F10.1007%2Fb11963&amp;rft.aulast=Behnke&amp;rft.aufirst=Sven&amp;rft_id=https%3A%2F%2Fwww.researchgate.net%2Fpublication%2F220688219_Hierarchical_Neural_Networks_for_Image_Interpretation&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ARectifier+%28neural+networks%29" class="Z3988"><span style="display:none;">&nbsp;</span></span></span></li>
+</ol>
+</div>
+
+
+<!-- 
+NewPP limit report
+Parsed by mw1280
+Cached time: 20180313200518
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.144 seconds
+Real time usage: 0.218 seconds
+Preprocessor visited node count: 818/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 24725/2097152 bytes
+Template argument size: 706/2097152 bytes
+Highest expansion depth: 12/40
+Expensive parser function count: 1/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 16889/5000000 bytes
+Lua time usage: 0.056/10.000 seconds
+Lua memory usage: 2.71 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  146.644      1 -total
+ 71.45%  104.771      1 Template:Reflist
+ 31.78%   46.598      5 Template:Cite_conference
+ 15.72%   23.057      1 Template:As_of
+ 13.58%   19.920      1 Template:DMCA
+ 12.76%   18.706      1 Template:Dated_maintenance_category
+ 10.88%   15.951      1 Template:FULLROOTPAGENAME
+  9.55%   13.999      1 Template:Ns_has_subpages
+  6.82%    9.997      2 Template:Cite_arxiv
+  5.45%    7.988      1 Template:Nobr
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:37862937-0!canonical!math=5 and timestamp 20180313200543 and revision id 830269188
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;oldid=830269188">https://en.wikipedia.org/w/index.php?title=Rectifier_(neural_networks)&amp;oldid=830269188</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikipedia.org/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="https://en.wikipedia.org/wiki/Category:Artificial_neural_networks" title="Category:Artificial neural networks">Artificial neural networks</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_authors_parameter" title="Category:CS1 maint: Uses authors parameter">CS1 maint: Uses authors parameter</a></li><li><a href="https://en.wikipedia.org/wiki/Category:CS1_maint:_Uses_editors_parameter" title="Category:CS1 maint: Uses editors parameter">CS1 maint: Uses editors parameter</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Articles_containing_potentially_dated_statements_from_2018" title="Category:Articles containing potentially dated statements from 2018">Articles containing potentially dated statements from 2018</a></li><li><a href="https://en.wikipedia.org/wiki/Category:All_articles_containing_potentially_dated_statements" title="Category:All articles containing potentially dated statements">All articles containing potentially dated statements</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikipedia.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="https://en.wikipedia.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikipedia.org/w/index.php?title=Special:CreateAccount&amp;returnto=Rectifier+%28neural+networks%29&amp;returntoquery=oldid%3D830269188" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Rectifier+%28neural+networks%29&amp;returntoquery=oldid%3D830269188" title="You're encouraged to log in; however, it's not mandatory. [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikipedia.org/wiki/Rectifier_%28neural_networks%29" title="View the content page [Alt+Shift+c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="https://en.wikipedia.org/wiki/Talk:Rectifier_%28neural_networks%29" rel="discussion" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input class="vectorMenuCheckbox" aria-labelledby="p-variants-label" type="checkbox">
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="https://en.wikipedia.org/wiki/Rectifier_%28neural_networks%29">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<input class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" type="checkbox">
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input name="search" placeholder="Search Wikipedia" title="Search Wikipedia [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" type="search"><input value="Special:Search" name="title" type="hidden"><input name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="https://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="https://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="https://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="https://en.wikipedia.org/wiki/Special:Random" title="Load a random article [Alt+Shift+x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="https://shop.wikimedia.org/" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="https://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="https://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="https://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="https://en.wikipedia.org/wiki/Special:WhatLinksHere/Rectifier_%28neural_networks%29" title="List of all English Wikipedia pages containing links to this page [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Rectifier_%28neural_networks%29" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;oldid=830269188" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q7303176" title="Link to connected data repository item [Alt+Shift+g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="https://en.wikipedia.org/w/index.php?title=Special:CiteThisPage&amp;page=Rectifier_%28neural_networks%29&amp;id=830269188" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="https://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Rectifier+%28neural+networks%29">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikipedia.org/w/index.php?title=Special:ElectronPdf&amp;page=Rectifier+%28neural+networks%29&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="https://en.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+					<li class="interlanguage-link interwiki-es"><a href="https://es.wikipedia.org/wiki/Rectificador_%28redes_neuronales%29" title="Rectificador (redes neuronales) – Spanish" hreflang="es" class="interlanguage-link-target" lang="es">Español</a></li><li class="interlanguage-link interwiki-fa"><a href="https://fa.wikipedia.org/wiki/%DB%8C%DA%A9%D8%B3%D9%88%D8%B3%D8%A7%D8%B2_%28%D8%B4%D8%A8%DA%A9%D9%87_%D8%B9%D8%B5%D8%A8%DB%8C%29" title="یکسوساز (شبکه عصبی) – Persian" hreflang="fa" class="interlanguage-link-target" lang="fa">فارسی</a></li><li class="interlanguage-link interwiki-it"><a href="https://it.wikipedia.org/wiki/Rettificatore_%28reti_neurali%29" title="Rettificatore (reti neurali) – Italian" hreflang="it" class="interlanguage-link-target" lang="it">Italiano</a></li><li class="interlanguage-link interwiki-zh"><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%95%B4%E6%B5%81%E5%87%BD%E6%95%B0" title="线性整流函数 – Chinese" hreflang="zh" class="interlanguage-link-target" lang="zh">中文</a></li>				</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q7303176#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 13 March 2018, at 20:05.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="https://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://wikimediafoundation.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://wikimediafoundation.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="https://en.m.wikipedia.org/w/index.php?title=Rectifier_%28neural_networks%29&amp;oldid=830269188&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://wikimediafoundation.org/"><img src="wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="https://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.144","walltime":"0.218","ppvisitednodes":{"value":818,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":24725,"limit":2097152},"templateargumentsize":{"value":706,"limit":2097152},"expansiondepth":{"value":12,"limit":40},"expensivefunctioncount":{"value":1,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":16889,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%  146.644      1 -total"," 71.45%  104.771      1 Template:Reflist"," 31.78%   46.598      5 Template:Cite_conference"," 15.72%   23.057      1 Template:As_of"," 13.58%   19.920      1 Template:DMCA"," 12.76%   18.706      1 Template:Dated_maintenance_category"," 10.88%   15.951      1 Template:FULLROOTPAGENAME","  9.55%   13.999      1 Template:Ns_has_subpages","  6.82%    9.997      2 Template:Cite_arxiv","  5.45%    7.988      1 Template:Nobr"]},"scribunto":{"limitreport-timeusage":{"value":"0.056","limit":"10.000"},"limitreport-memusage":{"value":2839330,"limit":52428800}},"cachereport":{"origin":"mw1280","timestamp":"20180313200518","ttl":1900800,"transientcontent":false}}});});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":132,"wgHostname":"mw1332"});});</script>
+	
+
+</body></html>

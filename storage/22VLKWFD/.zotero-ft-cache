@@ -1,0 +1,313 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 138
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 2,905
+    Star 2,905
+    Fork
+    Where should we fork this repository?
+    Loading
+    393
+
+gorakhargosh / watchdog
+Code Issues 134 Pull requests 22 Projects 0 Wiki Insights
+Python library and shell utilities to monitor filesystem events. http://packages.python.org/watchdog/
+
+    1,109 commits
+    5 branches
+    22 releases
+    61 contributors
+
+    Python 91.8%
+    C 7.0%
+    Other 1.2%
+
+Python C Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+delayed-inotify gh-pages major_safai master rlock
+Nothing to show
+v0.8.3 v0.8.2 v0.8.1 v0.8.0 v0.7.1 v0.7.0 v0.6.1 v0.6.0 v0.5.4 v0.5.3 v0.5.2 v0.5.1 v0.5.0 v0.3.6 v0.3.5 v0.3.4 v0.3.3 v0.3.2 v0.3.1 v0.3 v0.2 v0.1
+Nothing to show
+New pull request
+Latest commit d33bee0 Nov 21, 2016
+@DonyorM
+DonyorM committed Nov 21, 2016 Fixes issue #381 …
+
+ This updates the echo_class method of echo.py to support python3.
+Improper support for python2 I believe.
+
+Permalink
+	Failed to load latest commit information.
+	debian 	adding python-setuptools to build-deps 	Mar 10, 2012
+	docs 	No need for time.sleep 	Aug 25, 2016
+	src 	Fixes issue #381 	Nov 21, 2016
+	tests 	Merge pull request #362 from adrpar/polling_observer_deleted_dir_fix 	Oct 28, 2016
+	tools 	update ci scripts to use pytest 	Jan 26, 2014
+	.gitignore 	add .egg to gitignore 	May 23, 2014
+	.gitmodules 	change sphinx theme. closes #45 	Feb 7, 2014
+	.project 	Adds eclipse project files to make it easy for you to import. 	Aug 16, 2011
+	.pydevproject 	Adds eclipse project files to make it easy for you to import. 	Aug 16, 2011
+	.travis.yml 	Update .travis.yml to be based on tox 	Sep 25, 2016
+	AUTHORS 	Updates AUTHORS file. 	Mar 12, 2012
+	COPYING 	Renames LICENSE to COPYING. 	Mar 26, 2012
+	LICENSE 	Adds a copy of the Apache License 2.0 	Mar 26, 2012
+	MANIFEST.in 	manifest: only include source files 	Feb 11, 2015
+	Makefile 	Add Debian packaging 	Jan 3, 2012
+	README.rst 	fix pytest invocation 	Feb 22, 2015
+	bootstrap.sh 	Fixes bootstrap.sh. 	Jun 3, 2012
+	buildout.cfg 	Drops the dependency on Brownie. 	Jul 30, 2011
+	changelog.rst 	changelog.rst indentation 	Jan 26, 2015
+	package.mk 	Add Debian packaging 	Jan 3, 2012
+	setup.cfg 	Update MANIFEST.in to include documentation and add a setup.cfg 	Nov 30, 2010
+	setup.py 	Add trove classifiers for python versions supported 	Oct 26, 2016
+	tox.ini 	Add a tox.ini that doesn't depend on setup.py test 	Sep 25, 2016
+README.rst
+Watchdog
+
+Python API and shell utilities to monitor file system events.
+Example API Usage
+
+A simple program that uses watchdog to monitor directories specified as command-line arguments and logs events generated:
+
+ import  sys
+import  time
+import  logging
+from  watchdog.observers import  Observer
+from  watchdog.events import  LoggingEventHandler
+
+if  __name__  ==  " __main__ "  :
+    logging.basicConfig( level = logging. INFO ,
+                        format = ' %(asctime)s - %(message)s '  ,
+                        datefmt = ' %Y-%m- %d %H:%M:%S '  )
+    path =  sys.argv[ 1 ] if  len (sys.argv) >  1  else  ' . '  
+    event_handler =  LoggingEventHandler()
+    observer =  Observer()
+    observer.schedule(event_handler, path, recursive = True )
+    observer.start()
+    try :
+        while  True :
+            time.sleep( 1 )
+    except  KeyboardInterrupt :
+        observer.stop()
+    observer.join()
+
+Shell Utilities
+
+Watchdog comes with a utility script called watchmedo . Please type watchmedo --help at the shell prompt to know more about this tool.
+
+Here is how you can log the current directory recursively for events related only to *.py and *.txt files while ignoring all directory events:
+
+ watchmedo log \
+    --patterns= " *.py;*.txt "   \
+    --ignore-directories \
+    --recursive \
+    . 
+
+You can use the shell-command subcommand to execute shell commands in response to events:
+
+ watchmedo shell-command \
+    --patterns= " *.py;*.txt "   \
+    --recursive \
+    --command= ' echo "${watch_src_path}" '   \
+    . 
+
+Please see the help information for these commands by typing:
+
+ watchmedo [command] --help
+
+About watchmedo Tricks
+
+watchmedo can read tricks.yaml files and execute tricks within them in response to file system events. Tricks are actually event handlers that subclass watchdog.tricks.Trick and are written by plugin authors. Trick classes are augmented with a few additional features that regular event handlers don't need.
+
+An example tricks.yaml file:
+
+ tricks :
+- watchdog.tricks.LoggerTrick :
+    patterns : ["*.py", "*.js"] 
+- watchmedo_webtricks.GoogleClosureTrick :
+    patterns : ['*.js'] 
+    hash_names : true 
+    mappings_format : json  # json|yaml|python 
+    mappings_module : app/javascript_mappings 
+    suffix : .min.js 
+    compilation_level : advanced  # simple|advanced 
+    source_directory : app/static/js/ 
+    destination_directory : app/public/js/ 
+    files :
+      index-page :
+      - app/static/js/vendor/jquery*.js 
+      - app/static/js/base.js 
+      - app/static/js/index-page.js 
+      about-page :
+      - app/static/js/vendor/jquery*.js 
+      - app/static/js/base.js 
+      - app/static/js/about-page/**/*.js 
+
+The directory containing the tricks.yaml file will be monitored. Each trick class is initialized with its corresponding keys in the tricks.yaml file as arguments and events are fed to an instance of this class as they arrive.
+
+Tricks will be included in the 0.5.0 release. I need community input about them. Please file enhancement requests at the issue tracker .
+Installation
+
+Installing from PyPI using pip :
+
+ $ pip install watchdog
+
+Installing from PyPI using easy_install :
+
+ $ easy_install watchdog
+
+Installing from source:
+
+ $ python setup.py install
+
+Installation Caveats
+
+The watchmedo script depends on PyYAML which links with LibYAML , which brings a performance boost to the PyYAML parser. However, installing LibYAML is optional but recommended. On Mac OS X, you can use homebrew to install LibYAML:
+
+ $ brew install libyaml
+
+On Linux, use your favorite package manager to install LibYAML. Here's how you do it on Ubuntu:
+
+ $ sudo aptitude install libyaml-dev
+
+On Windows, please install PyYAML using the binaries they provide.
+Documentation
+
+You can browse the latest release documentation online.
+Contribute
+
+Fork the repository on GitHub and send a pull request, or file an issue ticket at the issue tracker . For general help and questions use the official mailing list or ask on stackoverflow with tag python-watchdog.
+
+Create and activate your virtual environment, then:
+
+ pip install pytest
+pip install -e .
+py.test tests
+
+Supported Platforms
+
+    Linux 2.6 (inotify)
+    Mac OS X (FSEvents, kqueue)
+    FreeBSD/BSD (kqueue)
+    Windows (ReadDirectoryChangesW with I/O completion ports; ReadDirectoryChangesW worker threads)
+    OS-independent (polling the disk for directory snapshots and comparing them periodically; slow and not recommended)
+
+Note that when using watchdog with kqueue, you need the number of file descriptors allowed to be opened by programs running on your system to be increased to more than the number of files that you will be monitoring. The easiest way to do that is to edit your ~/.profile file and add a line similar to:
+
+ ulimit -n 1024
+
+This is an inherent problem with kqueue because it uses file descriptors to monitor files. That plus the enormous amount of bookkeeping that watchdog needs to do in order to monitor file descriptors just makes this a painful way to monitor files and directories. In essence, kqueue is not a very scalable way to monitor a deeply nested directory of files and directories with a large number of files.
+About using watchdog with editors like Vim
+
+Vim does not modify files unless directed to do so. It creates backup files and then swaps them in to replace the files you are editing on the disk. This means that if you use Vim to edit your files, the on-modified events for those files will not be triggered by watchdog. You may need to configure Vim to appropriately to disable this feature.
+Dependencies
+
+    Python 2.6 or above.
+    pathtools
+    select_backport (select.kqueue replacement for 2.6 on BSD/Mac OS X)
+    XCode (only on Mac OS X)
+    PyYAML (only for watchmedo script)
+    argh (only for watchmedo script)
+
+Licensing
+
+Watchdog is licensed under the terms of the Apache License, version 2.0 .
+
+Copyright 2011 Yesudeep Mangalapilly .
+
+Copyright 2012 Google, Inc.
+
+Project source code is available at Github. Please report bugs and file enhancement requests at the issue tracker .
+Why Watchdog?
+
+Too many people tried to do the same thing and none did what I needed Python to do:
+
+    pnotify
+    unison fsmonitor
+    fsmonitor
+    guard
+    pyinotify
+    inotify-tools
+    jnotify
+    treewalker
+    file.monitor
+    pyfilesystem
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

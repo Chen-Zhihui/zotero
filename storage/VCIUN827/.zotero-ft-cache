@@ -1,0 +1,217 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 37
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 106
+    Star 106
+    Fork
+    Where should we fork this repository?
+    Loading
+    45
+
+uwsampa / grappa
+Code Issues 76 Pull requests 18 Projects 0 Wiki Insights
+Grappa: scaling irregular applications on commodity clusters http://grappa.io
+
+    3,825 commits
+    70 branches
+    1 release
+    12 contributors
+    BSD-3-Clause
+
+    C++ 61.8%
+    C 33.2%
+    Ruby 2.3%
+    CMake 1.5%
+    Shell 0.6%
+    Makefile 0.3%
+    Other 0.3%
+
+C++ C Ruby CMake Shell Makefile Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+bdmyers-feature-linux-build bdmyers-relational-queries bfs-beamer-public-tasks bholt-app-fft bholt-docker bholt-experiments-bc bholt-experiments-bfs bholt-extreme-flat-completions bholt/cassovary bholt/combining-futures bholt/grappalog-master-merge-mpi bholt/mpirun bmyerz-fix-corerange bmyerz-grappalog-enhancements bmyerz-grappalog-master-merge-mpi bmyerz-grappalog-master bmyerz-localvector-for-cps bmyerz-symmetric-hash bmyerz/debug-optimize-level bmyerz/decomposed-aggregates bmyerz/inlining-optimization bmyerz/libunwind bmyerz/sru+hypothesis3.5 bmyerz/sru+iterators-nocoro bmyerz/sru+merged bmyerz/sru+putget+breakFE bmyerz/sru+putget bmyerz/support-raco-udas bmyerz/virtualized compiler-debugging compiler-global-to-wide compiler-multimodule compiler+multihop compiler context-experiment graphlabapi+mpi+verbs lubyspan-code master message-compression nelson-contextswitch-experiment nelson-enable-profiling nelson-faster-aggregator nelson-faster-messages2 nelson-lubyspan nelson-message-allocation nelson-mpi-communicator nelson-run-on-osx nelson-third-party-no-downloads nelson+GNUMakeTemplate nelson+GlobalArray nelson/crayXCbuild nelsonje/MPIRDMA nelsonje/aggregatorImprovements nelsonje/compilerCompatibility nelsonje/fixGithubLanguageDetection nelsonje/mpirun nelsonje/preInitBlocking nelsonje/scalingFix2 nelsonje/staticBuild pagerank-exp-merge-mpi pagerank-exp runpath-ld-lib-path simon-npb-is-xmt simon_connected_components test uts-upc-mod vlee2-isopath vlee2-message-trace yields yorkw-matrix-tuple-writing
+Nothing to show
+compiler/oopsla14
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	applications 	Update README-Grappa.md 	Nov 17, 2016
+	bin 	add settings.sh that can be sourced to pick up Grappa vars from insta… 	May 21, 2015
+	doc 	update info on running jobs 	Apr 25, 2016
+	scratch 	put scratch exes in folder in IDEs 	Nov 13, 2013
+	system 	add hostname output to hello_world 	Apr 25, 2016
+	third-party 	fix incorrect filename when building third-party dependences using ta… 	May 5, 2017
+	util 	rerelease under BSD license 	Aug 16, 2015
+	.gitattributes 	tell GitHub to ignore Graph500 for language detection too 	Feb 6, 2016
+	.gitignore 	more cmake ignores 	Nov 14, 2013
+	.travis.yml 	More clear logging 	Dec 11, 2015
+	AUTHORS 	add authors file 	Jan 26, 2014
+	BUILD.md 	update info on running jobs 	Apr 25, 2016
+	CMakeLists.txt 	Add quotes in key places in CMakeFile to avoid problems when variable… 	Dec 30, 2015
+	COPYING 	rerelease under BSD license 	Aug 16, 2015
+	NOTICE 	rerelease under BSD license 	Aug 16, 2015
+	README.md 	fix incorrect filename when building third-party dependences using ta… 	May 5, 2017
+	configure 	Add 64-bit check to configure script 	Oct 2, 2015
+README.md
+Grappa
+
+Build Status
+
+Grappa is a runtime system for scaling irregular applications on commodity clusters. It's a PGAS library and runtime system that allows you to write global-view C++11 code that runs on distributed-memory computers.
+
+Note: all the Grappa developers have graduated and gone on to other things, so the code is no longer maintained. Bit rot has begun to set in, and you are likely to run into problems running it; hopefully our documentation will help.
+Dependences
+
+You must have a 64-bit Linux system with the following installed to build Grappa:
+
+    Build system
+        Ruby >= 1.9.3
+        CMake >= 2.8.12
+    Compiler
+        GCC >= 4.7.2 (we depend on C++11 features only present in 4.7.2 and newer)
+        Or: Clang >= 3.4
+    External:
+        MPI (must support MPI-3)
+            OpenMPI >= 1.7.4
+            MVAPICH2 >= 1.9
+            MPICH >= 3.1
+            Intel MPI >= 5.0.2.044
+
+The configure script deals with some other dependences automatically. You may want to override the default behavior for your specific system. See BUILD.md for more details.
+
+In addition, our test and run scripts all assume your machine uses the Slurm job manager. You may still run jobs with using any other MPI launcher, but you'll have to set necessary environment variables yourself. See doc/running.md for more details.
+Quick Start
+
+Ensure you have the dependences described above. Then checkout the code:
+
+ git clone git@github.com:uwsampa/grappa.git
+
+If you don't have github keys set up and get an authentication error, then try the http URL
+
+ git clone http://github.com/uwsampa/grappa.git
+
+Then download Grappa's third-party dependences: http://grappa.cs.washington.edu/files/grappa-third-party-downloads.tar .
+
+Now build grappa and hello world.
+
+ cd  grappa
+./configure --third-party-tarfile= < /full/path/to/grappa-third-party-downloads.tar > 
+cd  build/Make+Release
+make demo-hello_world
+
+Now you should have a binary which you can launch as an MPI job. If you have Slurm installed on your system, you may be able to run jobs like this:
+
+ srun --nodes=2 --ntasks-per-node=2 -- applications/demos/hello_world/hello_world.exe
+
+If that doesn't work, use whatever commands are required to launch MPI jobs on your system.
+
+For more detailed instructions on building Grappa, see BUILD.md .
+
+To run all our tests (a lengthy process) on a system using the Slurm job manager, do make check-all-pass . More information on testing is in doc/testing.md .
+Learning More
+
+You can learn more about Grappa's design and use in four ways:
+
+    Follow the tutorial in the doc/tutorial directory. Read about running jobs, debugging, tracing, and other low-level functionality in the doc/ directory in the repo.
+    Take a look at the autogenerated API docs, hosted at grappa.io/doxygen . Or you can build them yourself as explained in BUILD.md .
+    Read our papers, available from the Grappa website.
+
+Virtual machine images
+
+We have a couple other ways to try Grappa without installing it yourself!
+
+    grappa-docker : Grappa in a docker container
+    grappa-starcluster : Grappa in the Amazon cloud
+
+Getting Help
+
+The best way to ask questions is to submit an issue on GitHub: by keeping questions there we can make sure the answers are easy for everyone to find. View previously-discussed issues here: https://github.com/uwsampa/grappa/issues?labels=question . If your question isn't already answered, please submit an issue there!
+
+Grappa developers communicate through the grappa-dev mailing list hosted at cs.washington.edu.
+Contributing
+
+We welcome contributions, both in the core software and (especially!) in applications. Get in touch with us if you're thinking of contributing something!
+
+Analytics
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

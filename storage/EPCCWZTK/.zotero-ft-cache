@@ -1,0 +1,216 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 6
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 54
+    Star 54
+    Fork
+    Where should we fork this repository?
+    Loading
+    10
+
+wiliamsouza / hystrix-py
+Code Issues 0 Pull requests 1 Projects 0 Wiki Insights
+Latency and fault tolerance for distributed systems
+
+    66 commits
+    2 branches
+    0 releases
+    1 contributor
+    Apache-2.0
+
+    Python 99.5%
+    Other 0.5%
+
+Python Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+feature/metrics master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	docs 	Removed unused hack and added parent folder to path 	Feb 17, 2015
+	hystrix 	Fix a typo apidocs 	Feb 16, 2015
+	tests 	Added new apidoc and refactored cumulative_sum and values 	Feb 16, 2015
+	.gitignore 	Added .eggs/ to gitignore 	Jan 2, 2015
+	.travis.yml 	Removed install requirements from travis config 	Jan 2, 2015
+	AUTHORS 	Added LICENSE and AUTHORS 	Feb 15, 2015
+	LICENSE 	Added LICENSE and AUTHORS 	Feb 15, 2015
+	MANIFEST.in 	Updated MANIFEST.in 	Feb 17, 2015
+	Makefile 	Added LICENSE and AUTHORS 	Feb 15, 2015
+	README.md 	Updated README add WIP note 	Sep 12, 2015
+	repos.sh 	Added repos conf script 	Nov 18, 2014
+	setup.cfg 	Initial commit 	Nov 17, 2014
+	setup.py 	Pin coverage to 3.7.1 	Sep 12, 2015
+	tox.ini 	Removed all requirements from tox config 	Jan 2, 2015
+README.md
+hystrix-py
+
+Build Status Coverage Status Documentation Status
+
+A Netflix Hystrix port to Python.
+
+This is a work in progress, please feel free to help!
+What is Hystrix?
+
+For more information see the [Netflix Hystrix] ( https://github.com/Netflix/Hystrix/wiki ) Wiki documentation.
+How it works
+
+To know more see the [Netflix Hystrix] ( https://github.com/Netflix/Hystrix/wiki/How-it-Works ) Wiki How it works section documentation.
+Features
+
+It's ALPHA version and only support launching a group of commands inside an executor pool.
+
+    Execute synchronous commands.
+    Execute asynchronous commands.
+    Execute asynchronous commands and attach a callback.
+
+Requirements
+
+It depends on [concurrent.futures] ( https://docs.python.org/3/library/concurrent.futures.html ), new in Python version 3.2 and [enum] ( https://docs.python.org/3.4/library/enum.html ), new in Python version 3.4. It uses futures and enum34 backports to run in Python version 2.7, 3.3 and 3.4.
+Installation
+
+Create a virtualenv:
+
+ mkproject --python=<fullpath_to_python_3.2+> hystrix-py  
+
+Get the code:
+
+ git clone https://github.com/wiliamsouza/hystrix-py .  
+
+Install it:
+
+ python setup.py develop  
+
+The last command enter your code in "Development Mode" it creates an egg-link in your virtualenv's site-packages making it available on this environment sys.path . For more info see [setuptools development-mode] ( https://pythonhosted.org/setuptools/setuptools.html#development-mode )
+Development and test dependencies
+
+setup.py will handle test dependencies, to install development use:
+
+ pip install -e .[dev]  
+
+Tests
+
+ python setup.py test  
+
+Hello world
+
+Code to be isolated is wrapped inside the run() method of a hystrix.Command similar to the following:
+
+ from  hystrix import  Command
+
+class  HelloWorldCommand ( Command ):
+    def  run ( self  ):
+        return  ' Hello World '  
+
+This command could be used like this:
+
+ command =  HelloCommand()
+
+# synchronously 
+print (command.execute())
+' Hello World '  
+
+# asynchronously 
+future =  command.queue()
+print (future.result())
+' Hello Wold '  
+
+# callback 
+def  print_result ( future )
+     print (future.result())
+
+future =  command.observe()
+future.add_done_callback(print_result)
+
+LICENSE
+
+Copyright 2015 Hystrix Python Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

@@ -1,0 +1,6 @@
+
+          window.__NEXT_REGISTER_PAGE('/_error', function() {
+            var comp = module.exports=webpackJsonp([11],{217:function(t,e,n){t.exports=n(218)},218:function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}Object.defineProperty(e,"__esModule",{value:!0});var r=n(4),u=o(r),a=n(1),s=o(a),l=n(2),p=o(l),i=n(5),d=o(i),c=n(6),f=o(c),h=n(0),m=o(h),_=function(t){function e(){return(0,s.default)(this,e),(0,d.default)(this,(e.__proto__||(0,u.default)(e)).apply(this,arguments))}return(0,f.default)(e,t),(0,p.default)(e,[{key:"componentDidMount",value:function(){404===this.props.statusCode&&window.location.replace("https://nteract.github.io"+this.props.pathname)}},{key:"render",value:function(){return 404===this.props.statusCode?m.default.createElement("p",null,this.props.pathname+" not on nteract.io, redirecting to nteract.github.io"):this.props.statusCode?m.default.createElement("p",null,"An error "+this.props.statusCode+" occurred on server"):m.default.createElement("p",null,"Unknown error :(")}}],[{key:"getInitialProps",value:function(t){var e=(t.req,t.res),n=t.xhr,o=t.pathname;return{statusCode:e?e.statusCode:n?n.status:null,pathname:o}}}]),e}(m.default.Component);e.default=_}},[217]);
+            return { page: comp.default }
+          })
+        

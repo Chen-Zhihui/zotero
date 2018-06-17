@@ -1,0 +1,184 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 18
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 125
+    Star 125
+    Fork
+    Where should we fork this repository?
+    Loading
+    19
+
+LMDB / sqlightning
+Code Issues 2 Pull requests 1 Projects 0 Wiki Insights
+SQLite3 ported to use LMDB instead of its original Btree code.
+
+    18 commits
+    3 branches
+    0 releases
+    1 contributor
+
+    C 89.8%
+    Tcl 4.6%
+    Shell 3.6%
+    Makefile 1.1%
+    Bison 0.7%
+    Awk 0.1%
+    Other 0.1%
+
+C Tcl Shell Makefile Bison Awk Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master mdb orig
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	art 	version 3.7.12 	Mar 3, 2013
+	contrib 	Initial commit 	Sep 18, 2011
+	doc 	version 3.7.14 	Mar 3, 2013
+	ext 	version 3.7.17 	Sep 13, 2013
+	mptest 	version 3.7.17 	Sep 13, 2013
+	src 	version 3.7.17 	Sep 13, 2013
+	test 	version 3.7.17 	Sep 13, 2013
+	tool 	version 3.7.17 	Sep 13, 2013
+	.gitignore 	version 3.7.8 from fossil 	Mar 3, 2013
+	Makefile 	Initial commit 	Sep 18, 2011
+	Makefile.arm-wince-mingw32ce-gcc 	Initial commit 	Sep 18, 2011
+	Makefile.in 	version 3.7.17 	Sep 13, 2013
+	Makefile.linux-gcc 	Initial commit 	Sep 18, 2011
+	Makefile.msc 	version 3.7.17 	Sep 13, 2013
+	Makefile.vxworks 	version 3.7.17 	Sep 13, 2013
+	README 	Initial commit 	Sep 18, 2011
+	README.md 	Create README.md 	Apr 23, 2015
+	VERSION 	version 3.7.17 	Sep 13, 2013
+	aclocal.m4 	Initial commit 	Sep 18, 2011
+	addopcodes.awk 	Initial commit 	Sep 18, 2011
+	config.guess 	Initial commit 	Sep 18, 2011
+	config.h.in 	version 3.7.11 	Mar 3, 2013
+	config.sub 	Initial commit 	Sep 18, 2011
+	configure 	version 3.7.17 	Sep 13, 2013
+	configure.ac 	version 3.7.15 	Mar 3, 2013
+	install-sh 	Initial commit 	Sep 18, 2011
+	ltmain.sh 	Initial commit 	Sep 18, 2011
+	magic.txt 	version 3.7.17 	Sep 13, 2013
+	main.mk 	version 3.7.17 	Sep 13, 2013
+	manifest 	version 3.7.17 	Sep 13, 2013
+	manifest.uuid 	version 3.7.17 	Sep 13, 2013
+	mkdll.sh 	Initial commit 	Sep 18, 2011
+	mkextu.sh 	Initial commit 	Sep 18, 2011
+	mkextw.sh 	Initial commit 	Sep 18, 2011
+	mkopcodec.awk 	version 3.7.8 from fossil 	Mar 3, 2013
+	mkopcodeh.awk 	Initial commit 	Sep 18, 2011
+	mkso.sh 	Initial commit 	Sep 18, 2011
+	spec.template 	Initial commit 	Sep 18, 2011
+	sqlite.pc.in 	Initial commit 	Sep 18, 2011
+	sqlite3.1 	Initial commit 	Sep 18, 2011
+	sqlite3.pc.in 	Initial commit 	Sep 18, 2011
+README.md
+
+SQLite3 ported to use LMDB instead of its original Btree code.
+
+To set the LMDB mapsize in pages, use:
+
+ PRAGMA max_page_count=<integer>;  
+
+Using tool/speedtest.tcl in the SQLite source tree, the time to insert 1000 records on my laptop SSD was 22.42 seconds using the original code, and only 1.06 seconds using LMDB. Both tests were run 3 times, with results averaged. The actual runtimes were
+
+ Original MDB 23.14 1.07 22.02 1.05 22.12 1.08  
+
+Tested at version 3.7.7.1.
+
+More recent test results using 3.7.17 are on pastebin , summarized below:
+	SQLite 	SQLightning
+Operation times in microseconds, lower is better
+Sync Seq Write 	8175.371 	6171.233
+Sync Rand Write 	8308.706 	6231.249
+Seq Write 	25.587 	31.778
+Batch Seq Write 	7.402 	7.087
+Rand Write 	33.235 	32.902
+Batch Rand Write 	18.847 	13.754
+Rand Read 	22.645 	7.685
+Seq Read 	7.557 	1.551
+Rev Seq Read 	7.456 	1.531
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

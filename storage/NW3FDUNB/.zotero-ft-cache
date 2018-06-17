@@ -1,0 +1,171 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 6
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 22
+    Star 22
+    Fork
+    Where should we fork this repository?
+    Loading
+    8
+
+rbock / sqlpp11-connector-stl
+Code Issues 0 Pull requests 0 Projects 0 Wiki Insights
+An experimental SQL connector for containers and streams of the C++ Standard Library
+
+    31 commits
+    2 branches
+    4 releases
+    3 contributors
+    BSD-2-Clause
+
+    C++ 93.4%
+    CMake 6.6%
+
+C++ CMake
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+develop master
+Nothing to show
+0.4 0.3 0.2 0.1
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	include/sqlpp11/ container 	Adjusted to recent changes in sqlpp11 	Mar 7, 2015
+	tests 	Adjusted to recent changes in sqlpp11 	Mar 7, 2015
+	.gitignore 	Initial commit 	Feb 7, 2014
+	CMakeLists.txt 	Adjusted CMakeLists.txt for better use in submodules 	Aug 9, 2014
+	LICENSE 	Initial commit 	Feb 7, 2014
+	README.md 	g++ is working fine 	Aug 25, 2014
+README.md
+sqlpp11-connector-stl
+
+An experimental SQL connector for containers and streams of the C++ Standard Library
+Motivation:
+
+Well, sqlpp11 has this wonderful expression tree. It makes it really easy to connect to databases. And you know what? You can even treat containers or streams from the C++ Standard Library as databases! How cool is that?
+
+ namespace  sql  =  sqlpp::container;
+
+struct  sample 
+{
+	int64_t  alpha;
+	std::string beta;
+	bool  gamma;
+};
+
+int  main ()
+{
+	using  container = std::vector<sample>;
+	container data;
+
+	sql::connection<container> db (data);
+	sample tab;
+
+	db. run ( insert_into (tab). set (tab. alpha  = 17 ));
+	db. run ( insert_into (tab). set (tab. beta  = " cheesecake "  ));
+	db. run ( insert_into (tab). set (tab. alpha  = 42 , tab. beta  = " hello "  , tab. gamma  = true ));
+	db. run ( insert_into (tab). set (tab. gamma  = true ));
+
+	for  ( const  sample& row: db. run ( select ( all_of ( tab (tab))
+	                                 . from (tab)
+	                                 . where (tab. alpha  < 18 )))
+	{
+		std::cerr << " alpha= "   << row. alpha  << 
+		           " , beta= "   << row. beta  << 
+		           " , gamma= "   << row. gamma  << std::endl;
+	}
+
+	return  0 ;
+}
+
+That works???
+
+Oh yes! Check it out. You need:
+
+    A current C++11 compiler (clang-3.2 and g++-4.8 are known to work on Ubuntu)
+    sqlpp11: https://github.com/rbock/sqlpp11
+    And this library, of course
+
+Stay tuned for more :-)
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

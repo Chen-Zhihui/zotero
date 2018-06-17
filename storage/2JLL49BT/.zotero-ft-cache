@@ -1,0 +1,253 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 519
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 5,219
+    Star 5,219
+    Fork
+    Where should we fork this repository?
+    Loading
+    1,114
+
+ideawu / ssdb
+Code Issues 322 Pull requests 1 Projects 0 Wiki Insights
+SSDB - A fast NoSQL database, an alternative to Redis http://ssdb.io
+ssdb nosql-databases leveldb
+
+    1,109 commits
+    9 branches
+    4 releases
+    25 contributors
+    BSD-3-Clause
+
+    C++ 79.7%
+    PHP 7.9%
+    COBOL 7.5%
+    Python 2.2%
+    Makefile 1.4%
+    Shell 0.9%
+    Other 0.4%
+
+C++ PHP COBOL Python Makefile Shell Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+deprecated dev master stable-1.8.0 stable-1.8.2 stable-1.9.2 stable-1.9.3 stable-1.9.4 stable-1.9.5
+Nothing to show
+1.9.4 1.9.2 1.9.0 1.8.2
+Nothing to show
+New pull request
+Latest commit e99c4b6 Mar 2, 2018
+@ideawu
+ideawu Merge pull request #1196 from ideawu/dev …
+
+ Dev
+
+Permalink
+	Failed to load latest commit information.
+	api 	Add OUT_OF_SYNC status, slave not flushdb when this status 	Jun 17, 2016
+	deps 	update leveldb 	Sep 25, 2017
+	docs 	update logo 	Aug 17, 2015
+	src 	add more queue functions 	Dec 14, 2017
+	tools 	randomize key writing (because on disk full event it was returning OK… 	Oct 23, 2017
+	.gitignore 	update 	Sep 25, 2017
+	ChangeLog 	Fix Redis zrange, zrevrange, zremrangebyrank handle negative start/en… 	Dec 5, 2017
+	Dockerfile 	fixed #983 	Sep 20, 2016
+	LICENSE 	add license 	Jan 1, 2014
+	Makefile 	Fix Xcode 9, iOS SDK 11 compile issue 	Nov 20, 2017
+	README.md 	CLI extended with commands for nagios monitoring 	Mar 7, 2016
+	build.sh 	update 	Sep 25, 2017
+	ssdb.conf 	update ssdb.conf 	Nov 9, 2017
+	ssdb_slave.conf 	update ssdb_slave.conf 	Aug 28, 2017
+	version 	update 	Sep 25, 2017
+README.md
+SSDB - A fast NoSQL database for storing big list of data
+
+Author Platform NoSQL License
+
+SSDB is a high performace key-value(key-string, key-zset, key-hashmap) NoSQL database, an alternative to Redis .
+
+SSDB is stable, production-ready and is widely used by many Internet companies including QIHU 360.
+Features
+
+    LevelDB client-server support, written in C/C++
+    Designed to store collection data
+    Persistent key-value, key-zset, key-map('hashmap') storage
+    Redis clients are supported
+    Client API supports including C++, PHP, Python, Cpy, Java, nodejs, Ruby, Go( see all )
+    Persistent queue service
+    Replication(master-slave), load balance
+    GUI administration tool( phpssdbadmin )
+    Built-in CLI nagios self-checks
+
+PHP client API example
+
+ <?php  
+require_once ( ' SSDB.php ' ); 
+$ssdb = new SimpleSSDB ( ' 127.0.0.1 ' , 8888 ); 
+$resp = $ssdb -> set( ' key ' , ' 123 ' ); 
+$resp = $ssdb -> get( ' key ' ); 
+echo $resp ; // output: 123  
+
+More...
+Who's using SSDB?
+
+all-ssdb-users
+
+And more...
+Documentation
+
+    View online
+    Contribute to SSDB documentation project
+
+Compile and Install
+
+ $ wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
+$ unzip master
+$ cd  ssdb-master
+$ make
+$ # optional, install ssdb in /usr/local/ssdb 
+$ sudo make install
+
+# start master 
+$ ./ssdb-server ssdb.conf
+
+# or start as daemon 
+$ ./ssdb-server -d ssdb.conf
+
+# ssdb command line 
+$ ./tools/ssdb-cli -p 8888
+
+# stop ssdb-server 
+$ ./ssdb-server ssdb.conf -s stop
+ # for older version 
+$ kill  ` cat ./var/ssdb.pid `  
+
+See Compile and Install wiki
+Performance
+Typical performance
+
+Total 1000 requests.
+
+ writeseq : 0.546 ms/op 178.7 MB/s writerand : 0.519 ms/op 188.1 MB/s readseq : 0.304 ms/op 321.6 MB/s readrand : 0.310 ms/op 315.0 MB/s  
+
+SSDB vs Redis
+
+Benchmark vs Redis
+
+View full SSDB vs Redis benchmark charts...
+Concurrency benchmark
+
+ ========== set ========== qps: 44251, time: 0.226 s ========== get ========== qps: 55541, time: 0.180 s ========== del ========== qps: 46080, time: 0.217 s ========== hset ========== qps: 42338, time: 0.236 s ========== hget ========== qps: 55601, time: 0.180 s ========== hdel ========== qps: 46529, time: 0.215 s ========== zset ========== qps: 37381, time: 0.268 s ========== zget ========== qps: 41455, time: 0.241 s ========== zdel ========== qps: 38792, time: 0.258 s  
+
+Run on a 2013 MacBook Pro 13 inch with Retina display.
+Architecture
+
+ssdb architecture
+Windows executable
+
+Download ssdb-server.exe from here: https://github.com/ideawu/ssdb-bin
+SSDB library for iOS
+
+ make ios # ls ios/ include/ libleveldb-ios.a libsnappy-ios.a libssdb-ios.a libutil-ios.a  
+
+Drag the static libraies files into your iOS project. Then add ios/include to your iOS project's Header Search Paths , which is set in Build Settings .
+Links
+
+    Author's homepage
+    Cpy Scripting Language
+    Google LevelDB
+    Lua ssdb client driver for the ngx_lua
+    Yet another ssdb client for Python
+    SSDB 中文文档
+
+Changes made to LevelDB
+
+See Changes-Made-to-LevelDB wiki
+LICENSE
+
+SSDB is licensed under New BSD License , a very flexible license to use.
+Authors
+
+@ideawu
+Thanks
+
+    刘建辉, liujianhui@gongchang.com
+    wendal(陈镇铖), wendal1985@gmail.com , http://wendal.net
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

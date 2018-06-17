@@ -1,0 +1,206 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 445
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 2,407
+    Star 2,407
+    Fork
+    Where should we fork this repository?
+    Loading
+    300
+
+Netflix / dynomite
+Code Issues 37 Pull requests 2 Projects 5 Wiki Insights
+A generic dynamo implementation for different k-v storage engines
+dynomite c redis distributed-database cache key-value nosql
+
+    1,432 commits
+    13 branches
+    50 releases
+    47 contributors
+    Apache-2.0
+
+    C 87.8%
+    Shell 6.5%
+    Python 3.0%
+    C++ 1.2%
+    Makefile 0.9%
+    M4 0.5%
+    JavaScript 0.1%
+
+C Shell Python C++ Makefile M4 JavaScript
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: dev
+Switch branches/tags
+
+    Branches
+    Tags
+
+auto_clusters cryptowork dev gh-pages master memcacheFix monotonic_clock optionalkeys ssl ssl2 topology v0.5.9 v0.6
+Nothing to show
+v0.6.7 v0.6.6 v0.6.5 v0.6.4 v0.6.3 v0.6.2 v0.6.1 v0.6.0 v0.5.9-5_MuslCompatiblity v0.5.9-4_DecryptionCrash v0.5.9-3_DisableFlush v0.5.9-2_ProxyCloseFix v0.5.9-1_BetterLogs v0.5.8 v0.5.8-6_FixHgetall v0.5.8-5_Mac_Build_Fix v0.5.8-5_HgetallLocalRack v0.5.8-4_HscanLocalRack v0.5.8-3_RedefBuildBreak v0.5.8-2_LocalRequestByPass v0.5.8-1_ScanLocal v0.5.7 v0.5.7-14_whiteSpaceStats v0.5.7-13_RectifyConsistency v0.5.7-12_disableReroute v0.5.7-11_doublehopcrash v0.5.7-10_quorum_assertion_fix v0.5.7-9_latency_metrics_fix v0.5.7-8_latency_metrics v0.5.7-7_safe_quorum v0.5.7-4_memory_leak v0.5.6 v0.5.6-timeout_factor v0.5.6-quorum_logging v0.5.5 v0.5.4 v0.5.3 v0.5.2 v0.5.1 v0.5.0 v0.4.0 v0.3.0 timeout_factor stats_report msgleak gossip_crash alloc_msg_leak OOO Build_Failure 0.5.7
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	bin 	Update launch_dynomite.sh 	Jun 14, 2016
+	conf 	Remove unneeded YAMLs 	Nov 9, 2017
+	contrib 	Added support for DNS seeds provider 	Mar 3, 2016
+	docker 	docker configs 	Jan 19, 2017
+	docs 	Move CONTRIBUTING.md to top directory per GH recommendations 	Mar 15, 2016
+	images 	Added dynomite logo 	Aug 16, 2014
+	init 	Rename file. 	Jan 25, 2016
+	m4 	Initial commit 	Feb 23, 2012
+	man 	update man page 	Nov 24, 2016
+	notes 	Support more SortedSet commands 	Dec 7, 2017
+	scripts 	Change shebangs 	Nov 9, 2017
+	src 	Merge branch 'dev' into improve_florida_html_parser 	Mar 29, 2018
+	test 	Expose (and consume) a dual-tester method from the func_test module 	Nov 9, 2017
+	.gitignore 	add a few more doxygen comments 	Oct 19, 2016
+	.travis.yml 	Add new dependencies in .travis.yml 	Nov 9, 2017
+	CONTRIBUTING.md 	Update CONTRIBUTING.md 	Sep 5, 2016
+	LICENSE 	Initial commit 	Feb 23, 2012
+	Makefile.am 	fix make dist 	Mar 20, 2016
+	NOTICE 	Update NOTICE 	Nov 6, 2014
+	OSSMETADATA 	adding OSSMETADATA for NetflixOSS tracking 	Dec 12, 2015
+	README.md 	Removed stats port, stats addr and stats interval parameters from REA… 	Nov 17, 2017
+	build.sh 	Change build to full log 	Nov 4, 2017
+	configure.ac 	'AC_PROG_RANLIB' is rendered obsolete by 'LT_INIT' 	Aug 13, 2016
+	travis.sh 	Add new dependencies in .travis.yml 	Nov 9, 2017
+README.md
+
+dynomite logo
+Dynomite
+
+Build Status Dev chat at https://gitter.im/Netflix/dynomite Apache V2 License
+
+Dynomite , inspired by Dynamo whitepaper , is a thin, distributed dynamo layer for different storage engines and protocols. Currently these include Redis and Memcached . Dynomite supports multi-datacenter replication and is designed for high availability.
+
+The ultimate goal with Dynomite is to be able to implement high availability and cross-datacenter replication on storage engines that do not inherently provide that functionality. The implementation is efficient, not complex (few moving parts), and highly performant.
+Workflow
+
+Every branch numbered like v0.5.9, v0.5.8 etc is stable and safe to use in production unless marked as pre-release. The dev branch is the development unstable branch. Over time master branch has fallen behind and is not maintained. We will eventually delete it and may or may not recreate it.
+
+For questions or contributions, please consider reading CONTRIBUTING.md .
+Build
+
+To build Dynomite from source with debug logs enabled and assertions disabled :
+
+ $ git clone git@github.com:Netflix/dynomite.git $ cd dynomite $ autoreconf -fvi $ ./configure --enable-debug=yes $ make $ src/dynomite -h  
+
+To build Dynomite in debug mode :
+
+ $ git clone git@github.com:Netflix/dynomite.git $ cd dynomite $ autoreconf -fvi $ CFLAGS="-ggdb3 -O0" ./configure --enable-debug=full $ make $ sudo make install  
+
+Help
+
+ Usage: dynomite [-?hVdDt] [-v verbosity level] [-o output file] [-c conf file] [-p pid file] Options: -h, --help : this help -V, --version : show version and exit -t, --test-conf : test configuration for syntax errors and exit -g, --gossip : enable gossip (default: disabled) -d, --daemonize : run as a daemon -D, --describe-stats : print stats description and exit -v, --verbosity=N : set logging level (default: 5, min: 0, max: 11) -o, --output=S : set logging file (default: stderr) -c, --conf-file=S : set configuration file (default: conf/dynomite.yml) -p, --pid-file=S : set pid file (default: off) -x, --admin-operation=N : set size of admin operation (default: 0)  
+
+Configuration
+
+Dynomite can be configured through a YAML file specified by the -c or --conf-file command-line argument on process start. The configuration files parses and understands the following keys:
+
+    env : Specify environment of a node. Currently supports aws and network (for physical datacenter).
+    datacenter : The name of the datacenter. Please refer to architecture document .
+    rack : The name of the rack. Please refer to architecture document .
+    dyn_listen : The port that dynomite nodes use to inter-communicate and gossip.
+    enable_gossip : enable gossip instead of static tokens (default: false). Gossip is experimental.
+    gos_interval : The sleeping time in milliseconds at the end of a gossip round.
+    tokens : The token(s) owned by a node. Currently, we don't support vnode yet so this only works with one token for the time being.
+    dyn_seed_provider : A seed provider implementation to provide a list of seed nodes.
+    dyn_seeds : A list of seed nodes in the format: address:port:rack:dc:tokens (node that vnode is not supported yet)
+    listen : The listening address and port (name:port or ip:port) for this server pool.
+    timeout : The timeout value in msec that we wait for to establish a connection to the server or receive a response from a server. By default, we wait indefinitely.
+    preconnect : A boolean value that controls if dynomite should preconnect to all the servers in this pool on process start. Defaults to false.
+    data_store : An integer value that controls if a server pool speaks redis (0) or memcached (1) or other protocol. Defaults to redis (0).
+    auto_eject_hosts : A boolean value that controls if server should be ejected temporarily when it fails consecutively server_failure_limit times. See liveness recommendations for information. Defaults to false.
+    server_retry_timeout : The timeout value in msec to wait for before retrying on a temporarily ejected server, when auto_eject_host is set to true. Defaults to 30000 msec.
+    server_failure_limit : The number of consecutive failures on a server that would lead to it being temporarily ejected when auto_eject_host is set to true. Defaults to 2.
+    servers : A list of local server address, port and weight (name:port:weight or ip:port:weight) for this server pool. Currently, there is just one.
+    secure_server_option : Encrypted communication. Must be one of 'none', 'rack', 'datacenter', or 'all'. datacenter means all communication between datacenters is encrypted but within a datacenter it is not. rack means all communication between racks and regions is encrypted however communication between nodes within the same rack is not encrypted. all means all communication between all nodes is encrypted. And none means none of the communication is encrypted.
+    stats_listen : The address and port number for the REST endpoint and for accessing statistics.
+    stats_interval : set stats aggregation interval in msec (default: 30000 msec).
+    mbuf_size : size of mbuf chunk in bytes (default: 16384 bytes).
+    max_msgs : max number of messages to allocate (default: 200000).
+
+For example, the configuration file in conf/dynomite.yml
+
+Finally, to make writing syntactically correct configuration files easier, dynomite provides a command-line argument -t or --test-conf that can be used to test the YAML configuration file for any syntax error.
+License
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

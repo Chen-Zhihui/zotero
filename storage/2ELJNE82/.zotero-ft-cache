@@ -1,0 +1,199 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 4
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 5
+    Star 5
+    Fork
+    Where should we fork this repository?
+    Loading
+    3
+
+raacampbell / lasagna
+Code Issues 73 Pull requests 0 Projects 0 Wiki Insights
+3-D imaging visualisation through slicing
+pyqtgraph python neuroscience anatomy registration
+
+    494 commits
+    5 branches
+    2 releases
+    2 contributors
+
+    Python 99.9%
+    Shell 0.1%
+
+Python Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+development gh-pages master new_axis_interaction patch-1
+Nothing to show
+v0.1.0 Last_Python2.7
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	ARA 	Bugfix in overlay brain area. Can now load a warped atlas 	Aug 27, 2017
+	IO 	Bugfix in sparse point reader 	Aug 9, 2017
+	designerFiles 	Fix some GUI elements that somehow became tiny. 	Jan 11, 2017
+	imageProcessing 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	ingredients 	Ignore OS X file turds 	Jan 23, 2017
+	registrationPlugins 	Correct some regressions introduced by previous commit. 	Jan 23, 2017
+	tutorialPlugins 	minor bug fix 	Jan 23, 2017
+	.gitignore 	Ignore OS X file turds 	Jan 23, 2017
+	README.md 	the requirements file should work now we have the typo fixed. 	Mar 2, 2017
+	alert.py 	*CONVERT TO PyQt5* 	Jan 10, 2017
+	alert_UI.py 	Fix some GUI elements that somehow became tiny. 	Jan 11, 2017
+	ara_json.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	compileGUI.sh 	*CONVERT TO PyQt5* 	Jan 10, 2017
+	dataTypeFromString.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	exportedGoggleTree2LasagnaLines.py 	typo 	Mar 24, 2017
+	imageStackLoader.py 	Allow built-in MHD reader to parse MHD files produced by Elastix from… 	Jan 23, 2017
+	lasagna.py 	Get the menu in the right place on on OS X. 	Jan 11, 2017
+	lasagna_axis.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	lasagna_environment.yml 	Add a lasagna environment file to make conda install easier 	Jul 20, 2017
+	lasagna_helperFunctions.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	lasagna_ingredient.py 	*CONVERT TO PyQt5* 	Jan 10, 2017
+	lasagna_mainWindow.py 	Fix some GUI elements that somehow became tiny. 	Jan 11, 2017
+	lasagna_plugin.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	lasagna_viewBox.py 	*CONVERT TO PyQt5* 	Jan 10, 2017
+	lasagnaplotwidget.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	mainWindow_rc.py 	Fix some GUI elements that somehow became tiny. 	Jan 11, 2017
+	pluginHandler.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	requirements.txt 	correct typo 	Mar 2, 2017
+	setup_windows.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+	tree.py 	*CONVERT TO PYTHON 3* 	Jan 9, 2017
+README.md
+Lasagna - Python Volume Visualiser for 3-D data.
+
+cover image
+Concept
+
+Lasagna is a lightweight platform for visualising for 3D volume data. Lasagna features a flexible plugin system, allowing it to be easily extended using Python and PyQt. Visualisation is peformed via three linked 2D views. Lasagna was written to explore registration accuracy of 3D data, guide registration, and overlay point data onto images. It was also written to help explore the Allen Reference Atlas. Lasagna is under heavy development but is maturing rapidly. For more information see the website .
+Installation
+
+Lasagna runs on Python 3, PyQt5, and uses PyQtGraph for the plotting and requires the following modules:
+
+    PyLibTiff
+    pynrrd
+    numpy
+    pyqtgraph >0.10.0
+    MatplotLib
+    yaml [and pyyaml]
+    Scipy [optional - ARA explorer]
+    Scikit-Image [optional - ARA explorer]
+    PyQt5
+    SIP
+    tifffile [optional for importing LSM files]
+    vtk [optional, for faster import of MHD files but doesn't work in Python 3]
+
+On Linux you can install most of the above via your package manager with the remaining packages being installed via pip3 ( cd to Lasagna directory to run the pip3 install line) :
+
+ apt-get install python3 python3-pip python3-pyqt5 python3-numpy python3-matplotlib python3-scipy python3-sip pip3 install -r requirements.txt --user  
+
+This command installs the dependencies in your home folder. If you add the --upgrade flag, pip3 will also install newer vesions of packages already in the system path.
+
+There is currently no vtk support in Python 3. If you run into problems try installing the dependencies separately (see below). For other platforms, please see here
+
+On Mac you will first need to Install HomeBrew
+
+ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  
+
+The install Python 3 and a couple of other packages without which you won't be able to install the rest of the dependencies:
+
+ brew install freetype pkg-config python3  
+
+Now you can install the dependencies in requirements.txt using: pip3 install -r requirements.txt --user
+
+If for some reason this fails, try installing the dependencies seperately:
+
+ pip3 install numpy pip3 install matplotlib ...  
+
+Setup
+
+After the first run, Lasagna creates a preferences file in the .lasagna hidden directory in your home directory. You may need to edit this file to make Lasagna aware of its built in-plugins. i.e. edit the pluginPaths preference. This step isn't user-friendly, sorry.
+Usage
+
+See the website .
+Current status
+
+Even the master branch is currently unstable (although should always be usable).
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

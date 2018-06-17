@@ -1,0 +1,222 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 25
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 145
+    Star 145
+    Fork
+    Where should we fork this repository?
+    Loading
+    31
+
+cneben / QuickQanava
+Code Issues 12 Pull requests 1 Projects 1 Wiki Insights
+C++14 network/graph visualization library http://www.destrat.io/quickqanava
+graph qt-quick dataflow-programming qt5 visualizations graphs graph-vizualization-toolkit qml cpp14 cpp-library qt-containers
+
+    486 commits
+    1 branch
+    0 releases
+    4 contributors
+
+    C++ 83.0%
+    QML 13.3%
+    QMake 2.2%
+    CMake 0.6%
+    C 0.6%
+    Objective-C 0.2%
+    Other 0.1%
+
+C++ QML QMake CMake C Objective-C Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	GTpo 	Fix GTpo: simplify GenNode inheritance. 	Mar 6, 2018
+	QuickContainers 	Reactivate style sample. 	Mar 27, 2018
+	doc 	Prepare 0.9.3. 	Dec 14, 2017
+	samples 	Reactivate style sample. 	Mar 27, 2018
+	src 	Reactivate style sample. 	Mar 27, 2018
+	.appveyor.yml 	Revert back from CMake to QMake for Windows build. 	Mar 4, 2018
+	.gitignore 	Update CMake configuration. 	Feb 27, 2018
+	.travis.yml 	USe CMake with Travis. 	Mar 4, 2018
+	CMakeLists.txt 	Reactivate style sample. 	Mar 27, 2018
+	README.md 	Reactivate style sample. 	Mar 27, 2018
+	licence.txt 	Signed-off-by: cneben <benoit@destrat.io> 	Aug 10, 2017
+	quickqanava.pro 	Fix CI. Remove default Graphiz support. 	Mar 4, 2018
+README.md
+QuickQanava
+
+Overview | Dependencies | Building | Roadmap | License
+
+Build Status (Linux/g++6/Qt5.10 - OSX/Clang/Qt5.9)
+
+Build status (Windows/MSVC 2015 x64/Qt5.10/qmake)
+
+Documentation | License | | Twitter URL
+
+CHANGELOG 20180326: Add style support for gradient fill and glow effect. Reactivate style management (see style sample).
+
+QuickQanava is a C++14 library designed to display graphs and relational content in a Qt application. QuickQanava provide QML components and C++ classes to visualize medium-sized directed graphs in a C++/QML application. QuickQanava focus on displaying relational content into a dynamic user interface with DnD support, resizable content and visual creation of topology. More advanced layouts algorithms might be integrated in future versions.
+
+QuickQanava main repository is hosted on GitHub: https://github.com/cneben/quickqanava
+
+QuickQanava is primarily developed with Qt 5.10 with MSVC2015U3 and g++5.4 (minimal required Qt version is Qt 5.10 )
+
+    Project homepage: http://www.destrat.io/quickqanava ( updated 20171213 )
+    Reference documentation: http://www.destrat.io/quickqanava/doc/index.html ( updated 20171213 )
+
+For any questions, please contact: benoit@destrat.io
+
+QuickQanava focus on writing content delegates in QML (even if they could be 100% defined in C++, a QML engine is still necessary in the background), if you are looking for a pure C++/QGraphicsView solution, have a look to: NodeEditor
+
+Why visual programming does matter: Medium @ni55an
+QuickQanava Showcase
+
+Toplogy sample video
+Edges
+Curved-Straight Edges
+Nodes
+Custom content
+
+    User Doc: QuickStart - Custom Nodes
+
+Visual Connector
+Visual Connector
+
+    User Doc: QuickStart - Visual Connector
+    Reference documentation: qan::Connector interface and Qan.VisualConnector component
+
+Groups
+Groups
+
+    User Doc: QuickStart - Using Groups
+
+Styles
+Custom styles
+
+    User Doc: QuickStart - Using Styles
+
+Dependencies
+
+    Qt 5.10 is mandatory for Qt Quick Shapes support.
+    Google Test is a GTpo dependency, it is optional for QuickQanava until you intent to use a graph with custom non-STL/non-Qt containers: Google Test GitHub
+
+Building
+
+ git clone https://github.com/cneben/QuickQanava
+cd  QuickQanava
+
+    Open quickqanava.pro in QtCreator
+
+    Select a kit, build and launch samples.
+
+    Building 'tests' ( optional ): Tests will not compile without a working Google Test installation: for Windows, modify win32-msvc*:GMOCK_DIR and win32-msvc*:GTEST_DIR in tests.pro with path containing a valid build directory. On Linux, no configuration is required, just install the '-dev' package for theses libraries.
+
+Roadmap / Changelog
+
+    v0.9.4:
+        QuickContainers (Qt/QML observable adapter for STL or Qt containers):
+            Redesign QuickContainers: qcm::ContainerModel<> memory footprint is too high (inheritance from QAbstractItemModel comes with a strong virtual and signals/slots overhead)
+            Add support for standard library containers.
+            Increase test coverage.
+        Fix port remove issues.
+        Add full CMake support..
+    v0.9.5:
+        Add full support for groups inside group (ie subgraphs).
+        Fix current qan::PointGrid bugs and add "snap to grid" support.
+    v1.0.0: Advanced edge visualization
+        GTpo (Configurable topology library):
+            Redesign using adjacency matrix, immutable and full move semantic support.
+            Push test coverage to 100% (ie increase coverage for subgroups).- [80%] Redesign qan::Graph interface for creating content.
+        Publish the 4k sample (40k is probably too much for QML without dedicated culling and LOD code).
+
+License
+
+License
+
+Copyright (c) 2017 BA
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

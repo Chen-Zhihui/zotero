@@ -8,16 +8,17 @@
 	"maxVersion": "null",
 	"priority": 100,
 	"inRepository": true,
-	"configOptions":{"getCollections": true},
+	"configOptions": {
+		"getCollections": true
+	},
 	"displayOptions": {
 		"exportCharset": "UTF-8",
 		"exportNotes": false,
 		"exportFileData": false,
 		"useJournalAbbreviation": false
 	},
-	"lastUpdated": "2018-03-03 14:00:00"
+	"lastUpdated": "2018-06-07 17:20:00"
 }
-
 
 //%a = first listed creator surname
 //%y = year
@@ -354,13 +355,13 @@ var citeKeyConversions = {
 		if (item.creators && item.creators[0] && item.creators[0].lastName) {
 			return item.creators[0].lastName.toLowerCase().replace(/ /g, "_").replace(/,/g, "");
 		}
-		return "";
+		return "noauthor";
 	},
 	"t": function (flags, item) {
 		if (item["title"]) {
 			return item["title"].toLowerCase().replace(citeKeyTitleBannedRe, "").split(/\s+/g)[0];
 		}
-		return "";
+		return "notitle";
 	},
 	"y": function (flags, item) {
 		if (item.date) {
@@ -369,7 +370,7 @@ var citeKeyConversions = {
 				return date.year;
 			}
 		}
-		return "????";
+		return "nodate";
 	}
 }
 

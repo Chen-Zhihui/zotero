@@ -9,7 +9,7 @@
 	"priority": 100,
 	"inRepository": true,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2018-03-12 12:40:00"
+	"lastUpdated": "2018-05-13 08:40:00"
 }
 
 /*
@@ -54,13 +54,13 @@ function detectWeb(doc, url) {
 	// The subtree changes from multiple search results to a single result
 	// when clicking on one entry or back to the search results, and thus
 	// we have to monitor this.
-	Z.monitorDOMChanges(ZU.xpath(doc, '//search-app/div')[0]);
+	Z.monitorDOMChanges(ZU.xpath(doc, '//search-app')[0]);
 
 	// Plural with "s" vs. singular without
-	if (ZU.xpathText(doc, '//search-app/div/search-results')) {
+	if (ZU.xpathText(doc, '//search-app/search-results')) {
 		return "multiple";
 	}
-	if (ZU.xpathText(doc, '//search-app/div/search-result')) {
+	if (ZU.xpathText(doc, '//search-app/search-result')) {
 		return "patent";
 	}
 }

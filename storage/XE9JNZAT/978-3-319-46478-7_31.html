@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html class="js" lang="en-gb"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=2.5,user-scalable=yes">
+    <meta name="citation_publisher" content="Springer, Cham">
+    <meta name="citation_title" content="A Discriminative Feature Learning Approach for Deep Face Recognition">
+    <meta name="citation_doi" content="10.1007/978-3-319-46478-7_31">
+    <meta name="citation_language" content="en">
+    <meta name="citation_abstract_html_url" content="https://link.springer.com/chapter/10.1007/978-3-319-46478-7_31">
+    <meta name="citation_fulltext_html_url" content="https://link.springer.com/chapter/10.1007/978-3-319-46478-7_31">
+    <meta name="citation_pdf_url" content="https://link.springer.com/content/pdf/10.1007%2F978-3-319-46478-7_31.pdf">
+    <meta name="citation_springer_api_url" content="http://api.springer.com/metadata/pam?q=doi:10.1007/978-3-319-46478-7_31&amp;api_key=">
+    <meta name="citation_firstpage" content="499">
+    <meta name="citation_lastpage" content="515">
+    <meta name="citation_author" content="Yandong Wen">
+    <meta name="citation_author_institution" content="Shenzhen Institutes of Advanced Technology, CAS">
+    <meta name="citation_author" content="Kaipeng Zhang">
+    <meta name="citation_author_institution" content="Shenzhen Institutes of Advanced Technology, CAS">
+    <meta name="citation_author" content="Zhifeng Li">
+    <meta name="citation_author_institution" content="Shenzhen Institutes of Advanced Technology, CAS">
+    <meta name="citation_author_email" content="zhifeng.li@siat.ac.cn">
+    <meta name="citation_author" content="Yu Qiao">
+    <meta name="citation_author_institution" content="Shenzhen Institutes of Advanced Technology, CAS">
+    <meta name="citation_author_institution" content="The Chinese University of Hong Kong">
+    <meta name="dc.identifier" content="10.1007/978-3-319-46478-7_31">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Convolutional neural networks (CNNs) have been widely used in computer vision community, significantly improving the state-of-the-art. In most of the available CNNs, the softmax loss function is used...">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="A Discriminative Feature Learning Approach for Deep Face Recognition">
+    <meta name="twitter:image" content="https://static-content.springer.com/cover/book/978-3-319-46478-7.jpg">
+    <meta name="twitter:image:alt" content="Content cover image">
+    <meta name="twitter:site" content="SpringerLink">
+    <meta name="twitter:description" content="Convolutional neural networks (CNNs) have been widely used in computer vision community, significantly improving the state-of-the-art. In most of the available CNNs, the softmax loss function is used...">
+    <meta name="citation_inbook_title" content="Computer Vision – ECCV 2016">
+    <meta name="citation_publication_date" content="2016/10/08">
+    <meta name="citation_conference_series_id" content="springer/eccv">
+    <meta name="citation_conference_title" content="European Conference on Computer Vision">
+    <meta name="citation_conference_sequence_num" content="14">
+    <meta name="citation_conference_abbrev" content="ECCV">
+    <meta property="og:title" content="A Discriminative Feature Learning Approach for Deep Face Recognition">
+    <meta property="og:type" content="Paper">
+    <meta property="og:url" content="https://link.springer.com/chapter/10.1007/978-3-319-46478-7_31">
+    <meta property="og:image" content="https://static-content.springer.com/cover/book/978-3-319-46478-7.jpg">
+    <meta property="og:site_name" content="SpringerLink">
+    <meta property="og:description" content="Convolutional neural networks (CNNs) have been widely used in computer vision community, significantly improving the state-of-the-art. In most of the available CNNs, the softmax loss function is used...">
+
+        <title>A Discriminative Feature Learning Approach for Deep Face Recognition | SpringerLink</title>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/978-3-319-46478-7_31">
+        <link rel="shortcut icon" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/favicon.ico">
+<link rel="icon" sizes="16x16 32x32 48x48" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/favicon.ico">
+<link rel="icon" sizes="16x16" type="image/png" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/favicon-16x16.png">
+<link rel="icon" sizes="32x32" type="image/png" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/favicon-32x32.png">
+<link rel="icon" sizes="48x48" type="image/png" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/favicon-48x48.png">
+<link rel="apple-touch-icon" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-iphone@3x.png">
+<link rel="apple-touch-icon" sizes="72x72" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/ic_launcher_hdpi.png">
+<link rel="apple-touch-icon" sizes="76x76" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="114x114" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-iphone@2x.png">
+<link rel="apple-touch-icon" sizes="144x144" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/ic_launcher_xxhdpi.png">
+<link rel="apple-touch-icon" sizes="152x152" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-ipad@2x.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://link.springer.com/springerlink-static/1287432902/images/favicon/app-icon-iphone@3x.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/springerlink-static/1287432902/images/favicon/ic_launcher_xxhdpi.png">
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://google-analytics.com/">
+<link rel="dns-prefetch" href="https://www.google-analytics.com/">
+<link rel="dns-prefetch" href="https://www.googletagservices.com/">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+<link rel="dns-prefetch" href="https://static-content.springer.com/">
+        <link rel="stylesheet" href="basic.css" media="screen">
+<link rel="stylesheet" href="styles.css" class="js-ctm" media="only screen and (-webkit-min-device-pixel-ratio:0) and (min-color-index:0), (-ms-high-contrast: none), only all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm)">
+<link rel="stylesheet" href="print.css" media="print">
+
+
+            <script async="" src="controltag.js"></script><script async="" type="text/javascript" src="gpt.js"></script><script type="text/javascript" async="" src="KDqyaFZ_.js"></script><script async="" src="gtm.js"></script><script>
+        var dataLayer = [{
+                'GA Key':'UA-26408784-1',
+                'Features':["leaderboardadverts","abtesting"],
+                'Event Category':'Conference Paper',
+                'Open Access':'N',
+                'Labs':'Y',
+                'DOI':'10.1007\/978-3-319-46478-7_31',
+                'VG Wort Identifier':'pw-vgzm.415900-10.1007-978-3-319-46478-7_31',
+                'HasAccess':'N',
+                'Full HTML':'N',
+                'Has Body':'Y',
+                'Static Hash':'1287432902',
+                'Has Preview':'N',
+                'user':{'license': {'businessPartnerID': [], 'businessPartnerIDString': ''}},
+                'content':{'type': 'chapter', 'book': {'seriesTitle': 'Lecture Notes in Computer Science', 'bookProductType': 'Proceedings', 'eIsbn': '978-3-319-46478-7', 'seriesId': '558', 'title': 'Computer Vision \u2013 ECCV 2016', 'doi': '10.1007/978-3-319-46478-7'}, 'chapter': {'doi': '10.1007/978-3-319-46478-7_31'}, 'category': {'pmc': {'primarySubject': 'Computer Science', 'primarySubjectCode': 'I', 'secondarySubjects': {'1': 'Image Processing and Computer Vision', '2': 'Pattern Recognition', '3': 'Artificial Intelligence (incl. Robotics)', '4': 'Computer Graphics'}, 'secondarySubjectCodes': {'1': 'I22021', '2': 'I2203X', '3': 'I21017', '4': 'I22013'}}}},
+                'Access Type':'noaccess',
+                'Page':'chapter',
+                'Bpids':'',
+                'Bpnames':'',
+                'SubjectCodes':'SCI, SCI22021, SCI2203X, SCI21017, SCI22013',
+                'Keywords':'Convolutional neural networks, Face recognition, Discriminative feature learning, Center loss',
+                'Country':'CN',
+                'ConferenceSeriesId':'eccv',
+        }];
+    </script>
+
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?cache-busting=' + new Date().getTime() + '&id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WCF9Z9');</script>
+
+    <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=link.springer.com"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=link.springer.com"></script><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_189.js" async=""></script></head>
+    <body><button href="javascript:;" title="focus catcher" class="js-focus-catcher u-screenreader-only" tabindex="-1"></button><div id="popup-search" class="u-composite-layer popup-search-theme" style="top:-60px;left:-60px;visibility:hidden;opacity:0;" aria-hidden="true" aria-label="popup"><svg class="popup-arrow" xmlns="http://www.w3.org/2000/svg" width="33.7" height="18.4" viewBox="0 0 33.7 18.4"><path class="fill" fill="#F7FBFE" d="M1.4 18.4h30.9l-15.5-16.9z"></path><path class="stroke" fill="#98BED7" d="M0 18.4h1.4l15.4-16.9 15.5 16.9h1.4l-16.9-18.4z"></path></svg><div class="popup-arrow popup-arrow-shadow icon--popup-arrow-shadow"></div><div class="popup__search"><div class="popup-base-theme__inner" data-component="SpringerLink-Popup-inner"></div></div><button tabindex="-1" class="popup-close icon--close-btn" data-component="SpringerLink-Popup-close">close</button></div>
+        <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WCF9Z9"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <nav class="skip-to">
+    <a class="skip-to__link skip-to__link--article" href="#main-content">Skip to main content</a>
+</nav>
+        <div class="page-wrapper">
+            <noscript>
+    <div class="nojs-banner u-interface">
+        <p>This service is more advanced with JavaScript available, learn more at <a
+                href="http://activatejavascript.org" target="_blank" rel="noopener">http://activatejavascript.org</a>
+        </p>
+    </div>
+</noscript>
+                    <div id="leaderboard" class="leaderboard u-hide" data-component="SpringerLink.GoogleAds" data-namespace="leaderboard"></div>
+
+                <header id="header" class="header u-interface" role="banner">
+        <div class="header__content">
+            <div class="header__menu-container">
+                    <a id="logo" class="site-logo" href="https://link.springer.com/" title="Go to homepage">
+                <div class="u-screenreader-only">SpringerLink</div>
+    <svg class="site-logo__springer" width="148" height="30" role="img" aria-label="SpringerLink Logo">
+        <image width="148" height="30" alt="SpringerLink Logo" src="/springerlink-static/1287432902/images/png/springerlink.png" xlink="http://www.w3.org/1999/xlink" xlink:href="/springerlink-static/1287432902/images/svg/springerlink.svg"></image>
+    </svg>
+
+    </a>
+
+
+                    <nav id="search-container" class="u-inline-block">
+                        <div class="search">
+                            <div class="search__content">
+                                <form class="u-form-single-input" action="/search" method="get" role="search">
+    <input aria-label="Search SpringerLink" name="query" autocomplete="off" placeholder="Search SpringerLink" type="text">
+    <input class="u-hide-text" value="Submit" title="Submit" type="submit">
+    <svg class="u-vertical-align-absolute" width="13" height="13" viewBox="222 151 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M227 159C228.7 159 230 157.7 230 156 230 154.3 228.7 153 227 153 225.3 153 224 154.3 224 156 224 157.7 225.3 159 227 159L227 159 227 159 227 159ZM230 160.1L231.1 159 233.9 161.7C234.2 162.1 234.2 162.6 233.9 162.9 233.6 163.2 233.1 163.2 232.7 162.9L230 160.1 230 160.1 230 160.1 230 160.1ZM227 161L227 161C224.2 161 222 158.8 222 156 222 153.2 224.2 151 227 151 229.8 151 232 153.2 232 156 232 158.8 229.8 161 227 161L227 161 227 161 227 161 227 161Z" stroke="none" fill-rule="evenodd"></path>
+    </svg>
+</form>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <nav class="nav-container u-interface">
+    <div class="global-nav__wrapper">
+        <div class="search-button">
+            <a class="search-button__label" href="#search-container" role="button" aria-pressed="false" aria-haspopup="true" aria-controls="popup-search">
+                <span class="search-button__title">Search</span><svg width="12" height="12" viewBox="222 151 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M227 159C228.7 159 230 157.7 230 156 230 154.3 228.7 153 227 153 225.3 153 224 154.3 224 156 224 157.7 225.3 159 227 159L227 159 227 159 227 159ZM230 160.1L231.1 159 233.9 161.7C234.2 162.1 234.2 162.6 233.9 162.9 233.6 163.2 233.1 163.2 232.7 162.9L230 160.1 230 160.1 230 160.1 230 160.1ZM227 161L227 161C224.2 161 222 158.8 222 156 222 153.2 224.2 151 227 151 229.8 151 232 153.2 232 156 232 158.8 229.8 161 227 161L227 161 227 161 227 161 227 161Z" stroke="none" fill-rule="evenodd"></path>
+                </svg>
+            </a>
+        </div>
+
+        <ul class="global-nav" data-component="SpringerLink.Menu" data-title="Navigation menu" data-text="Menu">
+            <li>
+                <a href="https://link.springer.com/">
+                    <span class="u-overflow-ellipsis">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://link.springer.com/contactus">
+                    <span class="u-overflow-ellipsis">Contact us</span>
+                </a>
+            </li>
+
+                <li class="global-nav__logged-out">
+                    <a class="test-login-link" href="https://link.springer.com/signup-login?previousUrl=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-319-46478-7_31">
+                        <span class="u-overflow-ellipsis">Log in</span>
+                    </a>
+                </li>
+
+        </ul><div class="main-menu u-composite-layer c-button-dropdown c-button-dropdown--ghost" data-component="SV.Dropdown" data-namespace="Menu" aria-label="button with dropdown options" style=""><button type="button" title="Navigation menu" class="c-button-dropdown__button" data-role="button-dropdown__control" aria-pressed="false" aria-expanded="false" aria-controls="Dropdown.Menu-dropdown"><span class="u-overflow-ellipsis c-button-dropdown__button-title">Menu</span><span class="c-button-dropdown__icon"></span></button><div class="u-composite-layer c-button-dropdown__container" aria-hidden="true" aria-label="dropdown" id="Dropdown.Menu-dropdown"><ul class="main-menu__content" data-role="button-dropdown__content"><li>
+                <a href="https://link.springer.com/">
+                    <span class="u-overflow-ellipsis">Home</span>
+                </a>
+            </li><li>
+                <a href="https://link.springer.com/contactus">
+                    <span class="u-overflow-ellipsis">Contact us</span>
+                </a>
+            </li><li class="global-nav__logged-out">
+                    <a class="test-login-link" href="https://link.springer.com/signup-login?previousUrl=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-319-46478-7_31">
+                        <span class="u-overflow-ellipsis">Log in</span>
+                    </a>
+                </li></ul></div></div>
+    </div> 
+</nav> 
+            </div>
+
+        </div>
+    </header>
+
+            
+
+            <main id="main-content" class="main-wrapper">
+                <div class="main-container uptodate-recommendations-off">
+                    <aside class="main-sidebar-left">
+                        <div class="main-sidebar-left__content">
+                            <div class="test-cover cover-image" itemscope="">
+        <a class="test-cover-link" href="https://link.springer.com/book/10.1007/978-3-319-46478-7" title="Computer Vision – ECCV 2016">
+            <img class="test-cover-image" src="978-3-319-46478-7.jpg" alt="Computer Vision – ECCV 2016" itemprop="image">
+        </a>
+
+</div>
+                        </div>
+                    </aside>
+                    <div class="main-body" data-role="NavigationContainer">
+                        
+
+
+
+                        <article class="main-body__content">
+                            <div xmlns="http://www.w3.org/1999/xhtml" class="FulltextWrapper"><div class="ArticleHeader main-context"><div id="enumeration" class="enumeration">    <div>
+        <a class="gtm-confseries-link" data-test="ConfSeriesLink" href="https://link.springer.com/conference/eccv">
+            <span data-test="ConfSeriesName"> European Conference on Computer Vision</span>
+        </a>
+    </div>
+<p class="test-LocationInConferenceProceeding icon--meta-keyline-before"><span data-test="ConferenceAcronym">ECCV 2016</span>: <span class="BookTitle"><a href="https://link.springer.com/book/10.1007/978-3-319-46478-7" class="gtm-book-link">Computer Vision – ECCV 2016</a></span><span class="page-numbers-info">
+                pp 499-515</span><span class="u-inline-block u-ml-4"> |
+                <a class="gtm-cite-link" href="#citeas">Cite as</a></span></p></div><div class="MainTitleSection"><h1 class="ChapterTitle" lang="en">A Discriminative Feature Learning Approach for Deep Face Recognition</h1></div><div class="authors u-clearfix authors--enhanced" data-component="SpringerLink.Authors"><ul class="u-interface u-inline-list authors__title" data-role="AuthorsNavigation"><li><a href="#authors" class="gtm-tab-authors selected">Authors</a></li><li><a href="#authorsandaffiliations" class="gtm-tab-authorsandaffiliations">Authors and affiliations</a></li></ul><span class="marker" style="width: 160px;"></span><div class="authors__list" data-role="AuthorsList" id="authors"><ul class="test-contributor-names"><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors__name">Yandong&nbsp;Wen</span></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors__name">Kaipeng&nbsp;Zhang</span></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors__name">Zhifeng&nbsp;Li</span><span class="author-information"><span class="authors__contact"><a href="mailto:zhifeng.li@siat.ac.cn" title="zhifeng.li@siat.ac.cn" itemprop="email" class="gtm-email-author">Email author</a></span></span></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors__name">Yu&nbsp;Qiao</span></li></ul></div><div class="authors__affiliations" id="authorsandaffiliations"><div class="authors-affiliations u-interface"><ul class="test-contributor-names"><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors-affiliations__name">Yandong&nbsp;Wen</span><ul class="authors-affiliations__indexes u-inline-list" data-role="AuthorsIndexes"><li data-affiliation="affiliation-1">1</li></ul></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors-affiliations__name">Kaipeng&nbsp;Zhang</span><ul class="authors-affiliations__indexes u-inline-list" data-role="AuthorsIndexes"><li data-affiliation="affiliation-1">1</li></ul></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors-affiliations__name">Zhifeng&nbsp;Li</span><ul class="authors-affiliations__indexes u-inline-list" data-role="AuthorsIndexes"><li data-affiliation="affiliation-1">1</li></ul><span class="author-information"><span class="author-information__contact u-icon-before icon--email-before"><a href="mailto:zhifeng.li@siat.ac.cn" title="zhifeng.li@siat.ac.cn" itemprop="email" class="gtm-email-author">Email author</a></span></span></li><li itemscope="" itemtype="http://schema.org/Person" class="u-mb-2 u-pt-4 u-pb-4"><span itemprop="name" class="authors-affiliations__name">Yu&nbsp;Qiao</span><ul class="authors-affiliations__indexes u-inline-list" data-role="AuthorsIndexes"><li data-affiliation="affiliation-1">1</li><li data-affiliation="affiliation-2">2</li></ul></li></ul><ol class="test-affiliations"><li class="affiliation" data-test="affiliation-1" data-affiliation-highlight="affiliation-1" itemscope="" itemtype="http://schema.org/Organization"><span class="affiliation__count">1.</span><span class="affiliation__item"><span itemprop="department" class="affiliation__department">Shenzhen Key Lab of Computer Vision and Pattern Recognition</span><span itemprop="name" class="affiliation__name">Shenzhen Institutes of Advanced Technology, CAS</span><span itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><span itemprop="addressRegion" class="affiliation__city">Shenzhen</span><span itemprop="addressCountry" class="affiliation__country">China</span></span></span></li><li class="affiliation" data-test="affiliation-2" data-affiliation-highlight="affiliation-2" itemscope="" itemtype="http://schema.org/Organization"><span class="affiliation__count">2.</span><span class="affiliation__item"><span itemprop="name" class="affiliation__name">The Chinese University of Hong Kong</span><span itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><span itemprop="addressRegion" class="affiliation__city">Sha Tin</span><span itemprop="addressCountry" class="affiliation__country">Hong Kong</span></span></span></li></ol></div></div></div><div class="main-context__container" data-component="SpringerLink.ArticleMetrics"><div class="main-context__column"><span><span class="test-render-category">Conference paper</span></span><div class="article-dates" data-component="SpringerLink.ArticleDates"><div class="article-dates__entry"><span class="article-dates__label">First Online: </span><span class="article-dates__first-online"><time datetime="2016-09-16">16 September 2016</time></span></div><div class="article-dates__history"></div></div></div><div class="main-context__column">    <ul id="book-metrics" class="article-metrics u-sansSerif">
+            <li class="article-metrics__item">
+                    <a class="article-metrics__link gtm-chaptercitations-count" href="http://www.bookmetrix.com/detail/chapter/47709d74-1735-4e9f-9510-f3cafd8c2721#citations" target="_blank" rel="noopener" title="Visit Bookmetrix for full citation details" id="chaptercitations-link">
+                       <span id="chaptercitations-count-number" class="test-metric-count c-button-circle gtm-chaptercitations-count">33</span>
+                       <span class="test-metric-name article-metrics__label gtm-chaptercitations-count">Citations</span>
+                    </a>
+            </li>
+            <li class="article-metrics__item">
+                    <a class="article-metrics__link gtm-chapterreaders-count" href="http://www.bookmetrix.com/detail/chapter/47709d74-1735-4e9f-9510-f3cafd8c2721#readers" target="_blank" rel="noopener" title="Visit Bookmetrix for full Mendeley reader details" id="chapterreaders-link">
+                       <span id="chapterreaders-count-number" class="test-metric-count c-button-circle gtm-chapterreaders-count">365</span>
+                       <span class="test-metric-name article-metrics__label gtm-chapterreaders-count">Readers</span>
+                    </a>
+            </li>
+            <li class="article-metrics__item">
+                    <a class="article-metrics__link gtm-chapterdownloads-count" href="http://www.bookmetrix.com/detail/chapter/47709d74-1735-4e9f-9510-f3cafd8c2721#downloads" target="_blank" rel="noopener" title="Visit Bookmetrix for full download details" id="chapterdownloads-link">
+                       <span id="chapterdownloads-count-number" class="test-metric-count c-button-circle gtm-chapterdownloads-count">9.5k</span>
+                       <span class="test-metric-name article-metrics__label gtm-chapterdownloads-count">Downloads</span>
+                    </a>
+            </li>
+    </ul>
+</div></div><span id="test-SeriesTitle" class="vol-info">
+                Part of the
+                <a class="gtm-book-series-link" href="https://link.springer.com/bookseries/558">Lecture Notes in Computer Science</a>
+                book series (LNCS, volume 9911)</span></div><section class="Abstract" id="Abs1" tabindex="-1" lang="en"><h2 class="Heading">Abstract</h2><p id="Par1" class="Para">Convolutional
+ neural networks (CNNs) have been widely used in computer vision 
+community, significantly improving the state-of-the-art. In most of the 
+available CNNs, the softmax loss function is used as the supervision 
+signal to train the deep model. In order to enhance the discriminative 
+power of the deeply learned features, this paper proposes a new 
+supervision signal, called center loss, for face recognition task. 
+Specifically, the center loss simultaneously learns a center for deep 
+features of each class and penalizes the distances between the deep 
+features and their corresponding class centers. More importantly, we 
+prove that the proposed center loss function is trainable and easy to 
+optimize in the CNNs. With the joint supervision of softmax loss and 
+center loss, we can train a robust CNNs to obtain the deep features with
+ the two key learning objectives, inter-class dispension and intra-class
+ compactness as much as possible, which are very essential to face 
+recognition. It is encouraging to see that our CNNs (with such joint 
+supervision) achieve the state-of-the-art accuracy on several important 
+face recognition benchmarks, Labeled Faces in the Wild (LFW), YouTube 
+Faces (YTF), and MegaFace Challenge. Especially, our new approach 
+achieves the best results on MegaFace (the largest public domain face 
+benchmark) under the protocol of small training set (contains under 
+500000 images and under 20000 persons), significantly improving the 
+previous results and setting new state-of-the-art for both face 
+recognition and face verification tasks.</p></section><div class="KeywordGroup" lang="en"><h2 class="Heading">Keywords</h2><span class="Keyword">Convolutional neural networks&nbsp;</span><span class="Keyword">Face recognition&nbsp;</span><span class="Keyword">Discriminative feature learning&nbsp;</span><span class="Keyword">Center loss&nbsp;</span></div><div class="note test-pdf-link" id="cobranding-and-download-availability-text"><div id="chapter_no_access_banner">This is a preview of subscription content, <a id="test-login-banner-link" href="https://link.springer.com/signup-login?previousUrl=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-319-46478-7_31">log in</a> to check access</div></div><div class="article-actions--inline" id="article-actions--inline" data-component="article-actions--inline"><div class="citations u-interface c-button-dropdown" data-component="SV.Dropdown" data-namespace="citations--inline" aria-label="button with dropdown options">
+        <button type="button" class="c-button-dropdown__button" data-role="button-dropdown__control" aria-pressed="false" aria-expanded="false" aria-controls="Dropdown.citations--inline-dropdown"><span class="u-overflow-ellipsis c-button-dropdown__button-title">
+    <span>Cite</span>
+    <span class="hide-text-small">paper</span>
+</span><span class="c-button-dropdown__icon"></span></button>
+<div class="u-composite-layer c-button-dropdown__container" aria-hidden="true" aria-label="dropdown" id="Dropdown.citations--inline-dropdown"><ul class="citations__content" data-role="button-dropdown__content">
+    <li>
+        <a href="#citeas" class="gtm-cite-dropdown">How to cite?</a>
+    </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=refman&amp;flavour=citation" title="Download this paper's citation as a .RIS file" class="gtm-export-citation" data-gtmlabel="RIS">
+                <span class="citations__extension" data-gtmlabel="RIS">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .RIS
+                </span>
+                <span class="citations__types">
+                        <span>
+                            Papers
+                        </span>
+                        <span>
+                            Reference Manager
+                        </span>
+                        <span>
+                            RefWorks
+                        </span>
+                        <span>
+                            Zotero
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=endnote&amp;flavour=citation" title="Download this paper's citation as a .ENW file" class="gtm-export-citation" data-gtmlabel="ENW">
+                <span class="citations__extension" data-gtmlabel="ENW">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .ENW
+                </span>
+                <span class="citations__types">
+                        <span>
+                            EndNote
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=bibtex&amp;flavour=citation" title="Download this paper's citation as a .BIB file" class="gtm-export-citation" data-gtmlabel="BIB">
+                <span class="citations__extension" data-gtmlabel="BIB">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .BIB
+                </span>
+                <span class="citations__types">
+                        <span>
+                            BibTeX
+                        </span>
+                        <span>
+                            JabRef
+                        </span>
+                        <span>
+                            Mendeley
+                        </span>
+                </span>
+            </a>
+        </li>
+</ul></div>
+    </div></div><section id="Notes" class="Section1 RenderAsSection1"><h2 class="Heading" data-role="collapsible-handle">Notes<span class="section-icon"></span></h2><div class="content"><section><h3 class="Heading">Acknowledgement</h3><p class="SimplePara">This
+ work was funded by External Cooperation Program of BIC, Chinese Academy
+ of Sciences (172644KYSB20160033, 172644KYSB20150019), Shenzhen Research
+ Program (KQCX2015033117354153, JSGG20150925164740726, 
+CXZZ20150930104115529 and JCYJ20150925163005055), Guangdong Research 
+Program (2014B050505017 and 2015B010129013), Natural Science Foundation 
+of Guangdong Province (2014A030313688) and the Key Laboratory of 
+Human-Machine Intelligence-Synergy Systems through the Chinese Academy 
+of Sciences.</p></section></div></section><section class="Section1 RenderAsSection1" id="Bib1" tabindex="-1"><h2 class="Heading" data-role="collapsible-handle">References<span class="section-icon"></span></h2><div class="content"><ol class="BibliographyWrapper"><li class="Citation"><div class="CitationNumber">1.</div><div class="CitationContent" id="CR1">Fg-net aging database. In: (2010). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://www.fgnet.rsunit.com/"><span class="RefSource">http://www.fgnet.rsunit.com/</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">2.</div><div class="CitationContent" id="CR2">Ahonen,
+ T., Hadid, A., Pietikainen, M.: Face description with local binary 
+patterns: application to face recognition. IEEE Trans. Pattern Anal. 
+Mach. Intell. <strong class="EmphasisTypeBold ">28</strong>(12), 2037–2041 (2006)<span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/TPAMI.2006.244"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceZLBID"><a class="gtm-reference" data-reference-type="MATH" target="_blank" rel="noopener" href="http://www.emis.de/MATH-item?1098.68717"><span><span>MATH</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Face%20description%20with%20local%20binary%20patterns%3A%20application%20to%20face%20recognition&amp;author=T.%20Ahonen&amp;author=A.%20Hadid&amp;author=M.%20Pietikainen&amp;journal=IEEE%20Trans.%20Pattern%20Anal.%20Mach.%20Intell.&amp;volume=28&amp;issue=12&amp;pages=2037-2041&amp;publication_year=2006"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">3.</div><div class="CitationContent" id="CR3">Baccouche,
+ M., Mamalet, F., Wolf, C., Garcia, C., Baskurt, A.: Sequential deep 
+learning for human action recognition. In: Salah, A.A., Lepri, B. (eds.)
+ HBU 2011. LNCS, vol. 7065, pp. 29–39. Springer, Heidelberg (2011). doi:<span class="ExternalRef">&nbsp;<a target="_blank" rel="noopener" href="https://doi.org/10.1007/978-3-642-25446-8_4"><span class="RefSource">10.1007/978-3-642-25446-8_4</span></a></span>
+        <span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1007/978-3-642-25446-8_4"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Sequential%20deep%20learning%20for%20human%20action%20recognition&amp;author=M.%20Baccouche&amp;author=F.%20Mamalet&amp;author=C.%20Wolf&amp;author=C.%20Garcia&amp;author=A.%20Baskurt&amp;pages=29-39&amp;publication_year=2011"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">4.</div><div class="CitationContent" id="CR4">Chen,
+ B.C., Chen, C.S., Hsu, W.H.: Face recognition and retrieval using 
+cross-age reference coding with cross-age celebrity dataset. IEEE Trans.
+ Multimedia <strong class="EmphasisTypeBold ">17</strong>(6), 804–815 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/TMM.2015.2420374"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Face%20recognition%20and%20retrieval%20using%20cross-age%20reference%20coding%20with%20cross-age%20celebrity%20dataset&amp;author=BC.%20Chen&amp;author=CS.%20Chen&amp;author=WH.%20Hsu&amp;journal=IEEE%20Trans.%20Multimedia&amp;volume=17&amp;issue=6&amp;pages=804-815&amp;publication_year=2015"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">5.</div><div class="CitationContent" id="CR5">Chen,
+ X., Li, Q., Song, Y., Jin, X., Zhao, Q.: Supervised geodesic 
+propagation for semantic label transfer. In: Fitzgibbon, A., Lazebnik, 
+S., Perona, P., Sato, Y., Schmid, C. (eds.) ECCV 2012. LNCS, vol. 7574, 
+pp. 553–565. Springer, Heidelberg (2012). doi:<span class="ExternalRef">&nbsp;<a target="_blank" rel="noopener" href="https://doi.org/10.1007/978-3-642-33712-3_40"><span class="RefSource">10.1007/978-3-642-33712-3_40</span></a></span>
+        <span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Supervised%20geodesic%20propagation%20for%20semantic%20label%20transfer&amp;author=X.%20Chen&amp;author=Q.%20Li&amp;author=Y.%20Song&amp;author=X.%20Jin&amp;author=Q.%20Zhao&amp;pages=553-565&amp;publication_year=2012"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">6.</div><div class="CitationContent" id="CR6">Chopra,
+ S., Hadsell, R., LeCun, Y.: Learning a similarity metric 
+discriminatively, with application to face verification. In: 2005 IEEE 
+Computer Society Conference on Computer Vision and Pattern Recognition, 
+CVPR 2005, vol. 1, pp. 539–546. IEEE (2005)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Chopra%2C%20S.%2C%20Hadsell%2C%20R.%2C%20LeCun%2C%20Y.%3A%20Learning%20a%20similarity%20metric%20discriminatively%2C%20with%20application%20to%20face%20verification.%20In%3A%202005%20IEEE%20Computer%20Society%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20CVPR%202005%2C%20vol.%201%2C%20pp.%20539%E2%80%93546.%20IEEE%20%282005%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">7.</div><div class="CitationContent" id="CR7">Cover, T.M., Hart, P.E.: Nearest neighbor pattern classification. IEEE Trans. Inf. Theor. <strong class="EmphasisTypeBold ">13</strong>(1), 21–27 (1967)<span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/TIT.1967.1053964"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceZLBID"><a class="gtm-reference" data-reference-type="MATH" target="_blank" rel="noopener" href="http://www.emis.de/MATH-item?0154.44505"><span><span>MATH</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Nearest%20neighbor%20pattern%20classification&amp;author=TM.%20Cover&amp;author=PE.%20Hart&amp;journal=IEEE%20Trans.%20Inf.%20Theor.&amp;volume=13&amp;issue=1&amp;pages=21-27&amp;publication_year=1967"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">8.</div><div class="CitationContent" id="CR8">Deng,
+ J., Dong, W., Socher, R., Li, L.J., Li, K., Fei-Fei, L.: Imagenet: a 
+large-scale hierarchical image database. In: 2009 IEEE Conference on 
+Computer Vision and Pattern Recognition, CVPR 2009, pp. 248–255. IEEE 
+(2009)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Deng%2C%20J.%2C%20Dong%2C%20W.%2C%20Socher%2C%20R.%2C%20Li%2C%20L.J.%2C%20Li%2C%20K.%2C%20Fei-Fei%2C%20L.%3A%20Imagenet%3A%20a%20large-scale%20hierarchical%20image%20database.%20In%3A%202009%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20CVPR%202009%2C%20pp.%20248%E2%80%93255.%20IEEE%20%282009%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">9.</div><div class="CitationContent" id="CR9">Fukunaga, K., Narendra, P.M.: A branch and bound algorithm for computing k-nearest neighbors. IEEE Trans. Comput. <strong class="EmphasisTypeBold ">100</strong>(7), 750–753 (1975)<span class="Occurrences"><span class="Occurrence OccurrenceAMSID"><a class="gtm-reference" data-reference-type="MathSciNet" target="_blank" rel="noopener" href="http://www.ams.org/mathscinet-getitem?mr=408818"><span><span>MathSciNet</span></span></a></span><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/T-C.1975.224297"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceZLBID"><a class="gtm-reference" data-reference-type="MATH" target="_blank" rel="noopener" href="http://www.emis.de/MATH-item?0307.68069"><span><span>MATH</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=A%20branch%20and%20bound%20algorithm%20for%20computing%20k-nearest%20neighbors&amp;author=K.%20Fukunaga&amp;author=PM.%20Narendra&amp;journal=IEEE%20Trans.%20Comput.&amp;volume=100&amp;issue=7&amp;pages=750-753&amp;publication_year=1975"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">10.</div><div class="CitationContent" id="CR10">Hadsell,
+ R., Chopra, S., LeCun, Y.: Dimensionality reduction by learning an 
+invariant mapping. In: 2006 IEEE Computer Society Conference on Computer
+ Vision and Pattern Recognition, vol. 2, pp. 1735–1742. IEEE (2006)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Hadsell%2C%20R.%2C%20Chopra%2C%20S.%2C%20LeCun%2C%20Y.%3A%20Dimensionality%20reduction%20by%20learning%20an%20invariant%20mapping.%20In%3A%202006%20IEEE%20Computer%20Society%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20vol.%202%2C%20pp.%201735%E2%80%931742.%20IEEE%20%282006%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">11.</div><div class="CitationContent" id="CR11">He, K., Zhang, X., Ren, S., Sun, J.: Deep residual learning for image recognition. arXiv preprint (2015). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1512.03385"><span class="RefSource">arXiv:1512.03385</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">12.</div><div class="CitationContent" id="CR12">He,
+ K., Zhang, X., Ren, S., Sun, J.: Delving deep into rectifiers: 
+surpassing human-level performance on imagenet classification. In: 
+Proceedings of the IEEE International Conference on Computer Vision, pp.
+ 1026–1034 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=He%2C%20K.%2C%20Zhang%2C%20X.%2C%20Ren%2C%20S.%2C%20Sun%2C%20J.%3A%20Delving%20deep%20into%20rectifiers%3A%20surpassing%20human-level%20performance%20on%20imagenet%20classification.%20In%3A%20Proceedings%20of%20the%20IEEE%20International%20Conference%20on%20Computer%20Vision%2C%20pp.%201026%E2%80%931034%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">13.</div><div class="CitationContent" id="CR13">Hu,
+ J., Lu, J., Tan, Y.P.: Discriminative deep metric learning for face 
+verification in the wild. In: Proceedings of the IEEE Conference on 
+Computer Vision and Pattern Recognition, pp. 1875–1882 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Hu%2C%20J.%2C%20Lu%2C%20J.%2C%20Tan%2C%20Y.P.%3A%20Discriminative%20deep%20metric%20learning%20for%20face%20verification%20in%20the%20wild.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%201875%E2%80%931882%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">14.</div><div class="CitationContent" id="CR14">Huang,
+ G.B., Learned-Miller, E.: Labeled faces in the wild: updates and new 
+reporting procedures. Dept. Comput. Sci., Univ. Massachusetts Amherst, 
+Amherst, MA, USA, Technical report, pp. 14–003 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Huang%2C%20G.B.%2C%20Learned-Miller%2C%20E.%3A%20Labeled%20faces%20in%20the%20wild%3A%20updates%20and%20new%20reporting%20procedures.%20Dept.%20Comput.%20Sci.%2C%20Univ.%20Massachusetts%20Amherst%2C%20Amherst%2C%20MA%2C%20USA%2C%20Technical%20report%2C%20pp.%2014%E2%80%93003%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">15.</div><div class="CitationContent" id="CR15">Huang,
+ G.B., Ramesh, M., Berg, T., Learned-Miller, E.: Labeled faces in the 
+wild: A database for studying face recognition in unconstrained 
+environments. Technical report, Technical Report 07–49, University of 
+Massachusetts, Amherst (2007)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Huang%2C%20G.B.%2C%20Ramesh%2C%20M.%2C%20Berg%2C%20T.%2C%20Learned-Miller%2C%20E.%3A%20Labeled%20faces%20in%20the%20wild%3A%20A%20database%20for%20studying%20face%20recognition%20in%20unconstrained%20environments.%20Technical%20report%2C%20Technical%20Report%2007%E2%80%9349%2C%20University%20of%20Massachusetts%2C%20Amherst%20%282007%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">16.</div><div class="CitationContent" id="CR16">Ji,
+ S., Xu, W., Yang, M., Yu, K.: 3D convolutional neural networks for 
+human action recognition. IEEE Trans. Pattern Anal. Mach. Intell. <strong class="EmphasisTypeBold ">35</strong>(1), 221–231 (2013)<span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/TPAMI.2012.59"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=3D%20convolutional%20neural%20networks%20for%20human%20action%20recognition&amp;author=S.%20Ji&amp;author=W.%20Xu&amp;author=M.%20Yang&amp;author=K.%20Yu&amp;journal=IEEE%20Trans.%20Pattern%20Anal.%20Mach.%20Intell.&amp;volume=35&amp;issue=1&amp;pages=221-231&amp;publication_year=2013"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">17.</div><div class="CitationContent" id="CR17">Jia,
+ Y., Shelhamer, E., Donahue, J., Karayev, S., Long, J., Girshick, R., 
+Guadarrama, S., Darrell, T.: Caffe: convolutional architecture for fast 
+feature embedding. In: Proceedings of the ACM International Conference 
+on Multimedia, pp. 675–678. ACM (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Jia%2C%20Y.%2C%20Shelhamer%2C%20E.%2C%20Donahue%2C%20J.%2C%20Karayev%2C%20S.%2C%20Long%2C%20J.%2C%20Girshick%2C%20R.%2C%20Guadarrama%2C%20S.%2C%20Darrell%2C%20T.%3A%20Caffe%3A%20convolutional%20architecture%20for%20fast%20feature%20embedding.%20In%3A%20Proceedings%20of%20the%20ACM%20International%20Conference%20on%20Multimedia%2C%20pp.%20675%E2%80%93678.%20ACM%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">18.</div><div class="CitationContent" id="CR18">Krizhevsky,
+ A., Sutskever, I., Hinton, G.E.: Imagenet classification with deep 
+convolutional neural networks. In: Advances in Neural Information 
+Processing Systems, pp. 1097–1105 (2012)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Krizhevsky%2C%20A.%2C%20Sutskever%2C%20I.%2C%20Hinton%2C%20G.E.%3A%20Imagenet%20classification%20with%20deep%20convolutional%20neural%20networks.%20In%3A%20Advances%20in%20Neural%20Information%20Processing%20Systems%2C%20pp.%201097%E2%80%931105%20%282012%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">19.</div><div class="CitationContent" id="CR19">LeCun, Y., Bottou, L., Bengio, Y., Haffner, P.: Gradient-based learning applied to document recognition. Proc. IEEE <strong class="EmphasisTypeBold ">86</strong>(11), 2278–2324 (1998)<span class="Occurrences"><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1109/5.726791"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Gradient-based%20learning%20applied%20to%20document%20recognition&amp;author=Y.%20LeCun&amp;author=L.%20Bottou&amp;author=Y.%20Bengio&amp;author=P.%20Haffner&amp;journal=Proc.%20IEEE&amp;volume=86&amp;issue=11&amp;pages=2278-2324&amp;publication_year=1998"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">20.</div><div class="CitationContent" id="CR20">LeCun, Y., Cortes, C., Burges, C.J.: The MNIST database of handwritten digits (1998)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=LeCun%2C%20Y.%2C%20Cortes%2C%20C.%2C%20Burges%2C%20C.J.%3A%20The%20MNIST%20database%20of%20handwritten%20digits%20%281998%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">21.</div><div class="CitationContent" id="CR21">Liu, J., Deng, Y., Huang, C.: Targeting ultimate accuracy: Face recognition via deep embedding. arXiv preprint (2015). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1506.07310"><span class="RefSource">arXiv:1506.07310</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">22.</div><div class="CitationContent" id="CR22">Liu,
+ Z., Luo, P., Wang, X., Tang, X.: Deep learning face attributes in the 
+wild. In: Proceedings of the IEEE International Conference on Computer 
+Vision, pp. 3730–3738 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Liu%2C%20Z.%2C%20Luo%2C%20P.%2C%20Wang%2C%20X.%2C%20Tang%2C%20X.%3A%20Deep%20learning%20face%20attributes%20in%20the%20wild.%20In%3A%20Proceedings%20of%20the%20IEEE%20International%20Conference%20on%20Computer%20Vision%2C%20pp.%203730%E2%80%933738%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">23.</div><div class="CitationContent" id="CR23">Miller, D., Kemelmacher-Shlizerman, I., Seitz, S.M.: Megaface: a million faces for recognition at scale. arXiv preprint (2015). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1505.02108"><span class="RefSource">arXiv:1505.02108</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">24.</div><div class="CitationContent" id="CR24">Ng,
+ H.W., Winkler, S.: A data-driven approach to cleaning large face 
+datasets. In: 2014 IEEE International Conference on Image Processing 
+(ICIP), pp. 343–347. IEEE (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Ng%2C%20H.W.%2C%20Winkler%2C%20S.%3A%20A%20data-driven%20approach%20to%20cleaning%20large%20face%20datasets.%20In%3A%202014%20IEEE%20International%20Conference%20on%20Image%20Processing%20%28ICIP%29%2C%20pp.%20343%E2%80%93347.%20IEEE%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">25.</div><div class="CitationContent" id="CR25">Parkhi,
+ O.M., Vedaldi, A., Zisserman, A.: Deep face recognition. In: 
+Proceedings of the British Machine Vision, vol. 1, no. 3, p. 6 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Parkhi%2C%20O.M.%2C%20Vedaldi%2C%20A.%2C%20Zisserman%2C%20A.%3A%20Deep%20face%20recognition.%20In%3A%20Proceedings%20of%20the%20British%20Machine%20Vision%2C%20vol.%201%2C%20no.%203%2C%20p.%206%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">26.</div><div class="CitationContent" id="CR26">Russakovsky,
+ O., Deng, J., Su, H., Krause, J., Satheesh, S., Ma, S., Huang, Z., 
+Karpathy, A., Khosla, A., Bernstein, M., et al.: Imagenet large scale 
+visual recognition challenge. Int. J. Comput. Vis. <strong class="EmphasisTypeBold ">115</strong>(3), 211–252 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceAMSID"><a class="gtm-reference" data-reference-type="MathSciNet" target="_blank" rel="noopener" href="http://www.ams.org/mathscinet-getitem?mr=3422482"><span><span>MathSciNet</span></span></a></span><span class="Occurrence OccurrenceDOI"><a class="gtm-reference" data-reference-type="CrossRef" target="_blank" rel="noopener" href="https://doi.org/10.1007/s11263-015-0816-y"><span><span>CrossRef</span></span></a></span><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="http://scholar.google.com/scholar_lookup?title=Imagenet%20large%20scale%20visual%20recognition%20challenge&amp;author=O.%20Russakovsky&amp;author=J.%20Deng&amp;author=H.%20Su&amp;author=J.%20Krause&amp;author=S.%20Satheesh&amp;author=S.%20Ma&amp;author=Z.%20Huang&amp;author=A.%20Karpathy&amp;author=A.%20Khosla&amp;author=M.%20Bernstein&amp;journal=Int.%20J.%20Comput.%20Vis.&amp;volume=115&amp;issue=3&amp;pages=211-252&amp;publication_year=2015"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">27.</div><div class="CitationContent" id="CR27">Schroff,
+ F., Kalenichenko, D., Philbin, J.: Facenet: a unified embedding for 
+face recognition and clustering. In: Proceedings of the IEEE Conference 
+on Computer Vision and Pattern Recognition, pp. 815–823 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Schroff%2C%20F.%2C%20Kalenichenko%2C%20D.%2C%20Philbin%2C%20J.%3A%20Facenet%3A%20a%20unified%20embedding%20for%20face%20recognition%20and%20clustering.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%20815%E2%80%93823%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">28.</div><div class="CitationContent" id="CR28">Simonyan, K., Zisserman, A.: Very deep convolutional networks for large-scale image recognition. arXiv preprint (2014). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1409.1556"><span class="RefSource">arXiv:1409.1556</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">29.</div><div class="CitationContent" id="CR29">Sun,
+ Y., Chen, Y., Wang, X., Tang, X.: Deep learning face representation by 
+joint identification-verification. In: Advances in Neural Information 
+Processing Systems, pp. 1988–1996 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Sun%2C%20Y.%2C%20Chen%2C%20Y.%2C%20Wang%2C%20X.%2C%20Tang%2C%20X.%3A%20Deep%20learning%20face%20representation%20by%20joint%20identification-verification.%20In%3A%20Advances%20in%20Neural%20Information%20Processing%20Systems%2C%20pp.%201988%E2%80%931996%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">30.</div><div class="CitationContent" id="CR30">Sun,
+ Y., Wang, X., Tang, X.: Hybrid deep learning for face verification. In:
+ Proceedings of the IEEE International Conference on Computer Vision, 
+pp. 1489–1496 (2013)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Sun%2C%20Y.%2C%20Wang%2C%20X.%2C%20Tang%2C%20X.%3A%20Hybrid%20deep%20learning%20for%20face%20verification.%20In%3A%20Proceedings%20of%20the%20IEEE%20International%20Conference%20on%20Computer%20Vision%2C%20pp.%201489%E2%80%931496%20%282013%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">31.</div><div class="CitationContent" id="CR31">Sun,
+ Y., Wang, X., Tang, X.: Deep learning face representation from 
+predicting 10,000 classes. In: Proceedings of the IEEE Conference on 
+Computer Vision and Pattern Recognition, pp. 1891–1898 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Sun%2C%20Y.%2C%20Wang%2C%20X.%2C%20Tang%2C%20X.%3A%20Deep%20learning%20face%20representation%20from%20predicting%2010%2C000%20classes.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%201891%E2%80%931898%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">32.</div><div class="CitationContent" id="CR32">Sun,
+ Y., Wang, X., Tang, X.: Deeply learned face representations are sparse,
+ selective, and robust. In: Proceedings of the IEEE Conference on 
+Computer Vision and Pattern Recognition, pp. 2892–2900 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Sun%2C%20Y.%2C%20Wang%2C%20X.%2C%20Tang%2C%20X.%3A%20Deeply%20learned%20face%20representations%20are%20sparse%2C%20selective%2C%20and%20robust.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%202892%E2%80%932900%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">33.</div><div class="CitationContent" id="CR33">Szegedy,
+ C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., Erhan, D., 
+Vanhoucke, V., Rabinovich, A.: Going deeper with convolutions. In: 
+Proceedings of the IEEE Conference on Computer Vision and Pattern 
+Recognition, pp. 1–9 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Szegedy%2C%20C.%2C%20Liu%2C%20W.%2C%20Jia%2C%20Y.%2C%20Sermanet%2C%20P.%2C%20Reed%2C%20S.%2C%20Anguelov%2C%20D.%2C%20Erhan%2C%20D.%2C%20Vanhoucke%2C%20V.%2C%20Rabinovich%2C%20A.%3A%20Going%20deeper%20with%20convolutions.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%201%E2%80%939%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">34.</div><div class="CitationContent" id="CR34">Taigman,
+ Y., Yang, M., Ranzato, M., Wolf, L.: Deepface: closing the gap to 
+human-level performance in face verification. In: Proceedings of the 
+IEEE Conference on Computer Vision and Pattern Recognition, pp. 
+1701–1708 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Taigman%2C%20Y.%2C%20Yang%2C%20M.%2C%20Ranzato%2C%20M.%2C%20Wolf%2C%20L.%3A%20Deepface%3A%20closing%20the%20gap%20to%20human-level%20performance%20in%20face%20verification.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%201701%E2%80%931708%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">35.</div><div class="CitationContent" id="CR35">Thomee,
+ B., Shamma, D.A., Friedland, G., Elizalde, B., Ni, K., Poland, D., 
+Borth, D., Li, L.J.: The new data and new challenges in multimedia 
+research. arXiv preprint (2015). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1503.01817"><span class="RefSource">arXiv:1503.01817</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">36.</div><div class="CitationContent" id="CR36">Wang,
+ L., Qiao, Y., Tang, X.: Action recognition with trajectory-pooled 
+deep-convolutional descriptors. In: Proceedings of the IEEE Conference 
+on Computer Vision and Pattern Recognition, pp. 4305–4314 (2015)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Wang%2C%20L.%2C%20Qiao%2C%20Y.%2C%20Tang%2C%20X.%3A%20Action%20recognition%20with%20trajectory-pooled%20deep-convolutional%20descriptors.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%204305%E2%80%934314%20%282015%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">37.</div><div class="CitationContent" id="CR37">Wen,
+ Y., Li, Z., Qiao, Y.: Latent factor guided convolutional neural 
+networks for age-invariant face recognition. In: Proceedings of the IEEE
+ Conference on Computer Vision and Pattern Recognition, pp. 4893–4901 
+(2016)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Wen%2C%20Y.%2C%20Li%2C%20Z.%2C%20Qiao%2C%20Y.%3A%20Latent%20factor%20guided%20convolutional%20neural%20networks%20for%20age-invariant%20face%20recognition.%20In%3A%20Proceedings%20of%20the%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%2C%20pp.%204893%E2%80%934901%20%282016%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">38.</div><div class="CitationContent" id="CR38">Wolf,
+ L., Hassner, T., Maoz, I.: Face recognition in unconstrained videos 
+with matched background similarity. In: 2011 IEEE Conference on Computer
+ Vision and Pattern Recognition (CVPR), pp. 529–534. IEEE (2011)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Wolf%2C%20L.%2C%20Hassner%2C%20T.%2C%20Maoz%2C%20I.%3A%20Face%20recognition%20in%20unconstrained%20videos%20with%20matched%20background%20similarity.%20In%3A%202011%20IEEE%20Conference%20on%20Computer%20Vision%20and%20Pattern%20Recognition%20%28CVPR%29%2C%20pp.%20529%E2%80%93534.%20IEEE%20%282011%29"><span><span>Google Scholar</span></span></a></span></span></div></li><li class="Citation"><div class="CitationNumber">39.</div><div class="CitationContent" id="CR39">Yi, D., Lei, Z., Liao, S., Li, S.Z.: Learning face representation from scratch. arXiv preprint (2014). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1411.7923"><span class="RefSource">arXiv:1411.7923</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">40.</div><div class="CitationContent" id="CR40">Zhang,
+ K., Zhang, Z., Li, Z., Qiao, Y.: Joint face detection and alignment 
+using multi-task cascaded convolutional networks. arXiv preprint (2016).
+ <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1604.02878"><span class="RefSource">arXiv:1604.02878</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">41.</div><div class="CitationContent" id="CR41">Zhou,
+ B., Khosla, A., Lapedriza, A., Oliva, A., Torralba, A.: Object 
+detectors emerge in deep scene cnns. arXiv preprint (2014). <span class="ExternalRef"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1412.6856"><span class="RefSource">arXiv:1412.6856</span></a></span>
+        <span class="Occurrences"></span></div></li><li class="Citation"><div class="CitationNumber">42.</div><div class="CitationContent" id="CR42">Zhou,
+ B., Lapedriza, A., Xiao, J., Torralba, A., Oliva, A.: Learning deep 
+features for scene recognition using places database. In: Advances in 
+neural information processing systems, pp. 487–495 (2014)<span class="Occurrences"><span class="Occurrence OccurrenceGS"><a target="_blank" rel="noopener" class="google-scholar-link gtm-reference" data-reference-type="Google Scholar" href="https://scholar.google.com/scholar?q=Zhou%2C%20B.%2C%20Lapedriza%2C%20A.%2C%20Xiao%2C%20J.%2C%20Torralba%2C%20A.%2C%20Oliva%2C%20A.%3A%20Learning%20deep%20features%20for%20scene%20recognition%20using%20places%20database.%20In%3A%20Advances%20in%20neural%20information%20processing%20systems%2C%20pp.%20487%E2%80%93495%20%282014%29"><span><span>Google Scholar</span></span></a></span></span></div></li></ol></div></section><section class="Section1 RenderAsSection1"><h2 class="Heading" id="copyrightInformation" data-role="collapsible-handle">Copyright information<span class="section-icon"></span></h2><div class="ArticleCopyright content"><div class="ChapterCopyright">©&nbsp;Springer International Publishing AG&nbsp;2016</div></div></section></div>
+                        </article>
+                        <aside class="section section--collapsible" id="AboutThisContent">
+    <h2 class="section__heading" id="aboutcontent" data-role="collapsible-handle">About this paper<span class="section-icon"></span></h2>
+    <div class="section__content bibliographic-information">
+        
+        <div class="crossmark__adjacent">
+            <dl class="citation-info u-highlight-target u-mb-16" id="citeas">
+    <dt class="test-cite-heading">
+        Cite this paper as:
+    </dt>
+    <dd id="citethis-text">Wen Y., Zhang K., Li Z., Qiao Y. (2016) A 
+Discriminative Feature Learning Approach for Deep Face Recognition. In: 
+Leibe B., Matas J., Sebe N., Welling M. (eds) Computer Vision – ECCV 
+2016. ECCV 2016. Lecture Notes in Computer Science, vol 9911. Springer, 
+Cham</dd>
+</dl>
+                <ul class="bibliographic-information__list bibliographic-information__list--inline">
+        <li class="bibliographic-information__item">
+            <span class="bibliographic-information__title"><abbr title="Digital Object Identifier">DOI</abbr></span>
+            <span class="bibliographic-information__value u-overflow-wrap" id="doi-url">https://doi.org/10.1007/978-3-319-46478-7_31</span>
+        </li>
+            <li class="bibliographic-information__item">
+                <span class="bibliographic-information__title">Publisher Name</span>
+                <span class="bibliographic-information__value" id="publisher-name">Springer, Cham</span>
+            </li>
+            <li class="bibliographic-information__item">
+                <span class="bibliographic-information__title">Print ISBN</span>
+                <span class="bibliographic-information__value" id="print-isbn">978-3-319-46477-0</span>
+            </li>
+            <li class="bibliographic-information__item ">
+                <span class="bibliographic-information__title">Online ISBN</span>
+                <span class="bibliographic-information__value" id="electronic-isbn">978-3-319-46478-7</span>
+            </li>
+
+                <li class="bibliographic-information__item">
+            <span class="bibliographic-information__title">eBook Packages</span>
+                <span class="bibliographic-information__value"><a id="ebook-package" href="https://link.springer.com/search?facet-content-type=%22Book%22&amp;package=11645&amp;facet-start-year=2016&amp;facet-end-year=2016">Computer Science</a></span>
+        </li>
+
+    </ul>
+
+            <ul class="bibliographic-information__list">
+            <li class="bibliographic-information__item">
+                <a id="about-book" href="https://www.springer.com/978-3-319-46477-0?wt_mc=ThirdParty.SpringerLink.3.EPR653.About_eBook" class="gtm-about-this ">About this book</a>
+            </li>
+                    <li class="bibliographic-information__item">
+                        <a id="reprintsandpermissions-link" class="u-external" target="_blank" rel="noopener" href="https://s100.copyright.com/AppDispatchServlet?publisherName=SpringerNature&amp;orderBeanReset=true&amp;orderSource=SpringerLink&amp;author=Yandong+Wen%2C+Kaipeng+Zhang%2C+Zhifeng+Li+et+al&amp;contentID=10.1007%2F978-3-319-46478-7_31&amp;openAccess=false&amp;endPage=515&amp;publicationDate=2016&amp;startPage=499&amp;title=A+Discriminative+Feature+Learning+Approach+for+Deep+Face+Recognition&amp;imprint=Springer+International+Publishing+AG&amp;publication=eBook" title="Visit RightsLink for information about reusing this paper">Reprints and Permissions</a>
+                    </li>
+</ul>
+
+        </div>
+      
+      
+          
+    </div>
+</aside>
+
+                        <div class="section section--collapsible uptodate-recommendations gtm-recommendations">
+    <h2 class="uptodate-recommendations__title section__heading gtm-recommendations__title" id="uptodaterecommendations" data-role="collapsible-handle">Personalised recommendations<span class="section-icon"></span></h2>
+    <div class="section__content">
+        <div class="uptodate-recommendations__container">
+             <link rel="uptodate-inline" href="https://link.springer.com/springerlink-static/1287432902/css/recommendations.css">
+        </div>
+    </div>
+</div>
+                        
+
+
+
+    <div class="sticky-banner sticky-banner--buybox u-interface u-js-screenreader-only" aria-hidden="true" data-component="SpringerLink.StickyBanner" data-namespace="hasLink">
+        <div class="sticky-banner__container"><span class="sticky-banner__title sticky-banner__title--long u-overflow-ellipsis" title="A Discriminative Feature Learning Approach for Deep Face Recognition">A Discriminative Feature Learning Approach for Deep Face Recognition</span>
+                <div class="citations c-button-dropdown" data-component="SV.Dropdown" data-namespace="citationsSticky" aria-label="button with dropdown options" style="">
+        <button type="button" class="c-button-dropdown__button" data-role="button-dropdown__control" aria-pressed="false" aria-expanded="false" aria-controls="Dropdown.citationsSticky-dropdown"><span class="u-overflow-ellipsis c-button-dropdown__button-title">
+    <span>Cite</span>
+    <span class="hide-text-small">paper</span>
+</span><span class="c-button-dropdown__icon"></span></button>
+<div class="u-composite-layer c-button-dropdown__container" aria-hidden="true" aria-label="dropdown" id="Dropdown.citationsSticky-dropdown"><ul class="citations__content" data-role="button-dropdown__content">
+    <li>
+        <a href="#citeas" class="gtm-cite-dropdown">How to cite?</a>
+    </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=refman&amp;flavour=citation" title="Download this paper's citation as a .RIS file" class="gtm-export-citation" data-gtmlabel="RIS">
+                <span class="citations__extension" data-gtmlabel="RIS">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .RIS
+                </span>
+                <span class="citations__types">
+                        <span>
+                            Papers
+                        </span>
+                        <span>
+                            Reference Manager
+                        </span>
+                        <span>
+                            RefWorks
+                        </span>
+                        <span>
+                            Zotero
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=endnote&amp;flavour=citation" title="Download this paper's citation as a .ENW file" class="gtm-export-citation" data-gtmlabel="ENW">
+                <span class="citations__extension" data-gtmlabel="ENW">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .ENW
+                </span>
+                <span class="citations__types">
+                        <span>
+                            EndNote
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=bibtex&amp;flavour=citation" title="Download this paper's citation as a .BIB file" class="gtm-export-citation" data-gtmlabel="BIB">
+                <span class="citations__extension" data-gtmlabel="BIB">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .BIB
+                </span>
+                <span class="citations__types">
+                        <span>
+                            BibTeX
+                        </span>
+                        <span>
+                            JabRef
+                        </span>
+                        <span>
+                            Mendeley
+                        </span>
+                </span>
+            </a>
+        </li>
+</ul></div>
+    </div>
+
+                
+
+
+
+                <div class="sticky-banner__buybox-link sticky-banner__buybox-link--sticky">
+        <a href="#buy" class="gtm-buybox-anchor">
+            Buy options
+        </a>
+    </div>
+
+        </div>
+    </div>
+
+
+                    </div>
+                    <aside class="main-sidebar-right u-interface">
+                        <div data-role="sticky-wrapper">
+                            <div class="main-sidebar-right__content u-composite-layer" data-component="SpringerLink.StickySidebar">
+                                <div class="article-actions" id="article-actions">
+                                    <h2 class="u-screenreader-only">Actions</h2>
+
+                                        <div id="buy">
+                                            
+
+
+<style type="text/css">
+    .buybox {
+        margin: 16px 0 0;
+        position: relative;
+    }
+    .buybox {
+        font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-size: 1.4rem;
+    }
+    .buybox {
+        zoom: 1;
+    }
+    .buybox:after,
+    .buybox:before {
+        content: '';
+        display: table;
+    }
+    .buybox:after {
+        clear: both;
+    }
+    /*---------------------------------*/
+    .buybox .buybox__header {
+        border: 1px solid #b3b3b3;
+        border-bottom: 0;
+        padding: 8px;
+        position: relative;
+        background-color: #f2f2f2;
+    }
+    .buybox__header .buybox__login {
+        font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-size: 1.4rem;
+        letter-spacing: .017em;
+        display: inline-block;
+        line-height: 1.2;
+        padding: 0;
+    }
+    .buybox__header .buybox__login:before {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: perspective(1px) translateY(-50%);
+        transform: perspective(1px) translateY(-50%);
+        content: '\A';
+        width: 34px;
+        height: 34px;
+        left: 10px;
+    }
+    /*---------------------------------*/
+    .buybox .buybox__body {
+        padding: 0;
+        padding-bottom: 16px;
+        position: relative;
+        text-align: center;
+        background-color: #fcfcfc;
+        border: 1px solid #b3b3b3;
+    }
+    /******/
+    .buybox__body .buybox__section {
+        padding: 16px 12px 0 12px;
+        text-align: left;
+    }
+    .buybox__section .buybox__buttons {
+        text-align: center;
+        width: 100%;
+    }
+    /********** mycopy buybox specific **********/
+    .buybox.mycopy__buybox .buybox__body {
+        background-color: transparent;
+    }
+    .buybox.mycopy__buybox .buybox__section .buybox__buttons {
+        border-top: 0;
+        padding-top: 0;
+    }
+    /******/
+    .buybox__section:nth-child(2) .buybox__buttons {
+        border-top: 1px solid #b3b3b3;
+        padding-top: 20px;
+    }
+    .buybox__buttons .buybox__buy-button {
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 5px;
+        padding: 6px 12px;
+        max-width: 180px
+    }
+    .buybox__buttons .buybox__price {
+        white-space: nowrap;
+        text-align: center;
+        font-size: larger;
+        padding-top: 6px;
+    }
+    .buybox__section .buybox__meta {
+        letter-spacing: 0;
+        padding-top: 12px;
+    }
+    .buybox__section .buybox__meta:only-of-type {
+        padding-top: 0;
+        position: relative;
+        bottom: 6px;
+    }
+    /********** mycopy buybox specific **********/
+    .buybox.mycopy__buybox .buybox__section .buybox__meta {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    /******/
+    .buybox__meta .buybox__product-title {
+        display: inline;
+        font-weight: bold;
+    }
+    .buybox__meta .buybox__list {
+        line-height: 1.3;
+    }
+    .buybox__meta .buybox__list li {
+        position: relative;
+        padding-left: 1em;
+        list-style: none;
+        margin-bottom: 5px;
+    }
+    .buybox__meta .buybox__list li:before {
+        font-size: 1em;
+        content: '\2022';
+        float: left;
+        position: relative;
+        top: .1em;
+        font-family: serif;
+        font-weight: 600;
+        text-align: center;
+        line-height: inherit;
+        color: #666;
+        width: auto;
+        margin-left: -1em;
+    }
+    .buybox__meta .buybox__list li:last-child {
+        margin-bottom: 0;
+    }
+    /********** chapter buybox specific **********/
+    .buybox.chapter__buybox .buybox__section .buybox__meta {
+        border-top: 1px solid #d3d3d3;
+        padding-top: 12px;
+    }
+    .buybox.chapter__buybox .buybox__section .buybox__buy-ebook {
+        margin-bottom: 12px;
+    }
+    /******/
+    /*---------------------------------*/
+    .buybox .buybox__footer {
+        border: 1px solid #b3b3b3;
+        border-top: 0;
+        padding: 8px;
+        position: relative;
+        border-style: dashed;
+        line-height: 1.3;
+    }
+    .buybox .deepdyve {
+        display: none;
+        text-align: left;
+        margin: 8px 12px 0 12px;
+        padding-top: 5px;
+        border-top: 1px solid #d3d3d3;
+    }
+    /*-----------------------------------------------------------------*/
+    @media screen and (min-width: 460px) and (max-width: 1074px) {
+        .buybox__body .buybox__section {
+            display: inline-block;
+            vertical-align: top;
+            padding: 12px 12px;
+            padding-bottom: 0;
+            text-align: left;
+            width: 48%;
+        }
+        .buybox__body .buybox__section {
+            padding-top: 16px;
+            padding-left: 0;
+        }
+        .buybox__section:nth-of-type(2) .buybox__meta {
+            border-left: 1px solid #d3d3d3;
+            padding-left: 28px;
+        }
+        .buybox__section:nth-of-type(2) .buybox__buttons {
+            border-top: 0;
+            padding-top: 0;
+            padding-left: 16px ;
+        }
+        .buybox__buttons .buybox__buy-button {
+        }
+        /********** article buybox specific **********/
+        .buybox.article__buybox .buybox__section:nth-of-type(2) {
+            margin-top: 16px;
+            padding-top: 0;
+        }
+        .buybox.article__buybox .buybox__section:nth-of-type(2) .buybox__meta {
+            margin-top: 40px;
+            padding-top: 0;
+            padding-bottom: 45px;
+        }
+        .buybox.article__buybox .buybox__section:nth-of-type(2) .buybox__meta:only-of-type {
+            margin-top: 8px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+        /********** mycopy buybox specific **********/
+        .buybox.mycopy__buybox .buybox__section:first-child {
+            width: 69%;
+            padding-left: 12px ;
+        }
+        .buybox.mycopy__buybox .buybox__section:last-child {
+            width: 29%;
+        }
+        /********** chapter buybox specific **********/
+        .buybox.chapter__buybox .buybox__body {
+            display: flex;
+            align-items: stretch;
+            padding-left: 12px;
+            padding-top: 12px;
+        }
+        .buybox.chapter__buybox .buybox__section .buybox__meta {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            border-top: 0;
+            padding-top: 0;
+        }
+        /******/
+    }
+    /*-----------------------------------------------------------------*/
+    @media screen and (max-width: 459px) {
+        /********** mycopy buybox specific **********/
+        .buybox.mycopy__buybox .buybox__body {
+            padding-bottom: 5px;
+        }
+        .buybox.mycopy__buybox .buybox__section:last-child {
+            text-align: center;
+            width: 100%;
+        }
+        .buybox.mycopy__buybox .buybox__buttons {
+            display: inline-block;
+            width: 150px ;
+        }
+        /******/
+    }
+    /*-----------------------------------------------------------------*/
+</style>
+
+<div class="buybox chapter__buybox" data-webtrekktrackid="196033507532344" data-webtrekkcontentid="SL-chapter">
+    <div class="buybox__header">
+        <span class="buybox__login">Log in to check access</span>
+    </div>
+    <div class="buybox__body">
+        <div class="buybox__section">
+            <div class="buybox__buttons">
+            
+                <div class="buybox__buy-ebook">
+                    <a data-product-id="978-3-319-46478-7_Computer Vision – ECCV 2016" data-tracking-category="ebook" data-ecommerceparam_11="chapter-page" href="https://checkout.springer.com/checkout/add?wt_mc=ThirdParty.SpringerLink.3.EPR653.AbstractPage_EBook-new&amp;isbn=978-3-319-46478-7" class="buybox__buy-button c-button c-button--blue" data-gtm="buybox__buy-button-ebook">
+                        <span class="buybox__buy" data-gtm="buybox__buy-button">Buy eBook</span>
+                    </a>
+                    <div class="buybox__price" data-gtm="buybox__buy-button">
+                        EUR&nbsp;83.29
+                    </div>
+                </div>
+            
+            
+                <form class="buybox__form" action="https://checkout.springer.com/checkout/add?wt_mc=ThirdParty.SpringerLink.3.EPR653.AbstractPage_Chapter-new" method="POST">
+                    
+                        <input name="type" value="chapter" type="hidden">
+                    
+                        <input name="doi" value="10.1007/978-3-319-46478-7_31" type="hidden">
+                    
+                        <input name="isxn" value="978-3-319-46478-7" type="hidden">
+                    
+                        <input name="contenttitle" value="A Discriminative Feature Learning Approach for Deep Face Recognition" type="hidden">
+                    
+                        <input name="copyrightyear" value="2016" type="hidden">
+                    
+                        <input name="year" value="2016" type="hidden">
+                    
+                        <input name="authors" value="Yandong Wen, et al." type="hidden">
+                    
+                        <input name="title" value="Computer Vision – ECCV 2016" type="hidden">
+                    
+                        <input name="mac" value="8d5fbd3d6a32bc594a32b8e0dddf978b" type="hidden">
+                    
+                        <input name="returnurl" value="https://link.springer.com/chapter/10.1007/978-3-319-46478-7_31" type="hidden">
+                    
+                    <button data-product-id="10.1007/978-3-319-46478-7_31_A Discriminative Feature Learning " data-tracking-category="ppv" data-ecommerceparam_11="chapter-page" type="submit" class="buybox__buy-button c-button c-button--blue" data-gtm="buybox__buy-button">
+                        <span class="buybox__buy" data-gtm="buybox__buy-button">Buy paper (PDF)</span>
+                    </button>
+                    <div class="buybox__price" data-gtm="buybox__buy-button">
+                        EUR&nbsp;24.95
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        
+        <div class="buybox__section">
+            <div class="buybox__meta">
+                <ul class="buybox__list">
+                    <li>Instant download</li>
+                    <li>Readable on all devices</li>
+                    <li>Own it forever</li>
+                    <li>Local sales tax included if applicable</li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    <div class="buybox__footer">
+        <a class="js-buybox__inst-sub-link" data-gtm="buybox__inst-sub-link" href="http://www.springer.com/gp/shop/subscriptions?wt_mc=ThirdParty.SpringerLink.3.EPR653.ChapterPage_Institutional-customers">
+            Learn about institutional subscriptions</a>
+    </div>
+
+    
+
+</div>
+
+<script>
+(function () {
+    var forEach = function (array, callback, scope) {
+        for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]);
+        }
+    };
+
+    var trackDomain = 'springergmbh01.webtrekk.net';
+    var domain = 'link.springer.com';
+    var loadEventSent = false;
+
+    var buyboxRoot = document.getElementsByClassName('buybox')[0];
+    var webtrekkTrackId = buyboxRoot.getAttribute('data-webtrekkTrackId');
+    var webtrekkContentId = buyboxRoot.getAttribute('data-webtrekkContentId');
+
+    function LinkTrack(webtrekkTrackId) {
+        if (!webtrekkTrackId) return;
+
+        var data = {
+            trackDomain: trackDomain,
+            trackId: webtrekkTrackId,
+            domain: domain,
+            contentId: 'springer_com.buybox',
+            customSessionParameter: {
+                2: getBusinessPartnerIds()
+            }
+        };
+
+        if (!window.webtrekkV3 && console) {
+            console.log('No webtrekk found.', data);
+            return;
+        }
+
+        return new webtrekkV3(data);
+    }
+
+    function Track(product, webtrekkTrackId, eCommerceParam_11, action) {
+        if (!product) return;
+
+        var data = {
+            trackDomain: trackDomain,
+            trackId: webtrekkTrackId,
+            domain: domain,
+            contentId: webtrekkContentId,
+            product: product.id,
+            productStatus: action,
+            productCategory: {
+                1: product.trackingCategory
+            },
+            customEcommerceParameter: {
+                9: domain,
+                11: eCommerceParam_11
+            },
+            customSessionParameter: {
+                2: getBusinessPartnerIds()
+            }
+        };
+
+        if (!window.webtrekkV3 && console) {
+            console.log('No webtrekk found.', data);
+            return;
+        }
+
+        return new webtrekkV3(data);
+    }
+
+    function track(trackingConfig) {
+        return function(payload) {
+            if (!trackingConfig) return
+            if (payload) {
+                trackingConfig.sendinfo(payload)
+            } else {
+                trackingConfig.sendinfo()
+            }
+            return true
+        }
+    }
+
+    function trackAddToCart(trackingConfig) {
+        return track(trackingConfig)()
+    }
+
+    function trackOnLoad(trackingConfig) {
+        if (loadEventSent) return;
+        loadEventSent = true;
+        return track(trackingConfig)()
+    }
+
+    function trackSubscription(trackingConfig) {
+        return track(trackingConfig)({linkId: 'inst. subscription info'})
+    }
+
+    function trackDeepDyve(trackingConfig) {
+        return track(trackingConfig)({linkId: 'Rent Article'})
+    }
+
+    function getBusinessPartnerIds() {
+        var businessPartnerIDs = [];
+        try {
+            var ids = window.dataLayer[0]["user"]["license"]["businessPartnerID"];
+            if(ids && ids.length) businessPartnerIDs = ids;
+        } catch(e) {}
+        return businessPartnerIDs.join(";");
+    }
+
+    var bindClickLinkHandle = function (link) {
+        if (!link) return;
+
+        link.addEventListener('click', function (event) {
+            trackSubscription(LinkTrack(webtrekkTrackId));
+        });
+    };
+
+    var bindLoadButtonHandle = function (button) {
+        if (!button) return;
+
+        var productId = button.getAttribute('data-product-id');
+        var trackingCategory = button.getAttribute('data-tracking-category');
+        var eCommerceParam_11 = button.getAttribute('data-eCommerceParam_11');
+
+        window.addEventListener('load', function (event) {
+            trackOnLoad(Track({
+                id: productId,
+                trackingCategory: trackingCategory
+            }, webtrekkTrackId, eCommerceParam_11, 'view'));
+        });
+    };
+
+    var bindClickButtonHandle = function (button) {
+        if (!button) return;
+
+        var productId = button.getAttribute('data-product-id');
+        var trackingCategory = button.getAttribute('data-tracking-category');
+        var eCommerceParam_11 = button.getAttribute('data-eCommerceParam_11');
+
+        button.addEventListener('click', function (event) {
+            trackAddToCart(Track({
+                id: productId,
+                trackingCategory: trackingCategory
+            }, webtrekkTrackId, eCommerceParam_11, 'add'));
+        });
+    };
+
+    var buyButtons = document.getElementsByClassName('buybox__buy-button');
+    forEach(buyButtons, function (index, button) {
+        bindLoadButtonHandle(button);
+        bindClickButtonHandle(button);
+    });
+
+    var sublinks = document.getElementsByClassName('js-buybox__inst-sub-link');
+    forEach(sublinks, function (index, link) {
+        bindClickLinkHandle(link);
+    });
+
+    var bindDeepDyveClickHandle = function (link) {
+        if (!link) return
+
+        link.addEventListener('click', function (event) {
+            trackDeepDyve(LinkTrack(webtrekkTrackId))
+        })
+    }
+
+    var deepDyveLink = document.getElementById('deepdyve-link')
+    bindDeepDyveClickHandle(deepDyveLink)
+})();
+</script>
+
+                                        </div>
+
+                                    <div class="u-js-hide u-js-show-two-col">
+                                        
+        
+
+
+
+
+                                            <div class="citations c-button-dropdown" data-component="SV.Dropdown" data-namespace="citations" aria-label="button with dropdown options">
+        <button type="button" class="c-button-dropdown__button" data-role="button-dropdown__control" aria-pressed="false" aria-expanded="false" aria-controls="Dropdown.citations-dropdown"><span class="u-overflow-ellipsis c-button-dropdown__button-title">
+    <span>Cite</span>
+    <span class="hide-text-small">paper</span>
+</span><span class="c-button-dropdown__icon"></span></button>
+<div class="u-composite-layer c-button-dropdown__container" aria-hidden="true" aria-label="dropdown" id="Dropdown.citations-dropdown"><ul class="citations__content" data-role="button-dropdown__content">
+    <li>
+        <a href="#citeas" class="gtm-cite-dropdown" tabindex="-1">How to cite?</a>
+    </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=refman&amp;flavour=citation" title="Download this paper's citation as a .RIS file" class="gtm-export-citation" data-gtmlabel="RIS" tabindex="-1">
+                <span class="citations__extension" data-gtmlabel="RIS">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .RIS
+                </span>
+                <span class="citations__types">
+                        <span>
+                            Papers
+                        </span>
+                        <span>
+                            Reference Manager
+                        </span>
+                        <span>
+                            RefWorks
+                        </span>
+                        <span>
+                            Zotero
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=endnote&amp;flavour=citation" title="Download this paper's citation as a .ENW file" class="gtm-export-citation" data-gtmlabel="ENW" tabindex="-1">
+                <span class="citations__extension" data-gtmlabel="ENW">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .ENW
+                </span>
+                <span class="citations__types">
+                        <span>
+                            EndNote
+                        </span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="https://citation-needed.springer.com/v2/references/10.1007/978-3-319-46478-7_31?format=bibtex&amp;flavour=citation" title="Download this paper's citation as a .BIB file" class="gtm-export-citation" data-gtmlabel="BIB" tabindex="-1">
+                <span class="citations__extension" data-gtmlabel="BIB">
+                    <svg class="u-vertical-align-absolute" width="12" height="14" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.269v-6.271c0-.551-.448-.998-1-.998-.556 0-1 .447-1 .998v6.271l-1.5-1.547c-.375-.387-1.01-.397-1.401-.006l.016-.016c-.397.397-.391 1.025-.001 1.416l3.178 3.178c.392.392 1.024.391 1.415 0l3.178-3.178c.392-.392.391-1.025-.001-1.416l.016.016c-.397-.397-1.018-.388-1.401.006l-1.5 1.547zm-7 5.731c0-.552.456-1 1.002-1h9.995c.554 0 1.002.444 1.002 1 0 .552-.456 1-1.002 1h-9.995c-.554 0-1.002-.444-1.002-1z" fill="#0176C3"></path></svg>
+                    .BIB
+                </span>
+                <span class="citations__types">
+                        <span>
+                            BibTeX
+                        </span>
+                        <span>
+                            JabRef
+                        </span>
+                        <span>
+                            Mendeley
+                        </span>
+                </span>
+            </a>
+        </li>
+</ul></div>
+    </div>
+
+                                            
+
+
+
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+                                <div class="skyscraper-ad u-hide" data-component="SpringerLink.GoogleAds" data-namespace="skyscraper"></div>
+
+                        </div>
+                    </aside>
+                </div>
+            </main>
+            <section class="banner banner--cookies-policy u-composite-layer" data-component="SpringerLink.CookiePolicy">
+    <div class="banner__content u-interface">
+        <h2 class="u-screenreader-only">Cookies</h2>
+        <span class="banner__cookie-text">We use cookies to improve your experience with our site.</span>
+        <a class="banner__link banner__link--cookie" href="https://link.springer.com/termsandconditions#cookies">More information</a>
+
+        <form class="banner__form" action="/acceptcookies" method="POST">
+            <button class="u-link-like banner__right-ui">Accept</button>
+        </form>
+    </div>
+</section>
+
+                <footer class="footer u-interface">
+        <div class="footer__aside-wrapper">
+            <div class="footer__content">
+                <div class="footer__aside">
+                    <p class="footer__strapline">Over 10 million scientific documents at your fingertips</p>
+                                <div class="footer__edition c-button-dropdown c-button-dropdown--ghost" data-component="SpringerLink.EditionSwitcher" aria-label="button with dropdown options">
+                                    <button type="button" title="Switch between Academic &amp; Corporate Edition" class="c-button-dropdown__button" data-role="button-dropdown__control" aria-pressed="false" aria-expanded="false" aria-controls="EditionSwitcher.1119001548-dropdown"><span class="u-overflow-ellipsis c-button-dropdown__button-title">Switch Edition</span><span class="c-button-dropdown__icon"></span></button>
+                                    <div class="u-composite-layer c-button-dropdown__container" aria-hidden="true" aria-label="dropdown" id="EditionSwitcher.1119001548-dropdown"><ul data-role="button-dropdown__content">
+                                        <li class="selected"><a href="https://link.springer.com/siteEdition/link" id="siteedition-academic-link">Academic Edition</a></li>
+                                        <li><a href="https://link.springer.com/siteEdition/rd" id="siteedition-corporate-link" tabindex="-1">Corporate Edition</a></li>
+                                    </ul></div>
+                                </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__content">
+            <ul class="footer__nav">
+                <li>
+                    <a href="https://link.springer.com/">Home</a>
+                </li>
+                <li>
+                    <a href="https://link.springer.com/impressum">Impressum</a>
+                </li>
+                <li>
+                    <a href="https://link.springer.com/termsandconditions">Legal information</a>
+                </li>
+                <li>
+                    <a href="https://link.springer.com/accessibility" class="gtm-footer-accessibility">Accessibility</a>
+                </li>
+                <li>
+                    <a id="contactus-footer-link" href="https://link.springer.com/contactus">Contact us</a>
+                </li>
+            </ul>
+            <a class="parent-logo" target="_blank" rel="noopener" href="https://www.springernature.com/" title="Go to Springer Nature">
+                <span class="u-screenreader-only">Springer Nature</span>
+                <svg width="125" height="12">
+                    <image width="125" height="12" alt="Springer Nature logo" src="/springerlink-static/1287432902/images/png/springernature.png" xlink="http://www.w3.org/1999/xlink" xlink:href="/springerlink-static/1287432902/images/svg/springernature.svg">
+                    </image>
+                </svg>
+            </a>
+
+            <p class="footer__copyright">© 2017 Springer International Publishing AG. Part of <a target="_blank" rel="noopener" href="https://www.springernature.com/">Springer Nature</a>.</p>
+
+                <p class="footer__user-access-info">
+                    <span>Not logged in</span>
+                    <span>Not affiliated</span>
+                    <span>103.83.60.178</span>
+                </p>
+                <p class="footer__license">
+                    <a id="footer-dynamic-legal" title="View ICP license" href="http://www.miibeian.gov.cn/" target="_blank" rel="noopener">
+                        沪ICP备15051854号-2
+                    </a>
+                </p>
+        </div>
+    </footer>
+
+        </div>
+          <script type="text/javascript">
+    (function() {
+        document.addEventListener('readystatechange', function () {
+            if (document.readyState === 'complete') {
+                var linkEl = document.querySelector('.js-ctm');
+                if (window.matchMedia && window.matchMedia(linkEl.media)) {
+                    var scriptMathJax = document.createElement('script');
+                    scriptMathJax.async = true;
+                    scriptMathJax.src = '/springerlink-static/1287432902/js/mathJax.js';
+                    var s0 = document.getElementsByTagName('script')[0];
+                    s0.parentNode.insertBefore(scriptMathJax, s0);
+                }
+            }
+        });
+    })();
+</script>
+
+<script type="text/javascript">
+    (function() {
+        var linkEl = document.querySelector('.js-ctm');
+        var scriptsList = [];
+        var polyfillFeatures = '';
+
+        if (window.matchMedia && window.matchMedia(linkEl.media)) {
+            (function(h){h.className = h.className.replace('no-js', 'js')})(document.documentElement);
+            
+            window.SpringerLink = window.SpringerLink || {};
+            window.SpringerLink.staticLocation = '/springerlink-static/1287432902';
+            
+            polyfillFeatures = 'default,fetch,Promise,Object.setPrototypeOf,Object.entries,Number.isInteger,MutationObserver';
+            
+            scriptsList = [
+                window.SpringerLink.staticLocation + '/js/jquery-3.2.1.min.js',
+                window.SpringerLink.staticLocation + '/js/mustache-2.3.0.min.js',
+                'https://cdn.polyfill.io/v2/polyfill.js?features=' + polyfillFeatures,
+                window.SpringerLink.staticLocation + '/js/main.js'
+            ];
+
+            scriptsList.forEach(function(script) {
+                var tag = document.createElement('script');
+                
+                tag.async = false;
+                tag.src = script;
+
+                document.body.appendChild(tag);
+            });
+        }
+    })();
+</script><script src="jquery-3.js"></script><script src="mustache-2.js"></script><script src="polyfill.js"></script><script src="main.js"></script>
+
+<script>
+
+   function viewport() {
+        if (document.documentElement.clientWidth < 620) {
+            size = 'small';
+        }
+        else if(document.documentElement.clientWidth < 1075 ) {
+            size = 'medium';
+        }
+        else {
+            size = 'wide';
+        }
+        return size;
+    };
+
+    function reportForMouseEvents(linkCssSelectors, nolardUrl, experiment, abgroup) {
+        var counter = 0;
+        linkCssSelectors.forEach(function(cssSelector) {
+            $('body').delegate(cssSelector, 'click', function() {
+                if(counter == 0) {
+                    reportConversion(nolardUrl, experiment, abgroup);
+                    counter++;
+                }
+            });
+        });
+    };
+
+    function reportConversion(nolardUrl, experiment, abgroup) {
+        $.ajax({ url: nolardUrl + '/convert/' + experiment + '/' + abgroup });
+    };
+
+    function reportForMouseEvent(linkCssSelector, nolardUrl, experiment, abgroup) {
+        var counter = 0;
+        var elem = document.querySelector(linkCssSelector)
+
+        if (elem.addEventListener) {
+            elem.addEventListener("click", function(e) {
+                if(counter == 0) {
+                    reportConversion(nolardUrl, experiment, abgroup);
+                    counter++;
+                }
+            });
+        } else  {
+            elem.attachEvent("click", function(e) {
+                if(counter == 0) {
+                    reportConversion(nolardUrl, experiment, abgroup);
+                    counter++;
+                }
+            });
+        }
+    };
+
+    function reportParticipation(nolardUrl, experiment, abgroup, participations) {
+        if (participations)
+            participations.push(experiment + '/' + abgroup)
+
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', nolardUrl + '/participate/' + experiment + '/' + abgroup);
+        xhr.send();
+    };
+
+        function recordCurrentExperiment() {
+            var participations = [];
+            if (document.querySelector('#reprintsandpermissions-bottom-link') !== null) {
+                reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-article-reprints-permissions-location', 'featureoff', participations);
+                reportForMouseEvent('#reprintsandpermissions-bottom-link', 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-article-reprints-permissions-location', 'featureoff');
+            } else if(document.querySelector('#reprintsandpermissions-top-link') !== null) {
+                reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-article-reprints-permissions-location', 'featureon', participations);
+                reportForMouseEvent('#reprintsandpermissions-top-link', 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-article-reprints-permissions-location', 'featureon');
+            }
+            return participations;
+        };
+
+</script>
+
+<script>
+    window.onload = function() {
+    var linkEl = document.querySelector('.js-ctm');
+
+
+        if (window.matchMedia && window.matchMedia(linkEl.media)) {
+          var bookProductType = dataLayer[0].content && dataLayer[0].content.book && dataLayer[0].content.book.bookProductType
+          var hasBody = dataLayer[0]['Has Body'] == 'Y';
+          var userHasAccess = dataLayer[0]['HasAccess'] == 'Y';
+          var liveOrStatic = dataLayer[0].content && dataLayer[0].content.version
+
+          // Baseline reference work page
+          var isReferenceWork = window.location.pathname.startsWith('/referencework/');
+          var isReferenceWorkEntry = window.location.pathname.startsWith('/referenceworkentry/');
+          var isEncOrDict = bookProductType == 'Encyclop(a)edia' || bookProductType == 'Dictionary';
+
+          // Baseline static reference work entry page pdf download
+          if (isReferenceWorkEntry && isEncOrDict && $('.test-rwepdf-link').length) {
+            reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-enc-pdf-download', 'baseline');
+            reportForMouseEvents(['.test-rwepdf-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-enc-pdf-download', 'baseline');
+          }
+          if (isReferenceWorkEntry && !isEncOrDict && $('.gtm-pdf-link').length) {
+            reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-nonenc-pdf-download', 'baseline');
+            reportForMouseEvents(['.gtm-pdf-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-nonenc-pdf-download', 'baseline');
+
+            if (($('.test-bookpdf-link').length || $('.test-bookepub-link').length)) {
+                reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-book-download', 'baseline');
+                reportForMouseEvents(['.test-bookpdf-link', 'test-bookepub-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-book-download', 'baseline');
+            }
+          }
+
+          // Baseline static reference work page pdf download
+          if (isReferenceWork && isEncOrDict && ($('.test-bookpdf-link').length || $('.test-bookepub-link').length)) {
+            reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-enc-book-download', 'baseline');
+              reportForMouseEvents(['.test-bookpdf-link', 'test-bookepub-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-enc-book-download', 'baseline');
+          }
+
+          if (isReferenceWork && !isEncOrDict) {
+            if (($('.test-bookpdf-link').length || $('.test-bookepub-link').length)) {
+                reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-book-download', 'baseline');
+                reportForMouseEvents(['.test-bookpdf-link', 'test-bookepub-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-book-download', 'baseline');
+            }
+
+            if ($('.test-book-toc-download-link').length) {
+                reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-pdf-download', 'baseline');
+                reportForMouseEvents(['.test-book-toc-download-link'], 'https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwpage-nonenc-pdf-download', 'baseline');
+            }
+          }
+
+          // Baseline static rwe page fulltext html view with access
+          if (isReferenceWorkEntry && isEncOrDict && hasBody) {
+            reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-enc-html-download', 'baseline');
+            if (userHasAccess)
+                reportConversion('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-enc-html-download', 'baseline');
+          }
+          if (isReferenceWorkEntry && !isEncOrDict && hasBody) {
+            reportParticipation('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-nonenc-html-download', 'baseline');
+            if (userHasAccess)
+                reportConversion('https://ab-reporting.live.cf.public.springer.com', 'bunsen-'+liveOrStatic+'-rwepage-nonenc-html-download', 'baseline');
+          }
+      }
+
+            if (window.matchMedia && window.matchMedia(linkEl.media)) {
+                recordCurrentExperiment()
+            }
+   };
+
+</script>
+
+<script class="kxct" data-id="KDqyaFZ_" data-timing="async" data-version="3.0" type="text/javascript">
+ window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
+ (function(){
+   var k=document.createElement('script');k.type='text/javascript';k.async=true;
+   k.src=(location.protocol==='https:'?'https:':'http:')+'//cdn.krxd.net/controltag/KDqyaFZ_.js';
+   var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(k,s);
+ }());
+</script>
+
+<script>
+    window.Krux||((Krux=function(){Krux.q.push(arguments);}).q=[]);
+    (function(){
+        function retrieve(n){
+            var m, k='kx'+n;
+            if (window.localStorage) {
+                return window.localStorage[k] || "";
+            } else if (navigator.cookieEnabled) {
+                m = document.cookie.match(k+'=([^;]*)');
+                return (m && unescape(m[1])) || "";
+            } else {
+                return '';
+            }
+        }
+        Krux.user = retrieve('user');
+        Krux.segments = retrieve('segs') && retrieve('segs').split(',') || [];
+    })();
+</script>
+
+    <script type="text/javascript">
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' == document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') +
+                    '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+    </script>
+    <script type="text/javascript" id="googletag-push">
+        
+            var adSlot = '270604982/springerlink/book/chapter';
+        
+
+        var definedSlots = [
+                {slot: [728, 90], containerName: 'doubleclick-leaderboard-ad'},
+                {slot: [160, 600], containerName: 'doubleclick-ad'},
+        ];
+
+        googletag.cmd.push(function() {
+                googletag.pubads().setTargeting("doi","10.1007-978-3-319-46478-7_31");
+                googletag.pubads().setTargeting("kwrd",["Convolutional_neural_networks","Face_recognition","Discriminative_feature_learning","Center_loss"]);
+                googletag.pubads().setTargeting("pmc",["I","I22021","I2203X","I21017","I22013"]);
+                googletag.pubads().setTargeting("BPID",["1"]);
+                googletag.pubads().setTargeting("edition","academic");
+                googletag.pubads().setTargeting("sucode","SUCO11645");
+                googletag.pubads().setTargeting("eisbn","978-3-319-46478-7");
+                googletag.pubads().setTargeting("eissn","1611-3349");
+                googletag.pubads().setTargeting("pisbn","978-3-319-46477-0");
+                googletag.pubads().setTargeting("pissn","0302-9743");
+                googletag.pubads().setTargeting("ksg",Krux.segments);
+                googletag.pubads().setTargeting("kuid",Krux.uid);
+                googletag.pubads().setTargeting("logged","N");
+            googletag.pubads().enableSingleRequest();
+            googletag.pubads().enableAsyncRendering();
+            googletag.enableServices();
+        });
+    </script>
+
+
+        
+        <span id="chat-widget" class="u-hide"></span>
+        
+    
+
+<button href="javascript:;" title="focus catcher" class="js-focus-catcher u-screenreader-only" tabindex="-1"></button></body><iframe id="kx-proxy-KDqyaFZ_" src="https://cdn.krxd.net/partnerjs/xdi/proxy.3d2100fd7107262ecb55ce6847f01fa5.html#%21kxcid=KDqyaFZ_&amp;kxt=https%3A%2F%2Flink.springer.com&amp;kxcl=cdn&amp;kxp=" style="display: none; visibility: hidden; height: 0; width: 0;"></iframe></html>

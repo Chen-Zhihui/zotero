@@ -1,0 +1,315 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 108
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,017
+    Star 1,017
+    Fork
+    Where should we fork this repository?
+    Loading
+    158
+
+rbock / sqlpp11
+Code Issues 26 Pull requests 4 Projects 0 Wiki Insights
+A type safe SQL template library for C++
+
+    1,213 commits
+    4 branches
+    50 releases
+    24 contributors
+    BSD-2-Clause
+
+    C++ 91.0%
+    C 5.6%
+    CMake 1.9%
+    Python 1.4%
+    Shell 0.1%
+
+C++ C CMake Python Shell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: develop
+Switch branches/tags
+
+    Branches
+    Tags
+
+develop feature/data-type-blob feature/no-workarounds master
+Nothing to show
+0.54 0.53 0.52 0.51 0.50 0.49 0.48 0.47 0.46 0.45 0.44 0.43 0.42 0.41 0.40 0.39 0.38 0.37 0.36 0.35 0.34 0.33 0.32 0.31 0.30 0.29 0.28 0.27 0.26 0.25 0.24 0.23 0.22 0.21 0.20 0.19 0.18 0.17 0.16 0.15 0.14 0.13 0.12 0.11 0.10 0.9 0.8 0.7 0.6 0.5
+Nothing to show
+New pull request
+Latest commit 1b12fdd Mar 9, 2018
+Philippe Daouadi @rbock
+Philippe Daouadi and rbock Add support for std::array blobs
+Permalink
+	Failed to load latest commit information.
+	cmake 	Install and export ddl2cpp script 	Feb 19, 2018
+	connector_api 	Implemented get/set_default_isolation_level() functions to change the 	Jun 4, 2017
+	include/ sqlpp11 	Add support for std::array blobs 	Mar 11, 2018
+	scripts 	Allow digits 0-9 in include guards 	Feb 13, 2018
+	test_constraints 	Prevent unconditional joins, and naked bool in where() or boolean exp… 	Mar 20, 2016
+	test_scripts 	Add the possibility to keep the table and column names as in the DDL 	Feb 8, 2018
+	test_serializer 	Add support for std::array blobs 	Mar 11, 2018
+	test_static_asserts 	Improved a few assert wrapper names 	Sep 4, 2016
+	test_types 	fixed issues with test_types/result_row.cpp 	Oct 25, 2017
+	tests 	Add blob data type 	Mar 11, 2018
+	.appveyor.yml 	Update CI scripts. 	Jan 31, 2018
+	.clang-format 	Stop clang-format from sorting includes 	Oct 7, 2016
+	.gitignore 	add set(tuple<...>) implementation for insert and update statements 	Feb 15, 2018
+	.travis.yml 	Update CI scripts. 	Jan 31, 2018
+	CMakeLists.txt 	Install and export ddl2cpp script 	Feb 19, 2018
+	CREDITS 	shamelessly adding myself to CREDITS 	May 30, 2015
+	ChangeLog.md 	Update ChangeLog.md 	Aug 30, 2016
+	LICENSE 	Update LICENSE 	Mar 6, 2016
+	README.md 	Update readme 	Oct 21, 2017
+	_config.yml 	Set theme jekyll-theme-minimal 	Jun 4, 2017
+	coveralls 	add coveralls coverage reporting 	May 30, 2015
+	pre-commit 	Reformatted using clang-format 	Sep 14, 2015
+README.md
+sqlpp11
+
+A type safe embedded domain specific language for SQL queries and results in C++
+
+Documentation is found in the wiki
+So what is this about?
+
+SQL and C++ are both strongly typed languages. Still, most C/C++ interfaces to SQL are based on constructing queries as strings and on interpreting arrays or maps of strings as results.
+
+sqlpp11 is a templated library representing an embedded domain specific language (EDSL) that allows you to
+
+    define types representing tables and columns,
+    construct type safe queries checked at compile time for syntax errors, type errors, name errors and even some semantic errors,
+    interpret results by iterating over query-specific structs with appropriately named and typed members.
+
+This results in several benefits, e.g.
+
+    the library user operates comfortably on structs and functions,
+    the compiler reports many kinds of errors long before the code enters unit testing or production,
+    the library hides the gory details of string construction for queries and interpreting results returned by select calls.
+
+The library supports both static and dynamic queries. The former offers greater benefit in terms of type and consistency checking. The latter makes it easier to construct queries on the flight.
+
+sqlpp11 is vendor-neutral. Specific traits of databases (e.g. unsupported or non-standard features) are handled by connector libraries. Connector libraries can inform the developer of missing features at compile time. They also interpret expressions specifically where needed. For example, the connector could use the operator|| or the concat method for string concatenation without the developer being required to change the statement.
+
+The library is already used in production but it is certainly not complete yet. Feature requests, bug reports, contributions to code or documentation are most welcome.
+Examples:
+
+For the examples, lets assume you have a table class representing something like
+
+ CREATE  TABLE  foo  (
+    id bigint ,
+    name varchar ( 50 ),
+    hasFun bool
+);
+
+And we assume to have a database connection object:
+
+ TabFoo foo;
+Db db ( /* some arguments */  );
+
+// selecting zero or more results, iterating over the results 
+for  ( const  auto & row : db(select(foo.name, foo.hasFun).from(foo).where(foo.id > 17  and  foo.name.like( " %bar% "  ))))
+{
+    if  (row. name . is_null ())
+        std::cerr << " name is null, will convert to empty string "   << std::endl;
+    std::string name = row. name ;   // string-like fields are implicitly convertible to string 
+    bool  hasFun = row. hasFun ;          // bool fields are implicitly convertible to bool 
+}
+
+// selecting ALL columns of a table 
+for  ( const  auto & row : db(select(all_of(foo)).from(foo).where(foo.hasFun or  foo.name == " joker "  )))
+{
+    int64_t  id = row. id ; // numeric fields are implicitly convertible to numeric c++ types 
+}
+
+// selecting zero or one row, showing off with an alias: 
+SQLPP_ALIAS_PROVIDER (cheese);
+if  ( const  auto & row = db(select(foo.name.as(cheese)).from(foo).where(foo.id == 17 )))
+{
+    std::cerr << " found: "   << row. cheese  << std::endl;
+}
+
+// selecting a single row with a single result: 
+return  db(select(count(foo.id)).from(foo).unconditionally()).front().count;
+
+Of course there are joins and  subqueries, more functions, order_by, group_by etc.
+These will be documented soon.
+
+// A sample insert 
+db (insert_into(foo).set(foo.id = 17 , foo.name = " bar "  , foo.hasFun = true ));
+
+// A sample update 
+db (update(foo).set(foo.hasFun = not  foo.hasFun).where(foo.name != " nobody "  ));
+
+// A sample delete 
+db (remove_from(foo).where( not  foo.hasFun));
+
+License:
+
+sqlpp11 is distributed under the BSD 2-Clause License .
+Status:
+Branch / Compiler 	clang-3.4, gcc-4.9, Xcode-7 	MSVC 2015/2017 	Test Coverage
+master 	Build Status 	Build status 	Coverage Status
+develop 	Build Status 	Build status 	Coverage Status
+
+MSVC 2017 is currently broken, see
+
+    https://github.com/rbock/sqlpp11/issues/181
+    https://developercommunity.visualstudio.com/content/problem/95983/c-vs152-153-regression-in-variadic-template-argume.html
+
+Additional information available:
+
+Past talks about sqlpp11 and some coding concepts used within the library:
+
+    CppCast:
+    2015-05-07: http://cppcast.com/2015/05/roland-bock/
+    CppCon:
+    2015-09-24: Pruning Error Messages From Your C++ Template Code , with examples from sqlpp11
+    2014-09-11: sqlpp11, An SQL Library Worthy Of Modern C++
+    Meeting C++:
+    2014-12-05: sqlpp11, An EDSL For Type-Safe SQL In C++11
+    MUC++:
+    2014-02-27: Selected C++11 Template Toffees From sqlpp11, Part1 , Part2 , Part 3 , Part 4
+
+Requirements:
+
+Compiler: sqlpp11 makes heavy use of C++11 and requires a recent compiler and STL. The following compilers are known to compile the test programs:
+
+    clang-3.4+ on Ubuntu-12.4
+    g++-4.8+ on Ubuntu-12.4
+    g++-4.8+ on cygwin 64bit
+    g++-4.9+ on Debian Unstable
+    Xcode-7 on OS X
+    MSVC 2015 Update 1 on Windows Server 2012
+
+Database Connector: sqlpp11 requires a certain api in order to connect with the database, see database/api.h.
+
+    MySQL: https://github.com/rbock/sqlpp11-connector-mysql
+    Sqlite3: https://github.com/rbock/sqlpp11-connector-sqlite3
+    PostgreSQL: https://github.com/matthijs/sqlpp11-connector-postgresql
+    ODBC: https://github.com/Erroneous1/sqlpp11-connector-odbc (experimental)
+
+To demonstrate that sqlpp11 can work with other backends as well, here is an experimental backend for structs in standard containers:
+
+    STL Container: https://github.com/rbock/sqlpp11-connector-stl
+
+Date Library: sqlpp11 requires Howard Hinnant's date library for date and date_time data types. Sqlpp11 includes CMake search module for this, but if you didn't install this library system-wide, you need to point cmake to it:
+
+ cmake -DHinnantDate_ROOT_DIR=/%PATH_TO_HinnantDate_SOURCE%/  
+
+Build and Install
+
+Build from Source:
+
+Download and unpack the latest release from https://github.com/rbock/sqlpp11/releases or clone the repository. Inside the directory run the following commands:
+
+ mkdir build
+cd  build
+cmake ..
+make
+make install
+
+The last step will install the library system wide.
+
+Install via Homebrew (MacOS):
+
+ brew install marvin182/zapfhahn/sqlpp11
+
+Some connectors can be installed with the formula. See brew info marvin182/zapfhahn/sqlpp11 for available options.
+Basic usage:
+
+Create DDL files :
+
+ mysql: 'show create table MyDatabase.MyTable' #or mysqldump --no-data MyDatabase > MyDatabase.sql  
+
+Create headers for them with provided Python script:
+
+ %sqlpp11_dir%/scripts/ddl2cpp ~/temp/MyTable.ddl ~/temp/MyTable %DatabaseNamespaceForExample%  
+
+(In case you're getting notes about unsupported column type take a look at the other datatypes in sqlpp11/data_types. They are not hard to implement.)
+
+Include generated header (MyTable.h), that's all.
+
+If you prefer Ruby over Python, you might want to take a look at https://github.com/douyw/sqlpp11gen
+Contact:
+
+    Issues at https://github.com/rbock/sqlpp11/issues
+    email at rbock at eudoxos dot de
+    Join the chat at https://gitter.im/sqlpp11/Lobby
+
+Breaking changes in 0.36:
+
+See Changes
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

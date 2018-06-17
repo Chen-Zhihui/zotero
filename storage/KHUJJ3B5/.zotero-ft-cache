@@ -1,0 +1,261 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 76
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 835
+    Star 835
+    Fork
+    Where should we fork this repository?
+    Loading
+    194
+
+noirbizarre / flask-restplus
+Code Issues 157 Pull requests 19 Projects 0 Wiki Insights
+Fully featured framework for fast, easy and documented API development with Flask http://flask-restplus.readthedocs.org
+python api swagger flask rest json restful restplus
+
+    559 commits
+    4 branches
+    31 releases
+    44 contributors
+
+    Python 98.6%
+    Other 1.4%
+
+Python Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+cython field-mask master method-restrictions
+Nothing to show
+0.10.1 0.10.0 0.9.2 0.9.1 0.9.0 0.8.6 0.8.5 0.8.4 0.8.3 0.8.2 0.8.1 0.8.0 0.7.2 0.7.1 0.7.0 0.6.0 0.5.1 0.5.0 0.4.2 0.4.1 0.4.0 0.3.0 0.2.4 0.2.3 0.2.2 0.2.1 0.2 0.1.3 0.1.2 0.1.1 0.1
+Nothing to show
+New pull request
+Latest commit fc99e65 Feb 12, 2018
+@noirbizarre
+noirbizarre Merge pull request #394 from ypa/master …
+
+ Fix typo in documentation example
+
+Permalink
+	Failed to load latest commit information.
+	doc 	Fix typo in documentation example 	Feb 11, 2018
+	examples 	Use the new Flask 0.11/1.0 extension naming convention 	Jun 3, 2016
+	flask_restplus 	merging in master 	Jan 30, 2018
+	requirements 	Packagin and tooling cleanup and improvements 	Oct 24, 2017
+	tests 	merging in master 	Jan 30, 2018
+	.editorconfig 	Added editorconfig 	Jan 15, 2017
+	.gitignore 	Ignore benchmark and profiling results 	Oct 25, 2017
+	.pyup.yml 	Added pyup config 	Oct 25, 2017
+	.travis.yml 	Disable Python 3.3 build on Travis 	Oct 24, 2017
+	AUTHORS.rst 	Give credit to the initial flask-restful contributors ( fix #149 ) 	Apr 21, 2016
+	CHANGELOG.rst 	added formatting, removed typos. updated change log.wq 	Jan 19, 2018
+	CONTRIBUTING.rst 	Add a line about the changelog in contributing guidelines 	Oct 19, 2016
+	LICENSE 	Give credit to the initial flask-restful contributors ( fix #149 ) 	Apr 21, 2016
+	MANIFEST.in 	Upgrade to Swagger UI 3.4.0 ( fix #338 ) 	Oct 25, 2017
+	README.rst 	Drop support for Python 3.3 	Oct 24, 2017
+	bumpr.rc 	Drop support for Python 3.3 	Oct 24, 2017
+	coverage.rc 	Initial import 	Aug 14, 2014
+	package.json 	Upgrade to Swagger UI 3.4.0 ( fix #338 ) 	Oct 25, 2017
+	readthedocs.pip 	Misc fixes 	Jan 18, 2016
+	setup.cfg 	Port benchmarks to pytest-benchmark 	May 16, 2017
+	setup.py 	Drop support for Python 3.3 	Oct 24, 2017
+	tasks.py 	Added static folder in web assets task 	Oct 27, 2017
+	tox.ini 	Drop support for Python 3.3 	Oct 24, 2017
+	travis-bench-after-success.sh 	Fix benchmark 	May 16, 2017
+README.rst
+Flask RestPlus
+Build status Code coverage Documentation status License Supported Python versions Join the chat at https://gitter.im/noirbizarre/flask-restplus
+
+Flask-RESTPlus is an extension for Flask that adds support for quickly building REST APIs. Flask-RESTPlus encourages best practices with minimal setup. If you are familiar with Flask, Flask-RESTPlus should be easy to pick up. It provides a coherent collection of decorators and tools to describe your API and expose its documentation properly using Swagger .
+Compatibility
+
+Flask-RestPlus requires Python 2.7 or 3.4+.
+Installation
+
+You can install Flask-Restplus with pip:
+
+ $ pip install flask-restplus 
+
+or with easy_install:
+
+ $ easy_install flask-restplus 
+
+Quick start
+
+With Flask-Restplus, you only import the api instance to route and document your endpoints.
+
+ from  flask import  Flask
+from  flask_restplus import  Api, Resource, fields
+
+app =  Flask( __name__ )
+api =  Api(app, version = ' 1.0 '  , title = ' TodoMVC API '  ,
+    description = ' A simple TodoMVC API '  ,
+)
+
+ns =  api.namespace( ' todos '  , description = ' TODO operations '  )
+
+todo =  api.model( ' Todo '  , {
+    ' id '  : fields.Integer( readOnly = True , description = ' The task unique identifier '  ),
+    ' task '  : fields.String( required = True , description = ' The task details '  )
+})
+
+
+class  TodoDAO ( object ):
+    def  __init__ ( self  ):
+        self .counter =  0 
+        self .todos =  []
+
+    def  get ( self  , id ):
+        for  todo in  self .todos:
+            if  todo[ ' id '  ] ==  id :
+                return  todo
+        api.abort( 404 , " Todo {} doesn't exist "  .format( id ))
+
+    def  create ( self  , data ):
+        todo =  data
+        todo[ ' id '  ] =  self .counter =  self .counter +  1 
+        self .todos.append(todo)
+        return  todo
+
+    def  update ( self  , id , data ):
+        todo =  self .get( id )
+        todo.update(data)
+        return  todo
+
+    def  delete ( self  , id ):
+        todo =  self .get( id )
+        self .todos.remove(todo)
+
+
+DAO  =  TodoDAO()
+DAO .create({ ' task '  : ' Build an API '  })
+DAO .create({ ' task '  : ' ????? '  })
+DAO .create({ ' task '  : ' profit! '  })
+
+
+@ns.route ( ' / '  )
+class  TodoList ( Resource ):
+    ''' Shows a list of all todos, and lets you POST to add new tasks '''  
+    @ns.doc ( ' list_todos '  )
+    @ns.marshal_list_with (todo)
+    def  get ( self  ):
+        ''' List all tasks '''  
+        return  DAO .todos
+
+    @ns.doc ( ' create_todo '  )
+    @ns.expect (todo)
+    @ns.marshal_with (todo, code = 201 )
+    def  post ( self  ):
+        ''' Create a new task '''  
+        return  DAO .create(api.payload), 201 
+
+
+@ns.route ( ' /<int:id> '  )
+@ns.response ( 404 , ' Todo not found '  )
+@ns.param ( ' id '  , ' The task identifier '  )
+class  Todo ( Resource ):
+    ''' Show a single todo item and lets you delete them '''  
+    @ns.doc ( ' get_todo '  )
+    @ns.marshal_with (todo)
+    def  get ( self  , id ):
+        ''' Fetch a given resource '''  
+        return  DAO .get( id )
+
+    @ns.doc ( ' delete_todo '  )
+    @ns.response ( 204 , ' Todo deleted '  )
+    def  delete ( self  , id ):
+        ''' Delete a task given its identifier '''  
+        DAO .delete( id )
+        return  ' '  , 204 
+
+    @ns.expect (todo)
+    @ns.marshal_with (todo)
+    def  put ( self  , id ):
+        ''' Update a task given its identifier '''  
+        return  DAO .update( id , api.payload)
+
+
+if  __name__  ==  ' __main__ '  :
+    app.run( debug = True )
+
+Documentation
+
+The documentation is hosted on Read the Docs
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

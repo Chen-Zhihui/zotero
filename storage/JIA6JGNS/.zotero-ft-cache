@@ -1,0 +1,288 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 304
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 3,859
+    Star 3,859
+    Fork
+    Where should we fork this repository?
+    Loading
+    1,022
+
+nodejs / http-parser
+Code Issues 29 Pull requests 29 Projects 0 Insights
+http request/response parser for c
+nodejs node
+
+    417 commits
+    5 branches
+    21 releases
+    75 contributors
+    MIT
+
+    C 96.4%
+    Makefile 2.3%
+    Python 1.3%
+
+C Makefile Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+event_stream master v0.6 v0.10 version0.2
+Nothing to show
+v2.8.1 v2.8.0 v2.7.1 v2.7.0 v2.6.2 v2.6.1 v2.6.0 v2.5.0 v2.5 v2.4.2 v2.4.1 v2.4 v2.3 v2.2.1 v2.2 v2.1 v2.0 v1.0 v0.3 v0.2 v0.1
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	contrib 	Update license boilerplate. 	Oct 2, 2017
+	.gitignore 	header: treat Wine like MinGW 	Jul 23, 2015
+	.mailmap 	Bump version to 2.4.0 	Jan 14, 2015
+	.travis.yml 	send travis irc notifications to #node-ci 	Nov 4, 2014
+	AUTHORS 	src: support LINK/UNLINK (RFC 2068, draft-snell-link-method) 	Oct 27, 2015
+	LICENSE-MIT 	Update license boilerplate. 	Oct 2, 2017
+	Makefile 	Bump version to 2.8.1 	Mar 31, 2018
+	README.md 	doc: standardize project name 	Nov 30, 2017
+	bench.c 	bench: report throughput 	Mar 6, 2018
+	http_parser.c 	Reject interior blanks in Content-Length value. 	Mar 31, 2018
+	http_parser.gyp 	build: add default build flags to gyp script 	Oct 14, 2012
+	http_parser.h 	Bump version to 2.8.1 	Mar 31, 2018
+	test.c 	Reject interior blanks in Content-Length value. 	Mar 31, 2018
+README.md
+HTTP Parser
+
+Build Status
+
+This is a parser for HTTP messages written in C. It parses both requests and responses. The parser is designed to be used in performance HTTP applications. It does not make any syscalls nor allocations, it does not buffer data, it can be interrupted at anytime. Depending on your architecture, it only requires about 40 bytes of data per message stream (in a web server that is per connection).
+
+Features:
+
+    No dependencies
+    Handles persistent streams (keep-alive).
+    Decodes chunked encoding.
+    Upgrade support
+    Defends against buffer overflow attacks.
+
+The parser extracts the following information from HTTP messages:
+
+    Header fields and values
+    Content-Length
+    Request method
+    Response status code
+    Transfer-Encoding
+    HTTP version
+    Request URL
+    Message body
+
+Usage
+
+One http_parser object is used per TCP connection. Initialize the struct using http_parser_init() and set the callbacks. That might look something like this for a request parser:
+
+ http_parser_settings settings;
+settings.on_url = my_url_callback;
+settings.on_header_field = my_header_field_callback;
+/* ... */  
+
+http_parser *parser = malloc( sizeof (http_parser));
+http_parser_init (parser, HTTP_REQUEST);
+parser->data = my_socket;
+
+When data is received on the socket execute the parser and check for errors.
+
+ size_t  len = 80 * 1024 , nparsed;
+char  buf[len];
+ssize_t  recved;
+
+recved = recv(fd, buf, len, 0 );
+
+if  (recved < 0 ) {
+  /* Handle error. */  
+}
+
+/* Start up / continue the parser. 
+* Note we pass recved==0 to signal that EOF has been received. 
+*/  
+nparsed = http_parser_execute(parser, &settings, buf, recved);
+
+if  (parser->upgrade) {
+  /* handle new protocol */  
+} else  if  (nparsed != recved) {
+  /* Handle error. Usually just close the connection. */  
+}
+
+http_parser needs to know where the end of the stream is. For example, sometimes servers send responses without Content-Length and expect the client to consume input (for the body) until EOF. To tell http_parser about EOF, give 0 as the fourth parameter to http_parser_execute() . Callbacks and errors can still be encountered during an EOF, so one must still be prepared to receive them.
+
+Scalar valued message information such as status_code , method , and the HTTP version are stored in the parser structure. This data is only temporally stored in http_parser and gets reset on each new message. If this information is needed later, copy it out of the structure during the headers_complete callback.
+
+The parser decodes the transfer-encoding for both requests and responses transparently. That is, a chunked encoding is decoded before being sent to the on_body callback.
+The Special Problem of Upgrade
+
+http_parser supports upgrading the connection to a different protocol. An increasingly common example of this is the WebSocket protocol which sends a request like
+
+ GET /demo HTTP/1.1 Upgrade: WebSocket Connection: Upgrade Host: example.com Origin: http://example.com WebSocket-Protocol: sample  
+
+followed by non-HTTP data.
+
+(See RFC6455 for more information the WebSocket protocol.)
+
+To support this, the parser will treat this as a normal HTTP message without a body, issuing both on_headers_complete and on_message_complete callbacks. However http_parser_execute() will stop parsing at the end of the headers and return.
+
+The user is expected to check if parser->upgrade has been set to 1 after http_parser_execute() returns. Non-HTTP data begins at the buffer supplied offset by the return value of http_parser_execute() .
+Callbacks
+
+During the http_parser_execute() call, the callbacks set in http_parser_settings will be executed. The parser maintains state and never looks behind, so buffering the data is not necessary. If you need to save certain data for later usage, you can do that from the callbacks.
+
+There are two types of callbacks:
+
+    notification typedef int (*http_cb) (http_parser*); Callbacks: on_message_begin, on_headers_complete, on_message_complete.
+    data typedef int (*http_data_cb) (http_parser*, const char *at, size_t length); Callbacks: (requests only) on_url, (common) on_header_field, on_header_value, on_body;
+
+Callbacks must return 0 on success. Returning a non-zero value indicates error to the parser, making it exit immediately.
+
+For cases where it is necessary to pass local information to/from a callback, the http_parser object's data field can be used. An example of such a case is when using threads to handle a socket connection, parse a request, and then give a response over that socket. By instantiation of a thread-local struct containing relevant data (e.g. accepted socket, allocated memory for callbacks to write into, etc), a parser's callbacks are able to communicate data between the scope of the thread and the scope of the callback in a threadsafe manner. This allows http_parser to be used in multi-threaded contexts.
+
+Example:
+
+  typedef  struct  {
+  socket_t  sock;
+  void * buffer;
+  int  buf_len;
+ } custom_data_t ;
+
+
+int  my_url_callback (http_parser* parser, const  char  *at, size_t  length) {
+  /* access to thread local custom_data_t struct. 
+Use this access save parsed data for later use into thread local 
+buffer, or communicate over socket 
+*/  
+  parser->data;
+  ...
+  return  0 ;
+}
+
+...
+
+void  http_parser_thread ( socket_t  sock) {
+ int  nparsed = 0 ;
+ /* allocate memory for user data */  
+ custom_data_t  *my_data = malloc ( sizeof ( custom_data_t ));
+
+ /* some information for use by callbacks. 
+* achieves thread -> callback information flow */  
+ my_data->sock = sock;
+
+ /* instantiate a thread-local parser */  
+ http_parser *parser = malloc ( sizeof (http_parser));
+ http_parser_init (parser, HTTP_REQUEST); /* initialise parser */  
+ /* this custom data reference is accessible through the reference to the 
+parser supplied to callback functions */  
+ parser->data = my_data;
+
+ http_parser_settings settings; /* set up callbacks */  
+ settings. on_url  = my_url_callback;
+
+ /* execute parser */  
+ nparsed = http_parser_execute (parser, &settings, buf, recved);
+
+ ...
+ /* parsed information copied from callback. 
+can now perform action on data copied into thread-local memory from callbacks. 
+achieves callback -> thread information flow */  
+ my_data->buffer;
+ ...
+}
+
+In case you parse HTTP message in chunks (i.e. read() request line from socket, parse, read half headers, parse, etc) your data callbacks may be called more than once. http_parser guarantees that data pointer is only valid for the lifetime of callback. You can also read() into a heap allocated buffer to avoid copying memory around if this fits your application.
+
+Reading headers may be a tricky task if you read/parse headers partially. Basically, you need to remember whether last header callback was field or value and apply the following logic:
+
+ (on_header_field and on_header_value shortened to on_h_*) ------------------------ ------------ -------------------------------------------- | State (prev. callback) | Callback | Description/action | ------------------------ ------------ -------------------------------------------- | nothing (first call) | on_h_field | Allocate new buffer and copy callback data | | | | into it | ------------------------ ------------ -------------------------------------------- | value | on_h_field | New header started. | | | | Copy current name,value buffers to headers | | | | list and allocate new buffer for new name | ------------------------ ------------ -------------------------------------------- | field | on_h_field | Previous name continues. Reallocate name | | | | buffer and append callback data to it | ------------------------ ------------ -------------------------------------------- | field | on_h_value | Value for current header started. Allocate | | | | new buffer and copy callback data to it | ------------------------ ------------ -------------------------------------------- | value | on_h_value | Value continues. Reallocate value buffer | | | | and append callback data to it | ------------------------ ------------ --------------------------------------------  
+
+Parsing URLs
+
+A simplistic zero-copy URL parser is provided as http_parser_parse_url() . Users of this library may wish to use it to parse URLs constructed from consecutive on_url callbacks.
+
+See examples of reading in headers:
+
+    partial example in C
+    from http-parser tests in C
+    from Node library in Javascript
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

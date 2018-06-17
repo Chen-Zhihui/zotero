@@ -1,0 +1,227 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 34
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 956
+    Star 956
+    Fork
+    Where should we fork this repository?
+    Loading
+    38
+
+acdlite / redux-rx
+Code Issues 11 Pull requests 1 Projects 0 Wiki Insights
+RxJS utilities for Redux.
+
+    39 commits
+    1 branch
+    4 releases
+    9 contributors
+
+    JavaScript 93.7%
+    Makefile 6.3%
+
+JavaScript Makefile
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+v0.4.0 v0.4.0-alpha v0.3.0 v0.2.0
+Nothing to show
+New pull request
+Latest commit bc5bd96 Jan 25, 2016
+@chicoxyzzy
+chicoxyzzy Merge pull request #20 from tomkur/master …
+
+ Fix typo in README
+
+Permalink
+	Failed to load latest commit information.
+	src 	Merge pull request #11 from matthewwithanm/issue-10-fix 	Nov 9, 2015
+	.babelrc 	Initial commit 	Jul 3, 2015
+	.eslintrc 	Add createConnector() 	Jul 8, 2015
+	.gitignore 	Initial commit 	Jul 3, 2015
+	.npmignore 	Initial commit 	Jul 3, 2015
+	.travis.yml 	Initial commit 	Jul 3, 2015
+	Makefile 	Add createConnector() 	Jul 8, 2015
+	README.md 	Fix typo in README 	Jan 20, 2016
+	package.json 	0.5.0 	Nov 9, 2015
+	react.js 	Add createConnector() 	Jul 8, 2015
+README.md
+redux-rx
+
+build status npm version
+
+RxJS utilities for Redux. Includes
+
+    A utility to create Connector-like smart components using RxJS sequences.
+        A special version of bindActionCreators() that works with sequences.
+    An FSA -compliant observable middleware
+    A utility to create a sequence of states from a Redux store.
+
+ npm install -- save redux - rx rx
+
+Usage
+
+ import  { createConnector  } from  ' redux-rx/react '  ;
+import  { bindActionCreators , observableMiddleware , observableFromStore  } from  ' redux-rx '  ;
+
+createConnector(selectState, ?render)
+
+This lets you create Connector-like smart components using RxJS sequences. selectState() accepts three sequences as parameters
+
+    props$ - A sequence of props passed from the owner
+    state$ - A sequence of state from the Redux store
+    dispatch$ - A sequence representing the dispatch() method. In real-world usage, this sequence only has a single value, but it's provided as a sequence for correctness.
+
+selectState() should return a sequence of props that can be passed to the child. This provides a great integration point for sideways data-loading .
+
+Here's a simple example using web sockets:
+
+ const  TodoConnector  =  createConnector (( props$ , state$ , dispatch$ ) =>  {
+  // Special version of bindActionCreators that works with sequences; see below 
+  const  actionCreators$  =  bindActionCreators (actionCreators, dispatch$);
+  const  selectedState$  =  state$ . map ( s  =>  s . messages );
+
+  // Connect to a websocket using rx-dom 
+  const  $ws  =  fromWebSocket ( ' ws://chat.foobar.org '  ). map ( e  =>  e . data )
+    . withLatestFrom (actionCreators$, ( message , ac ) => 
+      () =>  ac . receiveMessage (message)
+    )
+    . do ( dispatchAction  =>  dispatchAction ()); // Dispatch action for new messages 
+
+  return  combineLatest (
+    props$, selectedState$, actionCreators$, $ws,
+    ( props , selectedState , actionCreators ) =>  ({
+      ... props,
+      ... selectedState,
+      ... actionCreators
+    }));
+});
+
+Pretty simple, right? Notice how there are no event handlers to clean up, no componentWillReceiveProps() , no setState . Everything is just a sequence.
+
+If you're new to RxJS, this may look confusing at first, but — like React — if you give it a try you may be surprised by how simple and fun reactive programming can be.
+
+TODO: React Router example. See this comment for now.
+
+render() is an optional second parameter which maps child props to a React element (vdom). This parameter can also be a React Component class — or, if you omit it entirely, a higher-order component is returned. See createRxComponent() of react-rx-component for more details. (This function is a wrapper around that library's createRxComponent() .)
+
+Not that unlike Redux's built-in Connector, the resulting component does not have a select prop. It is superseded by the selectState function described above. Internally, shouldComponentUpdate() is still used for performance.
+
+NOTE createConnector() is a wrapper around react-rx-component . Check out that project for more information on how to use RxJS to construct smart components.
+bindActionCreators(actionCreators, dispatch$)
+
+This is the same, except dispatch$ can be either a dispatch function or a sequence of dispatch functions. See previous section for context.
+observableMiddleware
+
+The middleware works on RxJS observables, and Flux Standard Actions whose payloads are observables.
+
+The default export is a middleware function. If it receives a promise, it will dispatch the resolved value of the promise. It will not dispatch anything if the promise rejects.
+
+If it receives an Flux Standard Action whose payload is an observable, it will
+
+    dispatch a new FSA for each value in the sequence.
+    dispatch an FSA on error.
+
+The middleware does not subscribe to the passed observable. Rather, it returns the observable to the caller, which is responsible for creating a subscription. Dispatches occur as a side effect (implemented using doOnNext() and doOnError() ).
+Example
+
+ // fromEvent() used just for illustration. More likely, if you're using React, 
+// you should use something rx-react's FuncSubject 
+// https://github.com/fdecampredon/rx-react#funcsubject 
+const  buttonClickStream  =  Observable . fromEvent (button, ' click '  );
+
+// Stream of new todos, with debouncing 
+const  newTodoStream  =  buttonClickStream
+  . debounce ( 100 )
+  . map (getTodoTextFromInput);
+
+// Dispatch new todos whenever they're created 
+dispatch (newTodoStream). subscribe ();
+
+observableFromStore(store)
+
+Creates an observable sequence of states from a Redux store.
+
+This is a great way to react to state changes outside of the React render cycle. See this discussion for an example. I'll update with a proper example once React Router 1.0 is released.
+
+Also, I'm not a Cycle.js user, but I imagine this is useful for integrating Redux with that library.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

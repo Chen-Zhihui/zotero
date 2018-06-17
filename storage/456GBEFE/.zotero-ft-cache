@@ -1,0 +1,416 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 15
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 36
+    Star 36
+    Fork
+    Where should we fork this repository?
+    Loading
+    26
+
+tcalmant / ipopo
+Code Issues 13 Pull requests 0 Projects 0 Insights
+iPOPO: a Service-Oriented Component Model for Python https://ipopo.readthedocs.io/
+python osgi pelix ipopo python3 service-oriented-architecture component-architecture
+
+    1,112 commits
+    4 branches
+    18 releases
+    Fetching contributors
+    Apache-2.0
+
+    Python 100.0%
+
+Python
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+convert_doc master py26_cleanup rsa
+Nothing to show
+0.7.0 0.6.5 0.6.4 0.6.3 0.6.2 0.6.1 0.6.0 0.5.9 0.5.8 0.5.7 0.5.6 0.5.5 0.5.4 0.5.3 0.5.2 0.5.1 0.5 0.4
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	_imgs 	SVG version of the logo with text 	Oct 23, 2017
+	docs 	fix: doc init config file example 	Mar 15, 2018
+	pelix 	LogService: use record.getMessage() instead of record.message 	Mar 19, 2018
+	samples 	Version bump to 0.7.1 for future developments 	Jan 4, 2018
+	tests 	Fixed tests for the "start" shell command 	Mar 15, 2018
+	.coveragerc 	Removed the "exclude" line in .coveragerc 	Sep 30, 2015
+	.coveralls.yml 	Added Coveralls configuration 	Apr 2, 2014
+	.gitignore 	Added type hinting + code review 	Sep 16, 2017
+	.travis.yml 	Use requirements.txt in .travis.yml 	Feb 26, 2018
+	CHANGELOG.rst 	Updated changelog 	Jan 4, 2018
+	CONTRIBUTING.rst 	Updated the code style in the contribution guide 	Jan 4, 2018
+	LICENSE 	License changed from GPLv3 to Apache License 2.0 	Nov 5, 2013
+	MANIFEST.in 	Add the logo in MANIFEST.in 	Sep 18, 2015
+	README.rst 	Updated change logs 	Dec 30, 2017
+	pylintrc 	Updated pylintrc 	Nov 16, 2016
+	requirements.txt 	Python 2.7: Force zeroconf to version 0.19 	Feb 26, 2018
+	setup.cfg 	Added setup.cfg file, to package iPOPO with Wheel 	Sep 30, 2014
+	setup.py 	Version bump to 0.7.1 for future developments 	Jan 4, 2018
+README.rst
+iPOPO logo
+iPOPO: A Service-Oriented Component Model for Python
+Join the chat at https://gitter.im/tcalmant/ipopo Latest Version License Travis-CI status Coveralls status
+
+iPOPO is a Python-based Service-Oriented Component Model (SOCM) based on Pelix, a dynamic service platform. They are inspired on two popular Java technologies for the development of long-lived applications: the iPOJO component model and the OSGi Service Platform. iPOPO enables to conceive long-running and modular IT services.
+
+See https://ipopo.readthedocs.io/ for documentation and more information.
+Usage survey
+
+In order to gain insight from the iPOPO community, I've put a really short survey on Google Forms (no login required).
+
+Please, feel free to answer it, the more answers, the better. All feedback is really appreciated, and I'll write about the aggregated results on the users' mailing list, once enough answers will have been received.
+
+Contents
+
+    iPOPO: A Service-Oriented Component Model for Python
+        Usage survey
+    Note about the documentation
+    Install
+        Option 1: Using pip
+        Option 2: From source
+        Check install
+    Concepts
+    Sample
+        Service provider
+        Service consumer
+        Run!
+    Batteries included
+    Feedback
+    Contributing
+    Compatibility
+    License
+
+Note about the documentation
+
+As the server providing iPOPO (coderxpress.net) crashed, all the documentation is migrated to Read the Docs . Due to this situation, many pages, tutorials and reference cards are missing. Moreover, all links to the previous documentation are now invalid.
+
+To speed up the migration, all contributions to the documentation (now in the docs/ folder) are very welcome.
+Install
+Option 1: Using pip
+
+iPOPO is available on PyPI and can be installed using pip :
+
+ # Install system-wide 
+$ sudo pip install iPOPO
+
+# ... or user-wide installation 
+$ pip install --user iPOPO
+
+Option 2: From source
+
+ $ git clone https://github.com/tcalmant/ipopo.git
+$ cd  ipopo
+$ python setup.py install
+
+Check install
+
+To check if Pelix is installed correctly, run the following command:
+
+ $ python -m pelix.shell --version
+Pelix 0.7.0 from /home/tcalmant/git/ipopo/pelix/framework.py
+
+Concepts
+
+Pelix brings the concept of bundle in Python. A bundle is a module with a life cycle: it can be installed, started, stopped, updated and uninstalled .
+
+A bundle can declare a class acting as bundle activator, using the @BundleActivator decorator. This class will be instantiated by the framework and its start() and stop() method will be called to notify the bundle about its activation and deactivation.
+
+When it is active, a bundle can register services. A service is an object implementing a specification and associated to a set of properties. A component will then be able to select and consume a service according to the specification(s) it provides and to its properties.
+
+The components are a concept brought by iPOPO. A component, or component instance, is an object managed by a container. The container handles the interactions between the component and the Pelix framework. That way, the component contains only the code required for its task, not for its bindings with the framework. A component is an instance of a component factory, a class manipulated by iPOPO decorators .
+
+For more information, see the concepts page on the wiki.
+Sample
+
+This sample gives a quick overview of the usage of iPOPO. For more information, take a look at iPOPO in 10 minutes .
+Service provider
+
+The following code defines a component factory (a class) which instances will provide a sample.hello service.
+
+ # iPOPO decorators 
+from  pelix.ipopo.decorators import  ComponentFactory, Provides, Instantiate
+
+# Manipulates the class and sets its (unique) factory name 
+@ComponentFactory ( " hello-provider-factory "  )
+# Indicate that the components will provide a service 
+@Provides ( " sample.hello "  )
+# Tell iPOPO to instantiate a component instance as soon as the file is loaded 
+@Instantiate ( " hello-provider-auto "  )
+# A component class must always inherit from object (new-style class) 
+class  HelloProvider ( object ):
+    """  
+A sample service provider 
+"""  
+    def  hello ( self  , name = " world "  ):
+        """  
+Says hello 
+"""  
+        print ( " Hello, "  , name, " ! "  )
+
+    def  bye ( self  , name = " cruel world "  ):
+        """  
+Says bye 
+"""  
+        print ( " Bye, "  , name, " ! "  )
+
+When the bundle providing this component factory will be started, iPOPO will automatically instantiate a component, due to the @Instantiate decorator. It is also possible to instantiate a component using shell commands.
+
+Each component instance will provide a sample.hello service, which can be consumed by any bundle or any other component.
+Service consumer
+
+The following code defines a component factory (a class) which instances will consume a sample.hello service. If multiple services are available, iPOPO will select the one with the highest rank and the lowest service ID ( i.e. the oldest service).
+
+ # iPOPO decorators 
+from  pelix.ipopo.decorators import  ComponentFactory, Requires, Instantiate, \
+    Validate, Invalidate
+
+# Manipulates the class and sets its (unique) factory name 
+@ComponentFactory ( " hello-consumer-factory "  )
+# Indicate that the components require a sample.hello service to work 
+# and to inject the found service in the _svc field 
+@Requires ( ' _svc '  , " sample.hello "  )
+# Tell iPOPO to instantiate a component instance as soon as the file is loaded 
+@Instantiate ( " hello-consumer-auto "  )
+# A component class must always inherit from object (new-style class) 
+class  HelloConsumer ( object ):
+    """  
+A sample service consumer 
+"""  
+    def  __init__ ( self  ):
+        """  
+Defines (injected) members 
+"""  
+        self ._svc =  None 
+
+    @Validate 
+    def  validate ( self  , context ):
+        """  
+Component validated: all its requirements have been injected 
+"""  
+        self ._svc.hello( " Consumer "  )
+
+    @Invalidate 
+    def  invalidate ( self  , context ):
+        """  
+Component invalidated: one of its requirements is going away 
+"""  
+        self ._svc.bye( " Consumer "  )
+
+When the bundle providing this component factory will be started, iPOPO will automatically instantiate a component, due to the @Instantiate decorator.
+
+Each component instance will require a sample.hello service. Once iPOPO has injected all the required services (here, a single sample.hello service) in a component instance, this instance will be considered valid and iPOPO will call its method decorated by @Validate . There, the component can consume its dependencies, start threads, etc.. It is recommended for this method to start threads and to return quickly, as it blocks iPOPO and the Pelix framework.
+
+When a required service is unregistered by its provider, the component instances consuming it are invalidated. When the method decorated by @Invalidate is called, the service is still injected and should be usable (except for special cases, like remote services).
+Run!
+
+To run this sample, you'll need to copy the snippets above in different files:
+
+    copy the Service provider snippet in a file called provider.py
+    copy the Service consumer snippet in a file called consumer.py
+
+Then, run a Pelix shell in the same folder as those files, and execute the commands listed in this trace:
+
+ $ python -m pelix.shell
+**  Pelix Shell prompt ** 
+$ # Install the bundles 
+$ install provider
+Bundle ID: 11
+$ install consumer
+Bundle ID: 12
+$ # Start the bundles (the order isn't important here) 
+$ start 11 12
+Starting bundle 11 (provider)...
+Starting bundle 12 (consumer)...
+Hello, Consumer ! 
+$ # View iPOPO instances 
+$ instances
++----------------------+------------------------------+-------+
+|          Name         |            Factory            |  State | 
++======================+==============================+=======+
+|  hello-consumer-auto  |  hello-consumer-factory       |  VALID | 
++----------------------+------------------------------+-------+
+|  hello-provider-auto  |  hello-provider-factory       |  VALID | 
++----------------------+------------------------------+-------+
+|  ipopo-shell-commands |  ipopo-shell-commands-factory |  VALID | 
++----------------------+------------------------------+-------+
+3 components running
+$ # View details about the consumer 
+$ instance hello-consumer-auto
+Name.....: hello-consumer-auto
+Factory..: hello-consumer-factory
+Bundle ID: 12
+State....: VALID
+Services.:
+Dependencies:
+        Field: _svc
+                Specification: sample.hello
+                Filter......: None
+                Optional.....: False
+                Aggregate....: False
+                Handler......: SimpleDependency
+                Bindings:
+                        ServiceReference(ID=11, Bundle=11, Specs=[ ' sample.hello '  ])
+Properties:
+        +---------------+---------------------+
+        |       Key      |         Value        | 
+        +===============+=====================+
+        |  instance.name |  hello-consumer-auto | 
+        +---------------+---------------------+
+
+$ # Modify the provider file (e.g. change the 'Hello' string by 'Hi') 
+$ # Update the provider bundle (ID: 11) 
+$ update 11
+Updating bundle 11 (provider)...
+Bye, Consumer ! 
+Hi, Consumer ! 
+$ # Play with other commands (see help) 
+
+First, the install commands are used to install the bundle: they will be imported but their activator won't be called. If this command fails, the bundle is not installed and is not referenced by the framework.
+
+If the installation succeeded, the bundle can be started: it's activator is called (if any). Then, iPOPO detects the component factories provided by the bundle and instantiates the components declared using the @Instantiate decorator.
+
+The instances and instance commands can be use to print the state and bindings of the components. Some other commands are very useful, like sl and sd to list the registered services and print their details. Use the help command to see which ones can be used.
+
+The last part of the trace shows what happens when updating a bundle. First, update the source code of the provider bundle, e.g. by changing the string it prints in the hello() method. Then, tell the framework to update the bundle using the update command. This command requires a bundle ID, which has been given as a result of the install command and can be found using bl .
+
+When updating a bundle, the framework stops it and reloads it (using imp.reload ). If the update fails, the old version is kept. If the bundle was active before the update, it is restarted by the framework.
+
+Stopping a bundle causes iPOPO to kill the component instance(s) of the factories it provided. Therefore, no one provides the sample.hello service, which causes the consumer component to be invalidated. When the provider bundle is restarted, a new provider component is instantiated and its service is injected in the consumer, which becomes valid again.
+Batteries included
+
+Pelix/iPOPO comes with some useful services:
+
+    Pelix Shell: a simple shell to control the framework (manage bundles, show the state of components, ...). The shell is split in 4 parts:
+        the parser: a shell interpreter class, which can be reused to create other shells (with a basic support of variables);
+        the shell core service: callable from any bundle, it executes the given command lines;
+        the UIs: text UI (console) and remote shell (TCP, XMPP)
+        the commands providers: iPOPO commands, report, EventAdmin, ...
+
+    See the shell tutorial for more information.
+
+    An HTTP service, based on the HTTP server from the standard library. It provides the concept of servlet , borrowed from Java.
+
+    See the HTTP service reference for more information.
+
+    There is also a routing utility class , based on decorators, which eases the development of REST-like servlets.
+
+    Remote Services: export and import services to/from other Pelix framework or event Java OSGi frameworks!
+
+    See the remote services reference for more information.
+
+Pelix also provides an implementation of the EventAdmin service , inspired from the OSGi specification .
+Feedback
+
+Feel free to send feedback on your experience of Pelix/iPOPO, via the mailing lists:
+
+    User list: http://groups.google.com/group/ipopo-users
+    Development list: http://groups.google.com/group/ipopo-dev
+
+Bugs and features requests can be submitted using the Issue Tracker on GitHub.
+Contributing
+
+All contributions are welcome!
+
+    Create an issue to discuss about your idea or the problem you encounter
+    Fork the project
+    Develop your changes
+    Check your code with pylint and pep8
+    If necessary, write some unit tests
+    Commit your changes, indicating in each commit a reference to the issue you're working on
+    Push the commits on your repository
+    Create a Pull Request
+    Enjoy!
+
+Please note that your contributions will be released under the project's license, which is the Apache Software License 2.0 .
+Compatibility
+
+Pelix and iPOPO are tested using Tox and Travis-CI with Python 2.7, 3.4 to 3.6. Pypy is not tested anymore due to various bugs on tests themselves.
+
+iPOPO doesn't support Python 2.6 anymore.
+License
+
+iPOPO is released under the Apache Software License 2.0 .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

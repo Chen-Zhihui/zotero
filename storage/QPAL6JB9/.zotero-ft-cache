@@ -1,0 +1,231 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 1
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 7
+    Star 7
+    Fork
+    Where should we fork this repository?
+    Loading
+    4
+
+radjkarl / dataArtist
+Code Issues 5 Pull requests 0 Projects 0 Wiki Insights
+Simple and interactive data visualization and manipulation, based on pyqtgraph.
+
+    134 commits
+    3 branches
+    23 releases
+    1 contributor
+    GPL-3.0
+
+    Python 99.7%
+    Other 0.3%
+
+Python Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+gh-pages master py3support
+Nothing to show
+py3-beta6 py3-beta5 py3-beta4 py3-beta3 py3-beta2 py3-beta Windows10(14/Jun/2017) Windows10(06/Jun/2017) Windows10(05/Jun/2017) Windows10/Linux(14/Jun/2017) 64bit_Windows7-10/Linux(14/Jun/2017) 0.10.6 0.10.5 0.10.4 0.10.3 0.10.3b 0.10.2 0.10.1 0.10.0 0.1.8 0.1.7 0.1.5 0.1.4
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	DUMP 	update 	May 11, 2017
+	dataArtist 	removed proprietary stuff 	Jun 22, 2017
+	doc 	autopep8 reformating 	Oct 11, 2016
+	packaging 	first commit 	May 29, 2016
+	tests 	more pep8 and some notes from PyCharm 	Oct 11, 2016
+	.gitignore 	cleanup 	May 30, 2016
+	.nojekyll 	first commit 	May 29, 2016
+	AUTHORS.rst 	more pep8 and some notes from PyCharm 	Oct 11, 2016
+	CHANGES.rst 	more pep8 and some notes from PyCharm 	Oct 11, 2016
+	LICENSE.txt 	readme updated 	May 29, 2016
+	MANIFEST.in 	first commit 	May 29, 2016
+	README.rst 	update 	Jun 22, 2017
+	countLines.py 	update 	Jun 22, 2017
+	createPortable_linux.sh 	removed proprietary stuff 	Jun 22, 2017
+	createPortable_linux.spec 	removed proprietary stuff 	Jun 22, 2017
+	createPortable_windows.bat 	removed proprietary stuff 	Jun 22, 2017
+	createPortable_windows.spec 	removed proprietary stuff 	Jun 22, 2017
+	functionality_test.docx 	debugging 	May 1, 2017
+	obfuscateDir.py 	new tool: crack detecttion (work in progress) 	May 7, 2017
+	setup.cfg 	first commit 	May 29, 2016
+	setup.py 	speed up program start 	Jun 7, 2017
+	upload_pypi_github.sh 	debug 	May 9, 2017
+README.rst
+
+dataArtist - …scientific data processing made easy.
+
+Download for Windows 7-10 and Linux
+
+screenshot
+About
+dataArtist is a graphical program for interactive data analysis and processing. It is currently specialized image processing tasks in combination with electroluminescence imaging of photovoltaic devices.
+It is written in Python (3.x) and is released under open source.
+dataArtist is written to be platform independent. It is known to run under Windows 7-10 and Ubuntu Linux 14.10 (soon).
+
+Please cite *dataArtist* as follows:
+
+    K.G. Bedrich et al., "Electroluminescence Imaging of PV Devices: Camera Calibration and Image Correction", Proc. 43rd IEEE Photovoltaic Specialists Conference, Portland, 2016.
+
+Manuals
+
+USER manual
+
+DEVELOPERS manual
+Online Tutorials
+General usage, camera calibration and image correction are explained in youtube screencast sessions, see
+youtube
+Supported file types
+
+Data is imported through drag n’drop.
+
+    Images
+
+    Common used (TIF, BMP, PNG, JPG, CSV, TXT, MAT, CR2, FIT)
+    RAW, if data type and image shape are known
+    Numpy arrays
+
+    Plots
+
+    CSV, TXT, numpy arrays
+
+Installation
+a) Portable version
+
+    dataArtist runs out of the box. No installation needed (currently Windows only). See section Releases .
+
+b) Installation into existing Python installation using pip
+
+    After installing Python3.x and ensuring that 'pip' is a recognised command in the command shell (Windows: CMD.exe). you need to install the following packages BEFORE installing dataArtist:
+
+            PyQt5
+            OpenCV3.1
+            OPTIONAL: RabbitMQ (for inter-program communication)
+
+    Best use anaconda as Python environment. It comes with numba, scipy and many more packages, that might be painful to install by hand. Please refer to the USER manual for more information.
+
+    Once these packages are installed, open a command shell and type:
+
+pip install dataArtist
+
+    Now start dataArtist from the command shell:
+
+dataArtist
+
+    To launch dataArtist into the system tray type:
+
+dataArtist -s
+
+    To open a dataArtist session directly type:
+
+dataArtist -o /path/to/my/session.da
+Scripting, Automation, Modding
+dataArtist comes with a built-in python shell. Data can be examplary accessed though d1.l3 (display 1, data layer 3) and tools e.g. through d.tools['Axes'].click() (in current display execute tool ‘Axes’).
+dataArtist allows adding own tools, displays and importers, for examples, see dataArtist/modding.
+Main dependencies
+Package 	Description
+pyqtgraph_karl 	Scientific Graphics and GUI Library based on Qt (Fork)
+imgProcessor 	General propose image processing libary
+appBase 	Base packages for apps, based on Qt
+fancyWidgets 	A collection of fancy widgets, based on Qt
+fancyTools 	A collection of useful not-GUI tools
+Example: Electroluminescence imaging
+Camera calibration
+
+For camera calibration all needed images are dropped into dataArtist and the matching tool is executed. The calibration results are hereinafter saved to a calibration file. The determination of the point spread function is exemplary shown in the following figure:
+
+screenshotpsf
+
+    dataArtist screenshot - toolbar ‘calibration’. a : Best focus determination; b : noise-level-function measurement; c : Dark current mapping; d : Flat field mapping; e : PSF estimation (selected): f : lens distortion measurement
+
+Image correction
+
+The correction of EL image is shown in the following figure. Perspective correction (red box) can be done either using the outline of the PV device (automatically detected or manually defined) or using a reference image.
+
+screenshotcorrection
+
+    dataArtist screenshot - a : tool ‘CalibrationFile’; b : tool ‘CorrectCamera’; c : tool ‘PerspectiveCorrection’
+    green line : Camera correction; red line : Perspective correction
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

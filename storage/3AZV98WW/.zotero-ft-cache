@@ -1,0 +1,257 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 470
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 13,130
+    Star 13,130
+    Fork
+    Where should we fork this repository?
+    Loading
+    1,695
+
+wycats / handlebars.js
+Code Issues 67 Pull requests 10 Projects 0 Insights
+http://handlebarsjs.com
+
+    1,693 commits
+    5 branches
+    46 releases
+    141 contributors
+    MIT
+
+    JavaScript 94.7%
+    HTML 2.4%
+    Lex 1.4%
+    Yacc 1.2%
+    Ruby 0.3%
+
+JavaScript HTML Lex Yacc Ruby
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+3.x 4.x-babel6 4.x master merge-4.x
+Nothing to show
+v4.0.11 v4.0.10 v4.0.9 v4.0.8 v4.0.7 v4.0.6 v4.0.5 v4.0.4 v4.0.3 v4.0.2 v4.0.1 v4.0.0 v3.0.3 v3.0.2 v3.0.1 v3.0.0 v2.0.0 v2.0.0-beta.1 v2.0.0-alpha.4 v2.0.0-alpha.3 v2.0.0-alpha.2 v2.0.0-alpha.1 v1.3.0 v1.2.1 v1.2.0 v1.1.2 v1.1.1 v1.1.0 v1.0.12 v1.0.11 v1.0.10 v1.0.9 v1.0.8 v1.0.7 v1.0.6 v1.0.6beta v1.0.6-2 v1.0.5beta tmp-1252-backup 1.0.0 1.0.0.beta.1 1.0.0-rc.4 1.0.0-rc.3 1.0.rc.2 1.0.rc.1 0.9.0.pre.4
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	.github 	Template for issues and pull-request 	Dec 30, 2016
+	bench 	Update grunt-eslint to 20.1.0 	Oct 21, 2017
+	bin 	Fix test failure caused by yargs 	Apr 22, 2016
+	components 	Add package.json to components shim 	Nov 29, 2017
+	docs 	Extend compiler-api example by replacing child-compiler 	Oct 18, 2017
+	lib 	unnecessary check 	Mar 31, 2018
+	spec 	Merge branch '4.x' 	Nov 9, 2017
+	src 	Parser: Change suffix to use ES6 default module export 	Feb 24, 2017
+	tasks 	Fix build on Windows 	Aug 24, 2017
+	.editorconfig 	Added ".editorconfig"-file that specifies the indent for javascript-f… 	Jan 6, 2017
+	.eslintrc.js 	Merge branch '4.x' 	Nov 9, 2017
+	.gitattributes 	Ensure LF line-edings in handlebars-template fixtures (*.hbs) 	May 15, 2017
+	.gitignore 	Add istanbul code coverage 	Aug 14, 2014
+	.gitmodules 	Use public url for spec submodule 	Aug 15, 2014
+	.istanbul.yml 	Parser: Change suffix to use ES6 default module export 	Feb 24, 2017
+	.travis.yml 	Update build for modern node versions 	Nov 12, 2016
+	CONTRIBUTING.md 	Merge branch '4.x' 	Nov 9, 2017
+	FAQ.md 	Remove amd files from the build 	Dec 14, 2015
+	Gruntfile.js 	add more machine-readable data about the license 	Jan 6, 2017
+	LICENSE 	Update (C) year in the LICENSE file 	Oct 18, 2017
+	README.markdown 	Add jsDelivr hits badge 	Oct 18, 2017
+	appveyor.yml 	Fix build on Windows 	Aug 24, 2017
+	package.json 	Merge branch '4.x' 	Nov 29, 2017
+	print-script 	Remove stringParams and trackIds mode 	Dec 11, 2015
+	release-notes.md 	Fix release-notes (links to contributors` pages) 	Nov 9, 2017
+	runtime.js 	default is a reserved word 	Feb 18, 2015
+README.markdown
+
+Travis Build Status Appveyor Build Status Selenium Test Status jsDelivr Hits
+Handlebars.js
+
+Handlebars provides the power necessary to let you build semantic templates effectively with no frustration. Handlebars is largely compatible with Mustache templates. In most cases it is possible to swap out Mustache with Handlebars and continue using your current templates.
+
+Checkout the official Handlebars docs site at http://www.handlebarsjs.com and the live demo at http://tryhandlebarsjs.com/ .
+Installing
+
+See our installation documentation .
+Usage
+
+In general, the syntax of Handlebars.js templates is a superset of Mustache templates. For basic syntax, check out the Mustache manpage .
+
+Once you have a template, use the Handlebars.compile method to compile the template into a function. The generated function takes a context argument, which will be used to render the template.
+
+ var  source =  " <p>Hello, my name is {{name}}. I am from {{hometown}}. I have "   + 
+             " {{kids.length}} kids:</p> "   + 
+             " <ul>{{#kids}}<li>{{name}} is {{age}}</li>{{/kids}}</ul> "  ;
+var  template =  Handlebars . compile (source);
+
+var  data =  { " name "  :  " Alan "  , " hometown "  :  " Somewhere, TX "  ,
+             " kids "  :  [{ " name "  :  " Jimmy "  , " age "  :  " 12 "  }, { " name "  :  " Sally "  , " age "  :  " 4 "  }]};
+var  result =  template (data);
+
+// Would render: 
+// <p>Hello, my name is Alan. I am from Somewhere, TX. I have 2 kids:</p> 
+// <ul> 
+// <li>Jimmy is 12</li> 
+// <li>Sally is 4</li> 
+// </ul> 
+
+Full documentation and more examples are at handlebarsjs.com .
+Precompiling Templates
+
+Handlebars allows templates to be precompiled and included as javascript code rather than the handlebars template allowing for faster startup time. Full details are located here .
+Differences Between Handlebars.js and Mustache
+
+Handlebars.js adds a couple of additional features to make writing templates easier and also changes a tiny detail of how partials work.
+
+    Nested Paths
+    Helpers
+    Block Expressions
+    Literal Values
+    Delimited Comments
+
+Block expressions have the same syntax as mustache sections but should not be confused with one another. Sections are akin to an implicit each or with statement depending on the input data and helpers are explicit pieces of code that are free to implement whatever behavior they like. The mustache spec defines the exact behavior of sections. In the case of name conflicts, helpers are given priority.
+Compatibility
+
+There are a few Mustache behaviors that Handlebars does not implement.
+
+    Handlebars deviates from Mustache slightly in that it does not perform recursive lookup by default. The compile time compat flag must be set to enable this functionality. Users should note that there is a performance cost for enabling this flag. The exact cost varies by template, but it's recommended that performance sensitive operations should avoid this mode and instead opt for explicit path references.
+    The optional Mustache-style lambdas are not supported. Instead Handlebars provides its own lambda resolution that follows the behaviors of helpers.
+    Handlebars does not allow space between the opening {{ and a command character such as # , / or > . The command character must immediately follow the braces, so for example {{> partial }} is allowed but {{ > partial }} is not.
+    Alternative delimiters are not supported.
+
+Supported Environments
+
+Handlebars has been designed to work in any ECMAScript 3 environment. This includes
+
+    Node.js
+    Chrome
+    Firefox
+    Safari 5+
+    Opera 11+
+    IE 6+
+
+Older versions and other runtimes are likely to work but have not been formally tested. The compiler requires JSON.stringify to be implemented natively or via a polyfill. If using the precompiler this is not necessary.
+
+Selenium Test Status
+Performance
+
+In a rough performance test, precompiled Handlebars.js templates (in the original version of Handlebars.js) rendered in about half the time of Mustache templates. It would be a shame if it were any other way, since they were precompiled, but the difference in architecture does have some big performance advantages. Justin Marney, a.k.a. gotascii , confirmed that with an independent test . The rewritten Handlebars (current version) is faster than the old version, with many performance tests being 5 to 7 times faster than the Mustache equivalent.
+Upgrading
+
+See release-notes.md for upgrade notes.
+Known Issues
+
+See FAQ.md for known issues and common pitfalls.
+Handlebars in the Wild
+
+    Assemble , by @jonschlinkert and @doowb , is a static site generator that uses Handlebars.js as its template engine.
+    Cory , by @leo , is another tiny static site generator
+    CoSchedule An editorial calendar for WordPress that uses Handlebars.js
+    dashbars A modern helper library for Handlebars.js.
+    Ember.js makes Handlebars.js the primary way to structure your views, also with automatic data binding support.
+    Ghost Just a blogging platform.
+    handlebars_assets : A Rails Asset Pipeline gem from Les Hill (@leshill).
+    handlebars-helpers is an extensive library with 100+ handlebars helpers.
+    handlebars-layouts is a set of helpers which implement extendible and embeddable layout blocks as seen in other popular templating languages.
+    hbs : An Express.js view engine adapter for Handlebars.js, from Don Park.
+    koa-hbs : koa generator based renderer for Handlebars.js.
+    jblotus created http://tryhandlebarsjs.com for anyone who would like to try out Handlebars.js in their browser.
+    jQuery plugin : allows you to use Handlebars.js with jQuery .
+    Lumbar provides easy module-based template management for handlebars projects.
+    Marionette.Handlebars adds support for Handlebars and Mustache templates to Marionette.
+    sammy.js by Aaron Quint, a.k.a. quirkey, supports Handlebars.js as one of its template plugins.
+    SproutCore uses Handlebars.js as its main templating engine, extending it with automatic data binding support.
+    YUI implements a port of handlebars
+    Swag by @elving is a growing collection of helpers for handlebars.js. Give your handlebars.js templates some swag son!
+    DOMBars is a DOM-based templating engine built on the Handlebars parser and runtime DEPRECATED
+    promised-handlebars is a wrapper for Handlebars that allows helpers to return Promises.
+    just-handlebars-helpers A fully tested lightweight package with common Handlebars helpers.
+    incremental-bars adds support for incremental-dom as template target to Handlebars.
+
+External Resources
+
+    Gist about Synchronous and asynchronous loading of external handlebars templates
+
+Have a project using Handlebars? Send us a pull request !
+License
+
+Handlebars.js is released under the MIT license.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

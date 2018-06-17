@@ -1,0 +1,262 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 12
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 161
+    Star 161
+    Fork
+    Where should we fork this repository?
+    Loading
+    40
+
+KleinYuan / Caffe2-iOS
+Code Issues 5 Pull requests 0 Projects 0 Wiki Insights
+Caffe2 on iOS Real-time Demo. Test with Your Own Model and Photos.
+ios caffe2 deep-learning deep-neural-networks swift objective-c deep-learning-mobile opencv real-time object-detection classification caffe ai swift3 upload-images tutorial caffe2-ios demo yolo tiny-yolo
+
+    65 commits
+    5 branches
+    2 releases
+    2 contributors
+    MIT
+
+    C++ 85.1%
+    C 10.9%
+    Swift 2.8%
+    Objective-C++ 0.7%
+    Objective-C 0.5%
+    PureBasic 0.0%
+
+C++ C Swift Objective-C++ Objective-C PureBasic
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+1-0-stable 2-0-stable develop gpu master
+Nothing to show
+2.0 1.0
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	src 	Using Caffe2 V0.7.0 by default since V0.8.0 breaks ios linking 	Aug 7, 2017
+	.gitattributes 	fix a bug which hot fixed in master 	Jun 11, 2017
+	.gitignore 	Adding new methods 	May 5, 2017
+	LICENSE 	Initial commit 	Apr 28, 2017
+	README.md 	Update resize 	Jun 28, 2017
+	_config.yml 	Set theme jekyll-theme-hacker 	May 14, 2017
+README.md
+Slack Channel for Deep Learning Communication:
+
+ https://deep-learning-geeks-slack.herokuapp.com/  
+
+Caffe2-iOS
+
+This is a project to demo how to use Caffe2 / OpenCV 2 to build an iOS application doing real time object classification.
+
+    iOS (Swift/Objective-C/C++) with Caffe2
+
+    Test build in models (tinyYolo, SqueezeNet) with your own photo
+
+    Memory Consumption and Time Elapse Data
+
+    Live (Real Time) detection
+
+    Download your own model on the fly! And test it!
+
+    Manage models locally on your iPhone
+
+    Overall control on every layer (from beginger to expert)
+
+    Warm community and welcome to contribute
+
+    Star us if you like
+
+Demo
+
+If you are too lazy to build this repo, I also put this in App Store:
+
+Check it out
+
+    If it navigates you to a different country's app store, you just search Deep Learning Pro .
+
+Wiki
+
+Check our Wiki
+
+Feel free to ask any questions from prepare environment to debug on Xcode and we are happy to help you.
+For both Beginners and Experts
+
+We provide two stable versions in here with:
+
+    Exper stable version for experts to explore more possibilities
+
+Static Classifier 	Real Time Classifier 	Model Downloader
+static 	realtime 	downloader
+
+    Lite stable version for beginners to experience how the wrapper work and play with the demo
+
+Static Classifier 	Real Time Classifier
+static 	realtime
+
+    Note that the number of FPS is subjective to the size you send to the device as well as type of the device. Those numbers were obtained with Height*Width = 227 * 227 on an iPhone 7 Plus.
+
+Dependencies
+
+You have to use a Mac with Xcode >= 8.0 (macOS Sierra) to keep going
+
+iOS 10
+
+Caffe2
+
+OpenCV 2
+LFS Clone
+
+ brew install git-lfs git lfs install git lfs clone https://github.com/KleinYuan/Caffe2-iOS  
+
+Step by Step Tutorial
+
+    Notice, after this commit , I put all large files in git LFS and make sure when you clone use lfs clone
+
+    Clone this repo into a folder, let's say ~/Desktop/ , then you will have ~/Desktop/Caffe2-iOS when clone is done
+
+    Navigate to ~/Desktop/Caffe2-iOS/src folder and run bash ./setup.sh , which will automatically download and build iOS Caffe2 in a paralleled folder besides ~/Desktop/Caffe2-iOS/src/caffe2-ios called caffe2 (it's important to make sure this step is done and it may take around 20-30 min to finish)
+
+    When previous step is done, open ~/DesktopCaffe2-iOS/src/caffe2-ios with Xcode (>8.0)
+
+    Disable Bitcode like this
+
+    (by default should be done) Adding $(inherited) -force_load caffe2-ios/libCaffe2_CPU.a to Build Settings/Linking/Other Linker Flags . For this issue
+
+    Build with your iPhone plugged in
+
+    Open the app and press Run to check the result of a pre-loaded image (cute Panda!) and press live to go to live mode
+
+Validation and debug
+
+There are some potential issues that you will have (I will keep adding if I sense some in issues):
+Caffe2 iOS Build failed
+
+1-a. Error Message 1 : When build project in Xcode you see this error Cannot find caffe2/proto/caffe2.pb.h
+
+1-b. Error Message 2: When running setup.sh you see this in terminal ${YOUR_PATH}/Caffe2-iOS/src/caffe2/third_party/protobuf/cmake: is a directory
+
+    Description: Those two are related and all because that you failed to build the caffe2 ios and check this folder architecture to validate your build (you should be able to see the caffe2.pb.h )
+
+    Debug and how to fix it: Mostly, the root cause is that your cmake is broken (not broken broken, more like configuration/path changed by other services/software) and you probably wanna run brew install cmake to reinstall it
+
+Load model failed or thread killed in the mid
+
+    Error Message: Reading dangerously large protocol message. If the message turns out to be larger than 67108864 bytes, parsing will be halted for security reasons. To increase the limit (or to disable these warnings), see CodedInputStream::SetTotalBytesLimit() in google/protobuf/io/coded_stream.h.
+
+    Description: As you can see in the caffe2 repo , that they reduced the protobuf , which is the tool they use to hanlde the communication down to version 3.1.0 and only have 64MB limit. Therefore, when you load a model larger than that, boooooomb, memory exploed and thread got killed.
+
+    Debug and how to fix it:
+
+        After you download and build the caffe2, hold on and modify something to increase the limit first
+
+        Find this file , which is the tool they use to hanlde the communication down to version 3.1.0 and only have 64MB and change the limit to whatever you want (also change the warning limit)
+
+        Then build caffe2-ios and Tada
+
+        Alternative method see here
+
+Performance
+
+The initial slope is for a static 4KB image, around 50 MB and Note that memory usage in live mode might not be the same as the one shown in Xcode (slightly different). And also, remember the memory data in the app is aggregated and therefore, if you are really interested in checking performance of a specific process, open Xcode :)
+
+memorycomsuptionhighres
+More Caffe2 Mobile Models
+
+Check here
+Future Work
+
+We have a clear scope for this repo below:
+
+Scope
+OtherUseful resources links
+
+Caffe2-on-iOS-install
+
+Caffe2-repo
+License
+
+License
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

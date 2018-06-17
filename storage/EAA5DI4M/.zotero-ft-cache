@@ -1,0 +1,221 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 19
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 97
+    Star 97
+    Fork
+    Where should we fork this repository?
+    Loading
+    14
+
+chigraph / chigraph
+Code Issues 25 Pull requests 0 Projects 1 Wiki Insights
+A visual systems language for beginners compiled using LLVM https://chigraph.io
+language language-learning learn-to-code chigraph dataflow-programming dataflow llvm
+
+    1,307 commits
+    5 branches
+    3 releases
+    4 contributors
+    Apache-2.0
+
+    C++ 95.6%
+    CMake 4.0%
+    Other 0.4%
+
+C++ CMake Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+bazel cInSep master refcount separateProvider
+Nothing to show
+v1.0.0a dependencies continuous
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	.travis 	Move status message, also install clang 	Sep 13, 2017
+	chi 	Fix unused alias error 	Nov 6, 2017
+	cmake 	Remove cmake feature tests and use basic compiler version checks 	Sep 17, 2017
+	doc 	Update docs 	Sep 17, 2017
+	docs 	Update docs 	Sep 17, 2017
+	examples 	Fix linkage for examples 	Sep 5, 2017
+	lib 	Update CMakeLists.txt 	Nov 11, 2017
+	licenses 	Remove I statement from licenses readme 	Sep 3, 2017
+	scripts 	remove ctollvm, use clang instead 	Nov 4, 2017
+	test 	Fix CMakeLists typo and update test workspace 	Feb 19, 2018
+	third_party 	Add MPL 	Sep 20, 2017
+	.appveyor.yml 	Update .appveyor.yml 	May 29, 2017
+	.clang-format 	Fix lots of clang-tidy warnings 	Jan 16, 2017
+	.clang-tidy 	Remove .. at end 	Nov 6, 2017
+	.gitignore 	remove ctollvm, use clang instead 	Nov 4, 2017
+	.gitmodules 	Add workspace submodule 	Feb 19, 2018
+	.travis.yml 	Update .travis.yml 	Nov 7, 2017
+	CMakeLists.txt 	Update CMakeLists.txt 	Nov 11, 2017
+	LICENSE 	Initial commit 	Jun 9, 2016
+	README.md 	Update README.md 	Nov 7, 2017
+README.md
+
+chigraph logo
+
+Coveralls Gitter
+
+Build Status
+Platform 	Status
+Linux/macOS 	Travis branch
+Windows 	AppVeyor
+Buildbot (in development) 	Buildbot
+What is chigraph?
+
+Chigraph, pronunced chai-graph, is a new systems programming language. It's fast. It's scalable. And, more importantly, it's easy to learn. How does it achieve such goals? By scrapping the age-old standard of text (not entirely though). Here's a screenshot from the Qt5 GUI :
+
+Screenshot
+
+    NOTE This is the repository for the chigraph language. If you are looking for the interface that goes along with it, see https://github.com/chigraph/chigraph-gui
+
+Components
+
+Chigraph is made up of three components:
+chi
+
+chi is the command line interface to chigraph. It lets you compile and run chigraph modules:
+
+ $ pwd 
+~ /chigrpah/src/
+$ chi get github.com/russelltg/hellochigraph/hello/main # download it 
+$ cd  github.com/russelltg/hellochigraph/hello/main
+$ chi run main.chimod # run it 
+Hello World ! 
+
+libchigraph
+
+libchigraph is the chigraph library that provides all functions for chigraph clients, like code generation, graph representation, etc. Want to compile a chigraph module using libchigraph? ( documentation )
+
+ # include  < chi/Context.hpp >  
+
+int  main () {
+    chi::Contxt myContext{ " /path/to/workspace "  };
+
+    // download and load the module 
+    myContxt. loadModule ( " github.com/russelltg/hellochigraph/hello/main "  , chi::LoadOptions::FetchDependencies);
+
+    // compile it 
+    llvm::Module* mod;
+    myContxt. compileModule ( " github.com/russelltg/hellochigraph "  , &mod);
+}
+
+And tada, you have yourself a llvm::Module to do whatever you wish to. It'll have all it's dependencies linked in and a main function waiting to run.
+libchigraphdebugger
+
+libchigraphdebugger is a library that makes it easy to implement chigraph debuggers. See the Debugger documentation for more details.
+Licensing
+
+It's free! Chigraph is licensed under the Apache License 2.0 so anyone can use it for free, even in proprietary settings (solong you attribute me)
+API Documentation
+
+API Documentation (generated by doxygen ) can be found here .
+Installation
+Download installers/appimage
+
+Installers and appimages are avaliable from the releases page (coming soon) for those who don't want to build from sources.
+Building from source
+
+See the guide on building from source
+Get Involved
+
+Getting involved is easy! If you don't know where to get started, start looking at filed github issues for inspiration. Then just file a PR!
+
+If you have any questions, you're more than welcome to email me: russellgreene8@gmail.com
+Authors
+
+    Russell Greene (@russelltg) - Main contributor
+    Aun-Ali Zaidi (@aunali1) - Helped with some platform stuff, packaging
+
+Technology used
+
+    LLVM/Clang for compilation
+    libgit2 for downloading remote modules
+    Catch for unit tests
+    boost for filesystem , parsing program arguments , uuid , bimap , range , string_view , dynamic_bitset
+
+    Written with StackEdit .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

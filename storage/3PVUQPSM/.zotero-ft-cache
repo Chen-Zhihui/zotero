@@ -1,0 +1,204 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 20
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 352
+    Star 352
+    Fork
+    Where should we fork this repository?
+    Loading
+    73
+
+imageio / imageio
+Code Issues 29 Pull requests 1 Projects 0 Insights
+Python library for reading and writing image data http://imageio.github.io
+
+    944 commits
+    1 branch
+    20 releases
+    30 contributors
+    BSD-2-Clause
+
+    Python 99.3%
+    PowerShell 0.7%
+
+Python PowerShell
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+v2.3.0 v2.2.0 v2.1.2 v2.1.1 v2.1.0 v2.0.1 v2.0.0 v1.6 v1.5 v1.4 v1.3 v1.2 v1.1 v1.0 v1.0+docs v0.5.1 v0.5 v0.4.1 v0.4 v0.3.2
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	docs 	bumb version 	Mar 20, 2018
+	imageio 	bumb version 	Mar 20, 2018
+	tasks 	Drop tests for 2.7 on appveyor. 	Mar 9, 2018
+	tests 	FFMPEG tweaks ( #321 ) 	Mar 13, 2018
+	.coveragerc 	exclude _tiffile.py from coverage 	Jul 7, 2015
+	.gitignore 	Drop support for EOL Python 2.6, 3.2 and 3.3 ( #298 ) 	Dec 29, 2017
+	.travis.yml 	Update Tifffile ( #310 ) 	Feb 20, 2018
+	CONTRIBUTORS.txt 	update contributors and release notes 	May 22, 2017
+	LICENSE 	update some dates 	Feb 19, 2018
+	MANIFEST.in 	manifest exclude .pyc 	Dec 10, 2016
+	README.md 	tweaks to readme and fix rtd urls ( #313 ) 	Feb 21, 2018
+	appveyor.yml 	Drop tests for 2.7 on appveyor. 	Mar 9, 2018
+	imageio.proxy.py 	Update copyright 	Oct 30, 2014
+	setup.py 	Drop tests for 2.7 on appveyor. 	Mar 9, 2018
+README.md
+IMAGEIO
+
+PyPI Version Supported Python Versions Build Status Build Status Coverage Status Documentation Status
+
+Website: http://imageio.github.io
+
+Imageio is a Python library that provides an easy interface to read and write a wide range of image data, including animated images, video, volumetric data, and scientific formats. It is cross-platform, runs on Python 2.7 and 3.4+, and is easy to install.
+Example
+Here's a minimal example of how to use imageio. See the docs for more examples .
+
+ >>> import imageio
+>>> im = imageio.imread('imageio:chelsea.png')  # read a standard image
+>>> im.shape  # im is a numpy array
+(300, 451, 3)
+>>> imageio.imwrite('~/chelsea-gray.jpg', im[:, :, 0])
+
+API in a nutshell
+As a user, you just have to remember a handfull of functions:
+
+    imread() and imwrite() - for single images
+    mimread() and mimwrite() - for image series (animations)
+    volread() and volwrite() - for volumetric image data
+    get_reader() and get_writer() - for more control (e.g. streaming)
+    See the user api for more information
+
+Features
+
+    Simple interface via a consise set of functions.
+    Easy to install using conda or pip.
+    Few dependencies (only Numpy and Pillow).
+    Pure Python, runs on Python 2.7, 3.4+, and Pypy
+    Cross platform, runs on Windows, Linux, OS X (Raspberry Pi planned)
+    Lots of supported formats .
+    Can read from file names, file objects, zipfiles, http/ftp, and raw bytes.
+    Easy to extend using plugins.
+    Code quality is maintained with many tests and continuous integration.
+
+Details
+
+Imageio has a relatively simple core that provides a common interface to different file formats. This core takes care of reading from different sources (like http), and exposes a simple API for the plugins to access the raw data. All file formats are implemented in plugins. Additional plugins can easily be registered.
+
+Some plugins rely on external libraries (e.g. ffmpeg). Imageio provides a way to download these with one function call, and prompts the user to do so when needed. The download is cached in your appdata directory, this keeps imageio light and scalable.
+
+Imageio provides a wide range of image formats, including scientific formats. Any help with implementing more formats is very welcome!
+
+The codebase adheres to (a subset of) the PEP8 style guides. We strive for maximum test coverage (100% for the core, >95% for each plugin).
+Dependencies
+
+Minimal requirements:
+
+    Python 3.4+, 2.7
+    Numpy
+    Pillow
+
+Optional Python packages:
+
+    SimpleITK (for ITK formats)
+    astropy (for FITS plugin)
+    osgeo (for GDAL plugin)
+
+Optional libraries and executables that Imageio provides and can be downloaded with one function call:
+
+    freeimage (library)
+    ffmpeg (executable)
+    avbin (library)
+
+Origin and outlook
+
+Imageio was based out of the frustration that many libraries that needed to read or write image data produced their own functionality for IO. PIL did not meet the needs very well, and libraries like scikit-image need to be able to deal with scientific formats. There was a need for a good image io library, which is an easy dependency, easy to maintain, and scalable to exotic file formats.
+
+Imageio started out as component of the scikit-image project, through which it was able to support a lot of common formats. We created a simple but powerful core, a clean user API, and a proper plugin system.
+
+The purpose of imageio is to support reading and writing of image data. We're not processing images, you should use e.g. scikit-image for that. Imageio should be easy to install and be lightweight. Imageio's plugin system makes it possible to scale the number of supported formats and still keep a small footprint.
+
+It is our hope to form a group of developers, whom each maintain one or more plugins. In that way, the burder of each developer is low, and together we can make imageio into a really useful library!
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

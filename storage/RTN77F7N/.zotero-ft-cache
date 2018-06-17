@@ -1,0 +1,210 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 113
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,067
+    Star 1,067
+    Fork
+    Where should we fork this repository?
+    Loading
+    177
+
+yinqiwen / ardb
+Code Issues 65 Pull requests 3 Projects 0 Wiki Insights
+A redis protocol compatible nosql, it support multiple storage engines as backend like Google's LevelDB, Facebook's RocksDB, OpenLDAP's LMDB, PerconaFT, WiredTiger, ForestDB.
+redis key-value persistence database server c-plus-plus rocksdb lmdb leveldb wiredtiger percona forestdb nosql nosql-database lua
+
+    978 commits
+    5 branches
+    11 releases
+    14 contributors
+    BSD-3-Clause
+
+    C++ 86.8%
+    C 11.4%
+    Lua 1.1%
+    Makefile 0.7%
+
+C++ C Lua Makefile
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: 0.9
+Switch branches/tags
+
+    Branches
+    Tags
+
+0.8 0.9 cluster dev module
+Nothing to show
+v0.9.4 v0.9.3 v0.9.2 v0.9.1 v0.9.0 v0.8.1 v0.8.0 v0.7.0 v0.5.0 v0.4.0beta v0.3.0
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	deps 	upgrade 3rd library to latest version 	Feb 5, 2017
+	doc 	update readme 	Jun 4, 2016
+	src 	fix issue #420 #421 	Mar 26, 2018
+	test 	adding the configuration for the test 	Jun 10, 2017
+	.gitignore 	upgrade rocksdb to 5.9.2 	Jan 17, 2018
+	.travis.yml 	Merge remote-tracking branch 'upstream/0.9' into 0.9 	Aug 8, 2017
+	Changelog.md 	update dev 	Jun 28, 2016
+	LICENSE 	fix for slaveof redis 2.7+ 	Nov 8, 2013
+	Makefile 	update 	May 19, 2013
+	README.md 	README: Format Markdown to fix heading [ci skip] 	Dec 18, 2017
+	ardb.conf 	#405 :upgrade leveldb to 1.20 and add 'max_file_size' setting 	Jan 17, 2018
+README.md
+Ardb: A High Performance Persistent NoSql, Full Redis-Protocol Compatibility
+
+Join the chat at https://gitter.im/yinqiwen/ardb Build Status
+Ardb is a BSD licensed, redis-protocol compatible persistent nosql, it support multiple storage engines as backend like Google's LevelDB , Facebook's RocksDB , OpenLDAP's LMDB , WiredTiger , PerconaFT , Couchbase's ForestDB the default backend is Facebook's RocksDB .
+Compile
+
+Rocksdb is the default storage engine, to compile with rocksdb, just type make to compile server & lib & tests.
+
+To use LMDB or LevelDB or WiredTiger as storage engine, you should set env storage_engine first.
+
+ storage_engine=rocksdb make storage_engine=leveldb make storage_engine=lmdb make storage_engine=wiredtiger make storage_engine=perconaft make storage_engine=forestdb make  
+
+It should compile to several executables in src directory, such as ardb-server, ardb-test etc.
+Features
+
+    Full redis-protocol compatibility
+    2d spatial index supported. Spatial Index
+        Redis 3.2 geo commands support
+    Most redis commands supported, and a few new commands.
+        Ardb commands VS Redis Commands
+    Multi storage engines supported
+        RocksDB
+        LevelDB
+        LMDB
+        WiredTiger
+        PerconaFT
+        ForestDB
+    Replication compatible with Redis 2.6/2.8
+        Ardb instance work as slave of Redis 2.6/2.8+ instance
+        Ardb instance work as master of Redis 2.6/2.8+ instance
+        Ardb instance work as slave of Ardb instance
+    Auto failover support by redis-sentinel
+    Lua Scripting support
+    Pub/Sub
+        All redis pubsub commands supported
+    Transactions
+        All redis transaction commands supported
+    Backup data online
+        Use 'save/bgsave' to backup data
+        Use 'import' to import backup data
+
+Clients
+
+Since ardb is a full redis-protocol compatible server, you can use most existed redis client to connect it without any problem. Here lists all redis clients. http://www.redis.io/clients
+
+    Known Issues :
+        For Node.js, the recommand client node_redis would try to parse redis_version:x.y.z from info command's output, Ardb users should configure redis-compatible-version in ardb.conf to makesure that redis_version:x.y.z exists in info command's output. There is an online redis GUI admin service redsmin build on node_redis , users can test ardb's redis protocol conformance by a visual way.
+
+Benchmark
+
+Benchmarks were all performed on a four-core Intel(R) Xeon(R) CPU E5520@2.27GHz , with 64 GB of DDR3 RAM, 500 GB of SCSI disk
+
+The benchmark tool is 'redis-benchmark' from redis,50 parallel clients, 10000000 requests, 1000000 random keys each test case.
+
+GCC Version:4.8.3
+OS Version: Red Hat Enterprise Linux AS release 4 (Nahant Update 3)
+Kernel Version: 2.6.32_1-10-6-0
+Redis Version: 2.8.9
+Ardb Version: 0.9.1(RocksDB4.3.1), 1 thread(thread-pool-size configured 1) & 16 threads(thread-pool-size configured 16) RocksDB Options:
+
+ write_buffer_size=128M;max_write_buffer_number=16;compression=kSnappyCompression; block_based_table_factory={block_cache=512M;block_size=4;filter_policy=bloomfilter:10:true}; create_if_missing=true;max_open_files=-1;rate_limiter_bytes_per_sec=50M  
+
+Benchmark Img
+
+ Becnhmark data(./redis-benchmark -r 10000000 -n 10000000): Ardb(1thread) Ardb(16threads) Redis PING_INLINE 66313.01 79394.7 67294.75 PING_BULK 66844.91 79384.61 65703.02 SET 36238.45 67963.41 64574.45 GET 46979.24 74050.48 65112.64 INCR 35522.72 68102.27 65274.15 LPUSH 24789.29 35788.93 66093.85 LPOP 15812.53 15657 65832.78 SADD 13130.08 12998.49 65573.77 SPOP 200 200 63291.14 LPUSH(for LRANGE) 27693.16 38611.53 65487.89 LRANGE_100 (first 100 elements) 7857.93 33828.36 30797.66 LRANGE_300 (first 300 elements) 3176.16 16369.29 15710.92 LRANGE_500 (first 450 elements) 2156.1 11706.17 11504.83 LRANGE_600 (first 600 elements) 1647.88 9192.53 9094.22 MSET (10 keys) 10217.64 13552.71 37678.97  
+
+Note
+
+    Ardb uses 1 thread & 16 threads in this benchmark test, while redis is actually single threaded application. Ardb is a multithreaded applcation, you can start the server with more threads by setting 'thread-pool-size' to 16 or higher to increase the read/write performance.
+    There is no any performance improve for SADD/LPUSH/LPOP with 16 threads , because in the test SADD/LPUSH/LPOP always operate on same key, while SADD/LPUSH/LPOP would lock the key until write operation done.
+    SPOP have very poor performance in ardb.
+
+Misc
+
+    Ardb commands VS Redis Commands
+    Ardb design draft
+    Spatial Index
+
+Community
+
+    Join the mailing list (Subscribe via email )
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

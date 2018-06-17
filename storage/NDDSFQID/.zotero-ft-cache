@@ -1,0 +1,124 @@
+
+Toggle navigation OpenFace
+
+    Home
+    Demos
+        Demo 1 - Real-time Web
+        Demo 2 - Comparison
+        Demo 3 - Training a Classifier
+        Demo 4 - Real-time Sphere Visualization
+    User Guide
+        Usage and API Docs
+        Setup
+        FAQ
+    DNN Models
+        Models and Accuracies
+        Training a DNN Model
+        Visualizations
+    Release Notes
+
+    Search
+    Previous
+    Next
+    Edit on GitHub
+
+    OpenFace
+    News
+    Overview
+    Posts About OpenFace
+    Notable Relevant Projects
+    Citations
+    Acknowledgements
+    Licensing
+
+OpenFace
+
+Free and open source face recognition with deep neural networks.
+
+News
+
+    2016-09-15: We presented OpenFace in the Data (after)Lives art exhibit at the University of Pittsburgh and have released the code as Demo 4: Real-time Face Embedding Visualization .
+    2016-08-09: New blog post: (Face) Image Completion with Deep Learning in TensorFlow . ( OpenFace group discussion on it )
+    2016-06-01: OpenFace tech report released
+    2016-01-19: OpenFace 0.2.0 released! See this blog post for more details.
+
+OpenFace is a Python and Torch implementation of face recognition with deep neural networks and is based on the CVPR 2015 paper FaceNet: A Unified Embedding for Face Recognition and Clustering by Florian Schroff, Dmitry Kalenichenko, and James Philbin at Google. Torch allows the network to be executed on a CPU or with CUDA.
+
+Crafted by Brandon Amos , Bartosz Ludwiczuk , and Mahadev Satyanarayanan .
+
+    The code is available on GitHub at cmusatyalab/openface .
+    API Documentation
+    Join the cmu-openface group or the gitter chat for discussions and installation issues.
+    Development discussions and bugs reports are on the issue tracker .
+
+This research was supported by the National Science Foundation (NSF) under grant number CNS-1518865. Additional support was provided by the Intel Corporation, Google, Vodafone, NVIDIA, and the Conklin Kistler family fund. Any opinions, findings, conclusions or recommendations expressed in this material are those of the authors and should not be attributed to their employers or funding sources.
+Isn't face recognition a solved problem?
+
+No! Accuracies from research papers have just begun to surpass human accuracies on some benchmarks. The accuracies of open source face recognition systems lag behind the state-of-the-art. See our accuracy comparisons on the famous LFW benchmark.
+Please use responsibly!
+
+We do not support the use of this project in applications that violate privacy and security. We are using this to help cognitively impaired users sense and understand the world around them.
+Overview
+
+The following overview shows the workflow for a single input image of Sylvestor Stallone from the publicly available LFW dataset .
+
+    Detect faces with a pre-trained models from dlib or OpenCV .
+    Transform the face for the neural network. This repository uses dlib's real-time pose estimation with OpenCV's affine transformation to try to make the eyes and bottom lip appear in the same location on each image.
+    Use a deep neural network to represent (or embed) the face on a 128-dimensional unit hypersphere. The embedding is a generic representation for anybody's face. Unlike other face representations, this embedding has the nice property that a larger distance between two face embeddings means that the faces are likely not of the same person. This property makes clustering, similarity detection, and classification tasks easier than other face recognition techniques where the Euclidean distance between features is not meaningful.
+    Apply your favorite clustering or classification techniques to the features to complete your recognition task. See below for our examples for classification and similarity detection, including an online web demo.
+
+Posts About OpenFace
+
+    [July 24, 2016] Modern Face Recognition with Deep Learning
+    [Feb 24, 2016] Hey Zuck, We Built Your Office A.I. Solution
+    [Feb 3, 2016] RTNiFiOpenFace and WebSocketServer add face recognition to an Apache NiFi video flow
+    [Jan 29, 2016] Integrating OpenFace into an Apache NiFi flow using WebSockets
+    [Oct 15, 2015] (Spanish) GenBeta: OpenFace, un nuevo software de reconocimiento facial, de código abierto
+    [Oct 15, 2015] TheNextWeb: Watch this open-source program recognize faces in real time
+
+Notable Relevant Projects
+
+    BrandonJoffe/home_surveillance : Home surveillance dashboard that uses OpenFace for face recognition.
+    davidsandberg/facenet : FaceNet TensorFlow implementation.
+    pyannote/pyannote-video : Face detection, tracking, and clustering in videos using OpenFace.
+    aybassiouny/OpenFaceCpp : Unofficial OpenFace C++ implementation and bindings.
+
+Citations
+
+Please cite OpenFace in your publications if it helps your research. The following is a BibTeX and plaintext reference for our OpenFace tech report .
+
+ @techreport{amos2016openface, title= {OpenFace: A general-purpose face recognition library with mobile applications}, author= {Amos, Brandon and Bartosz Ludwiczuk and Satyanarayanan, Mahadev}, year= { 2016 }, institution= {CMU-CS- 16 - 118 , CMU School of Computer Science}, } B. Amos, B. Ludwiczuk, M. Satyanarayanan, "Openface: A general-purpose face recognition library with mobile applications," CMU-CS- 16 - 118 , CMU School of Computer Science, Tech. Rep., 2016 .  
+
+Acknowledgements
+
+    Kenneth Jung noticed that the model definitions are slightly different than the pre-trained models. For more information, see issues #351 and #349 .
+    The fantastic Torch ecosystem and community.
+    Alfredo Canziani's implementation of FaceNet's loss function in torch-TripletEmbedding .
+    Nicholas Léonard for quickly merging my pull requests to nicholas-leonard/dpnn modifying the inception layer.
+    Francisco Massa and Andrej Karpathy for quickly releasing nn.Normalize after I expressed interest in using it.
+    Soumith Chintala for help with the fbcunn example code.
+    Davis King's dlib library for face detection and alignment.
+    The GitHub issue and pull request templates are inspired from Randy Olsen's templates at rhiever/tpot , Justin Abrahms' PR template , and Aurelia Moser's issue template .
+    Zhuo Chen, Kiryong Ha, Wenlu Hu, Rahul Sukthankar , and Junjue Wang for insightful discussions.
+
+Licensing
+
+Unless otherwise stated, the source code and trained Torch and Python model files are copyright Carnegie Mellon University and licensed under the Apache 2.0 License . Portions from the following third party sources have been modified and are included in this repository. These portions are noted in the source files and are copyright their respective authors with the licenses listed.
+Project 	Modified 	License
+Atcold/torch-TripletEmbedding 	No 	MIT
+facebook/fbnn 	Yes 	BSD
+
+Crafted by Brandon Amos at Carnegie Mellon University.
+
+Documentation built with MkDocs .
+× Close
+Search
+
+From here you can search these documents. Enter your search terms below.
+× Close
+Keyboard Shortcuts
+Keys 	Action
+? 	Open this help
+← 	Previous page
+→ 	Next page
+s 	Search

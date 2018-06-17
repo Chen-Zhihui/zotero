@@ -1,0 +1,201 @@
+
+写文章
+如何用SphereFace+纯Python刷分Megaface
+如何用SphereFace+纯Python刷分Megaface
+过克
+过克
+无
+​ 关注他
+40 人赞了该文章
+
+SphereFace 是今年CVPR的一篇论文, 理论直观优美, 作者的 代码 和调参功力也足够深厚. 已经有部分人用项目中release的20层模型在Megaface-challenge-1中刷到了70%以上的准确率. 例如 Normface作者 .
+
+但目前看到的代码都是基于matlab的, 对python党来说不够友好. 下面说一下如何用纯python复现.
+
+其中最关键的一步是如何用python做人脸对齐. 参照 这里 的方法, 对齐大概分以下几步:
+
+    用MTCNN检测图片的人脸区域和关键点(5个,眼睛*2,鼻子,嘴角*2)
+    如果有多个人脸区域, 计算这些人脸区域与数据源标定区域的IoU, 取最大的.
+    如果未检测到任何人脸区域, 两种方案:
+        对标定区域降低阈值强制检测人脸.
+        直接对图片取center crop.
+
+MTCNN检测用Matlab或者python版本问题都不大. 重点是检测到关键点后如何对齐?
+
+对齐在matlab中对应的函数是 cp2tform 和 imtransform. cp2tform 获取两组坐标之间的2D变换参数. imtransform 利用参数转换图像并切割到固定大小.
+
+先看一下例子, 以下是原图(取自facescrub, image_id:14680):
+
+用MTCNN+matlab cp2tform+ imtransform 对齐后:
+
+可以看到效果不错.
+
+然后我们试几个python实现,
+
+
+1. 全仿射变换:
+
+ src = np.array([ [30.2946, 51.6963], [65.5318, 51.5014], [48.0252, 71.7366], [33.5493, 92.3655], [62.7299, 92.2041] ], dtype=np.float32 ) dst = mtcnn_landmark.astype(np.float32) M = cv2.estimateRigidTransform( dst.reshape(1,5,2), src.reshape(1,5,2), True) warped = cv2.warpAffine(img,M,(shape[1],shape[0]), borderValue = 0.0)  
+
+效果如下,有点失真:
+
+
+
+2. 再来带约束的仿射变换:
+
+ M = cv2.estimateRigidTransform( dst.reshape(1,5,2), src.reshape(1,5,2), False) warped = cv2.warpAffine(img,M,(shape[1],shape[0]), borderValue = 0.0)  
+
+效果如下,好一些, 也能用了, 但是和matlab的版本还是不一样(旋转角度有区别). 因为作者提供的模型是用matlab的对齐算法训练的, 所以我们必须和他保持一致.
+
+
+
+3.继续, 相似变换, 用skimage的similarity transform:
+
+ from skimage import transform as trans tform = trans.SimilarityTransform() tform.estimate(dst, src) M = tform.params[0:2,:] warped = cv2.warpAffine(img,M,(shape[1],shape[0]), borderValue = 0.0)  
+
+效果, 基本和matlab一致, 除了缩放比例有一些细微的差别, 但应该不影响测试了.
+
+
+对齐后的测试方法就比较简单了, 用对齐后的人脸及其翻转镜像送入caffe模型得到向量相加, 并归一化做为特征.
+
+
+测试结果(Megaface challenge-1 Top-1 Accuracy):
+
+    全仿射变换: 44%.
+    带约束的仿射变换: 47%.
+    skimage similarity transform: 69.5%.
+
+检测及对齐部分还有提高空间.
+
+ps: 如果训练时就用第一(?)或者第二种对齐方法的话, 可能最终准确率差不了多少.
+
+
+下一步就是自己训练模型了.
+发布于 2017-09-20
+人脸识别
+40 ​ 35 条评论
+​ 分享
+​ 收藏
+​
+推荐阅读
+
+    深度学习 + OpenCV，Python实现实时视频目标检测
+    深度学习 + OpenCV，Python实现实时视频目标检测
+    机器之心 发表于机器之心
+    中国团队夺得 MegaFace 百万人脸识别冠军，精度 98% 再创纪录，论文代码 + 数据全开源
+    中国团队夺得 MegaFace 百万人脸识别冠军，精度 98% 再创纪录，论文代码 + 数据全开源
+    新智元
+    计算机视觉技术
+
+    （QQ：1064494640） 目录第1部分 计算机视觉概述 第2部分 数字图像处理基础第3部分 模式识别基础第1部分 计算机视觉概述计算机视觉:（1）视觉基础：视觉基础理论，神经生理学、认知科学；…
+    大师兄
+    OSX 下安装 face_recognition
+    OSX 下安装 face_recognition
+    李浩宇
+
+35 条评论
+​ 切换为时间排序
+写下你的评论...
+
+评论
+王峰
+王峰 6 个月前
+
+walkoncross/prepare-faces-zyf
+
+这有个python版的alignment，跟matlab一样。
+1 回复 踩 举报
+过克
+过克 (作者) 回复 王峰 6 个月前
+
+看到, 感谢
+赞 查看对话 回复 踩 举报
+李彦霖
+李彦霖 6 个月前
+对megaface distractors 做对齐了么，感觉这个结果不太可靠
+赞 回复 踩 举报
+过克
+过克 (作者) 回复 李彦霖 6 个月前
+
+都用同样方法对齐
+赞 查看对话 回复 踩 举报
+张骞晖
+张骞晖 回复 王峰 6 个月前
+
+你好，你知道celebA是怎么对齐的吗？
+赞 查看对话 回复 踩 举报
+王峰
+王峰 回复 张骞晖 6 个月前
+celeba是人工标注的
+赞 查看对话 回复 踩 举报
+张骞晖
+张骞晖 回复 王峰 6 个月前
+
+但是人脸部位是对齐的，我是想问它是怎么对齐的。。
+赞 查看对话 回复 踩 举报
+王峰
+王峰 回复 张骞晖 6 个月前
+
+没有对齐啊，每张图大小都不一样怎么对齐。。
+赞 查看对话 回复 踩 举报
+Shu Gao
+Shu Gao 回复 王峰 6 个月前
+相似变换里的缩放去掉就可以生成原图尺寸的对齐了。微软的数据集也是这样
+赞 查看对话 回复 踩 举报
+王峰
+王峰 回复 Shu Gao 6 个月前
+我是说celeba给的图不是对齐的
+赞 查看对话 回复 踩 举报
+Shu Gao
+Shu Gao 回复 王峰 6 个月前
+
+网上好像有对齐的资源，他可能下的是对齐后的
+赞 查看对话 回复 踩 举报
+张峰
+张峰 回复 王峰 5 个月前
+大神，有c++实现matlab对齐效果的吗
+赞 查看对话 回复 踩 举报
+过克
+过克 (作者) 回复 张峰 5 个月前
+
+dlib C++ Library - Linear Algebra , 这个应当可以
+赞 查看对话 回复 踩 举报
+张峰
+张峰 回复 过克 (作者) 5 个月前
+嗯，谢谢，主要是想要纯源码的，我修改过matlab转c的，最后一个函数的matlab封装了…唉
+赞 查看对话 回复 踩 举报
+张峰
+张峰 回复 过克 (作者) 5 个月前
+
+看了下前排大神留的python代码，发现了opencv实现了matlab最后封装的那一步，我先测试下，应该可以达到一样的效果
+赞 查看对话 回复 踩 举报
+王峰
+王峰 回复 张峰 5 个月前
+
+https:// github.com/happynear/MT CNN_face_detection_alignment/blob/master/code/codes/vs/Test/test.cpp#L215
+
+https:// github.com/happynear/MT CNN_face_detection_alignment/blob/master/code/codes/vs/Test/util/BoundingBox.inc.h#L783
+
+我之前照着matlab的函数写过一个，不过我没有测试这个到底行不行，你可以帮忙测一个LFW之类的看看。
+赞 查看对话 回复 踩 举报
+过克
+过克 (作者) 回复 王峰 5 个月前
+这个可以做检测(仅限windows) 不能做对齐
+赞 查看对话 回复 踩 举报
+王峰
+王峰 回复 过克 (作者) 5 个月前
+
+我这里实现了对齐。
+赞 查看对话 回复 踩 举报
+张峰
+张峰 回复 王峰 5 个月前
+
+测试了下大神的代码，我昨天自己写的代码得到的放射矩阵以及cropImg是一致的，不过佩服大神opencv的技巧用的确实比我好太多了。下午我先测试下lfw6000对的结果。
+赞 查看对话 回复 踩 举报
+张峰
+张峰 回复 王峰 5 个月前
+
+lfw 最上下flip的特征拼接，0.972的ac 阈值为0.378左右，不做flip直接cos衡量，ac 0.986，阈值0.433左右，因为我的人脸检测部分和作者用的mtcnn的matlab版本是有差异的，所以直接拿作者的model测出来还是有点差 异的。
+赞 查看对话 回复 踩 举报
+1 2 下一页
+想来知乎工作？请发送邮件到 jobs@zhihu.com

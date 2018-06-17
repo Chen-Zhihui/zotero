@@ -1,0 +1,261 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 126
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 2,899
+    Star 2,899
+    Fork
+    Where should we fork this repository?
+    Loading
+    438
+
+kennethreitz / tablib
+Code Issues 67 Pull requests 18 Projects 0 Wiki Insights
+Python Module for Tabular Datasets in XLS, CSV, JSON, YAML, &c. http://python-tablib.org
+
+    936 commits
+    2 branches
+    36 releases
+    71 contributors
+    MIT
+
+    Python 99.9%
+    Makefile 0.1%
+
+Python Makefile
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+develop master
+Nothing to show
+v0.12.1 v0.12.0 v0.11.5 v0.11.4 v0.11.3 v0.11.2 v0.11.1 v0.11.0 v0.10.0 v0.9.11 v0.9.10 v0.9.9 v0.9.8 v0.9.7 v0.9.6 v0.9.5 v0.9.4 v0.9.3 v0.9.2 v0.9.1 v0.9.0 v0.8.5 v0.8.4 v0.8.3 v0.8.2 v0.8.1 v0.8.0 v0.7.1 v0.7.0 v0.6.4 v0.6.3 v0.6.2 v0.6.1 v0.0.5 v0.0.4 v0.0.3
+Nothing to show
+New pull request
+Latest commit 4c300e6 Sep 1, 2017
+@kennethreitz
+kennethreitz committed Sep 1, 2017 update install instructions …
+
+ Signed-off-by: Kenneth Reitz <me@kennethreitz.org>
+
+Permalink
+	Failed to load latest commit information.
+	docs 	update install instructions 	Sep 2, 2017
+	tablib 	next version 	Sep 2, 2017
+	.gitignore 	Fix date and datetime export to JSON in Python versions with a json p… 	Nov 30, 2016
+	.travis.yml 	Change how travis installs to get all test dependencies 	Sep 2, 2017
+	AUTHORS 	Added py35 to tox.ini 	Dec 18, 2016
+	HACKING 	Added HACKING file. 	Feb 21, 2011
+	HISTORY.rst 	history 	Jun 14, 2017
+	LICENSE 	v0.11.0 	Feb 7, 2016
+	MANIFEST.in 	Add NOTICE and tests files to manifest 	Apr 24, 2014
+	Makefile 	v0.11.1, fix packaging error 	Feb 8, 2016
+	NOTICE 	Replaced vendored odfpy by a dependency ( #280 ) 	Feb 27, 2017
+	README.rst 	update install instructions 	Sep 2, 2017
+	requirements.txt 	bunk requirements file 	Aug 27, 2017
+	setup.py 	Make pandas an optional install 	Sep 2, 2017
+	test_tablib.py 	drop 2.6 	Aug 27, 2017
+	tox.ini 	Replaced vendored openpyxl by a dependency ( #221 ) 	Feb 20, 2017
+README.rst
+Tablib: format-agnostic tabular dataset library
+https://travis-ci.org/kennethreitz/tablib.svg?branch=master
+
+ _____         ______  ___________ ______
+__  /_______ ____  /_ ___  /___(_)___  /_
+_  __/_  __ `/__  __ \__  / __  / __  __ \
+/ /_  / /_/ / _  /_/ /_  /  _  /  _  /_/ /
+\__/  \__,_/  /_.___/ /_/   /_/   /_.___/
+
+Tablib is a format-agnostic tabular dataset library, written in Python.
+
+Output formats supported:
+
+    Excel (Sets + Books)
+    JSON (Sets + Books)
+    YAML (Sets + Books)
+    Pandas DataFrames (Sets)
+    HTML (Sets)
+    TSV (Sets)
+    OSD (Sets)
+    CSV (Sets)
+    DBF (Sets)
+
+Note that tablib purposefully excludes XML support. It always will. (Note: This is a joke. Pull requests are welcome.)
+Overview
+
+tablib.Dataset()
+    A Dataset is a table of tabular data. It may or may not have a header row. They can be build and manipulated as raw Python datatypes (Lists of tuples|dictionaries). Datasets can be imported from JSON, YAML, DBF, and CSV; they can be exported to XLSX, XLS, ODS, JSON, YAML, DBF, CSV, TSV, and HTML.
+tablib.Databook()
+    A Databook is a set of Datasets. The most common form of a Databook is an Excel file with multiple spreadsheets. Databooks can be imported from JSON and YAML; they can be exported to XLSX, XLS, ODS, JSON, and YAML.
+
+Usage
+
+Populate fresh data files:
+
+ headers = ('first_name', 'last_name')
+
+data = [
+    ('John', 'Adams'),
+    ('George', 'Washington')
+]
+
+data = tablib.Dataset(*data, headers=headers)
+
+Intelligently add new rows:
+
+ >>> data.append(('Henry', 'Ford'))
+
+Intelligently add new columns:
+
+ >>> data.append_col((90, 67, 83), header='age')
+
+Slice rows:
+
+ >>> print(data[:2])
+[('John', 'Adams', 90), ('George', 'Washington', 67)]
+
+Slice columns by header:
+
+ >>> print(data['first_name'])
+['John', 'George', 'Henry']
+
+Easily delete rows:
+
+ >>> del data[1]
+
+Exports
+
+Drumroll please...........
+JSON!
+
+ >>> print(data.export('json'))
+[
+  {
+    "last_name": "Adams",
+    "age": 90,
+    "first_name": "John"
+  },
+  {
+    "last_name": "Ford",
+    "age": 83,
+    "first_name": "Henry"
+  }
+]
+
+YAML!
+
+ >>> print(data.export('yaml'))
+- {age: 90, first_name: John, last_name: Adams}
+- {age: 83, first_name: Henry, last_name: Ford}
+
+CSV...
+
+ >>> print(data.export('csv'))
+first_name,last_name,age
+John,Adams,90
+Henry,Ford,83
+
+EXCEL!
+
+ >>> with open('people.xls', 'wb') as f:
+...     f.write(data.export('xls'))
+
+DBF!
+
+ >>> with open('people.dbf', 'wb') as f:
+...     f.write(data.export('dbf'))
+
+Pandas DataFrame!
+
+ >>> print(data.export('df')):
+      first_name last_name  age
+0       John     Adams   90
+1      Henry      Ford   83
+
+It's that easy.
+Installation
+
+To install tablib, simply:
+
+ $ pip install tablib[pandas]
+
+Make sure to check out Tablib on PyPi !
+Contribute
+
+If you'd like to contribute, simply fork the repository , commit your changes to the develop branch (or branch off of it), and send a pull request. Make sure you add yourself to AUTHORS .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

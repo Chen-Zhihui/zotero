@@ -1,0 +1,244 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>[1703.08388] DeepVisage: Making face recognition simple yet with powerful
+  generalization skills</title>
+<link rel="shortcut icon" href="https://arxiv.org/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" media="screen" href="arXiv.css">
+<meta name="citation_title" content="DeepVisage: Making face recognition simple yet with powerful generalization skills">
+<meta name="citation_author" content="Hasnat, Abul">
+<meta name="citation_author" content="Bohné, Julien">
+<meta name="citation_author" content="Milgram, Jonathan">
+<meta name="citation_author" content="Gentric, Stéphane">
+<meta name="citation_author" content="Chen, Liming">
+<meta name="citation_date" content="2017/03/24">
+<meta name="citation_online_date" content="2017/04/07">
+<meta name="citation_pdf_url" content="http://arxiv.org/pdf/1703.08388">
+<meta name="citation_arxiv_id" content="1703.08388">
+<script type="text/javascript" async="" defer="defer" src="piwik.js"></script><script src="mathjaxToggle.js" type="text/javascript"></script>
+
+<!-- Piwik -->
+<script type="text/javascript">
+var _paq = _paq || [];
+_paq.push(["setDomains", ["*.arxiv.org"]]);
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function()
+{ var u="//webanalytics.library.cornell.edu/"; _paq.push(['setTrackerUrl', u+'piwik.php']); _paq.push(['setSiteId', 538]); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s); }
+)();
+</script>
+<!-- End Piwik Code -->
+
+
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  messageStyle: 'none',
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [['$','$']],
+    processEscapes: true,
+    ignoreClass: '.*',
+    processClass: 'mathjax.*',
+  },
+  TeX: {
+    extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js'],
+    noErrors: {
+      inlineDelimiters: ['$','$'],
+      multiLine: false,
+      style: {
+        'font-size': 'normal',
+        'border': ''
+      }
+    }
+  }
+});</script><script type="text/javascript" src="MathJax.js"></script><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/jax/input/TeX/config.js?V=2.7.3"></script><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/jax/output/HTML-CSS/config.js?V=2.7.3"></script><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/extensions/tex2jax.js?V=2.7.3"></script></head>
+<body class="with-cu-identity"><div id="MathJax_Message" style="display: none;"></div>
+
+<noscript><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=538&rec=1" style="border:0;" alt="" /></noscript>
+
+<div id="cu-identity">
+<div id="cu-logo">
+<a id="insignia-link" href="http://www.cornell.edu/"><img src="cul_signature_unstyled.gif" alt="Cornell University" width="283" border="0" height="76"></a>
+<div id="unit-signature-links">
+<a id="cornell-link" href="http://www.cornell.edu/">Cornell University</a>
+<a id="unit-link" href="http://www.library.cornell.edu/">Library</a>
+</div>
+</div>
+<div id="support-ack">
+<a href="https://confluence.cornell.edu/x/ALlRF">We gratefully acknowledge support from<br>the Simons Foundation<br> and member institutions</a>
+</div>
+</div>
+<div id="header">
+<h1><a href="https://arxiv.org/">arXiv.org</a> &gt; <a href="https://arxiv.org/list/cs/recent">cs</a> &gt; arXiv:1703.08388</h1>
+<div id="search">
+<form id="search-arxiv" method="post" action="/search">
+                
+<div class="wrapper-search-arxiv">
+<input class="keyword-field" name="query" placeholder="Search or Article ID" type="text">
+
+<div class="filter-field">
+ <select name="searchtype">
+<option value="all" selected="selected">All papers</option>
+<option value="ti">Titles</option>
+<option value="au">Authors</option>
+<option value="abs">Abstracts</option>
+<option value="ft">Full text</option>
+<option value="help">Help pages</option>
+</select>
+</div>
+<input class="btn-search-arxiv" value="" type="submit">
+<div class="links">(<a href="https://arxiv.org/help">Help</a> | <a href="https://arxiv.org/find">Advanced search</a>)</div>
+</div>
+</form>
+</div>
+</div>
+<div id="content">
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+    <rdf:Description
+        rdf:about="http://arxiv.org/abs/1703.08388"
+        dc:identifier="http://arxiv.org/abs/1703.08388"
+        dc:title="DeepVisage: Making face recognition simple yet with powerful
+  generalization skills"
+        trackback:ping="http://arxiv.org/trackback/1703.08388" />
+    </rdf:RDF>
+-->
+
+<div id="abs">
+<div class="extra-services">
+
+<div class="full-text">
+<span class="descriptor">Full-text links:</span>
+<h2>Download:</h2>
+<ul>
+<li><a href="https://arxiv.org/pdf/1703.08388" accesskey="f">PDF</a></li>
+<li><a href="https://arxiv.org/format/1703.08388">Other formats</a></li>
+</ul>
+<div class="abs-license">(<a href="http://arxiv.org/licenses/nonexclusive-distrib/1.0/" title="Rights to this article">license</a>)</div>
+</div><!--end full-text-->
+
+<div class="browse">
+<h3>Current browse context:</h3>
+<div class="current">cs.CV</div>
+<div class="prevnext"><span class="arrow"><a href="http://arxiv.org/prevnext?site=arxiv.org&amp;id=1703.08388&amp;context=cs.CV&amp;function=prev" accesskey="p" title="previous in cs.CV (accesskey p)">&lt;&nbsp;prev</a></span>&nbsp;|&nbsp;<span class="arrow"><a href="http://arxiv.org/prevnext?site=arxiv.org&amp;id=1703.08388&amp;context=cs.CV&amp;function=next" accesskey="n" title="next in cs.CV (accesskey n)">next&nbsp;&gt;</a></span>
+<br></div>
+<div class="list"><a href="https://arxiv.org/list/cs.CV/new">new</a>&nbsp;| <a href="https://arxiv.org/list/cs.CV/recent">recent</a>&nbsp;| <a href="https://arxiv.org/list/cs.CV/1703">1703</a></div><h3>Change to browse by:</h3><div class="switch">
+<a href="https://arxiv.org/abs/1703.08388?context=cs">cs</a>
+</div>
+
+</div>
+<div class="extra-ref-cite">
+<h3>References &amp; Citations</h3><ul><li><a href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1703.08388">NASA ADS</a></li>
+</ul>
+
+</div>
+<div class="dblp">
+<h3><a href="http://www.informatik.uni-trier.de/%7Eley/db/">DBLP</a> - CS Bibliography</h3><div class="list">
+<a href="http://www.informatik.uni-trier.de/%7Eley/db/journals/corr/corr1703.html#HasnatBGC17" title="listing on DBLP">listing</a> | <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/HasnatBGC17" title="DBLP bibtex record">bibtex</a>
+</div>
+<div class="list">
+<a href="http://dblp.uni-trier.de/search/author?author=Md.%20Abul%20Hasnat" title="DBLP author search">Md. Abul Hasnat</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=Abul%20Hasnat" title="DBLP author search">Abul Hasnat</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=Julien%20Bohn%C3%A9" title="DBLP author search">Julien Bohné</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=St%C3%A9phane%20Gentric" title="DBLP author search">Stéphane Gentric</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=Liming%20Chen" title="DBLP author search">Liming Chen</a><br>
+</div>
+
+</div>
+<div class="bookmarks">
+<div class="what-is-this">
+<h3>Bookmark</h3> (<a href="https://arxiv.org/help/social_bookmarking">what is this?</a>)
+</div>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fwww.citeulike.org%2Fposturl%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388%26title%3DDeepVisage%253A%2520Making%2520face%2520recognition%2520simple%2520yet%2520with%2520powerful%250A%2520%2520generalization%2520skills%26authors%3D&amp;v=2e32742b" title="Bookmark on CiteULike"><img src="citeulike.png" alt="CiteULike logo"></a>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fwww.bibsonomy.org%2FBibtexHandler%3FrequTask%3Dupload%26url%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388%26description%3DDeepVisage%253A%2520Making%2520face%2520recognition%2520simple%2520yet%2520with%2520powerful%250A%2520%2520generalization%2520skills&amp;v=e0703a03" title="Bookmark on BibSonomy"><img src="bibsonomy.png" alt="BibSonomy logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fwww.mendeley.com%2Fimport%2F%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388&amp;v=a2f15202" title="Bookmark on Mendeley"><img src="mendeley.png" alt="Mendeley logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fdel.icio.us%2Fpost%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388%26description%3DDeepVisage%253A%2520Making%2520face%2520recognition%2520simple%2520yet%2520with%2520powerful%250A%2520%2520generalization%2520skills&amp;v=95566c4b" title="Bookmark on del.icio.us"><img src="delicious.png" alt="del.icio.us logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fdigg.com%2Fsubmit%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388%26title%3DDeepVisage%253A%2520Making%2520face%2520recognition%2520simple%2520yet%2520with%2520powerful%250A%2520%2520generalization%2520skills&amp;v=fcbc7956" title="Bookmark on Digg"><img src="digg.png" alt="Digg logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Freddit.com%2Fsubmit%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388%26title%3DDeepVisage%253A%2520Making%2520face%2520recognition%2520simple%2520yet%2520with%2520powerful%250A%2520%2520generalization%2520skills&amp;v=646f7d00" title="Bookmark on Reddit"><img src="reddit.png" alt="Reddit logo"></a>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fsciencewise.info%2Fbookmarks%2Fadd%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1703.08388&amp;v=cefc66a6" title="Bookmark on ScienceWISE"><img src="sciencewise.png" alt="ScienceWISE logo"></a>
+
+</div>
+</div><!--end extra-services-->
+
+<div class="leftcolumn">
+<div class="subheader">
+<h1>Computer Science &gt; Computer Vision and Pattern Recognition</h1>
+</div>
+<h1 class="title mathjax"><span class="descriptor">Title:</span>
+DeepVisage: Making face recognition simple yet with powerful  generalization skills</h1>
+<div class="authors"><span class="descriptor">Authors:</span>
+<a href="https://arxiv.org/find/cs/1/au:+Hasnat_A/0/1/0/all/0/1">Abul Hasnat</a>, 
+<a href="https://arxiv.org/find/cs/1/au:+Bohne_J/0/1/0/all/0/1">Julien Bohné</a>, 
+<a href="https://arxiv.org/find/cs/1/au:+Milgram_J/0/1/0/all/0/1">Jonathan Milgram</a>, 
+<a href="https://arxiv.org/find/cs/1/au:+Gentric_S/0/1/0/all/0/1">Stéphane Gentric</a>, 
+<a href="https://arxiv.org/find/cs/1/au:+Chen_L/0/1/0/all/0/1">Liming Chen</a></div>
+<div class="dateline">(Submitted on 24 Mar 2017 (<a href="https://arxiv.org/abs/1703.08388v1">v1</a>), last revised 7 Apr 2017 (this version, v2))</div>
+<blockquote class="abstract mathjax">
+<span class="descriptor">Abstract:</span> Face recognition (FR) methods report significant performance by adopting the
+convolutional neural network (CNN) based learning methods. Although CNNs are
+mostly trained by optimizing the softmax loss, the recent trend shows an
+improvement of accuracy with different strategies, such as task-specific CNN
+learning with different loss functions, fine-tuning on target dataset, metric
+learning and concatenating features from multiple CNNs. Incorporating these
+tasks obviously requires additional efforts. Moreover, it demotivates the
+discovery of efficient CNN models for FR which are trained only with identity
+labels. We focus on this fact and propose an easily trainable and single CNN
+based FR method. Our CNN model exploits the residual learning framework.
+Additionally, it uses normalized features to compute the loss. Our extensive
+experiments show excellent generalization on different datasets. We obtain very
+competitive and state-of-the-art results on the LFW, IJB-A, YouTube faces and
+CACD datasets.
+</blockquote>
+<!--CONTEXT-->
+<div class="metatable">
+<table summary="Additional metadata">
+<tbody><tr>
+<td class="tablecell label">Comments:
+</td>
+<td class="tablecell comments mathjax">Second version (12 pages), under review</td>
+</tr>
+<tr>
+<td class="tablecell label">Subjects:
+</td>
+<td class="tablecell subjects"><span class="primary-subject">Computer Vision and Pattern Recognition (cs.CV)</span></td>
+</tr>
+<tr>
+<td class="tablecell label">
+Cite&nbsp;as:
+</td>
+<td class="tablecell arxivid"><a href="https://arxiv.org/abs/1703.08388">arXiv:1703.08388</a> [cs.CV]</td>
+</tr>
+<tr>
+<td class="tablecell label">&nbsp;</td>
+<td class="tablecell arxividv">(or <span class="arxivid"><a href="https://arxiv.org/abs/1703.08388v2">arXiv:1703.08388v2</a> [cs.CV]</span> for this version)</td>
+</tr>
+</tbody></table>
+</div>
+<div class="submission-history">
+<h2>Submission history</h2>
+From: Md Abul Hasnat [<a href="https://arxiv.org/show-email/829851bb/1703.08388">view email</a>]
+<br>
+<b><a href="https://arxiv.org/abs/1703.08388v1">[v1]</a></b> Fri, 24 Mar 2017 12:41:38 GMT  (658kb,D)<br>
+<b>[v2]</b> Fri, 7 Apr 2017 11:37:21 GMT  (5302kb,D)<br>
+</div>
+<div class="endorsers"><a href="http://arxiv.org/auth/show-endorsers/1703.08388">Which authors of this paper are endorsers?</a> | <a id="mathjax_toggle" href="javascript:setMathjaxCookie()">Disable MathJax</a> (<a href="https://arxiv.org/help/mathjax/">What is MathJax?</a>)</div><script type="text/javascript" language="javascript">mathjaxToggle();</script>
+</div><!--end leftcolumn-->
+</div><!--end abs-->
+</div>
+<div id="footer">
+<div class="footer-text">
+<p>Link back to: <a href="http://arxiv.org/">arXiv</a>, <a href="https://arxiv.org/form">form interface</a>, <a href="https://arxiv.org/help/contact">contact</a>.</p>
+</div>
+<div class="social"><a href="https://twitter.com/arxiv"><img src="twitter_logo_blue.png" alt="Twitter" title="Follow arXiv on Twitter"></a></div>
+</div>
+
+
+</body></html>

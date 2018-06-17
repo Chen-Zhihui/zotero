@@ -1,0 +1,199 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 826
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 10,957
+    Star 10,957
+    Fork
+    Where should we fork this repository?
+    Loading
+    2,785
+
+binux / pyspider
+Code Issues 163 Pull requests 7 Projects 1 Insights
+A Powerful Spider(Web Crawler) System in Python. http://docs.pyspider.org/
+python crawler
+
+    930 commits
+    5 branches
+    12 releases
+    43 contributors
+    Apache-2.0
+
+    Python 85.8%
+    JavaScript 7.6%
+    HTML 3.8%
+    CSS 1.8%
+    Lua 1.0%
+
+Python JavaScript HTML CSS Lua
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+beader-patch ghost.py master slime sqlalchemy_UnicodeEncodeError
+Nothing to show
+v0.3.9 v0.3.8 v0.3.7 v0.3.6 v0.3.5 v0.3.4 v0.3.3 v0.3.2 v0.3.1 v0.3.0 v0.2.0 v0.1.0
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	.github 	add ISSUE_TEMPLATE 	Apr 19, 2017
+	data 	add test for scheduler 	Mar 7, 2014
+	docs 	support redis 3.x in cluster mode for message queue 	Jun 14, 2017
+	pyspider 	remove mongo indexing and stat_count when start-up ( #754 ) 	Mar 15, 2018
+	tests 	try to debug "FAIL: test_30_full (test_message_queue.TestPikaRabbitMQ)" 	Mar 6, 2017
+	tools 	tools/migrate.py 	Oct 1, 2015
+	.coveragerc 	fix coverage 	Jan 18, 2015
+	.gitignore 	remove mongo indexing and stat_count when start-up ( #754 ) 	Mar 15, 2018
+	.travis.yml 	add support for python 3.6 	Feb 26, 2017
+	Dockerfile 	fix docker build 	Mar 6, 2017
+	LICENSE 	update readme and license 	Nov 16, 2014
+	MANIFEST.in 	fix path in MANIFEST.in 	Jan 29, 2015
+	README.md 	Grammar Changes 	Jun 15, 2017
+	mkdocs.yml 	add docs/Deployment-demo.pyspider.org.md 	Jul 10, 2016
+	requirements.txt 	Update requirements.txt ( #774 ) 	Mar 15, 2018
+	run.py 	move run.py to pyspider 	Nov 24, 2014
+	setup.py 	lib version fix ( #775 ) 	Mar 15, 2018
+	tox.ini 	change dockerfile mysql-connector-python curl 	Jan 17, 2017
+README.md
+pyspider Build Status Coverage Status Try
+
+A Powerful Spider(Web Crawler) System in Python. TRY IT NOW!
+
+    Write script in Python
+    Powerful WebUI with script editor, task monitor, project manager and result viewer
+    MySQL , MongoDB , Redis , SQLite , Elasticsearch ; PostgreSQL with SQLAlchemy as database backend
+    RabbitMQ , Beanstalk , Redis and Kombu as message queue
+    Task priority, retry, periodical, recrawl by age, etc...
+    Distributed architecture, Crawl Javascript pages, Python 2.{6,7}, 3.{3,4,5,6} support, etc...
+
+Tutorial: http://docs.pyspider.org/en/latest/tutorial/
+Documentation: http://docs.pyspider.org/
+Release notes: https://github.com/binux/pyspider/releases
+Sample Code
+
+ from  pyspider.libs.base_handler import  * 
+
+
+class  Handler ( BaseHandler ):
+    crawl_config =  {
+    }
+
+    @every ( minutes = 24  *  60 )
+    def  on_start ( self  ):
+        self .crawl( ' http://scrapy.org/ '  , callback = self .index_page)
+
+    @config ( age = 10  *  24  *  60  *  60 )
+    def  index_page ( self  , response ):
+        for  each in  response.doc( ' a[href^="http"] '  ).items():
+            self .crawl(each.attr.href, callback = self .detail_page)
+
+    def  detail_page ( self  , response ):
+        return  {
+            " url "  : response.url,
+            " title "  : response.doc( ' title '  ).text(),
+        }
+
+Demo
+Installation
+
+    pip install pyspider
+    run command pyspider , visit http://localhost:5000/
+
+WARNING: WebUI is open to the public by default, it can be used to execute any command which may harm your system. Please use it in an internal network or enable need-auth for webui .
+
+Quickstart: http://docs.pyspider.org/en/latest/Quickstart/
+Contribute
+
+    Use It
+    Open Issue , send PR
+    User Group
+    中文问答
+
+TODO
+v0.4.0
+
+    a visual scraping interface like portia
+
+License
+
+Licensed under the Apache License, Version 2.0
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

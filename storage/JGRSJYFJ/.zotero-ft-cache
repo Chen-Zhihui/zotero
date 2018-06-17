@@ -1,0 +1,157 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 1
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 12
+    Star 12
+    Fork
+    Where should we fork this repository?
+    Loading
+    3
+
+stoneyang / caffe_facenet
+Code Pull requests 0 Projects 0 Wiki Insights
+Forked from https://github.com/tyandzx/caffe
+
+    2 commits
+    1 branch
+    0 releases
+    2 contributors
+
+    C++ 79.7%
+    Python 8.3%
+    Cuda 5.7%
+    CMake 2.8%
+    Protocol Buffer 1.6%
+    Matlab 0.9%
+    Other 1.0%
+
+C++ Python Cuda CMake Protocol Buffer Matlab Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	cmake 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	docker 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	docs 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	examples 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	include/ caffe 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	matlab 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	python 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	scripts 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	src 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	tools 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	.Doxyfile 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	.gitignore 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	.travis.yml 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	CMakeLists.txt 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	CONTRIBUTING.md 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	CONTRIBUTORS.md 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	INSTALL.md 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	LICENSE 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	Makefile 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	Makefile.config.example 	Add triplet loss layer for matching task. 	Jun 11, 2016
+	README.md 	Modify README 	Jun 11, 2016
+	caffe.cloc 	Add triplet loss layer for matching task. 	Jun 11, 2016
+README.md
+Triplet loss for Caffe
+
+Introduce triplet loss layer to caffe.
+Concretely, we use cosine matric to constrain the distance between samples among same label/different labels.
+Useage
+
+1st, you need create a ordered file list for training.
+This file list control the exactly data read-in order during training phase. Suppose in each mini-batch, you have data from 4 labels and 2 samples in each label, then the content of the file list should be like this:
+
+ img_path_1_from_label_1 label_1 img_path_2_from_label_1 label_1 img_path_1_from_label_2 label_2 img_path_2_from_label_2 label_2 ... img_path_1_from_label_4 label_4 img_path_2_from_label_4 label_4  
+
+2nd, define network structure in your train_val.prototxt.
+Setup SampleTripletLayer to sample triplets in each mini-batch. Currently, triplets are made up by all anchor-positive pairs in the sample label and one hardest negative sample from other labels.
+
+ layer { name: "sample_triplet" type: "SampleTriplet" bottom: "fully_connected_feature" top: "triplet" sample_triplet_param { label_num: 4 sample_num: 2 } }  
+
+Setup TripletLossLayer to calculate loss.
+
+ layer { name: "triplet_loss" type: "TripletLoss" bottom: "fully_connected_feature" bottom: "triplet" top: "triplet_loss" triplet_loss_param { margin: 0.1 } loss_weight: 1 }  
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

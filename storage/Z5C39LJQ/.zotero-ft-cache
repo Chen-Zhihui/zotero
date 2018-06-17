@@ -1,0 +1,186 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 14
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 41
+    Star 41
+    Fork
+    Where should we fork this repository?
+    Loading
+    41
+
+rbock / sqlpp11-connector-sqlite3
+Code Issues 6 Pull requests 3 Projects 0 Wiki Insights
+A C++ wrapper for sqlite3 meant to be used in combination with sqlpp11.
+
+    243 commits
+    6 branches
+    24 releases
+    12 contributors
+    BSD-2-Clause
+
+    C++ 86.8%
+    CMake 10.6%
+    Python 1.5%
+    C 1.1%
+
+C++ CMake Python C
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+develop feature/continuous_integration feature/hunting_date_time_bug_on_windows feature/re-organize-value-types feature/travis-cleanup master
+Nothing to show
+0.28 0.27 0.26 0.25 0.24 0.23 0.22 0.21 0.20 0.19 0.18 0.17 0.16 0.15 0.14 0.13 0.12 0.11 0.10 0.9 0.8 0.7 0.6 0.5
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	cmake 	Update comments. 	Jan 31, 2018
+	include/sqlpp11/ sqlite3 	Merge branch 'develop' of https://github.com/rbock/sqlpp11-connector-… 	Jan 18, 2018
+	src 	Load date library from date dir (since date v2.3). 	Jan 31, 2018
+	tests 	Merge branch 'develop' of https://github.com/rbock/sqlpp11-connector-… 	Jan 18, 2018
+	.appveyor.yml 	Update CI scripts. 	Jan 31, 2018
+	.clang-format 	Added clang-format file and clang-formatted *.h *.cpp 	Oct 2, 2015
+	.travis.yml 	Update CI scripts. 	Jan 31, 2018
+	CMakeLists.txt 	Remote debugging cmake for appveyor... 	Dec 29, 2017
+	LICENSE 	Initial commit 	Sep 8, 2013
+	README.md 	Add information about breaking change in README 	May 27, 2017
+	pre-commit 	Added pre-commit hook sample 	Dec 21, 2015
+README.md
+sqlpp11-connector-sqlite
+
+A C++ wrapper for sqlite3 meant to be used in combination with sqlpp11.
+Branch / Compiler 	clang-3.4, gcc-4.9, Xcode-7 	MSVC 2015
+master 	Build Status 	Build status
+develop 	Build Status 	Build status
+Sample Code:
+
+See for instance tests/SampleTest.cpp
+
+ namespace  sql  =  sqlpp::sqlite3;
+int  main () {
+    sql::connection_config config;
+    config. path_to_database  = " :memory: "  ;
+    config. flags  = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+    config. debug  = true ;
+
+    sql::connection db (config);
+    std::cerr << __FILE__ << " : "   << __LINE__ << std::endl;
+    db. execute ( " CREATE TABLE tab_sample (\ 
+alpha bigint(20) DEFAULT NULL,\ 
+beta varchar(255) DEFAULT NULL,\ 
+gamma bool DEFAULT NULL\ 
+) "  );
+
+    TabSample tab;
+    // explicit all_of(tab) 
+    for ( const  auto & row : db ( select ( all_of (tab)). from (tab). unconditionally ()))
+    {
+        int64_t  alpha = row. alpha ;
+        std::string beta = row. beta ;
+        bool  gamma  = row. gamma ;
+    };
+
+Requirements:
+
+Compiler: sqlpp11-connector-sqlite3 makes use of C++11 and requires a recent compiler and STL. The following compilers are known to compile the test programs:
+
+    clang-3.2 on Ubuntu-12.4
+    g++-4.8 on Ubuntu-12.4
+
+Libraries:
+
+    sqlpp11-connector-sqlite3 is meant to be used with sqlpp11 ( https://github.com/rbock/sqlpp11 ).
+    sqlpp11 requires date.h ( https://github.com/HowardHinnant/date ).
+    libsqlite3, version 3.7.11 or later is required to use multi-row insert. Older versions (e.g. 3.7.9) work fine otherwise.
+
+Breaking Changes:
+
+Version 0.24, handling of password for encrypted databases:
+
+The call to sqlite3_key used to include a null character at the end of the password provided in the connection_config. This prevented users from using the "x'HEXHEXHEX'" syntax that skips the key derivation and made interoperability with other tools more complex.
+
+The call has been fixed, which implies that databases created with sqlpp11 won't open anymore without changing user code. To adapt to this change, you must explicitely append a null character to the database password:
+
+ config.password.push_back( ' \0 '  );
+
+You can also update your database to migrate them to a password without the extra null character with sqlite3_rekey .
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

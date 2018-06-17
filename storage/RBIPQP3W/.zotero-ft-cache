@@ -1,0 +1,205 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 1,089
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 9,042
+    Star 9,042
+    Fork
+    Where should we fork this repository?
+    Loading
+    10,892
+
+MicrosoftArchive / redis forked from antirez/redis
+Code Issues 150 Pull requests 7 Projects 0 Wiki Insights
+Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes http://redis.io
+
+    5,056 commits
+    20 branches
+    37 releases
+    181 contributors
+
+    C 75.5%
+    Tcl 15.7%
+    C++ 6.1%
+    Ruby 1.7%
+    Shell 0.4%
+    C# 0.3%
+    Other 0.3%
+
+C Tcl C++ Ruby Shell C# Other
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: 3.0
+Switch branches/tags
+
+    Branches
+    Tags
+
+2.4_bufsave 2.4_fgsave 2.4 2.6 2_6_14_rebase 2.8-no-child-wait 2.8-staging 2.8 3.0 3.0.7-unstable 3.2 MassInsertion2 WixInstaller disklessrepl getpeername-workaround2 kirk_sec_reserve orangemocha-RejoinCowPages3 orangemocha-logfile release-2.8.17 release-2.8.19
+Nothing to show
+win2.8.12 win_2.8.9 win-3.2.100 win-3.2.0000-preview win-3.0.504 win-3.0.503 win-3.0.502 win-3.0.501 win-3.0.500 win-3.0.500-rc2 win-3.0.500-rc1 win-3.0.300-beta1 win-3.0.300-alpha3 win-3.0.300-alpha2 win-3.0.100-alpha1 win-2.8.2402 win-2.8.2401 win-2.8.2400 win-2.8.2104 win-2.8.2103 win-2.8.2102 win-2.8.2101 win-2.8.21 win-2.8.19.1 win-2.8.19 win-2.8.19-rc1 win-2.8.19-pre2 win-2.8.19-pre1 win-2.8.17.4 win-2.8.17.3 win-2.8.17.2 win-2.8.17.1 msopentech_2.8.4 Win2.6.8 2.8.4_msopentech 2.6.14_msopentech 2.4.6_win32
+Nothing to show
+New pull request
+Pull request Compare This branch is 156 commits ahead, 147 commits behind antirez:3.0.
+Latest commit 10a978f Jul 1, 2016
+@enricogior
+enricogior committed Jul 1, 2016 [Release] 3.0.504
+Permalink
+	Failed to load latest commit information.
+	deps 	[Portability] strtol and strtoul fixes. 	Jul 1, 2016
+	msvs 	[Release] 3.0.504 	Jul 1, 2016
+	src 	[Release] 3.0.504 	Jul 1, 2016
+	tests 	[Test] Added regression test for replication when AUTH is on. 	Dec 3, 2015
+	utils 	create-cluster fix for stop and watch commands 	Mar 24, 2015
+	.gitignore 	[Test] Removed a Windows-specific workaround. 	Nov 12, 2015
+	00-RELEASENOTES 	Merged tag 3.0.5 from antirez/3.0 	Oct 27, 2015
+	BUGS 	Fix typo 	Oct 6, 2014
+	CONTRIBUTING 	Grammar fix. 	Dec 6, 2013
+	COPYING 	update copyright year 	May 4, 2015
+	INSTALL 	INSTALL now redirects the user to README 	Feb 5, 2012
+	MANIFESTO 	Format to fit 80 columns 	Feb 9, 2013
+	Makefile 	Fix `install` target on OSX (see #495 ) 	May 15, 2012
+	README.md 	[Docs] Added Microsoft Open Source Code of Conduct. 	Jun 22, 2016
+	Redis on Windows Release Notes.md 	[Release] 3.0.504 	Jul 1, 2016
+	Redis on Windows.md 	[PR] Update Redis on Windows.md 	Jan 15, 2016
+	Windows Service Documentation.md 	[Docs] Single dash replaced with double dash for service cmd parameters. 	Jan 15, 2016
+	appveyor.yml 	[Release] 3.0.504 	Jul 1, 2016
+	license.txt 	[Setup] Nuget/Chocolatey packages update. 	Jul 22, 2015
+	redis.conf 	Merged tag 3.0.5 from antirez/3.0 	Oct 27, 2015
+	runtest 	Check available tcl versions 	Jan 24, 2013
+	runtest-cluster 	Redis Cluster test framework skeleton. 	Apr 29, 2014
+	runtest-sentinel 	Sentinel test files / directories layout improved. 	Apr 29, 2014
+	sentinel.conf 	Fix sentinel.conf typo 	Oct 6, 2014
+README.md
+
+Windows Status NuGet version Chocolatey version Chocolatey downloads
+Redis on Windows
+
+    This is a port for Windows based on Redis .
+    We officially support the 64-bit version only. Although you can build the 32-bit version from source if desired.
+    You can download the latest unsigned binaries and the unsigned MSI installer from the release page .
+    For releases prior to 2.8.17.1, the binaries can found in a zip file inside the source archive, under the bin/release folder.
+    Signed binaries are available through NuGet and Chocolatey .
+    Redis can be installed as a Windows Service.
+
+Windows-specific changes
+
+    There is a replacement for the UNIX fork() API that simulates the copy-on-write behavior using a memory mapped file on 2.8. Version 3.0 is using a similar behavior but dropped the memory mapped file in favor of the system paging file.
+    In 3.0 we switch the default memory allocator from dlmalloc to jemalloc that is supposed to do a better job at managing the heap fragmentation.
+    Because Redis makes some assumptions about the values of file descriptors, we have built a virtual file descriptor mapping layer.
+
+Redis release notes
+
+There are two current active branches: 2.8 and 3.0.
+
+    Redis on UNIX 2.8 release notes
+    Redis on Windows 2.8 release notes
+    Redis on UNIX 3.0 release notes
+    Redis on Windows 3.0 release notes
+
+How to configure and deploy Redis on Windows
+
+    Memory Configuration for 2.8
+    Memory Configuration for 3.0
+    Windows Service Documentation
+    Redis on Windows
+    Windows Service Documentation
+
+How to build Redis using Visual Studio
+
+You can use the free Visual Studio 2013 Community Edition . Regardless which Visual Studio edition you use, make sure you have updated to Update 5, otherwise you will get a "illegal use of this type as an expression" error.
+
+    Open the solution file msvs\redisserver.sln in Visual Studio, select a build configuration (Debug or Release) and target (x64) then build.
+
+    This should create the following executables in the msvs$(Target)$(Configuration) folder:
+        redis-server.exe
+        redis-benchmark.exe
+        redis-cli.exe
+        redis-check-dump.exe
+        redis-check-aof.exe
+
+Testing
+
+To run the Redis test suite some manual work is required:
+
+    The tests assume that the binaries are in the src folder. Use mklink to create a symbolic link to the files in the msvs\x64\Debug|Release folders. You will need symbolic links for src\redis-server, src\redis-benchmark, src\redis-check-aof, src\redis-check-dump, src\redis-cli, and src\redis-sentinel.
+    The tests make use of TCL. This must be installed separately.
+    To run the cluster tests against 3.0, Ruby On Windows is required.
+    To run the tests you need to have a Unix shell on your machine, or MinGW tools in your path. To execute the tests, run the following command: "tclsh8.5.exe tests/test_helper.tcl --clients N", where N is the number of parallel clients . If a Unix shell is not installed you may see the following error message: "couldn't execute "cat": no such file or directory".
+    By default the test suite launches 16 parallel tests, but 2 is the suggested number.
+
+Code of Conduct
+
+This project has adopted the Microsoft Open Source Code of Conduct . For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

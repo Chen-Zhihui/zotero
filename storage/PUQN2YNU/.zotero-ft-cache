@@ -1,0 +1,188 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 10
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 31
+    Star 31
+    Fork
+    Where should we fork this repository?
+    Loading
+    37
+
+sasha-polev / aerospark
+Code Issues 3 Pull requests 1 Projects 0 Wiki Insights
+Aerospike Spark Connector
+
+    34 commits
+    1 branch
+    2 releases
+    2 contributors
+    Apache-2.0
+
+    Scala 95.2%
+    Lua 4.8%
+
+Scala Lua
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Spark-1.2.0 Spark-1.1.0
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	src 	add support for timeout attribute for client policy. 	Mar 1, 2016
+	udf 	Fix UDF function 	Sep 14, 2015
+	.gitignore 	Refactoring AqlParser and adding testing 	Sep 7, 2015
+	LICENSE 	License update, refactoring and bugfixes 	Dec 21, 2014
+	README.md 	Pointing everyone to https://github.com/aerospike/aerospark 	Jul 23, 2016
+	aerospike-spark.iml 	Spark 1.3.0 support (not tested) 	Apr 10, 2015
+	pom.xml 	Fix UDF function 	Sep 14, 2015
+README.md
+Aerospike Spark Connector
+NOTE: There is a newer version of this connector (although not functionally identical) at https://github.com/aerospike/aerospark .
+
+Spark glue to efficiently read data from Aerospike
+
+    Creates schema RDD from AQL statement (including determining datatypes on the single row query) or just RDD[Row] if not to be used with SparkSQL context
+    Queries local Aerospike nodes in parallel (allows parrallel reads from single server for range queries)
+
+Example use:
+
+ import com . osscube . spark . aerospike . rdd . _ ;import org . apache . spark . sql ._
+val sqlContext =  new SQLContext(sc)
+val aero  =  sc . aeroSInput ( " 192.168.142.162:3000 "  ,
+ " select column1,column1,intColumn1 from test.one_million where intColumn1 between -10000000 and 10000000 "  , sqlContext , 6 )
+aero . registerTempTable ( " aero "  )
+sqlContext . sql ( " select avg(intColumn1) from aero where intColumn1 < 0 "  ).collect
+
+(Assumes there is an numeric index on intColumn1, creates 6 partitions per server)
+
+Other way to create and SQL RDD is to use method on SQLContext itself:
+
+ import com . osscube . spark . aerospike . rdd . _ ;import org . apache . spark . sql ._
+val sqlContext =  new SQLContext(sc)
+val aero =  sqlContext . aeroRDD ( " 192.168.142.162:3000 "  ,
+ " select column1,column1,intColumn1 from test.one_million where intColumn1 between -10000000 and 10000000 "  )
+aero . count 
+
+Spark SQL use
+
+New Spark 1.2.+ Data Sources API allows integration with Spark SQL CLI and Thrift/JDBC server:
+
+Run SQL CLI or server with --jars pointing to the library (similar to Spark CLI):
+
+ spark-sql --jars <path to build>/aerospike-spark-0.2-SNAPSHOT-jar-with-dependencies.jar  
+
+Then you can use statements like the following:
+
+ CREATE TEMPORARY TABLE aero
+USING com . osscube . spark . aerospike .rdd
+OPTIONS (initialHost " 192.168.142.162:3000 "  ,
+select  " select column1,column2,intColumn1 from test.one_million where intColumn1 between -10000000 and 10000000 "  ,
+partitionsPerServer " 2 "  );
+
+or
+
+ CREATE TEMPORARY TABLE aero
+USING com . osscube . spark . aerospike .rdd
+OPTIONS (initialHost " 192.168.142.162:3000 "  ,
+select  " select * from test.one_million "  );
+
+When you do subsequent selects best efforts will be made to push down at least (and at most) one predicate to Aerospike, if index is present.
+
+ select  count (distinct column1) from  aero where  column1  =  ' G '  ;
+
+or
+
+ select  count (distinct column2) from  aero where   intColumn1  >  - 1000000  and  intColumn1 <  100000 ;
+
+This version is tested with Aerospike 3.5 and has an optional parameter useUdfWithoutIndexQuery to allow UDF filtering even if no index is used in a query, e.x:
+
+ val sqlContext =  new org . apache . spark . sql . hive . HiveContext (sc)
+sqlContext . sql ( " CREATE TEMPORARY TABLE aero USING com.osscube.spark.aerospike.rdd OPTIONS (initialHost \ "  192 . 168 . 142 . 162 : 3000 \ " , select \ "  select  *  from  test . one_million \ " , useUdfWithoutIndexQuery \ "  true\ " ) "  )
+
+NOTE: there is no explicit methods to write RDD back to Aerospike, but this can be achieved using code like this:
+
+ import com.aerospike.client.async.AsyncClient import com.aerospike.client._ val rdd = sc.parallelize(List("1", "2", "3", "4", "5", "6", "7", "8", "9"), 3) rdd.foreachPartition{x => val client = new AsyncClient("192.168.142.162" , 3000) x.foreach{ s => client.put( client.asyncWritePolicyDefault, new Key("test", "sample", s), new Bin("column1", s) ) } }  
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.

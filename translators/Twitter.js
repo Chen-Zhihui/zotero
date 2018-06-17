@@ -1,15 +1,15 @@
 {
 	"translatorID": "31659710-d04e-45d0-84ba-8e3f5afc4a54",
+	"translatorType": 4,
 	"label": "Twitter",
 	"creator": "Avram Lyon, Philipp Zumstein",
 	"target": "^https?://([^/]+\\.)?twitter\\.com/",
 	"minVersion": "4.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2018-02-01 20:30:42"
+	"lastUpdated": "2018-05-12 06:45:00"
 }
 
 /*
@@ -80,6 +80,8 @@ function doWeb(doc, url) {
 function scrape(doc, url) {
 	var item = new Zotero.Item("blogPost");
 	item.title = ZU.xpathText(doc, '//div[contains(@class,"permalink-tweet-container")]//p[contains(@class, "js-tweet-text")]');
+	// Don't set short title when tweet contains colon
+	item.shortTitle = false;
 	item.language = ZU.xpathText(doc, '//div[contains(@class,"permalink-tweet-container")]//p[contains(@class, "js-tweet-text")]/@lang');
 	var author = ZU.xpathText(doc, '//div[contains(@class,"permalink-header")]//strong[contains(@class,"fullname")]');
 	if (author) {
@@ -146,7 +148,6 @@ var testCases = [
 				"date": "2011-08-22T04:52",
 				"blogTitle": "@zotero",
 				"language": "en",
-				"shortTitle": "Zotero 3.0 beta is now available with duplicate detection and tons more. Runs outside Firefox with Chrome or Safari!  http",
 				"url": "https://twitter.com/zotero/status/105608278976905216",
 				"websiteType": "Tweet",
 				"attachments": [
@@ -181,7 +182,6 @@ var testCases = [
 				"date": "2018-01-31T12:00",
 				"blogTitle": "@DieZeitansage",
 				"language": "de",
-				"shortTitle": "Es ist 21",
 				"url": "https://twitter.com/DieZeitansage/status/958792005034930176",
 				"websiteType": "Tweet",
 				"attachments": [

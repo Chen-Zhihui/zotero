@@ -1,0 +1,177 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+        New repository Import repository New gist New organization
+        This repository
+        New issue 
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 27
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 229
+    Star 229
+    Fork
+    Where should we fork this repository?
+    Loading
+    83
+
+happynear / NormFace
+Code Issues 1 Pull requests 0 Projects 0 Wiki Insights
+NormFace: L2 HyperSphere Embedding for Face Verification, 99.21% on LFW
+face-verification caffe mirror-face normface acm-mm
+
+    80 commits
+    1 branch
+    0 releases
+    1 contributor
+    MIT
+
+    Matlab 99.9%
+    Batchfile 0.1%
+
+Matlab Batchfile
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+Create new file
+Upload files Find file
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+master
+Nothing to show
+Nothing to show
+New pull request
+Fetching latest commit…
+Cannot retrieve the latest commit at this time.
+Permalink
+	Failed to load latest commit information.
+	YTF 	Update ReadMe.md 	Apr 25, 2017
+	draw 	upload geo_gradient 	Jun 19, 2017
+	mnist 	mnist plot for different scale. 	Aug 12, 2017
+	prototxt 	force normalization. 	Aug 27, 2017
+	.gitignore 	update mnist 	Apr 25, 2017
+	LICENSE 	Initial commit 	Mar 30, 2017
+	MirrorFace.md 	Update MirrorFace.md 	Apr 26, 2017
+	README.md 	Update README.md 	Dec 13, 2017
+	mirror.png 	mirror face image 	Apr 25, 2017
+README.md
+NormFace
+
+NormFace: L2 HyperSphere Embedding for Face Verification
+
+http://www.cs.jhu.edu/~alanlab/Pubs17/wang2017normface.pdf
+Baseline Model 	Original Accuracy 	Finetune Using Normalization
+Light CNN(MaxOut)   	98.41%*   	98.78%
+Center Face(ResNet) 	99.03% 	99.21%
+
+* It is 98.13% on Light CNN's project page . After applying the mirror face trick , it becomes 98.41%.
+Requirements
+
+    My Caffe ( https://github.com/happynear/caffe-windows/tree/ms ). It also works on Linux. Anyway, if you want to use your own Caffe, please transplant the inner_product_layer , inner_distance_layer , normalize_layer , general_contrastive_layer , flip_layer and accuracy_layer to your Caffe. Since there are too many layers to transplant, I suggest you to use my Caffe directly:)
+    Matlab to draw some figures.
+    GPU with CUDA support.
+    MTCNN face and facial landmark detector( https://github.com/kpzhang93/MTCNN_face_detection_alignment ).
+    Baseline model such as Center Face or Light CNN or your own model trained by softmax loss. I don't know whether my loss helps or not if your model is trained by other loss functions. You may have a try. I believe it will be effective if there is no normalization term in your model.
+
+Train
+
+    The dataset used in this paper is CASIA-Webface . Note that there are 3 identities overlap between CASIA-Webface and LFW. They are 0166921 , 1056413 and 1193098 . For fair evaluation, it is recommended to remove them from CAISA-Webface. Update: Actually there are 17 overlap identities, the list is in my FaceDatasets repository .
+    Align all face images using MTCNN. The script can be found in my FaceVerification repository .
+    Replace the final inner-product layer and softmax layer with layers defined in scaled_cosine_softmax.prototxt or normalized_Euclidean_contrastive.prototxt .
+    Fine-tune the network based on the original model using a small learning rate, say 0.001 or 0.0001.
+
+Evaluation
+
+Evaluation codes are in my another github repository . Please refer to the second paragraph of the Update section.
+
+A trick called mirror face is used during extracting the features. A sample code is in ./prototxt/example_of_mirror_face.prototxt .
+
+About the mirror face: See ./MirrorFace.md
+
+About the histogram feature for video face verification: Details are in ./YTF .
+Trained Models
+
+Light CNN B model(98.78%): Google Drive or Baidu Yun .
+
+ps: I used to get a model of 98.8%, but I lost it....
+
+Center Face (ResNet-27) model(99.21%): Google Drive or Baidu Yun .
+License
+
+This code is distributed under MIT LICENSE. The released models are only allowed for non-commercial use.
+Citation
+
+If you find my paper or the codes useful in your research, please cite
+
+ @inproceedings{wang2017normface, title={NormFace: L2 Hypersphere Embedding for Face Verification}, author={Wang, Feng and Xiang, Xiang and Cheng, Jian and Yuille, Alan L.}, booktitle={Proceedings of the 25th ACM international conference on Multimedia}, year={2017}, organization={ACM}, doi = {https://doi.org/10.1145/3123266.3123359} }  
+
+Contact
+
+Feng Wang [feng.wff(at)gmail.com], please replace (at) with @.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can't perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.
