@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://assets-cdn.github.com/">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com/">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-T9mI+Xgc8yCjMH6J/gS6kaW3O3zJaDuANCq4x9/EpAreyyj61xpmrp9qxWgdCYvpBqyX3T0nOmQzfAO82cdiww==" rel="stylesheet" href="frameworks-0e1c43e90618c1e26b9b138a9d83c008.css">
+  <link crossorigin="anonymous" media="all" integrity="sha512-daDRehG9JMlwFWo0a6dECJlFb3U7UbD4upLfg7MyIggjxi1Vc0QV9Uq9c26lAktcRzNOSOnk2egNQjSzADUWiA==" rel="stylesheet" href="github-5536bde82c3dab5846d83f7a636844b0.css">
+  
+  
+  
+  
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>donnemartin/data-science-ipython-notebooks: Data science Python
+ notebooks: Deep learning (TensorFlow, Theano, Caffe, Keras), 
+scikit-learn, Kaggle, big data (Spark, Hadoop MapReduce, HDFS), 
+matplotlib, pandas, NumPy, SciPy, Python essentials, AWS, and various 
+command lines.</title>
+    <meta name="description" content="GitHub is where people build software. More than 28 million people use GitHub to discover, fork, and contribute to over 85 million projects.">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://github.com/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars1.githubusercontent.com/u/5458997?s=400&amp;v=4"><meta property="og:site_name" content="GitHub"><meta property="og:type" content="object"><meta property="og:title" content="donnemartin/data-science-ipython-notebooks"><meta property="og:url" content="https://github.com/donnemartin/data-science-ipython-notebooks"><meta property="og:description" content="data-science-ipython-notebooks - Data science Python notebooks: Deep learning (TensorFlow, Theano, Caffe, Keras), scikit-learn, Kaggle, big data (Spark, Hadoop MapReduce, HDFS), matplotlib, pandas,...">
+
+  <link rel="assets" href="https://assets-cdn.github.com/">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6MjU2ODMxODg5OjU2YTlkZGIxODY2ZmM2ZjMxMzMwYzA3Yjg4YTk1YzJlMTQwODcyMzRmNTFkNzExNzYwNmJhMTY2M2EwZmU3NjY=--5236b44e5afca5418fc0874a5e9df2d77551815a">
+  <meta name="pjax-timeout" content="1000">
+  <link rel="sudo-modal" href="https://github.com/sessions/sudo_modal">
+  <meta name="request-id" content="2EA2:496F:8FC331:D74994:5B2E1322" data-pjax-transient="">
+
+
+  
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient="">
+
+    <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+  <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+  <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+    <meta name="google-analytics" content="UA-3769691-2">
+
+<meta name="octolytics-host" content="collector.githubapp.com"><meta name="octolytics-app-id" content="github"><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event"><meta name="octolytics-dimension-request_id" content="2EA2:496F:8FC331:D74994:5B2E1322"><meta name="octolytics-dimension-region_edge" content="ap-southeast-1"><meta name="octolytics-dimension-region_render" content="iad"><meta name="octolytics-actor-id" content="12552758"><meta name="octolytics-actor-login" content="Chen-Zhihui"><meta name="octolytics-actor-hash" content="756830ef2832c7e92e50d9938104614afc1e7c27bc0e459eba383a82c53fb868">
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;" data-pjax-transient="true">
+
+
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged In">
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="Chen-Zhihui">
+
+      <meta name="expected-hostname" content="github.com">
+    <meta name="js-proxy-site-detection-payload" content="YjIzMTlmM2Q5Yjc4NDVjYmQ0YzIzMTRlYTJlODhkYTU3NDNkYWMzOWNiNTk0M2U3NmQxZGVhN2U2ZmQxNTcyMHx7InJlbW90ZV9hZGRyZXNzIjoiMS4xODAuMjA5LjI1NCIsInJlcXVlc3RfaWQiOiIyRUEyOjQ5NkY6OEZDMzMxOkQ3NDk5NDo1QjJFMTMyMiIsInRpbWVzdGFtcCI6MTUyOTc0NjI2MSwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,FREE_TRIALS,MARKETPLACE_INSIGHTS,MARKETPLACE_INSIGHTS_CONVERSION_PERCENTAGES">
+
+  <meta name="html-safe-nonce" content="bc2c4eddcd7ead974c2214e14aa47089f1ee4bb2">
+
+  <meta http-equiv="x-pjax-version" content="fc73601fed7315e452a0946c74e57027">
+  
+
+      <link href="https://github.com/donnemartin/data-science-ipython-notebooks/commits/master.atom" rel="alternate" title="Recent Commits to data-science-ipython-notebooks:master" type="application/atom+xml">
+
+  <meta name="description" content="data-science-ipython-notebooks - Data science Python notebooks: Deep learning (TensorFlow, Theano, Caffe, Keras), scikit-learn, Kaggle, big data (Spark, Hadoop MapReduce, HDFS), matplotlib, pandas, NumPy, SciPy, Python essentials, AWS, and various command lines.">
+  <meta name="go-import" content="github.com/donnemartin/data-science-ipython-notebooks git https://github.com/donnemartin/data-science-ipython-notebooks.git">
+
+  <meta name="octolytics-dimension-user_id" content="5458997"><meta name="octolytics-dimension-user_login" content="donnemartin"><meta name="octolytics-dimension-repository_id" content="29749635"><meta name="octolytics-dimension-repository_nwo" content="donnemartin/data-science-ipython-notebooks"><meta name="octolytics-dimension-repository_public" content="true"><meta name="octolytics-dimension-repository_is_fork" content="false"><meta name="octolytics-dimension-repository_network_root_id" content="29749635"><meta name="octolytics-dimension-repository_network_root_nwo" content="donnemartin/data-science-ipython-notebooks"><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false">
+
+
+    <link rel="canonical" href="https://github.com/donnemartin/data-science-ipython-notebooks" data-pjax-transient="">
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://assets-cdn.github.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+<link rel="manifest" href="https://github.com/manifest.json" crossorigin="use-credentials">
+
+  </head>
+
+  <body class="logged-in env-production">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="p-3 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+
+        
+<header class="Header  f5" role="banner">
+  <div class="d-flex flex-justify-between px-3 container-lg">
+    <div class="d-flex flex-justify-between ">
+      <div class="">
+        <a class="header-logo-invertocat" href="https://github.com/" data-hotkey="g d" aria-label="Homepage" data-ga-click="Header, go to dashboard, icon:logo">
+  <svg height="32" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+
+      </div>
+
+    </div>
+
+    <div class="HeaderMenu d-flex flex-justify-between flex-auto">
+      <div class="d-flex">
+            <div class="">
+              <div class="header-search scoped-search site-scoped-search js-site-search position-relative js-jump-to" role="search combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox" aria-expanded="true">
+  <div class="position-relative">
+    <!-- '"` --><!-- </textarea></xmp> --><form class="js-site-search-form" data-scope-type="Repository" data-scope-id="29749635" data-scoped-search-url="/donnemartin/data-science-ipython-notebooks/search" data-unscoped-search-url="/search" action="/donnemartin/data-science-ipython-notebooks/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+      <label class="form-control header-search-wrapper header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+        <input class="form-control header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" data-hotkey="s,/" name="q" placeholder="Search or jump to…" data-unscoped-placeholder="Search or jump to…" data-scoped-placeholder="Search or jump to…" autocapitalize="off" aria-autocomplete="list" aria-controls="jump-to-results" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=xq9YIluJiTMHPkEjAxuuO7N9Jpb2yrthDyra++h0281nWPSFwJZxZtk+PenUtXVKhWKclzO08GT58iD5MRgQoQ==" spellcheck="false" autocomplete="off" type="text">
+          <input class="js-site-search-type-field" name="type" type="hidden">
+            <img src="search-shortcut-hint.svg" alt="" class="mr-2 header-search-key-slash">
+
+            <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
+              <ul class="d-none js-jump-to-suggestions-template-container">
+                <li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item">
+                  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center p-2 jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open" href="">
+                    <div class="jump-to-octicon js-jump-to-octicon mr-2 text-center d-none"></div>
+                    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar" alt="" aria-label="Team" src="" width="28" height="28">
+
+                    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden no-wrap css-truncate css-truncate-target">
+                    </div>
+
+                    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+                      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+                        In this repository
+                      </span>
+                      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+                        All GitHub
+                      </span>
+                      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+                    </div>
+
+                    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+                      Jump to
+                      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+                    </div>
+                  </a>
+                </li>
+                <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-repo-octicon-template" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-project-octicon-template" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-search-octicon-template" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+              </ul>
+              <ul class="d-none js-jump-to-no-results-template-container">
+                <li class="d-flex flex-justify-center flex-items-center p-3 f5 d-none">
+                  <span class="text-gray">No suggested jump to results</span>
+                </li>
+              </ul>
+
+              <ul id="jump-to-results" class="js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+                <li class="d-flex flex-justify-center flex-items-center p-0 f5">
+                  <img src="octocat-spinner-128.gif" alt="Octocat Spinner Icon" class="m-2" width="28">
+                </li>
+              </ul>
+            </div>
+      </label>
+</form>  </div>
+</div>
+
+            </div>
+
+          <ul class="d-flex pl-2 flex-items-center text-bold list-style-none" role="navigation">
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g p" data-ga-click="Header, click, Nav menu - item:pulls context:user" aria-label="Pull requests you created" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls" href="https://github.com/pulls">
+                Pull requests
+</a>            </li>
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-hotkey="g i" data-ga-click="Header, click, Nav menu - item:issues context:user" aria-label="Issues you created" data-selected-links="/issues /issues/assigned /issues/mentioned /issues" href="https://github.com/issues">
+                Issues
+</a>            </li>
+                <li>
+                  <a class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click="marketplace_click" data-octo-dimensions="location:nav_bar, group:" data-selected-links=" /marketplace" href="https://github.com/marketplace">
+                    Marketplace
+</a>                </li>
+            <li>
+              <a class="js-selected-navigation-item HeaderNavlink px-2" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href="https://github.com/explore">
+                Explore
+</a>            </li>
+          </ul>
+      </div>
+
+      <div class="d-flex">
+        
+<ul class="user-nav d-flex flex-items-center list-style-none" id="user-links">
+  <li class="dropdown">
+    <span class="d-inline-block  px-2">
+      
+    <a aria-label="You have unread notifications" class="notification-indicator tooltipped tooltipped-s  js-socket-channel js-notification-indicator" data-hotkey="g n" data-ga-click="Header, go to notifications, icon:unread" data-channel="notification-changed:12552758" href="https://github.com/notifications">
+        <span class="mail-status unread"></span>
+        <svg class="octicon octicon-bell" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13.99 11.991v1H0v-1l.73-.58c.769-.769.809-2.547 1.189-4.416.77-3.767 4.077-4.996 4.077-4.996 0-.55.45-1 .999-1 .55 0 1 .45 1 1 0 0 3.387 1.229 4.156 4.996.38 1.879.42 3.657 1.19 4.417l.659.58h-.01zM6.995 15.99c1.11 0 1.999-.89 1.999-1.999H4.996c0 1.11.89 1.999 1.999 1.999z"></path></svg>
+</a>
+    </span>
+  </li>
+
+  <li class="dropdown">
+    <details class="details-overlay details-reset js-dropdown-details d-flex px-2 flex-items-center">
+      <summary class="HeaderNavlink" aria-label="Create new…" data-ga-click="Header, create new, icon:add">
+        <svg class="octicon octicon-plus float-left mr-1 mt-1" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"></path></svg>
+        <span class="dropdown-caret mt-1"></span>
+      </summary>
+
+      <ul class="dropdown-menu dropdown-menu-sw">
+        
+<a class="dropdown-item" href="https://github.com/new" data-ga-click="Header, create new repository">
+  New repository
+</a>
+
+  <a class="dropdown-item" href="https://github.com/new/import" data-ga-click="Header, import a repository">
+    Import repository
+  </a>
+
+<a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, create new gist">
+  New gist
+</a>
+
+  <a class="dropdown-item" href="https://github.com/organizations/new" data-ga-click="Header, create new organization">
+    New organization
+  </a>
+
+
+
+  <div class="dropdown-divider"></div>
+  <div class="dropdown-header">
+    <span title="donnemartin/data-science-ipython-notebooks">This repository</span>
+  </div>
+    <a class="dropdown-item" href="https://github.com/donnemartin/data-science-ipython-notebooks/issues/new" data-ga-click="Header, create new issue">
+      New issue
+    </a>
+
+      </ul>
+    </details>
+  </li>
+
+  <li class="dropdown">
+
+    <details class="details-overlay details-reset js-dropdown-details d-flex pl-2 flex-items-center">
+      <summary class="HeaderNavlink name mt-1" aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar">
+        <img alt="@Chen-Zhihui" class="avatar float-left mr-1" src="12552758.png" width="20" height="20">
+        <span class="dropdown-caret"></span>
+      </summary>
+
+      <ul class="dropdown-menu dropdown-menu-sw">
+        <li class="dropdown-header header-nav-current-user css-truncate">
+          Signed in as <strong class="css-truncate-target">Chen-Zhihui</strong>
+        </li>
+
+        <li class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item" href="https://github.com/Chen-Zhihui" data-ga-click="Header, go to profile, text:your profile">
+          Your profile
+        </a></li>
+        <li><a class="dropdown-item" href="https://github.com/Chen-Zhihui?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">
+          Your stars
+        </a></li>
+          <li><a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, your gists, text:your gists">Your gists</a></li>
+
+        <li class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item" href="https://help.github.com/" data-ga-click="Header, go to help, text:help">
+          Help
+        </a></li>
+
+        <li><a class="dropdown-item" href="https://github.com/settings/profile" data-ga-click="Header, go to settings, icon:settings">
+          Settings
+        </a></li>
+
+        <li><!-- '"` --><!-- </textarea></xmp> --><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="s761J12Ns6NOdz4oVfDe0F98J2MJTwJX3Wesj10C4o8HPdy4Kou8iA8JMC0OrrEMsDFhLfTyOAFmrV7+FAUbsA==" type="hidden">
+          <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
+            Sign out
+          </button>
+        </form></li>
+      </ul>
+    </details>
+  </li>
+</ul>
+
+
+
+        <!-- '"` --><!-- </textarea></xmp> --><form class="sr-only right-0" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="Z1P04Vqc10Uzfg3o4bAvivWlwZJNeMFqvM2wHYfXpGzT0J1+LZrYbnIAA+267kBWGuiH3LDF+zwHB0JsztBdUw==" type="hidden">
+          <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
+            Sign out
+          </button>
+</form>      </div>
+    </div>
+  </div>
+</header>
+
+      
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+</div>
+
+
+
+  <div role="main" class="application-main ">
+        <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <div id="js-repo-pjax-container" data-pjax-container="">
+      
+
+
+
+
+
+  <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav  ">
+    <div class="repohead-details-container clearfix container">
+
+      <ul class="pagehead-actions">
+  <li>
+        <!-- '"` --><!-- </textarea></xmp> --><form data-autosubmit="true" data-remote="true" class="js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="mu1EDZmsBWsqMbRIp1C9jAcAQonmLckRaHtE6Oc4Iaku3LMdnO7b7MIgrp8XQILx54SEknuib5G7tShX0PfUlA==" type="hidden">      <input name="repository_id" id="repository_id" value="29749635" class="form-control" type="hidden">
+
+        <div class="select-menu js-menu-container js-select-menu">
+          <a href="https://github.com/donnemartin/data-science-ipython-notebooks/subscription" class="btn btn-sm btn-with-count select-menu-button js-menu-target" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Toggle repository notifications menu" data-ga-click="Repository, click Watch settings, action:files#disambiguate">
+            <span class="js-select-button">
+                <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                Unwatch
+            </span>
+          </a>
+          <a class="social-count js-social-count" href="https://github.com/donnemartin/data-science-ipython-notebooks/watchers" aria-label="1243 users are watching this repository">
+            1,243
+          </a>
+
+        <div class="select-menu-modal-holder">
+          <div class="select-menu-modal subscription-menu-modal js-menu-content">
+            <div class="select-menu-header js-navigation-enable" tabindex="-1">
+              <svg class="octicon octicon-x js-menu-close" role="img" aria-label="Close" viewBox="0 0 12 16" version="1.1" width="12" height="16"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+              <span class="select-menu-title">Notifications</span>
+            </div>
+
+              <div class="select-menu-list js-navigation-container" role="menu">
+
+                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_included" value="included" type="radio">
+                    <span class="select-menu-item-heading">Not watching</span>
+                    <span class="description">Be notified when participating or @mentioned.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                      Watch
+                    </span>
+                  </div>
+                </div>
+
+                <div class="select-menu-item js-navigation-item selected" role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_subscribed" value="subscribed" checked="checked" type="radio">
+                    <span class="select-menu-item-heading">Watching</span>
+                    <span class="description">Be notified of all conversations.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-eye" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                        Unwatch
+                    </span>
+                  </div>
+                </div>
+
+                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
+                  <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+                  <div class="select-menu-item-text">
+                    <input name="do" id="do_ignore" value="ignore" type="radio">
+                    <span class="select-menu-item-heading">Ignoring</span>
+                    <span class="description">Never be notified.</span>
+                    <span class="js-select-button-text hidden-select-button-text">
+                      <svg class="octicon octicon-mute" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.81v10.38c0 .67-.81 1-1.28.53L3 10H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2l3.72-3.72C7.19 1.81 8 2.14 8 2.81zm7.53 3.22l-1.06-1.06-1.97 1.97-1.97-1.97-1.06 1.06L11.44 8 9.47 9.97l1.06 1.06 1.97-1.97 1.97 1.97 1.06-1.06L13.56 8l1.97-1.97z"></path></svg>
+                        Stop ignoring
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+</form>
+  </li>
+
+  <li>
+    
+  <div class="js-toggler-container js-social-container starring-container ">
+    <!-- '"` --><!-- </textarea></xmp> --><form class="starred js-social-form" action="/donnemartin/data-science-ipython-notebooks/unstar" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="1d4GmPVFUQgtK5Oo3KrvGHSbtuw+00XlMWz/IQiXQ5pjt2VuYLu6UjjpnModUrn8BrvazA4xGVjyOa4mCPr0Wg==" type="hidden">
+      <input name="context" value="repository" type="hidden">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar donnemartin/data-science-ipython-notebooks" data-ga-click="Repository, click unstar button, action:files#disambiguate; text:Unstar">
+        <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+        Unstar
+      </button>
+        <a class="social-count js-social-count" href="https://github.com/donnemartin/data-science-ipython-notebooks/stargazers" aria-label="12901 users starred this repository">
+          12,901
+        </a>
+</form>
+    <!-- '"` --><!-- </textarea></xmp> --><form class="unstarred js-social-form" action="/donnemartin/data-science-ipython-notebooks/star" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="HJ1xRlbCD/qV72GSi3zTn03G255xY6rTYQGdu4jBwIMbwfREgEUL6IXLA4XnCXBAiE0tI1Oj6WB1KCb9Bg+TmA==" type="hidden">
+      <input name="context" value="repository" type="hidden">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Star this repository" title="Star donnemartin/data-science-ipython-notebooks" data-ga-click="Repository, click star button, action:files#disambiguate; text:Star">
+        <svg class="octicon octicon-star" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+        Star
+      </button>
+        <a class="social-count js-social-count" href="https://github.com/donnemartin/data-science-ipython-notebooks/stargazers" aria-label="12901 users starred this repository">
+          12,901
+        </a>
+</form>  </div>
+
+  </li>
+
+  <li>
+          <details class="details-reset details-overlay details-overlay-dark d-inline-block float-left" data-deferred-details-content-url="/donnemartin/data-science-ipython-notebooks/fork?fragment=1">
+            <summary class="btn btn-sm btn-with-count" title="Fork your own copy of donnemartin/data-science-ipython-notebooks to your account" data-ga-click="Repository, show fork modal, action:files#disambiguate; text:Fork">
+              Fork
+            </summary>
+            <details-dialog class="anim-fade-in fast Box Box--overlay d-flex flex-column">
+              <div class="Box-header">
+                <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
+                  <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+                </button>
+                <h3 class="Box-title">Where should we fork this repository?</h3>
+              </div>
+              <div class="Box-body overflow-auto text-center">
+                <include-fragment>
+                  <div class="octocat-spinner my-3" aria-label="Loading..."></div>
+                  <p class="f5 text-gray">If this dialog fails to load, you can visit <a href="https://github.com/donnemartin/data-science-ipython-notebooks/fork">the fork page</a> directly.</p>
+                </include-fragment>
+              </div>
+            </details-dialog>
+          </details>
+
+    <a href="https://github.com/donnemartin/data-science-ipython-notebooks/network" class="social-count" aria-label="3738 users forked this repository">
+      3,738
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+  <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" href="https://github.com/donnemartin">donnemartin</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="https://github.com/donnemartin/data-science-ipython-notebooks">data-science-ipython-notebooks</a></strong>
+
+</h1>
+
+    </div>
+    
+<nav class="reponav js-repo-nav js-sidenav-container-pjax container" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" data-pjax="#js-repo-pjax-container">
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /donnemartin/data-science-ipython-notebooks" href="https://github.com/donnemartin/data-science-ipython-notebooks">
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /donnemartin/data-science-ipython-notebooks/issues" href="https://github.com/donnemartin/data-science-ipython-notebooks/issues">
+        <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+        <span itemprop="name">Issues</span>
+        <span class="Counter">3</span>
+        <meta itemprop="position" content="2">
+</a>    </span>
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /donnemartin/data-science-ipython-notebooks/pulls" href="https://github.com/donnemartin/data-science-ipython-notebooks/pulls">
+      <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">1</span>
+      <meta itemprop="position" content="3">
+</a>  </span>
+
+    <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /donnemartin/data-science-ipython-notebooks/projects" href="https://github.com/donnemartin/data-science-ipython-notebooks/projects">
+      <svg class="octicon octicon-project" viewBox="0 0 15 16" version="1.1" width="15" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      Projects
+      <span class="Counter">0</span>
+</a>
+    <a class="js-selected-navigation-item reponav-item" data-hotkey="g w" data-selected-links="repo_wiki /donnemartin/data-science-ipython-notebooks/wiki" href="https://github.com/donnemartin/data-science-ipython-notebooks/wiki">
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+      Wiki
+</a>
+
+  <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse /donnemartin/data-science-ipython-notebooks/pulse" href="https://github.com/donnemartin/data-science-ipython-notebooks/pulse">
+    <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path></svg>
+    Insights
+</a>
+
+</nav>
+
+
+  </div>
+
+<div class="container new-discussion-timeline experiment-repo-nav  ">
+  <div class="repository-content ">
+
+    
+  
+
+  <div class="js-repo-meta-container">
+  <div class="repository-meta mb-0  js-repo-meta-edit js-details-container ">
+    <div class="repository-meta-content col-11 mb-1">
+          <span class="col-11 text-gray-dark mr-2" itemprop="about">
+            Data science Python notebooks: Deep learning (TensorFlow, 
+Theano, Caffe, Keras), scikit-learn, Kaggle, big data (Spark, Hadoop 
+MapReduce, HDFS), matplotlib, pandas, NumPy, SciPy, Python essentials, 
+AWS, and various command lines.
+          </span>
+    </div>
+
+  </div>
+
+    <div class="mb-3 repository-topics-container js-repository-topics-container js-details-container">
+      <div id="topics-list-container" data-url="/donnemartin/data-science-ipython-notebooks/settings/topics">
+          <div class="list-topics-container f6 mt-1">
+      <a href="https://github.com/topics/python" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:python">
+        python
+      </a>
+      <a href="https://github.com/topics/machine-learning" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:machine-learning">
+        machine-learning
+      </a>
+      <a href="https://github.com/topics/deep-learning" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:deep-learning">
+        deep-learning
+      </a>
+      <a href="https://github.com/topics/data-science" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:data-science">
+        data-science
+      </a>
+      <a href="https://github.com/topics/big-data" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:big-data">
+        big-data
+      </a>
+      <a href="https://github.com/topics/aws" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:aws">
+        aws
+      </a>
+      <a href="https://github.com/topics/tensorflow" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:tensorflow">
+        tensorflow
+      </a>
+      <a href="https://github.com/topics/theano" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:theano">
+        theano
+      </a>
+      <a href="https://github.com/topics/caffe" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:caffe">
+        caffe
+      </a>
+      <a href="https://github.com/topics/scikit-learn" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:scikit-learn">
+        scikit-learn
+      </a>
+      <a href="https://github.com/topics/kaggle" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:kaggle">
+        kaggle
+      </a>
+      <a href="https://github.com/topics/spark" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:spark">
+        spark
+      </a>
+      <a href="https://github.com/topics/mapreduce" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:mapreduce">
+        mapreduce
+      </a>
+      <a href="https://github.com/topics/hadoop" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:hadoop">
+        hadoop
+      </a>
+      <a href="https://github.com/topics/matplotlib" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:matplotlib">
+        matplotlib
+      </a>
+      <a href="https://github.com/topics/pandas" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:pandas">
+        pandas
+      </a>
+      <a href="https://github.com/topics/numpy" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:numpy">
+        numpy
+      </a>
+      <a href="https://github.com/topics/scipy" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:scipy">
+        scipy
+      </a>
+      <a href="https://github.com/topics/keras" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:keras">
+        keras
+      </a>
+  </div>
+
+
+      </div>
+
+    </div>
+</div>
+
+
+
+  <div class="overall-summary overall-summary-bottomless">
+    <div class="stats-switcher-viewport js-stats-switcher-viewport">
+      <div class="stats-switcher-wrapper">
+      <ul class="numbers-summary">
+        <li class="commits">
+          <a data-pjax="" href="https://github.com/donnemartin/data-science-ipython-notebooks/commits/master">
+              <svg class="octicon octicon-history" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z"></path></svg>
+              <span class="num text-emphasized">
+                541
+              </span>
+              commits
+          </a>
+        </li>
+        <li>
+          <a data-pjax="" href="https://github.com/donnemartin/data-science-ipython-notebooks/branches">
+            <svg class="octicon octicon-git-branch" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 0 0-1-3.72C.88 1 0 1.89 0 3a2 2 0 0 0 1 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+            <span class="num text-emphasized">
+              2
+            </span>
+            branches
+          </a>
+        </li>
+
+        <li>
+          <a href="https://github.com/donnemartin/data-science-ipython-notebooks/releases">
+            <svg class="octicon octicon-tag" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.685 1.72a2.49 2.49 0 0 0-1.76-.726H3.48A2.5 2.5 0 0 0 .994 3.48v2.456c0 .656.269 1.292.726 1.76l6.024 6.024a.99.99 0 0 0 1.402 0l4.563-4.563a.99.99 0 0 0 0-1.402L7.685 1.72zM2.366 7.048A1.54 1.54 0 0 1 1.9 5.925V3.48c0-.874.716-1.58 1.58-1.58h2.456c.418 0 .825.159 1.123.467l6.104 6.094-4.702 4.702-6.094-6.114zm.626-4.066h1.989v1.989H2.982V2.982h.01z"></path></svg>
+            <span class="num text-emphasized">
+              0
+            </span>
+            releases
+          </a>
+        </li>
+
+        <li>
+            <a href="https://github.com/donnemartin/data-science-ipython-notebooks/graphs/contributors">
+  <svg class="octicon octicon-organization" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4z"></path></svg>
+    <span class="num text-emphasized">
+      9
+    </span>
+    contributors
+</a>
+
+        </li>
+      </ul>
+
+        <div class="repository-lang-stats">
+          <ol class="repository-lang-stats-numbers">
+            <li>
+                <a href="https://github.com/donnemartin/data-science-ipython-notebooks/search?l=python" data-ga-click="Repository, language stats search click, location:repo overview">
+                  <span class="color-block language-color" style="background-color:#3572A5;"></span>
+                  <span class="lang">Python</span>
+                  <span class="percent">100.0%</span>
+                </a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+      <span class="language-color" aria-label="Python 100.0%" style="width:100.0%; background-color:#3572A5;" itemprop="keywords">Python</span>
+    </div>
+
+
+
+    <include-fragment src="/donnemartin/data-science-ipython-notebooks/show_partial?partial=tree%2Frecently_touched_branches_list"></include-fragment>
+
+  <div class="file-navigation in-mid-page d-flex flex-items-start">
+  
+<div class="select-menu branch-select-menu js-menu-container js-select-menu float-left">
+  <button class=" btn btn-sm select-menu-button js-menu-target css-truncate" data-hotkey="w" type="button" aria-label="Switch branches or tags" aria-expanded="false" aria-haspopup="true">
+      <i>Branch:</i>
+      <span class="js-select-button css-truncate-target">master</span>
+  </button>
+
+  <div class="select-menu-modal-holder js-menu-content js-navigation-container" data-pjax="">
+
+    <div class="select-menu-modal">
+      <div class="select-menu-header">
+        <svg class="octicon octicon-x js-menu-close" role="img" aria-label="Close" viewBox="0 0 12 16" version="1.1" width="12" height="16"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+        <span class="select-menu-title">Switch branches/tags</span>
+      </div>
+
+      <div class="select-menu-filters">
+        <div class="select-menu-text-filter">
+          <input aria-label="Filter branches/tags" id="context-commitish-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter branches/tags" type="text">
+        </div>
+        <div class="select-menu-tabs">
+          <ul>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="branches" data-filter-placeholder="Filter branches/tags" class="js-select-menu-tab" role="tab">Branches</a>
+            </li>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="tags" data-filter-placeholder="Find a tag…" class="js-select-menu-tab" role="tab">Tags</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="branches" role="menu">
+
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/develop" data-name="develop" data-skip-pjax="true" rel="nofollow">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text">
+                develop
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open selected" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master" data-name="master" data-skip-pjax="true" rel="nofollow">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text">
+                master
+              </span>
+            </a>
+        </div>
+
+          <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tags">
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+        </div>
+
+        <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+        <a href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/new/master" class="btn btn-sm new-pull-request-btn" data-pjax="" data-ga-click="Repository, new pull request, location:repo overview">
+          New pull request
+        </a>
+
+  <div class="breadcrumb flex-auto">
+    
+  </div>
+
+  <div class="BtnGroup">
+      
+  <!-- '"` --><!-- </textarea></xmp> --><form class="BtnGroup-form" action="/donnemartin/data-science-ipython-notebooks/new/master" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="NUkAbuPDPOOWCG8sTqprbFg/8ULZWBYbIc7WQHIl40ZekDE9yn9c0WPEfLRfsf0bPLVt7rUBmihXX1lPRu3f9Q==" type="hidden">
+    <button class="btn btn-sm BtnGroup-item" type="submit" data-disable-with="Creating file…">
+      Create new file
+    </button>
+</form>
+
+      
+  <a href="https://github.com/donnemartin/data-science-ipython-notebooks/upload/master" class="btn btn-sm BtnGroup-item">
+    Upload files
+  </a>
+
+
+    <a href="https://github.com/donnemartin/data-science-ipython-notebooks/find/master" class="btn btn-sm empty-icon float-right BtnGroup-item" data-pjax="" data-hotkey="t" data-ga-click="Repository, find file, location:repo overview">
+      Find file
+    </a>
+  </div>
+  
+
+    <details class="get-repo-select-menu js-get-repo-select-menu position-relative details-overlay details-reset">
+  <summary class="btn btn-sm btn-primary">
+    Clone or download
+    <span class="dropdown-caret"></span>
+  </summary>
+  <div class="position-relative">
+    <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container  js-get-repo-modal">
+
+      <div class="get-repo-modal-options">
+          <div class="clone-options https-clone-options">
+              <!-- '"` --><!-- </textarea></xmp> --><form data-remote="true" action="/users/set_protocol?protocol_selector=ssh&amp;protocol_type=clone" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="XpvHDQ0DFD+vtMRl0/VLM6srgpA79YA37hhOlS7frbWpilGoEu1PBj5ppyT9QRAyqrUOgosQCWRw4ioJjzdvzA==" type="hidden"><button type="submit" class="btn-link btn-change-protocol js-toggler-target float-right">Use SSH</button></form>
+
+            <h4 class="mb-1">
+              Clone with HTTPS
+              <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
+                <svg class="octicon octicon-question" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+              </a>
+            </h4>
+            <p class="mb-2 get-repo-decription-text">
+              Use Git or checkout with SVN using the web URL.
+            </p>
+
+            <div class="input-group">
+  <input class="form-control input-monospace input-sm js-url-field" value="https://github.com/donnemartin/data-science-ipython-notebooks.git" aria-label="Clone this repository at https://github.com/donnemartin/data-science-ipython-notebooks.git" readonly="readonly" type="text">
+  <div class="input-group-button">
+    <clipboard-copy value="https://github.com/donnemartin/data-science-ipython-notebooks.git" aria-label="Copy to clipboard" class="btn btn-sm">
+      <svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
+    </clipboard-copy>
+  </div>
+</div>
+
+          </div>
+
+          <div class="clone-options ssh-clone-options">
+              <!-- '"` --><!-- </textarea></xmp> --><form data-remote="true" action="/users/set_protocol?protocol_selector=https&amp;protocol_type=clone" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="mXX6NcISHADz88gGTzrT59CJSAR1ZrrMqaooZcdk+UtuZGyQ3fxHOWIuq0dhjojm0RfEFsWDM583UEz5Zow7Mg==" type="hidden"><button type="submit" class="btn-link btn-change-protocol js-toggler-target float-right">Use HTTPS</button></form>
+
+              <h4 class="mb-1">
+                Clone with SSH
+                <a class="muted-link" href="https://help.github.com/articles/which-remote-url-should-i-use" target="_blank" title="Which remote URL should I use?">
+                  <svg class="octicon octicon-question" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z"></path></svg>
+                </a>
+              </h4>
+              <p class="mb-2 get-repo-decription-text">
+                Use an SSH key and passphrase from account.
+              </p>
+
+              <div class="input-group">
+  <input class="form-control input-monospace input-sm js-url-field" value="git@github.com:donnemartin/data-science-ipython-notebooks.git" aria-label="Clone this repository at git@github.com:donnemartin/data-science-ipython-notebooks.git" readonly="readonly" type="text">
+  <div class="input-group-button">
+    <clipboard-copy value="git@github.com:donnemartin/data-science-ipython-notebooks.git" aria-label="Copy to clipboard" class="btn btn-sm">
+      <svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg>
+    </clipboard-copy>
+  </div>
+</div>
+
+          </div>
+        <div class="mt-2">
+          
+<a href="https://github.com/donnemartin/data-science-ipython-notebooks/archive/master.zip" class="btn btn-outline get-repo-btn
+" rel="nofollow" data-ga-click="Repository, download zip, location:repo overview">
+  Download ZIP
+</a>
+
+        </div>
+      </div>
+
+      <div class="js-modal-download-mac py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching GitHub Desktop<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://desktop.github.com/">download GitHub Desktop</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-windows py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching GitHub Desktop<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://desktop.github.com/">download GitHub Desktop</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-xcode py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching Xcode<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://developer.apple.com/xcode/">download Xcode</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+      <div class="js-modal-download-visual-studio py-2 px-3 d-none">
+        <h4 class="lh-condensed mb-3">Launching Visual Studio<span class="animated-ellipsis-container"><span class="animated-ellipsis">...</span></span></h4>
+        <p class="text-gray">If nothing happens, <a href="https://visualstudio.github.com/">download the GitHub extension for Visual Studio</a> and try again.</p>
+        <p><button class="btn-link js-get-repo-modal-download-back">Go back</button></p>
+      </div>
+
+    </div>
+  </div>
+</details>
+
+</div>
+
+
+  
+
+
+  <div class="commit-tease js-details-container Details d-flex">
+    
+<div class="AvatarStack flex-self-start AvatarStack--two">
+  <div class="AvatarStack-body" aria-label="tuanavu and donnemartin (non-author committer)">
+
+        <a class="avatar" data-skip-pjax="true" data-hovercard-user-id="6547031" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/tuanavu">
+          <img alt="@tuanavu" src="6547031.png" width="20" height="20">
+</a>
+        <a class="avatar" data-skip-pjax="true" data-hovercard-user-id="5458997" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/donnemartin">
+          <img alt="@donnemartin" src="5458997.png" width="20" height="20">
+</a>  </div>
+</div>
+
+    <div class="flex-auto f6 no-wrap mr-3">
+      
+      <a href="https://github.com/donnemartin/data-science-ipython-notebooks/commits?author=tuanavu" class="commit-author tooltipped tooltipped-s user-mention" aria-label="View all commits by tuanavu">tuanavu</a>
+
+
+   and   <a href="https://github.com/donnemartin/data-science-ipython-notebooks/commits?author=donnemartin" class="commit-author tooltipped tooltipped-s user-mention" aria-label="View all commits by donnemartin">donnemartin</a>
+
+  
+
+
+        <a data-pjax="true" title="Add tuanavu/tensorflow-basic-tutorials (#56)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/fdd2cf59ec589f952718e63ff96c04effffb3144">Add tuanavu/tensorflow-basic-tutorials (</a><a class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="305706373" data-permission-text="Issue title is private" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/56" href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/56">#56</a><a data-pjax="true" title="Add tuanavu/tensorflow-basic-tutorials (#56)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/fdd2cf59ec589f952718e63ff96c04effffb3144">)</a>
+
+    </div>
+    <div class="no-wrap">
+      Latest commit
+      <a class="commit-tease-sha" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/fdd2cf59ec589f952718e63ff96c04effffb3144" data-pjax="">
+        fdd2cf5
+      </a>
+      <span itemprop="dateModified"><relative-time datetime="2018-03-25T00:06:37Z">Mar 25, 2018</relative-time></span>
+    </div>
+  </div>
+
+
+
+<div class="file-wrap">
+
+  <a class="d-none js-permalink-shortcut" data-hotkey="y" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/fdd2cf59ec589f952718e63ff96c04effffb3144">Permalink</a>
+
+  <table class="files js-navigation-container js-active-navigation-container" data-pjax="">
+
+
+    <tbody>
+      <tr class="warning include-fragment-error">
+        <td class="icon"><svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></td>
+        <td class="content" colspan="3">Failed to load latest commit information.</td>
+      </tr>
+
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="analyses" id="c51060e8bc2b5ea44498bad2616e686b-321fa6a6875c8f84d594d5f8261348f677785487" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/analyses">analyses</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Added __init__.py" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/5f334641a1b0244679d92635c2d6d3b30b11ac50">Added __init__.py</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-08-18T11:04:55Z">Aug 18, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="aws" id="ac68bbf921d953d1cfab916cb6120864-0812405eb98519aa1738967541fcf5d9ebfe01da" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/aws">aws</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Fixed notebook author and license info no longer rendering properly on nbviewer." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/2690450e0f31d1c2bdd84b434105fd48a759f48f">Fixed notebook author and license info no longer rendering properly o…</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-11-01T11:44:00Z">Nov 1, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="commands" id="5f6bc08c46cee6f21bfcdd08aff6e8aa-214483e0089c4590b9ff16d34e5ce76a5defdf3a" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/commands">commands</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add Pelican commands." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/8bdf95f6a1c384d7a4e9f9a44647135515f0ce3d">Add Pelican commands.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2016-01-31T12:30:51Z">Jan 31, 2016</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="data" id="8d777f385d3dfec8815d20f7496026dc-b15b86a316e3dc56a91de902d9770b166c7d90fa" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/data">data</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Added Titanic random forest results csv file." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/27e54150adb76ab0251a1dad96ffa39c898168cf">Added Titanic random forest results csv file.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-06-13T14:55:07Z">Jun 13, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="deep-learning" id="a42f23b8437e743338693535cad5d061-795476adafa0b2a68a53564275beaa1f4d8d4695" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/deep-learning">deep-learning</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  
+<span aria-label="This commit closes issue #49." class="issue-keyword tooltipped tooltipped-se"><a data-pjax="true" title="Fix #49: Keras tutorial links (#52)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/565136cd4a1577a3c2e6722a80158d70bc4b19bf">Fix</a></span> <a href="https://github.com/donnemartin/data-science-ipython-notebooks/issues/49" class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="238030982" data-permission-text="Issue title is private" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/49">#49</a><a data-pjax="true" title="Fix #49: Keras tutorial links (#52)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/565136cd4a1577a3c2e6722a80158d70bc4b19bf">: Keras tutorial links (</a><a href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/52" class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="253090026" data-permission-text="Issue title is private" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/52">#52</a><a data-pjax="true" title="Fix #49: Keras tutorial links (#52)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/565136cd4a1577a3c2e6722a80158d70bc4b19bf">)</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-08-26T12:47:27Z">Aug 26, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="images" id="59b514174bffe4ae402b3d63aad79fe0-24ea4adce9bf51abed97fd56e26174aef41a86ef" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/images">images</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add Keras notebooks to README
+
+Linked from https://github.com/leriomaggio/deep-learning-keras-tensorflow" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/23b2f7bd7b37deb72b229c10c293e693dce4afd3">Add Keras notebooks to README</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-03-13T08:42:51Z">Mar 13, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="kaggle" id="b94fe3dc13862f7292183a015d4a87eb-dc6c5d4bf73f02c1d0cec03d2e868f0ed875e471" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/kaggle">kaggle</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Replaced `sort` with `sorted`
+
+`sort` throws an error, so replaced with `sorted` which solves the same purpose" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/176172101d0628ff19dbe9ef28538b3820aefd9f">Replaced `sort` with `sorted`</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2016-02-25T14:11:53Z">Feb 25, 2016</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="mapreduce" id="3e728f9f8c7091c82a799a675b96bd54-2c29d41ded5b52b22d2124dc52e6f9477262210d" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/mapreduce">mapreduce</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Fixed notebook author and license info no longer rendering properly on nbviewer." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/2690450e0f31d1c2bdd84b434105fd48a759f48f">Fixed notebook author and license info no longer rendering properly o…</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-11-01T11:44:00Z">Nov 1, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="matplotlib" id="f02113237a5a5fff03e34c9eeeb46640-296a351b8af688653a76d9441657295e563bfdae" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/matplotlib">matplotlib</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add new matplotlib notebooks
+
+Source: https://github.com/jakevdp/PythonDataScienceHandbook unmodified" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/1c34b4625828ee3f3c0f7d105dae4dc0eecbf986">Add new matplotlib notebooks</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-03-13T08:42:39Z">Mar 13, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="misc" id="bc957e26ff41470c556ee5d09e96880b-c721fd91cc45ff4c6b6793a0cb203d5f7f3328ef" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/misc">misc</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Clean up algorithmia pull request." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/cb8677dc54ffe367e9ed425bf7fa8c225087d48c">Clean up algorithmia pull request.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2016-01-24T11:53:49Z">Jan 24, 2016</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="numpy" id="2ea9510c37f7f89e4941ff75f62f21cb-7d212d7c8123f647a4544575036b0571f39739dd" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/numpy">numpy</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add new numpy notebooks
+
+Source: https://github.com/jakevdp/PythonDataScienceHandbook unmodified" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/d52331cd5a7b91d1d9de6d5d4cd5fb864c25d6be">Add new numpy notebooks</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-03-13T08:41:59Z">Mar 13, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="pandas" id="3a43b4f88325d94022c0efa9c2fa2f5a-9ed882e984fabb80edf3b457d3ab4e86510a39f4" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/pandas">pandas</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add new pandas notebooks
+
+Source: https://github.com/jakevdp/PythonDataScienceHandbook unmodified" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/233b1976602f5ca805b57d18b8ec4317bfe8ae71">Add new pandas notebooks</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-03-13T08:42:29Z">Mar 13, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="python-data" id="92418c2c3b8fa1cc1d491b8b7da4f487-01b2d59baf7a58cea36b1ba01a55e71debbab913" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/python-data">python-data</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Fixed notebook author and license info no longer rendering properly on nbviewer." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/2690450e0f31d1c2bdd84b434105fd48a759f48f">Fixed notebook author and license info no longer rendering properly o…</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-11-01T11:44:00Z">Nov 1, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="scikit-learn" id="3483ff058deda3dad41fa7925fab2dac-181bc848723bec224890548134e8bd9676d56db8" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/scikit-learn">scikit-learn</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Remove *.py~" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/05e2cd4cf957c0335958e702828d91e78a00b267">Remove *.py~</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-09-01T14:21:37Z">Sep 1, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="scipy" id="10ea590d34cd351cff2ce4d34f754a02-89e476bc070daa4821d1ba8aff5c04e543593ef2" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/scipy">scipy</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Added to statistical inference section with scipy: hypothesis testing notebook." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/6a1a2aff7c4f70212f1b4ae1e200fff5b518d3db">Added to statistical inference section with scipy: hypothesis testing…</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-07-04T12:25:29Z">Jul 4, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file-directory" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="spark" id="98f11b7a7880169c3bd62a5a507b3965-8a8da330d0bb79e8f1de3255e69618fdd0fe15c3" href="https://github.com/donnemartin/data-science-ipython-notebooks/tree/master/spark">spark</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add note on DataFrame recomme^Cation over RDD" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/138cd1054eb55d036af3bcae0a476d5f0815953a">Add note on DataFrame recomme^Cation over RDD</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2016-02-21T11:21:59Z">Feb 21, 2016</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title=".gitattributes" id="fc723d30b02a4cca7a534518111c1a66-f4c7e5f018f631dc0da4de60c67faad93903dafe" href="https://github.com/donnemartin/data-science-ipython-notebooks/blob/master/.gitattributes">.gitattributes</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add .gitattributes." class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/e73bdd8c49014dd83131ff516bb278b6ba1fe820">Add .gitattributes.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-12-16T12:02:24Z">Dec 16, 2015</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title=".gitignore" id="a084b794bc0759e7a6b77810e01874f2-943abb7cc6ad5c9492bf6a16786afbf0dd02f3a3" href="https://github.com/donnemartin/data-science-ipython-notebooks/blob/master/.gitignore">.gitignore</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Remove .DS_Store (#54)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/a876e346be6d2cbad3c4cc38b910c246bcdd437e">Remove .DS_Store (</a><a href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/54" class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="277963517" data-permission-text="Issue title is private" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/54">#54</a><a data-pjax="true" title="Remove .DS_Store (#54)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/a876e346be6d2cbad3c4cc38b910c246bcdd437e">)</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2018-01-15T02:11:37Z">Jan 15, 2018</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="LICENSE" id="9879d6db96fd29134fc802214163b95a-36ad24f8c3395c907803b5a55de7cbc56d2c38f5" itemprop="license" href="https://github.com/donnemartin/data-science-ipython-notebooks/blob/master/LICENSE">LICENSE</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Fix LICENSE line wrapping (#47)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/e0195b4a46f935ba2b253855d19ce48a1dfe759d">Fix LICENSE line wrapping (</a><a href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/47" class="issue-link js-issue-link" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/47" data-id="228186227" data-error-text="Failed to load issue title" data-permission-text="Issue title is private">#47</a><a data-pjax="true" title="Fix LICENSE line wrapping (#47)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/e0195b4a46f935ba2b253855d19ce48a1dfe759d">)</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2017-05-12T04:41:23Z">May 12, 2017</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="README.md" id="04c6e90faac2675aa89e2176d2eec7d8-9441764013adac7d172ce8fdf4e15568b618bd40" href="https://github.com/donnemartin/data-science-ipython-notebooks/blob/master/README.md">README.md</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Add tuanavu/tensorflow-basic-tutorials (#56)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/fdd2cf59ec589f952718e63ff96c04effffb3144">Add tuanavu/tensorflow-basic-tutorials (</a><a class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="305706373" data-permission-text="Issue title is private" data-url="https://github.com/donnemartin/data-science-ipython-notebooks/issues/56" href="https://github.com/donnemartin/data-science-ipython-notebooks/pull/56">#56</a><a data-pjax="true" title="Add tuanavu/tensorflow-basic-tutorials (#56)" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/fdd2cf59ec589f952718e63ff96c04effffb3144">)</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2018-03-25T00:06:37Z">Mar 25, 2018</time-ago></span>
+          </td>
+        </tr>
+        <tr class="js-navigation-item">
+          <td class="icon">
+            <svg class="octicon octicon-file" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+            <img class="spinner" alt="" src="octocat-spinner-32.gif" width="16" height="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a class="js-navigation-open" title="__init__.py" id="743b1adbf37db12e16e01ef62a6f7d72-e69de29bb2d1d6434b8b29ae775ad8c2e48c5391" href="https://github.com/donnemartin/data-science-ipython-notebooks/blob/master/__init__.py">__init__.py</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+                  <a data-pjax="true" title="Added __init__.py files" class="message" href="https://github.com/donnemartin/data-science-ipython-notebooks/commit/3c272027e1719b9da3c79f182b36e80d8deeaaad">Added __init__.py files</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time-ago datetime="2015-01-23T21:08:32Z">Jan 24, 2015</time-ago></span>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+
+  <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+    <h3>
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+      README.md
+    </h3>
+
+      <article class="markdown-body entry-content" itemprop="text"><br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/README_1200x800.gif"><img src="README_1200x800.gif" style="max-width:100%;"></a>
+</p>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/coversmall_alt.png"><img src="coversmall_alt.png" style="max-width:100%;"></a>
+  <br>
+</p>
+<h1><a id="user-content-data-science-ipython-notebooks" class="anchor" aria-hidden="true" href="#data-science-ipython-notebooks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>data-science-ipython-notebooks</h1>
+<h2><a id="user-content-index" class="anchor" aria-hidden="true" href="#index"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Index</h2>
+<ul>
+<li><a href="#deep-learning">deep-learning</a>
+<ul>
+<li><a href="#tensor-flow-tutorials">tensorflow</a></li>
+<li><a href="#theano-tutorials">theano</a></li>
+<li><a href="#keras-tutorials">keras</a></li>
+<li><a href="#deep-learning-misc">caffe</a></li>
+</ul>
+</li>
+<li><a href="#scikit-learn">scikit-learn</a></li>
+<li><a href="#statistical-inference-scipy">statistical-inference-scipy</a></li>
+<li><a href="#pandas">pandas</a></li>
+<li><a href="#matplotlib">matplotlib</a></li>
+<li><a href="#numpy">numpy</a></li>
+<li><a href="#python-data">python-data</a></li>
+<li><a href="#kaggle-and-business-analyses">kaggle-and-business-analyses</a></li>
+<li><a href="#spark">spark</a></li>
+<li><a href="#mapreduce-python">mapreduce-python</a></li>
+<li><a href="#aws">amazon web services</a></li>
+<li><a href="#commands">command lines</a></li>
+<li><a href="#misc">misc</a></li>
+<li><a href="#notebook-installation">notebook-installation</a></li>
+<li><a href="#credits">credits</a></li>
+<li><a href="#contributing">contributing</a></li>
+<li><a href="#contact-info">contact-info</a></li>
+<li><a href="#license">license</a></li>
+</ul>
+<br>
+<p align="center">
+  <a target="_blank" href="https://camo.githubusercontent.com/ee94aabdb3e1fc49fad71ea1ac9801c82095001d/687474703a2f2f692e696d6775722e636f6d2f5a684b58724b5a2e706e67"><img src="687474703a2f2f692e696d6775722e636f6d2f5a684b58724b5a2e706e67.png" data-canonical-src="http://i.imgur.com/ZhKXrKZ.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-deep-learning" class="anchor" aria-hidden="true" href="#deep-learning"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>deep-learning</h2>
+<p>IPython Notebook(s) demonstrating deep learning functionality.</p>
+<br>
+<p align="center">
+  <a target="_blank" href="https://avatars0.githubusercontent.com/u/15658638?v=3&amp;s=100"><img src="15658638.png" style="max-width:100%;"></a>
+</p>
+<h3><a id="user-content-tensor-flow-tutorials" class="anchor" aria-hidden="true" href="#tensor-flow-tutorials"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>tensor-flow-tutorials</h3>
+<p>Additional TensorFlow tutorials:</p>
+<ul>
+<li><a href="https://github.com/pkmital/tensorflow_tutorials">pkmital/tensorflow_tutorials</a></li>
+<li><a href="https://github.com/nlintz/TensorFlow-Tutorials">nlintz/TensorFlow-Tutorials</a></li>
+<li><a href="https://github.com/alrojo/tensorflow-tutorial">alrojo/tensorflow-tutorial</a></li>
+<li><a href="https://github.com/BinRoot/TensorFlow-Book">BinRoot/TensorFlow-Book</a></li>
+<li><a href="https://github.com/tuanavu/tensorflow-basic-tutorials">tuanavu/tensorflow-basic-tutorials</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/1_intro/basic_operations.ipynb" rel="nofollow">tsf-basics</a></td>
+<td>Learn basic operations in TensorFlow, a library for various kinds of perceptual and language understanding tasks from Google.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/2_basic_classifiers/linear_regression.ipynb" rel="nofollow">tsf-linear</a></td>
+<td>Implement linear regression in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/2_basic_classifiers/logistic_regression.ipynb" rel="nofollow">tsf-logistic</a></td>
+<td>Implement logistic regression in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/2_basic_classifiers/nearest_neighbor.ipynb" rel="nofollow">tsf-nn</a></td>
+<td>Implement nearest neighboars in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/3_neural_networks/alexnet.ipynb" rel="nofollow">tsf-alex</a></td>
+<td>Implement AlexNet in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/3_neural_networks/convolutional_network.ipynb" rel="nofollow">tsf-cnn</a></td>
+<td>Implement convolutional neural networks in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/3_neural_networks/multilayer_perceptron.ipynb" rel="nofollow">tsf-mlp</a></td>
+<td>Implement multilayer perceptrons in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/3_neural_networks/recurrent_network.ipynb" rel="nofollow">tsf-rnn</a></td>
+<td>Implement recurrent neural networks in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/4_multi_gpu/multigpu_basics.ipynb" rel="nofollow">tsf-gpu</a></td>
+<td>Learn about basic multi-GPU computation in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/5_ui/graph_visualization.ipynb" rel="nofollow">tsf-gviz</a></td>
+<td>Learn about graph visualization in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-examples/notebooks/5_ui/loss_visualization.ipynb" rel="nofollow">tsf-lviz</a></td>
+<td>Learn about loss visualization in TensorFlow.</td>
+</tr></tbody></table>
+<h3><a id="user-content-tensor-flow-exercises" class="anchor" aria-hidden="true" href="#tensor-flow-exercises"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>tensor-flow-exercises</h3>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/1_notmnist.ipynb" rel="nofollow">tsf-not-mnist</a></td>
+<td>Learn simple data curation by creating a pickle with formatted datasets for training, development and testing in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/2_fullyconnected.ipynb" rel="nofollow">tsf-fully-connected</a></td>
+<td>Progressively train deeper and more accurate models using logistic regression and neural networks in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/3_regularization.ipynb" rel="nofollow">tsf-regularization</a></td>
+<td>Explore regularization techniques by training fully connected networks to classify notMNIST characters in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/4_convolutions.ipynb" rel="nofollow">tsf-convolutions</a></td>
+<td>Create convolutional neural networks in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/5_word2vec.ipynb" rel="nofollow">tsf-word2vec</a></td>
+<td>Train a skip-gram model over Text8 data in TensorFlow.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/tensor-flow-exercises/6_lstm.ipynb" rel="nofollow">tsf-lstm</a></td>
+<td>Train a LSTM character model over Text8 data in TensorFlow.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://camo.githubusercontent.com/f3f9ed69fc2544e3d53d866e01783a0f4facd3d8/687474703a2f2f7777772e646565706c6561726e696e672e6e65742f736f6674776172652f746865616e6f2f5f7374617469632f746865616e6f5f6c6f676f5f616c6c626c75655f3230307834362e706e67"><img src="687474703a2f2f7777772e646565706c6561726e696e672e6e65742f736f.png" data-canonical-src="http://www.deeplearning.net/software/theano/_static/theano_logo_allblue_200x46.png" style="max-width:100%;"></a>
+</p>
+<h3><a id="user-content-theano-tutorials" class="anchor" aria-hidden="true" href="#theano-tutorials"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>theano-tutorials</h3>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/theano-tutorial/intro_theano/intro_theano.ipynb" rel="nofollow">theano-intro</a></td>
+<td>Intro to Theano, which allows you to define, optimize, and evaluate 
+mathematical expressions involving multi-dimensional arrays efficiently.
+ It can use GPUs and perform efficient symbolic differentiation.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/theano-tutorial/scan_tutorial/scan_tutorial.ipynb" rel="nofollow">theano-scan</a></td>
+<td>Learn scans, a mechanism to perform loops in a Theano graph.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/theano-tutorial/intro_theano/logistic_regression.ipynb" rel="nofollow">theano-logistic</a></td>
+<td>Implement logistic regression in Theano.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/theano-tutorial/rnn_tutorial/simple_rnn.ipynb" rel="nofollow">theano-rnn</a></td>
+<td>Implement recurrent neural networks in Theano.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/theano-tutorial/theano_mlp/theano_mlp.ipynb" rel="nofollow">theano-mlp</a></td>
+<td>Implement multilayer perceptrons in Theano.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://camo.githubusercontent.com/46a7861f9fd3f8b141c64dd3d01145874bf3546e/687474703a2f2f692e696d6775722e636f6d2f4c3435513863322e6a7067"><img src="687474703a2f2f692e696d6775722e636f6d2f4c3435513863322e6a706.jpeg" data-canonical-src="http://i.imgur.com/L45Q8c2.jpg" style="max-width:100%;"></a>
+</p>
+<h3><a id="user-content-keras-tutorials" class="anchor" aria-hidden="true" href="#keras-tutorials"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>keras-tutorials</h3>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keras</td>
+<td>Keras is an open source neural network library written in Python. It
+ is capable of running on top of either Tensorflow or Theano.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/0.%20Preamble.ipynb" rel="nofollow">setup</a></td>
+<td>Learn about the tutorial goals and how to set up your Keras environment.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/1.1%20Introduction%20-%20Deep%20Learning%20and%20ANN.ipynb" rel="nofollow">intro-deep-learning-ann</a></td>
+<td>Get an intro to deep learning with Keras and Artificial Neural Networks (ANN).</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/1.2%20Introduction%20-%20Theano.ipynb" rel="nofollow">theano</a></td>
+<td>Learn about Theano by working with weights matrices and gradients.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/1.3%20Introduction%20-%20Keras.ipynb" rel="nofollow">keras-otto</a></td>
+<td>Learn about Keras by looking at the Kaggle Otto challenge.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/1.4%20%28Extra%29%20A%20Simple%20Implementation%20of%20ANN%20for%20MNIST.ipynb" rel="nofollow">ann-mnist</a></td>
+<td>Review a simple implementation of ANN for MNIST using Keras.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/2.1%20Supervised%20Learning%20-%20ConvNets.ipynb" rel="nofollow">conv-nets</a></td>
+<td>Learn about Convolutional Neural Networks (CNNs) with Keras.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/2.2.1%20Supervised%20Learning%20-%20ConvNet%20HandsOn%20Part%20I.ipynb" rel="nofollow">conv-net-1</a></td>
+<td>Recognize handwritten digits from MNIST using Keras - Part 1.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/2.2.2%20Supervised%20Learning%20-%20ConvNet%20HandsOn%20Part%20II.ipynb" rel="nofollow">conv-net-2</a></td>
+<td>Recognize handwritten digits from MNIST using Keras - Part 2.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/2.3%20Supervised%20Learning%20-%20Famous%20Models%20with%20Keras.ipynb" rel="nofollow">keras-models</a></td>
+<td>Use pre-trained models such as VGG16, VGG19, ResNet50, and Inception v3 with Keras.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/3.1%20Unsupervised%20Learning%20-%20AutoEncoders%20and%20Embeddings.ipynb" rel="nofollow">auto-encoders</a></td>
+<td>Learn about Autoencoders with Keras.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/3.2%20RNN%20and%20LSTM.ipynb" rel="nofollow">rnn-lstm</a></td>
+<td>Learn about Recurrent Neural Networks (RNNs) with Keras.</td>
+</tr>
+<tr>
+<td><a href="https://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/keras-tutorial/3.3%20%28Extra%29%20LSTM%20for%20Sentence%20Generation.ipynb" rel="nofollow">lstm-sentence-gen</a></td>
+<td>Learn about RNNs using Long Short Term Memory (LSTM) networks with Keras.</td>
+</tr></tbody></table>
+<h3><a id="user-content-deep-learning-misc" class="anchor" aria-hidden="true" href="#deep-learning-misc"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>deep-learning-misc</h3>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/deep-learning/deep-dream/dream.ipynb" rel="nofollow">deep-dream</a></td>
+<td>Caffe-based computer vision program which uses a convolutional neural network to find and enhance patterns in images.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/scikitlearn.png"><img src="scikitlearn.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-scikit-learn" class="anchor" aria-hidden="true" href="#scikit-learn"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scikit-learn</h2>
+<p>IPython Notebook(s) demonstrating scikit-learn functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-intro.ipynb" rel="nofollow">intro</a></td>
+<td>Intro notebook to scikit-learn.  Scikit-learn adds Python support 
+for large, multi-dimensional arrays and matrices, along with a large 
+library of high-level mathematical functions to operate on these arrays.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-intro.ipynb#K-Nearest-Neighbors-Classifier" rel="nofollow">knn</a></td>
+<td>Implement k-nearest neighbors in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-linear-reg.ipynb" rel="nofollow">linear-reg</a></td>
+<td>Implement linear regression in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-svm.ipynb" rel="nofollow">svm</a></td>
+<td>Implement support vector machine classifiers with and without kernels in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-random-forest.ipynb" rel="nofollow">random-forest</a></td>
+<td>Implement random forest classifiers and regressors in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-k-means.ipynb" rel="nofollow">k-means</a></td>
+<td>Implement k-means clustering in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-pca.ipynb" rel="nofollow">pca</a></td>
+<td>Implement principal component analysis in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-gmm.ipynb" rel="nofollow">gmm</a></td>
+<td>Implement Gaussian mixture models in scikit-learn.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scikit-learn/scikit-learn-validation.ipynb" rel="nofollow">validation</a></td>
+<td>Implement validation and model selection in scikit-learn.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/scipy.png"><img src="scipy.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-statistical-inference-scipy" class="anchor" aria-hidden="true" href="#statistical-inference-scipy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>statistical-inference-scipy</h2>
+<p>IPython Notebook(s) demonstrating statistical inference with SciPy functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scipy</td>
+<td>SciPy is a collection of mathematical algorithms and convenience 
+functions built on the Numpy extension of Python. It adds significant 
+power to the interactive Python session by providing the user with 
+high-level commands and classes for manipulating and visualizing data.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scipy/effect_size.ipynb" rel="nofollow">effect-size</a></td>
+<td>Explore statistics that quantify effect size by analyzing the 
+difference in height between men and women.  Uses data from the 
+Behavioral Risk Factor Surveillance System (BRFSS) to estimate the mean 
+and standard deviation of height for adult women and men in the United 
+States.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scipy/sampling.ipynb" rel="nofollow">sampling</a></td>
+<td>Explore random sampling by analyzing the average weight of men and women in the United States using BRFSS data.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/scipy/hypothesis.ipynb" rel="nofollow">hypothesis</a></td>
+<td>Explore hypothesis testing by analyzing the difference of first-born babies compared with others.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/pandas.png"><img src="pandas.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-pandas" class="anchor" aria-hidden="true" href="#pandas"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>pandas</h2>
+<p>IPython Notebook(s) demonstrating pandas functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/pandas.ipynb" rel="nofollow">pandas</a></td>
+<td>Software library written for data manipulation and analysis in 
+Python. Offers data structures and operations for manipulating numerical
+ tables and time series.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/donnemartin/viz/blob/master/githubstats/data_wrangling.ipynb">github-data-wrangling</a></td>
+<td>Learn how to load, clean, merge, and feature engineer by analyzing GitHub data from the <a href="https://github.com/donnemartin/viz"><code>Viz</code></a> repo.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.00-Introduction-to-Pandas.ipynb" rel="nofollow">Introduction-to-Pandas</a></td>
+<td>Introduction to Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.01-Introducing-Pandas-Objects.ipynb" rel="nofollow">Introducing-Pandas-Objects</a></td>
+<td>Learn about Pandas objects.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.02-Data-Indexing-and-Selection.ipynb" rel="nofollow">Data Indexing and Selection</a></td>
+<td>Learn about data indexing and selection in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.03-Operations-in-Pandas.ipynb" rel="nofollow">Operations-in-Pandas</a></td>
+<td>Learn about operating on data in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.04-Missing-Values.ipynb" rel="nofollow">Missing-Values</a></td>
+<td>Learn about handling missing data in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.05-Hierarchical-Indexing.ipynb" rel="nofollow">Hierarchical-Indexing</a></td>
+<td>Learn about hierarchical indexing in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.06-Concat-And-Append.ipynb" rel="nofollow">Concat-And-Append</a></td>
+<td>Learn about combining datasets: concat and append in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.07-Merge-and-Join.ipynb" rel="nofollow">Merge-and-Join</a></td>
+<td>Learn about combining datasets: merge and join in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.08-Aggregation-and-Grouping.ipynb" rel="nofollow">Aggregation-and-Grouping</a></td>
+<td>Learn about aggregation and grouping in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.09-Pivot-Tables.ipynb" rel="nofollow">Pivot-Tables</a></td>
+<td>Learn about pivot tables in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.10-Working-With-Strings.ipynb" rel="nofollow">Working-With-Strings</a></td>
+<td>Learn about vectorized string operations in Pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.11-Working-with-Time-Series.ipynb" rel="nofollow">Working-with-Time-Series</a></td>
+<td>Learn about working with time series in pandas.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/pandas/03.12-Performance-Eval-and-Query.ipynb" rel="nofollow">Performance-Eval-and-Query</a></td>
+<td>Learn about high-performance Pandas: eval() and query() in Pandas.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/matplotlib.png"><img src="matplotlib.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-matplotlib" class="anchor" aria-hidden="true" href="#matplotlib"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>matplotlib</h2>
+<p>IPython Notebook(s) demonstrating matplotlib functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/matplotlib.ipynb" rel="nofollow">matplotlib</a></td>
+<td>Python 2D plotting library which produces publication quality 
+figures in a variety of hardcopy formats and interactive environments 
+across platforms.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/matplotlib-applied.ipynb" rel="nofollow">matplotlib-applied</a></td>
+<td>Apply matplotlib visualizations to Kaggle competitions for 
+exploratory data analysis.  Learn how to create bar plots, histograms, 
+subplot2grid, normalized plots, scatter plots, subplots, and kernel 
+density estimation plots.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.00-Introduction-To-Matplotlib.ipynb" rel="nofollow">Introduction-To-Matplotlib</a></td>
+<td>Introduction to Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.01-Simple-Line-Plots.ipynb" rel="nofollow">Simple-Line-Plots</a></td>
+<td>Learn about simple line plots in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.02-Simple-Scatter-Plots.ipynb" rel="nofollow">Simple-Scatter-Plots</a></td>
+<td>Learn about simple scatter plots in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.03-Errorbars.ipynb" rel="nofollow">Errorbars.ipynb</a></td>
+<td>Learn about visualizing errors in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.04-Density-and-Contour-Plots.ipynb" rel="nofollow">Density-and-Contour-Plots</a></td>
+<td>Learn about density and contour plots in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.05-Histograms-and-Binnings.ipynb" rel="nofollow">Histograms-and-Binnings</a></td>
+<td>Learn about histograms, binnings, and density in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.06-Customizing-Legends.ipynb" rel="nofollow">Customizing-Legends</a></td>
+<td>Learn about customizing plot legends in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.07-Customizing-Colorbars.ipynb" rel="nofollow">Customizing-Colorbars</a></td>
+<td>Learn about customizing colorbars in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.08-Multiple-Subplots.ipynb" rel="nofollow">Multiple-Subplots</a></td>
+<td>Learn about multiple subplots in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.09-Text-and-Annotation.ipynb" rel="nofollow">Text-and-Annotation</a></td>
+<td>Learn about text and annotation in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.10-Customizing-Ticks.ipynb" rel="nofollow">Customizing-Ticks</a></td>
+<td>Learn about customizing ticks in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.11-Settings-and-Stylesheets.ipynb" rel="nofollow">Settings-and-Stylesheets</a></td>
+<td>Learn about customizing Matplotlib: configurations and stylesheets.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.12-Three-Dimensional-Plotting.ipynb" rel="nofollow">Three-Dimensional-Plotting</a></td>
+<td>Learn about three-dimensional plotting in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.13-Geographic-Data-With-Basemap.ipynb" rel="nofollow">Geographic-Data-With-Basemap</a></td>
+<td>Learn about geographic data with basemap in Matplotlib.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/matplotlib/04.14-Visualization-With-Seaborn.ipynb" rel="nofollow">Visualization-With-Seaborn</a></td>
+<td>Learn about visualization with Seaborn.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/numpy.png"><img src="numpy.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-numpy" class="anchor" aria-hidden="true" href="#numpy"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>numpy</h2>
+<p>IPython Notebook(s) demonstrating NumPy functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/numpy.ipynb" rel="nofollow">numpy</a></td>
+<td>Adds Python support for large, multi-dimensional arrays and 
+matrices, along with a large library of high-level mathematical 
+functions to operate on these arrays.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.00-Introduction-to-NumPy.ipynb" rel="nofollow">Introduction-to-NumPy</a></td>
+<td>Introduction to NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.01-Understanding-Data-Types.ipynb" rel="nofollow">Understanding-Data-Types</a></td>
+<td>Learn about data types in Python.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.02-The-Basics-Of-NumPy-Arrays.ipynb" rel="nofollow">The-Basics-Of-NumPy-Arrays</a></td>
+<td>Learn about the basics of NumPy arrays.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.03-Computation-on-arrays-ufuncs.ipynb" rel="nofollow">Computation-on-arrays-ufuncs</a></td>
+<td>Learn about computations on NumPy arrays: universal functions.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.04-Computation-on-arrays-aggregates.ipynb" rel="nofollow">Computation-on-arrays-aggregates</a></td>
+<td>Learn about aggregations: min, max, and everything in between in NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.05-Computation-on-arrays-broadcasting.ipynb" rel="nofollow">Computation-on-arrays-broadcasting</a></td>
+<td>Learn about computation on arrays: broadcasting in NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.06-Boolean-Arrays-and-Masks.ipynb" rel="nofollow">Boolean-Arrays-and-Masks</a></td>
+<td>Learn about comparisons, masks, and boolean logic in NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.07-Fancy-Indexing.ipynb" rel="nofollow">Fancy-Indexing</a></td>
+<td>Learn about fancy indexing in NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.08-Sorting.ipynb" rel="nofollow">Sorting</a></td>
+<td>Learn about sorting arrays in NumPy.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.jupyter.org/github/donnemartin/data-science-ipython-notebooks/blob/master/numpy/02.09-Structured-Data-NumPy.ipynb" rel="nofollow">Structured-Data-NumPy</a></td>
+<td>Learn about structured data: NumPy's structured arrays.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/python.png"><img src="python.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-python-data" class="anchor" aria-hidden="true" href="#python-data"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>python-data</h2>
+<p>IPython Notebook(s) demonstrating Python functionality geared towards data analysis.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/structs.ipynb" rel="nofollow">data structures</a></td>
+<td>Learn Python basics with tuples, lists, dicts, sets.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/structs_utils.ipynb" rel="nofollow">data structure utilities</a></td>
+<td>Learn Python operations such as slice, range, xrange, bisect, sort, sorted, reversed, enumerate, zip, list comprehensions.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/functions.ipynb" rel="nofollow">functions</a></td>
+<td>Learn about more advanced Python features: Functions as objects, 
+lambda functions, closures, *args, **kwargs currying, generators, 
+generator expressions, itertools.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/datetime.ipynb" rel="nofollow">datetime</a></td>
+<td>Learn how to work with Python dates and times: datetime, strftime, strptime, timedelta.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/logs.ipynb" rel="nofollow">logging</a></td>
+<td>Learn about Python logging with RotatingFileHandler and TimedRotatingFileHandler.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/pdb.ipynb" rel="nofollow">pdb</a></td>
+<td>Learn how to debug in Python with the interactive source code debugger.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/python-data/unit_tests.ipynb" rel="nofollow">unit tests</a></td>
+<td>Learn how to test in Python with Nose unit tests.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/kaggle.png"><img src="kaggle.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-kaggle-and-business-analyses" class="anchor" aria-hidden="true" href="#kaggle-and-business-analyses"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>kaggle-and-business-analyses</h2>
+<p>IPython Notebook(s) used in <a href="https://www.kaggle.com/" rel="nofollow">kaggle</a> competitions and business analyses.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/kaggle/titanic.ipynb" rel="nofollow">titanic</a></td>
+<td>Predict survival on the Titanic.  Learn data cleaning, exploratory data analysis, and machine learning.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/analyses/churn.ipynb" rel="nofollow">churn-analysis</a></td>
+<td>Predict customer churn.  Exercise logistic regression, gradient 
+boosting classifers, support vector machines, random forests, and 
+k-nearest-neighbors.  Includes discussions of confusion matrices, ROC 
+plots, feature importances, prediction probabilities, and 
+calibration/descrimination.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/spark.png"><img src="spark.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-spark" class="anchor" aria-hidden="true" href="#spark"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>spark</h2>
+<p>IPython Notebook(s) demonstrating spark and HDFS functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/spark/spark.ipynb" rel="nofollow">spark</a></td>
+<td>In-memory cluster computing framework, up to 100 times faster for 
+certain applications and is well suited for machine learning algorithms.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/spark/hdfs.ipynb" rel="nofollow">hdfs</a></td>
+<td>Reliably stores very large files across machines in a large cluster.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/mrjob.png"><img src="mrjob.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-mapreduce-python" class="anchor" aria-hidden="true" href="#mapreduce-python"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mapreduce-python</h2>
+<p>IPython Notebook(s) demonstrating Hadoop MapReduce with mrjob functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/mapreduce/mapreduce-python.ipynb" rel="nofollow">mapreduce-python</a></td>
+<td>Runs MapReduce jobs in Python, executing jobs locally or on Hadoop 
+clusters. Demonstrates Hadoop Streaming in Python code with unit test 
+and <a href="https://github.com/Yelp/mrjob">mrjob</a> config file to analyze Amazon S3 bucket logs on Elastic MapReduce.  <a href="https://github.com/discoproject/disco/">Disco</a> is another python-based alternative.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/aws.png"><img src="aws.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-aws" class="anchor" aria-hidden="true" href="#aws"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>aws</h2>
+<p>IPython Notebook(s) demonstrating Amazon Web Services (AWS) and AWS tools functionality.</p>
+<p>Also check out:</p>
+<ul>
+<li><a href="https://github.com/donnemartin/saws">SAWS</a>: A Supercharged AWS command line interface (CLI).</li>
+<li><a href="https://github.com/donnemartin/awesome-aws">Awesome AWS</a>: A curated list of libraries, open source repos, guides, blogs, and other resources.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#Boto" rel="nofollow">boto</a></td>
+<td>Official AWS SDK for Python.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#s3cmd" rel="nofollow">s3cmd</a></td>
+<td>Interacts with S3 through the command line.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#s3distcp" rel="nofollow">s3distcp</a></td>
+<td>Combines smaller files and aggregates them together by taking in a 
+pattern and target file.  S3DistCp can also be used to transfer large 
+volumes of data from S3 to your Hadoop cluster.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#s3-parallel-put" rel="nofollow">s3-parallel-put</a></td>
+<td>Uploads multiple files to S3 in parallel.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#redshift" rel="nofollow">redshift</a></td>
+<td>Acts as a fast data warehouse built on top of technology from massive parallel processing (MPP).</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#kinesis" rel="nofollow">kinesis</a></td>
+<td>Streams data in real time with the ability to process thousands of data streams per second.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/aws/aws.ipynb#lambda" rel="nofollow">lambda</a></td>
+<td>Runs code in response to events, automatically managing compute resources.</td>
+</tr></tbody></table>
+<br>
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/commands.png"><img src="commands.png" style="max-width:100%;"></a>
+</p>
+<h2><a id="user-content-commands" class="anchor" aria-hidden="true" href="#commands"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>commands</h2>
+<p>IPython Notebook(s) demonstrating various command lines for Linux, Git, etc.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/linux.ipynb" rel="nofollow">linux</a></td>
+<td>Unix-like and mostly POSIX-compliant computer operating system.  
+Disk usage, splitting files, grep, sed, curl, viewing running processes,
+ terminal syntax highlighting, and Vim.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#anaconda" rel="nofollow">anaconda</a></td>
+<td>Distribution of the Python programming language for large-scale data
+ processing, predictive analytics, and scientific computing, that aims 
+to simplify package management and deployment.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#ipython-notebook" rel="nofollow">ipython notebook</a></td>
+<td>Web-based interactive computational environment where you can 
+combine code execution, text, mathematics, plots and rich media into a 
+single document.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#git" rel="nofollow">git</a></td>
+<td>Distributed revision control system with an emphasis on speed, data 
+integrity, and support for distributed, non-linear workflows.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#ruby" rel="nofollow">ruby</a></td>
+<td>Used to interact with the AWS command line and for Jekyll, a blog framework that can be hosted on GitHub Pages.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#jekyll" rel="nofollow">jekyll</a></td>
+<td>Simple, blog-aware, static site generator for personal, project, or 
+organization sites.  Renders Markdown or Textile and Liquid templates, 
+and produces a complete, static website ready to be served by Apache 
+HTTP Server, Nginx or another web server.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#pelican" rel="nofollow">pelican</a></td>
+<td>Python-based alternative to Jekyll.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/commands/misc.ipynb#django" rel="nofollow">django</a></td>
+<td>High-level Python Web framework that encourages rapid development 
+and clean, pragmatic design. It can be useful to share reports/analyses 
+and for blogging. Lighter-weight alternatives include <a href="https://github.com/Pylons/pyramid">Pyramid</a>, <a href="https://github.com/pallets/flask">Flask</a>, <a href="https://github.com/tornadoweb/tornado">Tornado</a>, and <a href="https://github.com/bottlepy/bottle">Bottle</a>.</td>
+</tr></tbody></table>
+<h2><a id="user-content-misc" class="anchor" aria-hidden="true" href="#misc"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>misc</h2>
+<p>IPython Notebook(s) demonstrating miscellaneous functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/misc/regex.ipynb" rel="nofollow">regex</a></td>
+<td>Regular expression cheat sheet useful in data wrangling.</td>
+</tr>
+<tr>
+<td><a href="http://nbviewer.ipython.org/github/donnemartin/data-science-ipython-notebooks/blob/master/misc/Algorithmia.ipynb" rel="nofollow">algorithmia</a></td>
+<td>Algorithmia is a marketplace for algorithms. This notebook showcases
+ 4 different algorithms: Face Detection, Content Summarizer, Latent 
+Dirichlet Allocation and Optical Character Recognition.</td>
+</tr></tbody></table>
+<h2><a id="user-content-notebook-installation" class="anchor" aria-hidden="true" href="#notebook-installation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>notebook-installation</h2>
+<h3><a id="user-content-anaconda" class="anchor" aria-hidden="true" href="#anaconda"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>anaconda</h3>
+<p>Anaconda is a free distribution of the Python programming language 
+for large-scale data processing, predictive analytics, and scientific 
+computing that aims to simplify package management and deployment.</p>
+<p>Follow instructions to install <a href="https://docs.continuum.io/anaconda/install" rel="nofollow">Anaconda</a> or the more lightweight <a href="http://conda.pydata.org/miniconda.html" rel="nofollow">miniconda</a>.</p>
+<h3><a id="user-content-dev-setup" class="anchor" aria-hidden="true" href="#dev-setup"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>dev-setup</h3>
+<p>For detailed instructions, scripts, and tools to set up your development environment for data analysis, check out the <a href="https://github.com/donnemartin/dev-setup">dev-setup</a> repo.</p>
+<h3><a id="user-content-running-notebooks" class="anchor" aria-hidden="true" href="#running-notebooks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>running-notebooks</h3>
+<p>To view interactive content or to modify elements within the IPython 
+notebooks, you must first clone or download the repository then run the 
+notebook.  More information on IPython Notebooks can be found <a href="http://ipython.org/notebook.html" rel="nofollow">here.</a></p>
+<pre><code>$ git clone https://github.com/donnemartin/data-science-ipython-notebooks.git
+$ cd data-science-ipython-notebooks
+$ jupyter notebook
+</code></pre>
+<p>Notebooks tested with Python 2.7.x.</p>
+<h2><a id="user-content-credits" class="anchor" aria-hidden="true" href="#credits"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>credits</h2>
+<ul>
+<li><a href="http://www.amazon.com/Python-Data-Analysis-Wrangling-IPython/dp/1449319793" rel="nofollow">Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython</a> by Wes McKinney</li>
+<li><a href="https://github.com/jakevdp/sklearn_pycon2015">PyCon 2015 Scikit-learn Tutorial</a> by Jake VanderPlas</li>
+<li><a href="https://github.com/jakevdp/PythonDataScienceHandbook">Python Data Science Handbook</a> by Jake VanderPlas</li>
+<li><a href="https://github.com/ogrisel/parallel_ml_tutorial">Parallel Machine Learning with scikit-learn and IPython</a> by Olivier Grisel</li>
+<li><a href="https://github.com/AllenDowney/CompStats">Statistical Interference Using Computational Methods in Python</a> by Allen Downey</li>
+<li><a href="https://github.com/aymericdamien/TensorFlow-Examples">TensorFlow Examples</a> by Aymeric Damien</li>
+<li><a href="https://github.com/pkmital/tensorflow_tutorials">TensorFlow Tutorials</a> by Parag K Mital</li>
+<li><a href="https://github.com/nlintz/TensorFlow-Tutorials">TensorFlow Tutorials</a> by Nathan Lintz</li>
+<li><a href="https://github.com/alrojo/tensorflow-tutorial">TensorFlow Tutorials</a> by Alexander R Johansen</li>
+<li><a href="https://github.com/BinRoot/TensorFlow-Book">TensorFlow Book</a> by Nishant Shukla</li>
+<li><a href="https://github.com/mila-udem/summerschool2015">Summer School 2015</a> by mila-udem</li>
+<li><a href="https://github.com/leriomaggio/deep-learning-keras-tensorflow">Keras tutorials</a> by Valerio Maggio</li>
+<li><a href="https://www.kaggle.com/" rel="nofollow">Kaggle</a></li>
+<li><a href="http://blog.yhat.com/" rel="nofollow">Yhat Blog</a></li>
+</ul>
+<h2><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>contributing</h2>
+<p>Contributions are welcome!  For bug reports or requests please <a href="https://github.com/donnemartin/data-science-ipython-notebooks/issues">submit an issue</a>.</p>
+<h2><a id="user-content-contact-info" class="anchor" aria-hidden="true" href="#contact-info"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>contact-info</h2>
+<p>Feel free to contact me to discuss any issues, questions, or comments.</p>
+<ul>
+<li>Email: <a href="mailto:donne.martin@gmail.com">donne.martin@gmail.com</a></li>
+<li>Twitter: <a href="https://twitter.com/donne_martin" rel="nofollow">@donne_martin</a></li>
+<li>GitHub: <a href="https://github.com/donnemartin">donnemartin</a></li>
+<li>LinkedIn: <a href="https://www.linkedin.com/in/donnemartin" rel="nofollow">donnemartin</a></li>
+<li>Website: <a href="http://donnemartin.com/" rel="nofollow">donnemartin.com</a></li>
+</ul>
+<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>license</h2>
+<p>This repository contains a variety of content; some developed by 
+Donne Martin, and some from third-parties.  The third-party content is 
+distributed under the license provided by those parties.</p>
+<p>The content developed by Donne Martin is distributed under the following license:</p>
+<p><em>I am providing code and resources in this repository to you under
+ an open source license.  Because this is my personal repository, the 
+license you receive to my code and resources is from me and not my 
+employer (Facebook).</em></p>
+<pre><code>Copyright 2015 Donne Martin
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+</article>
+  </div>
+
+
+  </div>
+  <div class="modal-backdrop js-touch-events"></div>
+</div>
+
+    </div>
+  </div>
+
+  </div>
+
+      
+<div class="footer container-lg px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">© 2018 <span title="0.43194s from unicorn-f856bd998-5dgqz">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a href="https://help.github.com/articles/github-security/" data-ga-click="Footer, go to security, text:security">Security</a></li>
+        <li class="mr-3"><a href="https://status.github.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com/">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon" href="https://github.com/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+      <li class="mr-3"><a href="https://developer.github.com/" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com/" data-ga-click="Footer, go to training, text:training">Training</a></li>
+      <li class="mr-3"><a href="https://shop.github.com/" data-ga-click="Footer, go to shop, text:shop">Shop</a></li>
+        <li class="mr-3"><a href="https://blog.github.com/" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-AJroIDzeBTsez82UXWwVAmoSz2nKhws/uQvJ8aKfadJZcvL83MIXMjRYm7MVZaKSNXvifa/OGpn54kiDBKpyLw==" type="application/javascript" src="compat-37e9ce8318a51dd51033283da82c8546.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-QeroE21vjE9am3l9XZkG77Y7E+hMvsynA4aaKhTSKFny8+KuTg/mihlOC8BoTcEW0l2W+fRQ2U5L+n10scIWEw==" type="application/javascript" src="frameworks-601602eea5c9ad30556dde9683640f56.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-R5whueaxEZ+wH53TR99gZs9N0nmTyb93125LOrXrwbuSwuLtPViZoGmjYi0l5cyhDDbINgDqvKhtAp3b+kOwnw==" type="application/javascript" src="github-87118e3ca0c42d41d38b789f99b78290.js"></script>
+    
+    
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner d-none">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <div class="facebox" id="facebox" style="display:none;">
+  <div class="facebox-popup">
+    <div class="facebox-content" role="dialog" aria-labelledby="facebox-header" aria-describedby="facebox-description">
+    </div>
+    <button type="button" class="facebox-close js-facebox-close" aria-label="Close modal">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+    </button>
+  </div>
+</div>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+<div id="hovercard-aria-description" class="sr-only">
+  Press h to open a hovercard with more details.
+</div>
+
+
+  
+
+
+</body></html>

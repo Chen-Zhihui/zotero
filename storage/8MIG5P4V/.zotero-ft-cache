@@ -1,0 +1,559 @@
+    Skip to primary navigation
+    Skip to content
+    Skip to primary sidebar
+
+Learn OpenCV
+
+OpenCV examples and tutorials ( C++ / Python )
+
+    Home
+    About
+    Resources
+    AI Consulting
+    Courses
+
+Object Tracking using OpenCV (C++/Python)
+
+February 13, 2017 By Satya Mallick 114 Comments
+
+In this tutorial, we will learn about OpenCV tracking API that was introduced in OpenCV 3.0. We will learn how and when to use the 6 different trackers available in OpenCV 3.2 — BOOSTING, MIL, KCF, TLD, MEDIANFLOW, and GOTURN. We will also learn the general theory behind modern tracking algorithms.
+
+This problem has been perfectly solved by my friend Boris Babenko as shown in this flawless real-time face tracker below! Jokes aside, the animation demonstrates what we want from an ideal object tracker — speed, accuracy, and robustness to occlusion.
+
+Real time face tracking solved!
+OpenCV Object Tracker Demo
+
+If you do not have the time to read the entire post, just watch this video and learn the usage in this section . But if you really want to learn about object tracking, read on.
+What is Object Tracking ?
+
+Simply put, locating an object in successive frames of a video is called tracking .
+
+The definition sounds straight forward but in computer vision and machine learning, tracking is a very broad term that encompasses conceptually similar but technically different ideas. For example, all the following different but related ideas are generally studied under Object Tracking
+
+    Dense Optical flow : These algorithms help estimate the motion vector of every pixel in a video frame.
+    Sparse optical flow : These algorithms, like the Kanade-Lucas-Tomashi (KLT) feature tracker, track the location of a few feature points in an image.
+    Kalman Filtering : A very popular signal processing algorithm used to predict the location of a moving object based on prior motion information. One of the early applications of this algorithm was missile guidance! Also as mentioned here , “the on-board computer that guided the descent of the Apollo 11 lunar module to the moon had a Kalman filter”.
+    Meanshift and Camshift : These are algorithms for locating the maxima of a density function. They are also used for tracking.
+    Single object trackers : In this class of trackers, the first frame is marked using a rectangle to indicate the location of the object we want to track. The object is then tracked in subsequent frames using the tracking algorithm. In most real life applications, these trackers are used in conjunction with an object detector.
+    Multiple object track finding algorithms : In cases when we have a fast object detector, it makes sense to detect multiple objects in each frame and then run a track finding algorithm that identifies which rectangle in one frame corresponds to a rectangle in the next frame.
+
+Tracking vs Detection
+
+If you have ever played with OpenCV face detection, you know that it works in real time and you can easily detect the face in every frame. So, why do you need tracking in the first place? Let’s explore the different reasons you may want to track objects in a video and not just do repeated detections.
+
+    Tracking is faster than Detection : Usually tracking algorithms are faster than detection algorithms. The reason is simple. When you are tracking an object that was detected in the previous frame, you know a lot about the appearance of the object. You also know the location in the previous frame and the direction and speed of its motion. So in the next frame, you can use all this information to predict the location of the object in the next frame and do a small search around the expected location of the object to accurately locate the object. A good tracking algorithm will use all information it has about the object up to that point while a detection algorithm always starts from scratch. Therefore, while designing an efficient system usually an object detection is run on every n th frame while the tracking algorithm is employed in the n-1 frames in between. Why don’t we simply detect the object in the first frame and track subsequently? It is true that tracking benefits from the extra information it has, but you can also lose track of an object when they go behind an obstacle for an extended period of time or if they move so fast that the tracking algorithm cannot catch up. It is also common for tracking algorithms to accumulate errors and the bounding box tracking the object slowly drifts away from the object it is tracking. To fix these problems with tracking algorithms, a detection algorithm is run every so often. Detection algorithms are trained on a large number of examples of the object. They, therefore, have more knowledge about the general class of the object. On the other hand, tracking algorithms know more about the specific instance of the class they are tracking.
+    Tracking can help when detection fails : If you are running a face detector on a video and the person’s face get’s occluded by an object, the face detector will most likely fail. A good tracking algorithm, on the other hand, will handle some level of occlusion. In the video below, you can see Dr. Boris Babenko, the author of the MIL tracker, demonstrate how the MIL tracker works under occlusion.
+    Tracking preserves identity : The output of object detection is an array of rectangles that contain the object. However, there is no identity attached to the object. For example, in the video below, a detector that detects red dots will output rectangles corresponding to all the dots it has detected in a frame. In the next frame, it will output another array of rectangles. In the first frame, a particular dot might be represented by the rectangle at location 10 in the array and in the second frame, it could be at location 17. While using detection on a frame we have no idea which rectangle corresponds to which object. On the other hand, tracking provides a way to literally connect the dots!
+
+OpenCV 3 Tracking API
+
+OpenCV 3 comes with a new tracking API that contains implementations of many single object tracking algorithms. There are 6 different trackers available in OpenCV 3.2 — BOOSTING, MIL, KCF, TLD, MEDIANFLOW, and GOTURN.
+
+Note : OpenCV 3.1 has implementations of these 5 trackers — BOOSTING, MIL, KCF, TLD, MEDIANFLOW. OpenCV 3.0 has implementations of the following 4 trackers — BOOSTING, MIL, TLD, MEDIANFLOW.
+
+Update : In OpenCV 3.3, the tracking API has changed. The code checks for the version and then uses the corresponding API.
+
+Before we provide a brief description of the algorithms, let us see the setup and usage. In the commented code below we first set up the tracker by choosing a tracker type — BOOSTING, MIL, KCF, TLD, MEDIANFLOW or GOTURN ). We then open a video and grab a frame. We define a bounding box containing the object for the first frame and initialize the tracker with the first frame and the bounding box. Finally, we read frames from the video and just update the tracker in a loop to obtain a new bounding box for the current frame. Results are subsequently displayed.
+
+C++
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+	
+#include <opencv2/opencv.hpp>
+#include <opencv2/tracking.hpp>
+#include <opencv2/core/ocl.hpp>
+ 
+using namespace cv;
+using namespace std;
+ 
+// Convert to string
+#define SSTR( x ) static_cast< std::ostringstream & >( \
+( std::ostringstream() << std::dec << x ) ).str()
+ 
+int main( int argc, char **argv)
+{
+     // List of tracker types in OpenCV 3.2
+     // NOTE : GOTURN implementation is buggy and does not work.
+     string trackerTypes[6] = { "BOOSTING" , "MIL" , "KCF" , "TLD" , "MEDIANFLOW" , "GOTURN" };
+     // vector <string> trackerTypes(types, std::end(types));
+ 
+     // Create a tracker
+     string trackerType = trackerTypes[2];
+ 
+     Ptr<Tracker> tracker;
+ 
+     #if (CV_MINOR_VERSION < 3)
+     {
+         tracker = Tracker::create(trackerType);
+     }
+     #else
+     {
+         if (trackerType == "BOOSTING" )
+             tracker = TrackerBoosting::create();
+         if (trackerType == "MIL" )
+             tracker = TrackerMIL::create();
+         if (trackerType == "KCF" )
+             tracker = TrackerKCF::create();
+         if (trackerType == "TLD" )
+             tracker = TrackerTLD::create();
+         if (trackerType == "MEDIANFLOW" )
+             tracker = TrackerMedianFlow::create();
+         if (trackerType == "GOTURN" )
+             tracker = TrackerGOTURN::create();
+     }
+     #endif
+     // Read video
+     VideoCapture video( "videos/chaplin.mp4" );
+      
+     // Exit if video is not opened
+     if (!video.isOpened())
+     {
+         cout << "Could not read video file" << endl;
+         return 1;
+          
+     }
+      
+     // Read first frame
+     Mat frame;
+     bool ok = video.read(frame);
+      
+     // Define initial boundibg box
+     Rect2d bbox(287, 23, 86, 320);
+      
+     // Uncomment the line below to select a different bounding box
+     bbox = selectROI(frame, false );
+ 
+     // Display bounding box.
+     rectangle(frame, bbox, Scalar( 255, 0, 0 ), 2, 1 );
+     imshow( "Tracking" , frame);
+      
+     tracker->init(frame, bbox);
+      
+     while (video.read(frame))
+     {    
+         // Start timer
+         double timer = ( double )getTickCount();
+          
+         // Update the tracking result
+         bool ok = tracker->update(frame, bbox);
+          
+         // Calculate Frames per second (FPS)
+         float fps = getTickFrequency() / (( double )getTickCount() - timer);
+          
+         if (ok)
+         {
+             // Tracking success : Draw the tracked object
+             rectangle(frame, bbox, Scalar( 255, 0, 0 ), 2, 1 );
+         }
+         else
+         {
+             // Tracking failure detected.
+             putText(frame, "Tracking failure detected" , Point(100,80), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(0,0,255),2);
+         }
+          
+         // Display tracker type on frame
+         putText(frame, trackerType + " Tracker" , Point(100,20), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(50,170,50),2);
+          
+         // Display FPS on frame
+         putText(frame, "FPS : " + SSTR( int (fps)), Point(100,50), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(50,170,50), 2);
+ 
+         // Display frame.
+         imshow( "Tracking" , frame);
+          
+         // Exit if ESC pressed.
+         int k = waitKey(1);
+         if (k == 27)
+         {
+             break ;
+         }
+ 
+     }
+}
+
+Python
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+	
+import cv2
+import sys
+ 
+(major_ver, minor_ver, subminor_ver) = (cv2.__version__).split( '.' )￼
+ 
+if __name__ = = '__main__' :
+ 
+     # Set up tracker.
+     # Instead of MIL, you can also use
+ 
+     tracker_types = [ 'BOOSTING' , 'MIL' , 'KCF' , 'TLD' , 'MEDIANFLOW' , 'GOTURN' ]
+     tracker_type = tracker_types[ 2 ]
+ 
+     if int (minor_ver) < 3 :
+         tracker = cv2.Tracker_create(tracker_type)
+     else :
+         if tracker_type = = 'BOOSTING' :
+             tracker = cv2.TrackerBoosting_create()
+         if tracker_type = = 'MIL' :
+             tracker = cv2.TrackerMIL_create()
+         if tracker_type = = 'KCF' :
+             tracker = cv2.TrackerKCF_create()
+         if tracker_type = = 'TLD' :
+             tracker = cv2.TrackerTLD_create()
+         if tracker_type = = 'MEDIANFLOW' :
+             tracker = cv2.TrackerMedianFlow_create()
+         if tracker_type = = 'GOTURN' :
+             tracker = cv2.TrackerGOTURN_create()
+ 
+     # Read video
+     video = cv2.VideoCapture( "videos/chaplin.mp4" )
+ 
+     # Exit if video not opened.
+     if not video.isOpened():
+         print "Could not open video"
+         sys.exit()
+ 
+     # Read first frame.
+     ok, frame = video.read()
+     if not ok:
+         print 'Cannot read video file'
+         sys.exit()
+      
+     # Define an initial bounding box
+     bbox = ( 287 , 23 , 86 , 320 )
+ 
+     # Uncomment the line below to select a different bounding box
+     bbox = cv2.selectROI(frame, False )
+ 
+     # Initialize tracker with first frame and bounding box
+     ok = tracker.init(frame, bbox)
+ 
+     while True :
+         # Read a new frame
+         ok, frame = video.read()
+         if not ok:
+             break
+          
+         # Start timer
+         timer = cv2.getTickCount()
+ 
+         # Update tracker
+         ok, bbox = tracker.update(frame)
+ 
+         # Calculate Frames per second (FPS)
+         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
+ 
+         # Draw bounding box
+         if ok:
+             # Tracking success
+             p1 = ( int (bbox[ 0 ]), int (bbox[ 1 ]))
+             p2 = ( int (bbox[ 0 ] + bbox[ 2 ]), int (bbox[ 1 ] + bbox[ 3 ]))
+             cv2.rectangle(frame, p1, p2, ( 255 , 0 , 0 ), 2 , 1 )
+         else :
+             # Tracking failure
+             cv2.putText(frame, "Tracking failure detected" , ( 100 , 80 ), cv2.FONT_HERSHEY_SIMPLEX, 0.75 ,( 0 , 0 , 255 ), 2 )
+ 
+         # Display tracker type on frame
+         cv2.putText(frame, tracker_type + " Tracker" , ( 100 , 20 ), cv2.FONT_HERSHEY_SIMPLEX, 0.75 , ( 50 , 170 , 50 ), 2 );
+      
+         # Display FPS on frame
+         cv2.putText(frame, "FPS : " + str ( int (fps)), ( 100 , 50 ), cv2.FONT_HERSHEY_SIMPLEX, 0.75 , ( 50 , 170 , 50 ), 2 );
+ 
+         # Display result
+         cv2.imshow( "Tracking" , frame)
+ 
+         # Exit if ESC pressed
+         k = cv2.waitKey( 1 ) & 0xff
+         if k = = 27 : break
+Object Tracking Algorithms
+
+In this section, we will dig a bit into different tracking algorithms. The goal is not to have a deep theoretical understanding of every tracker, but to understand them from a practical standpoint.
+
+Let me begin by first explaining some general principles behind tracking. In tracking, our goal is to find an object in the current frame given we have tracked the object successfully in all ( or nearly all ) previous frames.
+
+Since we have tracked the object up until the current frame, we know how it has been moving. In other words, we know the parameters of the motion model . The motion model is just a fancy way of saying that you know the location and the velocity ( speed + direction of motion ) of the object in previous frames. If you knew nothing else about the object, you could predict the new location based on the current motion model, and you would be pretty close to where the new location of the object is.
+
+But we have more information that just the motion of the object. We know how the object looks in each of the previous frames. In other words, we can build an appearance model that encodes what the object looks like. This appearance model can be used to search in a small neighborhood of the location predicted by the motion model to more accurately predict the location of the object.
+
+    The motion model predicts the approximate location of the object. The appearance model fine tunes this estimate to provide a more accurate estimate based on appearance.
+
+If the object was very simple and did not change it’s appearance much, we could use a simple template as an appearance model and look for that template. However, real life is not that simple. The appearance of an object can change dramatically. To tackle this problem, in many modern trackers, this appearance model is a classifier that is trained in an online manner. Don’t panic! Let me explain in simpler terms.
+
+The job of the classifier is to classify a rectangular region of an image as either an object or background. The classifier takes in an image patch as input and returns a score between 0 and 1 to indicate the probability that the image patch contains the object. The score is 0 when it is absolutely sure the image patch is the background and 1 when it is absolutely sure the patch is the object.
+
+In machine learning, we use the word “online” to refer to algorithms that are trained on the fly at run time. An offline classifier may need thousands of examples to train a classifier, but an online classifier is typically trained using a very few examples at run time.
+
+A classifier is trained by feeding it positive ( object ) and negative ( background ) examples. If you want to build a classifier for detecting cats, you train it with thousands of images containing cats and thousands of images that do not contain cats. This way the classifier learns to differentiate what is a cat and what is not. You can learn more about image classification here . While building an online classifier, we do not have the luxury of having thousands of examples of the positive and negative classes.
+
+Let’s look how different tracking algorithms approach this problem of online training.
+BOOSTING Tracker
+
+This tracker is based on an online version of AdaBoost — the algorithm that the HAAR cascade based face detector uses internally. This classifier needs to be trained at runtime with positive and negative examples of the object. The initial bounding box supplied by the user ( or by another object detection algorithm ) is taken as the positive example for the object, and many image patches outside the bounding box are treated as the background. Given a new frame, the classifier is run on every pixel in the neighborhood of the previous location and the score of the classifier is recorded. The new location of the object is the one where the score is maximum. So now we have one more positive example for the classifier. As more frames come in, the classifier is updated with this additional data.
+
+Pros : None. This algorithm is a decade old and works ok, but I could not find a good reason to use it especially when other advanced trackers (MIL, KCF) based on similar principles are available.
+
+Cons : Tracking performance is mediocre. It does not reliably know when tracking has failed.
+MIL Tracker
+
+This tracker is similar in idea to the BOOSTING tracker described above. The big difference is that instead of considering only the current location of the object as a positive example, it looks in a small neighborhood around the current location to generate several potential positive examples. You may be thinking that it is a bad idea because in most of these “positive” examples the object is not centered.
+
+This is where Multiple Instance Learning ( MIL ) comes to rescue. In MIL, you do not specify positive and negative examples, but positive and negative “bags”. The collection of images in the positive bag are not all positive examples. Instead, only one image in the positive bag needs to be a positive example! In our example, a positive bag contains the patch centered on the current location of the object and also patches in a small neighborhood around it. Even if the current location of the tracked object is not accurate, when samples from the neighborhood of the current location are put in the positive bag, there is a good chance that this bag contains at least one image in which the object is nicely centered. MIL project page has more information for people who like to dig deeper into the inner workings of the MIL tracker.
+
+Pros : The performance is pretty good. It does not drift as much as the BOOSTING tracker and it does a reasonable job under partial occlusion. If you are using OpenCV 3.0, this might be the best tracker available to you. But if you are using a higher version, consider KCF.
+
+Cons : Tracking failure is not reported reliably. Does not recover from full occlusion.
+KCF Tracker
+
+KFC stands for Kernelized Correlation Filters . This tracker builds on the ideas presented in the previous two trackers. This tracker utilizes that fact that the multiple positive samples used in the MIL tracker have large overlapping regions. This overlapping data leads to some nice mathematical properties that is exploited by this tracker to make tracking faster and more accurate at the same time.
+
+Pros : Accuracy and speed are both better than MIL and it reports tracking failure better than BOOSTING and MIL. If you are using OpenCV 3.1 and above, I recommend using this for most applications.
+
+Cons : Does not recover from full occlusion. Not implemented in OpenCV 3.0.
+
+Bug Alert : There is a bug in OpenCV 3.1 ( Python only ) because of which incorrect bounding boxes are returned. See bug report . Thanks Andrei Cheremskoy for pointing this out.
+TLD Tracker
+
+TLD stands for Tracking, learning and detection . As the name suggests, this tracker decomposes the long term tracking task into three components — (short term) tracking, learning, and detection. From the author’s paper, “The tracker follows the object from frame to frame. The detector localizes all appearances that have been observed so far and corrects the tracker if necessary. The learning estimates detector’s errors and updates it to avoid these errors in the future.” This output of this tracker tends to jump around a bit. For example, if you are tracking a pedestrian and there are other pedestrians in the scene, this tracker can sometimes temporarily track a different pedestrian than the one you intended to track. On the positive side, this track appears to track an object over a larger scale, motion, and occlusion. If you have a video sequence where the object is hidden behind another object, this tracker may be a good choice.
+
+Pros : Works the best under occlusion over multiple frames. Also, tracks best over scale changes.
+
+Cons : Lots of false positives making it almost unusable.
+MEDIANFLOW Tracker
+
+Internally, this tracker tracks the object in both forward and backward directions in time and measures the discrepancies between these two trajectories. Minimizing this ForwardBackward error enables them to reliably detect tracking failures and select reliable trajectories in video sequences.
+
+In my tests, I found this tracker works best when the motion is predictable and small. Unlike, other trackers that keep going even when the tracking has clearly failed, this tracker knows when the tracking has failed.
+
+Pros : Excellent tracking failure reporting. Works very well when the motion is predictable and there is no occlusion.
+
+Cons : Fails under large motion.
+GOTURN tracker
+
+Out of all the tracking algorithms in the tracker class, this is the only one based on Convolutional Neural Network (CNN). It is also the only one that uses an offline trained model, because of which it is faster that other trackers. From OpenCV documentation, we know it is “robust to viewpoint changes, lighting changes, and deformations”. But it does not handle occlusion very well.
+
+Bug Alert : Unfortunately, at the time of writing this post, there is a bug in the OpenCV 3.2 impelmentation that crashes the program when GOTURN is used.
+Subscribe & Download Code
+
+If you liked this article and would like to download code (C++ and Python) and example images used in this post, please subscribe to our newsletter. You will also receive a free Computer Vision Resource guide. In our newsletter we share OpenCV tutorials and examples written in C++/Python, and Computer Vision and Machine Learning algorithms and news.
+
+Subscribe Now
+
+Video Credits: All videos used in this post are in the public domain — Charlie Chaplin , Race Car and Street Scene . Dr. Boris Babenko generously gave permission to use his animation in this post.
+
+Filed Under: Application , how-to , Object Detection , OpenCV 3 , Tracking Tagged With: BOOSTING , C++ , GOTURN , KCL , MEDIANFLOW , MIL , object tracking , OpenCV 3 , Python , TLD
+Search this website
+Join Course
+Computer Vision for Faces
+FREE COURSE
+Join OpenCV for Beginners
+Resources
+Download Code (C++ / Python)
+Disclaimer
+
+This site is not affiliated with OpenCV.org
+
+I am an entrepreneur with a love for Computer Vision and Machine Learning with a dozen years of experience (and a Ph.D.) in the field.
+
+In 2007, right after finishing my Ph.D., I co-founded TAAZ Inc. with my advisor Dr. David Kriegman and Kevin Barnes. The scalability, and robustness of our computer vision and machine learning algorithms have been put to rigorous test by more than 100M users who have tried our products. Read More…
+Recent Posts
+
+    Average Faces of FIFA World Cup 2018
+    Image Quality Assessment : BRISQUE
+    Understanding AlexNet
+    Deep Learning based Text Recognition (OCR) using Tesseract and OpenCV
+    Deep Learning based Human Pose Estimation using OpenCV ( C++ / Python )
+
+Copyright © 2018 · Big Vision LLC
