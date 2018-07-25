@@ -1,0 +1,143 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>TPIE – The Templated Portable I/O Environment</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" async="" src="ga"></script><script type="text/javascript" async="" src="ga"></script><script type="text/javascript" src="github.js"></script>
+ <script type="text/javascript" src="events.js"></script></head>
+ <body>
+
+<h1>TPIE – The Templated Portable I/O Environment</h1>
+
+<ul class="menu">
+ <li><a href="https://github.com/thomasmoelhave/tpie">GitHub</a></li>
+ <li><a href="http://www.madalgo.au.dk/tpie/doc/">Documentation</a></li>
+ <li><a href="https://github.com/thomasmoelhave/tpie/issues">Bug tracker</a></li>
+</ul>
+
+<div id="recentactivity">
+<em>Recent GitHub activity</em>
+<ul id="githubactivity"><li><a href="https://github.com/Tyilo">Asger Hautop Drewsen</a> committed to <a href="https://github.com/thomasmoelhave/tpie/tree/new_streams">new_streams</a> <span class="date"><span title="Wed Jul 18 2018 23:56:21 GMT+0800 (CST)">on 2018/7/18</span></span></li>
+<li class="commit"><a href="https://github.com/thomasmoelhave/tpie/commit/8cf802d7465fd86cefadb7a0ecf9ae1531e1622d">8cf802d</a> Symlink check_file in new_streams</li>
+<li class="commit"><a href="https://github.com/thomasmoelhave/tpie/commit/a8f6e14be4cf0712e1f708ff9fd87cc865d90bba">a8f6e14</a> Update test_new_streams.cpp symlink</li>
+<li><a href="https://github.com/Tyilo">Asger Hautop Drewsen</a> committed to <a href="https://github.com/thomasmoelhave/tpie/tree/new_streams">new_streams</a> <span class="date"><span title="Wed Jul 18 2018 12:51:43 GMT+0800 (CST)">on 2018/7/18</span></span></li>
+<li class="commit"><a href="https://github.com/thomasmoelhave/tpie/commit/f13681da7bd470a804bf7740437b4c9d8c49880d">f13681d</a> Improve comment for stream_writeable
+
+It is actually undefined behavio</li>
+<li class="commit"><a href="https://github.com/thomasmoelhave/tpie/commit/6db736a882e16b7b8f785ce20a6fe1e91790f0c7">6db736a</a> Fix missing parantheses in TEST_ENSURE_EQUALITY
+
+Also only evaluates t</li>
+<li class="commit"><a href="https://github.com/thomasmoelhave/tpie/commit/5dc242cbdbf021235362d5c77049e258226a090d">5dc242c</a> Merge branch 'master' into new_streams</li></ul>
+</div>
+
+<p>TPIE is a library for manipulating large datasets on a desktop computer.
+TPIE provides implementations of several external memory algorithms and data
+structures as well as a framework for efficient and portable data processing.
+Currently, TPIE provides implementations of the following algorithms and data
+structures:</p>
+
+<ul>
+<li>External memory merge sorting</li>
+<li>Internal parallel quick sort</li>
+<li>Implementation of Sanders' fast priority queue for cached memory</li>
+<li>Simple buffered stacks and queues</li>
+</ul>
+
+<p>These implementations are backed by the memory manager of TPIE that allows
+the user to specify how much internal memory to use at most. The progress
+reporting framework enables reporting accurate progress metrics.</p>
+
+<p>TPIE is written in C++ and depends on the Boost C++ libraries. TPIE may be
+compiled with GCC, Clang and MSVC, and due to its portable nature, it should be
+easy to port TPIE to other systems if this is required.</p>
+
+<h2>Pipelining</h2>
+
+<p>The TPIE Pipelining framework makes it easier to implement large
+I/O-efficient applications. When combining multiple I/O-efficient algorithms
+in an application, a traditional application (without pipelining)
+would require intermediate results from one component to be written to disk
+before being passed to the next component.
+The pipelining framework enables automatic pipelining of such algorithms
+by passing output from one component to the next in-memory,
+avoiding these unnecessary additional I/Os.</p>
+
+<p>The pipelining extension is part of TPIE 1.1 and is being actively developed
+along with the rest of TPIE.</p>
+
+<p>For more information, see the <a href="https://arxiv.org/abs/1710.10091">pipelining paper</a>
+(<a href="http://www.madalgo.au.dk/tpie/tpie-pipelining-20180108.pdf">local copy</a>),
+which appeared in a short version at IEEE BigData 2017.</p>
+
+<h2>Downloads</h2>
+
+<p>To use TPIE, you need the library (<code>libtpie.a</code> on Linux,
+<code>tpie.lib</code> on Windows) and the development headers.
+These are provided as <code>.deb</code>-packages that may be installed on a
+Debian-based system with <code>dpkg -i</code> or a similar tool;
+as tarballs that may be installed into <code>/usr/local</code> or another installation prefix;
+and as Git source checkouts, such that you may compile the library for yourself.</p>
+
+<p><em>June 11, 2013.</em>
+TPIE 1.1 (Git tag <code>v1.1</code>):
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.1.0-Linux.deb">deb</a>
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.1.0-Linux.tar.gz">tarball</a>
+<a href="https://github.com/thomasmoelhave/tpie/tree/v1.1">source</a></p>
+
+<p><em>June 5, 2013.</em>
+TPIE 1.1 Release Candidate 1 (Git tag <code>v1.1rc1</code>):
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.1.0rc1-Linux.deb">deb</a>
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.1.0rc1-Linux.tar.gz">tarball</a>
+<a href="https://github.com/thomasmoelhave/tpie/tree/v1.1rc1">source</a></p>
+
+<p><em>December 14, 2012.</em>
+TPIE 1.0 (Git tag <code>v1.0</code>):
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0-Linux.deb">deb</a>
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0-Linux.tar.gz">tarball</a>
+<a href="https://github.com/thomasmoelhave/tpie/tree/v1.0">source</a></p>
+
+<p><em>October 11, 2012.</em>
+TPIE 1.0 Release Candidate 2 (Git tag <code>v1.0rc2</code>):
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0rc2-Linux.deb">deb</a>
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0rc2-Linux.tar.gz">tarball</a>
+<a href="https://github.com/thomasmoelhave/tpie/tree/v1.0rc2">source</a></p>
+
+<p><em>August 2, 2012.</em>
+TPIE 1.0 Release Candidate 1 (Git tag <code>v1.0rc1</code>):
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0rc1-Linux.deb">deb</a>
+<a href="http://www.madalgo.au.dk/tpie/downloads/tpie-1.0.0rc1-Linux.tar.gz">tarball</a>
+<a href="https://github.com/thomasmoelhave/tpie/tree/v1.0rc1">source</a></p>
+
+<p>If you want to hack on TPIE,
+<a href="https://github.com/thomasmoelhave/tpie">check it out</a> using the Git
+command:</p>
+
+<p><code>git clone git://github.com/thomasmoelhave/tpie.git</code></p>
+
+<h2>Mailing lists</h2>
+
+<p>TPIE development is driven in part by two public mailing lists.</p>
+
+<ul>
+<li><a href="https://maillist.au.dk/mailman/listinfo/tpie-devel.madalgo">tpie-devel</a>
+for development discussions and announcements</li>
+<li><a href="https://maillist.au.dk/mailman/listinfo/tpie-commits.madalgo">tpie-commits</a>
+for notifications when commits are pushed to GitHub</li>
+</ul>
+
+<!-- Analytics -->
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-4734014-4']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+ 
+
+</body></html>

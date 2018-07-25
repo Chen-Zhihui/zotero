@@ -1,11 +1,14 @@
 {
 	"translatorID": "eb7059a4-35ec-4961-a915-3cf58eb9784b",
+	"translatorType": 3,
 	"label": "Endnote XML",
 	"creator": "Sebastian Karcher",
 	"target": "xml",
 	"minVersion": "4.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
+	"inRepository": true,
+	"browserSupport": "gcv",
 	"configOptions": {
 		"async": true,
 		"getCollections": true
@@ -14,10 +17,7 @@
 		"exportNotes": true,
 		"exportFileData": false
 	},
-	"inRepository": true,
-	"translatorType": 3,
-	"browserSupport": "gcv",
-	"lastUpdated": "2017-07-05 19:32:38"
+	"lastUpdated": "2018-06-24 09:40:00"
 }
 
 function detectImport() {
@@ -446,6 +446,7 @@ var fieldMap = {
 	},
 	number: {
 		seriesNumber: ["bookSection", "book"],
+		issue: ["journalArticle", "magazineArticle"],
 		docketNumber: ["case"],
 		artworkSize: ["artwork"]
 	},

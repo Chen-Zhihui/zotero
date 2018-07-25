@@ -1,0 +1,193 @@
+
+Video coding format
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Longhair ( talk  | contribs ) at 03:21, 19 June 2018 (Reverted 1 edit by 117.152.240.126 ( talk ). ( TW )) . The present address (URL) is a permanent link to this version.
+Revision as of 03:21, 19 June 2018 by Longhair ( talk  | contribs ) (Reverted 1 edit by 117.152.240.126 ( talk ). ( TW ))
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+	
+This article needs additional citations for verification . Please help improve this article by adding citations to reliable sources . Unsourced material may be challenged and removed. (January 2015) ( Learn how and when to remove this template message )
+
+A video coding format [1] [2] (or sometimes video compression format ) is a content representation format for storage or transmission of digital video content (such as in a data file or bitstream ). Examples of video coding formats include MPEG-2 Part 2 , MPEG-4 Part 2 , H.264 (MPEG-4 Part 10), HEVC , Theora , RealVideo RV40 , VP9 , and AV1 . A specific software or hardware implementation capable of video compression and/or decompression to/from a specific video coding format is called a video codec ; an example of a video codec is Xvid , which is one of several different codecs which implements encoding and decoding videos in the MPEG-4 Part 2 video coding format in software.
+
+Some video coding formats are documented by a detailed technical specification document known as a video coding specification . Some such specifications are written and approved by standardization organizations as technical standards , and are thus known as a video coding standard . The term 'standard' is also sometimes used for de facto standards as well as formal standards.
+
+Video content encoded using a particular video coding format is normally bundled with an audio stream (encoded using an audio coding format ) inside a multimedia container format such as AVI , MP4 , FLV , RealMedia , or Matroska . As such, the user normally doesn't have a H.264 file, but instead has a .mp4 video file , which is an MP4 container containing H.264-encoded video, normally alongside AAC -encoded audio. Multimedia container formats can contain any one of a number of different video coding formats; for example the MP4 container format can contain video in either the MPEG-2 Part 2 or the H.264 video coding format, among others. Another example is the initial specification for the file type WebM , which specified the container format (Matroska), but also exactly which video ( VP8 ) and audio ( Vorbis ) compression format is used inside the Matroska container, even though the Matroska container format itself is capable of containing other video coding formats ( VP9 video and Opus audio support was later added to the WebM specification).
+
+Contents
+
+    1 Distinction between "format" and "codec"
+    2 History
+    3 Lossless, lossy, and uncompressed video coding formats
+    4 Intra-frame video coding formats
+    5 Profiles and levels
+    6 See also
+    7 References and notes
+
+Distinction between "format" and "codec" [ edit ]
+
+Although video coding formats such as H.264 are sometimes referred to as codecs , there is a clear conceptual difference between a specification and its implementations. Video coding formats are described in specifications, and software or hardware to encode/decode data in a given video coding format from/to uncompressed video are implementations of those specifications. As an analogy, the video coding format H.264 (specification) is to the codec OpenH264 (specific implementation) what the C Programming Language (specification) is to the compiler GCC (specific implementation). Note that for each specification (e.g. H.264 ), there can be many codecs implementing that specification (e.g. x264 , OpenH264, H.264/MPEG-4 AVC products and implementations ).
+
+This distinction is not consistently reflected terminologically in the literature. The H.264 specification calls H.261 , H.262 , H.263 , and H.264 video coding standards and does not contain the word codec . [3] The Alliance for Open Media clearly distinguishes between the AV1 video coding format and the accompanying codec they are developing, but calls the video coding format itself a video codec specification . [4] The VP9 specification calls the video coding format VP9 itself a codec . [5]
+
+As an example of conflation, Chromium's [6] and Mozilla's [7] pages listing their video format support both call video coding formats such as H.264 codecs . As another example, in Cisco's announcement of a free-as-in-beer video codec, the press release refers to the H.264 video coding format as a "codec" ("choice of a common video codec"), but calls Cisco's implementation of a H.264 encoder/decoder a "codec" shortly thereafter ("open-source our H.264 codec"). [8]
+
+A video coding format does not dictate all algorithms used by a codec implementing the format. For example, a large part of how video compression typically works is by finding similarities between video frames (block-matching), and then achieving compression by copying previously-coded similar subimages (e.g., macroblocks ) and adding small differences when necessary. Finding optimal combinations of such predictors and differences is an NP-hard problem, [9] meaning that it is practically impossible to find an optimal solution. While the video coding format must support such compression across frames in the bitstream format, by not needlessly mandating specific algorithms for finding such block-matches and other encoding steps, the codecs implementing the video coding specification have some freedom to optimize and innovate in their choice of algorithms. For example, section 0.5 of the H.264 specification says that encoding algorithms are not part of the specification. [3] Free choice of algorithm also allows different space–time complexity trade-offs for the same video coding format, so a live feed can use a fast but space-inefficient algorithm, while a one-time DVD encoding for later mass production can trade long encoding-time for space-efficient encoding.
+History [ edit ]
+
+The first digital video coding standard was H.120 , created by ITU in 1984. [10] H.120 was not usable in practice, as its performance was too poor. [10] Its 1988 successor, ITU's H.261 , was the first practical video coding standard. [10] MPEG-1 , designed by the Motion Picture Experts Group , followed in 1991, and MPEG-2/H.262 in 1994. [10]
+
+Perhaps the most widely used video coding format as of 2016 is H.264 . H.264 is one of the video encoding standards for Blu-ray Discs ; all Blu-ray Disc players must be able to decode H.264. It is also widely used by streaming internet sources, such as videos from YouTube , Netflix , Vimeo , and the iTunes Store , web software such as the Adobe Flash Player and Microsoft Silverlight , and also various HDTV broadcasts over terrestrial ( Advanced Television Systems Committee standards , ISDB-T , DVB-T or DVB-T2 ), cable ( DVB-C ), and satellite ( DVB-S2 ).
+
+A main problem for many video coding formats has been patents , making it expensive to use and/or potentially risking a patent lawsuit due to submarine patents . The motivation behind many recently designed video coding formats such as Theora, VP8, and VP9 have been to create a ( libre ) video coding standard covered only by royalty-free patents. [11] Patent status has also been a major point of contention for the choice of which video formats the mainstream web browsers will support inside the HTML5 video tag.
+
+In the near future, the main contenders for the next generation video coding format looks to be the heavily patented HEVC (H.265) and the aiming-to-be-freely-licensed AV1 .
+Timeline of international video compression standards Year 	Standard 	Publisher 	Popular implementations
+1984 	H.120 	ITU-T 	
+1988 	H.261 	ITU-T 	Videoconferencing, videotelephony
+1993 	MPEG-1 Part 2 	ISO , IEC 	Video-CD
+1995 	H.262/MPEG-2 Part 2 	ISO, IEC, ITU-T 	DVD Video , Blu-ray , Digital Video Broadcasting , SVCD
+1996 	H.263 	ITU-T 	Videoconferencing, videotelephony, video on mobile phones ( 3GP )
+1999 	MPEG-4 Part 2 	ISO, IEC 	Video on Internet ( DivX , Xvid ...)
+2003 	H.264/MPEG-4 AVC 	Sony , Panasonic , Samsung , ISO, IEC, ITU-T 	Blu-ray, HD DVD , Digital Video Broadcasting, iPod Video , Apple TV , videoconferencing
+2009 	VC-2 (Dirac) 	SMPTE 	Video on Internet, HDTV broadcast, UHDTV
+2013 	H.265 	ISO, IEC, ITU-T 	
+Lossless, lossy, and uncompressed video coding formats [ edit ]
+
+Consumer video is generally compressed using lossy video codecs, since that results in significantly smaller files than lossless compression. While there are video coding formats designed explicitly for either lossy or lossless compression, some video coding formats such as Dirac and H.264 support both.
+
+Uncompressed video formats, such as Clean HDMI , is a form of lossless video used in some circumstances such as when sending video to a display over a HDMI connection. Some high-end cameras can also capture video directly in this format.
+Intra-frame video coding formats [ edit ]
+
+Interframe compression complicates editing of an encoded video sequence. [12] One subclass of relatively simple video coding formats are the intra-frame video formats, such as DV , in which each frame of the video stream is compressed independently without referring to other frames in the stream, and no attempt is made to take advantage of correlations between successive pictures over time for better compression. One example is Motion JPEG , which is simply a sequence of individually JPEG -compressed images. This approach is quick and simple, at the expense the encoded video being much larger than a video coding format supporting Inter frame coding.
+
+Because interframe compression copies data from one frame to another, if the original frame is simply cut out (or lost in transmission), the following frames cannot be reconstructed properly. Making 'cuts' in intraframe-compressed video while video editing is almost as easy as editing uncompressed video: one finds the beginning and ending of each frame, and simply copies bit-for-bit each frame that one wants to keep, and discards the frames one doesn't want. Another difference between intraframe and interframe compression is that, with intraframe systems, each frame uses a similar amount of data. In most interframe systems, certain frames (such as " I frames " in MPEG-2 ) aren't allowed to copy data from other frames, so they require much more data than other frames nearby. [13]
+
+It is possible to build a computer-based video editor that spots problems caused when I frames are edited out while other frames need them. This has allowed newer formats like HDV to be used for editing. However, this process demands a lot more computing power than editing intraframe compressed video with the same picture quality.
+Profiles and levels [ edit ]
+
+A video coding format can define optional restrictions to encoded video, called profiles and levels. It is possible to have a decoder which only supports decoding a subset of profiles and levels of a given video format, for example to make the decoder program/hardware smaller, simpler, or faster.
+
+A profile restricts which encoding techniques are allowed. For example, the H.264 format includes the profiles baseline , main and high (and others). While P-slices (which can be predicted based on preceding slices) are supported in all profiles, B-slices (which can be predicted based on both preceding and following slices) are supported in the main and high profiles but not in baseline . [14]
+
+A level is a restriction on parameters such as maximum resolution and data rates. [14]
+See also [ edit ]
+
+    Data compression#Video
+    Video file format
+    Comparison of container formats
+    List of video compression formats
+
+References and notes [ edit ]
+
+    ^ The term "video coding" can he seen in e.g. the names Advanced Video Coding , High Efficiency Video Coding , and Video Coding Experts Group
+    ^ Thomas Wiegand; Gary J. Sullivan; Gisle Bjontegaard & Ajay Luthra (July 2003). "Overview of the H.264 / AVC Video Coding Standard" (PDF) . IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY.  
+    ^ a b "SERIES H: AUDIOVISUAL AND MULTIMEDIA SYSTEMS : Infrastructure of audiovisual services – Coding of moving video : Advanced video coding for generic audiovisual services" . Itu.int . Retrieved 6 January 2015 .  
+    ^ "Front Page" . Alliance for Open Media . Retrieved 2016-05-23 .  
+    ^ Adrian Grange; Peter de Rivaz & Jonathan Hunt. "VP9 Bitstream & Decoding Process Specification" (PDF) . Google.  
+    ^ "Audio/Video" . The Chromium Projects . Retrieved 2016-05-23 .  
+    ^ "Media formats supported by the HTML audio and video elements" . Mozilla . Retrieved 2016-05-23 .  
+    ^ Rowan Trollope (2013-10-30). "Open-Sourced H.264 Removes Barriers to WebRTC" . Cisco . Retrieved 2016-05-23 .  
+    ^ "Chapter 3 : Modified A* Prune Algorithm for finding K-MCSP in video compression" (PDF) . Shodhganga.inflibnet.ac.in . Retrieved 2015-01-06 .  
+    ^ a b c d http://www.real.com/resources/digital-video-file-formats/
+    ^ https://blogs.cisco.com/collaboration/world-meet-thor-a-project-to-hammer-out-a-royalty-free-video-codec
+    ^ Bhojani, D.R. "4.1 Video Compression" (PDF) . Hypothesis . Retrieved 6 March 2013 .  
+    ^ Jaiswal, R.C. (2009). Audio-Video Engineering . Pune, Maharashtra: Nirali Prakashan. p. 3.55. ISBN   9788190639675 .  
+    ^ a b Jan Ozer. "Encoding options for H.264 video" . Adobe.com . Retrieved 6 January 2015 .  
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Video_coding_format&oldid=846494327 "
+Categories :
+
+    Video
+    Video formats
+
+Hidden categories:
+
+    Articles needing additional references from January 2015
+    All articles needing additional references
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+In other projects
+
+    Wikimedia Commons
+
+Languages
+
+    Čeština
+    Español
+
+Edit links
+
+    This page was last edited on 19 June 2018, at 03:21  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

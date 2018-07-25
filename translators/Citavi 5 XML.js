@@ -1,18 +1,18 @@
 {
 	"translatorID": "e7243cef-a709-4a46-ba46-1b1318051bec",
+	"translatorType": 1,
 	"label": "Citavi 5 XML",
 	"creator": "Philipp Zumstein",
 	"target": "xml",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
+	"inRepository": true,
+	"browserSupport": "gcsi",
 	"configOptions": {
 		"dataMode": "xml/dom"
 	},
-	"inRepository": true,
-	"translatorType": 1,
-	"browserSupport": "gcsi",
-	"lastUpdated": "2018-01-01 10:43:28"
+	"lastUpdated": "2018-07-18 16:30:00"
 }
 
 /*
@@ -244,7 +244,7 @@ function doImport() {
 			if (address) {
 				if (addressType == "Doi" && !item.DOI) {
 					item.DOI = address;
-				} else if (addressType == "PubMedId" && item.extra.indexOf("PMID") == -1) {
+				} else if (addressType == "PubMedId" && ((item.extra && !item.extra.includes("PMID"))|| !item.extra)) {
 					addExtraLine(item, "PMID", address);
 				} else {
 					// distinguish between local paths and internet addresses

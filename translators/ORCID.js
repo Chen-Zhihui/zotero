@@ -1,15 +1,15 @@
 {
 	"translatorID": "e83248bb-caa4-4dd2-a470-11f4cd164083",
+	"translatorType": 4,
 	"label": "ORCID",
 	"creator": "Philipp Zumstein",
 	"target": "^https?://orcid\\.org/",
 	"minVersion": "4.0.29.11",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2017-01-01 15:29:29"
+	"lastUpdated": "2018-07-12 16:00:00"
 }
 
 /*
@@ -57,14 +57,14 @@ function detectWeb(doc, url) {
 		return false;
 	}
 	//check that work ids can be found
-	if (getIds(doc, url) != null) {
+	if (getIds(doc, url) !== null) {
 		return "multiple";
 	}
 }
 
 
 function lookupWork(workid, orcid) {
-	var callApi = 'https://pub.orcid.org/v2.0_rc2/' + orcid + '/work/' + workid;
+	var callApi = 'https://pub.orcid.org/v2.0/' + orcid + '/work/' + workid;
 	ZU.doGet(callApi, function(text){
 		//Z.debug(callApi);
 		//Z.debug(text);
@@ -80,7 +80,7 @@ function lookupWork(workid, orcid) {
 
 function doWeb(doc, url) {
 	var orcid = doc.getElementById("orcid-id");
-	orcid = orcid.textContent.replace('orcid.org/', '');
+	orcid = orcid.textContent.replace('https://orcid.org/', '');
 	Zotero.selectItems(getIds(doc, url), function (items) {
 		if (!items) {
 			return true;
