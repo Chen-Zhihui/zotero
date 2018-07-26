@@ -1,0 +1,1423 @@
+UCLA
+Recent Work
+Title Expectation Maximization and Mixture Modeling Tutorial
+Permalink https://escholarship.org/uc/item/1rb70972
+Author Dinov, Ivo D
+Publication Date 2008-12-09
+
+eScholarship.org
+
+Powered by the California Digital Library University of California
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Generalized Expectation Maximization 1
+
+This technical report describes the statistical method of expectation maximization (EM) for parameter estimation. Several of 1D, 2D, 3D and n-D examples are presented in this document. Applications of the EM method are also demonstrated in the case of mixture modeling using interactive Java applets in 1D (e.g., curve fitting), 2D (e.g., point clustering and classification) and 3D (e.g., brain tissue classification).
+Table of Contents
+1 Maximum Likelihood Estimation (MLE)................................................................................ 2 Example 1: Nornal(μ,σ2) ........................................................................................................ 3 Example 2: Poisson(λ)............................................................................................................ 3
+2 General Expectation Maximization (GEM) Algorithms.......................................................... 4 Application 1 (Missing Values) .............................................................................................. 4 Application 2 (Pattern Recognition) ....................................................................................... 4 Step 1 of EM (Expectation) .................................................................................................... 5 Step 2 of EM (Maximization) ................................................................................................. 6
+3 EM Application: Finding Maximum Likelihood Mixture Densities Parameters via EM ....... 6 4. Examples................................................................................................................................. 9
+Example 1: Poisson(λ)............................................................................................................ 9 Example 2: n-D Gaussian ....................................................................................................... 9 Example 3: 1D Distribution Mixture-Model-Fitting using EM............................................ 11 Example 4: 2D Point Clustering and Classification using EM............................................. 13 Example 5: 3D Brain Tissue Classification using EM and Mixture Modeling .................... 15 5. Online SOCR Demos............................................................................................................ 15 6. References:............................................................................................................................ 16
+
+1 This set of class notes is based on previous work by Bilmer, Bishop, Dempster, Ghahramami, Jordon, Rabiner, Redner, Wu and Xu see references at the end of the document.
+
+www.StatisticsResource.org
+
+1
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+1 Maximum Likelihood Estimation (MLE)
+
+First, let’s recall the definition of the maximum-likelihood estimation problem. We have a density function p (x | Θ), that is governed by the set of parameters Θ (e.g., p might be a Gaussian and Θ could be the means (vector) and covariance (matrix)). We also have a data set of size N, supposedly drawn from this distribution with density p, i.e., X = {x1, …, xN}. That is, we assume that these data vectors are independent and identically distributed (IID) with distribution p . Therefore, the resulting joint density for the samples is:
+∏N
+p ( X | Θ) = i=1 p(xi | Θ) = L(Θ | X )
+L(Θ | X ) is called the likelihood function of the parameters (Θ) given the data, or just the likelihood. The likelihood is thought of as a function of the parameters (Θ) where the data X is fixed (observed). In the maximum likelihood problem, our goal is to find a parameter vector Θ that maximizes L(Θ | X ). In other words, we look for Θ∗ , where
+Θ* = ArgMax L(Θ| X)
+Θ
+Oftentimes we choose to maximize Log(L(Θ | X )) instead because it is analytically easier or computationally appealing.
+Depending on the form of p (x | Θ) this problem can be easy or hard. For example, if p (x | Θ) is simply a single Gaussian distribution where the parameter vector Θ=(μ, σ2), then we can solve the maximum likelihood problem of determining estimates (MLE) of μ & σ2 by setting the partial derivatives of Log(L(Θ | X )) to zero (in fact, this is how the familiar formulas for the population mean and variance are obtained). For many problems, however, it is not possible to find such analytical expressions, and we must resort to more elaborate techniques (e.g., EM technique).
+
+www.StatisticsResource.org
+
+2
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Example 1: Nornal(μ,σ2)
+
+Suppose {X1, …, Xn} IID N(μ, σ2), where μ is unknown. We estimate μ by:
+MLE(μ ) = μˆ = ΑrgΜax L(μ | ({X1, , X N }).
+μ
+
+MLE(μ )
+
+=
+
+Log
+
+⎜⎛ ⎜ ⎜⎝
+
+∏
+
+n i =1
+
+e
+
+−
+
+(
+
+x
+
+i
+
+−μ)2 2πσ 2
+
+2σ 2
+
+⎟⎞ ⎟= ⎠⎟
+
+L(μ )
+
+( ) 0 = L'(μˆ ) =
+
+1 2πσ 2
+
+n 2
+
+⎝⎜⎜⎛ e − ∑ in=1(xi
+
+− μˆ ) 2
+
+2σ 2
+
+⎟⎟⎠⎞
+
+∑
+
+n i =1
+
+2(
+
+x
+
+i
+
+2σ 2
+
+− μˆ )
+
+⇔ 0 = 2∑ in=1(xi
+
+−
+
+μˆ )
+
+⇔
+
+μˆ
+
+=
+
+∑
+
+n i =1
+
+xi
+
+n
+
+.
+
+( ) Similarly can show that : MLE(σ ) = σˆ
+
+=
+
+∑
+
+n i =1
+
+xi
+
+−μ
+
+2
+
+n
+
+−
+
+. 1
+
+Example 2: Poisson(λ)
+Suppose {X1, …, XN} IID Poisson(λ), where (the population mean, and standard deviation) λ is unknown. Estimate λ by:
+
+MLE(λ ) = λˆ = ΑrgΜax L(λ | ({X1, , X N })
+λ
+
+MLE(λ )
+
+=
+
+Log
+
+⎜⎛ ⎜⎝
+
+∏in=1
+
+e
+
+−λ λxi ( xi )!
+
+⎞⎟ ⎠⎟
+
+=
+
+L(λ)
+
+0
+
+=
+
+L' (λˆ)
+
+=
+
+∂ ∂λ
+
+Log
+
+⎜⎛ ⎝⎜
+
+e
+
+−nλ λ∑in=1 xi ∏in=1 ( xi )!
+
+⎟⎞ ⎟⎠
+
+=
+
+( ) ∂
+= ∂λ
+
+− nλ + Log (λ )∑in=1 xi
+
+=
+
+−n
+
++
+
+1 λ
+
+∑in=1 xi
+
+⇔
+
+λˆ
+
+=
+
+∑in=1 xi
+
+n
+
+.
+
+www.StatisticsResource.org
+
+3
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+2 General Expectation Maximization (GEM) Algorithms
+
+The EM algorithm is one such technique, which allows estimating parameter vectors in the cases when such analytic solutions to the likelihood minimization are difficult or impossible. The EM algorithm [see references at the end] is a general method of finding the maximum-likelihood estimates of the parameters of an underlying distribution from a given data set when the data is incomplete or has missing values. There are two main applications of the EM algorithm.
+Application 1 (Missing Values)
+The first application of EM algorithm occurs when the data indeed has missing values, due to problems with or limitations of the observation process.
+Application 2 (Pattern Recognition)
+The second occurs when optimizing the likelihood function is analytically intractable, however, we still need to assume the likelihood function can be simplified by assuming the existence of and values for additional but missing (or hidden) parameters. This second application is more common in the computational pattern recognition community.
+As before, we assume that data X is observed and is generated by some distribution. We call X the incomplete data. We assume that a complete data set exists Z=(X;Y) and also assume (or specify) a joint density function:
+p (Z | Θ) = p ( X,Y | Θ) = p (Y | X,Θ) p ( X | Θ)
+
+Recall that for each probability measure, P, P(A,B)=P(A|B)P(B) and hence, in terms of the conditional probability, P(A,B|C) = P(A|B,C)P(B|C). This joint density often times arises from
+the marginal density function p ( X | Θ) and the assumption of hidden variables and parameter
+value guesses (e.g., mixture-densities, this example is coming up; and Baum-Welch algorithm). In other cases (e.g., missing data values in samples of a distribution), we must assume a joint relationship between the missing and observed values.
+With this new density function, we can define a new likelihood function,
+L( Θ | Z ) = L( Θ | X,Y ) = p ( X,Y | Θ) ,
+called the complete-data likelihood. Note that this function is in fact a random variable since the missing information Y is unknown, i.e., random, and presumably governed by an underlying distribution. That is, we can think of L( Θ | X,Y ) = h X,Θ(Y ) for some function h X,Θ(Y ) , where X and Θ are constant and Y is a random variable. The original likelihood L( Θ | X ) is referred to as the incomplete-data likelihood function.
+The Expectation Maximization algorithm then proceeds in two steps – expectation followed by its maximization.
+
+www.StatisticsResource.org
+
+4
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Step 1 of EM (Expectation)
+
+The EM algorithm needs to first find the expected value of the complete-data log-likelihood
+( ) Log p ( X,Y | Θ) with respect to the unknown data Y given the observed data X and the
+
+current parameter estimates Θi, the E-Step. Below we define the expectation of Θ(i-1), the
+
+second argument represents the parameters that we use to evaluate the expectation. The first
+
+argument Θ simply indicates the parameter (vector) that ultimately will be optimized in an
+
+attempt to maximize the likelihood:
+
+Q(Θ, Θ(i-1))=E[Log p (X,Y | Θ) | X, Θ(i-1)].
+
+(1)
+
+Where Θ(i-1) are the current parameters estimates that we used to evaluate the expectation and Θ
+
+are the new parameters that we optimize to increase (maximize) Q. Note that the expression above is a conditional expectation w.r.t. (X & Θ(i-1)), i.e.,
+
+E[ h(Y) | X=x] := E[ h(Y)| X = x] := ∫y h(y) × fY|X (y | x)dy .
+
+The key thing to understand is that X and Θ(i-1) are given constants, Θ is a random variable that we wish to adjust/estimate, and Y is a random variable governed by the distribution f(Y |X,Θ(i1)). The right side of equation (1) can therefore be expressed as:
+Ε[Log p ( X , Y | Θ) | X , Θ(i−1) ] = ∫y∈Y Log p ( X , y | Θ) f ( y | X , Θ(i−1) )dy (2)
+
+The f(Y |X,Θ(i-1)) is the marginal distribution of the unobserved data (Y) and is dependent on: the observed data X, on the current parameters Θ(i-1), and Y is the space of values y can take on.
+In the best-case situations, this marginal distribution is a simple analytical expression of the assumed parameters Θ(i-1), and perhaps the observed data (X). In the worst-case scenario, this
+density might be very hard to obtain. In fact, sometimes the actually used density is: f(y ,X | Θ(i-1))= f(y | X,Θ(i-1)) f(X | Θ(i-1)),
+but this doesn’t effect subsequent steps since the extra factor, f(X | Θ(i-1)) is not dependent on Θ.
+
+As an analogy, suppose we have a function h( . ; . ) of two variables. Consider h( θ ; Y ) where θ
+is a constant and Y is a random variable governed by some distribution fY(y). Then
+q(θ) = EY [h(θ ;Y )] = ∫y h(θ ;Y ) fY ( y)dy
+is now a deterministic function that could be maximized if desired, w.r.t. θ. The evaluation of
+this expectation is called the E-step of the algorithm. Notice the meaning of the two arguments in the function Q(Θ, Θ(i-1)). The first argument Θ corresponds to the parameters that ultimately will be optimized in an attempt to maximize the likelihood. The second argument, Θ(i-1), corresponds to the parameters that we use to evaluate the expectation at each iteration (EÆM Æ EÆM Æ EÆM Æ …).
+
+www.StatisticsResource.org
+
+5
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Step 2 of EM (Maximization)
+
+The second step (the M-step) of the EM algorithm is to maximize the expectation we computed
+
+( ) in the first step. That is, we iteratively compute: Θ(i) = ArgMax Q⎛⎜ Θ, Θ(i − 1) ⎟⎞ .
+
+⎝
+
+⎠
+
+Θ
+
+That is we maximize the expectation of the log-likelihood function. These two steps are repeated
+
+as necessary. Each iteration is guaranteed to increase the log-likelihood and the algorithm is
+
+guaranteed to converge to a local maximum of the likelihood function. There are many
+
+theoretical and empirical rate-of-convergence papers (see references below).
+
+A modified form of the M-step is to, instead of maximizing the rather difficult function Q(Θ, Θ(i-1)), we find some Θ(i) such that Q(Θ(i), Θ(i-1)) > Q(Θ, Θ(i-1)). This form of the
+algorithm is called Generalized EM (GEM) and is also guaranteed to converge. This description of the GEM does not yield a direct computer implementation scheme (it’s not constructive (the coding algorithm is not explicit). This is the way, however, that the algorithm is presented in its most general form. The details of the steps required to compute the given quantities are very dependent on the particular application, so they are not discussed when the algorithm is presented in this abstract form, but rather detailed for each specific application.
+
+3 EM Application: Finding Maximum Likelihood Mixture Densities Parameters via EM
+The mixture-density parameter estimation problem is probably one of the most widely used applications of the EM algorithm in the computational pattern recognition community. In this case, we assume the following (mixture-density) model:
+∑M
+p(x | Θ) = i=1ai pi (x | Θ) M =# Mixture Distributions (3)
+where the parameter vector is Θ=(α1, …, αΜ ; θ1, …, θΜ), where the mixture-model weights
+satisfy ∑iM=1α i = 1 and each pi is a density function parameterized, in general, by its own
+parameter vector θi. In other words, we assume we have M component densities mixed together with M mixing coefficients αi .
+The incomplete-data log-likelihood expression for this density from the data X={x1, …, xN}, N =
+( ) [ ] [ ] # Observations, is given by: Log L(Θ | X ) = Log ∏iN=1 p(xi | Θ) = ∑iN=1 Log ∑Mj=1a j p j (x | θj)
+which is difficult to optimize because it contains the logarithm function of the sum [if the sum and the log were interchanged then optimizing the outside logarithm would have been equivalent to optimizing its argument – the sum – as the log function has always a positive derivative over its domain (0; ∞ )]. If we consider X as incomplete, however, and assume the existence of unobserved data items Y={yi}i=1N, whose values inform us which component density “generated”
+
+www.StatisticsResource.org
+
+6
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+each data item, the likelihood expression is significantly simplified. That is, if we assume that
+
+yi ∈ {1,2,..., M } for each 1 ≤ i ≤ N , and yi=k if the ith sample, xi, was generated by the kth
+
+( ) [ ] [ ] [ ] mixture component pk. If we know the values of Y, the likelihood becomes:
+Log L(Θ | X,Y ) = Log P( X,Y | Θ) = ∑iN=1 Log P( xi | yi ) P( yi ) = ∑iN=1 Log α yi p yi ( xi | θ yi )
+
+which, given a particular form of the component densities, can be optimized using a variety of
+
+techniques. The problem, of course, is that we do not know the values of Y. If we assume Y is a
+
+random vector, however, we can proceed. We first must derive an expression for the distribution
+
+of the unobserved (missing) data, Y. Let’s first guess at parameters for the mixture density, i.e., we guess that Θg =(α1g, …, αΜg ; θ1g, …, θΜg), are the appropriate parameters for the likelihood L(Θg | X,Y). Given Θg, we can compute pj(xi|θjg) for each i and j. In addition, the mixing parameters, αi, can be though of as prior probabilities of each mixture component, that is αi=
+p(component i). Therefore, using Bayes’s rule – P(Yi|Xi)=P(Xi|Yi)P(Yi)/P(Xi), we can compute:
+
+g
+
+g α
+yi
+
+p yi ⎜⎝⎛ xi
+
+g |θ
+yi
+
+⎞⎠⎟
+
+g α
+yi
+
+p yi ⎜⎛⎝ xi
+
+g |θ
+yi
+
+⎠⎟⎞
+
+p( yi | xi , Θ ) =
+
+g p(xi | Θ )
+
+=
+
+∑ kM=1 α
+
+g k
+
+pk
+
+(
+
+xi
+
+|
+
+g Θk )
+
+and therefore, p( y | X , Θ g ) = ∏iN=1 p( yi | xi , Θ g ) , where y = (y1, …, yN) is an instance of
+
+the unobserved data independently drawn. When we now look at equation (2), we see that in this
+
+case we have obtained the desired marginal density (of Y), f(y | X,Θ(i-1)), by assuming the
+
+existence of the hidden variables and making a guess at the initial parameters of their
+
+distribution. In this case, equation (1) takes the specific form:
+
+( ) ( ) Q Θ, Θ( g ) = ∑ y∈Y log L (Θ | X , y) p( y | X , Θ g )
+
+( ) = ∑ y∈Y ∑iN=1 Log α yi
+
+p yi (xi | θ yi
+
+)
+
+∏
+
+N j =1
+
+p(y
+
+j
+
+|
+
+x j ,Θg )
+
+( ) =
+
+∑
+
+M∑ y1=1
+
+M y2
+
+=1...∑
+
+M yN
+
+=1
+
+∑iN=1
+
+Log
+
+α
+
+yi
+
+p yi (xi | θ yi
+
+)
+
+∏
+
+N j =1
+
+p(y
+
+j
+
+|
+
+x j ,Θg )
+
+( ) =
+
+∑
+
+M y1=1
+
+∑
+
+M y2
+
+=1...∑
+
+M yN
+
+=1 ∑iN=1 ∑lM= 1 δ l , yi
+
+Log
+
+αl
+
+pl (xi | θl )
+
+∏
+
+N j =1
+
+p(y j |
+
+x j ,Θg )
+
+( ) = ∑lM=1 ∑iN=1 Log αl
+
+pl (xi | θl )
+
+∑
+
+M y1=1
+
+∑
+
+M y2
+
+=1...∑
+
+M yN
+
+δ =1
+
+l
+
+,
+
+yi
+
+∏
+
+N j =1
+
+p(y j |
+
+x j ,Θg )
+
+( 4)
+
+{ ( ) where δl,yi =
+
+1, if l = yi . In this form, Q Θ, Θ( g ) 0, otherwise
+
+appears computationally challenging,
+
+however, it can be simplified, since for l ∈ {1,2,..., M },
+
+www.StatisticsResource.org
+
+7
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+∑
+
+M y1 =1
+
+∑
+
+M y2
+
+=1
+
+... ∑
+
+M yN
+
+=1
+
+δ
+
+l
+
+,
+
+y
+
+i
+
+∏ Nj =1 p(y j |
+
+g x j ,Θ ) =
+
+⎛⎜⎝ ⎟⎠⎞ =
+
+N
+
+∑ M ...∑ M
+
+∑M
+
+...∑ M
+
+∏
+
+y1 = 1 yi − 1 = 1 yi + 1 = 1 yN = 1 j = 1, j ≠ i
+
+p(y j |
+
+x j ,Θg )
+
+g p( l | xi , Θ )
+
+⎣⎡⎢ ⎥⎦⎤ =
+
+∏
+
+N j =1,
+
+j≠i
+
+∑M yj
+
+=1
+
+p(y
+
+j
+
+|
+
+x j ,Θg )
+
+p( l | xi , Θ g ) = p( l | xi , Θ g )
+
+(5)
+
+This is because ∑iM= 1
+
+p( i |
+
+g
+x j , Θ ) = 1 . Using equation (5), we can write equation (4) as:
+
+( ) ( ) Q Θ, Θ( g ) = ∑lM= 1 ∑iN= 1 Log al pl ( xi | θl ) p(l | xi , Θg ) ( ) ( ) ( ) = ∑lM= 1 ∑iN= 1 Log al Log pl ( xi | Θg ) + ∑lM= 1 ∑iN= 1 Log pl ( xi | θl ) p(l | xi , Θg ) (6)
+
+= Φ({α l }) + Ψ({θl }).
+
+Now, to maximize this expression, we can maximize independently Φ and Ψ, the terms
+
+containing αl and θl, since they are not related. To find the expression for αl, which maximizes
+
+Q(Θ,Θ(g)), we introduce the Lagrange multiplier λ with the constraint that g = ∑l α l − 1 = 0 ,
+
+and solve the following equation:
+
+[ ( ) ( )] ( ) ∂
+∂α l
+
+∑lM= 1 ∑iN= 1 Log αl
+
+Log pl ( xi | Θg ) + λ ∑lM= 1αl − 1
+
+=0
+
+This yields: ∑iN=1α1l pl (xi | Θ g ) + λ = 0
+
+Summing over l we get:
+
+∑lM=1
+
+⎡ ⎢⎣∑iN=1
+
+1 αl
+
+pl (xi
+
+|
+
+Θ
+
+g
+
+)
+
++
+
+λ
+
+⎤ ⎥⎦
+
+=
+
+∑iN=1
+
+∑lM=
+
+1 1αl
+
+pl ( xi
+
+| Θg ) + M λ
+
+=0
+
+Therefore, λ = -N , which yields that α l = 1 ∑iN=1 pl ( xi | Θ g ) . This is how we determine the N
+mixture parameters {αl}, most of the time.
+
+Now let us try to estimate the second part of the parameter vector Θ=(α1, …, αΜ ; θ1, …, θΜ), i.e., the distribution specific parameters (θ1, …, θΜ). Clearly, these need to be estimated in a case by case manner, as different distributions have different number and type of parameters. We consider again a couple of cases that illustrate the basic strategy for estimating (θ1, …, θΜ) using
+
+www.StatisticsResource.org
+
+8
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+EM approaches. For some distributions, it will be possible to get analytic expressions for θl
+directly, as functions of all other variables.
+
+4. Examples
+
+Example 1: Poisson(λ)
+
+Suppose that the mixture model in equation (3) involves Poisson(λl) distributions, 1 ≤ l ≤ M .
+
+( ) ( ) Then the
+
+Q Θ, Θ( g ) = ∑lM= 1 ∑iN= 1 Log pl ( xi | μl , Σl ) p(l | xi , Θ g )
+
+[ ( )] = ∑lM= 1 ∑iN= 1 − λl + xi Log (λl ) − Log ( xi )! p(l | xi , Θg )
+
+Taking the derivatives w.r.t. λl and setting these equal to zero yields,
+
+( ) ( ) 0
+
+=
+
+∑iN=1
+
+⎡ ⎣⎢−
+
+1
+
++
+
+xi λl
+
+⎤ ⎦⎥
+
+p
+
+l
+
+|
+
+xi
+
+,
+
+Θg
+
+⇒
+
+−N
+
++
+
+1 λl
+
+∑iN=1 xi
+
+p
+
+l
+
+|
+
+xi , Θ g
+
+=0
+
+λl
+
+=
+
+∑iN= 1 xi p⎜⎝⎛ ∑iN= 1 p⎛⎝⎜ l
+
+l |
+
+| xi xi ,
+
+, Θg ⎞⎠⎟ Θg ⎠⎟⎞
+
+.
+
+Therefore, we have explicit expressions for iterative calculation of the estimates of the mixture
+
+parameters, Θ=(α1, …, αΜ), and the Poisson distribution parameters, (θ1, …, θΜ)=(λ1, …, λΜ).
+
+Example 2: n-D Gaussian
+
+If we assume d-dimensional Gaussian component distributions with a mean vector μ and covariance matrix Σ, i.e., θ = (μ; Σ) then the probability density function is
+
+pl (x
+
+|θ)
+
+=
+
+pl (x
+
+|
+
+μl , Σl )
+
+=
+
+(2π )d
+
+1
+/2
+
+Σl
+
+1/ 2
+
+Exp⎝⎜⎛ −
+
+1 (x
+2
+
+−
+
+μl )T Σl− 1( x
+
+−
+
+μl )⎟⎠⎞
+
+(7)
+
+Then we may derive the update equations [equations (1), (4), (6)] for this specific distribution, we need to recall some results from matrix algebra. The trace of a square matrix tr(A) is equal to the sum of A’s diagonal elements. In 1D the trace of a scalar equals that scalar. Also, tr(A + B) = tr(A) + tr(B), and tr(AB) = tr(BA), which implies that
+
+if
+
+B
+
+=
+
+∑i
+
+T xi xi
+
+⇒
+
+∑i
+
+T xi
+
+A
+
+xi
+
+= tr ( AB) . Also note that |A| indicates the determinant of the
+
+matrix A, and |A-1|=1/|A|. Differentiation of a function of a matrix f(A) is accomplished by
+
+differentiating with respect to elements of that matrix. Therefore, we define df(A)/dA to be the
+
+matrix with (i,j)-th entry equal to [df(A)/dai,j], where A=( ai,j). This definition also applies taking
+
+www.StatisticsResource.org
+
+9
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+derivatives with respect to a vector. First, d(xTAx)/dx=(A+AT)x. Second, it can be shown that when A is a symmetric matrix:
+
+∂| A| ∂ai, j
+
+=
+
+⎨⎩⎧2AAi,ij,
+
+, if i j , if
+
+=j i≠
+
+j
+
+where Ai,j is the (i,j)-the cofactor of A. Given the above, we see that:
+
+∂Log | ∂A
+
+A
+
+|
+
+=
+
+⎧Ai, j ⎪⎪ ⎨⎪2 Ai, ⎩⎪
+
+A , if i j A , if
+
+=j i≠
+
+⎫
+⎪ ⎬ j⎪ ⎭
+
+=
+
+− 2A
+
+1
+
+−
+
+− diag ( A
+
+1 )
+
+by the definition of the inverse of a matrix. Finally, it can be shown that dtr(AB)/dA = B + BT-
+
+diag(B).
+
+Now, for the d-dimensional Gaussian distribution example, if we take a log of equation (7),
+
+ignoring any constant terms (since they disappear after taking derivatives), and substituting into
+
+( ) ( ) the right side of equation (6), we get: Q Θ, Θ( g ) = ∑lM= 1 ∑iN= 1 Log pl ( xi | μl , Σl ) p(l | xi , Θ g )
+
+( ) ( ) =
+
+∑lM=
+
+1 ∑iN=
+
+1⎛⎝⎜ −
+
+1 2
+
+Log (|
+
+Σl
+
+|) −
+
+1 2
+
+x − μl
+
+T Σl− 1
+
+x − μl
+
+⎟⎞⎠ p(l | xi , Θg )
+
+(8)
+
+( ) Taking the derivative of equation (8) with respect to μl and setting it equal to zero, we get: ∑iN=1⎝⎛⎜ Σl− 1(xi − μl ) p l | xi , Θ g ⎞⎠⎟ = 0
+
+which solving for μl yields:
+
+(( )) μl
+
+=
+
+∑iN=1 xi p l | xi , Θ g ∑iN=1 p l | xi , Θ g
+
+To find Σl, note that we can write equation (8) as:
+
+( )( ) ∑lM=
+
+1
+
+⎡1 ⎢⎣ 2
+
+Log
+
+Σl−
+
+1
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi
+
+,
+
+Θg
+
+)
+
+−
+
+1 2
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi , Θ g )
+
+tr ⎡⎢⎣Σl− 1
+
+x − μl
+
+x − μl
+
+T ⎤⎤ ⎦⎥⎥⎦
+
+=
+
+=
+
+∑lM=
+
+⎡1 1 ⎢⎣2
+
+Log
+
+Σl− 1 ∑iN=
+
+1 p(l
+
+|
+
+xi , Θ g )
+
+−
+
+1 2
+
+∑iN=
+
+1 p(l
+
+|
+
+xi , Θ g )
+
+tr
+
+⎡⎣⎢Σl−
+
+1Nl
+
+,
+
+i
+
+⎤ ⎦⎥
+
+⎤ ⎦⎥
+
+(9)
+
+( )( ) where Nl,i = x − μl
+
+x − μl
+
+T . In equation (9) we now take the derivative with respect to the
+
+matrix Σl-1, and we obtain:
+
+www.StatisticsResource.org
+
+10
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+( ) 1
+2
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi
+
+,
+
+Θg
+
+)⎜⎛⎝
+
+2Σl
+
+− diag (Σl
+
+) ⎞⎠⎟ −
+
+1 2
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi , Θg )
+
+2 Nl,i − diag ( Nl,i )
+
+=
+
+( ) =
+
+1 2
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi
+
+, Θg
+
+)
+
+2Ml,i − diag (Ml,i )
+
+= 2S − diag (S ),
+
+(10)
+
+( )( ) where Nl,i = x − μl
+
+x − μl
+
+T , Ml,i = Σl
+
+– Nl,i and S =
+
+1 2
+
+∑iN=
+
+1
+
+p(l
+
+|
+
+xi ,
+
+Θg
+
+)M l,
+
+i
+
+.
+
+To
+
+find
+
+the extreme values (maxima) of the , equation (9) we set the derivative to zero [equation (10)],
+
+( ) i.e., 2S – diag(S) = 0. This implies that S=0 Î ∑iN= 1 p(l | xi , Θg ) Σl − Nl, i = 0. So, we
+
+[ ( )] obtain an exact expression (variance-covariance matrix estimate, 1 ≤ l ≤ M) for Σl.
+
+Σl
+
+=
+
+∑iN= 1 p(l | xi , Θg )Nl, i ∑iN= 1 p(l | xi , Θg )
+
+=
+
+∑iN= 1
+
+p(l | xi , Θg ) ( xi − μl )( xi ∑iN= 1 p(l | xi , Θg )
+
+− μl )T
+
+Summarizing, the estimates of the new parameters in terms of the old parameters (guessed parameters super-indexed by g, Θg =(α1g, …, αΜg ; θ1g, …, θΜg)) are as follows:
+
+α lnew
+
+=
+
+1 N
+
+∑iN= 1 p(l
+
+|
+
+xi , Θg )
+
+μlnew
+
+=
+
+∑iN= 1 xi p(l | xi , Θg ) ∑iN= 1 p(l | xi , Θg )
+
+(11)
+
+[ ( )] Σlnew
+
+=
+
+∑iN= 1
+
+p(l
+
+|
+
+xi , Θg ) ( xi − μlnew )( xi ∑iN= 1 p(l | xi , Θg )
+
+−
+
+μlnew )T
+
+Note that the above equations (11) perform both the expectation step and the maximization step simultaneously. The algorithm proceeds by using the newly derived parameters as the guess for the next iteration.
+
+Example 3: 1D Distribution Mixture-Model-Fitting using EM
+These SOCR Activities demonstrate fitting a number of polynomial, distribution and spectral models to data: http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_ModelerActivities.
+
+www.StatisticsResource.org
+
+11
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+For instance, suppose we have a collection of 100 observations. The first 20 of these observations are included in the table below. A histogram of these observations is also shown below.
+
+1 -2.51002
+
+2 -2.51002
+
+3 -1.5060121
+
+4 -1.5060121
+
+5 -1.5060121
+
+6 -1.5060121
+
+7 -1.5060121
+
+8 -1.5060121
+
+9 -1.5060121
+
+10 -1.5060121
+
+11 -1.5060121
+
+12 -1.5060121
+
+13 -1.5060121
+
+14 -1.5060121
+
+15 -1.5060121
+
+16 -0.502004
+
+17 -0.502004
+
+18 -0.502004
+
+19 -0.502004
+
+These data was generated using SOCR Modeler:
+
+20 -0.502004
+
+http://socr.ucla.edu/htmls/SOCR_Modeler.html
+
+http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_Activities_RNG
+
+And the Histogram was obtained using SOCR Charts: http://socr.ucla.edu/htmls/SOCR_Charts.html http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_Activities_Histogram_Graphs
+
+If these 100 random observations are copy-pasted in SOCR Modeler (http://socr.ucla.edu/htmls/SOCR_Modeler.html), we can fit in a mixture of 2-Normal Distributions to these data, as shown in the figure below. The quantitative results of this Em fit of 2 Normal distributions to these data is reported in the Results panel.
+Mixture Model 0: Weight =0.796875 Mean = 0.06890251005397123 Variance = 1.1959966055736866
+Mixture Model 1: Weight =0.203125 Mean = 4.518035888671875 Variance = 1.0
+
+INTERSECTION POINT(S): 2.708939236914807
+
+www.StatisticsResource.org
+
+12
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Example 4: 2D Point Clustering and Classification using EM
+We can use the SOCR EM Chart, to enter real 2D data or simulate such data. The figure below shows the plot of knee pain data (courtesy of Colin Taylor, MD, TMT Medical).
+• http://socr.ucla.edu/htmls/SOCR_Charts.html • http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_Activities_2D_PointSegmentation_EM_Mixture
+
+If we select four 2D Gaussian kernels, we can run iteratively the EM mixture-modeling algorithm to estimate the 4-clusters and finally classify the points in this knee-pain dataset, as shown in the figure below.
+
+www.StatisticsResource.org
+
+13
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+The estimated 2D Gaussian kernels are reported in the table below.
+
+Kernel:1
+
+Color[r=85,g=85,b=255]
+
+mX = 12.109004237402402 mY = 117.82567907801044
+
+sXX = 21.032925241685124 sXY = 78.7581941291246
+
+sYX = 78.7581941291246
+
+sYY = 24.09825818460926
+
+weight = 0.430083268505667 likelihood = -10.208282817360221
+
+Kernel:2
+
+Color[r=85,g=255,b=85]
+
+mX = 149.38436424342427 mY = 192.71749953677403
+
+sXX = 20.76028543262703 sXY = -8.73565367620904
+
+sYX = -8.73565367620904 sYY = 22.72742021102665
+
+weight = 0.39741243015152933 likelihood = -10.208282817360221
+
+Kernel:3
+
+Color[r=255,g=255,b=85]
+
+mX = 384.0858049258344 mY = 130.33122378944105
+
+sXX = 23.636423858007923 sXY = 135.0559608391195
+
+sYX = 135.0559608391195 sYY = 21.654643444147702
+
+weight = 0.06547362085865455 likelihood = -10.208282817360221
+
+Kernel:4
+
+Color[r=255,g=85,b=255]
+
+mX = 384.0858049258344 mY = 147.83898638544392
+
+sXX = 25.080070954205347 sXY = -94.47319742216496
+
+sYX = -94.47319742216496 sYY = 24.591327584325068
+
+weight = 0.09143983449841454 likelihood = -10.208282817360221
+
+www.StatisticsResource.org
+
+14
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+Example 5: 3D Brain Tissue Classification using EM and Mixture Modeling
+A demonstration of a 3D data analysis using the SOCR EM Mixture model is included in the LONI Viz Manual (http://www.loni.ucla.edu/download/LOVE/LOVE_User_Guide.pdf). This example shows how 3D brain imaging data may be segmented into three tissue types (White Matter, Gray Matter and Cerebra-spinal Fluid). This is achieved by LONI Viz (Dinov et al., 2006) sending the segmentation tasks to SOCR and SOCR returning back the 3D segmented volumes, which are superimposed dynamically on top of the initial anatomical brain imaging data in real time. The figure below illustrates this functionality. Other external computational tools could also invoke SOCR statistical computing resources directly by using the SOCR JAR binaries (http://www.socr.ucla.edu/htmls/SOCR_Download.html) and the SOCR Documentation (http://www.socr.ucla.edu/docs).
+
+5. Online SOCR Demos
+• http://wiki.stat.ucla.edu/socr/index.php/AP_Statistics_Curriculum_2007_Estim_MOM_MLE • http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_ModelerActivities • http://socr.ucla.edu/htmls/SOCR_Modeler.html • http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_Activities_2D_PointSegmentation_EM_Mixture • http://wiki.stat.ucla.edu/socr/index.php/SOCR_EduMaterials_ModelerActivities_MixtureModel_1
+
+www.StatisticsResource.org
+
+15
+
+Ivo D. Dinov http://www.stat.ucla.edu/~dinov
+
+UCLA Statistics http://www.stat.ucla.edu/~dinov/courses_students.html
+
+6. References:
+A.P.Dempster, N.M. Laird, and D.B. Rubin. Maximum-likelihood from incomplete data via the EM algorithm. J. Royal Statist. Soc. Ser. B., 39, 1977.
+C. Bishop. Neural Networks for Pattern Recognition. Clarendon Press, Oxford, 1995.
+J.A. Bilmes. A Gentle Tutorial of the EM Algorithm and its Application to Parameter Estimation for Gaussian Mixture and Hidden Markov Models. Department of Electrical Engineering and Computer Science, U.C. Berkeley, Berkeley, CA 94704, TR-97-021, April 1998.
+Dinov ID, Valentino D, Shin BC, Konstantinidis F, Hu G, MacKenzie-Graham A, Lee EF, Shattuck DW, Ma J, Schwartz C and Toga AW. LONI Visualization Environment, Journal of Digital Imaging. Vol. 19, No. 2, 148-158, June 2006.
+Z. Ghahramami and M. Jordan. Learning from incomplete data. Technical Report AI Lab Memo No. 1509, CBCL Paper No. 108, MIT AI Lab, August 1995.
+M. Jordan and R. Jacobs. Hierarchical mixtures of experts and the EM algorithm. Neural Computation, 6:181–214, 1994.
+M. Jordon and L. Xu. Convergence results for the EM approach to mixtures of experts architectures. Neural Networks, 8:1409–1431, 1996.
+L. Rabiner and B.-H. Juang. Fundamentals of Speech Recognition. Prentice Hall Signal Processing Series, 1993.
+R. Redner and H. Walker. Mixture densities, maximum likelihood and the EM algorithm. SIAM Review, 26(2), 1984.
+C.F.J. Wu. On the convergence properties of the EM algorithm. The Annals of Statistics, 11(1):95–103, 1983.
+L. Xu and M.I. Jordan. On convergence properties of the EM algorithm for Gaussian mixtures. Neural Computation, 8:129–151, 1996.
+
+www.StatisticsResource.org
+
+16
+
