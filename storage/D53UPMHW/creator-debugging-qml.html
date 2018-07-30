@@ -1,0 +1,317 @@
+<html><head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<!-- qtquick-debugging.qdoc -->
+<title>Debugging Qt Quick Projects | Qt Creator Manual</title>
+<link href="online.css" rel="stylesheet" type="text/css">
+<link href="https://d33sqmjvzgs8hq.cloudfront.net/wp-content/themes/oneqt/assets/images/favicon.ico.gzip" rel="shortcut icon">
+<link href="https://d33sqmjvzgs8hq.cloudfront.net/wp-content/themes/oneqt/assets/images/favicon-32x32.png" rel="icon" type="image/png">
+<link href="https://d33sqmjvzgs8hq.cloudfront.net/wp-content/themes/oneqt/assets/images/favicon-16x16.png" rel="icon" type="image/png">
+<script type="text/javascript" async="" src="cse.js"></script><script async="" src="analytics.js"></script><script type="text/javascript" async="" src="cse.js"></script><script async="" src="analytics.js"></script><script type="text/javascript"> wpThemeFolder = 'http://qt.io/wp-content/themes/oneqt'; </script>
+<script src="jquery.js" type="text/javascript"></script>
+<script src="jquery-migrate.js" type="text/javascript"></script>
+<script src="combo.js" type="text/javascript"></script>
+<script src="main.js" type="text/javascript"></script>
+<script src="extras.js" type="text/javascript"></script>
+<script type="text/javascript">
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-54043535-2', 'qt.io');
+    ga('set', 'forceSSL', true);
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+<div class="header" id="tmpl_header">
+<header class="fixed" id="navbar"><div id="cookie-confirmation" style=""><div id="cookie-confirmation-inner"><p>We bake cookies in your browser for a better experience.  Using this site means that you consent.
+<a href="https://www1.qt.io/terms-conditions/">Read more</a></p><div id="cookie-confirmation-buttons-area"><a href="#" id="confirmation-button">Continue »</a>
+</div></div>
+<script>
+    $('#confirmation-button').on('click', function() { $('#cookie-confirmation').fadeOut(); createCookie("cookies_nom", "yum", 180); });
+    if (!(readCookie('cookies_nom') == 'yum')) { $('#cookie-confirmation').fadeIn(); }
+</script>
+</div>
+<div class="container">
+    <div class="navbar-header cf">
+        <div id="mm-wrap">
+            <ul id="mm-helper" class="mm-menu" data-event="hover_intent" data-effect="fade" data-effect-speed="200" data-panel-width="#navbar" data-panel-inner-width="1280px" data-second-click="go" data-document-click="collapse" data-vertical-behaviour="accordion" data-breakpoint="0">
+                <li class="mm-item"><a class="mm-link" href="http://blog.qt.io/" tabindex="0">Blog</a></li>
+                <li class="mm-item"><a class="mm-link" href="https://www.qt.io/contact-us/" tabindex="0">Contact Us</a></li>
+                <li class="mm-item"><a title="Qt Account" class="mm-link" href="https://account.qt.io/" tabindex="0"></a></li>
+            </ul>
+        </div>
+        <a class="navbar-oneQt retina" data-icon="" href="https://www.qt.io/"></a>
+    </div>
+</div>
+</header>
+</div>
+<div class="main">
+<div class="main-rounded">
+<div class="navigationbar">
+<ul class="sub-navigation">
+<li><a href="http://wiki.qt.io/">Wiki</a></li>
+<li><a class="active" href="http://doc.qt.io/">Documentation</a></li>
+<li><a href="http://forum.qt.io/">Forum</a></li>
+<li><a href="https://bugreports.qt.io/">Bug Reports</a></li>
+<li><a href="https://codereview.qt-project.org/">Code Review</a></li>
+</ul>
+<div id="main_title_bar">
+<h1>Qt Documentation</h1>
+<div class="search_bar">
+<script>
+            (function() {
+                var cx = '003672281345882769388:1y4pftuq8so';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+            })();
+        </script>
+<gcse:searchbox-only resultsurl="search-results.html"></gcse:searchbox-only>
+</div></div>
+<ul>
+<li><a href="https://doc.qt.io/qtcreator/index.html">Qt Creator Manual</a></li>
+<li class="last">Debugging Qt Quick Projects</li>
+<li id="buildversion">Qt Creator Manual 4.7.0</li>
+</ul>
+</div>
+<div class="content">
+<div class="line">
+<div class="content mainContent">
+<link href="https://doc.qt.io/qtcreator/creator-debugging-helpers.html" rel="prev">
+<link href="https://doc.qt.io/qtcreator/creator-debugging-example.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="prevPage" href="https://doc.qt.io/qtcreator/creator-debugging-helpers.html">Using Debugging Helpers</a>
+<a class="nextPage" href="https://doc.qt.io/qtcreator/creator-debugging-example.html">Debugging a C++ Example Application</a>
+</p><p></p>
+<div class="sidebar" style="transition: all 0.2s ease-out 0s; top: 66px;">
+<div class="toc"><div id="toc-toggle"></div><div id="toc-toggle"></div>
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#setting-up-qml-debugging">Setting Up QML Debugging</a></li>
+<li class="level1"><a href="#mixed-c-qml-debugging">Mixed C++/QML Debugging</a></li>
+<li class="level1"><a href="#starting-qml-debugging">Starting QML Debugging</a></li>
+<li class="level1"><a href="#debugging-javascript-functions">Debugging JavaScript Functions</a></li>
+<li class="level1"><a href="#executing-javascript-expressions">Executing JavaScript Expressions</a></li>
+<li class="level1"><a href="#applying-qml-changes-at-runtime">Applying QML Changes at Runtime</a></li>
+<li class="level1"><a href="#inspecting-items">Inspecting Items</a></li>
+<li class="level1"><a href="#inspecting-user-interfaces">Inspecting User Interfaces</a></li>
+</ul>
+</div>
+<div class="sectionlist normallist">
+<h2><strong>Resource Center</strong></h2>
+<p>Find webinars, use cases, tutorials, videos &amp; more at <a href="https://resources.qt.io/" target="_blank">resources.qt.io</a></p>
+</div><div class="sectionlist normallist">
+<h2><strong>Resource Center</strong></h2>
+<p>Find webinars, use cases, tutorials, videos &amp; more at <a href="https://resources.qt.io/" target="_blank">resources.qt.io</a></p>
+</div><div class="sidebar-content" id="sidebar-content"><div id="sidebar-toggle"></div><h2 id="reference">Qt Creator Manual</h2><div class="sectionlist normallist">
+    <div class="heading">
+        <a name="reference"></a>
+        <h2 id="reference">Qt Creator Manual</h2>
+    </div>
+    <div class="indexboxcont indexboxbar">
+        <ul>
+            <li><a href="https://doc.qt.io/qtcreator/creator-getting-started.html">Getting Started</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-project-managing.html">Managing Projects</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-design-mode.html">Designing User Interfaces</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-coding.html">Coding</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-building-running.html">Building and Running</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-testing.html">Testing</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-advanced.html">Advanced Use</a></li>
+            <li><a href="https://doc.qt.io/qtcreator/creator-help-overview.html">Getting Help</a></li>
+        </ul>
+    </div>
+</div></div></div>
+<div class="context">
+<h1 class="title">Debugging Qt Quick Projects</h1>
+<span class="subtitle"></span>
+<!-- $$$creator-debugging-qml.html-description -->
+<div class="descr"> <a name="details"></a>
+<p><b>Note: </b>You need Qt 5.0 or later to debug Qt Quick projects.</p><p>For an example of how to debug Qt Quick Projects, see <a href="https://doc.qt.io/qtcreator/creator-qml-debugging-example.html">Debugging a Qt Quick Example Application</a>.</p>
+<a name="setting-up-qml-debugging"></a>
+<h2 id="setting-up-qml-debugging">Setting Up QML Debugging<a class="plink" href="#setting-up-qml-debugging" title="Direct link to this headline"></a></h2>
+<p>The process of setting up debugging for Qt Quick projects depends on the <a href="https://doc.qt.io/qtcreator/quick-projects.html">type of the project</a>: Qt Quick UI or Qt Quick Application, and the Qt version used.</p>
+<p>To debug Qt Quick UI projects, select the <b>Enable QML</b> check box in the <b>Debugger Settings</b> in <b>Projects</b> mode <b>Run Settings</b>.</p>
+<p>To debug Qt Quick Applications:</p>
+<ol class="1" type="1"><li>Debugging is enabled by default for Qt 5.0, or later.<p>You might have to compile the library first, by selecting the <b>Compile</b> link.</p>
+<p class="centerAlign"><img alt="&quot;Build Steps&quot;" src="qml-link-debugging-library.png"></p><p><b>Note: </b>Debugging
+ requires opening a socket at a TCP port, which presents a security 
+risk. Anyone on the Internet could connect to the application that you 
+are debugging and execute any JavaScript functions. Therefore, you must 
+make sure that the port is properly protected by a firewall.</p></li>
+<li>In the <b>Run Settings</b>, <b>Debugger Settings</b> section, select the <b>Enable QML</b> check box to enable QML debugging.</li>
+<li>Select <b>Build &gt; Rebuild Project</b> to clean and rebuild the project.</li>
+<li>To debug applications on <a href="https://doc.qt.io/qtcreator/creator-glossary.html#glossary-device">devices</a>, check that Qt 5.0, or later, libraries are installed on the device and <a href="https://doc.qt.io/qtcreator/creator-running-targets.html">select the corresponding kit for the device</a> before you start debugging.</li>
+</ol>
+<a name="mixed-c-qml-debugging"></a>
+<h2 id="mixed-c-qml-debugging">Mixed C++/QML Debugging<a class="plink" href="#mixed-c-qml-debugging" title="Direct link to this headline"></a></h2>
+<p>To debug both the C++ and QML parts of your application at the same time, select the <b>Enable C++</b> and <b>Enable QML</b> checkboxes for both languages in the <b>Debugger Settings</b> section in the project <b>Run Settings</b>.</p>
+<p class="centerAlign"><img alt="" src="qtquick-debugging-settings.png"></p><a name="starting-qml-debugging"></a>
+<h2 id="starting-qml-debugging">Starting QML Debugging<a class="plink" href="#starting-qml-debugging" title="Direct link to this headline"></a></h2>
+<p>To start the application, choose <b>Debug &gt; Start Debugging &gt; Start Debugging</b> or press <b>F5</b>. Once the application starts running, it behaves and performs as usual. You can then perform the following tasks:</p>
+<ul>
+<li>Debug JavaScript functions</li>
+<li>Execute JavaScript expressions to get information about the state of the application</li>
+<li>Inspect QML properties and JavaScript variables and change them temporarily at runtime</li>
+</ul>
+<p>To debug already running applications:</p>
+<ol class="1" type="1"><li>Build the application by using the 
+appropriate configuration parameters (if you build the application with 
+Qt Creator, it automatically uses the correct configuration):<p><code>CONFIG+=qml_debug</code></p>
+</li>
+<li>Start the application with the following arguments:<p><code>qmljsdebugger=port:&lt;port&gt;[,host:&lt;ip address&gt;][,block]</code></p>
+<p>Where <code>port</code> (mandatory) specifies the debugging port, <code>ip address</code> (optional) specifies the IP address of the host where the application is running, and <code>block</code>
+ (optional) prevents the application from running until the debug client
+ connects to the server. This enables debugging from the start.</p>
+</li>
+<li>Select <b>Debug &gt; Start Debugging &gt; Attach to QML Port</b>.<p>Choose
+ the kit configured for the device where the application to be debugged 
+is running. The port number to use is displayed in the standard output 
+when the application starts.</p>
+</li>
+</ol>
+<a name="debugging-javascript-functions"></a>
+<h2 id="debugging-javascript-functions">Debugging JavaScript Functions<a class="plink" href="#debugging-javascript-functions" title="Direct link to this headline"></a></h2>
+<p>You can use the Qt Creator <b>Debug</b> mode to inspect the state of your application while debugging. You can interact with the debugger by:</p>
+<ul>
+<li><a href="https://doc.qt.io/qtcreator/creator-debug-mode.html#setting-breakpoints">Setting breakpoints</a></li>
+<li><a href="https://doc.qt.io/qtcreator/creator-debug-mode.html#viewing-call-stack-trace">Viewing call stack trace</a></li>
+<li><a href="https://doc.qt.io/qtcreator/creator-debug-mode.html#local-variables-and-function-parameters">Viewing local variables and function parameters</a></li>
+<li><a href="https://doc.qt.io/qtcreator/creator-debug-mode.html#evaluating-expressions">Evaluating expressions at run time</a></li>
+</ul>
+<a name="executing-javascript-expressions"></a>
+<h2 id="executing-javascript-expressions">Executing JavaScript Expressions<a class="plink" href="#executing-javascript-expressions" title="Direct link to this headline"></a></h2>
+<p>When the application is interrupted by a breakpoint, you can use the <b>Debugger Console</b> to execute JavaScript expressions in the current context. To open it, choose <b>Window</b> &gt; <b>Output Panes</b> &gt; <b>Debugger Console</b>.</p>
+<p class="centerAlign"><img alt="&quot;Debugger Console&quot;" src="qml-script-console.png"></p><p>For more information about using the console, see <a href="https://doc.qt.io/qtcreator/creator-quick-tour.html#debugger-console">Debugger Console</a>.</p>
+<a name="applying-qml-changes-at-runtime"></a>
+<h2 id="applying-qml-changes-at-runtime">Applying QML Changes at Runtime<a class="plink" href="#applying-qml-changes-at-runtime" title="Direct link to this headline"></a></h2>
+<p>When you change property values in the <b>Debugger Console</b> or in the <b>Locals</b> or <b>Expression</b> view, they are immediately updated in the running application, but not in the source code.</p>
+<a name="inspecting-items"></a>
+<h2 id="inspecting-items">Inspecting Items<a class="plink" href="#inspecting-items" title="Direct link to this headline"></a></h2>
+<p>While the application is running, you can use the <b>Locals</b> and <b>Expressions</b> views to explore the QML item structure.</p>
+<p class="centerAlign"><img alt="&quot;QML item tree&quot;" src="qml-observer-view.png"></p><p>To keep the application visible while you interact with the debugger, select <b>Debug</b> &gt; <b>Show Application on Top</b>.</p>
+<p>You can view a QML item in <b>Locals</b> and <b>Expressions</b> in the following ways:</p>
+<ul>
+<li>Expand the item in the object tree.</li>
+<li>Select the item in the code editor.</li>
+<li>Select <b>Debug</b> &gt; <b>Select</b> to activate selection mode and then click an item in the running application.</li>
+</ul>
+<p>To change property values temporarily, without editing the source, 
+double-click them and enter the new values. You can view the results in 
+the running application.</p>
+<a name="inspecting-user-interfaces"></a>
+<h2 id="inspecting-user-interfaces">Inspecting User Interfaces<a class="plink" href="#inspecting-user-interfaces" title="Direct link to this headline"></a></h2>
+<p>When you debug complex applications, you can jump to the position in code where an item is defined.</p>
+<p>In the selection mode, you can click items in the running application
+ to jump to their definitions in the code. The properties of the 
+selected item are displayed in the <b>Locals</b> view.</p>
+<p>The <b>Select</b> tool will be enabled either if your application is 
+using Qt 5.7 or later, or if your application is using an earlier 
+version of Qt and is based on the <code>QQuickView</code> class.</p>
+<p>You can also view the item hierarchy in the running application:</p>
+<p>Double-click an item in the running application to cycle through the item stack at the cursor position.</p>
+<p>To switch out of the selection mode, toggle the <b>Select</b> menu item.</p>
+<p>To move the application running in Qt QML Viewer to the front, select <b>Debug</b> &gt; <b>Show Application on Top</b>.</p>
+</div>
+<!-- @@@creator-debugging-qml.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="https://doc.qt.io/qtcreator/creator-debugging-helpers.html">Using Debugging Helpers</a>
+<a class="nextPage" href="https://doc.qt.io/qtcreator/creator-debugging-example.html">Debugging a C++ Example Application</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2018 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a>
+ as published by the Free Software Foundation.     Qt and respective 
+logos are trademarks of The Qt Company Ltd     in Finland and/or other 
+countries worldwide. All other trademarks are property
+   of their respective owners. </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer"><footer id="footerbar">
+<div class="footer-main">
+<div class="container clearfix">
+<nav class="footer-nav clearfix">
+<div class="menu-footer-menu-container"><ul class="menu" id="menu-footer-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1403" id="menu-item-1403"><a href="http://qt.io/download/">Download</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11677" id="menu-item-11677"><a href="http://qt.io/download/">Start for Free</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15840" id="menu-item-15840"><a href="http://qt.io/download-eval-for-applications-step-2/">Qt for Application Development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15841" id="menu-item-15841"><a href="http://qt.io/request-eval-for-devices-step-2/">Qt for Device Creation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15838" id="menu-item-15838"><a href="http://qt.io/download-open-source/">Qt Open Source</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1415" id="menu-item-1415"><a href="http://qt.io/terms-conditions/">Terms &amp; Conditions</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14184" id="menu-item-14184"><a href="http://qt.io/FAQ/">Licensing FAQ</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1355" id="menu-item-1355"><a href="http://qt.io/product/">Product</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12576" id="menu-item-12576"><a href="http://qt.io/product/">Qt in Use</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15848" id="menu-item-15848"><a href="http://qt.io/application-development/">Qt for Application Development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1357" id="menu-item-1357"><a href="http://qt.io/qt-for-device-creation/">Qt for Device Creation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1356" id="menu-item-1356"><a href="http://qt.io/qt-features/">Commercial Features</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15850" id="menu-item-15850"><a href="http://qt.io/ide/">Qt Creator IDE</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1359" id="menu-item-1359"><a href="http://qt.io/qt-quick/">Qt Quick</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1347" id="menu-item-1347"><a href="http://qt.io/services/">Services</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4028" id="menu-item-4028"><a href="http://qt.io/services-technology-evaluation/">Technology Evaluation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4027" id="menu-item-4027"><a href="http://qt.io/services-proof-of-concept/">Proof of Concept</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4026" id="menu-item-4026"><a href="http://qt.io/services-design-implementation/">Design &amp; Implementation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4025" id="menu-item-4025"><a href="http://qt.io/services-productization/">Productization</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15863" id="menu-item-15863"><a href="http://qt.io/qt-training/">Qt Training</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4779" id="menu-item-4779"><a href="https://qt.io/partners/">Partner Network</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-33" id="menu-item-33"><a href="http://qt.io/developers/">Developers</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1365" id="menu-item-1365"><a href="http://doc.qt.io/">Documentation</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1364" id="menu-item-1364"><a href="http://doc.qt.io/qt-5/qtexamplesandtutorials.html">Examples &amp; Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1363" id="menu-item-1363"><a href="http://doc.qt.io/qt-5/topics-app-development.html">Development Tools</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1361" id="menu-item-1361"><a href="http://wiki.qt.io/">Wiki</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1360" id="menu-item-1360"><a href="http://forum.qt.io/">Forums</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15922" id="menu-item-15922"><a href="http://wiki.qt.io/contribute">Contribute to Qt</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1350" id="menu-item-1350"><a href="http://qt.io/about-us/">About us</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1353" id="menu-item-1353"><a href="http://qt.io/events/">Training &amp; Events</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1354" id="menu-item-1354"><a href="http://qt.io/resource-center/">Resource Center</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12285" id="menu-item-12285"><a href="http://qt.io/news/">News</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1349" id="menu-item-1349"><a href="http://qt.io/careers/">Careers</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11676" id="menu-item-11676"><a href="http://qt.io/locations/">Locations</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15911" id="menu-item-15911"><a href="http://qt.io/contact-us">Contact Us</a></li>
+</ul>
+</li>
+</ul></div></nav>
+<a class="theqtcompany" href="http://qt.io/about-us/" target="_blank"></a>
+<div class="footer-social clearfix">
+<a href="https://facebook.com/qt" target="_blank" title="Qt on Facebook"><i class="icon-facebook"></i></a>
+<a href="https://twitter.com/qtproject" target="_blank" title="Qt on Twitter"><i class="icon-twitter"></i></a>
+<a href="https://www.youtube.com/user/QtStudios" target="_blank" title="Qt videos on YouTube"><i class="icon-youtube"></i></a>
+</div>
+</div>
+</div>
+<div class="disclaimer">
+<div class="container clearfix no_discs">
+<ul class="right clearfix" id="menu-footer-submenu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1795" id="menu-item-1795"><a href="https://account.qt.io/login" title="Sign into your account.">Sign In</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10375" id="menu-item-10375"><a href="mailto:feedback@theqtcompany.com?Subject=Feedback%20about%20doc.qt.io%20site">Feedback</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom" id="footer-copyright"><a href="http://qt.io/about-us/">© 2018 The Qt Company</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</div>
+
+
+</body></html>

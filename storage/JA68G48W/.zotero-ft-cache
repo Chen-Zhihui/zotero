@@ -1,0 +1,314 @@
+
+DOT (graph description language)
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 98.165.36.16 ( talk ) at 03:14, 7 June 2018 (Update the d3-graphviz link to drop the .js at the end of the repo name) . The present address (URL) is a permanent link to this version.
+Revision as of 03:14, 7 June 2018 by 98.165.36.16 ( talk ) (Update the d3-graphviz link to drop the .js at the end of the repo name)
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+DOT Filename extensions 	.gv
+Type of format 	Graph description language
+Open format ? 	Yes
+
+DOT is a graph description language. DOT graphs are typically files with the file extension gv or dot . The extension gv is preferred to avoid confusion with the extension dot used by early (pre-2007) versions of Microsoft Word . [1]
+
+Various programs can process DOT files. Some, such as dot , neato , twopi , circo , fdp , and sfdp , can read a DOT file and render it in graphical form. Others, such as gvpr , gc , acyclic , ccomps , sccmap , and tred , read DOT files and perform calculations on the represented graph. Finally, others, such as lefty , dotty , and grappa , provide an interactive interface. The GVedit tool combines a text editor with noninteractive image viewer. Most programs are part of the Graphviz package or use it internally.
+Contents
+
+    1 Syntax
+        1.1 Graph types
+            1.1.1 Undirected graphs
+            1.1.2 Directed graphs
+        1.2 Attributes
+        1.3 Comments
+    2 A simple example
+    3 Layout programs
+    4 Limitations
+    5 See also
+    6 Notes
+    7 External links
+
+Syntax [ edit ]
+Graph types [ edit ]
+Undirected graphs [ edit ]
+An undirected graph
+
+At its simplest, DOT can be used to describe an undirected graph . An undirected graph shows simple relations between objects, such as friendship between people. The graph keyword is used to begin a new graph, and nodes are described within curly braces. A double-hyphen (--) is used to show relations between the nodes.
+
+   // The graph name and the semicolons are optional 
+ graph  graphname  {  
+ a  --  b  --  c ;  
+ b  --  d ;  
+ }  
+
+Directed graphs [ edit ]
+A directed graph
+
+Similar to undirected graphs, DOT can describe directed graphs , such as flowcharts and dependency trees . The syntax is the same as for undirected graphs, except the digraph keyword is used to begin the graph, and an arrow (->) is used to show relationships between nodes.
+
+   digraph  graphname  {  
+ a  ->  b  ->  c ;  
+ b  ->  d ;  
+ }  
+
+Attributes [ edit ]
+A graph with attributes
+
+Various attributes can be applied to graphs, nodes and edges in DOT files. [2] These attributes can control aspects such as color, shape, and line styles. For nodes and edges, one or more attribute-value pairs are placed in square brackets ([]) after a statement and before the semicolon (which is optional). Graph attributes are specified as direct attribute-value pairs under the graph element, where multiple attributes are separated by a comma or using multiple sets of square brackets, while node attributes are placed after a statement containing only the name of the node, but not the relations between the dots.
+
+   graph  graphname  {  
+ // This attribute applies to the graph itself 
+ size = "1,1" ;  
+ // The label attribute can be used to change the label of a node 
+ a  [ label = "Foo" ];  
+ // Here, the node shape is changed. 
+ b  [ shape = box ];  
+ // These edges both have different line properties 
+ a  --  b  --  c  [ color = blue ];  
+ b  --  d  [ style = dotted ];  
+ // [style=invis] hides a node. 
+ }  
+
+HTML-like labels are only available on versions of Graphviz that are newer than mid-November 2003, in particular, they are not considered as part of release 1.10. [3]
+Comments [ edit ]
+
+Dot supports C and C++ style single line and multiple line comments . In addition, it ignores lines with a number sign symbol (#) as their first character.
+
+   // This is a single line comment.
+ /* This is a
+    multiple line
+    comment. */
+ # Lines like this are also ignored.
+
+A simple example [ edit ]
+A rendering of the example script using the tool dotty
+
+Following is an example script that describes the bonding structure of an ethane molecule. This is an undirected graph and contains node attributes as explained above.
+
+   graph  ethane  {  
+ C_0  --  H_0  [ type = s ];  
+ C_0  --  H_1  [ type = s ];  
+ C_0  --  H_2  [ type = s ];  
+ C_0  --  C_1  [ type = s ];  
+ C_1  --  H_3  [ type = s ];  
+ C_1  --  H_4  [ type = s ];  
+ C_1  --  H_5  [ type = s ];  
+ }  
+
+Layout programs [ edit ]
+Binary tree generated in Graphviz from a DOT description by an online Huffman Tree generator
+
+The DOT language defines a graph, but does not provide facilities for rendering the graph. There are several programs that can be used to render, view, and manipulate graphs in the DOT language:
+
+    Graphviz – a collection of libraries and utilities to manipulate and render graphs
+
+JavaScript
+
+    Canviz – a JavaScript library for rendering DOT files [4]
+    Viz.js - a simple Graphviz JavaScript client [5]
+    d3-graphviz - a JavaScript library based on Viz.js and D3.js that renders DOT graphs and supports animated transitions between graphs and interactive graph manipulation [6]
+
+Java
+
+    Gephi – an interactive visualization and exploration platform for all kinds of networks and complex systems, dynamic and hierarchical graphs
+    Grappa – a partial port of Graphviz to Java
+    ZGRViewer – a DOT viewer [7]
+
+Other
+
+    Beluging – a Python - & Google Cloud Platform -based viewer of DOT and Beluga extensions
+    OmniGraffle – a digital illustration application for macOS that can import a subset of DOT, producing an editable document (but the result cannot be exported back to DOT)
+    Tulip – a software framework in C++ that can import DOT files for analysis [8]
+    VizierFX – an Apache Flex graph rendering library in ActionScript [9]
+
+Limitations [ edit ]
+An image that seems improperly rendered
+
+It is possible to specify layout details with DOT, although not all tools that implement the DOT language pay attention to the position attributes. Thus, depending on the tools used, users must rely on automated layout algorithms (potentially resulting in unexpected output) or tediously hand-positioned nodes.
+
+For example:
+
+  digraph  g  {  
+ node  [ shape = plaintext ];  
+ A1  ->  B1 ;  
+ A2  ->  B2 ;  
+ A3  ->  B3 ;  
+ 
+ A1  ->  A2  [ label = f ];  
+ A2  ->  A3  [ label = g ];  
+ B2  ->  B3  [ label = "g'" ];  
+ B1  ->  B3  [ label = "(g o f)'"  tailport = s  headport = s ];  
+
+ {  rank = same ;  A1  A2  A3  }  
+ {  rank = same ;  B1  B2  B3  }  
+}  
+
+After moving labels and arrows a bit, and changing font size of subscripts, the image looks correct.
+
+There are two problems in the image above. The square on the right is not a perfect square and the labels are in the wrong place.
+
+This can be fixed with Inkscape or other SVG editors. In some cases, this can also be fixed by using the pos attribute to specify a position, and the weight attribute to square the graph.
+See also [ edit ]
+
+    lisp2dot tool to convert Lisp programming language -like program trees to DOT language. Designed for use with genetic programming .
+    Images with Dot source code at commons
+
+Notes [ edit ]
+
+    Jump up ^ "File extension .dot or .gv?" . marc.info . Retrieved 2011-03-08 .  
+    Jump up ^ "Node, Edge and Graph Attributes" . graphviz.org . Retrieved 2017-05-12 .  
+    Jump up ^ "Node Shapes: HTML-Like Labels" . graphviz.org . Retrieved 2017-05-12 .  
+    Jump up ^ "canviz: graphviz on a canvas" . Retrieved 2017-06-02 .  
+    Jump up ^ "GitHub - mdaines/viz.js: A hack to put Graphviz on the web" . github.com . Retrieved 2017-05-12 .  
+    Jump up ^ "GitHub - magjac/d3-graphviz: Graphviz DOT rendering and animated transitions using D3" . github.com . Retrieved 2018-06-06 .  
+    Jump up ^ "ZGRViewer" . zvtm.sourceforge.net . Retrieved 2017-05-12 .  
+    Jump up ^ "Data Visualization Software – Tulip" . tulip.labri.fr . Retrieved 2017-05-12 .  
+    Jump up ^ "GitHub - gvhung/vizierfx: Automatically exported from code.google.com/p/vizierfx" . github.com . Retrieved 2017-05-12 .  
+
+External links [ edit ]
+
+    DOT tutorial and specification
+        Drawing graphs with dot
+        Node, Edge and Graph Attributes
+        Node Shapes
+        Gallery of examples
+    Webapp generating DOT descriptions of Huffman trees
+    Online graph visualization in SVG
+    Boost Graph Library
+
+    v
+    t
+    e
+
+Graph representations
+Data structures 	
+
+    Graph (abstract data type)
+    Adjacency list
+    Adjacency matrix
+    Incidence matrix
+
+XML-based formats 	
+
+    DGML
+    DotML
+    GEXF
+    GraphML
+    GXL
+    XGMML
+
+Text-based formats 	
+
+    DOT
+    Graph Modelling Language (GML)
+    LCF notation for cubic Hamiltonian graphs
+    Newick format for trees
+    Trivial Graph Format
+
+Related concepts 	
+
+    Graph database
+    Graph drawing
+    Linked data
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=DOT_(graph_description_language)&oldid=844778255 "
+Categories :
+
+    Mathematical software
+    Graph description languages
+    Graph drawing
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+In other projects
+
+    Wikimedia Commons
+
+Languages
+
+    العربية
+    Deutsch
+    Español
+    Français
+    Magyar
+    日本語
+    Português
+    Русский
+    Українська
+    中文
+    3 more 
+
+Edit links
+
+    This page was last edited on 7 June 2018, at 03:14  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+    Enable previews
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+
