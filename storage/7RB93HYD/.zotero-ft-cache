@@ -1,0 +1,432 @@
+
+Jensen's inequality
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by RandomNoob143 ( talk  | contribs ) at 10:14, 6 June 2018 ( → ‎ Proof 3 (general inequality in a probabilistic setting): Typo correction: everywhere except one place in this article, \varphi is used. Changed \phi -> \varphi at the expection place. ) . The present address (URL) is a permanent link to this version.
+Revision as of 10:14, 6 June 2018 by RandomNoob143 ( talk  | contribs ) ( → ‎ Proof 3 (general inequality in a probabilistic setting): Typo correction: everywhere except one place in this article, \varphi is used. Changed \phi -> \varphi at the expection place. )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+For Jensen's inequality for analytic functions, see Jensen's formula .
+	
+This article needs additional citations for verification . Please help improve this article by adding citations to reliable sources . Unsourced material may be challenged and removed. (October 2011) ( Learn how and when to remove this template message )
+Jensen's inequality generalizes the statement that a secant line of a convex function lies above the graph.
+
+In mathematics , Jensen's inequality , named after the Danish mathematician Johan Jensen , relates the value of a convex function of an integral to the integral of the convex function. It was proven by Jensen in 1906. [1] Given its generality, the inequality appears in many forms depending on the context, some of which are presented below. In its simplest form the inequality states that the convex transformation of a mean is less than or equal to the mean applied after convex transformation; it is a simple corollary that the opposite is true of concave transformations.
+
+Jensen's inequality generalizes the statement that the secant line of a convex function lies above the graph of the function, which is Jensen's inequality for two points: the secant line consists of weighted means of the convex function (for t  ∈ [0,1]),
+
+    t f ( x 1 ) + ( 1 − t ) f ( x 2 ) , {\displaystyle tf(x_{1})+(1-t)f(x_{2}),} tf(x_{1})+(1-t)f(x_{2}), 
+
+while the graph of the function is the convex function of the weighted means,
+
+    f ( t x 1 + ( 1 − t ) x 2 ) . {\displaystyle f\left(tx_{1}+(1-t)x_{2}\right).} f\left(tx_{1}+(1-t)x_{2}\right). 
+
+Thus, Jensen's inequality is
+
+    f ( t x 1 + ( 1 − t ) x 2 ) ≤ t f ( x 1 ) + ( 1 − t ) f ( x 2 ) . {\displaystyle f\left(tx_{1}+(1-t)x_{2}\right)\leq tf(x_{1})+(1-t)f(x_{2}).} {\displaystyle f\left(tx_{1}+(1-t)x_{2}\right)\leq tf(x_{1})+(1-t)f(x_{2}).} 
+
+In the context of probability theory , it is generally stated in the following form: if X is a random variable and φ is a convex function, then
+
+    φ ( E ⁡ [ X ] ) ≤ E ⁡ [ φ ( X ) ] . {\displaystyle \varphi \left(\operatorname {E} [X]\right)\leq \operatorname {E} \left[\varphi (X)\right].} {\displaystyle \varphi \left(\operatorname {E} [X]\right)\leq \operatorname {E} \left[\varphi (X)\right].} 
+
+Contents
+ [ hide ] 
+
+    1 Statements
+        1.1 Finite form
+        1.2 Measure-theoretic and probabilistic form
+        1.3 General inequality in a probabilistic setting
+    2 Proofs
+        2.1 Proof 1 (finite form)
+        2.2 Proof 2 (measure-theoretic form)
+        2.3 Proof 3 (general inequality in a probabilistic setting)
+    3 Applications and special cases
+        3.1 Form involving a probability density function
+        3.2 Example: even moments of a random variable
+        3.3 Alternative finite form
+        3.4 Statistical physics
+        3.5 Information theory
+        3.6 Rao–Blackwell theorem
+    4 See also
+    5 Notes
+    6 References
+    7 External links
+
+Statements [ edit ]
+
+The classical form of Jensen's inequality involves several numbers and weights. The inequality can be stated quite generally using either the language of measure theory or (equivalently) probability. In the probabilistic setting, the inequality can be further generalized to its full strength .
+Finite form [ edit ]
+
+For a real convex function φ {\displaystyle \varphi } \varphi , numbers x 1 , x 2 , … , x n {\displaystyle x_{1},x_{2},\ldots ,x_{n}} x_{1},x_{2},\ldots ,x_{n} in its domain, and positive weights a i {\displaystyle a_{i}} a_{i} , Jensen's inequality can be stated as:
+
+    φ ( ∑ a i x i ∑ a i ) ≤ ∑ a i φ ( x i ) ∑ a i ( 1 ) {\displaystyle \varphi \left({\frac {\sum a_{i}x_{i}}{\sum a_{i}}}\right)\leq {\frac {\sum a_{i}\varphi (x_{i})}{\sum a_{i}}}\qquad \qquad (1)} \varphi \left({\frac {\sum a_{i}x_{i}}{\sum a_{i}}}\right)\leq {\frac {\sum a_{i}\varphi (x_{i})}{\sum a_{i}}}\qquad \qquad (1) 
+
+and the inequality is reversed if φ {\displaystyle \varphi } \varphi is concave , which is
+
+    φ ( ∑ a i x i ∑ a i ) ≥ ∑ a i φ ( x i ) ∑ a i . ( 2 ) {\displaystyle \varphi \left({\frac {\sum a_{i}x_{i}}{\sum a_{i}}}\right)\geq {\frac {\sum a_{i}\varphi (x_{i})}{\sum a_{i}}}.\qquad \qquad (2)} \varphi \left({\frac {\sum a_{i}x_{i}}{\sum a_{i}}}\right)\geq {\frac {\sum a_{i}\varphi (x_{i})}{\sum a_{i}}}.\qquad \qquad (2) 
+
+Equality holds if and only if x 1 = x 2 = ⋯ = x n {\displaystyle x_{1}=x_{2}=\cdots =x_{n}} x_{1}=x_{2}=\cdots =x_{n} or φ {\displaystyle \varphi } \varphi is linear.
+
+As a particular case, if the weights a i {\displaystyle a_{i}} a_{i} are all equal, then (1) and (2) become
+
+    φ ( ∑ x i n ) ≤ ∑ φ ( x i ) n ( 3 ) {\displaystyle \varphi \left({\frac {\sum x_{i}}{n}}\right)\leq {\frac {\sum \varphi (x_{i})}{n}}\qquad \qquad (3)} \varphi \left({\frac {\sum x_{i}}{n}}\right)\leq {\frac {\sum \varphi (x_{i})}{n}}\qquad \qquad (3) 
+    φ ( ∑ x i n ) ≥ ∑ φ ( x i ) n ( 4 ) {\displaystyle \varphi \left({\frac {\sum x_{i}}{n}}\right)\geq {\frac {\sum \varphi (x_{i})}{n}}\qquad \qquad (4)} \varphi \left({\frac {\sum x_{i}}{n}}\right)\geq {\frac {\sum \varphi (x_{i})}{n}}\qquad \qquad (4) 
+
+For instance, the function log( x ) is concave , so substituting φ ( x ) = log ⁡ ( x ) {\displaystyle \varphi (x)=\log(x)} {\displaystyle \varphi (x)=\log(x)} in the previous formula (4) establishes the (logarithm of the) familiar arithmetic mean-geometric mean inequality :
+
+    log ( ∑ i = 1 n x i n ) ≥ ∑ i = 1 n log ( x i ) n or x 1 + x 2 + ⋯ + x n n ≥ x 1 ⋅ x 2 ⋯ x n n {\displaystyle \log \!\left({\frac {\sum _{i=1}^{n}x_{i}}{n}}\right)\geq {\frac {\sum _{i=1}^{n}\log \!\left(x_{i}\right)}{n}}\quad {\text{or}}\quad {\frac {x_{1}+x_{2}+\cdots +x_{n}}{n}}\geq {\sqrt[{n}]{x_{1}\cdot x_{2}\cdots x_{n}}}} {\displaystyle \log \!\left({\frac {\sum _{i=1}^{n}x_{i}}{n}}\right)\geq {\frac {\sum _{i=1}^{n}\log \!\left(x_{i}\right)}{n}}\quad {\text{or}}\quad {\frac {x_{1}+x_{2}+\cdots +x_{n}}{n}}\geq {\sqrt[{n}]{x_{1}\cdot x_{2}\cdots x_{n}}}} 
+
+A common application has x {\displaystyle x} x as a function of another variable (or set of variables) t {\displaystyle t} t , that is, x i = g ( t i ) {\displaystyle x_{i}=g(t_{i})} {\displaystyle x_{i}=g(t_{i})} . All of this carries directly over to the general continuous case: the weights a i are replaced by a non-negative integrable function   f  ( x ) , such as a probability distribution, and the summations are replaced by integrals.
+Measure-theoretic and probabilistic form [ edit ]
+
+Let ( Ω , A , μ ) {\displaystyle (\Omega ,A,\mu )} {\displaystyle (\Omega ,A,\mu )} be a probability space , such that μ ( Ω ) = 1 {\displaystyle \mu (\Omega )=1} {\displaystyle \mu (\Omega )=1} . If g {\displaystyle g} g is a real -valued function that is μ {\displaystyle \mu } \mu - integrable , and if φ {\displaystyle \varphi } \varphi is a convex function on the real line, then:
+
+    φ ( ∫ Ω g d μ ) ≤ ∫ Ω φ ∘ g d μ . {\displaystyle \varphi \left(\int _{\Omega }g\,d\mu \right)\leq \int _{\Omega }\varphi \circ g\,d\mu .} \varphi \left(\int _{\Omega }g\,d\mu \right)\leq \int _{\Omega }\varphi \circ g\,d\mu . 
+
+In real analysis, we may require an estimate on
+
+    φ ( ∫ a b f ( x ) d x ) , {\displaystyle \varphi \left(\int _{a}^{b}f(x)\,dx\right),} \varphi \left(\int _{a}^{b}f(x)\,dx\right), 
+
+where a , b ∈ R {\displaystyle a,b\in \mathbb {R} } {\displaystyle a,b\in \mathbb {R} } , and f : [ a , b ] → R {\displaystyle f:[a,b]\to \mathbb {R} } {\displaystyle f:[a,b]\to \mathbb {R} } is a non-negative Lebesgue- integrable function. In this case, the Lebesgue measure of [ a , b ] {\displaystyle [a,b]} [a,b] need not be unity. However, by integration by substitution, the interval can be rescaled so that it has measure unity. Then Jensen's inequality can be applied to get [2]
+
+    φ ( 1 b − a ∫ a b f ( x ) d x ) ≤ 1 b − a ∫ a b φ ( f ( x ) ) d x . {\displaystyle \varphi \left({\frac {1}{b-a}}\int _{a}^{b}f(x)\,dx\right)\leq {\frac {1}{b-a}}\int _{a}^{b}\varphi (f(x))\,dx.} {\displaystyle \varphi \left({\frac {1}{b-a}}\int _{a}^{b}f(x)\,dx\right)\leq {\frac {1}{b-a}}\int _{a}^{b}\varphi (f(x))\,dx.} 
+
+The same result can be equivalently stated in a probability theory setting, by a simple change of notation. Let ( Ω , F , P ) {\displaystyle (\Omega ,{\mathfrak {F}},\operatorname {P} )} {\displaystyle (\Omega ,{\mathfrak {F}},\operatorname {P} )} be a probability space , X an integrable real-valued random variable and φ a convex function . Then:
+
+    φ ( E ⁡ [ X ] ) ≤ E ⁡ [ φ ( X ) ] . {\displaystyle \varphi \left(\operatorname {E} [X]\right)\leq \operatorname {E} \left[\varphi (X)\right].} {\displaystyle \varphi \left(\operatorname {E} [X]\right)\leq \operatorname {E} \left[\varphi (X)\right].} 
+
+In this probability setting, the measure μ is intended as a probability P {\displaystyle \operatorname {P} } \operatorname {P} , the integral with respect to μ as an expected value E {\displaystyle \operatorname {E} } \operatorname {E} , and the function g {\displaystyle g} g as a random variable X .
+
+Notice that the equality holds if X is constant (degenerate random variable) or if φ is linear, and even if there is A ⊂ R {\displaystyle A\subset \mathbb {R} } {\displaystyle A\subset \mathbb {R} } (a Borel set, in fact) such that
+
+    Pr ( X ∈ A ) = 1 {\displaystyle \Pr(X\in A)=1} {\displaystyle \Pr(X\in A)=1} 
+
+and φ is a linear function over A (that is, there are a , b ∈ R {\displaystyle a,b\in \mathbb {R} } {\displaystyle a,b\in \mathbb {R} } such that φ ( x ) = a x + b , ∀ x ∈ A {\displaystyle \varphi (x)=ax+b,\forall x\in A} {\displaystyle \varphi (x)=ax+b,\forall x\in A} ).
+General inequality in a probabilistic setting [ edit ]
+
+More generally, let T be a real topological vector space , and X a T -valued integrable random variable. In this general setting, integrable means that there exists an element E ⁡ [ X ] {\displaystyle \operatorname {E} [X]} \operatorname {E} [X] in T , such that for any element z in the dual space of T : E ⁡ | ⟨ z , X ⟩ | < ∞ {\displaystyle \operatorname {E} |\langle z,X\rangle |<\infty } {\displaystyle \operatorname {E} |\langle z,X\rangle |<\infty } , and ⟨ z , E ⁡ [ X ] ⟩ = E ⁡ [ ⟨ z , X ⟩ ] {\displaystyle \langle z,\operatorname {E} [X]\rangle =\operatorname {E} [\langle z,X\rangle ]} {\displaystyle \langle z,\operatorname {E} [X]\rangle =\operatorname {E} [\langle z,X\rangle ]} . Then, for any measurable convex function φ and any sub- σ-algebra G {\displaystyle {\mathfrak {G}}} {\mathfrak {G}} of F {\displaystyle {\mathfrak {F}}} {\mathfrak {F}} :
+
+    φ ( E ⁡ [ X ∣ G ] ) ≤ E ⁡ [ φ ( X ) ∣ G ] . {\displaystyle \varphi \left(\operatorname {E} \left[X\mid {\mathfrak {G}}\right]\right)\leq \operatorname {E} \left[\varphi (X)\mid {\mathfrak {G}}\right].} {\displaystyle \varphi \left(\operatorname {E} \left[X\mid {\mathfrak {G}}\right]\right)\leq \operatorname {E} \left[\varphi (X)\mid {\mathfrak {G}}\right].} 
+
+Here E ⁡ [ ⋅ ∣ G ] {\displaystyle \operatorname {E} [\cdot \mid {\mathfrak {G}}]} {\displaystyle \operatorname {E} [\cdot \mid {\mathfrak {G}}]} stands for the expectation conditioned to the σ-algebra G {\displaystyle {\mathfrak {G}}} {\mathfrak {G}} . This general statement reduces to the previous ones when the topological vector space T is the real axis , and G {\displaystyle {\mathfrak {G}}} {\mathfrak {G}} is the trivial σ -algebra {∅, Ω}. [3]
+Proofs [ edit ]
+A graphical "proof" of Jensen's inequality for the probabilistic case. The dashed curve along the X axis is the hypothetical distribution of X , while the dashed curve along the Y axis is the corresponding distribution of Y values. Note that the convex mapping Y ( X ) increasingly "stretches" the distribution for increasing values of X .
+
+Jensen's inequality can be proved in several ways, and three different proofs corresponding to the different statements above will be offered. Before embarking on these mathematical derivations, however, it is worth analyzing an intuitive graphical argument based on the probabilistic case where X is a real number (see figure). Assuming a hypothetical distribution of X values, one can immediately identify the position of E ⁡ [ X ] {\displaystyle \operatorname {E} [X]} \operatorname {E} [X] and its image φ ( E ⁡ [ X ] ) {\displaystyle \varphi (\operatorname {E} [X])} {\displaystyle \varphi (\operatorname {E} [X])} in the graph. Noticing that for convex mappings Y = φ ( X ) the corresponding distribution of Y values is increasingly "stretched out" for increasing values of X , it is easy to see that the distribution of Y is broader in the interval corresponding to X > X 0 and narrower in X < X 0 for any X 0 ; in particular, this is also true for X 0 = E ⁡ [ X ] {\displaystyle X_{0}=\operatorname {E} [X]} {\displaystyle X_{0}=\operatorname {E} [X]} . Consequently, in this picture the expectation of Y will always shift upwards with respect to the position of φ ( E ⁡ [ X ] ) {\displaystyle \varphi (\operatorname {E} [X])} {\displaystyle \varphi (\operatorname {E} [X])} . A similar reasoning holds if the distribution of X covers a decreasing portion of the convex function, or both a decreasing and an increasing portion of it. This "proves" the inequality, i.e.
+
+    φ ( E ⁡ [ X ] ) ≤ E ⁡ [ φ ( X ) ] = E ⁡ [ Y ] , {\displaystyle \varphi (\operatorname {E} [X])\leq \operatorname {E} [\varphi (X)]=\operatorname {E} [Y],} {\displaystyle \varphi (\operatorname {E} [X])\leq \operatorname {E} [\varphi (X)]=\operatorname {E} [Y],} 
+
+with equality when φ ( X ) is not strictly convex, e.g. when it is a straight line, or when X follows a degenerate distribution (i.e. is a constant).
+
+The proofs below formalize this intuitive notion.
+Proof 1 (finite form) [ edit ]
+
+If λ 1 and λ 2 are two arbitrary nonnegative real numbers such that λ 1 + λ 2 = 1 then convexity of φ implies
+
+    ∀ x 1 , x 2 : φ ( λ 1 x 1 + λ 2 x 2 ) ≤ λ 1 φ ( x 1 ) + λ 2 φ ( x 2 ) . {\displaystyle \forall x_{1},x_{2}:\qquad \varphi \left(\lambda _{1}x_{1}+\lambda _{2}x_{2}\right)\leq \lambda _{1}\,\varphi (x_{1})+\lambda _{2}\,\varphi (x_{2}).} \forall x_{1},x_{2}:\qquad \varphi \left(\lambda _{1}x_{1}+\lambda _{2}x_{2}\right)\leq \lambda _{1}\,\varphi (x_{1})+\lambda _{2}\,\varphi (x_{2}). 
+
+This can be easily generalized: if λ 1 , ..., λ n are nonnegative real numbers such that λ 1 + ... + λ n = 1 , then
+
+    φ ( λ 1 x 1 + λ 2 x 2 + ⋯ + λ n x n ) ≤ λ 1 φ ( x 1 ) + λ 2 φ ( x 2 ) + ⋯ + λ n φ ( x n ) , {\displaystyle \varphi (\lambda _{1}x_{1}+\lambda _{2}x_{2}+\cdots +\lambda _{n}x_{n})\leq \lambda _{1}\,\varphi (x_{1})+\lambda _{2}\,\varphi (x_{2})+\cdots +\lambda _{n}\,\varphi (x_{n}),} \varphi (\lambda _{1}x_{1}+\lambda _{2}x_{2}+\cdots +\lambda _{n}x_{n})\leq \lambda _{1}\,\varphi (x_{1})+\lambda _{2}\,\varphi (x_{2})+\cdots +\lambda _{n}\,\varphi (x_{n}), 
+
+for any x 1 , ..., x n . This finite form of the Jensen's inequality can be proved by induction : by convexity hypotheses, the statement is true for n  = 2. Suppose it is true also for some n , one needs to prove it for n + 1 . At least one of the λ i is strictly positive, say λ 1 ; therefore by convexity inequality:
+
+    φ ( ∑ i = 1 n + 1 λ i x i ) = φ ( λ 1 x 1 + ( 1 − λ 1 ) ∑ i = 2 n + 1 λ i 1 − λ 1 x i ) ≤ λ 1 φ ( x 1 ) + ( 1 − λ 1 ) φ ( ∑ i = 2 n + 1 λ i 1 − λ 1 x i ) . {\displaystyle {\begin{aligned}\varphi \left(\sum _{i=1}^{n+1}\lambda _{i}x_{i}\right)&=\varphi \left(\lambda _{1}x_{1}+(1-\lambda _{1})\sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}x_{i}\right)\\&\leq \lambda _{1}\,\varphi (x_{1})+(1-\lambda _{1})\varphi \left(\sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}x_{i}\right).\end{aligned}}} {\begin{aligned}\varphi \left(\sum _{i=1}^{n+1}\lambda _{i}x_{i}\right)&=\varphi \left(\lambda _{1}x_{1}+(1-\lambda _{1})\sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}x_{i}\right)\\&\leq \lambda _{1}\,\varphi (x_{1})+(1-\lambda _{1})\varphi \left(\sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}x_{i}\right).\end{aligned}} 
+
+Since
+
+    ∑ i = 2 n + 1 λ i 1 − λ 1 = 1 , {\displaystyle \sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}=1,} \sum _{i=2}^{n+1}{\frac {\lambda _{i}}{1-\lambda _{1}}}=1, 
+
+one can apply the induction hypotheses to the last term in the previous formula to obtain the result, namely the finite form of the Jensen's inequality.
+
+In order to obtain the general inequality from this finite form, one needs to use a density argument. The finite form can be rewritten as:
+
+    φ ( ∫ x d μ n ( x ) ) ≤ ∫ φ ( x ) d μ n ( x ) , {\displaystyle \varphi \left(\int x\,d\mu _{n}(x)\right)\leq \int \varphi (x)\,d\mu _{n}(x),} \varphi \left(\int x\,d\mu _{n}(x)\right)\leq \int \varphi (x)\,d\mu _{n}(x), 
+
+where μ n is a measure given by an arbitrary convex combination of Dirac deltas :
+
+    μ n = ∑ i = 1 n λ i δ x i . {\displaystyle \mu _{n}=\sum _{i=1}^{n}\lambda _{i}\delta _{x_{i}}.} \mu _{n}=\sum _{i=1}^{n}\lambda _{i}\delta _{x_{i}}. 
+
+Since convex functions are continuous , and since convex combinations of Dirac deltas are weakly dense in the set of probability measures (as could be easily verified), the general statement is obtained simply by a limiting procedure.
+Proof 2 (measure-theoretic form) [ edit ]
+
+Let g be a real-valued μ-integrable function on a probability space Ω, and let φ be a convex function on the real numbers. Since φ is convex, at each real number x we have a nonempty set of subderivatives , which may be thought of as lines touching the graph of φ at x , but which are at or below the graph of φ at all points (support lines of the graph).
+
+Now, if we define
+
+    x 0 := ∫ Ω g d μ , {\displaystyle x_{0}:=\int _{\Omega }g\,d\mu ,} x_{0}:=\int _{\Omega }g\,d\mu , 
+
+because of the existence of subderivatives for convex functions, we may choose a and b such that
+
+    a x + b ≤ φ ( x ) , {\displaystyle ax+b\leq \varphi (x),} ax+b\leq \varphi (x), 
+
+for all real x and
+
+    a x 0 + b = φ ( x 0 ) . {\displaystyle ax_{0}+b=\varphi (x_{0}).} ax_{0}+b=\varphi (x_{0}). 
+
+But then we have that
+
+    φ ∘ g ( x ) ≥ a g ( x ) + b {\displaystyle \varphi \circ g(x)\geq ag(x)+b} \varphi \circ g(x)\geq ag(x)+b 
+
+for all x . Since we have a probability measure, the integral is monotone with μ (Ω) = 1 so that
+
+    ∫ Ω φ ∘ g d μ ≥ ∫ Ω ( a g + b ) d μ = a ∫ Ω g d μ + b ∫ Ω d μ = a x 0 + b = φ ( x 0 ) = φ ( ∫ Ω g d μ ) , {\displaystyle \int _{\Omega }\varphi \circ g\,d\mu \geq \int _{\Omega }(ag+b)\,d\mu =a\int _{\Omega }g\,d\mu +b\int _{\Omega }d\mu =ax_{0}+b=\varphi (x_{0})=\varphi \left(\int _{\Omega }g\,d\mu \right),} \int _{\Omega }\varphi \circ g\,d\mu \geq \int _{\Omega }(ag+b)\,d\mu =a\int _{\Omega }g\,d\mu +b\int _{\Omega }d\mu =ax_{0}+b=\varphi (x_{0})=\varphi \left(\int _{\Omega }g\,d\mu \right), 
+
+as desired.
+Proof 3 (general inequality in a probabilistic setting) [ edit ]
+
+Let X be an integrable random variable that takes values in a real topological vector space T . Since φ : T → R {\displaystyle \varphi :T\to \mathbb {R} } {\displaystyle \varphi :T\to \mathbb {R} } is convex, for any x , y ∈ T {\displaystyle x,y\in T} x,y\in T , the quantity
+
+    φ ( x + θ y ) − φ ( x ) θ , {\displaystyle {\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }},} {\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }}, 
+
+is decreasing as θ approaches 0 + . In particular, the subdifferential of φ evaluated at x in the direction y is well-defined by
+
+    ( D φ ) ( x ) ⋅ y := lim θ ↓ 0 φ ( x + θ y ) − φ ( x ) θ = inf θ ≠ 0 φ ( x + θ y ) − φ ( x ) θ . {\displaystyle (D\varphi )(x)\cdot y:=\lim _{\theta \downarrow 0}{\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }}=\inf _{\theta \neq 0}{\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }}.} (D\varphi )(x)\cdot y:=\lim _{\theta \downarrow 0}{\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }}=\inf _{\theta \neq 0}{\frac {\varphi (x+\theta \,y)-\varphi (x)}{\theta }}. 
+
+It is easily seen that the subdifferential is linear in y [ citation needed ] (that is false and the assertion requires Hahn-Banach theorem to be proved) and, since the infimum taken in the right-hand side of the previous formula is smaller than the value of the same term for θ = 1 , one gets
+
+    φ ( x ) ≤ φ ( x + y ) − ( D φ ) ( x ) ⋅ y . {\displaystyle \varphi (x)\leq \varphi (x+y)-(D\varphi )(x)\cdot y.} \varphi (x)\leq \varphi (x+y)-(D\varphi )(x)\cdot y. 
+
+In particular, for an arbitrary sub- σ -algebra G {\displaystyle {\mathfrak {G}}} {\displaystyle {\mathfrak {G}}} we can evaluate the last inequality when x = E ⁡ [ X ∣ G ] , y = X − E ⁡ [ X ∣ G ] {\displaystyle x=\operatorname {E} [X\mid {\mathfrak {G}}],\,y=X-\operatorname {E} [X\mid {\mathfrak {G}}]} {\displaystyle x=\operatorname {E} [X\mid {\mathfrak {G}}],\,y=X-\operatorname {E} [X\mid {\mathfrak {G}}]} to obtain
+
+    φ ( E ⁡ [ X ∣ G ] ) ≤ φ ( X ) − ( D φ ) ( E ⁡ [ X ∣ G ] ) ⋅ ( X − E ⁡ [ X ∣ G ] ) . {\displaystyle \varphi (\operatorname {E} [X\mid {\mathfrak {G}}])\leq \varphi (X)-(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot (X-\operatorname {E} [X\mid {\mathfrak {G}}]).} {\displaystyle \varphi (\operatorname {E} [X\mid {\mathfrak {G}}])\leq \varphi (X)-(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot (X-\operatorname {E} [X\mid {\mathfrak {G}}]).} 
+
+Now, if we take the expectation conditioned to G {\displaystyle {\mathfrak {G}}} {\displaystyle {\mathfrak {G}}} on both sides of the previous expression, we get the result since:
+
+    E ⁡ [ [ ( D φ ) ( E ⁡ [ X ∣ G ] ) ⋅ ( X − E ⁡ [ X ∣ G ] ) ] ∣ G ] = ( D φ ) ( E ⁡ [ X ∣ G ] ) ⋅ E ⁡ [ ( X − E ⁡ [ X ∣ G ] ) ∣ G ] = 0 , {\displaystyle \operatorname {E} \left[\left[(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot (X-\operatorname {E} [X\mid {\mathfrak {G}}])\right]\mid {\mathfrak {G}}\right]=(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot \operatorname {E} [\left(X-\operatorname {E} [X\mid {\mathfrak {G}}]\right)\mid {\mathfrak {G}}]=0,} {\displaystyle \operatorname {E} \left[\left[(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot (X-\operatorname {E} [X\mid {\mathfrak {G}}])\right]\mid {\mathfrak {G}}\right]=(D\varphi )(\operatorname {E} [X\mid {\mathfrak {G}}])\cdot \operatorname {E} [\left(X-\operatorname {E} [X\mid {\mathfrak {G}}]\right)\mid {\mathfrak {G}}]=0,} 
+
+by the linearity of the subdifferential in the y variable, and the following well-known property of the conditional expectation :
+
+    E ⁡ [ ( E ⁡ [ X ∣ G ] ) ∣ G ] = E ⁡ [ X ∣ G ] . {\displaystyle \operatorname {E} \left[\left(\operatorname {E} [X\mid {\mathfrak {G}}]\right)\mid {\mathfrak {G}}\right]=\operatorname {E} [X\mid {\mathfrak {G}}].} {\displaystyle \operatorname {E} \left[\left(\operatorname {E} [X\mid {\mathfrak {G}}]\right)\mid {\mathfrak {G}}\right]=\operatorname {E} [X\mid {\mathfrak {G}}].} 
+
+Applications and special cases [ edit ]
+Form involving a probability density function [ edit ]
+
+Suppose Ω is a measurable subset of the real line and f ( x ) is a non-negative function such that
+
+    ∫ − ∞ ∞ f ( x ) d x = 1. {\displaystyle \int _{-\infty }^{\infty }f(x)\,dx=1.} \int _{-\infty }^{\infty }f(x)\,dx=1. 
+
+In probabilistic language, f is a probability density function .
+
+Then Jensen's inequality becomes the following statement about convex integrals:
+
+If g is any real-valued measurable function and φ is convex over the range of g , then
+
+    φ ( ∫ − ∞ ∞ g ( x ) f ( x ) d x ) ≤ ∫ − ∞ ∞ φ ( g ( x ) ) f ( x ) d x . {\displaystyle \varphi \left(\int _{-\infty }^{\infty }g(x)f(x)\,dx\right)\leq \int _{-\infty }^{\infty }\varphi (g(x))f(x)\,dx.} \varphi \left(\int _{-\infty }^{\infty }g(x)f(x)\,dx\right)\leq \int _{-\infty }^{\infty }\varphi (g(x))f(x)\,dx. 
+
+If g ( x ) = x , then this form of the inequality reduces to a commonly used special case:
+
+    φ ( ∫ − ∞ ∞ x f ( x ) d x ) ≤ ∫ − ∞ ∞ φ ( x ) f ( x ) d x . {\displaystyle \varphi \left(\int _{-\infty }^{\infty }x\,f(x)\,dx\right)\leq \int _{-\infty }^{\infty }\varphi (x)\,f(x)\,dx.} \varphi \left(\int _{-\infty }^{\infty }x\,f(x)\,dx\right)\leq \int _{-\infty }^{\infty }\varphi (x)\,f(x)\,dx. 
+
+Example: even moments of a random variable [ edit ]
+
+If g ( x ) = x 2n , and X is a random variable, then g is convex as
+
+    d 2 g d x 2 ( x ) = 2 n ( 2 n − 1 ) x 2 n − 2 ≥ 0 ∀   x ∈ R {\displaystyle {\frac {d^{2}g}{dx^{2}}}(x)=2n(2n-1)x^{2n-2}\geq 0\quad \forall \ x\in \mathbb {R} } {\displaystyle {\frac {d^{2}g}{dx^{2}}}(x)=2n(2n-1)x^{2n-2}\geq 0\quad \forall \ x\in \mathbb {R} } 
+
+and so
+
+    g ( E ⁡ [ X ] ) = ( E ⁡ [ X ] ) 2 n ≤ E ⁡ [ X 2 n ] . {\displaystyle g(\operatorname {E} [X])=(\operatorname {E} [X])^{2n}\leq \operatorname {E} [X^{2n}].} {\displaystyle g(\operatorname {E} [X])=(\operatorname {E} [X])^{2n}\leq \operatorname {E} [X^{2n}].} 
+
+In particular, if some even moment 2n of X is finite, X has a finite mean. An extension of this argument shows X has finite moments of every order l ∈ N {\displaystyle l\in \mathbb {N} } {\displaystyle l\in \mathbb {N} } dividing n .
+Alternative finite form [ edit ]
+
+Let Ω = { x 1 , ... x n }, and take μ to be the counting measure on Ω , then the general form reduces to a statement about sums:
+
+    φ ( ∑ i = 1 n g ( x i ) λ i ) ≤ ∑ i = 1 n φ ( g ( x i ) ) λ i , {\displaystyle \varphi \left(\sum _{i=1}^{n}g(x_{i})\lambda _{i}\right)\leq \sum _{i=1}^{n}\varphi (g(x_{i}))\lambda _{i},} \varphi \left(\sum _{i=1}^{n}g(x_{i})\lambda _{i}\right)\leq \sum _{i=1}^{n}\varphi (g(x_{i}))\lambda _{i}, 
+
+provided that λ i ≥ 0 and
+
+    λ 1 + ⋯ + λ n = 1. {\displaystyle \lambda _{1}+\cdots +\lambda _{n}=1.} \lambda _{1}+\cdots +\lambda _{n}=1. 
+
+There is also an infinite discrete form.
+Statistical physics [ edit ]
+
+Jensen's inequality is of particular importance in statistical physics when the convex function is an exponential, giving:
+
+    e E ⁡ [ X ] ≤ E ⁡ [ e X ] , {\displaystyle e^{\operatorname {E} [X]}\leq \operatorname {E} \left[e^{X}\right],} {\displaystyle e^{\operatorname {E} [X]}\leq \operatorname {E} \left[e^{X}\right],} 
+
+where the expected values are with respect to some probability distribution in the random variable X .
+
+The proof in this case is very simple (cf. Chandler, Sec. 5.5). The desired inequality follows directly, by writing
+
+    E ⁡ [ e X ] = e E ⁡ [ X ] E ⁡ [ e X − E ⁡ [ X ] ] {\displaystyle \operatorname {E} \left[e^{X}\right]=e^{\operatorname {E} [X]}\operatorname {E} \left[e^{X-\operatorname {E} [X]}\right]} {\displaystyle \operatorname {E} \left[e^{X}\right]=e^{\operatorname {E} [X]}\operatorname {E} \left[e^{X-\operatorname {E} [X]}\right]} 
+
+and then applying the inequality e X ≥ 1 + X to the final exponential.
+Information theory [ edit ]
+
+If p ( x ) is the true probability distribution for x , and q ( x ) is another distribution, then applying Jensen's inequality for the random variable Y ( x ) = q ( x )/ p ( x ) and the function φ ( y ) = −log( y ) gives
+
+    E ⁡ [ φ ( Y ) ] ≥ φ ( E ⁡ [ Y ] ) {\displaystyle \operatorname {E} [\varphi (Y)]\geq \varphi (\operatorname {E} [Y])} {\displaystyle \operatorname {E} [\varphi (Y)]\geq \varphi (\operatorname {E} [Y])} 
+
+Therefore:
+
+    − D ( p ( x ) ‖ q ( x ) ) = ∫ p ( x ) log ⁡ ( q ( x ) p ( x ) ) d x ≤ log ⁡ ( ∫ p ( x ) q ( x ) p ( x ) d x ) = log ⁡ ( ∫ q ( x ) d x ) = 0 {\displaystyle -D(p(x)\|q(x))=\int p(x)\log \left({\frac {q(x)}{p(x)}}\right)\,dx\leq \log \left(\int p(x){\frac {q(x)}{p(x)}}\,dx\right)=\log \left(\int q(x)\,dx\right)=0} -D(p(x)\|q(x))=\int p(x)\log \left({\frac {q(x)}{p(x)}}\right)\,dx\leq \log \left(\int p(x){\frac {q(x)}{p(x)}}\,dx\right)=\log \left(\int q(x)\,dx\right)=0 
+
+a result called Gibbs' inequality .
+
+It shows that the average message length is minimised when codes are assigned on the basis of the true probabilities p rather than any other distribution q . The quantity that is non-negative is called the Kullback–Leibler divergence of q from p .
+
+Since −log( x ) is a strictly convex function for x > 0 , it follows that equality holds when p ( x ) equals q ( x ) almost everywhere.
+Rao–Blackwell theorem [ edit ]
+Main article: Rao–Blackwell theorem
+
+If L is a convex function and G {\displaystyle {\mathfrak {G}}} {\mathfrak {G}} a sub-sigma-algebra, then, from the conditional version of Jensen's inequality, we get
+
+    L ( E ⁡ [ δ ( X ) ∣ G ] ) ≤ E ⁡ [ L ( δ ( X ) ) ∣ G ] ⟹ E ⁡ [ L ( E ⁡ [ δ ( X ) ∣ G ] ) ] ≤ E ⁡ [ L ( δ ( X ) ) ] . {\displaystyle L(\operatorname {E} [\delta (X)\mid {\mathfrak {G}}])\leq \operatorname {E} [L(\delta (X))\mid {\mathfrak {G}}]\quad \Longrightarrow \quad \operatorname {E} [L(\operatorname {E} [\delta (X)\mid {\mathfrak {G}}])]\leq \operatorname {E} [L(\delta (X))].} {\displaystyle L(\operatorname {E} [\delta (X)\mid {\mathfrak {G}}])\leq \operatorname {E} [L(\delta (X))\mid {\mathfrak {G}}]\quad \Longrightarrow \quad \operatorname {E} [L(\operatorname {E} [\delta (X)\mid {\mathfrak {G}}])]\leq \operatorname {E} [L(\delta (X))].} 
+
+So if δ( X ) is some estimator of an unobserved parameter θ given a vector of observables X ; and if T ( X ) is a sufficient statistic for θ; then an improved estimator, in the sense of having a smaller expected loss L , can be obtained by calculating
+
+    δ 1 ( X ) = E θ ⁡ [ δ ( X ′ ) ∣ T ( X ′ ) = T ( X ) ] , {\displaystyle \delta _{1}(X)=\operatorname {E} _{\theta }[\delta (X')\mid T(X')=T(X)],} {\displaystyle \delta _{1}(X)=\operatorname {E} _{\theta }[\delta (X')\mid T(X')=T(X)],} 
+
+the expected value of δ with respect to θ, taken over all possible vectors of observations X compatible with the same value of T ( X ) as that observed.
+
+This result is known as the Rao–Blackwell theorem .
+See also [ edit ]
+
+    Karamata's inequality for a more general inequality
+    Popoviciu's inequality
+    Law of averages
+    A proof without words of Jensen's inequality
+
+Notes [ edit ]
+
+    Jump up ^ Jensen, J. L. W. V. (1906). "Sur les fonctions convexes et les inégalités entre les valeurs moyennes". Acta Mathematica . 30 (1): 175–193. doi : 10.1007/BF02418571 .  
+    Jump up ^ Niculescu, Constantin P. "Integral inequalities" , P. 12.
+    Jump up ^ Attention: In this generality additional assumptions on the convex function and/ or the topological vector space are needed, see Example (1.3) on p. 53 in Perlman, Michael D. (1974). "Jensen's Inequality for a Convex Vector-Valued Function on an Infinite-Dimensional Space". Journal of Multivariate Analysis . 4 (1): 52–65. doi : 10.1016/0047-259X(74)90005-0 .  
+
+References [ edit ]
+
+    David Chandler (1987). Introduction to Modern Statistical Mechanics . Oxford. ISBN   0-19-504277-8 .  
+    Tristan Needham (1993) "A Visual Explanation of Jensen's Inequality", American Mathematical Monthly 100(8):768–71.
+    Nicola Fusco , Paolo Marcellini , Carlo Sbordone (1996). Analisi Matematica Due . Liguori. ISBN   978-88-207-2675-1 .   CS1 maint: Multiple names: authors list ( link )
+    Walter Rudin (1987). Real and Complex Analysis . McGraw-Hill. ISBN   0-07-054234-1 .  
+
+External links [ edit ]
+
+    Jensen's Operator Inequality of Hansen and Pedersen.
+    Hazewinkel, Michiel , ed. (2001) [1994], "Jensen inequality" , Encyclopedia of Mathematics , Springer Science+Business Media B.V. / Kluwer Academic Publishers, ISBN   978-1-55608-010-4  
+    Weisstein, Eric W. "Jensen's inequality" . MathWorld .  
+    Arthur Lohwater (1982). "Introduction to Inequalities" . Online e-book in PDF format.  
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Jensen%27s_inequality&oldid=844670057 "
+Categories :
+
+    Inequalities
+    Probabilistic inequalities
+    Statistical inequalities
+    Theorems in analysis
+    Convex analysis
+
+Hidden categories:
+
+    Articles needing additional references from October 2011
+    All articles needing additional references
+    All articles with unsourced statements
+    Articles with unsourced statements from October 2013
+    CS1 maint: Multiple names: authors list
+    Articles containing proofs
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    العربية
+    Български
+    Català
+    Čeština
+    Deutsch
+    Español
+    فارسی
+    Français
+    한국어
+    Italiano
+    עברית
+    Қазақша
+    Magyar
+    Nederlands
+    日本語
+    Polski
+    Português
+    Русский
+    Српски / srpski
+    Suomi
+    Svenska
+    Українська
+    اردو
+    Tiếng Việt
+    中文
+
+Edit links
+
+    This page was last edited on 6 June 2018, at 10:14  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

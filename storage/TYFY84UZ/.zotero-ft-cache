@@ -1,0 +1,3561 @@
+arXiv:1203.5181v1 [cs.LG] 23 Mar 2012
+
+k-MLE: A fast algorithm for learning statistical mixture models∗
+Frank Nielsen Sony Computer Science Laboratories, Inc
+3-14-13 Higashi Gotanda 141-0022 Shinagawa-Ku, Tokyo, Japan
+E-mail:Frank.Nielsen@acm.org
+June 2011 (revised March 2012)
+Abstract We describe k-MLE, a fast and eﬃcient local search algorithm for learning ﬁnite statistical mixtures of exponential families such as Gaussian mixture models. Mixture models are traditionally learned using the expectation-maximization (EM) soft clustering technique that monotonically increases the incomplete (expected complete) likelihood. Given prescribed mixture weights, the hard clustering k-MLE algorithm iteratively assigns data to the most likely weighted component and update the component models using Maximum Likelihood Estimators (MLEs). Using the duality between exponential families and Bregman divergences, we prove that the local convergence of the complete likelihood of k-MLE follows directly from the convergence of a dual additively weighted Bregman hard clustering. The inner loop of k-MLE can be implemented using any k-means heuristic like the celebrated Lloyd’s batched or Hartigan’s greedy swap updates. We then show how to update the mixture weights by minimizing a crossentropy criterion that implies to update weights by taking the relative proportion of cluster points, and reiterate the mixture parameter update and mixture weight update processes until convergence. Hard EM is interpreted as a special case of k-MLE when both the component update and the weight update are performed successively in the inner loop. To initialize k-MLE, we propose k-MLE++, a careful initialization of k-MLE guaranteeing probabilistically a global bound on the best possible complete likelihood.
+Keywords: exponential families, mixtures, Bregman divergences, expectation-maximization (EM), k-means loss function, Lloyd’s k-means, Hartigan and Wong’s k-means, hard EM, sparse EM.
+1 Introduction
+1.1 Statistical mixture models
+A statistical mixture model [34] M ∼ m with k ∈ N weighted components has underlying probability distribution:
+∗Research performed during the January-June 2011 period. A preliminary shorter version appeared in IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP) 2012.
+1
+
+k
+
+m(x|w, θ) = wip(x|θi),
+
+(1)
+
+i=1
+
+with w = (w1, ..., wk) and θ = (θ1, ..., θk) denoting the mixture parameters: The wi’s are positive weights summing up to one, and the θi’s denote the individual component parameters. (Appendix E
+summarizes the notations used throughout the paper.) Mixture models of d-dimensional Gaussians1 are the most often used statistical mixtures [34].
+In that case, each component distribution N (µi, Σi) is parameterized by a mean vector µi ∈ Rd
+and a covariance matrix Σi 0 that is symmetric and positive deﬁnite. That is, θi = (µi, Σi). The Gaussian distribution has the following probability density deﬁned on the support X = Rd:
+
+p(x; µi, Σi) =
+
+1
+d
+
+−
+e
+
+1 2
+
+MΣ−i 1
+
+(x−µi,x−µi
+
+)
+
+,
+
+(2)
+
+(2π) 2 |Σi|
+
+where MQ denotes the squared Mahalanobis distance [12]
+
+MQ(x, y) = (x − y)T Q(x − y),
+
+(3)
+
+deﬁned for a symmetric positive deﬁnite matrix Q 0 (Qi = Σi−1, the precision matrix). To draw a random variate from a Gaussian mixture model (GMM) with k components, we ﬁrst
+
+draw a multinomial variate z ∈ {1, ..., k}, and then sample a Gaussian variate from N (µz, Σz). A multivariate normal variate x is drawn from the chosen component N (µ, Σ) as follows: First, we consider the Cholesky decomposition of the covariance matrix: Σ = CCT , and take a ddimen√sional vector with coordinates being random standard normal variates: y = [y1 ... yd]T with yi = −2 log u1 cos(2πu2) (for u1 and u2 uniform random variates in [0, 1)). Finally, we assemble the Gaussian variate x as x = µ + Cy. This drawing process emphasizes that sampling a statistical
+
+mixture is a doubly stochastic process by essence: First, we sample a multinomial law for choosing
+
+the component, and then we sample the variate from the selected component.
+
+Figure 1(b) shows a GMM with k = 32 components learned from a color image modeled as a
+
+5D xyRGB point set (Figure 1(a)). Since a GMM is a generative model, we can sample the GMM
+
+to create a “sample image” as shown in Figure 1(c). Observe that low frequency information of the
+
+image is nicely modeled by GMMs. Figure 2(f) shows a GMM with k = 32 components learned
+
+from a color image modeled as a high-dimensional point set. Each s × s color image patch anchored at (x, y) is modeled as a point in dimension d = 2 + 3s2. GMM representations of images and
+
+videos [21] provide a compact feature representation that can be used in many applications, like in
+
+information retrieval (IR) engines [14].
+
+In this paper, we consider the general case of mixtures of distributions belonging the same
+
+exponential family [50], like Gaussian mixture models [24] (GMMs), Rayleigh mixture models [47]
+
+(RMMs), Laplacian mixture models (LMMs)[4], Bernoulli mixture models [5] (BMMs), Multinomial
+
+Mixture models [46] (MMMs), Poisson Mixture Models (PMMs) [28], Weibull Mixture Models [15]
+
+(WeiMMs), Wishart Mixture Models [22] (WisMM), etc.
+
+1.2 Contributions and prior work
+Expectation-Maximization [18] (EM) is a traditional algorithm for learning ﬁnite mixtures [34]. Banerjee et al. [9] proved that EM for mixture of exponential families amounts to perform equiv-
+1Also called MultiVariate Normals (MVNs) in software packages.
+
+2
+
+(a)
+
+(b)
+
+(c)
+
+Figure 1: A RGB color image (a) is interpreted as a 5D xyRGB point set on which a Gaussian mixture model (GMM) with k = 32 components is trained (b). Drawing many random variates from the generative GMM yields a sample image(c) that keeps low-frequency visual information.
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+(e)
+
+(f )
+
+Figure 2: Modeling a color image using a Gaussian mixture model (GMM): (a) Image Baboon source image, (b) a 5D 32-GMM modeling depicted by its covariance ellipses, (c) hard segmentation using the GMM, (d) sampling the 5D GMM, (e) Mean colors (8 × 8 patches) for GMM with patch size s = 8, (f) patch mean µ for s = 8 patch size width.
+
+3
+
+alently a soft Bregman clustering. Furthermore, this EM-Bregman soft clustering equivalence was extended to total Bregman soft clustering for curved exponential families [29]. Although mathematically convenient, we should remember that mixture data should be hard clustered as each observation should emanate from exactly one component.
+It is well-known that k-means clustering technique can be interpreted as a limit case of EM for isotropic Gaussian mixtures [37]. Kearns et al. [26] casted further light on the hard/soft relationship using an information-theoretic analysis of hard k-means and soft expectation-mazimization assignments in clustering. Banerjee et al [7] proved a mathematical equivalence between the estimation of maximum likelihood of exponential family mixtures (MLME, Maximum Likelihood Mixture Estimation) and a rate distortion problem for Bregman divergences. Furthermore, Banerjee et al. [8] proposed the hardened expectation for the special case of von Mises-Fisher mixtures (hard EM, Section 4.2 of [8]) for computational eﬃciency.
+In this paper, we build on the duality between Bregman divergences and exponential families [9] to design k-MLE that iteratively (1) assigns data to mixture components, (2) update mixture parameters `a la k-means and repeat step (1) until local convergence, (3) update weights and reiterate from (1) until local convergence (see Algorithm 1). We prove that k-MLE maximizes monotonically the complete likelihood function. We also discuss several initialization strategies and describe a probabilistic initialization k-MLE++ with guaranteed performance bounds.
+The paper is organized as follows: Section 2 recall the basic notions of exponential families, Legendre transform, Bregman divergences, and demonstrate the duality between Bregman divergences and exponential families to study the Maximum Likelihood Estimator (MLE). Section 3 presents the framework of k-MLE for mixtures with prescribed weights, based on the Bregman-exponential family duality. The generic k-MLE algorithm is described in Section 4, and Section 5 discusses on proximity location data-structures to speed up the assignment step of the algorithm. Section 6 presents k-MLE++, a probabilistic initialization of k-MLE. Finally, Section 7 concludes the paper and discusses on avenues for future research.
+
+2 Preliminaries
+
+2.1 Exponential family
+
+An exponential family [13] EF is a set of parametric probability distributions
+
+EF = {pF (x; θ) | θ ∈ Θ}
+
+(4)
+
+whose probability density2 can be decomposed canonically as
+
+pF (x; θ) = e t(x),θ −F (θ)+k(x)
+
+(5)
+
+where t(x) denotes the suﬃcient statistics, θ the natural parameter, F (θ) the log-normalizer,
+and k(x) a term related to an optional auxiliary carrier measure. x, y denotes the inner product (i.e., xT y for vectors tr(XT Y ) for matrices, etc.). Let
+
+Θ = θ | pF (x; θ)dx < ∞
+
+(6)
+
+2For sake of simplicity and brevity, we consider without loss of generality in the remainder continuous random variables on Rd. We do not introduce the framework of probability measures nor Radon-Nikodym densities.
+
+4
+
+denotes the natural parameter space. The dimension D of the natural parameter space is called the
+
+order
+
+of
+
+the
+
+family.
+
+For
+
+the
+
+d-variate
+
+Gaussian
+
+distribution,
+
+the
+
+order
+
+is
+
+D
+
+=
+
+d+
+
+d(d+1) 2
+
+=
+
+d(d+3) 2
+
+.
+
+It can be proved using the Cauchy-Schwarz inequality [13] that the log-normalizer3 F is a strictly
+
+convex and diﬀerentiable function on an open convex set Θ. The log-density of an exponential
+
+family is
+
+lF (x; θ) = t(x), θ − F (θ) + k(x)
+
+(7)
+
+To build an exponential family, we need to choose a basic density measure on a support X , a suﬃcient statistic t(x), and an auxiliary carrier measure term k(x). Taking the log-Laplace transform, we get
+
+F (θ) =
+
+e t(x),θ +k(x)dx,
+
+(8)
+
+x∈X
+
+and deﬁne the natural parameter space as the θ values ensuring convergence of the integral.
+
+In fact, many usual statistical distributions such as the Gaussian, Gamma, Beta, Dirichlet, Pois-
+
+son, multinomial, Bernoulli, von Mises-Fisher, Wishart, Weibull are exponential families in disguise.
+
+In that case, we start from their probability density or mass function to retrieve the canonical de-
+
+composition of Eq. 5. See [36] for usual canonical decomposition examples of some distributions
+
+that includes a bijective conversion function θ(λ) for going from the usual λ-parameterization of
+
+the distribution to the θ-parametrization.
+
+Furthermore, exponential families can be parameterized canonically either using the natural
+
+coordinate system θ, or by using the dual moment parameterization η (also called mean value
+
+parameterization) arising from the Legendre transform (see Appendix B for the case of Gaussians).
+
+2.2 Legendre duality and convex conjugates
+For a strictly convex and diﬀerentiable function F : N → R, we deﬁne its convex conjugate by
+
+F ∗(η) = sup{ η, θ − F (θ)}
+
+(9)
+
+θ∈N
+
+lF (η;θ)
+
+The maximum is obtained for η = ∇F (θ) and is unique since F is convex ∇θ2lF (η; θ) = −∇2F (θ) ≺ 0:
+
+∇θlF (η; θ) = η − ∇F (θ) = 0 ⇒ η = ∇F (θ)
+
+(10)
+
+Thus strictly convex and diﬀerentiable functions come in pairs (F, F ∗) with gradients being functional inverses of each other ∇F = (∇F ∗)−1 and ∇F ∗ = (∇F )−1. Legendre transform is an involution: (F ∗)∗ = F for strictly convex and diﬀerentiable functions. In order to compute F ∗, we only need to ﬁnd the functional inverse (∇F )−1 of ∇F since
+
+F ∗(η) = (∇F )−1(η), η − F ((∇F )−1(η)).
+
+(11)
+
+However, this inversion may require numerical solving when no analytical expression of ∇F −1 is available. See for example the gradient of the log-normalizer of the Gamma distribution [36], the Dirichlet or von Mises-Fisher distributions [8].
+
+3Also called in the literature as the log-partition function, the cumulant function, or the log-Laplace function.
+
+5
+
+2.3 Bregman divergence
+A Bregman divergence BF is deﬁned for a strictly convex and diﬀerentiable generator F as
+
+BF (θ1 : θ2) = F (θ1) − F (θ2) − θ1 − θ2, ∇F (θ2) .
+
+(12)
+
+The Kullback-Leibler divergence (relative entropy) between two members p1 = pF (x; θ1) and p2 = pF (x; θ2) of the same exponential family amounts to compute a Bregman divergence on the corresponding swapped natural parameters:
+
+KL(p1 : p2) =
+
+x∈X
+
+p1(x)
+
+log
+
+p1(x) p2(x)
+
+dx,
+
+(13)
+
+= BF (θ2 : θ1),
+
+(14)
+
+= F (θ2) − F (θ1) − θ2 − θ1, ∇F (θ1)
+
+(15)
+
+The proof follows from the fact that E[t(X)] = x∈X t(x)pF (x; θ)dx = ∇F (θ) [39]. Using Legendre transform, we further have the following equivalences of the relative entropy:
+
+BF (θ2 : θ1) = BF ∗(η1 : η2),
+
+(16)
+
+= F (θ2) + F ∗(η1) − θ2, η1 ,
+
+(17)
+
+CF (θ2:η1)=CF ∗ (η1:θ2)
+
+where η = ∇F (θ) is the dual moment parameter (and θ = ∇F ∗(η)). Information geometry [3]
+often considers the canonical divergence CF of Eq. 17 that uses the mixed coordinate systems θ/η, while computational geometry [12] tends to consider dual Bregman divergences, BF or BF ∗, and visualize structures in one of those two canonical coordinate systems. Those canonical coordinate systems are dually orthogonal since ∇2F (θ)∇2F ∗(η) = I, the identity matrix.
+
+2.4 Maximum Likelihood Estimator (MLE)
+For exponential family mixtures with a single component M ∼ EF (θ1) (k = 1, w1 = 1), we easily estimate the parameter θ1. Given n independent and identically distributed observations x1, ..., xn, the Maximum Likelihood Estimator (MLE) is maximizing the likelihood function:
+
+θˆ = argmaxθ∈ΘL(θ; x1, ..., xn),
+n
+
+= argmaxθ∈Θ pF (xi; θ),
+
+i=1
+
+=
+
+argmaxθ∈Θe
+
+n i=1
+
+t(xi),θ
+
+−F (θ)+k(xi)
+
+(18) (19) (20)
+
+For exponential families, the MLE reports a unique maximum since the Hessian of F is positive deﬁnite (X ∼ EF (θ) ⇒ ∇2F = var[t(X)] 0):
+
+∇F (θˆ) = 1 n
+
+n
+
+t(xi)
+
+(21)
+
+i=1
+
+6
+
+Exponential Family ⇔ Dual Bregman divergence
+
+pF (x|θ)
+
+BF ∗
+
+Spherical Gaussian ⇔ Squared Euclidean divergence
+
+Multinomial
+
+⇔ Kullback-Leibler divergence
+
+Poisson
+
+⇔
+
+I -divergence
+
+Geometric
+
+⇔
+
+Itakura-Saito divergence
+
+Wishart
+
+⇔ log-det/Burg matrix divergence
+
+Table 1: Some examples illustrating the duality between exponential families and Bregman divergences.
+
+The MLE is consistent and eﬃcient with asymptotic normal distribution:
+
+θˆ ∼ N
+
+θ,
+
+1 n
+
+IF−1(θ)
+
+,
+
+(22)
+
+where IF denotes the Fisher information matrix:
+
+IF (θ) = var[t(X)] = ∇2F (θ) = (∇2G(η))−1
+
+(23)
+
+(This proves the convexity of F since the covariance matrix is necessarily positive deﬁnite.) Note that the MLE may be biased (for example, normal distributions).
+By using the Legendre transform, the log-density of an exponential family can be interpreted as a Bregman divergence [9]:
+
+log pF (x; θ) = −BF ∗(t(x) : η) + F ∗(t(x)) + k(x)
+
+(24)
+
+Table 1 reports some illustrating examples of the Bregman divergence ↔ exponential family duality. Let us use the Bregman divergence-exponential family duality to prove that
+
+n
+
+n
+
+θˆ = arg max pF (xi; θ) = ∇F −1
+
+t(xi) .
+
+(25)
+
+θ∈Θ
+
+i=1
+
+i=1
+
+Maximizing
+
+the
+
+average
+
+log-likelihood
+
+¯l =
+
+1 n
+
+log L,
+
+we
+
+have:
+
+maxθ∈N
+
+¯l(θ; x1, ..., xn)
+
+=
+
+1 n
+
+n
+( t(xi), θ
+
+− F (θ) + k(xi))
+
+(26)
+
+i=1
+
+maxθ∈N
+
+1 n
+
+n
+
+−BF ∗(t(xi) : η) + F ∗(t(xi)) + k(xi)
+
+(27)
+
+i=1
+
+1n
+
+≡ minη∈M n BF ∗ (t(xi) : η)
+
+(28)
+
+i=1
+
+Since right-sided Bregman centroids deﬁned as the minimum average divergence minimizers coincide always with the center of mass [9] (independent of the generator F ), it follows that
+
+1 ηˆ =
+n
+
+n
+
+t(xi) = ∇F (θˆ).
+
+(29)
+
+i=1
+
+7
+
+It
+
+follows
+
+that
+
+ηˆ
+
+=
+
+(∇F
+
+)−1(
+
+1 n
+
+n i=1
+
+t(xi)).
+
+In information geometry [3], the point Pˆ with η-coordinate ηˆ (and θ-coordinate ∇F −1(ηˆ) = θˆ)
+
+is called the observed point. The best average log-likelihood reached by the MLE at ηˆ is
+
+l(θˆ; x1, ..., xn)
+
+=
+
+1 n
+
+n
+(−BF ∗(t(xi) : ηˆ) + F ∗(t(xi)) + k(xi)),
+
+(30)
+
+i=1
+
+=
+
+1 n
+
+n
+(−F ∗(t(xi)) + F ∗(ηˆ) +
+
+t(xi) − ηˆ, ∇F ∗(ηˆ)
+
++ F ∗(t(xi)) + k(xi)), (31)
+
+i=1
+
+=
+
+F ∗(ηˆ) + 1 n
+
+n
+k(xi) +
+
+1 n
+
+n
+t(xi) − ηˆ, θˆ
+
+,
+
+(32)
+
+i=1
+
+i=1
+
+0
+
+=
+
+F ∗(ηˆ) + 1 n
+
+n
+k(xi).
+
+(33)
+
+i=1
+
+The Shannon entropy HF (θ) of pF (x; θ) is HF (θ) = −F ∗(η) − k(x)pF (x; θ)dx [39]. Thus the maximal likelihood is related to the minimum entropy (i.e., reducing the uncertainty) of the empirical distribution.
+Another proof follows from the Appendix A where it is recalled that the Bregman information [9] (minimum of average right-centered Bregman divergence) obtained for the center of mass is a Jensen diversity index. Thus we have
+
+¯l
+
+=
+
+n
+
+1
+
+−JF ∗( t(xi)) + n
+
+n
+
+F
+
+∗(t(xi))
+
++
+
+1 n
+
+n
+k(xi),
+
+(34)
+
+i=1
+
+i=1
+
+i=1
+
+=−
+
+n
+F ∗(t(xi)) − F ∗(ηˆ)
+
+1 +
+n
+
+n
+
+F ∗(t(xi))
+
++
+
+1 n
+
+n
+
+k(xi),
+
+(35)
+
+i=1
+
+i=1
+
+i=1
+
+=
+
+F ∗(ηˆ) + 1 n
+
+n
+k(xi)
+
+(36)
+
+i=1
+
+Appendix B reports the dual canonical parameterizations of the multivariate Gaussian distribution family.
+
+3 k-MLE: Learning mixtures with given prescribed weights
+
+Let X = {x1, ..., xn} be a sample set of independently and identically distributed observations from a ﬁnite mixture m(x|w, θ) with k components. The joint probability distribution of the observed observations xi’s with the missing component labels zi’s is
+
+n
+
+p(x1, z1, ..., xn, zn|w, θ) = p(zi|w)p(xi|zi, θ)
+
+(37)
+
+i=1
+
+8
+
+To optimize the joint distribution, we could test (theoretically) all the kn labels, and choose the best assignment. This is not tractable in practice since it is exponential in n for k > 1. Since we do not observe the latent variables z1, ..., zn, we marginalize the hidden variables to get
+
+nk
+
+p(x1, ..., xn|w, θ) =
+
+p(zi = j|w)p(xi|zi = j, θj)
+
+(38)
+
+i=1 j=1
+
+The average log-likelihood function is
+
+¯l(x1, ..., xn|w, θ)
+
+=
+
+1 n log p(x1, ..., xn|w, θ),
+
+(39)
+
+1n
+
+k
+
+= n
+
+log
+
+p(zi = j|w)p(xi|zi = j, θj).
+
+(40)
+
+i=1 j=1
+
+Let δj(zi) = 1 if and only if xi has been sampled from the jth component, and 0 otherwise. We have the complete average log-likelihood that is mathematically rewritten as
+
+¯l(x1, z1, ..., xn, zn|w, θ)
+
+=
+
+1 n
+
+n
+
+log
+
+k
+(wj pF (xi|θj ))δj(zi)
+
+i=1 j=1
+
+1n k
+
+= n
+
+δj(zi)(log pF (xi|θj) + log wj)
+
+i=1 j=1
+
+(41) (42)
+
+Using the bijection between exponential families and dual Bregman divergences [9], we have the mathematical equivalence log pF (x|θj) = −BF ∗(t(x) : ηj) + F ∗(t(x)) + k(x), where ηj = ∇F (θj) is the moment parameterization of the j-th component exponential family distribution. It follows
+that the complete average log-likelihood function is written as
+
+¯l(x1, ..., xn|w, θ) =
+
+1n n
+
+k
+δj(zi)(−BF ∗(t(xi) : ηj) + F ∗(t(xi)) + k(xi) + log wj)
+
+(43)
+
+i=1 j=1
+
+
+
+
+
+1n =
+n
+
+k
+
+1 δj(zi)(−BF ∗(t(xi) : ηj) + log wj) + n
+
+n
+
+F ∗(t(xi)) + k(xi()4.4)
+
+i=1 j=1
+
+i=1
+
+By
+
+removing
+
+the
+
+constant
+
+terms
+
+1 n
+
+n i=1
+
+(F
+
+∗(t(xi))
+
++
+
+k(xi))
+
+independent
+
+of
+
+the
+
+mixture
+
+moment
+
+parameters (the η’s), maximizing the complete average log-likelihood amounts to equivalently min-
+
+imize the following loss function:
+
+¯l
+
+=
+
+1n n
+
+k
+δj(zi)(BF ∗(t(xi) : ηj) − log wj),
+
+(45)
+
+i=1 j=1
+
+1n k
+
+= n
+
+min(BF ∗(yi : ηj) − log wj),
+j=1
+
+i=1
+
+(46)
+
+= kmeansF ∗,log w(Y : H),
+
+(47)
+
+9
+
+where Y = {y1 = t(x1), ..., yn = t(xn(} and H = {η1, ..., ηk}.
+
+Remark 1 This is the argmin of Eq. 46 that gives the hidden component labels for the xi’s.
+
+Remark 2 Observe that since ∀i ∈ {1, ..., k}, − log wi ≥ 0 (since wi ≤ 1), we have the following additive dual Bregman divergence BF ∗(yi : ηj) − log wj > 0 per cluster. Depending on the weights (e.g., w → 0), we may have some empty clusters. In that case, the weight of a cluster is set to zero (and the component parameter is set to ∅ by convention). Note that it makes sense to consider (≤ k)-means instead of k-means in the sense that we would rather like to upper bound the maximum complexity of the model rather than precisely ﬁxing it.
+
+Eq. 46 is precisely the loss function of a per-cluster additive Bregman k-means (see the appendix A) deﬁned for the Legendre convex conjugate F ∗ of the log-normalizer F of the exponential family for the suﬃcient statistic points Y = {yi = t(xi)}ni=1. It follows that any Bregman k-means heuristic decreases monotonically the loss function and reaches a local minimum (cor-
+responding to a local maximum for the equivalent complete likelihood function). We can either
+use the batched Bregman Lloyd’s k-means [9], the Bregman Hartigan and Wong’s greedy cluster
+swap heuristic [23, 52], or the Kanungo et al. [25] (9 + )-approximation global swap approximation
+algorithm.
+
+Remark 3 The likelihood function L is equal to en¯l. The average likelihood function L¯ is deﬁned
+
+by
+
+taking
+
+the
+
+geometric
+
+mean
+
+L¯
+
+=
+
+1
+Ln
+
+.
+
+The following section shows how to update the weights once the local convergence of the assignment-η of the k-MLE loop has been reached.
+
+4 General k-MLE including mixture weight updates
+When k-MLE with prescribed weights reaches a local minimum (see Eq. 44 and Eq. 46 and the appendix A), the current loss function is equal to
+
+¯l =
+
+1n k
+
+n
+
+δj(zi)(BF ∗(t(xi) : ηj) − log wj)
+
+i=1 j=1
+
+−
+
+1 n
+
+n
+
+F ∗(t(xi)) + k(xi)
+
+(,48)
+
+i=1
+
+Minimized by additive Bregman k-means, see Appendix
+k
+¯l = αjJF ∗(Cj) − αj log wj −
+j=1
+
+1 n
+
+n
+
+F ∗(t(xi)) + k(xi)
+
+(,49)
+
+i=1
+
+where
+
+αi
+
+=
+
+|Ci| n
+
+denotes
+
+the
+
+proportion
+
+of
+
+points
+
+assigned
+
+to
+
+the
+
+i-th
+
+cluster
+
+Ci,
+
+and
+
+αiJF ∗ (Ci)
+
+is
+
+the weighted Jensen diversity divergence of the cluster. In order to further minimize the average
+
+complete likelihood of Eq. 49, we update the mixture weights wi’s by minimizing the criterion:
+
+k
+min −αj log wj
+w∈∆k j=1
+= min H×(α : w),
+w∈∆k
+
+(50) (51)
+
+10
+
+where H×(p : q) = −
+
+k i=1
+
+pi
+
+log
+
+qi
+
+denotes
+
+the
+
+Shannon
+
+cross-entropy,
+
+and
+
+∆k
+
+the
+
+(k − 1)-
+
+dimensional probability simplex. The cross-entropy H×(p : q) is minimized for p = q, and yields
+
+H×(p, p) = H(p) = −
+
+k i=1
+
+pi
+
+log
+
+pi,
+
+the
+
+Shannon
+
+entropy.
+
+Thus
+
+we
+
+update
+
+the
+
+weights
+
+by
+
+taking
+
+the relative proportion of points falling into the clusters:
+
+∀i ∈ {1, ..., k}, wi ← αi.
+
+(52)
+
+After updated the weights, the average complete log-likelihood is
+
+k
+¯l = wiJF ∗(Ci) + H(w) −
+
+1 n
+
+n
+
+F ∗(t(xi)) + k(xi)
+
+.
+
+(53)
+
+i=1
+
+i=1
+
+We summarize the k-MLE algorithm in the boxed Algorithm 1.
+
+Algorithm 1 Generic k-MLE for learning an exponential family mixture model.
+
+Input:
+
+X
+
+: a set of n identically and independently distributed observations: X = {x1, ..., xn}
+
+F
+
+: log-normalizer of the exponential family, characterizing EF
+
+∇F : gradient of F for moment η-parameterization: η = ∇F (θ)
+
+∇F −1 : functional inverse of the gradient of F for θ-parameterization: θ = ∇F −1(η)
+
+t(x) : the suﬃcient statistic of the exponential family
+
+k
+
+: number of clusters
+
+•
+
+0.
+
+Initialization:
+
+∀i ∈ {1, ..., k},
+
+let
+
+wi
+
+=
+
+1 k
+
+and
+
+ηi
+
+= t(xi)
+
+(Proper initialization is further discussed later on).
+
+• 1. Assignment: ∀i ∈ {1, ..., n}, zi = argminjk=1BF ∗(t(xi) : ηj) − log wj. Let ∀i ∈ {1, ..., k} Ci = {xj|zj = i} be the cluster partition: X = ∪ki=1Ci. (some clusters may become empty depending on the weight distribution)
+
+•
+
+2.
+
+Update
+
+the
+
+η-parameters:
+
+∀i ∈ {1, ..., k}, ηi
+
+=
+
+1 |Ci|
+
+x∈Ci t(x).
+
+(By convention, ηi = ∅ if |Ci| = 0) Goto step 1 unless local convergence of the complete
+
+likelihood is reached.
+
+•
+
+3.
+
+Update
+
+the
+
+mixture
+
+weights:
+
+∀i ∈ {1, ..., k}, wi
+
+=
+
+1 n
+
+|Ci|.
+
+Goto step 1 unless local convergence of the complete likelihood is reached.
+
+Output: An exponential family mixture model m(x) (EFMM) parameterized in the natural coordinate system: ∀i ∈ {1, ..., k}, θi = (∇F )−1(ηi) = ∇F ∗(ηi):
+k
+m(x) = wipF (x|θi)
+i=1
+
+Remark 4 Note that we can also do after the assignment step of data to clusters both (i) the mixture η-parameter update and (ii) the mixture w-weight update consecutively in a single iteration
+11
+
+of the k-MLE loop. This corresponds to the Bregman hard expectation-maximization (Bregman Hard EM) algorithm described in boxed Algorithm 2. This Hard EM algorithm is straightforwardly implemented in legacy source codes by hardening the weight membership in the E-step of the EM. Hard EM was shown computationally eﬃcient when learning mixtures of von-Mises Fisher (vMF) distributions [8]. Indeed, the log-normalizer F (used when computing densities) of vMF distributions requires to compute a modiﬁed Bessel function of the ﬁrst kind [49], that is only invertible approximately using numerical schemes.
+
+Algorithm 2 Hard EM for learning an exponential family mixture model.
+
+•
+
+0.
+
+Initialization:
+
+∀i ∈ {1, ..., k},
+
+let
+
+wi
+
+=
+
+1 k
+
+and
+
+ηi
+
+= t(xi)
+
+(Proper initialization is further discussed later on).
+
+• 1. Assignment: ∀i ∈ {1, ..., n}, zi = argminjk=1BF ∗(t(xi) : ηj) − log wj. Let ∀i ∈ {1, ..., k} Ci = {xj|zj = i} be the cluster partition: X = ∪ik=1Ci.
+
+•
+
+2.
+
+Update
+
+the
+
+η-parameters:
+
+∀i ∈ {1, ..., k}, ηi
+
+=
+
+1 |Ci|
+
+x∈Ci t(x).
+
+•
+
+3.
+
+Update
+
+the
+
+mixture
+
+weights:
+
+∀i ∈ {1, ..., k}, wi
+
+=
+
+|Ci n
+
+|
+
+.
+
+• Goto step 1 unless local convergence of the complete likelihood is reached.
+
+We can also sparsify EM by truncating to the ﬁrst D entries on each row (thus, we obtain a well-deﬁned centroid per cluster for non-degenerate input). This is related to the sparse EM proposed in [35]. Degeneraties of the EM GMM is identiﬁed and discussed in [6]. Asymptotic convergence rate of the EM GMM is analyzed in [32].
+There are many ways to initialize k-means [42]. Initialization shall be discussed in Section 6.
+5 Speeding up k-MLE and Hard EM using Bregman NN queries
+The proximity cells {V1, ..., Vk} induced by the cluster centers C = {c1, ..., ck} (in the η-coordinate system) are deﬁned by:
+
+Vj = {x ∈ X | BF ∗(t(x) : ηj) − log wj ≤ BF ∗(t(x) : ηl) − log wl, ∀l ∈ {1, ..., k}\{j}}
+
+(54)
+
+partitions the support X into a Voronoi diagram. It is precisely equivalent to the intersection of a Bregman Voronoi diagram for the dual log-normalizer F ∗ with additive weights [12] on the expectation parameter space M = {η = ∇F (θ) | θ ∈ N} with the hypersurface4 T = {t(x) | x ∈ X}. For the case of Gaussian mixtures, the log-density of the joint distribution wipF (x; µi, Σi) induces a partition of the space into an anisotropic weighted Voronoi diagram [27]. This is easily understood
+by taking minus the log-density of the Gaussian distribution (see Eq. 2):
+
+1
+
+1
+
+d
+
+− log p(x; µi, Σi) = 2 DΣi−1(x − µi, x − µi) + 2 log |Σi| + 2 log 2π,
+
+4Note that there is only one global minimum for the distance BF ∗ (y : η) with y ∈ T.
+
+(55)
+
+12
+
+(a)
+
+(b)
+
+Figure 3: From the source color image (a), we buid a 5D GMM with k = 32 components, and color each pixel with the mean color of the anisotropic Voronoi cell it belongs to.
+
+with MQ the squared Mahalanobis distance MQ(x, y) = (x − y)T Q(x − y). This is an additively
+
+weighted
+
+Bregman
+
+divergence
+
+with
+
+mass
+
+mi
+
+=
+
+1 2
+
+log
+
+|Σi|
+
++
+
+d 2
+
+log 2π
+
+and
+
+generator
+
+Fi(x)
+
+=
+
+x, Σ−i 1x ,
+
+the precision matrix (see the Appendix). Figure 3 displays the anisotropic Voronoi diagram [27]
+
+of a 5D xyRGB GMM restricted to the xy plane. We color each pixel with the mean color of the
+
+anisotropic Voronoi cell it belongs to.
+
+When the order of the exponential family (i.e., number of parameters) is small (say, D ≤ 3),
+
+we can compute explicitly this additively weighted Bregman Voronoi diagrams in the moment
+
+parameter space M, and use proximity location data-structures designed for geometric partitions
+
+bounded by planar walls. Otherwise, we speed up the assignment step of k-MLE/Hard EM by
+
+using proximity location data-structures such as Bregman ball trees [45] or Bregman vantage point
+
+trees [40]. See also [1].
+
+Besides Lloyd’s batched k-means heuristic [31, 33, 19], we can also implement other k-means
+
+heuristic like the greedy Hartigan and Wong’s swap [23, 52] in k-MLE that selects a point and
+
+optimally reassign it, or Kanungo et al. [25] global swap optimization, etc.
+
+Remark
+
+5
+
+The
+
+MLE
+
+equation
+
+ηˆ
+
+=
+
+∇F (θˆ)
+
+=
+
+1 n
+
+n i=1
+
+t(xi)
+
+may
+
+yield
+
+a
+
+transcendental
+
+equation.
+
+That is, when (∇F )−1 is not available analytically (e.g., von Mises-Fisher family [8]), the convex
+
+conjutate F ∗ needs to be approximated by computing numerically the reciprocal gradient ∇F −1
+
+(see Eq. 11). Sra [49] focuses on solving eﬃciently the MLE equation5 for the von Mises-Fisher
+
+distributions.
+
+5See also, software R package movMF
+
+13
+
+6 Initializing k-MLE using k-MLE++
+
+To complete the description of k-MLE of boxed Algorithm 1, it remains the problem to properly initializing k-MLE (step 0). One way to perform this initialization is to compute the global MLE parameter for the full set X :
+
+ηˆ = ∇F −1
+
+1n n t(xi)
+
+,
+
+(56)
+
+i=1
+
+and then consider the restricted exponential family of order d ≤ D with restricted suﬃcient statistic
+
+the ﬁrst d components of full family statistic (t1(x), ..., td(x)). We initialize the i-th cluster with
+
+ηi(0)
+
+=
+
+(t1(xi), ..., td(xi), ηˆd+1, ..., ηˆD).
+
+For
+
+the
+
+case
+
+of
+
+multivariate
+
+Gaussians
+
+with
+
+D
+
+=
+
+d(d+3) 2
+
+,
+
+this
+
+amounts to compute the covariance matrix Σˆ of the full set and then set the translation parameter to
+
+xi:
+
+ηi(0)
+
+=
+
+(xi,
+
+−
+
+1 2
+
+(Σˆ
+
++
+
+xi
+
+xiT
+
+))
+
+(see
+
+performance on the initial average
+
+appendix complete
+
+B). This initialization is a log-likelihood ¯l compared
+
+heuristic with no guaranteed to the best one ¯l∗. Note that
+
+when D = d (e.g., Poisson, Weibull, Rayleigh, isotropic Gaussian, etc.), we need to have distinct
+
+initializations so that instead of taking the global MLE, we rather split the data set into k groups
+
+of size
+
+n k
+
+,
+
+and
+
+take
+
+the
+
+MLE
+
+of
+
+each
+
+group
+
+for
+
+initialization.
+
+A good geometric split is given by
+
+using a Voronoi partition diagram as follows: We run Bregman k-means on Y for the dual convex
+
+conjugate F ∗ and set the mixture parameters as the MLEs of clusters and the weights as the relative
+
+proportion of data in clusters. This corroborates an experimental observation by Banerjee et al. [9]
+
+that observes that clustering works experimentally best if we choose the dual Bregman divergence
+
+associated with the exponential family mixture sample set.
+
+Let us further use the dual Bregman k-means interpretation of EM to perform this initialization
+
+eﬃciently.
+
+Assume
+
+uniform
+
+weighting
+
+of
+
+the
+
+mixtures.
+
+That
+
+is,
+
+∀i ∈ {1, ..., k}, wi
+
+=
+
+1 k
+
+.
+
+Maximizing the average complete log-likelihood amounts to minimize (see Eq. 46):
+
+¯l = 1 n
+
+k
+
+k
+min BF ∗(yi = t(xi) : ηj).
+j=1
+
+i=1
+
+(57)
+
+The likelihood function L(x1, ..., xn|θ, w) is
+
+L = e−nkmeansF ∗ (C)+n log k+
+
+n i=1
+
+(F
+
+∗
+
+(xi
+
+)+k(xi
+
+)).
+
+(58)
+
+Thus for uniform mixture weights, the ratio between two diﬀerent k-means optimization with respective cluster centers C and C is:
+
+L = e−n(kmeansF ∗ (C)−kmeansF ∗ (C )) L
+
+(59)
+
+We can use the standard Bregman k-means++ initialization [2] on the convex conjugate F ∗
+
+that gives probabilistically a guaranteed O(µ−2 log k) performance, where µ is a constant factor to
+
+be explained below. The Bregman k-means++ algorithm is recalled in boxed Algorithm 3. Let kmeansF∗ denote the optimal Bregman k-means average loss function for generator F . Breg-
+man k-means++ [2] described in Algorithm 3 ensures that
+
+kmeansF ∗(Y
+
+:
+
+C)
+
+≤
+
+kmeansF (Y
+
+:
+
+C)
+
+≤
+
+8 µ2 (2
+
++
+
+log k)kmeansF ∗(Y
+
+:
+
+C)
+
+(60)
+
+14
+
+Algorithm 3 Bregman k-means++: probabilistically guarantees a good initialization. • Choose ﬁrst seed C = {yl}, for l uniformly random in {1, ..., n}. • For i ← 2 to k
+
+– Choose ci ∈ {y1, ..., yn} with probability
+
+pi =
+
+BF (ci : C)
+
+n i=1
+
+BF (yi
+
+:
+
+C)
+
+=
+
+BF (Y : C) kmeansF (Y :
+
+, C)
+
+where BF (c : C) = minp∈C BF (c : p).
+
+– Add selected seed to the initialization seed set: C ← C ∪ {ci}, and reiterate until |C| = k.
+
+The factor µ in the upper bound is related to the notion of µ-similarity that we now concisely explain. Observe that the squared Mahalanobis distance MQ(p, q) = (p − q)T Q(p − q) satisﬁes the double triangle inequality:
+
+MQ(p, q) ≤ 2(MQ(p, r) + MQ(r, q)).
+
+(61)
+
+A Bregman divergence is said to have the µ-similarity on a domain Y if there exists a positive deﬁnite matrix Q 0 on Y = conv(y1, ..., yn) and a real 0 < µ ≤ 1 such that
+
+µMQ(p, q) ≤ BF (p : q) ≤ MQ(p, q)
+
+(62)
+
+Since a Bregman divergence can also be interpreted as the remainder of a Taylor expansion using the Lagrange error term:
+
+BF (p
+
+:
+
+q)
+
+=
+
+(p
+
+−
+
+q)T
+
+∇2F ( 2
+
+pq) (p
+
+−
+
+q),
+
+(63)
+
+with pq being a point on the line segment [pq]. It follows that by considering the Hessian ∇2F on
+
+a compact subset Y = conv(y1, ..., yn), we get a bound [41] for µ as follows:
+
+µ
+
+=
+
+min
+p,q∈Y
+
+miny∈Y (p − maxy∈Y (p −
+
+q)T ∇2F (y)(p − q)T ∇2F (y)(p −
+
+q) .
+q)
+
+(64)
+
+By considering a hyperrectangle bounding the convex hull Y = conv(y1, ..., yn), it is usually easy to compute bounds for µ. See [2] for some examples.
+The notion of µ-similarity also allows one to design fast proximity queries [1] based on the following two properties:
+
+Approximately symmetric.
+
+1
+
+BF (p : q) ≤ µ BF (q, p)
+
+(65)
+
+Deﬁcient triangle inequality.
+
+2
+
+BF (p : q) ≤ µ (BF (p : r) + BF (q : r))
+
+(66)
+
+15
+
+For mixtures with prescribed but diﬀerent non-zero weighting, we can bound the likelihood
+
+ratio
+
+using
+
+w+
+
+=
+
+maxi wi
+
+≥
+
+1 k
+
+and
+
+w−
+
+=
+
+mini wi.
+
+When mixture weights are unknown, we
+
+can further discretize weights by increments of size δ (O(1/δk) such weight combinations, where
+
+each combination gives rise to a ﬁxed weighting) and choose the initialization that yields the best
+
+likelihood.
+
+7 Concluding remarks and discussion
+
+Banerjee et al. [9] proved that EM for learning exponential family mixtures amount to perform
+
+a dual Bregman soft clustering. Based on the duality between exponential families and Bregman
+
+divergences, we proposed k-MLE, a Bregman hard clustering in disguise. While k-MLE decreases
+
+monotonically the complete likelihood until it converges to a local minimum after a ﬁnite number of
+
+steps, EM monotonically decreases the expected complete likelihood and requires necessarily a pre-
+
+scribed stopping criterion. Because k-MLE uses hard membership of observations, it ﬁts the doubly
+
+stochastic process of sampling mixtures (for which soft EM brings mathematical convenience).
+
+Both k-MLE and EM are local search algorithm that requires to properly initialize the mixture
+
+parameters. We described k-MLE++, a simple initialization procedure that builds on Bregman
+
+k-means++ [2] to probabilistically guarantee an initialization not too far from the global optimum
+
+(in case of known weights). While we use Lloyd k-means [31] heuristic for minimizing the k-means
+
+loss, we can also choose other k-means heuristic to design a corresponding k-MLE. One possible
+
+choice is Hartigan’s greedy swap [52] that can further improve the loss function when Lloyd’s k-
+
+means is trapped into a local minimum. A local search technique such as Kanungo et al. swap [25]
+
+also guarantees a global (9 + )-approximation.
+
+The MLE may yield degenerate situations when, say, one observation point is assigned to one
+
+component with weight close to one. For example, the MLE of one point for the normal distribution
+
+is degenerate as σ → 0 (and w → 1)), and the likelihood function tends to inﬁnity. That is the
+
+unboundedness drawback of the MLE. See [48, 11] for further discussions on this topic including a
+
+penalization of the MLE to ensure boundedness.
+
+Statistical mixtures with k components are generative models of overall complexity k − 1 +
+
+kD, where D is the order of the exponential family. An interesting future direction would be to
+
+compare mixture models versus a single multi-modal exponential family [16] (with implicit log-
+
+normalizer F ). We did not address the model selection problem that consists in determining the
+
+appropriate number of components, nor the type of distribution family. Although there exists many
+
+criteria like the Akaike Information Criterion (AIC), model selection is a diﬃcult problem since
+
+some distributions exhibit the indivisibility property that makes the selection process unstable.
+
+For example, a normal distribution can be interpreted as a sum of normal distributions: ∀k ∈
+
+N, N (µ, σ2) =
+
+k i=1
+
+N
+
+µ k
+
+,
+
+σ2 k
+
+.
+
+From the practical point of view, it is better to overestimate
+
+k, and then perform mixture simpliﬁcation using entropic clustering [20]. Belkin and Sinha [10]
+
+studied the polynomial complexity of learning a Gaussian mixture model.
+
+We conclude by mentioning that it is still an active research topic to ﬁnd good GMM learning
+
+algorithms in practice (e.g., see the recent entropy-based algorithm [43]).
+
+16
+
+Acknowledgments
+FN (5793b870) would like to thank Joris Geessels for an early prototype in Python, Professor Richard Nock for stimulating discussions, and Professor Mario Tokoro and Professor Hiroaki Kitano for encouragements.
+
+A k-Means with per-cluster additively weighted Bregman divergence
+
+k-Means clustering asks to minimize the cost function kmeans(X : C) by partitioning input set X = {x1, ..., xn} into k clusters using centers C = {c1, ..., ck}, where
+
+1 kmeans(X : C) =
+n
+
+n
+
+k
+min
+j=1
+
+xi − cj
+
+2.
+
+(67)
+
+i=1
+
+There are several popular heuristics to minimize Eq. 67 like Lloyd’s batched method [30] or
+
+Hartigan and Wong’s swap technique [23]. Those iterative heuristics guarantee to decrease mono-
+
+tonically the k-means loss but can be trapped into a local minimum. In fact, solving for the global minimum kmeans∗(X : C) is NP-hard for general k (even on the plane) and for k = 2 and
+
+arbitrary dimension of datasets. Kanungo et al. [25] swap optimization technique guarantees a
+
+(9 + )-approximation factor, for any > 0. Let us consider an additively weighted Bregman divergence BFi,mi per cluster as follows:
+
+BFi,mi (p : q) = BFi (p : q) + mi,
+
+(68)
+
+with mi denoting the additive mass attached to a cluster center6, and BFi the Bregman divergence induced by the Bregman generator Fi deﬁned by
+
+BFi(p : q) = Fi(p) − Fi(q) − p − q, ∇Fi(q) ,
+
+(69)
+
+Remark 6 For k-MLE, we consider all component distributions of the same exponential family EF , and therefore all Fi = F ∗’s are identical. We could have also considered diﬀerent exponential families for the components but this would have burdened the paper with additional notations although it is of practical interest. For example, for the case of the multivariate Gaussian family, we can split the vector parameter part from the matrix parameter part, and write F (θvi, θM i) = FθM i (θvi) = Fi(θvi).
+
+Let us extend the Bregman batched Lloyd’s k-means clustering [9] by considering the generalized k-means clustering loss function for a data set Y = {y1, ..., yn} and a set C of k cluster centers C = {c1, ..., ck}:
+
+1n k
+
+kmeans(Y, C)
+
+=
+
+min
+c1,...,ck
+
+n
+
+i=1
+
+min Di(yi
+j=1
+
+:
+
+cj ).
+
+(70)
+
+Let us prove that the center-based Lloyd’s k-means clustering algorithm monotonically decreases
+
+this loss function, and terminates after a ﬁnite number of iterations into a local optimum.
+
+6In this paper, we have mi ≥ 0 by choosing mi = − log wi for wi < 1, but this is not required.
+
+17
+
+• When k = 1, the minimizer of kmeans(Y, C = {c1}) is the center of mass (always independent
+
+of the Bregman generator):
+
+1n
+
+c1 = n yi = y¯,
+
+(71)
+
+i=1
+
+and the Bregman information [9] is deﬁned as the minimal 1-means loss function:
+
+kmeansF1,m1 (Y, {c1}) = IF1 (Y)
+
+(72)
+
+1n
+
+= n
+
+F1(yi) − F1(y¯) + m1,
+
+(73)
+
+i=1
+
+= m1 + JF1 (Y),
+
+(74)
+
+where
+
+y¯
+
+=
+
+1 n
+
+n i=1
+
+yi
+
+and
+
+1n
+
+JF1(y1, ..., yn) = n F1(yi) − F1(y¯) ≥ 0,
+
+(75)
+
+i=1
+
+denotes the Jensen diversity index [38].
+
+• When k ≥ 2, let ci(t) denote the cluster center of the i-th cluster Ci(t) ⊂ Y of the partition Y = ∪ik=1Ci(t) at the tth iteration. The generalized additively weighted Bregman k-means loss function can be rewritten as
+
+kmeansF,m(C1(t), ..., Ck(t)
+
+:
+
+c(1t), ..., c(kt))
+
+=
+
+1 n
+
+k
+
+BFi,mi (y : ci).
+
+i=1 y∈Ci(t)
+
+(76)
+
+Since the assignment step allocates yi to their closest cluster center argminkj=1BFi,mi(yi : cj), we have
+
+kmeansF,m(C1(t+1), ..., Ck(t+1) : c1(t), ..., ck(t)) ≤ kmeansF,m(C1(t), ..., Ck(t) : c(1t), ..., c(kt)).
+
+(77)
+
+Since the center relocation minimizes the average additively weighted divergence, we have
+
+kmeansF,m(C1(t+1), ..., Ck(t+1) : c1(t+1), ..., c(kt+1)) ≤ kmeansF,m(C1(t+1), ..., Ck(t+1); c1(t), ..., ck(t)). (78)
+By iterating the assignment-relocation steps of k-means, and cascading the inequalities by transitivity, we get
+
+kmeansF,m(C1(t+1), ..., Ck(t+1) : c1(t+1), ..., ck(t+1)) ≤ kmeansF,m(C1(t), ..., Ck(t) : c1(t), ..., c(kt)) (79)
+
+Since
+
+the
+
+loss
+
+function
+
+is
+
+trivially
+
+lower
+
+bounded
+
+by
+
+1 n
+
+minik=1
+
+mi
+
+(and
+
+therefore
+
+always
+
+positive
+
+when all mi ≥ 0), we conclude that the generalized Bregman k-means converge to a local
+
+optimum, after a ﬁnite number7 of iterations.
+
+7We cannot repeat twice a partition.
+
+18
+
+Furthermore, the loss function can be expressed as
+
+1k
+
+kmeansF,m(C1, ..., Ck : c1, ..., ck) = n
+
+BFi,mi (y : ci),
+
+i=1 y∈Ci
+
+k
+
+k
+
+=
+
+wiJFi (Ci) + wimi,
+
+i=1
+
+i=1
+
+(80) (81)
+
+with
+
+JFi (Ci)
+
+=
+
+1 |Ci|
+
+n y∈Ci
+
+Fi(y)
+
+−
+
+Fi(ci)
+
+≥
+
+0
+
+(and
+
+ci
+
+=
+
+{1, ..., k}, the cluster relative weights.
+
+y∈Ci
+|Ci|
+
+y
+
+),
+
+and
+
+wi
+
+=
+
+|Ci| n
+
+for
+
+all
+
+i
+
+∈
+
+When all Fi are identical to some generator F , we have the following loss function:
+
+k
+
+k
+
+kmeansF,m = wiJF (Ci) + wimi
+
+i=1
+
+i=1
+
+(82)
+
+The celebrated k-means of Lloyd [30] minimizes the weighted within-cluster variances (for the
+
+Bregman quadratic generator F (x) = x, x inducing the squared Euclidean distance error) as
+
+shown in Eq. 81, with Bregman information:
+
+JF (Y) =
+
+1 y − y¯ 2, |Y |
+
+(83)
+
+y∈Y
+
+1
+
+=
+
+y − y¯, y − y¯ ,
+
+(84)
+
+|Y |
+
+y∈Y
+
+1
+
+=
+
+( y, y − 2 y¯, y − y¯, y¯ ),
+
+(85)
+
+|Y |
+
+y∈Y
+
+1
+
+1
+
+=
+
+y, y − 2 y¯,
+
+y − y¯, y¯ ,
+
+(86)
+
+|Y |
+
+|Y |
+
+y∈Y
+
+y∈Y
+
+y¯
+
+1
+
+= |Y |
+
+y, y − y¯, y¯ = JF (Y),
+
+(87)
+
+y∈Y
+
+the variance. When all cluster generators are identical and have no mass, it is shown by Banerjee et al. [9] that the loss function can be equivalently rewritten as:
+
+k
+
+kmeansF (P : C) = JF (P) − JF (C) = wiJF (Ci),
+
+(88)
+
+i=1
+
+= IF (P) − IF (C)
+
+(89)
+
+Remark 7 Note that we always have c¯ = y¯. That is, the centroid y¯ of set Y is equal to the barycenter c¯ of the cluster centers C (with weights taken as the relative proportion of points falling within the clusters.
+
+19
+
+Remark 8 A multiplicatively weighted Bregman divergence miBFi is mathematically equivalent to a Bregman divergence BmiFi for generator miFi, provided that mi > 0.
+As underlined in this proof, Lloyd’s k-means [30] assignment-center relocation loop is a generic algorithm that extends to arbitrary divergences Di guaranteeing unique average divergence minimizers, and the assignment/relocation process ensures that the associated k-means loss function decreases monotonically. Teboulle studied [51] generic center-based clustering optimization methods. It is however diﬃcult to reach the global minimum since k-means is NP-hard, even when data set Y lies on the plane [53] for arbitrary k. In the worst case, k-means may take an exponential number of iterations to converge [53], even on the plane.
+
+B Dual parameterization of the multivariate Gaussian (MVN) family
+
+Let us explicit the dual θ-natural and η-moment parameterizations of the family of multivariate Gaussians. Consider the multivariate Gaussian probability density parameterized by a mean vector λv = µ and a covariance matrix λM = Σ.
+
+p(x; λ) =
+
+1
+d
+
+e−
+
+1 2
+
+(x−λv
+
+)T
+
+λM −1
+
+(x−λv
+
+)
+
+,
+
+(2π) 2 |λM |
+
+=
+
+exp
+
+−
+
+1 2
+
+xT
+
+λ−M1x
+
++
+
+λTv λM −1x
+
+−
+
+1 2
+
+λTv
+
+λM −1
+
+λv
+
+−
+
+d 2
+
+log
+
+2π
+
+−
+
+1 2
+
+log
+
+|λM |
+
+,
+
+(90) (91)
+
+where the usual parameter is λ = (λv, λM ) = (µ, Σ). Using the matrix cyclic trace property
+
+−
+
+1 2
+
+xT
+
+λM −1
+
+x
+
+=
+
+tr(−
+
+1 2
+
+xxT
+
+λ−M1)
+
+and
+
+the
+
+fact
+
+that
+
+(λM −1)T
+
+=
+
+λM −1,
+
+we
+
+rewrite
+
+the
+
+density
+
+as
+
+follows:
+
+p(x; λ) = exp
+
+x, λ−M1λv
+
++
+
+−
+
+1 2
+
+xxT
+
+,
+
+λM −1
+
+−
+
+1 2
+
+λTv
+
+λ−M1λv
+
++
+
+d 2
+
+log
+
+2π
+
++
+
+1 2
+
+log
+
+|λM |
+
+,
+
+(92)
+
+where the inner product of vector is v1, v2 = v1T v2 and the inner product of matrices is M1, M2 = tr(M1T M2). Thus we deﬁne the following canonical terms:
+
+•
+
+suﬃcient
+
+statistics:
+
+t(x)
+
+=
+
+(x,
+
+−
+
+1 2
+
+xxT
+
+),
+
+• auxiliary carrier measure: k(x) = 0,
+
+• natural parameter: θ = (θv, θM ) = (λ−M1λv, λM −1).
+
+• log-normalizer expressed in the λ-coordinate system:
+
+F (λ)
+
+=
+
+1 2
+
+λvT
+
+λM −1λv
+
++
+
+d 2
+
+log
+
+2π
+
++
+
+1 2
+
+log
+
+|λM |
+
+(93)
+
+Since λv = θM−1θv (and λTv = θvT θM−1) and log |λM | = − log |θM |, we express the log-normalizer in the θ-coordinate system as follows:
+
+F (θ)
+
+=
+
+1 2
+
+θvT
+
+θM−1θv
+
+−
+
+1 2
+
+log
+
+|θM |
+
++
+
+d 2
+
+log
+
+2π
+
+(94)
+
+20
+
+Since the derivative of the log determinant of a symmetric matrix is ∇X log |X| = X−1 and the derivative of an inverse matrix trace [44]:
+
+∇X tr(AX−1B) = −(X−1BAX−1)T
+
+(95)
+
+(applied
+
+to
+
+1 2
+
+tr(θvT
+
+θM−1
+
+θv
+
+)
+
+=
+
+−
+
+1 2
+
+(θM−1
+
+θv
+
+θvT
+
+θM−1)),
+
+we
+
+calculate
+
+the
+
+gradient
+
+∇F
+
+of
+
+the
+
+log-normalizer
+
+as
+
+∇F (θ) = (∇θv F (θ), ∇θM F (θ))
+
+(96)
+
+with
+
+ηv = ∇θv F (θ) = θM−1θv,
+
+= E[x] = µ,
+
+ηM
+
+=
+
+∇θM F (θ)
+
+=
+
+−
+
+1 2
+
+(θM−1θv
+
+)(θM−1θv
+
+)T
+
+−
+
+1 2
+
+θM−1,
+
+= E − 1 xxT = − 1 (µµT + Σ),
+
+2
+
+2
+
+(97) (98) (99)
+(100)
+
+where η = ∇F (θ) = (ηv, ηM ) denotes the dual moment parameterization of the Gaussian. It follows that the Kullback-Leibler divergence of two multivariate Gaussians is
+
+KL(p(x; λ1) : p(x; λ2)) = BF (θ2 : θ1),
+
+(101)
+
+=
+
+1 2
+
+tr(Σ2−1Σ1) − log |Σ1Σ−2 1| + (µ2 − µ1)T Σ−2 1(µ2 − µ1)
+
+.
+
+(102)
+
+Note that the Kullback-Leibler divergence of multivariate Gaussian distributions [17] can be decomposed as the sum of a Burg matrix divergence (Eq. 106) with a squared Mahalanobis distance (Eq. 106) (both being Bregman divergences):
+
+KL(pF (x|µ1, Σ1) : pF (x|µ2, Σ2)
+
+=
+
+1 2
+
+tr(Σ−2 1Σ1) − log |Σ1Σ−2 1| + (µ2 − µ1)T Σ−2 1(µ2 − µ1()103)
+
+1
+
+1
+
+= 2 B(Σ1, Σ2) + 2 MΣ−2 1 (µ1, µ2),
+
+(104)
+
+with
+
+B(Σ1 : Σ2) = tr(Σ1Σ2−1) − log |Σ1Σ−2 1| − d, MΣ2−1 (µ1, µ2) = (µ1 − µ2)T Σ−2 1(µ1 − µ2).
+To compute the functional inverse of the gradient, we write:
+
+(105) (106)
+
+θ = ∇F −1(η) = ∇F ∗(η).
+
+Since
+
+ηM
+
+=
+
+−
+
+1 2
+
+(ηv
+
+ηvT
+
++
+
+θM−1),
+
+we
+
+have:
+
+(107)
+
+21
+
+θM = (−2ηM − ηvηvT )−1, θv = (−2ηM − ηvηvT )−1ηv.
+Finally, we get the Legendre convex conjugate F ∗(η) as:
+
+(108) (109)
+
+F ∗(η) = ∇F ∗(η), η − F (∇F ∗(η)),
+
+=
+
+1 −
+2
+
+log(1
+
++
+
+2ηvT
+
+ηM−1 ηv )
+
+−
+
+1 2
+
+log
+
+|
+
+−
+
+ηM |
+
+−
+
+d 2
+
+log(πe).
+
+(110) (111)
+
+C k-MLE for Gaussian Mixture Models (GMMs)
+
+We explicit k-MLE for Gaussian mixture models on the usual (µ, Σ) parameters in Algorithm 4. The k-MLE++ initialization for the GMM is reported in Algorithm 5.
+
+D Rayleigh Mixture Models (RMMs)
+
+We instantiate the soft Bregman EM, hard EM, k-MLE, and k-MLE++ for the Rayleigh distribu-
+
+tions, a sub-family of Weibull distributions.
+
+A Rayleigh distribution has probability density
+
+e x
+σ2
+
+−
+
+x2 2σ2
+
+where σ
+
+∈ R+
+
+denotes the mode of the
+
+distribution, and x ∈ X = R+ the support. The Rayleigh distributions form a 1-order univariate
+
+exponential
+
+family
+
+(D
+
+=
+
+d
+
+=
+
+1).
+
+Re-writing
+
+the
+
+density
+
+in
+
+the
+
+canonical
+
+form
+
+e−
+
+x2 2σ2
+
++log
+
+x−2
+
+log
+
+σ
+
+,
+
+we
+
+deduce
+
+that
+
+t(x)
+
+=
+
+x2,
+
+θ
+
+=
+
+−
+
+1 2σ2
+
+,
+
+k(x)
+
+=
+
+log x,
+
+and
+
+F (σ2)
+
+=
+
+log σ2
+
+=
+
+log
+
+−
+
+1 2θ
+
+=
+
+− log(−2θ)
+
+=
+
+F (θ).
+
+Thus
+
+∇F (θ)
+
+=
+
+−
+
+1 θ
+
+=
+
+η
+
+and
+
+F ∗(η)
+
+=
+
+θ, η
+
+−
+
+F (θ)
+
+=
+
+−1
+
++
+
+log
+
+2 η
+
+.
+
+The natural parameter space is
+
+N = R− and the moment parameter space is M = R+ (with η = 2σ2). We check that conjugate
+
+gradients
+
+are
+
+reciprocal
+
+of
+
+each
+
+other
+
+since
+
+∇F ∗(η)
+
+=
+
+−
+
+1 η
+
+=
+
+θ,
+
+and
+
+we
+
+have
+
+∇2F (θ)∇2G(η)
+
+=
+
+11 θ2 η2
+
+=1
+
+(i.e,
+
+dually
+
+orthogonal
+
+coordinate
+
+system)
+
+with
+
+∇2F (θ) =
+
+1 θ2
+
+and
+
+∇2F ∗(η) =
+
+1 η2
+
+.
+
+Rayleigh mixtures are often used in ultrasound imageries [47].
+
+D.1 EM as a Soft Bregman clustering algorithm
+
+Following Banerjee et al. [9], we instantiate the Bregman soft clustering for the convex conju-
+
+gate
+
+F ∗(η)
+
+=
+
+−1
+
++
+
+log
+
+2 η
+
+,
+
+t(x)
+
+=
+
+x2
+
+and
+
+η
+
+=
+
+2σ2.
+
+The Rayleigh density expressed in the η-
+
+parameterization
+
+yields
+
+p(x; σ)
+
+=
+
+p(x; η)
+
+=
+
+2x η
+
+e−
+
+2x2 η
+
+.
+
+Expectation. Soft membership for all observations x1, ..., xn:
+
+∀1 ≤ i ≤ n, 1 ≤ j ≤ k, wi,j =
+
+wjp(xi; θj)
+
+k l=1
+
+wlp(xi
+
+;
+
+θl
+
+)
+
+,
+
+(112)
+
+(We can use any of the equivalent σ, θ or η parameterizations for calculating the densities.)
+
+22
+
+Algorithm 4 k-MLE for learning a GMM. Input:
+X : a set of n independent and identically distributed distinct observations: X = {x1, ..., xn} k : number of clusters
+
+• 0. Initialization:
+
+– Calculate global mean µ¯ and global covariance matrix Σ¯ :
+
+1k
+
+µ¯ = n
+
+xi,
+
+i=1
+
+Σ¯
+
+=
+
+1 n
+
+k
+
+xixTi − µ¯µ¯T
+
+i=1
+
+– ∀i ∈ {1, ..., k}, initialize the ith seed as (µi = xi, Σi = Σ¯ ).
+
+• 1. Assignment:
+
+∀i ∈ {1, ..., n}, zi = argminkj=1MΣ−i 1(x − µi, x − µi) + log |Σi| − 2 log wi with MΣi−1(x − µi, x − µi) the squared Mahalanobis distance: MQ(x, y) = (x − y)T Q(x − y). Let Ci = {xj|zj = i}, ∀i ∈ {1, ..., k} be the cluster partition: X = ∪ki=1Ci. (Anisotropic Voronoi diagram [27])
+• 2. Update the parameters:
+
+∀i
+
+∈
+
+{1, ..., k}, µi
+
+=
+
+1 |Ci|
+
+x, Σi
+x∈Ci
+
+=
+
+1 |Ci|
+
+xxT
+x∈Ci
+
+− µiµiT
+
+Goto step 1 unless local convergence of the complete likelihood is reached.
+
+•
+
+3.
+
+Update
+
+the
+
+mixture
+
+weights:
+
+∀i ∈ {1, ..., k}, wi
+
+=
+
+1 n
+
+|Ci|.
+
+Goto step 1 unless local convergence of the complete likelihood is reached.
+
+23
+
+Algorithm 5 k-MLE for GMM: • Choose ﬁrst seed C = {yl}, for l uniformly random in {1, ..., n}. • For i ← 2 to k
+
+– Choose ci = (µi, Σi) with probability
+
+BF ∗(ci : C)
+
+n i=1
+
+BF ∗(yi
+
+:
+
+C)
+
+=
+
+BF ∗ (Y : C) kmeansF ∗(Y :
+
+, C)
+
+where BF ∗(c : P) = minp∈P BF ∗(c : p).
+
+F ∗(µ, Σ) = − 1 log 1 − µT (µµT + Σ)−1µ − 1 log |µT µ + Σ| − d log 2π − d
+
+2
+
+2
+
+2
+
+– Add selected seed to the initialization seed set: C ← C ∪ {ci}.
+
+Maximization. Barycenter in the moment parameterization:
+
+∀1 ≤ j ≤ k, ηj = σj =
+
+n i=1
+
+wi,j
+
+t(xi)
+
+n l=1
+
+wl,j
+
+,
+
+1
+
+n i=1
+
+wi,j
+
+x2i
+
+2
+
+n l=1
+
+wl,j
+
+(113) (114)
+
+D.2 k-Maximum Likelihood Estimators
+
+The associated Bregman divergence for the convex conjugate generator of the Rayleigh distribution log-normalizer is
+
+BF ∗ (η1 : η2) = F ∗(η1) − F ∗(η2) − η1 − η2, ∇F ∗(η2) ,
+
+2
+
+2
+
+= −1 + log η1 + 1 − log η2 − (η1 − η2)(−1/η2),
+
+= η1 + log η2 − 1,
+
+η2
+
+η1
+
+= IS(η1 : η2)
+
+(115) (116) (117) (118)
+
+This is the Itakura-Saito divergence IS (indeed, F ∗ is equivalent modulo aﬃne terms to − log η, the Burg entropy).
+
+1. Hard assignment.
+
+∀1 ≤ i ≤ n, zi = argmin1≤j≤kIS(x2i : ηj) − log wj
+
+Voronoi partition into clusters:
+
+∀1 ≤ j ≤ k, Cj = {xi | IS(x2i : ηj) − log wj ≤ IS(xi2 : ηl) − log wl∀l = j}
+
+24
+
+2. η-parameter update.
+
+∀1
+
+≤
+
+j
+
+≤
+
+k, ηj
+
+←
+
+1 |Cj |
+
+x∈Cj
+
+x2
+
+1 ∀1 ≤ j ≤ k, σj = 2 ηj
+
+Go to 1. until (local) convergence is met.
+
+weight update.
+
+∀1
+
+≤
+
+j
+
+≤
+
+k, wj
+
+=
+
+|Cj | n
+
+Go to 1. until (local) convergence is met.
+
+Note that k-MLE does also model selection as it may decrease the number of clusters in order to improve the complete log-likelihood. If initialization is performed using random point and uniform weighting, the ﬁrst iteration ensures that all Voronoi cells are non-empty.
+
+D.3 k-MLE++
+
+A good initialization for Rayleigh mixture models is done as follows: Compute the order statistics
+
+for
+
+the
+
+n k
+
+,
+
+2n k
+
+,
+
+(k−1)n k
+
+-th
+
+elements
+
+(in
+
+overall
+
+O(n log k)-time).
+
+Those
+
+pivot
+
+elements
+
+split
+
+the
+
+set
+
+X
+
+into
+
+k
+
+groups
+
+X1, ..., Xk
+
+of
+
+size
+
+n k
+
+,
+
+on
+
+which
+
+we
+
+estimate
+
+the
+
+MLEs.
+
+The k-MLE++ initialization is built from the Itakura-Saito divergence:
+
+IS(η1
+
+:
+
+η2)
+
+=
+
+η1 η2
+
++
+
+log
+
+η2 η1
+
+−
+
+1
+
+k-MLE++:
+
+• Choose ﬁrst seed C = {yl}, for l uniformly random in {1, ..., n}. • For i ← 2 to k
+
+– Choose ci ∈ y1 = x21, ..., yn = xn2 with probability
+
+IS(ci : C)
+
+n i=1
+
+IS(yi
+
+:
+
+C)
+
+– Add selected seed to the initialization seed set: C ← C ∪ {ci}.
+
+25
+
+E Notations
+
+Exponential family: x, y pF (x; θ) = e t(x),θ −F (θ)+k(x) X d D
+t(x) k(x) F ∇F ∇2F
+F∗ Distribution parameterization: θ N η M λ L pF (x; λ) pF (x; η) Mixture: m ∆k H (w) H×(p : q) wi θi ηi m˜ k Ω Clustering: X = {x1, ..., xn} |X |, |C| z1, ..., zn Y = {y1 = t(x1), ..., yn = t(xn)}
+
+inner product (e.g., x y for vectors, tr(Y X) for matrices)
+
+Exponential distribution parameterized using the θ-coordinate system
+
+support of the distribution family ({x | pF (x; θ) > 0}) dimension of the support X (univariate versus multivariate)
+
+dimension of the natural parameter space
+
+(uniparameter versus multiparameter)
+
+suﬃcient
+
+statistic
+
+(ηˆ
+
+=
+
+1 n
+
+n i=1
+
+t(xi))
+
+auxiliary carrier term
+
+log-normalizer, log-Laplace, cumulant function (F : N → R)
+
+gradient of the log-normalizer (for moment η-parameterization)
+
+Hessian of the log-normalizer (Fisher information matrix, SPD: ∇2F (θ) 0)
+
+Legendre convex conjugate
+
+canonical natural parameter natural parameter space canonical moment parameter moment parameter space usual parameter usual parameter space density or mass function using the usual λ-parameterization density or mass function using the usual moment parameterization
+
+mixture model
+
+closed probability (d − 1)-dimensional simplex
+
+Shannon entropy −
+
+d i=1
+
+wi
+
+log
+
+wi
+
+(with
+
+0 log
+
+0
+
+=
+
+0
+
+by
+
+convention)
+
+Shannon cross-entropy −
+
+d i=1
+
+p
+
+log
+
+q
+
+mixture weights (positive such that
+
+k i=1
+
+wi
+
+=
+
+1)
+
+mixture component natural parameters
+
+mixture component moment parameters
+
+estimated mixture
+
+number of mixture components
+
+mixture parameters
+
+sample (observation) set cardinality of sets: n for the observations, k for the cluster centers Hidden component labels sample suﬃcient statistic set
+
+26
+
+L(x1, ..., xn; θ) θˆ, ηˆ, λˆ
+wi,j i
+j
+C
+c1, ..., ck α1, ..., αk BF
+
+likelihood function
+maximum likelihood estimates soft weight for xi in cluster/component Cj (wj, θj) index on the sample set x1, ..., xi, ..., xn index on the mixture parameter set θ1, ..., θj, ..., θk cluster partition cluster centers cluster proportion size Bregman divergence with generator F :
+
+JF
+Evaluation criteria: ¯lF ¯lF L¯F L¯F
+kmeansF
+
+BF (θ2, θ1) = KL(pF (x : θ1) : pF (x : θ2))
+
+= BF ∗ (η1, η2)
+
+= F (θ2) + F ∗(η1) − η1, θ2
+
+Jensen diversity index:
+
+JF (p1, ..., pn; w1, ..., wn) =
+
+n i=1
+
+wiF
+
+(pi)
+
+−
+
+F
+
+(
+
+n i=1
+
+wipi)
+
+≥
+
+0
+
+average incomplete log-likelihood:
+
+¯lF (x1, ..., xn)
+
+=
+
+1 n
+
+n i=1
+
+log
+
+k j=1
+
+wj
+
+pF
+
+(xi;
+
+θj
+
+)
+
+average complete log-likelihood
+
+¯lF (x1, ..., xn)
+
+=
+
+1 n
+
+n i=1
+
+log
+
+wzi
+
+pF
+
+(xi
+
+;
+
+θzi
+
+)
+
+geometric average incomplete likelihood:
+
+L¯F (x1, ..., xn) = e¯lF (x1,...,xn)
+
+geometric average complete likelihood:
+
+L¯F (x1, ..., xn) = e¯lF (x1,...,xn)
+
+average k-means loss function (average divergence to the closest center)
+
+kmeansF,m
+
+1n kmeansF (X , C) = n BF (xi : C)
+i=1
+
+1k
+
+= n
+
+BF (x : cj)
+
+j=1 x∈Cj
+
+k
+
+=
+
+wjJF (Cj)
+
+j=1
+
+= JF (X ) − JF (C) average k-means loss function with respect to additive Bregman divergences
+
+27
+
+References
+[1] Amirali Abdullah, John Moeller, and Suresh Venkatasubramanian. Approximate Bregman near neighbors in sublinear time: Beyond the triangle inequality. CoRR, abs/1108.0835, 2011.
+[2] Marcel R. Ackermann and Johannes Bl¨omer. Bregman clustering for separable instances. In Scandinavian Workshop on Algorithm Theory (SWAT), pages 212–223, 2010.
+[3] Shun-ichi Amari and Hiroshi Nagaoka. Methods of Information Geometry. Oxford University Press, 2000.
+[4] Tahir Amin, Mehmet Zeytinoglu, and Ling Guan. Application of Laplacian mixture model to image and video retrieval. IEEE Transactions on Multimedia, 9(7):1416–1429, 2007.
+[5] Yali Amit and Alain Trouv´e. Generative models for labeling multi-object conﬁgurations in images. In Toward Category-Level Object Recognition, pages 362–381, 2006.
+[6] C´edric Archambeau, John Aldo Lee, and Michel Verleysen. On convergence problems of the EM algorithm for ﬁnite Gaussian mixtures. In European Symposium on Artiﬁcial Neural Networks (ESANN), pages 99–106, 2003.
+[7] Arindam Banerjee, Inderjit Dhillon, Joydeep Ghosh, and Srujana Merugu. An information theoretic analysis of maximum likelihood mixture estimation for exponential families. In Proceedings of the twenty-ﬁrst international conference on Machine learning, ICML, pages 57–64, New York, NY, USA, 2004. ACM.
+[8] Arindam Banerjee, Inderjit S. Dhillon, Joydeep Ghosh, and Suvrit Sra. Clustering on the unit hypersphere using von Mises-Fisher distributions. Journal of Machine Learning Research, 6:1345–1382, December 2005.
+[9] Arindam Banerjee, Srujana Merugu, Inderjit S. Dhillon, and Joydeep Ghosh. Clustering with Bregman divergences. Journal of Machine Learning Research, 6:1705–1749, 2005.
+[10] Mikhail Belkin and Kaushik Sinha. Polynomial learning of distribution families. In Foundations of Computer Science (FOCS), pages 103–112, 2010.
+[11] Christophe Biernacki. Degeneracy in the maximum likelihood estimation of univariate Gaussian mixtures for grouped data and behaviour of the EM algorithm. Scandinavian Journal of Statistics, 34(3):569–586, 2007.
+[12] Jean-Daniel Boissonnat, Frank Nielsen, and Richard Nock. Bregman Voronoi diagrams. Discrete and Computational Geometry, 44(2):281–307, April 2010.
+[13] Lawrence D. Brown. Fundamentals of statistical exponential families: with applications in statistical decision theory. Institute of Mathematical Statistics, Hayworth, CA, USA, 1986. available on-line from Project Euclid.
+[14] Chad Carson, Serge Belongie, Hayit Greenspan, and Jitendra Malik. Blobworld: Image segmentation using Expectation-Maximization and its application to image querying. IEEE Transactions Pattern Analysis and Machine Intelligence, 24(8):1026–1038, 2002.
+28
+
+[15] Jean-Franc¸ois Castet and Joseph H. Saleh. Single versus mixture Weibull distributions for nonparametric satellite reliability. Reliability Engineering & System Safety, 95(3):295 – 300, 2010.
+[16] Loren Cobb, Peter Koppstein, and Neng Hsin Chen. Estimation and moment recursion relations for multimodal distributions of the exponential family. Journal of the American Statistical Association, 78(381):124–130, 1983.
+[17] Jason V. Davis and Inderjit S. Dhillon. Diﬀerential entropic clustering of multivariate Gaussians. In Bernhard Scholkopf, John Platt, and Thomas Hoﬀman, editors, Neural Information Processing Systems (NIPS), pages 337–344. MIT Press, 2006.
+[18] Arthur Pentland Dempster, Nan M. Laird, and Donald B. Rubin. Maximum likelihood from incomplete data via the EM algorithm. Journal of the Royal Statistical Society. Series B (Methodological), 39(1):1–38, 1977.
+[19] Edward W. Forgy. Cluster analysis of multivariate data: eﬃciency vs interpretability of classiﬁcations. Biometrics, 1965.
+[20] Vincent Garcia and Frank Nielsen. Simpliﬁcation and hierarchical representations of mixtures of exponential families. Signal Processing (Elsevier), 90(12):3197–3212, 2010.
+[21] Hayit Greenspan, Jacob Goldberger, and Arnaldo Mayer. Probabilistic space-time video modeling via piecewise GMM. IEEE Transactions on Pattern Analysis and Machine Intelligence, 26:384–396, March 2004.
+[22] Leonard R. Haﬀ, Peter T. Kim, Ja-Yong Koo, and Donald St. P. Richards. Minimax estimation for mixtures of Wishart distributions. Annals of Statistics, 39( arXiv:1203.3342 (IMS-AOSAOS951)):3417–3440, Mar 2012.
+[23] John A. Hartigan and Manchek A. Wong. Algorithm AS 136: A k-means clustering algorithm. Journal of the Royal Statistical Society. Series C (Applied Statistics), 28(1):100–108, 1979.
+[24] Kittipat Kampa, Erion Hasanbelliu, and Jose Principe. Closed-form Cauchy-Schwarz PDF divergence for mixture of Gaussians. In Proceeding of the International Joint Conference on Neural Networks (IJCNN), pages 2578 – 2585, 2011.
+[25] Tapas Kanungo, David M. Mount, Nathan S. Netanyahu, Christine D. Piatko, Ruth Silverman, and Angela Y. Wu. A local search approximation algorithm for k-means clustering. Computational Geometry, 28(2-3):89–112, 2004.
+[26] Michael Kearns, Yishay Mansour, and Andrew Y. Ng. An information-theoretic analysis of hard and soft assignment methods for clustering. In Proceedings of the Thirteenth conference on Uncertainty in artiﬁcial intelligence, UAI, pages 282–293, 1997.
+[27] Franc¸ois Labelle and Jonathan Richard Shewchuk. Anisotropic Voronoi diagrams and guaranteed-quality anisotropic mesh generation. In Proceedings of the nineteenth annual symposium on Computational geometry, SCG ’03, pages 191–200, New York, NY, USA, 2003. ACM.
+29
+
+[28] Jia Li and Hongyuan Zha. Two-way Poisson mixture models for simultaneous document classiﬁcation and word clustering. Computational Statistics & Data Analysis, 50(1):163–180, 2006.
+[29] Meizhu Liu, Baba C. Vemuri, Shun-ichi Amari, and Frank Nielsen. Shape retrieval using hierarchical total Bregman soft clustering. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2012.
+[30] Stuart P. Lloyd. Least squares quantization in PCM. Technical report, Bell Laboratories, 1957.
+[31] Stuart P. Lloyd. Least squares quantization in PCM. IEEE Transactions on Information Theory, IT-28(2):129–137, March 1982.
+[32] Jinwen Ma, Lei Xu, and Michael I. Jordan. Asymptotic convergence rate of the EM algorithm for Gaussian mixtures. Neural Computation, 12(12):2881–2907, 2001.
+[33] James B. MacQueen. Some methods of classiﬁcation and analysis of multivariate observations. In L. M. Le Cam and J. Neyman, editors, Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability. University of California Press, Berkeley, CA, USA, 1967.
+[34] Geoﬀrey McLachlan and David Peel. Finite Mixture Models. Wiley Series in Probability and Statistics. Wiley-Interscience, 1 edition, October 2000.
+[35] Radford M. Neal and Geoﬀrey E. Hinton. A view of the EM algorithm that justiﬁes incremental, sparse, and other variants. In M. I. Jordan, editor, Learning in Graphical Models. Kluwer, 1998.
+[36] Frank Nielsen and Vincent Garcia. Statistical exponential families: A digest with ﬂash cards, 2009. arXiv.org:0911.4863.
+[37] Frank Nielsen and Richard Nock. Clustering multivariate normal distributions. In Frank Nielsen, editor, Emerging Trends in Visual Computing, pages 164–174. Springer-Verlag, Berlin, Heidelberg, 2009.
+[38] Frank Nielsen and Richard Nock. Sided and symmetrized Bregman centroids. IEEE Transactions on Information Theory, 55(6):2048–2059, June 2009.
+[39] Frank Nielsen and Richard Nock. Entropies and cross-entropies of exponential families. In International Conference on Image Processing (ICIP), pages 3621–3624, 2010.
+[40] Frank Nielsen, Paolo Piro, and Michel Barlaud. Bregman vantage point trees for eﬃcient nearest neighbor queries. In IEEE International Conference on Multimedia and Expo (ICME), pages 878–881, New York City, USA, June 2009. IEEE.
+[41] Richard Nock, Panu Luosto, and Jyrki Kivinen. Mixed Bregman clustering with approximation guarantees. In Proceedings of the European conference on Machine Learning and Knowledge Discovery in Databases, pages 154–169, Berlin, Heidelberg, 2008. Springer-Verlag.
+30
+
+[42] Jos´e M. Pena, Jos´e A. Lozano, and Pedro Larranaga. An empirical comparison of four initialization methods for the k-means algorithm. Pattern Recognition Letters, 20(10):1027–1040, October 1999.
+[43] Antonio Pen˜alver and Francisco Escolano. Entropy-based incremental variational Bayes learning of Gaussian mixtures. IEEE Transactions on Neural Network and Learning Systems, 23(3):534–540, 2012.
+[44] K. B. Petersen and M. S. Pedersen. The matrix cookbook, 2008-2012. [45] Paolo Piro, Frank Nielsen, and Michel Barlaud. Tailored Bregman ball trees for eﬀective
+nearest neighbors. In European Workshop on Computational Geometry (EuroCG), LORIA, Nancy, France, March 2009. IEEE. [46] Lo¨ıs Rigouste, Olivier Capp´e, and Franc¸ois Yvon. Inference and evaluation of the multinomial mixture model for text clustering. Information Processing and Management, 43(5):1260–1280, January 2007. [47] Jose Seabra, Francesco Ciompi, Oriol Pujol, Josepa Mauri, Petia Radeva, and Joao Sanchez. Rayleigh mixture model for plaque characterization in intravascular ultrasound. IEEE Transaction on Biomedical Engineering, 58(5):1314–1324, 2011. [48] Hichem Snoussi and Ali Mohammad-Djafari. Penalized maximum likelihood for multivariate Gaussian mixture. Aip Conference Proceedings, pages 36–46, 2001. [49] Suvrit Sra. A short note on parameter approximation for von Mises-Fisher distributions: and a fast implementation of Is(x). Computational Statistics, pages 1–14, February 2011. [50] Rolf Sundberg. Maximum likelihood theory for incomplete data from an exponential family. Scandinavian Journal of Statistics, 1:49–58, 1974. [51] Marc Teboulle. A uniﬁed continuous optimization framework for center-based clustering methods. Journal of Machine Learning Research, 8:65–102, 2007. [52] Matus Telgarsky and Andrea Vattani. Hartigan’s method: k-means clustering without Voronoi. Journal of Machine Learning Research, 9:820–827, 2010. [53] Andrea Vattani. k-means requires exponentially many iterations even in the plane. Discrete & Computational Geometry, 45(4):596–616, 2011.
+31
+

@@ -1,0 +1,958 @@
+<html class="ve-available"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>ZIM file format - openZIM</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>window.RLQ = window.RLQ || []; window.RLQ.push( function () {
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":!1,"wgNamespaceNumber":0,"wgPageName":"ZIM_file_format","wgTitle":"ZIM file format","wgCurRevisionId":2897,"wgRevisionId":2897,"wgArticleId":8,"wgIsArticle":!0,"wgIsRedirect":!1,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":!1,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"ZIM_file_format","wgRelevantArticleId":8,"wgIsProbablyEditable":!1,"wgRestrictionEdit":[],"wgRestrictionMove":[],"egMapsDebugJS":!1,"wgWikiEditorEnabledModules":{"toolbar":!0,"dialogs":!0,"preview":!0,"publish":!1},
+"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","usePageImages":!1,"usePageDescriptions":!1},"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgVisualEditorToolbarScrollOffset":0});mw.loader.implement("user.options",function($,jQuery){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens",function($,jQuery){mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\"});});mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","ext.visualEditor.desktopArticleTarget.init","skins.vector.js"]);
+} );</script>
+<link rel="stylesheet" href="load.css">
+<style>
+.ve-activated #toc,.ve-activated #siteNotice,.ve-activated .mw-indicators, .ve-active #bodyContent > :not(#siteSub):not(#contentSub):not(.ve-ui-mwTocWidget),.ve-activated #t-print,.ve-activated #t-permalink,.ve-activated #p-coll-print_export,.ve-activated #t-cite,.ve-activating .ve-ui-surface,.ve-deactivating .ve-ui-surface{display:none}.ve-activated #bodyContent,.ve-activated #firstHeading,.ve-activated #siteSub,.ve-activated #contentSub{opacity:0.6;pointer-events:none}.ve-activated #firstHeading{cursor:default} .ve-activated #content{position:relative}.ve-init-mw-desktopArticleTarget-loading-overlay{position:absolute;left:0;right:0;z-index:1;margin-top:-0.5em}.ve-init-mw-desktopArticleTarget-progress{border:1px solid #347bff;background:#fff;height:0.75em;border-radius:2px;overflow:hidden;margin:0 25%}.ve-init-mw-desktopArticleTarget-progress-bar{width:0;height:0.75em;background:#347bff} .mw-editsection{white-space:nowrap; unicode-bidi:-moz-isolate;unicode-bidi:-webkit-isolate;unicode-bidi:isolate}.mw-editsection-divider{color:#555}.ve-tabmessage-appendix{font-size:0.7em;vertical-align:top;line-height:1.43em;padding-left:0.5em; background-image:none !important;display:inline !important}</style><style>
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}  .mw-content-ltr .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr .mw-collapsible-toggle{float:right} .mw-content-rtl .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl .mw-collapsible-toggle{float:left}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none} li .mw-collapsible-toggle,.mw-content-ltr li .mw-collapsible-toggle,.mw-content-rtl li .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr li .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:none;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0}.suggestions-result{color:black;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#4C59A6;color:white}.suggestions-special .special-label{color:gray;text-align:left}.suggestions-special .special-query{color:black;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:silver}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:white}.highlight{font-weight:bold}
+.postedit-container{margin:0 auto;position:fixed;top:0;height:0;left:50%;z-index:1000;font-size:13px}.postedit-container:hover{cursor:pointer}.postedit{position:relative;top:0.6em;left:-50%;padding:.6em 3.6em .6em 1.1em;line-height:1.5625em;color:#626465;background-color:#f4f4f4;border:1px solid #dcd9d9;text-shadow:0 0.0625em 0 rgba(255,255,255,0.5);border-radius:5px;box-shadow:0 2px 5px 0 #ccc;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-ms-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out}.skin-monobook .postedit{top:6em !important}.postedit-faded{opacity:0}.postedit-icon{padding-left:41px;  line-height:25px;background-repeat:no-repeat;background-position:8px 50%}.postedit-icon-checkmark{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABblBMVEUAAAD///////9PfTf///80aRdTgjn///9Feij///////////9Rfzf///////////9PfjZRgDh1o1xOfTb///////+bwYqLtnj///////9PfTa82K////9WhT6YxIL///9QgDdTgzr////////j7uDl7eLq8efi693k7OH///////9UhjuBr2rp9uRUhjr///9YljVKgir///9WiTlYjT3////9/v57vFlbkT5PjC9dlD/5/fhuq09stUTs9uhxuElctCpfnT1huDFloEZloUZmpENmvDZpvDxpvTxqvjxrvT5rvT9rwTxsqktswD5uwkBvuUdxw0NztFBztU9ztVBzwkp0tlJ1xkd2t1R3uVR4w1F4xk54x014yE15uVZ5v1R5xVB6v1R7yFJ8wVh9xVl9yFR9yVd9ylN+xVh+yFd/x1l/yFeAylmEx1+Ny2uY0Hqe04Wj1Ymv3Ze33qLD47TJ5L3O6cPU7Mrq9eb2+/Q4j37OAAAAQHRSTlMAAQIEBAUFBQwPFB4fJCUoKiosQEhJS01RUlZZXmdydXaChYuSlJSWmJmoq6uur8LExcvM19fg5ejt8fX2+Pr7SljgewAAAKpJREFUGBkFwQNCAwAAAMDLtl3LtrG4rWXbtvX77gAgZ6grFwC0bhwNVgKgdPZx8b0dgLi+s7Wn0VoAqpfOI9+BNADZI7fLrz2pSEwGHZuH+78lSK8ZLkLezF3ooyUG3VPXq2USei9WngeyoG195yBYWDF3E/2pAhl1e9Gr8bGT+bfOFCC2fnvh4X7rcqIAQNNu+HT6sxkAjceTL/2ZAIhv+PorBwBJxfkA//dFHSCBy/UTAAAAAElFTkSuQmCC);background-image:url(http://www.openzim.org/w/resources/src/mediawiki.action/images/green-checkmark.png?9048a)!ie;background-position:left}.postedit-close{position:absolute;padding:0 .8em;right:0;top:0;font-size:1.25em;font-weight:bold;line-height:2.3em;color:black;text-shadow:0 0.0625em 0 white;text-decoration:none;opacity:0.2;filter:alpha(opacity=20)}.postedit-close:hover{color:black;text-decoration:none;opacity:0.4;filter:alpha(opacity=40)}
+#container{position:relative;min-height:100%}#container,video{width:100%;height:100%}#playerContainer{overflow:hidden;position:relative;height:100%;background:#000}#videoHolder{position:relative;overflow:hidden}.fullscreen #playerContainer{position:absolute !important;width:100% !important;height:100%! important;z-index:9999;min-height:100%;top:0;left:0;margin:0}.mwEmbedPlayer{width:100%;height:100%;overflow:hidden;position:absolute;top:0;left:0}.modal_editor{ left:10px;top:10px;right:10px;bottom:10px;position:fixed;z-index:100}.displayHTML a:visited{color:white}.loadingSpinner{width:32px;height:32px;display:block;padding:0px;background-image:url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/loading_ani.gif?a51c5)}.mw-imported-resource{border:thin solid black}.kaltura-icon{background-image:url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/kaltura_logo_sm_transparent.png?28082) !important;background-repeat:no-repeat;display:block;height:12px;width:12px;margin-top:2px !important;margin-left:3px !important}.mw-fullscreen-overlay{background:rgb(0,0,0) none repeat scroll 0% 0%;position:fixed;top:0pt;left:0pt;width:100%;height:100%;-moz-background-clip:border;-moz-background-origin:padding;-moz-background-inline-policy:continuous} .play-btn-large{width:70px;height:53px;background :url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/player_big_play_button.png?aff14);position :absolute;cursor :pointer;border :none !important;z-index :1}.play-btn-large:hover{background :url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/player_big_play_button_hover.png?24580)}.carouselContainer{position :absolute;width :100%;z-index :2}.carouselVideoTitle{position :absolute;top :0px;left :0px;width :100%;background :rgba(0,0,0,0.8);color :white;font-size :small;font-weight :bold;z-index :2}.carouselVideoTitleText{display :block;padding :10px 10px 10px 20px}.carouselTitleDuration{position :absolute;top :0px;right :0px;padding :2px;background-color :#5A5A5A;color :#D9D9D9;font-size :smaller;z-index :2}.carouselImgTitle{position :absolute;width :100%;text-align :center;color :white;font-size :small;background :rgba(0,0,0,0.4)}.carouselImgDuration{position :absolute;top :2px;left :2px;background :rgba( 0,0,0,0.7 );color :white;padding :1px 6px;font-size :small}.carouselPrevButton,.carouselNextButton{display :block;position :absolute;bottom:23px}.carouselPrevButton{left :5px}.carouselNextButton{right:6px}.alert-container{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;background-image:linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-o-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-moz-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-webkit-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-ms-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0.04,rgb(215,215,215)),color-stop(0.55,rgb(230,230,230)),color-stop(1,rgb(255,255,255)));margin:auto;position:absolute;top:0;left:0;right:0;bottom:0;max-width:80%;max-height:30%}.alert-title{background-color :#E6E6E6;padding :5px;border-bottom :1px solid #D1D1D1;font-weight :normal !important;font-size:14px !important;-webkit-border-top-left-radius:3px;-moz-border-radius-topleft:3px;border-top-left-radius:3px;-webkit-border-top-right-radius:3px;-moz-border-radius-topright:3px;border-top-right-radius:3px }.alert-message{padding :5px;font-weight :normal !important;text-align:center;font-size:14px !important}.alert-buttons-container{text-align:center;padding-bottom:5px}.alert-button{background-color:#474747;color:white;-webkit-border-radius:.5em;-moz-border-radius:.5em;border-radius:.5em;padding:2px 10px;background-image:linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-o-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-moz-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-webkit-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-ms-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-webkit-gradient( linear,left bottom,left top,color-stop(0.04,rgb(25,25,25)),color-stop(0.55,rgb(47,47,47)),color-stop(0.68,rgb(71,71,71)) )}.alert-text{color :black !important}
+.title{font-weight:bold;color:#ffffff;padding:2px}.content{padding:2px}.box-event{background-color:#ffcccc;border:1px solid #880000;margin-bottom:2px}.box-event .title{background-color:#880000}.box-news{background-color:#ccffcc;border:1px solid #008800;margin-bottom:2px}.box-news .title{background-color:#008800}</style><style>
+.suggestions a.mw-searchSuggest-link,.suggestions a.mw-searchSuggest-link:hover,.suggestions a.mw-searchSuggest-link:active,.suggestions a.mw-searchSuggest-link:focus{color:black;text-decoration:none}.suggestions-result-current a.mw-searchSuggest-link,.suggestions-result-current a.mw-searchSuggest-link:hover,.suggestions-result-current a.mw-searchSuggest-link:active,.suggestions-result-current a.mw-searchSuggest-link:focus{color:white}.suggestions a.mw-searchSuggest-link .special-query{ overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}</style><style>
+table.jquery-tablesorter th.headerSort{background-image:url(data:image/gif;base64,R0lGODlhFQAJAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAxODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdCNTAyODcwMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdCNTAyODZGMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAJAAACF4yPgMsJ2mJ4VDKKrd4GVz5lYPeMiVUAADs=);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_both.gif?28556)!ie;cursor:pointer;background-repeat:no-repeat;background-position:center right;padding-right:21px}table.jquery-tablesorter th.headerSortUp{background-image:url(data:image/gif;base64,R0lGODlhFQAEAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAzODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdCNTAyODc0MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdCNTAyODczMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDM4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAEAAACDYwfoAvoz9qbZ9FrJC0AOw==);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_up.gif?54f1d)!ie}table.jquery-tablesorter th.headerSortDown{background-image:url(data:image/gif;base64,R0lGODlhFQAEAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhFNzNGQjI3MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhFNzNGQjI2MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDI4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAEAAACDYyPAcmtsJyDVDKKWQEAOw==);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_down.gif?24cc6)!ie}</style><style>
+.ve-activated #toc,.ve-activated #siteNotice,.ve-activated .mw-indicators, .ve-active #bodyContent > :not(#siteSub):not(#contentSub):not(.ve-ui-mwTocWidget),.ve-activated #t-print,.ve-activated #t-permalink,.ve-activated #p-coll-print_export,.ve-activated #t-cite,.ve-activating .ve-ui-surface,.ve-deactivating .ve-ui-surface{display:none}.ve-activated #bodyContent,.ve-activated #firstHeading,.ve-activated #siteSub,.ve-activated #contentSub{opacity:0.6;pointer-events:none}.ve-activated #firstHeading{cursor:default} .ve-activated #content{position:relative}.ve-init-mw-desktopArticleTarget-loading-overlay{position:absolute;left:0;right:0;z-index:1;margin-top:-0.5em}.ve-init-mw-desktopArticleTarget-progress{border:1px solid #347bff;background:#fff;height:0.75em;border-radius:2px;overflow:hidden;margin:0 25%}.ve-init-mw-desktopArticleTarget-progress-bar{width:0;height:0.75em;background:#347bff} .mw-editsection{white-space:nowrap; unicode-bidi:-moz-isolate;unicode-bidi:-webkit-isolate;unicode-bidi:isolate}.mw-editsection-divider{color:#555}.ve-tabmessage-appendix{font-size:0.7em;vertical-align:top;line-height:1.43em;padding-left:0.5em; background-image:none !important;display:inline !important}</style><style>
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}  .mw-content-ltr .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr .mw-collapsible-toggle{float:right} .mw-content-rtl .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl .mw-collapsible-toggle{float:left}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none} li .mw-collapsible-toggle,.mw-content-ltr li .mw-collapsible-toggle,.mw-content-rtl li .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr li .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:none;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0}.suggestions-result{color:black;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#4C59A6;color:white}.suggestions-special .special-label{color:gray;text-align:left}.suggestions-special .special-query{color:black;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:silver}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:white}.highlight{font-weight:bold}
+.postedit-container{margin:0 auto;position:fixed;top:0;height:0;left:50%;z-index:1000;font-size:13px}.postedit-container:hover{cursor:pointer}.postedit{position:relative;top:0.6em;left:-50%;padding:.6em 3.6em .6em 1.1em;line-height:1.5625em;color:#626465;background-color:#f4f4f4;border:1px solid #dcd9d9;text-shadow:0 0.0625em 0 rgba(255,255,255,0.5);border-radius:5px;box-shadow:0 2px 5px 0 #ccc;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-ms-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out}.skin-monobook .postedit{top:6em !important}.postedit-faded{opacity:0}.postedit-icon{padding-left:41px;  line-height:25px;background-repeat:no-repeat;background-position:8px 50%}.postedit-icon-checkmark{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABblBMVEUAAAD///////9PfTf///80aRdTgjn///9Feij///////////9Rfzf///////////9PfjZRgDh1o1xOfTb///////+bwYqLtnj///////9PfTa82K////9WhT6YxIL///9QgDdTgzr////////j7uDl7eLq8efi693k7OH///////9UhjuBr2rp9uRUhjr///9YljVKgir///9WiTlYjT3////9/v57vFlbkT5PjC9dlD/5/fhuq09stUTs9uhxuElctCpfnT1huDFloEZloUZmpENmvDZpvDxpvTxqvjxrvT5rvT9rwTxsqktswD5uwkBvuUdxw0NztFBztU9ztVBzwkp0tlJ1xkd2t1R3uVR4w1F4xk54x014yE15uVZ5v1R5xVB6v1R7yFJ8wVh9xVl9yFR9yVd9ylN+xVh+yFd/x1l/yFeAylmEx1+Ny2uY0Hqe04Wj1Ymv3Ze33qLD47TJ5L3O6cPU7Mrq9eb2+/Q4j37OAAAAQHRSTlMAAQIEBAUFBQwPFB4fJCUoKiosQEhJS01RUlZZXmdydXaChYuSlJSWmJmoq6uur8LExcvM19fg5ejt8fX2+Pr7SljgewAAAKpJREFUGBkFwQNCAwAAAMDLtl3LtrG4rWXbtvX77gAgZ6grFwC0bhwNVgKgdPZx8b0dgLi+s7Wn0VoAqpfOI9+BNADZI7fLrz2pSEwGHZuH+78lSK8ZLkLezF3ooyUG3VPXq2USei9WngeyoG195yBYWDF3E/2pAhl1e9Gr8bGT+bfOFCC2fnvh4X7rcqIAQNNu+HT6sxkAjceTL/2ZAIhv+PorBwBJxfkA//dFHSCBy/UTAAAAAElFTkSuQmCC);background-image:url(http://www.openzim.org/w/resources/src/mediawiki.action/images/green-checkmark.png?9048a)!ie;background-position:left}.postedit-close{position:absolute;padding:0 .8em;right:0;top:0;font-size:1.25em;font-weight:bold;line-height:2.3em;color:black;text-shadow:0 0.0625em 0 white;text-decoration:none;opacity:0.2;filter:alpha(opacity=20)}.postedit-close:hover{color:black;text-decoration:none;opacity:0.4;filter:alpha(opacity=40)}
+#container{position:relative;min-height:100%}#container,video{width:100%;height:100%}#playerContainer{overflow:hidden;position:relative;height:100%;background:#000}#videoHolder{position:relative;overflow:hidden}.fullscreen #playerContainer{position:absolute !important;width:100% !important;height:100%! important;z-index:9999;min-height:100%;top:0;left:0;margin:0}.mwEmbedPlayer{width:100%;height:100%;overflow:hidden;position:absolute;top:0;left:0}.modal_editor{ left:10px;top:10px;right:10px;bottom:10px;position:fixed;z-index:100}.displayHTML a:visited{color:white}.loadingSpinner{width:32px;height:32px;display:block;padding:0px;background-image:url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/loading_ani.gif?a51c5)}.mw-imported-resource{border:thin solid black}.kaltura-icon{background-image:url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/kaltura_logo_sm_transparent.png?28082) !important;background-repeat:no-repeat;display:block;height:12px;width:12px;margin-top:2px !important;margin-left:3px !important}.mw-fullscreen-overlay{background:rgb(0,0,0) none repeat scroll 0% 0%;position:fixed;top:0pt;left:0pt;width:100%;height:100%;-moz-background-clip:border;-moz-background-origin:padding;-moz-background-inline-policy:continuous} .play-btn-large{width:70px;height:53px;background :url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/player_big_play_button.png?aff14);position :absolute;cursor :pointer;border :none !important;z-index :1}.play-btn-large:hover{background :url(http://www.openzim.org/w/extensions/MwEmbedSupport/MwEmbedModules/MwEmbedSupport/skins/common/images/player_big_play_button_hover.png?24580)}.carouselContainer{position :absolute;width :100%;z-index :2}.carouselVideoTitle{position :absolute;top :0px;left :0px;width :100%;background :rgba(0,0,0,0.8);color :white;font-size :small;font-weight :bold;z-index :2}.carouselVideoTitleText{display :block;padding :10px 10px 10px 20px}.carouselTitleDuration{position :absolute;top :0px;right :0px;padding :2px;background-color :#5A5A5A;color :#D9D9D9;font-size :smaller;z-index :2}.carouselImgTitle{position :absolute;width :100%;text-align :center;color :white;font-size :small;background :rgba(0,0,0,0.4)}.carouselImgDuration{position :absolute;top :2px;left :2px;background :rgba( 0,0,0,0.7 );color :white;padding :1px 6px;font-size :small}.carouselPrevButton,.carouselNextButton{display :block;position :absolute;bottom:23px}.carouselPrevButton{left :5px}.carouselNextButton{right:6px}.alert-container{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;background-image:linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-o-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-moz-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-webkit-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-ms-linear-gradient(bottom,rgb(215,215,215) 4%,rgb(230,230,230) 55%,rgb(255,255,255) 100%);background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0.04,rgb(215,215,215)),color-stop(0.55,rgb(230,230,230)),color-stop(1,rgb(255,255,255)));margin:auto;position:absolute;top:0;left:0;right:0;bottom:0;max-width:80%;max-height:30%}.alert-title{background-color :#E6E6E6;padding :5px;border-bottom :1px solid #D1D1D1;font-weight :normal !important;font-size:14px !important;-webkit-border-top-left-radius:3px;-moz-border-radius-topleft:3px;border-top-left-radius:3px;-webkit-border-top-right-radius:3px;-moz-border-radius-topright:3px;border-top-right-radius:3px }.alert-message{padding :5px;font-weight :normal !important;text-align:center;font-size:14px !important}.alert-buttons-container{text-align:center;padding-bottom:5px}.alert-button{background-color:#474747;color:white;-webkit-border-radius:.5em;-moz-border-radius:.5em;border-radius:.5em;padding:2px 10px;background-image:linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-o-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-moz-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-webkit-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-ms-linear-gradient(bottom,rgb(25,25,25) 4%,rgb(47,47,47) 55%,rgb(71,71,71) 68%);background-image:-webkit-gradient( linear,left bottom,left top,color-stop(0.04,rgb(25,25,25)),color-stop(0.55,rgb(47,47,47)),color-stop(0.68,rgb(71,71,71)) )}.alert-text{color :black !important}
+.title{font-weight:bold;color:#ffffff;padding:2px}.content{padding:2px}.box-event{background-color:#ffcccc;border:1px solid #880000;margin-bottom:2px}.box-event .title{background-color:#880000}.box-news{background-color:#ccffcc;border:1px solid #008800;margin-bottom:2px}.box-news .title{background-color:#008800}</style><style>
+.suggestions a.mw-searchSuggest-link,.suggestions a.mw-searchSuggest-link:hover,.suggestions a.mw-searchSuggest-link:active,.suggestions a.mw-searchSuggest-link:focus{color:black;text-decoration:none}.suggestions-result-current a.mw-searchSuggest-link,.suggestions-result-current a.mw-searchSuggest-link:hover,.suggestions-result-current a.mw-searchSuggest-link:active,.suggestions-result-current a.mw-searchSuggest-link:focus{color:white}.suggestions a.mw-searchSuggest-link .special-query{ overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}</style><style>
+table.jquery-tablesorter th.headerSort{background-image:url(data:image/gif;base64,R0lGODlhFQAJAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAxODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdCNTAyODcwMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdCNTAyODZGMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDE4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAJAAACF4yPgMsJ2mJ4VDKKrd4GVz5lYPeMiVUAADs=);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_both.gif?28556)!ie;cursor:pointer;background-repeat:no-repeat;background-position:center right;padding-right:21px}table.jquery-tablesorter th.headerSortUp{background-image:url(data:image/gif;base64,R0lGODlhFQAEAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAzODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdCNTAyODc0MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdCNTAyODczMEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDM4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAEAAACDYwfoAvoz9qbZ9FrJC0AOw==);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_up.gif?54f1d)!ie}table.jquery-tablesorter th.headerSortDown{background-image:url(data:image/gif;base64,R0lGODlhFQAEAIABAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4OEM2REYyN0ExMDhBNDJFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhFNzNGQjI3MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhFNzNGQjI2MEY4NjExRTBBMzkyQzAyM0E1RDk3RDc3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDI4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMTg4QzZERjI3QTEwOEE0MkUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQBAAABACwAAAAAFQAEAAACDYyPAcmtsJyDVDKKWQEAOw==);background-image:url(http://www.openzim.org/w/resources/src/jquery/images/sort_down.gif?24cc6)!ie}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load_002.css">
+<style>a:lang(ar),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}</style>
+<script async="" src="load.php"></script>
+<meta name="generator" content="MediaWiki 1.26.2">
+<link rel="shortcut icon" href="http://www.openzim.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.openzim.org/w/opensearch_desc.php" title="openZIM (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.openzim.org/w/api.php?action=rsd">
+<link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="openZIM Atom feed" href="http://www.openzim.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins/Vector/csshover.min.htc")}</style><![endif]-->
+<script src="load_002.php"></script><script src="load_002.php"></script></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-ZIM_file_format skin-vector action-view">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">ZIM file format</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From openZIM</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="floatright"><a href="http://www.openzim.org/wiki/File:Schema_File_Format.png" class="image"><img alt="Schema File Format.png" src="500px-Schema_File_Format.png" srcset="/w/images/thumb/3/36/Schema_File_Format.png/750px-Schema_File_Format.png 1.5x, /w/images/thumb/3/36/Schema_File_Format.png/1000px-Schema_File_Format.png 2x" width="500" height="454"></a></div>
+<p>The <b>ZIM file format</b> is based on the old and deprecated <a href="http://www.openzim.org/wiki/Zeno_File_Format" title="Zeno File Format" class="mw-redirect">Zeno File Format</a>. See also a walk through example at <a href="http://www.openzim.org/wiki/ZIM_File_Example" title="ZIM File Example">ZIM File Example</a>.
+It starts with a header, which is described here:
+</p>
+<div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Header"><span class="tocnumber">1</span> <span class="toctext">Header</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#MIME_Type_List_.28mimeListPos.29"><span class="tocnumber">2</span> <span class="toctext">MIME Type List (mimeListPos)</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#URL_Pointer_List_.28urlPtrPos.29"><span class="tocnumber">3</span> <span class="toctext">URL Pointer List (urlPtrPos)</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Title_Pointer_List_.28titlePtrPos.29"><span class="tocnumber">4</span> <span class="toctext">Title Pointer List (titlePtrPos)</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Directory_Entries"><span class="tocnumber">5</span> <span class="toctext">Directory Entries</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Article_Entry"><span class="tocnumber">5.1</span> <span class="toctext">Article Entry</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Redirect_Entry"><span class="tocnumber">5.2</span> <span class="toctext">Redirect Entry</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="#Linktarget_or_deleted_Entry"><span class="tocnumber">5.3</span> <span class="toctext">Linktarget or deleted Entry</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-9"><a href="#Cluster_Pointer_List_.28clusterPtrPos.29"><span class="tocnumber">6</span> <span class="toctext">Cluster Pointer List (clusterPtrPos)</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#Clusters"><span class="tocnumber">7</span> <span class="toctext">Clusters</span></a></li>
+<li class="toclevel-1 tocsection-11"><a href="#Namespaces"><span class="tocnumber">8</span> <span class="toctext">Namespaces</span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#URLs"><span class="tocnumber">9</span> <span class="toctext">URLs</span></a>
+<ul>
+<li class="toclevel-2 tocsection-13"><a href="#Local_Anchors"><span class="tocnumber">9.1</span> <span class="toctext">Local Anchors</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-14"><a href="#Encodings"><span class="tocnumber">10</span> <span class="toctext">Encodings</span></a>
+<ul>
+<li class="toclevel-2 tocsection-15"><a href="#Character_Encoding"><span class="tocnumber">10.1</span> <span class="toctext">Character Encoding</span></a></li>
+<li class="toclevel-2 tocsection-16"><a href="#Integer_Encoding"><span class="tocnumber">10.2</span> <span class="toctext">Integer Encoding</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-17"><a href="#Split_ZIM_files"><span class="tocnumber">11</span> <span class="toctext">Split ZIM files</span></a></li>
+<li class="toclevel-1 tocsection-18"><a href="#See_also"><span class="tocnumber">12</span> <span class="toctext">See also</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Header">Header</span></h2>
+<p>A ZIM file starts with a header. This is offset 0.
+</p><p>Length in bytes, all types are little-endian.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> magicNumber </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 4 </td>
+<td> Magic number to recognise the file format, must be 72173914
+</td></tr>
+<tr>
+<td>majorVersion
+</td>
+<td>integer
+</td>
+<td>4
+</td>
+<td>2
+</td>
+<td>Major version of the ZIM file format (5 or 6)
+</td></tr>
+<tr>
+<td> minorVersion </td>
+<td> integer </td>
+<td> 6 </td>
+<td> 2 </td>
+<td> Minor version of the ZIM file format
+</td></tr>
+<tr>
+<td> uuid </td>
+<td> integer </td>
+<td> 8 </td>
+<td> 16 </td>
+<td> unique id of this zim file
+</td></tr>
+<tr>
+<td> articleCount </td>
+<td> integer </td>
+<td> 24 </td>
+<td> 4 </td>
+<td> total number of articles
+</td></tr>
+<tr>
+<td> clusterCount </td>
+<td> integer </td>
+<td> 28 </td>
+<td> 4 </td>
+<td> total number of clusters
+</td></tr>
+<tr>
+<td> urlPtrPos </td>
+<td> integer </td>
+<td> 32 </td>
+<td> 8 </td>
+<td> position of the directory pointerlist ordered by URL
+</td></tr>
+<tr>
+<td> titlePtrPos </td>
+<td> integer </td>
+<td> 40 </td>
+<td> 8 </td>
+<td> position of the directory pointerlist ordered by Title
+</td></tr>
+<tr>
+<td> clusterPtrPos </td>
+<td> integer </td>
+<td> 48 </td>
+<td> 8 </td>
+<td> position of the cluster pointer list
+</td></tr>
+<tr>
+<td> mimeListPos </td>
+<td> integer </td>
+<td> 56 </td>
+<td> 8 </td>
+<td> position of the MIME type list (also header size)
+</td></tr>
+<tr>
+<td> mainPage </td>
+<td> integer </td>
+<td> 64 </td>
+<td> 4 </td>
+<td> main page or 0xffffffff if no main page
+</td></tr>
+<tr>
+<td> layoutPage </td>
+<td> integer </td>
+<td> 68 </td>
+<td> 4 </td>
+<td> <a href="http://www.openzim.org/wiki/Layout_Page" title="Layout Page">layout page</a> or 0xffffffffff if no layout page
+</td></tr>
+<tr>
+<td> checksumPos </td>
+<td> integer </td>
+<td> 72 </td>
+<td> 8 </td>
+<td> pointer to the md5checksum of this file without the checksum itself. This points always 16 bytes before the end of the file.
+</td></tr></tbody><tfoot></tfoot></table>
+<p>Major version is updated when an incompatible change is integrated in
+ the format (a lib made for a version N will probably not be able to 
+read a version N+1)
+</p><p>Minor version is updated when an compatible change is integrated 
+(a lib made for a minor version n will be able to read a version n+1)
+</p><p>There are currently 2 major versions&nbsp;:
+</p>
+<ul><li> The version 5</li>
+<li> The version 6 (the same that version 5 + potential extended cluster)</li></ul>
+<h2><span class="mw-headline" id="MIME_Type_List_.28mimeListPos.29">MIME Type List (mimeListPos)</span></h2>
+<p>The MIME type list always follows directly after the header, so the <i>mimeListPos</i> also defines the end and size of the ZIM file header.
+</p><p>The MIME types in this list are zero terminated strings. An empty string marks the end of the MIME type list.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> &lt;1st MIME Type&gt; </td>
+<td> string </td>
+<td> 0 </td>
+<td>zero terminated</td>
+<td> declaration of the &lt;1st MIME Type&gt;
+</td></tr>
+<tr>
+<td> &lt;2nd MIME Type&gt; </td>
+<td> string </td>
+<td> n/a </td>
+<td>zero terminated</td>
+<td> declaration of the &lt;2nd MIME Type&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> string </td>
+<td> ... </td>
+<td>zero terminated</td>
+<td> ...
+</td></tr>
+<tr>
+<td> &lt;last entry / end&gt; </td>
+<td> string </td>
+<td> n/a </td>
+<td>zero terminated</td>
+<td> empty string - end of MIME type list
+</td></tr></tbody><tfoot></tfoot></table>
+<h2><span class="mw-headline" id="URL_Pointer_List_.28urlPtrPos.29">URL Pointer List (urlPtrPos)</span></h2>
+<p>The URL pointer list is a list of 8 byte offsets to the directory entries.
+</p><p>The directory entries are always ordered by URL. Ordering is simply done by comparing the URL strings.
+</p><p>Since directory entries have variable sizes this is needed for random access.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> &lt;1st URL&gt; </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 8 </td>
+<td> pointer to the directory entry of &lt;1st URL&gt;
+</td></tr>
+<tr>
+<td> &lt;2nd URL&gt; </td>
+<td> integer </td>
+<td> 8 </td>
+<td> 8 </td>
+<td> pointer to the directory entry of &lt;2nd URL&gt;
+</td></tr>
+<tr>
+<td> &lt;nth URL&gt; </td>
+<td> integer </td>
+<td>(n-1)*8</td>
+<td> 8 </td>
+<td> pointer to the directory entry of &lt;nth URL&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> integer </td>
+<td> ... </td>
+<td> 8 </td>
+<td> ...
+</td></tr></tbody><tfoot></tfoot></table>
+<p>Zimlib caches directory entries and references the cached entries via the URL pointers.
+</p>
+<h2><span class="mw-headline" id="Title_Pointer_List_.28titlePtrPos.29">Title Pointer List (titlePtrPos)</span></h2>
+<p>The title pointer list is a list of article indices ordered by title. The title pointer list actually points to entries
+in the URL pointer list. Note that the title pointers are only 4 bytes. They are not offsets in the file but article numbers.
+To get the offset of an article from the title pointer list, you have to look it up in the URL pointer list.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> &lt;1st Title&gt; </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 4 </td>
+<td> pointer to the URL pointer of &lt;1st Title&gt;
+</td></tr>
+<tr>
+<td> &lt;2nd Title&gt; </td>
+<td> integer </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> pointer to the URL pointer of &lt;2nd Title&gt;
+</td></tr>
+<tr>
+<td> &lt;nth Title&gt; </td>
+<td> integer </td>
+<td>(n-1)*4</td>
+<td> 4 </td>
+<td> pointer to the URL pointer of &lt;nth Title&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> integer </td>
+<td> ... </td>
+<td> 4 </td>
+<td> ...
+</td></tr></tbody><tfoot></tfoot></table>
+<p>The indirection from titles via URLs to directory entries has two reasons:
+</p>
+<ul><li> the pointer list is only half in size as 4 bytes are enough for each entry</li>
+<li> accessing directory entries by title also makes use of cached 
+directory entries which are referenced by the URL pointers, as 
+implemented in zimlib.</li></ul>
+<h2><span class="mw-headline" id="Directory_Entries">Directory Entries</span></h2>
+<p>Directory entries hold the meta information about all articles, images and other objects in a ZIM file.
+</p><p>There are many types of directory entries:
+</p>
+<h3><span class="mw-headline" id="Article_Entry">Article Entry</span></h3>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> mimetype </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 2 </td>
+<td> MIME type number as defined in the MIME type list
+</td></tr>
+<tr>
+<td> parameter len </td>
+<td> byte </td>
+<td> 2 </td>
+<td> 1 </td>
+<td> (not used) length of extra paramters
+</td></tr>
+<tr>
+<td> namespace </td>
+<td> char </td>
+<td> 3 </td>
+<td> 1 </td>
+<td> defines to which namespace this directory entry belongs
+</td></tr>
+<tr>
+<td> revision </td>
+<td> integer </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> (optional) identifies a revision of the contents of this directory 
+entry, needed to identify updates or revisions in the original history
+</td></tr>
+<tr>
+<td> cluster number </td>
+<td> integer </td>
+<td> 8 </td>
+<td> 4 </td>
+<td> cluster number in which the data of this directory entry is stored
+</td></tr>
+<tr>
+<td> blob number </td>
+<td> integer </td>
+<td> 12 </td>
+<td> 4 </td>
+<td> blob number inside the compressed cluster where the contents are stored
+</td></tr>
+<tr>
+<td> url </td>
+<td> string </td>
+<td> 16 </td>
+<td>zero terminated</td>
+<td> string with the URL as refered in the URL pointer list
+</td></tr>
+<tr>
+<td> title </td>
+<td> string </td>
+<td> n/a </td>
+<td>zero terminated</td>
+<td> string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+</td></tr>
+<tr>
+<td> parameter </td>
+<td> data </td>
+<td> </td>
+<td>see parameter len</td>
+<td> (not used) extra parameters
+</td></tr></tbody><tfoot></tfoot></table>
+<h3><span class="mw-headline" id="Redirect_Entry">Redirect Entry</span></h3>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> mimetype </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 2 </td>
+<td> 0xffff for redirect
+</td></tr>
+<tr>
+<td> parameter len </td>
+<td> byte </td>
+<td> 2 </td>
+<td> 1 </td>
+<td> (not used) length of extra paramters
+</td></tr>
+<tr>
+<td> namespace </td>
+<td> char </td>
+<td> 3 </td>
+<td> 1 </td>
+<td> defines to which namespace this directory entry belongs
+</td></tr>
+<tr>
+<td> revision </td>
+<td> integer </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> (optional) identifies a revision of the contents of this directory 
+entry, needed to identify updates or revisions in the original history
+</td></tr>
+<tr>
+<td> redirect index </td>
+<td> integer </td>
+<td> 8 </td>
+<td> 4 </td>
+<td> pointer to the directory entry of the redirect target
+</td></tr>
+<tr>
+<td> url </td>
+<td> string </td>
+<td> 12 </td>
+<td>zero terminated</td>
+<td> string with the URL as refered in the URL pointer list
+</td></tr>
+<tr>
+<td> title </td>
+<td> string </td>
+<td> n/a </td>
+<td>zero terminated</td>
+<td> string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+</td></tr>
+<tr>
+<td> parameter </td>
+<td> data </td>
+<td> </td>
+<td>see parameter len</td>
+<td> (not used) extra parameters
+</td></tr></tbody><tfoot></tfoot></table>
+<h3><span class="mw-headline" id="Linktarget_or_deleted_Entry">Linktarget or deleted Entry</span></h3>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> mimetype </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 2 </td>
+<td> 0xfffe for linktarget, 0xfffd for deleted entry
+</td></tr>
+<tr>
+<td> parameter len </td>
+<td> byte </td>
+<td> 2 </td>
+<td> 1 </td>
+<td> (not used) length of extra paramters
+</td></tr>
+<tr>
+<td> namespace </td>
+<td> char </td>
+<td> 3 </td>
+<td> 1 </td>
+<td> defines to which namespace this directory entry belongs
+</td></tr>
+<tr>
+<td> revision </td>
+<td> integer </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> (optional) identifies a revision of the contents of this directory 
+entry, needed to identify updates or revisions in the original history
+</td></tr>
+<tr>
+<td> url </td>
+<td> string </td>
+<td> 16 </td>
+<td>zero terminated</td>
+<td> string with the URL as refered in the URL pointer list
+</td></tr>
+<tr>
+<td> title </td>
+<td> string </td>
+<td> n/a </td>
+<td>zero terminated</td>
+<td> string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+</td></tr>
+<tr>
+<td> parameter </td>
+<td> data </td>
+<td> </td>
+<td>see parameter len</td>
+<td> (not used) extra parameters
+</td></tr></tbody><tfoot></tfoot></table>
+<h2><span class="mw-headline" id="Cluster_Pointer_List_.28clusterPtrPos.29">Cluster Pointer List (clusterPtrPos)</span></h2>
+<p>The cluster pointer list is a list of 8 byte offsets which point to all data clusters in a ZIM file.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> &lt;1st Cluster&gt; </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 8 </td>
+<td> pointer to the &lt;1st Cluster&gt;
+</td></tr>
+<tr>
+<td> &lt;1st Cluster&gt; </td>
+<td> integer </td>
+<td> 8 </td>
+<td> 8 </td>
+<td> pointer to the &lt;2nd Cluster&gt;
+</td></tr>
+<tr>
+<td> &lt;nth Cluster&gt; </td>
+<td> integer </td>
+<td>(n-1)*8</td>
+<td> 8 </td>
+<td> pointer to the &lt;nth Cluster&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> integer </td>
+<td> ... </td>
+<td> 8 </td>
+<td> ...
+</td></tr></tbody><tfoot></tfoot></table>
+<h2><span class="mw-headline" id="Clusters">Clusters</span></h2>
+<p>The clusters contain the actual data of the directory entries. 
+Clusters can be compressed or uncompressed. The purpose of the clusters 
+are that data of more than one directory entry can be compressed inside 
+one cluster, making the compression much more efficient. Typically 
+clusters have a size of about 1 MB.
+</p><p>The first byte of the cluster identifies some information about the cluster.
+</p><p>The first fourth low bits identifies if the cluster is compressed
+ (4) or not (0). The default is uncompressed indicated by a value of 0 
+or 1 (obsoleted, inherited by Zeno) while compressed clusters are 
+indicated by a value of 4 which indicates <a href="http://www.openzim.org/wiki/LZMA2_compression" title="LZMA2 compression">LZMA2 compression</a>
+ (or more precisely XZ, since there is a XZ header). There have been 
+other compression algorithms used before (2: zlib, 3: bzip2) which have 
+been removed. The zimlib uses <a rel="nofollow" class="external text" href="http://tukaani.org/xz/">xz-utils</a> as a C++ implementation of lzma2, for Java see <a rel="nofollow" class="external text" href="http://tukaani.org/xz/java.html">XZ-Java</a>.
+</p><p>The firth bit identifies if the cluster is extended or not&nbsp;:
+</p>
+<ul><li> By default (5th bit == 0) the cluster is not extended. It means
+ that the offsets are stored in a 4 bytes length integer. Thus contents 
+stored in the cluster cannot exceed 4Go.</li>
+<li> If the cluster is extended (5th bit == 1), the offsets are stored 
+in 8 bytes length integer. Thus contents stored in the cluster can 
+exceed 4Go.</li></ul>
+<p>A cluster can be extended only if the zim major version is 6. Else (major version == 5) cluster will always be not extended.
+</p><p>To find the data of a specific directory entry within a cluster 
+the uncompressed cluster has a list of pointers to blobs within the 
+uncompressed cluster after the first byte.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Field Name </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Type </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Offset</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending">Length</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> cluster information </td>
+<td> integer </td>
+<td> 0 </td>
+<td> 1 </td>
+<td> Fourth low bits&nbsp;: 0: default (no compression), 1: none (inherited from Zeno), 4: LZMA2 compressed
+<p>Firth bits&nbsp;: 0: normal (OFFSET_SIZE=4) 1: extended (OFFSET_SIZE=8)               
+</p>
+</td></tr>
+<tr>
+<td colspan="5"> The following data bytes have to be uncompressed!
+</td></tr>
+<tr>
+<td> &lt;1st Blob&gt; </td>
+<td> integer </td>
+<td> 1 </td>
+<td> OFFSET_SIZE </td>
+<td> offset to the &lt;1st Blob&gt;
+</td></tr>
+<tr>
+<td> &lt;2nd Blob&gt; </td>
+<td> integer </td>
+<td> 1+OFFSET_SIZE </td>
+<td> OFFSET_SIZE </td>
+<td> offset to the &lt;2nd Blob&gt;
+</td></tr>
+<tr>
+<td> &lt;nth Blob&gt; </td>
+<td> integer </td>
+<td>(n-1)*OFFSET_SIZE+1</td>
+<td> OFFSET_SIZE </td>
+<td> offset to the &lt;nth Blob&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> integer </td>
+<td> ... </td>
+<td> OFFSET_SIZE </td>
+<td> ...
+</td></tr>
+<tr>
+<td> &lt;last blob / end&gt; </td>
+<td> integer </td>
+<td> n/a </td>
+<td> OFFSET_SIZE </td>
+<td> offset to the end of the cluster
+</td></tr>
+<tr>
+<td> &lt;1st Blob&gt; </td>
+<td> data </td>
+<td> n/a </td>
+<td> n/a </td>
+<td> data of the &lt;1st Blob&gt;
+</td></tr>
+<tr>
+<td> &lt;2nd Blob&gt; </td>
+<td> data </td>
+<td> n/a </td>
+<td> n/a </td>
+<td> data of the &lt;2nd Blob&gt;
+</td></tr>
+<tr>
+<td> ... </td>
+<td> data </td>
+<td> ... </td>
+<td> n/a </td>
+<td> ...
+</td></tr></tbody><tfoot></tfoot></table>
+<p>The offset addresses uncompressed data. The last pointer points to 
+the end of the data area. So there is always one more offset than blobs.
+ Since the first offset points to the start of the first data, the 
+number of offsets can be determined by dividing this offset by 
+OFFSET_SIZE. The size of one blob is calculated by the difference of two
+ consecutive offsets.
+</p>
+<h2><span class="mw-headline" id="Namespaces">Namespaces</span></h2>
+<p>Namespaces seperate different types of directory entries - which might have the same title - stored in the ZIM File Format.
+</p><p>They can be distinguished by prepending the article namespace before the article name in the URL path, eg. <i><a rel="nofollow" class="external free" href="http://localhost/A/Articlename">http://localhost/A/Articlename</a></i>.
+</p>
+<table class="sortable jquery-tablesorter" style="border-width:1px; border-style:solid; border-color:#888888; background-color:#eeeeee; border-collapse:collapse; empty-cells:show" border="2" cellspacing="0" cellpadding="4">
+<thead><tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Namespace </th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Sort ascending"> Description
+</th></tr></thead><tbody>
+<tr>
+<td> - </td>
+<td> layout, eg. the LayoutPage, CSS, favicon.png (48x48), JavaScript and images not related to the articles
+</td></tr>
+<tr>
+<td> A </td>
+<td> articles - see <a href="http://www.openzim.org/wiki/Article_Format" title="Article Format">Article Format</a>
+</td></tr>
+<tr>
+<td> B </td>
+<td> article meta data - see <a href="http://www.openzim.org/wiki/Article_Format" title="Article Format">Article Format</a>
+</td></tr>
+<tr>
+<td> I </td>
+<td> images, files - see <a href="http://www.openzim.org/w/index.php?title=Image_Handling&amp;action=edit&amp;redlink=1" class="new" title="Image Handling (page does not exist)">Image Handling</a>
+</td></tr>
+<tr>
+<td> J </td>
+<td> images, text - see <a href="http://www.openzim.org/w/index.php?title=Image_Handling&amp;action=edit&amp;redlink=1" class="new" title="Image Handling (page does not exist)">Image Handling</a>
+</td></tr>
+<tr>
+<td> M </td>
+<td> ZIM metadata - see <a href="http://www.openzim.org/wiki/Metadata" title="Metadata">Metadata</a>
+</td></tr>
+<tr>
+<td> U </td>
+<td> categories, text - see <a href="http://www.openzim.org/wiki/Category_Handling" title="Category Handling">Category Handling</a>
+</td></tr>
+<tr>
+<td> V </td>
+<td> categories, article list - see <a href="http://www.openzim.org/wiki/Category_Handling" title="Category Handling">Category Handling</a>
+</td></tr>
+<tr>
+<td> W </td>
+<td> categories per article, category list - see <a href="http://www.openzim.org/wiki/Category_Handling" title="Category Handling">Category Handling</a>
+</td></tr>
+<tr>
+<td> X </td>
+<td> fulltext index - see <a href="http://www.openzim.org/w/index.php?title=ZIM_Index_Format&amp;action=edit&amp;redlink=1" class="new" title="ZIM Index Format (page does not exist)">ZIM Index Format</a>
+</td></tr></tbody><tfoot></tfoot></table>
+<h2><span class="mw-headline" id="URLs">URLs</span></h2>
+<p>ZIM contents are addressed using URLs fitting the following pattern: 
+&lt;namespace&gt;/&lt;article_url&gt;. The references in articles HTML 
+code (<i>&lt;a href=""&gt;&lt;/a&gt;</i>, <i>&lt;img src=""&gt;</i>, etc.) are URL-encoded following the <a rel="nofollow" class="external text" href="http://www.ietf.org/rfc/rfc1738.txt">RFC 1738</a> rules.
+</p><p>Absolute URLs, ie. with a leading slash (<i>/</i>) are forbidden,
+ because this avoid including the ZIM contents in any HTTP sub-hierachy.
+ ZIM contents URLs must consequently be relative. Be careful, 
+&lt;article_url&gt; may itself contain slashes (for example 
+"BMW_501/502").
+</p><p>The URLs in the UrlPointerlist are not encoded. Some readers 
+process the requests that already do the decoding internally whereas 
+most readers will handle the URLs directly. In this case you have to do 
+the decoding before you pass the parameter to zimlib, but zimlib already
+ provides a method to do so.
+</p>
+<h3><span class="mw-headline" id="Local_Anchors">Local Anchors</span></h3>
+<p>Many articles - especially when a table of contents is used - use local anchors to jump within an article.  
+</p>
+<pre>&lt;a href="../A/foo#headline1"&gt;jump to article foo, headline 1&lt;/a&gt;
+</pre>
+<p>The browser handles these local anchors by itself. It will determine 
+if another article has to be loaded (local anchor inside another article
+ than the currently shown) and will send a request only with the article
+ URL without the local anchor - in our example "../A/foo". After the 
+article has been loaded the browser will then search for the local 
+anchor tag and jump to the right location.
+</p><p>If you use a common rendering engine or HTML widget you don't 
+have to care for this cases, you can just use the requests as they are 
+submitted by the engine / widget.
+</p><p>Should you render the article contents by yourself you have to 
+consider this and take care of it before you hand requests to zimlib.
+</p>
+<h2><span class="mw-headline" id="Encodings">Encodings</span></h2>
+<h3><span class="mw-headline" id="Character_Encoding">Character Encoding</span></h3>
+<p>The standard encoding for ZIM file content is UTF-8. So both article data and URLs should be handled accordingly.
+</p><p>Old Zeno files used a mixture of Latin1 and UTF-8 so there is still some "auto detection" code left in the <i>zimlib</i>, a workaround for this bug. This will be removed in future versions. Zeno files are not supported anymore.
+</p>
+<h3><span class="mw-headline" id="Integer_Encoding">Integer Encoding</span></h3>
+<p>For integer encoding the same algorithm as UTF-8 encoding is used. 
+This encoding is also known as "integer compression". It safes some 
+bytes by using variable lengths of integer fields, depending on the 
+actual value of the number.
+</p><p>See also <a rel="nofollow" class="external free" href="http://en.wikipedia.org/wiki/UTF-8#Design">http://en.wikipedia.org/wiki/UTF-8#Design</a>.
+</p><p>Old Zeno files used the QUnicode library instead. By switching to
+ UTF-8 the new format is more standard-adherent and easier to 
+understand.
+</p>
+<h2><span class="mw-headline" id="Split_ZIM_files">Split ZIM files</span></h2>
+<p>ZIM files can be split in multiple chunks. This is necessary to be 
+able to store big (over 4GB for example) ZIM files to limited file 
+systems (like FAT32). That said, the chunks can be of any size, but the 
+naming is really important. The ZIM file chunks should be named like 
+following (the file name extensions matter): <i>foobar.zimaa, foobar.zimab, foobar.zimac</i>...
+</p>
+<h2><span class="mw-headline" id="See_also">See also</span></h2>
+<ul><li> <a href="http://www.openzim.org/wiki/Zeno_file_format" title="Zeno file format">Zeno file format</a> (deprecated)</li>
+<li> <a href="http://www.openzim.org/wiki/ZIM_File_Format/4" title="ZIM File Format/4">ZIM File Format/4</a> (deprecated)</li>
+<li> <a href="http://www.openzim.org/wiki/ZIM_File_Example" title="ZIM File Example">ZIM File Example</a></li></ul>
+
+<!-- Tidy found serious XHTML errors -->
+
+<!-- 
+NewPP limit report
+Cached time: 20180730154542
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.168 seconds
+Real time usage: 0.220 seconds
+Preprocessor visited node count: 111/1000000
+Preprocessor generated node count: 178/1000000
+Post‐expand include size: 1960/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+
+<!-- 
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   12.710      1 - -total
+ 45.97%    5.842     10 - Template:Prettytable
+-->
+
+<!-- Saved in parser cache with key www_openzim_org:pcache:idhash:8-0!*!0!!en!5!* and timestamp 20180730154541 and revision id 2897
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;oldid=2897">http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;oldid=2897</a>"					</div>
+				<div id="catlinks" class="catlinks catlinks-allhidden"></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-createaccount"><a href="http://www.openzim.org/w/index.php?title=Special:UserLogin&amp;returnto=ZIM+file+format&amp;type=signup" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="http://www.openzim.org/w/index.php?title=Special:UserLogin&amp;returnto=ZIM+file+format" title="You are encouraged to log in; however, it is not mandatory [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li id="ca-nstab-main" class="selected"><span><a href="http://www.openzim.org/wiki/ZIM_file_format" title="View the content page [Alt+Shift+c]" accesskey="c">Page</a></span></li>
+															<li id="ca-talk" class="new"><span><a href="http://www.openzim.org/w/index.php?title=Talk:ZIM_file_format&amp;action=edit&amp;redlink=1" title="Discussion about the content page [Alt+Shift+t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label" tabindex="0">
+							<span>Variants</span><a href="#" tabindex="-1"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="http://www.openzim.org/wiki/ZIM_file_format">Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;action=edit" title="This page is protected.
+You can view its source [Alt+Shift+e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label" style="">
+						<h3 id="p-cactions-label" tabindex="0"><span>More</span><a href="#" tabindex="-1"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input name="search" placeholder="Search" title="Search openZIM [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="2" autocomplete="off" type="search"><input value="Special:Search" name="title" type="hidden"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="http://www.openzim.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-ZIM-Main-page"><a href="http://www.openzim.org/wiki/OpenZIM">ZIM Main page</a></li><li id="n-ZIM-Readers"><a href="http://www.openzim.org/wiki/Readers">ZIM Readers</a></li><li id="n-ZIM-Files"><a href="http://www.openzim.org/wiki/ZIM_File_Archive">ZIM Files</a></li><li id="n-ZIM-Specifications"><a href="http://www.openzim.org/wiki/ZIM_File_Format">ZIM Specifications</a></li><li id="n-ZIM-Implementation"><a href="http://www.openzim.org/wiki/Zimlib">ZIM Implementation</a></li><li id="n-recentchanges"><a href="http://www.openzim.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="http://www.openzim.org/wiki/Special:WhatLinksHere/ZIM_file_format" title="A list of all wiki pages that link here [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="http://www.openzim.org/wiki/Special:RecentChangesLinked/ZIM_file_format" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="http://www.openzim.org/wiki/Special:Upload" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="http://www.openzim.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;printable=yes" rel="alternate" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;oldid=2897" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;action=info" title="More information about this page">Page information</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-Donate" aria-labelledby="p-Donate-label">
+			<h3 id="p-Donate-label">Donate</h3>
+
+			<div class="body">
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input name="cmd" value="_s-xclick" type="hidden">
+<input name="hosted_button_id" value="6T5MFFBJDRSJ6" type="hidden">
+<input style="margin-left: -20px;" src="btn_donate_cc_147x47.png" name="submit" alt="Donate" border="0" type="image">
+</form>			</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 6 March 2018, at 20:00.</li>
+											<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share Alike</a> unless otherwise noted.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://www.openzim.org/wiki/openZIM:Privacy_policy" title="openZIM:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://www.openzim.org/wiki/openZIM:About" title="openZIM:About">About openZIM</a></li>
+											<li id="footer-places-disclaimer"><a href="http://www.openzim.org/wiki/openZIM:General_disclaimer" title="openZIM:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href="http://www.openzim.org/w/index.php?title=ZIM_file_format&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/licenses/by-sa/3.0/"><img src="cc-by-sa.png" alt="Creative Commons Attribution Share Alike" width="88" height="31"></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="http://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>window.RLQ = window.RLQ || []; window.RLQ.push( function () {
+mw.loader.state({"user":"ready","user.groups":"ready"});mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","mw.MwEmbedSupport.style","ext.visualEditor.targetLoader"]);
+} );</script><!-- Piwik -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.kiwix.org/" : "http://stats.kiwix.org/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+/* ]]> */
+</script><script src="piwik.js" type="text/javascript"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+piwikTracker.setDocumentTitle("");
+piwikTracker.setIgnoreClasses("image");
+
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+/* ]]> */
+</script><noscript><p><img src="http://stats.kiwix.org/piwik.php?idsite=4" style="border:0" alt=""/></p></noscript>
+<!-- /Piwik --><script>window.RLQ = window.RLQ || []; window.RLQ.push( function () {
+mw.config.set({"wgBackendResponseTime":536});
+} );</script>
+	
+
+<div style="display: none; font-size: 13px;" class="suggestions"><div class="suggestions-results"></div><div class="suggestions-special"></div></div><div style="display: none; font-size: 13px;" class="suggestions"><div class="suggestions-results"></div><div class="suggestions-special"></div></div></body></html>

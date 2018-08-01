@@ -1,0 +1,281 @@
+
+ZIM file format
+From openZIM
+Jump to: navigation , search
+Schema File Format.png
+
+The ZIM file format is based on the old and deprecated Zeno File Format . See also a walk through example at ZIM File Example . It starts with a header, which is described here:
+Contents
+ [ hide ] 
+
+    1 Header
+    2 MIME Type List (mimeListPos)
+    3 URL Pointer List (urlPtrPos)
+    4 Title Pointer List (titlePtrPos)
+    5 Directory Entries
+        5.1 Article Entry
+        5.2 Redirect Entry
+        5.3 Linktarget or deleted Entry
+    6 Cluster Pointer List (clusterPtrPos)
+    7 Clusters
+    8 Namespaces
+    9 URLs
+        9.1 Local Anchors
+    10 Encodings
+        10.1 Character Encoding
+        10.2 Integer Encoding
+    11 Split ZIM files
+    12 See also
+
+Header
+
+A ZIM file starts with a header. This is offset 0.
+
+Length in bytes, all types are little-endian.
+Field Name 	Type 	Offset 	Length 	Description
+magicNumber 	integer 	0 	4 	Magic number to recognise the file format, must be 72173914
+majorVersion 	integer 	4 	2 	Major version of the ZIM file format (5 or 6)
+minorVersion 	integer 	6 	2 	Minor version of the ZIM file format
+uuid 	integer 	8 	16 	unique id of this zim file
+articleCount 	integer 	24 	4 	total number of articles
+clusterCount 	integer 	28 	4 	total number of clusters
+urlPtrPos 	integer 	32 	8 	position of the directory pointerlist ordered by URL
+titlePtrPos 	integer 	40 	8 	position of the directory pointerlist ordered by Title
+clusterPtrPos 	integer 	48 	8 	position of the cluster pointer list
+mimeListPos 	integer 	56 	8 	position of the MIME type list (also header size)
+mainPage 	integer 	64 	4 	main page or 0xffffffff if no main page
+layoutPage 	integer 	68 	4 	layout page or 0xffffffffff if no layout page
+checksumPos 	integer 	72 	8 	pointer to the md5checksum of this file without the checksum itself. This points always 16 bytes before the end of the file.
+
+Major version is updated when an incompatible change is integrated in the format (a lib made for a version N will probably not be able to read a version N+1)
+
+Minor version is updated when an compatible change is integrated (a lib made for a minor version n will be able to read a version n+1)
+
+There are currently 2 major versions :
+
+    The version 5
+    The version 6 (the same that version 5 + potential extended cluster)
+
+MIME Type List (mimeListPos)
+
+The MIME type list always follows directly after the header, so the mimeListPos also defines the end and size of the ZIM file header.
+
+The MIME types in this list are zero terminated strings. An empty string marks the end of the MIME type list.
+Field Name 	Type 	Offset 	Length 	Description
+<1st MIME Type> 	string 	0 	zero terminated 	declaration of the <1st MIME Type>
+<2nd MIME Type> 	string 	n/a 	zero terminated 	declaration of the <2nd MIME Type>
+... 	string 	... 	zero terminated 	...
+<last entry / end> 	string 	n/a 	zero terminated 	empty string - end of MIME type list
+URL Pointer List (urlPtrPos)
+
+The URL pointer list is a list of 8 byte offsets to the directory entries.
+
+The directory entries are always ordered by URL. Ordering is simply done by comparing the URL strings.
+
+Since directory entries have variable sizes this is needed for random access.
+Field Name 	Type 	Offset 	Length 	Description
+<1st URL> 	integer 	0 	8 	pointer to the directory entry of <1st URL>
+<2nd URL> 	integer 	8 	8 	pointer to the directory entry of <2nd URL>
+<nth URL> 	integer 	(n-1)*8 	8 	pointer to the directory entry of <nth URL>
+... 	integer 	... 	8 	...
+
+Zimlib caches directory entries and references the cached entries via the URL pointers.
+Title Pointer List (titlePtrPos)
+
+The title pointer list is a list of article indices ordered by title. The title pointer list actually points to entries in the URL pointer list. Note that the title pointers are only 4 bytes. They are not offsets in the file but article numbers. To get the offset of an article from the title pointer list, you have to look it up in the URL pointer list.
+Field Name 	Type 	Offset 	Length 	Description
+<1st Title> 	integer 	0 	4 	pointer to the URL pointer of <1st Title>
+<2nd Title> 	integer 	4 	4 	pointer to the URL pointer of <2nd Title>
+<nth Title> 	integer 	(n-1)*4 	4 	pointer to the URL pointer of <nth Title>
+... 	integer 	... 	4 	...
+
+The indirection from titles via URLs to directory entries has two reasons:
+
+    the pointer list is only half in size as 4 bytes are enough for each entry
+    accessing directory entries by title also makes use of cached directory entries which are referenced by the URL pointers, as implemented in zimlib.
+
+Directory Entries
+
+Directory entries hold the meta information about all articles, images and other objects in a ZIM file.
+
+There are many types of directory entries:
+Article Entry
+Field Name 	Type 	Offset 	Length 	Description
+mimetype 	integer 	0 	2 	MIME type number as defined in the MIME type list
+parameter len 	byte 	2 	1 	(not used) length of extra paramters
+namespace 	char 	3 	1 	defines to which namespace this directory entry belongs
+revision 	integer 	4 	4 	(optional) identifies a revision of the contents of this directory entry, needed to identify updates or revisions in the original history
+cluster number 	integer 	8 	4 	cluster number in which the data of this directory entry is stored
+blob number 	integer 	12 	4 	blob number inside the compressed cluster where the contents are stored
+url 	string 	16 	zero terminated 	string with the URL as refered in the URL pointer list
+title 	string 	n/a 	zero terminated 	string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+parameter 	data 		see parameter len 	(not used) extra parameters
+Redirect Entry
+Field Name 	Type 	Offset 	Length 	Description
+mimetype 	integer 	0 	2 	0xffff for redirect
+parameter len 	byte 	2 	1 	(not used) length of extra paramters
+namespace 	char 	3 	1 	defines to which namespace this directory entry belongs
+revision 	integer 	4 	4 	(optional) identifies a revision of the contents of this directory entry, needed to identify updates or revisions in the original history
+redirect index 	integer 	8 	4 	pointer to the directory entry of the redirect target
+url 	string 	12 	zero terminated 	string with the URL as refered in the URL pointer list
+title 	string 	n/a 	zero terminated 	string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+parameter 	data 		see parameter len 	(not used) extra parameters
+Linktarget or deleted Entry
+Field Name 	Type 	Offset 	Length 	Description
+mimetype 	integer 	0 	2 	0xfffe for linktarget, 0xfffd for deleted entry
+parameter len 	byte 	2 	1 	(not used) length of extra paramters
+namespace 	char 	3 	1 	defines to which namespace this directory entry belongs
+revision 	integer 	4 	4 	(optional) identifies a revision of the contents of this directory entry, needed to identify updates or revisions in the original history
+url 	string 	16 	zero terminated 	string with the URL as refered in the URL pointer list
+title 	string 	n/a 	zero terminated 	string with an title as refered in the Title pointer list or empty; in case it is empty, the URL is used as title
+parameter 	data 		see parameter len 	(not used) extra parameters
+Cluster Pointer List (clusterPtrPos)
+
+The cluster pointer list is a list of 8 byte offsets which point to all data clusters in a ZIM file.
+Field Name 	Type 	Offset 	Length 	Description
+<1st Cluster> 	integer 	0 	8 	pointer to the <1st Cluster>
+<1st Cluster> 	integer 	8 	8 	pointer to the <2nd Cluster>
+<nth Cluster> 	integer 	(n-1)*8 	8 	pointer to the <nth Cluster>
+... 	integer 	... 	8 	...
+Clusters
+
+The clusters contain the actual data of the directory entries. Clusters can be compressed or uncompressed. The purpose of the clusters are that data of more than one directory entry can be compressed inside one cluster, making the compression much more efficient. Typically clusters have a size of about 1 MB.
+
+The first byte of the cluster identifies some information about the cluster.
+
+The first fourth low bits identifies if the cluster is compressed (4) or not (0). The default is uncompressed indicated by a value of 0 or 1 (obsoleted, inherited by Zeno) while compressed clusters are indicated by a value of 4 which indicates LZMA2 compression (or more precisely XZ, since there is a XZ header). There have been other compression algorithms used before (2: zlib, 3: bzip2) which have been removed. The zimlib uses xz-utils as a C++ implementation of lzma2, for Java see XZ-Java .
+
+The firth bit identifies if the cluster is extended or not :
+
+    By default (5th bit == 0) the cluster is not extended. It means that the offsets are stored in a 4 bytes length integer. Thus contents stored in the cluster cannot exceed 4Go.
+    If the cluster is extended (5th bit == 1), the offsets are stored in 8 bytes length integer. Thus contents stored in the cluster can exceed 4Go.
+
+A cluster can be extended only if the zim major version is 6. Else (major version == 5) cluster will always be not extended.
+
+To find the data of a specific directory entry within a cluster the uncompressed cluster has a list of pointers to blobs within the uncompressed cluster after the first byte.
+Field Name 	Type 	Offset 	Length 	Description
+cluster information 	integer 	0 	1 	Fourth low bits : 0: default (no compression), 1: none (inherited from Zeno), 4: LZMA2 compressed
+
+Firth bits : 0: normal (OFFSET_SIZE=4) 1: extended (OFFSET_SIZE=8)
+The following data bytes have to be uncompressed!
+<1st Blob> 	integer 	1 	OFFSET_SIZE 	offset to the <1st Blob>
+<2nd Blob> 	integer 	1+OFFSET_SIZE 	OFFSET_SIZE 	offset to the <2nd Blob>
+<nth Blob> 	integer 	(n-1)*OFFSET_SIZE+1 	OFFSET_SIZE 	offset to the <nth Blob>
+... 	integer 	... 	OFFSET_SIZE 	...
+<last blob / end> 	integer 	n/a 	OFFSET_SIZE 	offset to the end of the cluster
+<1st Blob> 	data 	n/a 	n/a 	data of the <1st Blob>
+<2nd Blob> 	data 	n/a 	n/a 	data of the <2nd Blob>
+... 	data 	... 	n/a 	...
+
+The offset addresses uncompressed data. The last pointer points to the end of the data area. So there is always one more offset than blobs. Since the first offset points to the start of the first data, the number of offsets can be determined by dividing this offset by OFFSET_SIZE. The size of one blob is calculated by the difference of two consecutive offsets.
+Namespaces
+
+Namespaces seperate different types of directory entries - which might have the same title - stored in the ZIM File Format.
+
+They can be distinguished by prepending the article namespace before the article name in the URL path, eg. http://localhost/A/Articlename .
+Namespace 	Description
+- 	layout, eg. the LayoutPage, CSS, favicon.png (48x48), JavaScript and images not related to the articles
+A 	articles - see Article Format
+B 	article meta data - see Article Format
+I 	images, files - see Image Handling
+J 	images, text - see Image Handling
+M 	ZIM metadata - see Metadata
+U 	categories, text - see Category Handling
+V 	categories, article list - see Category Handling
+W 	categories per article, category list - see Category Handling
+X 	fulltext index - see ZIM Index Format
+URLs
+
+ZIM contents are addressed using URLs fitting the following pattern: <namespace>/<article_url>. The references in articles HTML code ( <a href=""></a> , <img src=""> , etc.) are URL-encoded following the RFC 1738 rules.
+
+Absolute URLs, ie. with a leading slash ( / ) are forbidden, because this avoid including the ZIM contents in any HTTP sub-hierachy. ZIM contents URLs must consequently be relative. Be careful, <article_url> may itself contain slashes (for example "BMW_501/502").
+
+The URLs in the UrlPointerlist are not encoded. Some readers process the requests that already do the decoding internally whereas most readers will handle the URLs directly. In this case you have to do the decoding before you pass the parameter to zimlib, but zimlib already provides a method to do so.
+Local Anchors
+
+Many articles - especially when a table of contents is used - use local anchors to jump within an article.
+
+ <a href="../A/foo#headline1">jump to article foo, headline 1</a>
+
+The browser handles these local anchors by itself. It will determine if another article has to be loaded (local anchor inside another article than the currently shown) and will send a request only with the article URL without the local anchor - in our example "../A/foo". After the article has been loaded the browser will then search for the local anchor tag and jump to the right location.
+
+If you use a common rendering engine or HTML widget you don't have to care for this cases, you can just use the requests as they are submitted by the engine / widget.
+
+Should you render the article contents by yourself you have to consider this and take care of it before you hand requests to zimlib.
+Encodings
+Character Encoding
+
+The standard encoding for ZIM file content is UTF-8. So both article data and URLs should be handled accordingly.
+
+Old Zeno files used a mixture of Latin1 and UTF-8 so there is still some "auto detection" code left in the zimlib , a workaround for this bug. This will be removed in future versions. Zeno files are not supported anymore.
+Integer Encoding
+
+For integer encoding the same algorithm as UTF-8 encoding is used. This encoding is also known as "integer compression". It safes some bytes by using variable lengths of integer fields, depending on the actual value of the number.
+
+See also http://en.wikipedia.org/wiki/UTF-8#Design .
+
+Old Zeno files used the QUnicode library instead. By switching to UTF-8 the new format is more standard-adherent and easier to understand.
+Split ZIM files
+
+ZIM files can be split in multiple chunks. This is necessary to be able to store big (over 4GB for example) ZIM files to limited file systems (like FAT32). That said, the chunks can be of any size, but the naming is really important. The ZIM file chunks should be named like following (the file name extensions matter): foobar.zimaa, foobar.zimab, foobar.zimac ...
+See also
+
+    Zeno file format (deprecated)
+    ZIM File Format/4 (deprecated)
+    ZIM File Example
+
+Retrieved from " http://www.openzim.org/w/index.php?title=ZIM_file_format&oldid=2897 "
+Navigation menu
+Personal tools
+
+    Create account
+    Log in
+
+Namespaces
+
+    Page
+    Discussion
+
+Variants
+
+Views
+
+    Read
+    View source
+    View history
+
+More
+
+Search
+Navigation
+
+    ZIM Main page
+    ZIM Readers
+    ZIM Files
+    ZIM Specifications
+    ZIM Implementation
+    Recent changes
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Printable version
+    Permanent link
+    Page information
+
+Donate
+
+    This page was last modified on 6 March 2018, at 20:00.
+    Content is available under Creative Commons Attribution Share Alike unless otherwise noted.
+
+    Privacy policy
+    About openZIM
+    Disclaimers
+    Mobile view
+
+    Creative Commons Attribution Share Alike
+    Powered by MediaWiki
+
