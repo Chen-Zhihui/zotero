@@ -1,0 +1,760 @@
+
+
+    首页
+    博客
+    学院
+    下载
+    GitChat
+    TinyMind
+    论坛
+    问答
+    商城
+    VIP
+    活动
+    招聘
+    ITeye
+    CSTO
+    VIP
+    活动
+    招聘
+    ITeye
+    CSTO
+
+    写博客
+    发Chat
+    登录 注册
+    我的博客
+    消息 (3)
+    帐号设置
+    反馈
+    帮助
+    退出
+
+    首页
+    博客
+    学院
+    下载
+    GitChat
+    TinyMind
+    论坛
+    问答
+    商城
+    VIP
+    活动
+    招聘
+    ITeye
+    CSTO
+    VIP
+    活动
+    招聘
+    ITeye
+    CSTO
+
+    写博客
+    发Chat
+    登录 注册
+    我的博客
+    消息 (3)
+    帐号设置
+    反馈
+    帮助
+    退出
+
+flyingzhao
+
+RSS订阅
+原
+人脸验证：DeepID
+2016年11月01日 23:19:39
+阅读数：5613
+
+《Deep Learning Face Representation from Predicting 10000 Classes》论文解读
+
+这篇论文来自香港中文大学汤晓鸥课题组，发表于CVPR2014，论文原文见：
+
+    http://www.ee.cuhk.edu.hk/~xgwang/papers/sunWTcvpr14.pdf
+
+人脸验证（Face Verification）就是判断两个人脸是不是同一个人，一个常用的场景是判断身份证是不是本人。
+概述
+
+文章使用深度学习的方法来提取人脸高级特征（high-level features），这种特征被称为DeepID。DeepID特征是通过人脸分类任务学习得到的，这样的特征可以使用在人脸验证中，最终在LFW数据集上取得了97.45%的结果。
+相关研究
+
+之前的人脸验证任务主要的方法是使用过完备的(over-complete)低层次特征，结合浅层的机器学习模型进行的。过去的方法常常是将人脸提取出几万乃至几百万的特征，然后将特征进行降维，再计算两个特征的相似度。
+人脸特征提取
+
+本文使用卷积神经网络来提取人脸特征，特征提取框架如下图所示：
+
+特征提取
+
+首先将每个人脸分成多个小块（patch），每个patch分别输入到卷积神经网络中。图中CNN里每层旁边的数字代表神经元的数量，最后一个隐层 的输出叫做Deep hidden identity features(DeepID)，DeepID特征为160维。特征提取的最后，把每个patch的DeepID特征连起来就构成了这张脸的特征。
+DeepID
+
+DeepID特征是在人脸识别(face identification，人脸身份认定)任务中训练得到的。人脸识别就是给定一张人脸，然后判断这张人脸属于谁，这个任务可以看成是分类模型，也就 是给定一张脸，将它分类到n个身份中的一个。这个任务比人脸验证任务更有挑战性，因此人脸识别任务中学习到的特征可以更好地泛化到别的任务中。
+文章使用CNN进行DeepID特征学习。CNN的结构如下图所示：
+
+CNN
+
+CNN的训练输入是人脸的某个patch，任务目标是将这个输入图片分类到某个具体的身份类别中。
+
+CNN从左向右使用了4个卷积层，3个池化层。当patch是长方形时，输入尺寸为39*31*k，当patch是正方形时，输入尺寸为 31*31*k。这里的k代表颜色通道，k=3代表彩色，k=1代表黑白。值得注意的是CNN最后一层DeepID层不仅和Convolutional layer 4直接相连，也和Max-pooling layer 3相连，作者将之称为Multi-scale ConvNets。这样做的原因是第四层神经元数量少，携带的信息比较少，使用第三层可以减少信息损失。这一步的具体做法是：先将 Convolutional layer 4和Max-pooling layer 3这两层拉平(flatten)，然后再将其和DeepID层全连接，经过ReLU激活函数后的输出就是DeepID特征。DeepID层后面接着 Softmax层，将不同的DeepID特征分类到不同的身份类别中。至此，DeepID特征学习完毕。
+Face patch
+
+首先对人脸图片检测5个特征点（两个眼睛，鼻尖，两个嘴角），然后将人脸进行变换对齐。
+
+patch
+
+在对齐的脸上生成10个区域，分别是5个全局区域和以5个特征点为中心的区域。对每个区域还要生成3种尺度，每种尺度有RGB和gray两种颜色，最终10个区域形成60个patch。
+
+文章先使用60个patch训练60个CNN，每个CNN使用patch本身和patch的翻转生成两个160维的DeepID特征，每个人脸最终提取为160*2*60=19200维特征。
+人脸验证
+
+上一部分已经提取出了人脸的特征，现在需要做的是判断两张脸是不是同一个人。这篇文章使用了Joint Bayesian和Neural Network两种方法进行区分。
+Joint Bayesian
+
+联合贝叶斯在之前的人脸验证任务中取得了良好的效果。 x 1 x 1 x 2 x 2 代表两张图片的特征，Joint Bayesian就是计算似然比：
+r ( x 1 , x 2 ) = log P ( x 1 , x 2 | H I ) P ( x 1 , x 2 | H E ) r ( x 1 , x 2 ) = log ⁡ P ( x 1 , x 2 | H I ) P ( x 1 , x 2 | H E )
+
+更多Joint Bayesian可以参考论文《 Bayesian Face Revisited: A Joint Formulation 》，也可以参考我的另一篇博客《 人脸验证：Joint Bayesian 》。
+
+Neural Network
+
+文章还使用了NN进行人脸验证，将人脸验证任务变为一个分类问题。NN结构如图：
+
+NN
+
+输入层是两张图片的DeepID特征，共640*60个输入，随后是一个局部连接层和全连接层，最后只有一个输出。这个输出使用了sigmoid激 活函数，输出两张人脸的相似度。局部连接层只和第一层输入特征中的一个组相连接，用来学习局部关系并降低特征维度。后面的全链接层用来学习全局关系。输入 的特征被分成60个组，每个组对应两张图片的同一个patch。每个patch要经过一次翻转，则每张图片每个patch生成160*2个特征，两张图片 则为640个特征。所有的隐层在训练时需要使用dropout，而输入层不能使用dropout。高维特征的学习不使用dropout会导致梯度扩散 (gradient diffusion)的问题。为解决这一问题，文章先将原始大网络拆成小网络进行训练。图中深色部分就代表一个这样的子网络，子网络的输入为原始输入的一 个组。然后使用训练好的子网络的第一层权重初始化原来的网络，并在训练中这部分权重保持不变，通过训练调节第二层和第三层权重。
+结果
+
+为了训练这一模型，文章使用了CelebFaces库。CelebFaces库包含5436个人的87628张照片，平均每个人有16张图片。先随 机选取80%的图片训练DeepID再使用剩下的20%训练人脸验证模型。在使用Joint Bayesian时，使用PCA将特征维数降低到150维。
+Multi-scale ConvNets
+
+CNN最后一层DeepID层不仅和Convolutional layer 4直接相连，也和Max-pooling layer 3相连，这一结构被称为Multi-scale ConvNets。
+
+multiscale
+
+从上图看出，这一结构对结果有一定的提升。
+Learning effective features
+
+classes
+
+使用不同身份类别数量训练出来的模型结果如上图所示，可以看出分类类别越多，提取出来的DeepID特征越好。
+Over-complete representation
+
+visualization
+
+将DeepID特征进行可视化。从图中可以看到相同人脸的DeepID相似度比较高，而不同人脸的差别比较大。
+
+文章的后面作者还进行了一些其他的实验，不再一一道来。
+总结
+
+人脸验证任务的主要难点在于寻找到一种人脸特征提取方法，这种提取方法在同一个人的脸上相似而不同的人之间差别尽可能的大。在特征提取的基础上，人脸验证的任务可以看成一个分类模型。
+版权声明：本文为博主原创文章，未经博主允许不得转载。 https://blog.csdn.net/tinyzhao/article/details/53002441
+文章标签： 深度学习 人脸验证 人脸识别 计算机视觉
+个人分类： Face Analysis Computer Vision Deep Learning
+所属专栏： 人脸识别
+相关热词： 人脸 人脸非人脸分类器 人脸侦测人脸跟踪 opencv人脸 ios人脸
+上一篇 TensorFlow学习笔记：编程模型
+下一篇 人脸验证：Joint Bayesian
+大数据 开发 薪资 多少？
+随着时代的发展，大数据技术与运用越发的成熟，所应用的行业集中于互联网、金融、医疗、新能源、通信和房地产等行业，想要了解如何成为高薪的大数据开发工程师吗？需要…………
+想对作者说点什么？ 我来说一句
+
+    colorreco
+    colorreco 2017-12-28 11:35:52 #2楼
+    终于做出来和商汤face++人脸特征点一样的效果了，可以测试一下， 运行的时候，请不要修改包名，包名与工程一致就可以： https://pan.baidu.com/s/1mios2pE
+    举报 回复 查看回复(1)
+        qq_36022826
+        ??smile 回复 colorreco 2018-06-19 17:43:33
+        你好，你分享的链接结束了，可以再分享一下吗
+        举报 回复
+
+    qq_36711116
+    qq_36711116 2016-11-14 22:28:22 #1楼
+    写得很专业
+    举报 回复
+
+    上一页
+    1
+    下一页
+
+    上一页
+    1
+    下一页
+
+三代 DeepID 简介
+
+Sunshine_in_Moon Sunshine_in_Moon
+
+10-15 1646
+
+﻿﻿ 本文转自：http://blog.csdn.net/stdcoutzyx/article/details/42091205 DeepID，目前最强人脸识别算法，已经三代。 转载请注明：ht...
+DeepID 2——强大的 人脸 分类算法
+
+mydear_11000 mydear_11000
+
+08-20 802
+
+Deep Learning Face Representation by Joint Identification-Verification 转载请注明：http://blog.csdn.net...
+区块链开发学习线图（高薪） 区块链开发平均薪资是多少？快速学习区块链开发，掌握以太坊开发和智能合约应用。
+特征选择和特征学习中的过完备 - CSDN博客
+
+6-6
+
+ScSPM的论文中提到了码书的过完备(over-complete)。一开始没有太在意过完备有什么问题,今天想了想把这个概念弄明白了。
+Sparse Coding - CSDN博客
+
+3-13
+
+Sparse Coding Sparse coding is a class of unsupervised methods for learning sets of over-complete bases to represent data efficiently. The aim of sparse ...
+区块链开发学习线图（高薪） 区块链开发平均薪资是多少？快速学习区块链开发，掌握以太坊开发和智能合约应用。
+特征选择和特征学习中的过完备 - CSDN博客
+
+6-6
+
+ScSPM的论文中提到了码书的过完备(over-complete)。一开始没有太在意过完备有什么问题,今天想了想把这个概念弄明白了。
+Stanford UFLDL教程 独立成分分析 - GarfieldEr007的专..._CSDN博客
+
+8-29
+
+试着回想一下,在介绍 稀疏编码算法中我们想为样本数据学习得到一个超完备基(over-complete basis)。具体来说,这意味着用稀疏编码学习得到的基向量之间不一定线性独...
+机器学习专业名词中英文对照 - CSDN博客
+
+7-12
+
+over-complete basis 超完备基 over-fitting 过拟合 parts of objects 目标的部件 part-whole decompostion 部分-整体分解 PCA 主元分析 penalty term 惩罚...
+人脸 验证 : DeepID (转) - CSDN博客
+
+7-23
+
+之前的人脸验证任务主要的方法是使用过完备的(over-complete)低层次特征,结合浅层的机器学习模型进行的。过去的方法常常是将人脸提取出几万乃至几百万的特征,然后将...
+人脸 识别之 人脸 验证 （六）--SphereFace
+
+App_12062011 App_12062011
+
+12-12 2871
+
+转自：http://blog.csdn.net/qq_14845119/article/details/76154976 略删改。 2017的一篇cvpr，SphereFace: Deep Hyper...
+Product of experts - CSDN博客
+
+6-3
+
+Each expert is definedas a possibly unnormalized probabilistic modelover its input space. with PoEs stand in contrast to Mixture Models which combine ...
+人工智能术语表 - CSDN博客
+
+5-30
+
+over-complete bases 超完备基 degeneracy 退化 reconstruction term 重构项 sparsity penalty 稀疏惩罚项 norm 范式 generative model 生成模型 linear superposition 线性...
+人脸 检测：MTCNN
+
+tinyzhao tinyzhao
+
+11-19 2.6万
+
+《Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks》论文解读。本文来自于中国科学院...
+Sparse Coding - CSDN博客
+
+3-13
+
+Sparse Coding Sparse coding is a class of unsupervised methods for learning sets of over-complete bases to represent data efficiently. The aim of sparse ...
+笔记(6):Network In Network - CSDN博客
+
+7-30
+
+这些模型是使用over-complete(过完备?非常多的意思吧)的kernel/filter去覆盖所有潜在的特征,可能造成对同一个特征有多个kernel/filter,而下一层要考虑前一层所有...
+Sparse Coding - CSDN博客
+
+7-7
+
+Sparse Coding Sparse coding is a class of unsupervised methods for learning sets of over-complete bases to represent data efficiently. The aim of sparse ...
+特征选择和特征学习中的过完备 - CSDN博客
+
+2-7
+
+作者:jiang1st2010 转载请注明原文地址:http://blog.csdn.net/jwh_bupt/article/details/9969841  ScSPM的论文中提到了码书的过完备(over-complete)。一开始没...
+人脸 验证 DeepID 算法介绍及实战 （转）
+
+zhang43211234 zhang43211234
+
+07-07 37
+
+问题导读1.DeepID是什么？2.DeepID的强大的两个因素是什么?3.拿到图片数据后，本文做了那两件事情？ 首先明确一个概念什么是DeepID？DeepID是人脸识别算法。###########...
+UFLDL Tutorial_Sparse Coding - CSDN博客
+
+6-8
+
+Sparse Coding Sparse Coding Sparse coding is a class of unsupervised methods for learning sets of over...
+Caffe 实践 DeepID ( 人脸 识别)
+
+Real_Myth Real_Myth
+
+10-09 2023
+
+Caffe 实践DeepID(人脸识别)
+特征选择和特征学习中的过完备 - CSDN博客
+
+2-20
+
+作者:jiang1st2010 转载请注明原文地址:http://blog.csdn.net/jwh_bupt/article/details/9969841  ScSPM的论文中提到了码书的过完备(over-complete)。一开始没...
+Stanford UFLDL教程 独立成分分析 - GarfieldEr007的专..._CSDN博客
+
+8-29
+
+试着回想一下,在介绍 稀疏编码算法中我们想为样本数据学习得到一个超完备基(over-complete basis)。具体来说,这意味着用稀疏编码学习得到的基向量之间不一定线性独...
+北京种牙政策颁布：45岁以上即可申请极简种牙 海德堡口腔 · 顶新
+北京种牙政策颁布：45岁以上即可申请极简种牙 海德堡口腔 · 顶新
+人脸 识别之 人脸 验证 （二）-- DeepID
+
+App_12062011 App_12062011
+
+11-12 1122
+
+转自：http://blog.csdn.net/stdcoutzyx/article/details/42091205 DeepID，目前最强人脸识别算法，已经三代。 如今，深度学习方兴未艾，大数据风...
+特征选择和特征学习中的过完备 - CSDN博客
+
+5-31
+
+ScSPM的论文中提到了码书的过完备(over-complete)。一开始没有太在意过完备有什么问题,今天想了想把这个概念弄明白了。
+机器学习专业名词中英文对照 - CSDN博客
+
+7-12
+
+over-complete basis 超完备基 over-fitting 过拟合 parts of objects 目标的部件 part-whole decompostion 部分-整体分解 PCA 主元分析 penalty term 惩罚...
+【 人脸 识别】 人脸 验证 算法Joint Bayesian详解及实现（Python版）
+
+cyh24 cyh24
+
+10-12 3.5万
+
+本文主要是针对[Bayesian Face Revisited: A Joint Formulation][3] 这篇文章的笔记。这篇论文仅通过LBP跟Joint Bayesian这两个方法结合，就把...
+人脸 识别（三）模拟业务场景：考生考试 人脸 验证 的实现。
+
+zoroduyu zoroduyu
+
+01-07 720
+
+在上篇博客的结尾处，我提到了这么两个需求： 我在之前博客中讲到的face++的api可以用来实现这么这两个功能，今天这篇博客我们讲来讲一讲具体的实现。 先来看第一个需求： 考生需要在考试前...
+人脸 验证 ： DeepID （转）
+
+zhang43211234 zhang43211234
+
+07-23 10
+
+原文地址：http://blog.csdn.net/tinyzhao/article/details/53002441   《Deep Learning Face Representation f...
+DeepID 3_Face_Recognition_with_Very_Deep_Neural_Networks
+
+2015年12月10日 4.42MB 下载
+DeepID 1 DeepID 2 DeepID 2+ DeepID 3
+
+yuanchheneducn yuanchheneducn
+
+04-14 9215
+
+Deep Learning Face Representation by Joint Identification-Verification Yi Sun1 Yuheng Chen2 Xiaogan...
+DeepID 人脸 识别算法之三代
+
+xinzhangyanxiang xinzhangyanxiang
+
+12-23 7.1万
+
+DeepID人脸识别算法之三代 DeepID，目前最强人脸识别算法，已经三代。 如今，深度学习方兴未艾，大数据风起云涌，各个领域都在处于使用深度学习进行强突破的阶段，人脸识别也不例外，香港中文大学的团...
+人脸 识别：Deep Face Recognition论文阅读
+
+mogebuyi mogebuyi
+
+08-30 4024
+
+基本概念 在具体到人脸识别方法之前，先对人脸识别中的Face detection, Face alignment, Face verification和Face identifi...
+人脸 验证 DeepID 算法介绍及实战（转）
+
+zhang43211234 zhang43211234
+
+07-23 17
+
+原文地址：http://blog.csdn.net/mydear_11000/article/details/50787298 1.DeepID是什么？2.DeepID的强大的两个因素是什么?3.拿...
+Deep Learning-TensorFlow (14) CNN卷积神经网络_深度残差网络 ResNet
+
+u013751160 u013751160
+
+04-28 1.6万
+
+ResNet（Residual Neural Network）由前微软研究院的 Kaiming He 等4名华人提出，通过使用Residual Block 成功训练152层深的神经网络，在 ILSVR...
+使用Caffe尝试 DeepID
+
+a_1937 a_1937
+
+12-17 2万
+
+使用Caffe复现DeepID实验本实验使用Casia-Webface part2的切图来复现DeepID实验结果。 DeepID网络配置文件 训练验证数据组织 实验结果 结果分析 DeepID网络配...
+从 专访 DeepID 发明者孙祎：关于深度学习与 人脸 算法的深层思考 总结
+
+u014114990 u014114990
+
+06-13 1175
+
+今天看到DeepID发明者孙祎介绍，研发心得，人脸识别应用的现状、难点与未来，深度学习的实践经验等问题。回到的很好。 专访DeepID发明者孙祎：关于深度学习与人脸算法的深层思考 发表...
+【Caffe实践】基于Caffe的 人脸 识别实现
+
+chenriwei2 chenriwei2
+
+11-01 6.6万
+
+导言深度学习深似海、尤其是在图像人脸识别领域，最近几年的顶会和顶刊常常会出现没有太多的理论创新的文章，但是效果摆在那边。DeepID是深度学习方法进行人脸识别中的一个简单，却高效的一个网络模型，其结构...
+人脸 验证 识别区别
+
+Sun7_She Sun7_She
+
+04-27 1279
+
+Face verification 人脸验证，一对一 Face identification / recognition 人脸识别，一对多 闭集：已知此人在该数据集中 开集：不知道此人在...
+DeepID 2+ 人脸 识别算法学习
+
+eli00001 eli00001
+
+04-01 5298
+
+DeepID2+在DeepID2的基础上，继续对网络结构做了修改，同时增加了对卷积圣经网络的分析，发现了几个特征：（1）适度稀疏，及时将神经元二值化之后，认证效果依然很好；（2）选择性，高层神经元对认...
+【论文笔记】 DeepID 人脸 识别算法之三代
+
+elaine_bao elaine_bao
+
+11-19 1798
+
+本文转载自：http://blog.csdn.net/stdcoutzyx/article/details/42091205 DeepID人脸识别算法，已经三代。 如今，深度学习方兴未艾，大数据风起云...
+在移动设备上高速高精度的 人脸 识别:MobileId
+
+wuzuyu365 wuzuyu365
+
+07-03 883
+
+帖子 http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650728643&idx=3&sn=eea02a88dfecbad0f1401261...
+人脸 识别之 人脸 验证 （一）--Deepface
+
+App_12062011 App_12062011
+
+11-12 1297
+
+转自：blog.csdn.net/stdcoutzyx/article/details/46776415 DeepFace基本框架 人脸识别的基本流程是： detect -> aligh -> re...
+人脸 验证 ：Joint Bayesian
+
+tinyzhao tinyzhao
+
+11-03 5897
+
+《Bayesian Face Revisited: A Joint Formulation》论文解读这篇文章发表于ECCV2012，来自MSRA的孙剑组。论文原文见： http://home.us...
+python 人脸 识别
+
+2017年03月15日 1.27MB 下载
+人脸 验证 代码
+
+2018年04月02日 1020KB 下载
+使用FaceNet进行 人脸 检测
+
+chenhaifeng2016 chenhaifeng2016
+
+06-14 8990
+
+本文主要描述如何使用FaceNet验证在数据集LFW的人脸检测效果。 前提条件： 1.已安装Tensorflow 2.已安装下列包: scipy, scikit-learn, opencv-pytho...
+人脸 识别（四）考生考试 人脸 验证 的实现。
+
+zoroduyu zoroduyu
+
+01-13 1528
+
+需求： 考生需要在考试前将自己的人脸录入到系统当中。（拍照录入或者直接导入，方法二选一） 考生在考试时，需要进行人脸识别，通过人脸进行身份验证，验证成功后，登录成功。 上周的博客中我讲到了如何...
+deepid 人脸 识别
+
+2017年08月07日 35.86MB 下载
+DeepID 3_Face_Recognition_with_Very_Deep_Neural_Networks
+
+2015年12月10日 4.42MB 下载
+DeepID 1 DeepID 2 DeepID 2+ DeepID 3
+
+yuanchheneducn yuanchheneducn
+
+04-14 9215
+
+Deep Learning Face Representation by Joint Identification-Verification Yi Sun1 Yuheng Chen2 Xiaogan...
+DeepID 人脸 识别算法之三代
+
+xinzhangyanxiang xinzhangyanxiang
+
+12-23 7.1万
+
+DeepID人脸识别算法之三代 DeepID，目前最强人脸识别算法，已经三代。 如今，深度学习方兴未艾，大数据风起云涌，各个领域都在处于使用深度学习进行强突破的阶段，人脸识别也不例外，香港中文大学的团...
+人脸 识别：Deep Face Recognition论文阅读
+
+mogebuyi mogebuyi
+
+08-30 4024
+
+基本概念 在具体到人脸识别方法之前，先对人脸识别中的Face detection, Face alignment, Face verification和Face identifi...
+人脸 验证 DeepID 算法介绍及实战（转）
+
+zhang43211234 zhang43211234
+
+07-23 17
+
+原文地址：http://blog.csdn.net/mydear_11000/article/details/50787298 1.DeepID是什么？2.DeepID的强大的两个因素是什么?3.拿...
+Deep Learning-TensorFlow (14) CNN卷积神经网络_深度残差网络 ResNet
+
+u013751160 u013751160
+
+04-28 1.6万
+
+ResNet（Residual Neural Network）由前微软研究院的 Kaiming He 等4名华人提出，通过使用Residual Block 成功训练152层深的神经网络，在 ILSVR...
+使用Caffe尝试 DeepID
+
+a_1937 a_1937
+
+12-17 2万
+
+使用Caffe复现DeepID实验本实验使用Casia-Webface part2的切图来复现DeepID实验结果。 DeepID网络配置文件 训练验证数据组织 实验结果 结果分析 DeepID网络配...
+从 专访 DeepID 发明者孙祎：关于深度学习与 人脸 算法的深层思考 总结
+
+u014114990 u014114990
+
+06-13 1175
+
+今天看到DeepID发明者孙祎介绍，研发心得，人脸识别应用的现状、难点与未来，深度学习的实践经验等问题。回到的很好。 专访DeepID发明者孙祎：关于深度学习与人脸算法的深层思考 发表...
+【Caffe实践】基于Caffe的 人脸 识别实现
+
+chenriwei2 chenriwei2
+
+11-01 6.6万
+
+导言深度学习深似海、尤其是在图像人脸识别领域，最近几年的顶会和顶刊常常会出现没有太多的理论创新的文章，但是效果摆在那边。DeepID是深度学习方法进行人脸识别中的一个简单，却高效的一个网络模型，其结构...
+人脸 验证 识别区别
+
+Sun7_She Sun7_She
+
+04-27 1279
+
+Face verification 人脸验证，一对一 Face identification / recognition 人脸识别，一对多 闭集：已知此人在该数据集中 开集：不知道此人在...
+
+没有更多推荐了， 返回首页
+个人资料
+
+tinyzhao
+关注
+
+原创
+    43 
+
+粉丝
+    92 
+
+喜欢
+    24 
+
+评论
+    39 
+
+等级：
+
+访问：
+    19万+ 
+
+积分：
+    2055 
+
+排名：
+    2万+
+
+勋章：
+
+专栏达人
+授予成功创建个人博客专栏的用户。专栏中添加五篇以上博文即可点亮！撰写博客专栏浓缩技术精华，专栏达人就是你！
+
+持之以恒
+授予每个自然月内发布4篇或4篇以上原创或翻译IT博文的用户。不积跬步无以至千里，不积小流无以成江海，程序人生的精彩需要坚持不懈地积累！
+最新文章
+
+    OpenStreetMap地图服务器安装
+    球谐函数与光照估计
+    Face++ API调用
+    图形学笔记：图形管线
+    图形学笔记：光线追踪
+
+博主专栏
+
+    人脸识别
+    阅读量： 76927 10 篇
+
+个人分类
+
+    Computer Vision 19篇
+    Algorithm 2篇
+    Python 10篇
+    Android 6篇
+    Java 4篇
+    OpenCV 2篇
+    Deep Learning 17篇
+    Face Analysis 11篇
+    Computer Graphics 4篇
+    Linux 1篇
+
+展开
+归档
+
+    2017年9月 1篇
+    2017年3月 2篇
+    2017年1月 3篇
+    2016年12月 8篇
+    2016年11月 13篇
+    2016年10月 4篇
+    2016年9月 13篇
+
+展开
+热门文章
+
+    神经网络：AlexNet
+
+    阅读量： 29972
+    人脸检测：MTCNN
+
+    阅读量： 26109
+    人脸对齐：Procrustes analysis
+
+    阅读量： 8898
+    TensorFlow学习笔记：编程模型
+
+    阅读量： 8665
+    人脸特征点检测：TCDCN
+
+    阅读量： 8136
+
+最新评论
+
+    EVM算法的Python实现
+
+    u010761401 ：[reply]weixin_41573110[/reply] 个人觉得滤波器返回值那里不该取模值
+    人脸检测：MTCNN
+
+    qq_21172447 ：[reply]chinagogo123[/reply] 你好！我在运行你的代码时有一些错误无法解决...
+    OpenStreetMap地图服务...
+
+    baiyu33 ：装这个用来做什么啊？
+    人脸特征点检测：SDM
+
+    u010025269 ：[reply]colorreco[/reply] 百度链接失效了，层主还能再分享一下嘛？
+    人脸验证：DeepID
+
+    qq_36022826 ：[reply]colorreco[/reply] 你好，你分享的链接结束了，可以再分享一下吗
+
+联系我们
+客服
+请扫描二维码联系客服
+
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于 招聘 广告服务 网站地图
+
+©2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+联系我们
+客服
+请扫描二维码联系客服
+
+webmaster@csdn.net
+
+400-660-0108
+
+QQ客服 客服论坛
+
+关于 招聘 广告服务 网站地图
+
+©2018 CSDN版权所有 京ICP证09002463号
+
+百度提供支持
+
+经营性网站备案信息
+
+网络110报警服务
+
+中国互联网举报中心
+
+北京互联网违法和不良信息举报中心
+
+    「码字计划」：拿万元写作基金！
+    Python薪资多少？
+
+    「码字计划」：拿万元写作基金！
+    Python薪资多少？
+
+    「码字计划」：拿万元写作基金！
+    Python薪资多少？
+
+登录
+注册
+
+    1
+
+    写评论
+
+    目录
+        概述
+        相关研究
+        人脸特征提取
+            DeepID
+            Face patch
+        人脸验证
+            Joint Bayesian
+            Neural Network
+        结果
+            Multi-scale ConvNets
+            Learning effective features
+            Over-complete representation
+        总结
+
+    收藏
+
+    微信
+
+    微博
+
+    QQ
+
+关闭
+万元写作基金等你拿
+
+    申请通过——领钱！
+    发布内容——领钱！
+    优质内容——领钱！
+
+查看详情
+关闭
+关闭
+不良信息举报
+举报内容：
+
+人脸验证：DeepID
+举报原因：
+色情 政治 抄袭 广告 招聘 骂人 其他
+原文地址：
+原因补充：
+
+最多只允许输入30个字
+不良信息举报
+举报内容：
+
+人脸验证：DeepID
+举报原因：
+色情 政治 抄袭 广告 招聘 骂人 其他
+原文地址：
+原因补充：
+
+最多只允许输入30个字

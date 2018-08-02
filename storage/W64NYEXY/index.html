@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html class="client-js" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Edit distance - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Edit_distance","wgTitle":"Edit distance","wgCurRevisionId":851971181,"wgRevisionId":851971181,"wgArticleId":406427,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["String similarity measures","Similarity and distance measures"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Edit_distance","wgRelevantArticleId":406427,"wgRequestId":"W2JdIApAMFAAAGuzQEsAAAAJ","wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgWikibaseItemId":"Q5338467","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":true,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.cite.styles":"ready","ext.math.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.toc.styles":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.cite.a11y","ext.math.scripts","site","mediawiki.page.startup","mediawiki.user","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","mmv.head","mmv.bootstrap.autostart","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="load_002.css">
+<script async="" src="load_002.php"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load.css">
+<link rel="stylesheet" href="load_003.css">
+<meta name="generator" content="MediaWiki 1.32.0-wmf.14">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-crossorigin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit">
+<link rel="edit" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit">
+<link rel="apple-touch-icon" href="https://en.wikipedia.org/static/apple-touch/wikipedia.png">
+<link rel="shortcut icon" href="https://en.wikipedia.org/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikipedia.org/w/api.php?action=rsd">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="https://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Edit_distance">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+<script src="load.php"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Edit_distance rootpage-Edit_distance skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">Edit distance</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"><div class="mw-revision"><div id="mw-revision-info-current"><table id="revision-info-current" class="plainlinks fmbox fmbox-system" role="presentation"><tbody><tr><td class="mbox-text"><b>This is the <a href="https://en.wikipedia.org/wiki/Help:Page_history" title="Help:Page history">current revision</a> of this page, as edited by <span id="mw-revision-name"><a href="https://en.wikipedia.org/w/index.php?title=User:Cheater_no1&amp;action=edit&amp;redlink=1" class="new mw-userlink" title="User:Cheater no1 (page does not exist)"><bdi>Cheater no1</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:Cheater_no1" class="mw-usertoollinks-talk" title="User talk:Cheater no1">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/Cheater_no1" class="mw-usertoollinks-contribs" title="Special:Contributions/Cheater no1">contribs</a>)</span></span> at <span id="mw-revision-date">19:36, 25 July 2018</span><span id="mw-revision-summary"> <span class="comment">(<a href="#Language_edit_distance">→</a>‎<span dir="auto"><span class="autocomment">Language edit distance: </span> white-spaces removed</span>)</span></span>. The present address (URL) is a <a href="https://en.wikipedia.org/wiki/Help:Permanent_link" title="Help:Permanent link">permanent link</a> to this version.</b></td></tr></tbody></table><div id="revision-info-current-plain" style="display: none;">Revision as of 19:36, 25 July 2018 by <a href="https://en.wikipedia.org/w/index.php?title=User:Cheater_no1&amp;action=edit&amp;redlink=1" class="new mw-userlink" title="User:Cheater no1 (page does not exist)"><bdi>Cheater no1</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:Cheater_no1" class="mw-usertoollinks-talk" title="User talk:Cheater no1">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/Cheater_no1" class="mw-usertoollinks-contribs" title="Special:Contributions/Cheater no1">contribs</a>)</span> <span class="comment">(<a href="#Language_edit_distance">→</a>‎<span dir="auto"><span class="autocomment">Language edit distance: </span> white-spaces removed</span>)</span></div>
+</div><div id="mw-revision-nav">(<a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;diff=prev&amp;oldid=851971181" title="Edit distance">diff</a>) <a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;direction=prev&amp;oldid=851971181" title="Edit distance">← Previous revision</a>&nbsp;| Latest revision (diff)&nbsp;| Newer revision → (diff)</div></div></div>
+				<div id="jump-to-nav"></div>				<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+				<a class="mw-jump-link" href="#p-search">Jump to search</a>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="mw-parser-output"><p>In <a href="https://en.wikipedia.org/wiki/Computational_linguistics" title="Computational linguistics">computational linguistics</a> and <a href="https://en.wikipedia.org/wiki/Computer_science" title="Computer science">computer science</a>, <b>edit distance</b> is a way of quantifying how dissimilar two <a href="https://en.wikipedia.org/wiki/String_%28computing%29" class="mw-redirect" title="String (computing)">strings</a>
+ (e.g., words) are to one another by counting the minimum number of 
+operations required to transform one string into the other. Edit 
+distances find applications in <a href="https://en.wikipedia.org/wiki/Natural_language_processing" title="Natural language processing">natural language processing</a>, where automatic <a href="https://en.wikipedia.org/wiki/Spell_checker" title="Spell checker">spelling correction</a>
+ can determine candidate corrections for a misspelled word by selecting 
+words from a dictionary that have a low distance to the word in 
+question. In <a href="https://en.wikipedia.org/wiki/Bioinformatics" title="Bioinformatics">bioinformatics</a>, it can be used to quantify the similarity of <a href="https://en.wikipedia.org/wiki/DNA" title="DNA">DNA</a> sequences, which can be viewed as strings of the letters A, C, G and T.
+</p><p>Different definitions of an edit distance use different sets of string operations. The <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" title="Levenshtein distance">Levenshtein distance</a>
+ operations are the removal, insertion, or substitution of a character 
+in the string. Being the most common metric, the Levenshtein distance is
+ usually what is meant by "edit distance".<sup id="cite_ref-navarro_1-0" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup>
+</p>
+<div id="toc" class="toc"><input role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" type="checkbox"><div class="toctitle" dir="ltr" lang="en"><h2>Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Formal_definition_and_properties"><span class="tocnumber">1</span> <span class="toctext">Formal definition and properties</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Example"><span class="tocnumber">1.1</span> <span class="toctext">Example</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#Properties"><span class="tocnumber">1.2</span> <span class="toctext">Properties</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#Computation"><span class="tocnumber">2</span> <span class="toctext">Computation</span></a>
+<ul>
+<li class="toclevel-2 tocsection-5"><a href="#Common_algorithm"><span class="tocnumber">2.1</span> <span class="toctext">Common algorithm</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="#Improved_algorithms"><span class="tocnumber">2.2</span> <span class="toctext">Improved algorithms</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-7"><a href="#Applications"><span class="tocnumber">3</span> <span class="toctext">Applications</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#Language_edit_distance"><span class="tocnumber">4</span> <span class="toctext">Language edit distance</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#See_also"><span class="tocnumber">5</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#References"><span class="tocnumber">6</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Formal_definition_and_properties">Formal definition and properties</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=1" title="Edit section: Formal definition and properties">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Given two strings <span class="texhtml mvar" style="font-style:italic;">a</span> and <span class="texhtml mvar" style="font-style:italic;">b</span> on an alphabet <span class="texhtml">Σ</span> (e.g. the set of <a href="https://en.wikipedia.org/wiki/ASCII" title="ASCII">ASCII</a> characters, the set of <a href="https://en.wikipedia.org/wiki/Byte" title="Byte">bytes</a> [0..255], etc.), the edit distance <span class="nowrap">d(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>)</span> is the minimum-weight series of edit operations that transforms <span class="texhtml mvar" style="font-style:italic;">a</span> into <span class="texhtml mvar" style="font-style:italic;">b</span>. One of the simplest sets of edit operations is that defined by Levenshtein in 1966:<sup id="cite_ref-slp_2-0" class="reference"><a href="#cite_note-slp-2">[2]</a></sup>
+</p>
+<dl><dd><b>Insertion</b> of a single symbol. If <span class="texhtml mvar" style="font-style:italic;">a</span> = <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">v</span>, then inserting the symbol <span class="texhtml mvar" style="font-style:italic;">x</span> produces <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">x</span><span class="texhtml mvar" style="font-style:italic;">v</span>. This can also be denoted ε→<span class="texhtml mvar" style="font-style:italic;">x</span>, using ε to denote the empty string.</dd>
+<dd><b>Deletion</b> of a single symbol changes <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">x</span><span class="texhtml mvar" style="font-style:italic;">v</span> to <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">v</span> (<span class="texhtml mvar" style="font-style:italic;">x</span>→ε).</dd>
+<dd><b>Substitution</b> of a single symbol <span class="texhtml mvar" style="font-style:italic;">x</span> for a symbol <span class="texhtml mvar" style="font-style:italic;">y</span> ≠ <span class="texhtml mvar" style="font-style:italic;">x</span> changes <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">x</span><span class="texhtml mvar" style="font-style:italic;">v</span> to <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">y</span><span class="texhtml mvar" style="font-style:italic;">v</span> (<span class="texhtml mvar" style="font-style:italic;">x</span>→<span class="texhtml mvar" style="font-style:italic;">y</span>).</dd></dl>
+<p>In Levenshtein's original definition, each of these operations has 
+unit cost (except that substitution of a character by itself has zero 
+cost), so the Levenshtein distance is equal to the minimum <i>number</i> of operations required to transform <span class="texhtml mvar" style="font-style:italic;">a</span> to <span class="texhtml mvar" style="font-style:italic;">b</span>. A more general definition associates non-negative weight functions <span class="texhtml mvar" style="font-style:italic;">w</span><sub>ins</sub>(<span class="texhtml mvar" style="font-style:italic;">x</span>), <span class="texhtml mvar" style="font-style:italic;">w</span><sub>del</sub>(<span class="texhtml mvar" style="font-style:italic;">x</span>) and <span class="texhtml mvar" style="font-style:italic;">w</span><sub>sub</sub>(<span class="texhtml mvar" style="font-style:italic;">x</span>,&nbsp;<span class="texhtml mvar" style="font-style:italic;">y</span>) with the operations.<sup id="cite_ref-slp_2-1" class="reference"><a href="#cite_note-slp-2">[2]</a></sup>
+</p><p>Additional primitive operations have been suggested. A common mistake when typing text is <b>transposition</b> of two adjacent characters, formally characterized by an operation that changes <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">x</span><span class="texhtml mvar" style="font-style:italic;">y</span><span class="texhtml mvar" style="font-style:italic;">v</span> into <span class="texhtml mvar" style="font-style:italic;">u</span><span class="texhtml mvar" style="font-style:italic;">y</span><span class="texhtml mvar" style="font-style:italic;">x</span><span class="texhtml mvar" style="font-style:italic;">v</span>.<sup id="cite_ref-ukkonen83_3-0" class="reference"><a href="#cite_note-ukkonen83-3">[3]</a></sup><sup id="cite_ref-ssm_4-0" class="reference"><a href="#cite_note-ssm-4">[4]</a></sup>
+For the task of correcting <a href="https://en.wikipedia.org/wiki/Optical_character_recognition" title="Optical character recognition">OCR</a> output, <b>merge</b> and <b>split</b> operations have been used which replace a single character into a pair of them or vice versa.<sup id="cite_ref-ssm_4-1" class="reference"><a href="#cite_note-ssm-4">[4]</a></sup>
+</p><p>Other variants of edit distance are obtained by restricting the set of operations. <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence_problem" title="Longest common subsequence problem">Longest common subsequence (LCS)</a> distance is edit distance with insertion and deletion as the only two edit operations, both at unit cost.<sup id="cite_ref-navarro_1-1" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>37</span></sup> Similarly, by only allowing substitutions (again at unit cost), <a href="https://en.wikipedia.org/wiki/Hamming_distance" title="Hamming distance">Hamming distance</a> is obtained; this must be restricted to equal-length strings.<sup id="cite_ref-navarro_1-2" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup>
+<a href="https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance" title="Jaro–Winkler distance">Jaro–Winkler distance</a> can be obtained from an edit distance where only transpositions are allowed.
+</p>
+<h3><span class="mw-headline" id="Example">Example</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=2" title="Edit section: Example">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" title="Levenshtein distance">Levenshtein distance</a> between "kitten" and "sitting" is 3. A minimal edit script that transforms the former into the latter is:
+</p>
+<ol><li><b>k</b>itten → <b>s</b>itten (substitution of "s" for "k")</li>
+<li>sitt<b>e</b>n → sitt<b>i</b>n (substitution of "i" for "e")</li>
+<li>sittin → sittin<b>g</b> (insertion of "g" at the end).</li></ol>
+<p>LCS distance (insertions and deletions only) gives a different distance and minimal edit script:
+</p>
+<ol><li>delete <b>k</b> at 0</li>
+<li>insert <b>s</b> at 0</li>
+<li>delete <b>e</b> at 4</li>
+<li>insert <b>i</b> at 4</li>
+<li>insert <b>g</b> at 6</li></ol>
+<p>for a total cost/distance of 5 operations.
+</p>
+<h3><span class="mw-headline" id="Properties">Properties</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=3" title="Edit section: Properties">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Edit distance with non-negative cost satisfies the axioms of a <a href="https://en.wikipedia.org/wiki/Metric_%28mathematics%29" title="Metric (mathematics)">metric</a>, giving rise to a <a href="https://en.wikipedia.org/wiki/Metric_space" title="Metric space">metric space</a> of strings, when the following conditions are met:<sup id="cite_ref-navarro_1-3" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>37</span></sup>
+</p>
+<ul><li>Every edit operation has positive cost;</li>
+<li>for every operation, there is an inverse operation with equal cost.</li></ul>
+<p>With these properties, the metric axioms are satisfied as follows:
+</p>
+<dl><dd><span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>) = 0 if and only if a=b, since each string can be trivially transformed to itself using exactly zero operations.</dd>
+<dd><span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>) &gt; 0 when <span class="texhtml mvar" style="font-style:italic;">a</span> ≠ <span class="texhtml mvar" style="font-style:italic;">b</span>, since this would require at least one operation at non-zero cost.</dd>
+<dd><span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>) = <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">b</span>, <span class="texhtml mvar" style="font-style:italic;">a</span>) by equality of the cost of each operation and its inverse.</dd>
+<dd>Triangle inequality: <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">c</span>) ≤ <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>) + <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">b</span>, <span class="texhtml mvar" style="font-style:italic;">c</span>).<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[5]</a></sup></dd></dl>
+<p>Levenshtein distance and LCS distance with unit cost satisfy the 
+above conditions, and therefore the metric axioms. Variants of edit 
+distance that are not proper metrics have also been considered in the 
+literature.<sup id="cite_ref-navarro_1-4" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup>
+</p><p>Other useful properties of unit-cost edit distances include:
+</p>
+<ul><li>LCS distance is bounded above by the sum of lengths of a pair of strings.<sup id="cite_ref-navarro_1-5" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>37</span></sup></li>
+<li>LCS distance is an upper bound on Levenshtein distance.</li>
+<li>For strings of the same length, Hamming distance is an upper bound on Levenshtein distance.<sup id="cite_ref-navarro_1-6" class="reference"><a href="#cite_note-navarro-1">[1]</a></sup></li></ul>
+<p>Regardless of cost/weights, the following property holds of all edit distances:
+</p>
+<ul><li>When <span class="texhtml mvar" style="font-style:italic;">a</span> and <span class="texhtml mvar" style="font-style:italic;">b</span> share a common prefix, this prefix has no effect on the distance. Formally, when <span class="texhtml mvar" style="font-style:italic;">a</span> = <span class="texhtml mvar" style="font-style:italic;">uv</span> and <span class="texhtml mvar" style="font-style:italic;">b</span> = <span class="texhtml mvar" style="font-style:italic;">uw</span>, then <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">a</span>, <span class="texhtml mvar" style="font-style:italic;">b</span>) = <span class="texhtml mvar" style="font-style:italic;">d</span>(<span class="texhtml mvar" style="font-style:italic;">v</span>, <span class="texhtml mvar" style="font-style:italic;">w</span>).<sup id="cite_ref-ssm_4-2" class="reference"><a href="#cite_note-ssm-4">[4]</a></sup>
+ This allows speeding up many computations involving edit distance and 
+edit scripts, since common prefixes and suffixes can be skipped in 
+linear time.</li></ul>
+<h2><span class="mw-headline" id="Computation">Computation</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=4" title="Edit section: Computation">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>The first algorithm for computing minimum edit distance between a pair of strings was published by <a href="https://en.wikipedia.org/wiki/Frederick_J._Damerau" title="Frederick J. Damerau">Damerau</a> in 1964.<sup id="cite_ref-6" class="reference"><a href="#cite_note-6">[6]</a></sup>
+</p>
+<h3><span class="mw-headline" id="Common_algorithm">Common algorithm</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=5" title="Edit section: Common algorithm">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<div role="note" class="hatnote navigation-not-searchable">Main article: <a href="https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm" title="Wagner–Fischer algorithm">Wagner–Fischer algorithm</a></div>
+<p>Using Levenshtein's original operations, the edit distance between <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle a=a_{1}\ldots a_{n}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>a</mi>
+        <mo>=</mo>
+        <msub>
+          <mi>a</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>…<!-- … --></mo>
+        <msub>
+          <mi>a</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle a=a_{1}\ldots a_{n}}</annotation>
+  </semantics>
+</math></span><img src="c8533f08a7499c3236c1c47542fa5b3f990454ee.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:12.558ex; height:2.009ex;" alt="a = a_1\ldots a_n"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle b=b_{1}\ldots b_{m}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>b</mi>
+        <mo>=</mo>
+        <msub>
+          <mi>b</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>…<!-- … --></mo>
+        <msub>
+          <mi>b</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>m</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle b=b_{1}\ldots b_{m}}</annotation>
+  </semantics>
+</math></span><img src="21750fe48192d2a33a1a76471d8da4c627d9d83f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:12.318ex; height:2.509ex;" alt="b = b_1\ldots b_m"></span> is given by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d_{mn}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>m</mi>
+            <mi>n</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d_{mn}}</annotation>
+  </semantics>
+</math></span><img src="65dc535bfabf91fffb04553387ec98324c286c5f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.87ex; height:2.509ex;" alt="d_{mn}"></span>, defined by the recurrence<sup id="cite_ref-slp_2-2" class="reference"><a href="#cite_note-slp-2">[2]</a></sup>
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\begin{aligned}d_{i0}&amp;=\sum _{k=1}^{i}w_{\mathrm {del} }(b_{k}),&amp;&amp;\quad {\text{for}}\;1\leq i\leq m\\d_{0j}&amp;=\sum _{k=1}^{j}w_{\mathrm {ins} }(a_{k}),&amp;&amp;\quad {\text{for}}\;1\leq j\leq n\\d_{ij}&amp;={\begin{cases}d_{i-1,j-1}&amp;{\text{for}}\;a_{j}=b_{i}\\\min {\begin{cases}d_{i-1,j}+w_{\mathrm {del} }(b_{i})\\d_{i,j-1}+w_{\mathrm {ins} }(a_{j})\\d_{i-1,j-1}+w_{\mathrm {sub} }(a_{j},b_{i})\end{cases}}&amp;{\text{for}}\;a_{j}\neq b_{i}\end{cases}}&amp;&amp;\quad {\text{for}}\;1\leq i\leq m,1\leq j\leq n.\end{aligned}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true">
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>d</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>i</mi>
+                    <mn>0</mn>
+                  </mrow>
+                </msub>
+              </mtd>
+              <mtd>
+                <mi></mi>
+                <mo>=</mo>
+                <munderover>
+                  <mo>∑<!-- ∑ --></mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>k</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                  </mrow>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>i</mi>
+                  </mrow>
+                </munderover>
+                <msub>
+                  <mi>w</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="normal">d</mi>
+                      <mi mathvariant="normal">e</mi>
+                      <mi mathvariant="normal">l</mi>
+                    </mrow>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>b</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>k</mi>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd></mtd>
+              <mtd>
+                <mspace width="1em"></mspace>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mtext>for</mtext>
+                </mrow>
+                <mspace width="thickmathspace"></mspace>
+                <mn>1</mn>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>i</mi>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>m</mi>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>d</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mn>0</mn>
+                    <mi>j</mi>
+                  </mrow>
+                </msub>
+              </mtd>
+              <mtd>
+                <mi></mi>
+                <mo>=</mo>
+                <munderover>
+                  <mo>∑<!-- ∑ --></mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>k</mi>
+                    <mo>=</mo>
+                    <mn>1</mn>
+                  </mrow>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>j</mi>
+                  </mrow>
+                </munderover>
+                <msub>
+                  <mi>w</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="normal">i</mi>
+                      <mi mathvariant="normal">n</mi>
+                      <mi mathvariant="normal">s</mi>
+                    </mrow>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>a</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>k</mi>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo>,</mo>
+              </mtd>
+              <mtd></mtd>
+              <mtd>
+                <mspace width="1em"></mspace>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mtext>for</mtext>
+                </mrow>
+                <mspace width="thickmathspace"></mspace>
+                <mn>1</mn>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>j</mi>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>n</mi>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <msub>
+                  <mi>d</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>i</mi>
+                    <mi>j</mi>
+                  </mrow>
+                </msub>
+              </mtd>
+              <mtd>
+                <mi></mi>
+                <mo>=</mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mrow>
+                    <mo>{</mo>
+                    <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+                      <mtr>
+                        <mtd>
+                          <msub>
+                            <mi>d</mi>
+                            <mrow class="MJX-TeXAtom-ORD">
+                              <mi>i</mi>
+                              <mo>−<!-- − --></mo>
+                              <mn>1</mn>
+                              <mo>,</mo>
+                              <mi>j</mi>
+                              <mo>−<!-- − --></mo>
+                              <mn>1</mn>
+                            </mrow>
+                          </msub>
+                        </mtd>
+                        <mtd>
+                          <mrow class="MJX-TeXAtom-ORD">
+                            <mtext>for</mtext>
+                          </mrow>
+                          <mspace width="thickmathspace"></mspace>
+                          <msub>
+                            <mi>a</mi>
+                            <mrow class="MJX-TeXAtom-ORD">
+                              <mi>j</mi>
+                            </mrow>
+                          </msub>
+                          <mo>=</mo>
+                          <msub>
+                            <mi>b</mi>
+                            <mrow class="MJX-TeXAtom-ORD">
+                              <mi>i</mi>
+                            </mrow>
+                          </msub>
+                        </mtd>
+                      </mtr>
+                      <mtr>
+                        <mtd>
+                          <mo movablelimits="true" form="prefix">min</mo>
+                          <mrow class="MJX-TeXAtom-ORD">
+                            <mrow>
+                              <mo>{</mo>
+                              <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+                                <mtr>
+                                  <mtd>
+                                    <msub>
+                                      <mi>d</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>i</mi>
+                                        <mo>−<!-- − --></mo>
+                                        <mn>1</mn>
+                                        <mo>,</mo>
+                                        <mi>j</mi>
+                                      </mrow>
+                                    </msub>
+                                    <mo>+</mo>
+                                    <msub>
+                                      <mi>w</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mrow class="MJX-TeXAtom-ORD">
+                                          <mi mathvariant="normal">d</mi>
+                                          <mi mathvariant="normal">e</mi>
+                                          <mi mathvariant="normal">l</mi>
+                                        </mrow>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">(</mo>
+                                    <msub>
+                                      <mi>b</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>i</mi>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">)</mo>
+                                  </mtd>
+                                </mtr>
+                                <mtr>
+                                  <mtd>
+                                    <msub>
+                                      <mi>d</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>i</mi>
+                                        <mo>,</mo>
+                                        <mi>j</mi>
+                                        <mo>−<!-- − --></mo>
+                                        <mn>1</mn>
+                                      </mrow>
+                                    </msub>
+                                    <mo>+</mo>
+                                    <msub>
+                                      <mi>w</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mrow class="MJX-TeXAtom-ORD">
+                                          <mi mathvariant="normal">i</mi>
+                                          <mi mathvariant="normal">n</mi>
+                                          <mi mathvariant="normal">s</mi>
+                                        </mrow>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">(</mo>
+                                    <msub>
+                                      <mi>a</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>j</mi>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">)</mo>
+                                  </mtd>
+                                </mtr>
+                                <mtr>
+                                  <mtd>
+                                    <msub>
+                                      <mi>d</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>i</mi>
+                                        <mo>−<!-- − --></mo>
+                                        <mn>1</mn>
+                                        <mo>,</mo>
+                                        <mi>j</mi>
+                                        <mo>−<!-- − --></mo>
+                                        <mn>1</mn>
+                                      </mrow>
+                                    </msub>
+                                    <mo>+</mo>
+                                    <msub>
+                                      <mi>w</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mrow class="MJX-TeXAtom-ORD">
+                                          <mi mathvariant="normal">s</mi>
+                                          <mi mathvariant="normal">u</mi>
+                                          <mi mathvariant="normal">b</mi>
+                                        </mrow>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">(</mo>
+                                    <msub>
+                                      <mi>a</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>j</mi>
+                                      </mrow>
+                                    </msub>
+                                    <mo>,</mo>
+                                    <msub>
+                                      <mi>b</mi>
+                                      <mrow class="MJX-TeXAtom-ORD">
+                                        <mi>i</mi>
+                                      </mrow>
+                                    </msub>
+                                    <mo stretchy="false">)</mo>
+                                  </mtd>
+                                </mtr>
+                              </mtable>
+                              <mo fence="true" stretchy="true" symmetric="true"></mo>
+                            </mrow>
+                          </mrow>
+                        </mtd>
+                        <mtd>
+                          <mrow class="MJX-TeXAtom-ORD">
+                            <mtext>for</mtext>
+                          </mrow>
+                          <mspace width="thickmathspace"></mspace>
+                          <msub>
+                            <mi>a</mi>
+                            <mrow class="MJX-TeXAtom-ORD">
+                              <mi>j</mi>
+                            </mrow>
+                          </msub>
+                          <mo>≠<!-- ≠ --></mo>
+                          <msub>
+                            <mi>b</mi>
+                            <mrow class="MJX-TeXAtom-ORD">
+                              <mi>i</mi>
+                            </mrow>
+                          </msub>
+                        </mtd>
+                      </mtr>
+                    </mtable>
+                    <mo fence="true" stretchy="true" symmetric="true"></mo>
+                  </mrow>
+                </mrow>
+              </mtd>
+              <mtd></mtd>
+              <mtd>
+                <mspace width="1em"></mspace>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mtext>for</mtext>
+                </mrow>
+                <mspace width="thickmathspace"></mspace>
+                <mn>1</mn>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>i</mi>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>m</mi>
+                <mo>,</mo>
+                <mn>1</mn>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>j</mi>
+                <mo>≤<!-- ≤ --></mo>
+                <mi>n</mi>
+                <mo>.</mo>
+              </mtd>
+            </mtr>
+          </mtable>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 
+{\begin{aligned}d_{i0}&amp;=\sum _{k=1}^{i}w_{\mathrm {del} 
+}(b_{k}),&amp;&amp;\quad {\text{for}}\;1\leq i\leq m\\d_{0j}&amp;=\sum 
+_{k=1}^{j}w_{\mathrm {ins} }(a_{k}),&amp;&amp;\quad {\text{for}}\;1\leq 
+j\leq 
+n\\d_{ij}&amp;={\begin{cases}d_{i-1,j-1}&amp;{\text{for}}\;a_{j}=b_{i}\\\min
+ {\begin{cases}d_{i-1,j}+w_{\mathrm {del} }(b_{i})\\d_{i,j-1}+w_{\mathrm
+ {ins} }(a_{j})\\d_{i-1,j-1}+w_{\mathrm {sub} 
+}(a_{j},b_{i})\end{cases}}&amp;{\text{for}}\;a_{j}\neq 
+b_{i}\end{cases}}&amp;&amp;\quad {\text{for}}\;1\leq i\leq m,1\leq j\leq
+ n.\end{aligned}}}</annotation>
+  </semantics>
+</math></span><img src="1deeeaebff36dc4bdc79778bcafe0ec17ce63f83.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -13.005ex; width:82.808ex; height:27.176ex;" alt="{\begin{aligned}d_{{i0}}&amp;=\sum _{{k=1}}^{{i}}w_{{\mathrm  {del}}}(b_{{k}}),&amp;&amp;\quad {\text{for}}\;1\leq i\leq m\\d_{{0j}}&amp;=\sum _{{k=1}}^{{j}}w_{{\mathrm  {ins}}}(a_{{k}}),&amp;&amp;\quad {\text{for}}\;1\leq j\leq n\\d_{{ij}}&amp;={\begin{cases}d_{{i-1,j-1}}&amp;{\text{for}}\;a_{{j}}=b_{{i}}\\\min {\begin{cases}d_{{i-1,j}}+w_{{\mathrm  {del}}}(b_{{i}})\\d_{{i,j-1}}+w_{{\mathrm  {ins}}}(a_{{j}})\\d_{{i-1,j-1}}+w_{{\mathrm  {sub}}}(a_{{j}},b_{{i}})\end{cases}}&amp;{\text{for}}\;a_{{j}}\neq b_{{i}}\end{cases}}&amp;&amp;\quad {\text{for}}\;1\leq i\leq m,1\leq j\leq n.\end{aligned}}"></span></dd></dl>
+<p>This algorithm can be generalized to handle transpositions by adding another term in the recursive clause's minimization.<sup id="cite_ref-ukkonen83_3-1" class="reference"><a href="#cite_note-ukkonen83-3">[3]</a></sup>
+</p><p>The straightforward, <a href="https://en.wikipedia.org/wiki/Recursion_%28computer_science%29" title="Recursion (computer science)">recursive</a> way of evaluating this recurrence takes <a href="https://en.wikipedia.org/wiki/Exponential_time" class="mw-redirect" title="Exponential time">exponential time</a>. Therefore, it is usually computed using a <a href="https://en.wikipedia.org/wiki/Dynamic_programming" title="Dynamic programming">dynamic programming</a> algorithm that is commonly credited to <a href="https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm" title="Wagner–Fischer algorithm">Wagner and Fischer</a>,<sup id="cite_ref-7" class="reference"><a href="#cite_note-7">[7]</a></sup> although it has a history of multiple invention.<sup id="cite_ref-slp_2-3" class="reference"><a href="#cite_note-slp-2">[2]</a></sup><sup id="cite_ref-ukkonen83_3-2" class="reference"><a href="#cite_note-ukkonen83-3">[3]</a></sup>
+After completion of the Wagner–Fischer algorithm, a minimal sequence of 
+edit operations can be read off as a backtrace of the operations used 
+during the dynamic programming algorithm starting at <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d_{mn}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>m</mi>
+            <mi>n</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d_{mn}}</annotation>
+  </semantics>
+</math></span><img src="65dc535bfabf91fffb04553387ec98324c286c5f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.87ex; height:2.509ex;" alt="d_{mn}"></span>.
+</p><p>This algorithm has a <a href="https://en.wikipedia.org/wiki/Time_complexity" title="Time complexity">time complexity</a> of Θ(<span class="texhtml mvar" style="font-style:italic;">m</span><span class="texhtml mvar" style="font-style:italic;">n</span>). When the full dynamic programming table is constructed, its <a href="https://en.wikipedia.org/wiki/Space_complexity" class="mw-redirect" title="Space complexity">space complexity</a> is also <span class="nowrap">Θ(<span class="texhtml mvar" style="font-style:italic;">m</span><span class="texhtml mvar" style="font-style:italic;">n</span>)</span>; this can be improved to <span class="nowrap">Θ(min(<span class="texhtml mvar" style="font-style:italic;">m</span>,<span class="texhtml mvar" style="font-style:italic;">n</span>))</span>
+ by observing that at any instant, the algorithm only requires two rows 
+(or two columns) in memory. However, this optimization makes it 
+impossible to read off the minimal series of edit operations.<sup id="cite_ref-ukkonen83_3-3" class="reference"><a href="#cite_note-ukkonen83-3">[3]</a></sup> A linear-space solution to this problem is offered by <a href="https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm" title="Hirschberg's algorithm">Hirschberg's algorithm</a>.<sup id="cite_ref-8" class="reference"><a href="#cite_note-8">[8]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>634</span></sup>
+</p>
+<h3><span class="mw-headline" id="Improved_algorithms">Improved algorithms</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=6" title="Edit section: Improved algorithms">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Improving on the Wagner–Fisher algorithm described above, <a href="https://en.wikipedia.org/wiki/Esko_Ukkonen" title="Esko Ukkonen">Ukkonen</a> describes several variants,<sup id="cite_ref-9" class="reference"><a href="#cite_note-9">[9]</a></sup> one of which takes two strings and a maximum edit distance <span class="texhtml mvar" style="font-style:italic;">s</span>, and returns <span class="nowrap">min(<span class="texhtml mvar" style="font-style:italic;">s</span>, <span class="texhtml mvar" style="font-style:italic;">d</span>)</span>.
+ It achieves this by only computing and storing a part of the dynamic 
+programming table around its diagonal. This algorithm takes time <span class="nowrap">O(<span class="texhtml mvar" style="font-style:italic;">s</span>×min(<span class="texhtml mvar" style="font-style:italic;">m</span>,<span class="texhtml mvar" style="font-style:italic;">n</span>))</span>, where <span class="texhtml mvar" style="font-style:italic;">m</span> and <span class="texhtml mvar" style="font-style:italic;">n</span> are the lengths of the strings. Space complexity is <span class="nowrap">O(<span class="texhtml mvar" style="font-style:italic;">s</span>²)</span> or <span class="nowrap">O(<span class="texhtml mvar" style="font-style:italic;">s</span>)</span>, depending on whether the edit sequence needs to be read off.<sup id="cite_ref-ukkonen83_3-4" class="reference"><a href="#cite_note-ukkonen83-3">[3]</a></sup>
+</p><p>Further improvements by Landau,. Myers, and Schmidt give an <span class="nowrap">O(<span class="texhtml mvar" style="font-style:italic;">s</span>^2+max(<span class="texhtml mvar" style="font-style:italic;">m</span>,<span class="texhtml mvar" style="font-style:italic;">n</span>))</span> time algorithm.
+</p>
+<h2><span class="mw-headline" id="Applications">Applications</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=7" title="Edit section: Applications">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Edit distance finds applications in <a href="https://en.wikipedia.org/wiki/Computational_biology" title="Computational biology">computational biology</a> and natural language processing, e.g. the correction of spelling mistakes or OCR errors, and <a href="https://en.wikipedia.org/wiki/Approximate_string_matching" title="Approximate string matching">approximate string matching</a>,
+ where the objective is to find matches for short strings in many longer
+ texts, in situations where a small number of differences is to be 
+expected.
+</p><p>Various algorithms exist that solve problems beside the 
+computation of distance between a pair of strings, to solve related 
+types of problems.
+</p>
+<ul><li><a href="https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm" title="Hirschberg's algorithm">Hirschberg's algorithm</a> computes the optimal <a href="https://en.wikipedia.org/wiki/Sequence_alignment" title="Sequence alignment">alignment</a> of two strings, where optimality is defined as minimizing edit distance.</li>
+<li><a href="https://en.wikipedia.org/wiki/Approximate_string_matching" title="Approximate string matching">Approximate string matching</a> can be formulated in terms of edit distance. Ukkonen's 1985 algorithm takes a string <span class="texhtml mvar" style="font-style:italic;">p</span>, called the pattern, and a constant <span class="texhtml mvar" style="font-style:italic;">k</span>; it then builds a <a href="https://en.wikipedia.org/wiki/Deterministic_finite_state_automaton" class="mw-redirect" title="Deterministic finite state automaton">deterministic finite state automaton</a> that finds, in an arbitrary string <span class="texhtml mvar" style="font-style:italic;">s</span>, a substring whose edit distance to <span class="texhtml mvar" style="font-style:italic;">p</span> is at most <span class="texhtml mvar" style="font-style:italic;">k</span><sup id="cite_ref-10" class="reference"><a href="#cite_note-10">[10]</a></sup> (cf. the <a href="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_string_matching_algorithm" class="mw-redirect" title="Aho–Corasick string matching algorithm">Aho–Corasick algorithm</a>,
+ which similarly constructs an automaton to search for any of a number 
+of patterns, but without allowing edit operations). A similar algorithm 
+for approximate string matching is the <a href="https://en.wikipedia.org/wiki/Bitap_algorithm" title="Bitap algorithm">bitap algorithm</a>, also defined in terms of edit distance.</li>
+<li><a href="https://en.wikipedia.org/wiki/Levenshtein_automaton" title="Levenshtein automaton">Levenshtein automata</a> are finite-state machines that recognize a set of strings within bounded edit distance of a fixed reference string.<sup id="cite_ref-ssm_4-3" class="reference"><a href="#cite_note-ssm-4">[4]</a></sup></li></ul>
+<h2><span class="mw-headline" id="Language_edit_distance">Language edit distance</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=8" title="Edit section: Language edit distance">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>A generalization of the edit distance between strings is the language edit distance between a string and a language, usually a <a href="https://en.wikipedia.org/wiki/Formal_language" title="Formal language">formal language</a>.
+ Instead of considering the edit distance between one string and 
+another, the language edit distance is the minimum edit distance that 
+can be attained between a fixed string and <i>any</i> string taken from a set of strings. More formally, for any language <i>L</i> and string <i>x</i> over an alphabet <span class="texhtml">Σ</span>, the <i>language edit distance</i> d(<i>L</i>, <i>x</i>) is given by<sup id="cite_ref-:0_11-0" class="reference"><a href="#cite_note-:0-11">[11]</a></sup><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d(L,x)=\min _{y\in L}d(x,y)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>d</mi>
+        <mo stretchy="false">(</mo>
+        <mi>L</mi>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <munder>
+          <mo movablelimits="true" form="prefix">min</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>y</mi>
+            <mo>∈<!-- ∈ --></mo>
+            <mi>L</mi>
+          </mrow>
+        </munder>
+        <mi>d</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo>,</mo>
+        <mi>y</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d(L,x)=\min _{y\in L}d(x,y)}</annotation>
+  </semantics>
+</math></span><img src="d5563abfbb022d4904e52c0c0762cb461b1e039b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.338ex; width:20.877ex; height:4.343ex;" alt="{\displaystyle d(L,x)=\min _{y\in L}d(x,y)}"></span>, where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d(x,y)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>d</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo>,</mo>
+        <mi>y</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d(x,y)}</annotation>
+  </semantics>
+</math></span><img src="3772957879a8bbf7946bddf5743c508a1d5072c0.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.544ex; height:2.843ex;" alt="d(x,y)"></span> is the string edit distance. When the language <i>L</i> is <a href="https://en.wikipedia.org/wiki/Context-free_language" title="Context-free language">context free</a>,
+ there is a cubic time dynamic programming algorithm proposed by Aho and
+ Peterson in 1972 which computes the language edit distance.<sup id="cite_ref-12" class="reference"><a href="#cite_note-12">[12]</a></sup> For less expressive families of grammars, such as the <a href="https://en.wikipedia.org/wiki/Regular_grammar" title="Regular grammar">regular grammars</a>, faster algorithms exist for computing the edit distance.<sup id="cite_ref-13" class="reference"><a href="#cite_note-13">[13]</a></sup>
+</p><p>Language edit distance has found many diverse applications, such 
+as RNA folding, error correction, and solutions to the Optimum Stack 
+Generation problem.<sup id="cite_ref-:0_11-1" class="reference"><a href="#cite_note-:0-11">[11]</a></sup><sup id="cite_ref-14" class="reference"><a href="#cite_note-14">[14]</a></sup>
+</p>
+<h2><span class="mw-headline" id="See_also">See also</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=9" title="Edit section: See also">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul><li><a href="https://en.wikipedia.org/wiki/Graph_edit_distance" title="Graph edit distance">Graph edit distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/String-to-string_correction_problem" title="String-to-string correction problem">String-to-string correction problem</a></li></ul>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit&amp;section=10" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="reflist columns references-column-width" style="-moz-column-width: 30em; -webkit-column-width: 30em; column-width: 30em; list-style-type: decimal;">
+<ol class="references">
+<li id="cite_note-navarro-1"><span class="mw-cite-backlink">^ <a href="#cite_ref-navarro_1-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-navarro_1-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-navarro_1-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-navarro_1-3"><sup><i><b>d</b></i></sup></a> <a href="#cite_ref-navarro_1-4"><sup><i><b>e</b></i></sup></a> <a href="#cite_ref-navarro_1-5"><sup><i><b>f</b></i></sup></a> <a href="#cite_ref-navarro_1-6"><sup><i><b>g</b></i></sup></a></span> <span class="reference-text"><cite class="citation journal">Navarro, Gonzalo (1 March 2001). <a rel="nofollow" class="external text" href="http://users.csc.calpoly.edu/%7Edekhtyar/570-Fall2011/papers/navarro-approximate.pdf">"A guided tour to approximate string matching"</a> <span style="font-size:85%;">(PDF)</span>. <i>ACM Computing Surveys</i>. <b>33</b> (1): 31–88. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1145/375360.375365">10.1145/375360.375365</a><span class="reference-accessdate">. Retrieved <span class="nowrap">19 March</span> 2015</span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=ACM+Computing+Surveys&amp;rft.atitle=A+guided+tour+to+approximate+string+matching&amp;rft.volume=33&amp;rft.issue=1&amp;rft.pages=31-88&amp;rft.date=2001-03-01&amp;rft_id=info%3Adoi%2F10.1145%2F375360.375365&amp;rft.aulast=Navarro&amp;rft.aufirst=Gonzalo&amp;rft_id=http%3A%2F%2Fusers.csc.calpoly.edu%2F~dekhtyar%2F570-Fall2011%2Fpapers%2Fnavarro-approximate.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-slp-2"><span class="mw-cite-backlink">^ <a href="#cite_ref-slp_2-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-slp_2-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-slp_2-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-slp_2-3"><sup><i><b>d</b></i></sup></a></span> <span class="reference-text"><cite class="citation book">Daniel Jurafsky; James H. Martin. <i>Speech and Language Processing</i>. Pearson Education International. pp.&nbsp;107–111.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Speech+and+Language+Processing&amp;rft.pages=107-111&amp;rft.pub=Pearson+Education+International&amp;rft.au=Daniel+Jurafsky&amp;rft.au=James+H.+Martin&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-ukkonen83-3"><span class="mw-cite-backlink">^ <a href="#cite_ref-ukkonen83_3-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-ukkonen83_3-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-ukkonen83_3-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-ukkonen83_3-3"><sup><i><b>d</b></i></sup></a> <a href="#cite_ref-ukkonen83_3-4"><sup><i><b>e</b></i></sup></a></span> <span class="reference-text"><cite class="citation conference">Esko Ukkonen (1983). <i>On approximate string matching</i>. Foundations of Computation Theory. Springer. pp.&nbsp;487–495.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=On+approximate+string+matching&amp;rft.pages=487-495&amp;rft.pub=Springer&amp;rft.date=1983&amp;rft.au=Esko+Ukkonen&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-ssm-4"><span class="mw-cite-backlink">^ <a href="#cite_ref-ssm_4-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-ssm_4-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-ssm_4-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-ssm_4-3"><sup><i><b>d</b></i></sup></a></span> <span class="reference-text"><cite class="citation journal">Schulz, Klaus U.; Mihov, Stoyan (2002). "Fast string correction with Levenshtein automata". <i>International Journal of Document Analysis and Recognition</i>. <b>5</b> (1): 67–85. <a href="https://en.wikipedia.org/wiki/CiteSeerX" title="CiteSeerX">CiteSeerX</a>&nbsp;<span class="plainlinks"><a rel="nofollow" class="external text" href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.16.652">10.1.1.16.652</a> <img alt="Freely accessible" src="9px-Lock-green.png" title="Freely accessible" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" width="9" height="14"></span>. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1007/s10032-002-0082-8">10.1007/s10032-002-0082-8</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=International+Journal+of+Document+Analysis+and+Recognition&amp;rft.atitle=Fast+string+correction+with+Levenshtein+automata&amp;rft.volume=5&amp;rft.issue=1&amp;rft.pages=67-85&amp;rft.date=2002&amp;rft_id=%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fsummary%3Fdoi%3D10.1.1.16.652&amp;rft_id=info%3Adoi%2F10.1007%2Fs10032-002-0082-8&amp;rft.aulast=Schulz&amp;rft.aufirst=Klaus+U.&amp;rft.au=Mihov%2C+Stoyan&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-5"><span class="mw-cite-backlink"><b><a href="#cite_ref-5">^</a></b></span> <span class="reference-text"><cite class="citation conference">Lei Chen; Raymond Ng (2004). <a rel="nofollow" class="external text" href="http://www.cs.ust.hk/%7Eleichen/pub/04/vldb04.pdf"><i>On the marriage of Lₚ-norms and edit distance</i></a> <span style="font-size:85%;">(PDF)</span>. Proc. 30th Int'l Conf. on Very Large Databases (VLDB). <b>30</b>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=On+the+marriage+of+L%E2%82%9A-norms+and+edit+distance&amp;rft.date=2004&amp;rft.au=Lei+Chen&amp;rft.au=Raymond+Ng&amp;rft_id=http%3A%2F%2Fwww.cs.ust.hk%2F~leichen%2Fpub%2F04%2Fvldb04.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-6"><span class="mw-cite-backlink"><b><a href="#cite_ref-6">^</a></b></span> <span class="reference-text"><cite class="citation journal">Kukich, Karen (1992). <a rel="nofollow" class="external text" href="http://dc-pubs.dbs.uni-leipzig.de/files/Kukich1992Techniqueforautomatically.pdf">"Techniques for Automatically Correcting Words in Text"</a> <span style="font-size:85%;">(PDF)</span>. <i>ACM Computing Surveys</i>. <b>24</b> (4): 377–439. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1145/146370.146380">10.1145/146370.146380</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=ACM+Computing+Surveys&amp;rft.atitle=Techniques+for+Automatically+Correcting+Words+in+Text&amp;rft.volume=24&amp;rft.issue=4&amp;rft.pages=377-439&amp;rft.date=1992&amp;rft_id=info%3Adoi%2F10.1145%2F146370.146380&amp;rft.aulast=Kukich&amp;rft.aufirst=Karen&amp;rft_id=http%3A%2F%2Fdc-pubs.dbs.uni-leipzig.de%2Ffiles%2FKukich1992Techniqueforautomatically.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-7"><span class="mw-cite-backlink"><b><a href="#cite_ref-7">^</a></b></span> <span class="reference-text"><cite class="citation journal">R. Wagner; M. Fischer (1974). "The string-to-string correction problem". <i>J. ACM</i>. <b>21</b>: 168–178. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1145/321796.321811">10.1145/321796.321811</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=J.+ACM&amp;rft.atitle=The+string-to-string+correction+problem&amp;rft.volume=21&amp;rft.pages=168-178&amp;rft.date=1974&amp;rft_id=info%3Adoi%2F10.1145%2F321796.321811&amp;rft.au=R.+Wagner&amp;rft.au=M.+Fischer&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-8"><span class="mw-cite-backlink"><b><a href="#cite_ref-8">^</a></b></span> <span class="reference-text"><cite class="citation book"><a href="https://en.wikipedia.org/wiki/Steven_Skiena" title="Steven Skiena">Skiena, Steven</a> (2010). <i>The Algorithm Design Manual</i> (2nd ed.). <a href="https://en.wikipedia.org/wiki/Springer_Science%2BBusiness_Media" title="Springer Science+Business Media">Springer Science+Business Media</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/1-849-96720-2" title="Special:BookSources/1-849-96720-2">1-849-96720-2</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=The+Algorithm+Design+Manual&amp;rft.edition=2nd&amp;rft.pub=Springer+Science%2BBusiness+Media&amp;rft.date=2010&amp;rft.isbn=1-849-96720-2&amp;rft.aulast=Skiena&amp;rft.aufirst=Steven&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-9"><span class="mw-cite-backlink"><b><a href="#cite_ref-9">^</a></b></span> <span class="reference-text"><cite class="citation journal"><a rel="nofollow" class="external text" href="http://www.cs.helsinki.fi/u/ukkonen/InfCont85.PDF">"Algorithms for approximate string matching"</a> <span style="font-size:85%;">(PDF)</span>. <i>Information and Control</i>. <b>64</b> (1–3): 100–118. 1985. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1016/S0019-9958%2885%2980046-2">10.1016/S0019-9958(85)80046-2</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Information+and+Control&amp;rft.atitle=Algorithms+for+approximate+string+matching&amp;rft.volume=64&amp;rft.issue=1%E2%80%933&amp;rft.pages=100-118&amp;rft.date=1985&amp;rft_id=info%3Adoi%2F10.1016%2FS0019-9958%2885%2980046-2&amp;rft_id=http%3A%2F%2Fwww.cs.helsinki.fi%2Fu%2Fukkonen%2FInfCont85.PDF&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-10"><span class="mw-cite-backlink"><b><a href="#cite_ref-10">^</a></b></span> <span class="reference-text"><cite class="citation journal">Esko Ukkonen (1985). "Finding approximate patterns in strings". <i>J. Algorithms</i>. <b>6</b>: 132–137. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1016/0196-6774%2885%2990023-9">10.1016/0196-6774(85)90023-9</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=J.+Algorithms&amp;rft.atitle=Finding+approximate+patterns+in+strings&amp;rft.volume=6&amp;rft.pages=132-137&amp;rft.date=1985&amp;rft_id=info%3Adoi%2F10.1016%2F0196-6774%2885%2990023-9&amp;rft.au=Esko+Ukkonen&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-:0-11"><span class="mw-cite-backlink">^ <a href="#cite_ref-:0_11-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-:0_11-1"><sup><i><b>b</b></i></sup></a></span> <span class="reference-text"><a rel="nofollow" class="external autonumber" href="http://theory.stanford.edu/%7Evirgi/RNAfold.pdf">[1]</a> Bringmann, Karl and Grandoni, Fabrizio and Saha, Barna and <a href="https://en.wikipedia.org/wiki/Virginia_Vassilevska_Williams" title="Virginia Vassilevska Williams">Williams, Virginia Vassilevska</a> (2016). <i>Truly Sub-cubic Algorithms for Language Edit Distance and RNA Folding via Fast Bounded-Difference Min-Plus Product.</i> FOCS </span>
+</li>
+<li id="cite_note-12"><span class="mw-cite-backlink"><b><a href="#cite_ref-12">^</a></b></span> <span class="reference-text"><cite class="citation journal">Aho, A.; Peterson, T. (1972-12-01). <a rel="nofollow" class="external text" href="http://epubs.siam.org/doi/abs/10.1137/0201022">"A Minimum Distance Error-Correcting Parser for Context-Free Languages"</a>. <i>SIAM Journal on Computing</i>. <b>1</b> (4): 305–312. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1137/0201022">10.1137/0201022</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/0097-5397">0097-5397</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=SIAM+Journal+on+Computing&amp;rft.atitle=A+Minimum+Distance+Error-Correcting+Parser+for+Context-Free+Languages&amp;rft.volume=1&amp;rft.issue=4&amp;rft.pages=305-312&amp;rft.date=1972-12-01&amp;rft_id=info%3Adoi%2F10.1137%2F0201022&amp;rft.issn=0097-5397&amp;rft.aulast=Aho&amp;rft.aufirst=A.&amp;rft.au=Peterson%2C+T.&amp;rft_id=http%3A%2F%2Fepubs.siam.org%2Fdoi%2Fabs%2F10.1137%2F0201022&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-13"><span class="mw-cite-backlink"><b><a href="#cite_ref-13">^</a></b></span> <span class="reference-text">Robert A. Wagner. 1974. Order-n correction for regular languages. Commun. ACM 17, 5 (May 1974), 265-268. DOI=<a rel="nofollow" class="external free" href="https://dx.doi.org/10.1145/360980.360995">https://dx.doi.org/10.1145/360980.360995</a></span>
+</li>
+<li id="cite_note-14"><span class="mw-cite-backlink"><b><a href="#cite_ref-14">^</a></b></span> <span class="reference-text"><cite class="citation journal">Saha, B. (2014-10-01). <a rel="nofollow" class="external text" href="http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6979046">"The Dyck Language Edit Distance Problem in Near-Linear Time"</a>. <i>2014 IEEE 55th Annual Symposium on Foundations of Computer Science</i>: 611–620. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/FOCS.2014.71">10.1109/FOCS.2014.71</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=2014+IEEE+55th+Annual+Symposium+on+Foundations+of+Computer+Science&amp;rft.atitle=The+Dyck+Language+Edit+Distance+Problem+in+Near-Linear+Time&amp;rft.pages=611-620&amp;rft.date=2014-10-01&amp;rft_id=info%3Adoi%2F10.1109%2FFOCS.2014.71&amp;rft.aulast=Saha&amp;rft.aufirst=B.&amp;rft_id=http%3A%2F%2Fieeexplore.ieee.org%2Flpdocs%2Fepic03%2Fwrapper.htm%3Farnumber%3D6979046&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AEdit+distance" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+</ol></div>
+<div role="navigation" class="navbox" aria-labelledby="Strings" style="padding:3px"><table class="nowraplinks collapsible autocollapse navbox-inner mw-collapsible" style="border-spacing:0;background:transparent;color:inherit"><tbody><tr><th scope="col" class="navbox-title" colspan="2"><div class="plainlinks hlist navbar mini"><ul><li class="nv-view"><a href="https://en.wikipedia.org/wiki/Template:Strings" title="Template:Strings"><abbr title="View this template" style=";;background:none transparent;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none; padding:0;">v</abbr></a></li><li class="nv-talk"><a href="https://en.wikipedia.org/wiki/Template_talk:Strings" title="Template talk:Strings"><abbr title="Discuss this template" style=";;background:none transparent;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none; padding:0;">t</abbr></a></li><li class="nv-edit"><a class="external text" href="https://en.wikipedia.org/w/index.php?title=Template:Strings&amp;action=edit"><abbr title="Edit this template" style=";;background:none transparent;border:none;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none; padding:0;">e</abbr></a></li></ul></div><div id="Strings" style="font-size:114%;margin:0 4em"><a href="https://en.wikipedia.org/wiki/String_%28computer_science%29" title="String (computer science)">Strings</a></div></th></tr><tr><th scope="row" class="navbox-group" style="width:1%"><a href="https://en.wikipedia.org/wiki/String_metric" title="String metric">String metric</a></th><td class="navbox-list navbox-odd hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Approximate_string_matching" title="Approximate string matching">Approximate string matching</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bitap_algorithm" title="Bitap algorithm">Bitap algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance" title="Damerau–Levenshtein distance">Damerau–Levenshtein distance</a></li>
+<li><a class="mw-selflink selflink">Edit distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hamming_distance" title="Hamming distance">Hamming distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance" title="Jaro–Winkler distance">Jaro–Winkler distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Lee_distance" title="Lee distance">Lee distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Levenshtein_automaton" title="Levenshtein automaton">Levenshtein automaton</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Levenshtein_distance" title="Levenshtein distance">Levenshtein distance</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm" title="Wagner–Fischer algorithm">Wagner–Fischer algorithm </a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%"><a href="https://en.wikipedia.org/wiki/String-searching_algorithm" title="String-searching algorithm">String-searching algorithm</a></th><td class="navbox-list navbox-even hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Apostolico%E2%80%93Giancarlo_algorithm" title="Apostolico–Giancarlo algorithm">Apostolico–Giancarlo algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string-search_algorithm" title="Boyer–Moore string-search algorithm">Boyer–Moore string-search algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm" title="Boyer–Moore–Horspool algorithm">Boyer–Moore–Horspool algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm" title="Knuth–Morris–Pratt algorithm">Knuth–Morris–Pratt algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm" title="Rabin–Karp algorithm">Rabin–Karp string search algorithm</a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%">Multiple string searching</th><td class="navbox-list navbox-odd hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm" title="Aho–Corasick algorithm">Aho–Corasick</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Commentz-Walter_algorithm" title="Commentz-Walter algorithm">Commentz-Walter algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm" title="Rabin–Karp algorithm">Rabin–Karp</a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%"><a href="https://en.wikipedia.org/wiki/Regular_expression" title="Regular expression">Regular expression</a></th><td class="navbox-list navbox-even hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines" title="Comparison of regular expression engines">Comparison of regular expression engines</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Regular_tree_grammar" title="Regular tree grammar">Regular tree grammar</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Thompson%27s_construction" title="Thompson's construction">Thompson's construction</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton" title="Nondeterministic finite automaton">Nondeterministic finite automaton</a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%"><a href="https://en.wikipedia.org/wiki/Sequence_alignment" title="Sequence alignment">Sequence alignment</a></th><td class="navbox-list navbox-odd hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm" title="Hirschberg's algorithm">Hirschberg's algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm" title="Needleman–Wunsch algorithm">Needleman–Wunsch algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm" title="Smith–Waterman algorithm">Smith–Waterman algorithm</a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%"><a href="https://en.wikipedia.org/wiki/Category:String_data_structures" title="Category:String data structures">Data structures</a></th><td class="navbox-list navbox-even hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Deterministic_acyclic_finite_state_automaton" title="Deterministic acyclic finite state automaton">DAFSA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Suffix_array" title="Suffix array">Suffix array</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Suffix_automaton" title="Suffix automaton">Suffix automaton</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Suffix_tree" title="Suffix tree">Suffix tree</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Generalized_suffix_tree" title="Generalized suffix tree">Generalized suffix tree</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Rope_%28data_structure%29" title="Rope (data structure)">Rope</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ternary_search_tree" title="Ternary search tree">Ternary search tree</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Trie" title="Trie">Trie</a></li></ul>
+</div></td></tr><tr><th scope="row" class="navbox-group" style="width:1%">Other</th><td class="navbox-list navbox-odd hlist" style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px"><div style="padding:0em 0.25em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Parsing" title="Parsing">Parsing</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Pattern_matching" title="Pattern matching">Pattern matching</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Compressed_pattern_matching" title="Compressed pattern matching">Compressed pattern matching</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Longest_common_subsequence" class="mw-redirect" title="Longest common subsequence">Longest common subsequence</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Longest_common_substring" class="mw-redirect" title="Longest common substring">Longest common substring</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sequential_pattern_mining" title="Sequential pattern mining">Sequential pattern mining</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Category:String_sorting_algorithms" title="Category:String sorting algorithms">Sorting</a></li></ul>
+</div></td></tr></tbody></table></div>
+
+<!-- 
+NewPP limit report
+Parsed by mw1324
+Cached time: 20180727132514
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.248 seconds
+Real time usage: 0.319 seconds
+Preprocessor visited node count: 1707/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 42385/2097152 bytes
+Template argument size: 1280/2097152 bytes
+Highest expansion depth: 7/40
+Expensive parser function count: 0/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 17977/5000000 bytes
+Number of Wikibase entities loaded: 0/400
+Lua time usage: 0.078/10.000 seconds
+Lua memory usage: 3.16 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  194.442      1 -total
+ 62.98%  122.452      1 Template:Reflist
+ 37.15%   72.237      8 Template:Cite_journal
+ 11.71%   22.769      1 Template:Main
+  5.58%   10.853      1 Template:Strings
+  5.26%   10.228      2 Template:Cite_conference
+  4.77%    9.279      2 Template:Cite_book
+  4.58%    8.901      1 Template:Navbox
+  3.08%    5.980    107 Template:Mvar
+  1.96%    3.812      4 Template:Rp
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:406427-0!canonical!math=5 and timestamp 20180727132513 and revision id 851971181
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;oldid=851971181">https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;oldid=851971181</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikipedia.org/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="https://en.wikipedia.org/wiki/Category:String_similarity_measures" title="Category:String similarity measures">String similarity measures</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Similarity_and_distance_measures" title="Category:Similarity and distance measures">Similarity and distance measures</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikipedia.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="https://en.wikipedia.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikipedia.org/w/index.php?title=Special:CreateAccount&amp;returnto=Edit+distance&amp;returntoquery=oldid%3D851971181" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Edit+distance&amp;returntoquery=oldid%3D851971181" title="You're encouraged to log in; however, it's not mandatory. [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikipedia.org/wiki/Edit_distance" title="View the content page [Alt+Shift+c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="https://en.wikipedia.org/wiki/Talk:Edit_distance" rel="discussion" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input class="vectorMenuCheckbox" aria-labelledby="p-variants-label" type="checkbox">
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="https://en.wikipedia.org/wiki/Edit_distance">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<input class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" type="checkbox">
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input name="search" placeholder="Search Wikipedia" title="Search Wikipedia [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" type="search"><input value="Special:Search" name="title" type="hidden"><input name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="https://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="https://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="https://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="https://en.wikipedia.org/wiki/Special:Random" title="Load a random article [Alt+Shift+x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="https://shop.wikimedia.org/" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="https://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="https://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="https://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="https://en.wikipedia.org/wiki/Special:WhatLinksHere/Edit_distance" title="List of all English Wikipedia pages containing links to this page [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Edit_distance" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;oldid=851971181" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q5338467" title="Link to connected data repository item [Alt+Shift+g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="https://en.wikipedia.org/w/index.php?title=Special:CiteThisPage&amp;page=Edit_distance&amp;id=851971181" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="https://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Edit+distance">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikipedia.org/w/index.php?title=Special:ElectronPdf&amp;page=Edit+distance&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="https://en.wikipedia.org/w/index.php?title=Edit_distance&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+					<li class="interlanguage-link interwiki-fr"><a href="https://fr.wikipedia.org/wiki/Distance_d%27%C3%A9dition_sur_les_arbres" title="Distance d'édition sur les arbres – French" hreflang="fr" class="interlanguage-link-target" lang="fr">Français</a></li><li class="interlanguage-link interwiki-zh"><a href="https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%BC%AF%E8%B7%9D%E9%9B%A2" title="編輯距離 – Chinese" hreflang="zh" class="interlanguage-link-target" lang="zh">中文</a></li>				</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q5338467#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 25 July 2018, at 19:36<span class="anonymous-show">&nbsp;(UTC)</span>.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="https://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="https://en.m.wikipedia.org/w/index.php?title=Edit_distance&amp;oldid=851971181&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://foundation.wikimedia.org/"><img src="wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="https://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.248","walltime":"0.319","ppvisitednodes":{"value":1707,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":42385,"limit":2097152},"templateargumentsize":{"value":1280,"limit":2097152},"expansiondepth":{"value":7,"limit":40},"expensivefunctioncount":{"value":0,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":17977,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%  194.442      1 -total"," 62.98%  122.452      1 Template:Reflist"," 37.15%   72.237      8 Template:Cite_journal"," 11.71%   22.769      1 Template:Main","  5.58%   10.853      1 Template:Strings","  5.26%   10.228      2 Template:Cite_conference","  4.77%    9.279      2 Template:Cite_book","  4.58%    8.901      1 Template:Navbox","  3.08%    5.980    107 Template:Mvar","  1.96%    3.812      4 Template:Rp"]},"scribunto":{"limitreport-timeusage":{"value":"0.078","limit":"10.000"},"limitreport-memusage":{"value":3313074,"limit":52428800}},"cachereport":{"origin":"mw1324","timestamp":"20180727132514","ttl":1900800,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":111,"wgHostname":"mw1245"});});</script>
+	
+
+</body></html>
