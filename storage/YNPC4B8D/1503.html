@@ -1,0 +1,262 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>[1503.03832] FaceNet: A Unified Embedding for Face Recognition and Clustering</title>
+<link rel="shortcut icon" href="https://arxiv.org/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" media="screen" href="arXiv.css">
+<meta name="citation_title" content="FaceNet: A Unified Embedding for Face Recognition and Clustering">
+<meta name="citation_author" content="Schroff, Florian">
+<meta name="citation_author" content="Kalenichenko, Dmitry">
+<meta name="citation_author" content="Philbin, James">
+<meta name="citation_doi" content="10.1109/CVPR.2015.7298682">
+<meta name="citation_date" content="2015/03/12">
+<meta name="citation_online_date" content="2015/06/17">
+<meta name="citation_pdf_url" content="http://arxiv.org/pdf/1503.03832">
+<meta name="citation_arxiv_id" content="1503.03832">
+<script type="text/javascript" async="" defer="defer" src="piwik.js"></script><script src="mathjaxToggle.js" type="text/javascript"></script>
+
+<!-- Piwik -->
+<script type="text/javascript">
+var _paq = _paq || [];
+_paq.push(["setDomains", ["*.arxiv.org"]]);
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function()
+{ var u="//webanalytics.library.cornell.edu/"; _paq.push(['setTrackerUrl', u+'piwik.php']); _paq.push(['setSiteId', 538]); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s); }
+)();
+</script>
+<!-- End Piwik Code -->
+
+
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  messageStyle: 'none',
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [['$','$']],
+    processEscapes: true,
+    ignoreClass: '.*',
+    processClass: 'mathjax.*',
+  },
+  TeX: {
+    extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js'],
+    noErrors: {
+      inlineDelimiters: ['$','$'],
+      multiLine: false,
+      style: {
+        'font-size': 'normal',
+        'border': ''
+      }
+    }
+  }
+});</script><script type="text/javascript" src="MathJax.js"></script><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/jax/input/TeX/config.js?V=2.7.3"></script><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/jax/output/HTML-CSS/config.js?V=2.7.3"></script><script type="text/javascript" src="https://static.arxiv.org/MathJax-2.7.3/extensions/tex2jax.js?V=2.7.3"></script></head>
+<body class="with-cu-identity"><div id="MathJax_Message" style="display: none;"></div>
+
+<noscript><img src="//webanalytics.library.cornell.edu/piwik.php?idsite=538&rec=1" style="border:0;" alt="" /></noscript>
+
+<div id="cu-identity">
+<div id="cu-logo">
+<a id="insignia-link" href="http://www.cornell.edu/"><img src="cul_signature_unstyled.gif" alt="Cornell University" width="283" border="0" height="76"></a>
+<div id="unit-signature-links">
+<a id="cornell-link" href="http://www.cornell.edu/">Cornell University</a>
+<a id="unit-link" href="http://www.library.cornell.edu/">Library</a>
+</div>
+</div>
+<div id="support-ack">
+<a href="https://confluence.cornell.edu/x/ALlRF">We gratefully acknowledge support from<br>the Simons Foundation<br> and member institutions</a>
+</div>
+</div>
+<div id="header">
+<h1><a href="https://arxiv.org/">arXiv.org</a> &gt; <a href="https://arxiv.org/list/cs/recent">cs</a> &gt; arXiv:1503.03832</h1>
+<div id="search">
+<form id="search-arxiv" method="GET" action="/search">
+                
+<div class="wrapper-search-arxiv">
+<input class="keyword-field" name="query" placeholder="Search or Article ID" type="text">
+
+<div class="filter-field">
+<select name="searchtype">
+<option value="all" selected="selected">All fields</option>
+<option value="title">Title</option>
+<option value="author">Author(s)</option>
+<option value="abstract">Abstract</option>
+<option value="comments">Comments</option>
+<option value="journal_ref">Journal reference</option>
+<option value="acm_class">ACM classification</option>
+<option value="msc_class">MSC classification</option>
+<option value="report_num">Report number</option>
+<option value="paper_id">arXiv identifier</option>
+<option value="doi">DOI</option>
+<option value="orcid">ORCID</option>
+<option value="author_id">arXiv author ID</option>
+<option value="help">Help pages</option>
+<option value="full_text">Full text</option></select>
+</div>
+<input class="btn-search-arxiv" value="" type="submit">
+<div class="links">(<a href="https://arxiv.org/help">Help</a> | <a href="https://arxiv.org/search/advanced">Advanced search</a>)</div>
+</div>
+<input name="source" value="header" type="hidden">
+</form>
+</div>
+</div>
+<div id="content">
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+    <rdf:Description
+        rdf:about="http://arxiv.org/abs/1503.03832"
+        dc:identifier="http://arxiv.org/abs/1503.03832"
+        dc:title="FaceNet: A Unified Embedding for Face Recognition and Clustering"
+        trackback:ping="http://arxiv.org/trackback/1503.03832" />
+    </rdf:RDF>
+-->
+
+<div id="abs">
+<div class="extra-services">
+
+<div class="full-text">
+<span class="descriptor">Full-text links:</span>
+<h2>Download:</h2>
+<ul>
+<li><a href="https://arxiv.org/pdf/1503.03832" accesskey="f">PDF</a></li>
+<li><a href="https://arxiv.org/format/1503.03832">Other formats</a></li>
+</ul>
+<div class="abs-license">(<a href="http://arxiv.org/licenses/nonexclusive-distrib/1.0/" title="Rights to this article">license</a>)</div>
+</div><!--end full-text-->
+
+<div class="browse">
+<h3>Current browse context:</h3>
+<div class="current">cs.CV</div>
+<div class="prevnext"><span class="arrow"><a href="http://arxiv.org/prevnext?site=arxiv.org&amp;id=1503.03832&amp;context=cs.CV&amp;function=prev" accesskey="p" title="previous in cs.CV (accesskey p)">&lt;&nbsp;prev</a></span>&nbsp;|&nbsp;<span class="arrow"><a href="http://arxiv.org/prevnext?site=arxiv.org&amp;id=1503.03832&amp;context=cs.CV&amp;function=next" accesskey="n" title="next in cs.CV (accesskey n)">next&nbsp;&gt;</a></span>
+<br></div>
+<div class="list"><a href="https://arxiv.org/list/cs.CV/new">new</a>&nbsp;| <a href="https://arxiv.org/list/cs.CV/recent">recent</a>&nbsp;| <a href="https://arxiv.org/list/cs.CV/1503">1503</a></div><h3>Change to browse by:</h3><div class="switch">
+<a href="https://arxiv.org/abs/1503.03832?context=cs">cs</a>
+</div>
+
+</div>
+<div class="extra-ref-cite">
+<h3>References &amp; Citations</h3><ul><li><a href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1503.03832">NASA ADS</a></li>
+</ul>
+
+</div>
+<div class="dblp">
+<h3><a href="http://www.informatik.uni-trier.de/%7Eley/db/">DBLP</a> - CS Bibliography</h3><div class="list">
+<a href="http://www.informatik.uni-trier.de/%7Eley/db/journals/corr/corr1503.html#SchroffKP15" title="listing on DBLP">listing</a> | <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/SchroffKP15" title="DBLP bibtex record">bibtex</a>
+</div>
+<div class="list">
+<a href="http://dblp.uni-trier.de/search/author?author=Florian%20Schroff" title="DBLP author search">Florian Schroff</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=Dmitry%20Kalenichenko" title="DBLP author search">Dmitry Kalenichenko</a><br>
+<a href="http://dblp.uni-trier.de/search/author?author=James%20Philbin" title="DBLP author search">James Philbin</a><br>
+</div>
+
+</div>
+<div class="bookmarks">
+<div class="what-is-this">
+<h3>Bookmark</h3> (<a href="https://arxiv.org/help/social_bookmarking">what is this?</a>)
+</div>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fwww.citeulike.org%2Fposturl%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832%26title%3DFaceNet%253A%2520A%2520Unified%2520Embedding%2520for%2520Face%2520Recognition%2520and%2520Clustering%26authors%3D&amp;v=2fc1ad1e" title="Bookmark on CiteULike"><img src="citeulike.png" alt="CiteULike logo"></a>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fwww.bibsonomy.org%2FBibtexHandler%3FrequTask%3Dupload%26url%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832%26description%3DFaceNet%253A%2520A%2520Unified%2520Embedding%2520for%2520Face%2520Recognition%2520and%2520Clustering&amp;v=2b2dd3e2" title="Bookmark on BibSonomy"><img src="bibsonomy.png" alt="BibSonomy logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fwww.mendeley.com%2Fimport%2F%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832&amp;v=d41635a1" title="Bookmark on Mendeley"><img src="mendeley.png" alt="Mendeley logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fdel.icio.us%2Fpost%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832%26description%3DFaceNet%253A%2520A%2520Unified%2520Embedding%2520for%2520Face%2520Recognition%2520and%2520Clustering&amp;v=7649549e" title="Bookmark on del.icio.us"><img src="delicious.png" alt="del.icio.us logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Fdigg.com%2Fsubmit%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832%26title%3DFaceNet%253A%2520A%2520Unified%2520Embedding%2520for%2520Face%2520Recognition%2520and%2520Clustering&amp;v=d0c8be8e" title="Bookmark on Digg"><img src="digg.png" alt="Digg logo"></a>
+<a href="https://arxiv.org/ct?url=https%3A%2F%2Freddit.com%2Fsubmit%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832%26title%3DFaceNet%253A%2520A%2520Unified%2520Embedding%2520for%2520Face%2520Recognition%2520and%2520Clustering&amp;v=93e47eea" title="Bookmark on Reddit"><img src="reddit.png" alt="Reddit logo"></a>
+<a href="https://arxiv.org/ct?url=http%3A%2F%2Fsciencewise.info%2Fbookmarks%2Fadd%3Furl%3Dhttp%3A%2F%2Farxiv.org%2Fabs%2F1503.03832&amp;v=fddf36e6" title="Bookmark on ScienceWISE"><img src="sciencewise.png" alt="ScienceWISE logo"></a>
+
+</div>
+</div><!--end extra-services-->
+
+<div class="leftcolumn">
+<div class="subheader">
+<h1>Computer Science &gt; Computer Vision and Pattern Recognition</h1>
+</div>
+<h1 class="title mathjax"><span class="descriptor">Title:</span>
+FaceNet: A Unified Embedding for Face Recognition and Clustering</h1>
+<div class="authors"><span class="descriptor">Authors:</span>
+<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Schroff%2C+F">Florian Schroff</a>, 
+<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Kalenichenko%2C+D">Dmitry Kalenichenko</a>, 
+<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Philbin%2C+J">James Philbin</a></div>
+<div class="dateline">(Submitted on 12 Mar 2015 (<a href="https://arxiv.org/abs/1503.03832v1">v1</a>), last revised 17 Jun 2015 (this version, v3))</div>
+<blockquote class="abstract mathjax">
+<span class="descriptor">Abstract:</span> Despite significant recent advances in the field of face recognition,
+implementing face verification and recognition efficiently at scale presents
+serious challenges to current approaches. In this paper we present a system,
+called FaceNet, that directly learns a mapping from face images to a compact
+Euclidean space where distances directly correspond to a measure of face
+similarity. Once this space has been produced, tasks such as face recognition,
+verification and clustering can be easily implemented using standard techniques
+with FaceNet embeddings as feature vectors.
+<br>Our method uses a deep convolutional network trained to directly optimize the
+embedding itself, rather than an intermediate bottleneck layer as in previous
+deep learning approaches. To train, we use triplets of roughly aligned matching
+/ non-matching face patches generated using a novel online triplet mining
+method. The benefit of our approach is much greater representational
+efficiency: we achieve state-of-the-art face recognition performance using only
+128-bytes per face.
+<br>On the widely used Labeled Faces in the Wild (LFW) dataset, our system
+achieves a new record accuracy of 99.63%. On YouTube Faces DB it achieves
+95.12%. Our system cuts the error rate in comparison to the best published
+result by 30% on both datasets.
+<br>We also introduce the concept of harmonic embeddings, and a harmonic triplet
+loss, which describe different versions of face embeddings (produced by
+different networks) that are compatible to each other and allow for direct
+comparison between each other.
+</blockquote>
+<!--CONTEXT-->
+<div class="metatable">
+<table summary="Additional metadata">
+<tbody><tr>
+<td class="tablecell label">Comments:
+</td>
+<td class="tablecell comments mathjax">Also published, in Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition 2015</td>
+</tr>
+<tr>
+<td class="tablecell label">Subjects:
+</td>
+<td class="tablecell subjects"><span class="primary-subject">Computer Vision and Pattern Recognition (cs.CV)</span></td>
+</tr>
+<tr>
+<td class="tablecell label">
+<abbr title="Digital Object Identifier">DOI</abbr>:
+</td>
+<td class="tablecell doi"><a href="https://arxiv.org/ct?url=http%3A%2F%2Fdx.doi.org%2F10%252E1109%2FCVPR%252E2015%252E7298682&amp;v=94317c2e">10.1109/CVPR.2015.7298682</a></td>
+</tr>
+<tr>
+<td class="tablecell label">
+Cite&nbsp;as:
+</td>
+<td class="tablecell arxivid"><a href="https://arxiv.org/abs/1503.03832">arXiv:1503.03832</a> [cs.CV]</td>
+</tr>
+<tr>
+<td class="tablecell label">&nbsp;</td>
+<td class="tablecell arxividv">(or <span class="arxivid"><a href="https://arxiv.org/abs/1503.03832v3">arXiv:1503.03832v3</a> [cs.CV]</span> for this version)</td>
+</tr>
+</tbody></table>
+</div>
+<div class="submission-history">
+<h2>Submission history</h2>
+From: Florian Schroff [<a href="https://arxiv.org/show-email/4f13e482/1503.03832">view email</a>]
+<br>
+<b><a href="https://arxiv.org/abs/1503.03832v1">[v1]</a></b> Thu, 12 Mar 2015 18:10:53 GMT  (4241kb,D)<br>
+<b><a href="https://arxiv.org/abs/1503.03832v2">[v2]</a></b> Thu, 4 Jun 2015 19:17:30 GMT  (4240kb,D)<br>
+<b>[v3]</b> Wed, 17 Jun 2015 23:35:47 GMT  (4239kb,D)<br>
+</div>
+<div class="endorsers"><a href="http://arxiv.org/auth/show-endorsers/1503.03832">Which authors of this paper are endorsers?</a> | <a id="mathjax_toggle" href="javascript:setMathjaxCookie()">Disable MathJax</a> (<a href="https://arxiv.org/help/mathjax/">What is MathJax?</a>)</div><script type="text/javascript" language="javascript">mathjaxToggle();</script>
+</div><!--end leftcolumn-->
+</div><!--end abs-->
+</div>
+<div id="footer">
+<div class="footer-text">
+<p>Link back to: <a href="http://arxiv.org/">arXiv</a>, <a href="https://arxiv.org/form">form interface</a>, <a href="https://arxiv.org/help/contact">contact</a>.</p>
+</div>
+<div class="social"><a href="https://twitter.com/arxiv"><img src="twitter_logo_blue.png" alt="Twitter" title="Follow arXiv on Twitter"></a></div>
+</div>
+
+
+</body></html>

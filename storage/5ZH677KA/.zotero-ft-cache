@@ -1,0 +1,1546 @@
+
+Skip to content
+
+    In this repository All GitHub ↵
+    Jump to ↵
+
+    No suggested jump to results
+
+    Octocat Spinner Icon
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+    New repository Import repository New gist New organization
+    This repository
+    New issue
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your repositories
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 172
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 1,622
+    Star 1,622
+    Fork
+    Where should we fork this repository?
+
+    If this dialog fails to load, you can visit the fork page directly.
+    566
+
+deepinsight / insightface
+Code Issues 53 Pull requests 3 Projects 0 Wiki Insights
+New issue
+Asian training dataset(from glint) discussion. #256
+Open
+nttstar opened this Issue Jun 15, 2018 · 103 comments
+Comments
+Assignees
+No one assigned
+Labels
+Example
+Projects
+None yet
+Milestone
+No milestone
+Notifications
+Subscribe
+
+You’re not receiving notifications from this thread.
+34 participants
+@nttstar @aaaaaaaak @cysin @406747925 @meanmee @lmmcc @aa12356jm @JianbangZ @zhenglaizhang @HaoLiuHust @starimpact @devymex @xxllp @vzvzx @libohit @anguoyang @Wisgon @wangchust @goodpp @shineway14 @jackytu256 and others
+@nttstar
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jun 15, 2018 •
+edited
+Edited 4 times
+
+    @nttstar nttstar edited Jun 15, 2018 (most recent)
+    @nttstar nttstar edited Jun 15, 2018
+    @nttstar nttstar edited Jun 15, 2018
+    @nttstar nttstar edited Jun 15, 2018
+    @nttstar nttstar created Jun 15, 2018
+
+    Download dataset from http://trillionpairs.deepglint.com/data (after signup). msra is a cleaned subset of MS1M from glint while celebrity is the asian dataset.
+    Generate lst file by calling src/data/glint2lst.py . For example:
+
+ python glint2lst.py /data/glint_data msra,celebrity > glint.lst  
+
+or generate the asian dataset only by:
+
+ python glint2lst.py /data/glint_data celebrity > glint_cn.lst  
+
+    Call face2rec2.py to generate .rec file.
+    Merge the dataset with existing one by calling src/data/dataset_merge.py without setting param model which will combine all IDs from those two datasets.
+
+Finally you will get a dataset contains about 180K IDs.
+
+Use src/eval/gen_glint.py to prepare test feature file by using pretrained insightface model.
+
+You can also post your private testing results here.
+👍 26 🎉 5 ❤️ 2
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@nttstar nttstar added the Example label Jun 15, 2018
+@aaaaaaaak
+This comment has been minimized.
+Show comment
+Hide comment
+@aaaaaaaak
+aaaaaaaak Jun 15, 2018
+
+Thanks for Sharing
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+aaaaaaaak commented Jun 15, 2018
+
+Thanks for Sharing
+@cysin
+This comment has been minimized.
+Show comment
+Hide comment
+@cysin
+cysin Jun 17, 2018
+
+@nttstar will you train new models with these data?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+cysin commented Jun 17, 2018
+
+@nttstar will you train new models with these data?
+@406747925
+This comment has been minimized.
+Show comment
+Hide comment
+@406747925
+406747925 Jun 19, 2018
+
+业界良心
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+406747925 commented Jun 19, 2018
+
+业界良心
+👍 3
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@meanmee
+This comment has been minimized.
+Show comment
+Hide comment
+@meanmee
+meanmee Jun 19, 2018
+
+有格林的人在吗，我是楼下比特大陆的，下载速度太慢了，可以直接去楼上直接拷贝吗？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+meanmee commented Jun 19, 2018
+
+有格林的人在吗，我是楼下比特大陆的，下载速度太慢了，可以直接去楼上直接拷贝吗？
+👍 8 😄 34 😕 1
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@lmmcc
+This comment has been minimized.
+Show comment
+Hide comment
+@lmmcc
+lmmcc Jun 19, 2018
+
+is there exist any same person in msra & celebrity datasets?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+lmmcc commented Jun 19, 2018
+
+is there exist any same person in msra & celebrity datasets?
+@aa12356jm
+This comment has been minimized.
+Show comment
+Hide comment
+@aa12356jm
+aa12356jm Jun 19, 2018
+
+前几天刚听了格林的讲座，公开了这个数据集，数据集刚下载好，几百个GB，没想到这里这么快就出现了，感谢
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+aa12356jm commented Jun 19, 2018
+
+前几天刚听了格林的讲座，公开了这个数据集，数据集刚下载好，几百个GB，没想到这里这么快就出现了，感谢
+@JianbangZ
+This comment has been minimized.
+Show comment
+Hide comment
+@JianbangZ
+JianbangZ Jun 20, 2018
+
+After test, this dataset is pretty clean, but still containing 0.3%~0.8% noise.
+Also, we found their ms1m and Asian parts still have about 15-30 overlaps, though I guess it doesn't matter when the scale is already so large.
+Another findings is that this dataset suffers long tail a lot. Take the asian part for example, only 18K identites out of 10K have over 25 images per class, and only few thousand identities have over 60 images.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+JianbangZ commented Jun 20, 2018
+
+After test, this dataset is pretty clean, but still containing 0.3%~0.8% noise.
+Also, we found their ms1m and Asian parts still have about 15-30 overlaps, though I guess it doesn't matter when the scale is already so large.
+Another findings is that this dataset suffers long tail a lot. Take the asian part for example, only 18K identites out of 10K have over 25 images per class, and only few thousand identities have over 60 images.
+👍 10
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@meanmee
+This comment has been minimized.
+Show comment
+Hide comment
+@meanmee
+meanmee Jun 20, 2018
+
+@aa12356jm could you share it on BaiduYun？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+meanmee commented Jun 20, 2018
+
+@aa12356jm could you share it on BaiduYun？
+@zhenglaizhang
+This comment has been minimized.
+Show comment
+Hide comment
+@zhenglaizhang
+zhenglaizhang Jun 20, 2018
+
+@nttstar I download the dataset from glint, it looks like the face is similarity transformed and resized to 400x400, so for arcface, how to crop/resize this to 112x112?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+zhenglaizhang commented Jun 20, 2018
+
+@nttstar I download the dataset from glint, it looks like the face is similarity transformed and resized to 400x400, so for arcface, how to crop/resize this to 112x112?
+@nttstar
+This comment has been minimized.
+Show comment
+Hide comment
+@nttstar
+nttstar Jun 20, 2018
+Collaborator
+
+@zhenglaizhang I already provided the scripts.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jun 20, 2018
+
+@zhenglaizhang I already provided the scripts.
+@HaoLiuHust
+This comment has been minimized.
+Show comment
+Hide comment
+@HaoLiuHust
+HaoLiuHust Jun 21, 2018
+
+@JianbangZ do you have some idea to solve these problems?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+HaoLiuHust commented Jun 21, 2018
+
+@JianbangZ do you have some idea to solve these problems?
+@starimpact
+This comment has been minimized.
+Show comment
+Hide comment
+@starimpact
+starimpact Jun 21, 2018
+
+awesome !
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+starimpact commented Jun 21, 2018
+
+awesome !
+👍 3
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@devymex
+This comment has been minimized.
+Show comment
+Hide comment
+@devymex
+devymex Jun 21, 2018
+
+Thanks DeepGlint!
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+devymex commented Jun 21, 2018
+
+Thanks DeepGlint!
+👍 4
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@xxllp
+This comment has been minimized.
+Show comment
+Hide comment
+@xxllp
+xxllp Jun 22, 2018
+
+有意义
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+xxllp commented Jun 22, 2018
+
+有意义
+@vzvzx
+This comment has been minimized.
+Show comment
+Hide comment
+@vzvzx
+vzvzx Jun 23, 2018
+
+@nttstar the download address is crashed.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+vzvzx commented Jun 23, 2018
+
+@nttstar the download address is crashed.
+@libohit
+This comment has been minimized.
+Show comment
+Hide comment
+@libohit
+libohit Jun 24, 2018
+
+@nttstar @JianbangZ how can you download glint asian face dataset? I can not find how to register and signup.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+libohit commented Jun 24, 2018
+
+@nttstar @JianbangZ how can you download glint asian face dataset? I can not find how to register and signup.
+@aaaaaaaak
+This comment has been minimized.
+Show comment
+Hide comment
+@aaaaaaaak
+aaaaaaaak Jun 25, 2018
+
+@nttstar @JianbangZ 为何我下载的亚洲人脸数据集只能解压出1.7G 2000+id的人脸 这个90+G的.tar.gz文件该怎么处理呢 能否指导一下 多谢
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+aaaaaaaak commented Jun 25, 2018 •
+edited
+Edited 1 time
+
+    @aaaaaaaak aaaaaaaak edited Jun 25, 2018 (most recent)
+    @aaaaaaaak aaaaaaaak created Jun 25, 2018
+
+@nttstar @JianbangZ 为何我下载的亚洲人脸数据集只能解压出1.7G 2000+id的人脸 这个90+G的.tar.gz文件该怎么处理呢 能否指导一下 多谢
+@anguoyang
+This comment has been minimized.
+Show comment
+Hide comment
+@anguoyang
+anguoyang Jun 25, 2018
+
+there is no lmk files in the dataset:
+"lmk_file = os.path.join(input_dir, "%s_lmk.txt"%(ds))"
+is it correct?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+anguoyang commented Jun 25, 2018
+
+there is no lmk files in the dataset:
+"lmk_file = os.path.join(input_dir, "%s_lmk.txt"%(ds))"
+is it correct?
+@Wisgon
+This comment has been minimized.
+Show comment
+Hide comment
+@Wisgon
+Wisgon Jun 25, 2018
+
+The same problem with @libohit , I can't sign in http://trillionpairs.deepglint.com/data , the button of "sign in" is dark!
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Wisgon commented Jun 25, 2018 •
+edited
+Edited 1 time
+
+    @Wisgon Wisgon edited Jun 25, 2018 (most recent)
+    @Wisgon Wisgon created Jun 25, 2018
+
+The same problem with @libohit , I can't sign in http://trillionpairs.deepglint.com/data , the button of "sign in" is dark!
+@anguoyang
+This comment has been minimized.
+Show comment
+Hide comment
+@anguoyang
+anguoyang Jun 26, 2018
+
+@Wisgon maybe you need to use another browser
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+anguoyang commented Jun 26, 2018
+
+@Wisgon maybe you need to use another browser
+@wangchust
+This comment has been minimized.
+Show comment
+Hide comment
+@wangchust
+wangchust Jun 26, 2018
+
+Can anyone share a copy of lmk files? Their official site seems to be maintaining. I cound download nothing.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+wangchust commented Jun 26, 2018 •
+edited
+Edited 1 time
+
+    @wangchust wangchust edited Jun 26, 2018 (most recent)
+    @wangchust wangchust created Jun 26, 2018
+
+Can anyone share a copy of lmk files? Their official site seems to be maintaining. I cound download nothing.
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Jun 26, 2018
+
+现在下载不了，是什么情况@—@
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Jun 26, 2018
+
+现在下载不了，是什么情况@—@
+@Wisgon
+This comment has been minimized.
+Show comment
+Hide comment
+@Wisgon
+Wisgon Jun 26, 2018
+
+I can't download the dataset, when I click the Download button, there is some error appear:
+This XML file does not appear to have any style information associated with it. The document tree is shown below. <Error><Code>InvalidAccessKeyId</Code><Message>The OSS Access Key Id you provided is disabled.</Message><RequestId>5B31AE6FF68A5D785875635D</RequestId><HostId>dgplaygroundopen.oss-cn-qingdao.aliyuncs.com</HostId><OSSAccessKeyId>LTAIKdTReMdV71Zi</OSSAccessKeyId></Error>
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Wisgon commented Jun 26, 2018 •
+edited
+Edited 3 times
+
+    @Wisgon Wisgon edited Jun 26, 2018 (most recent)
+    @Wisgon Wisgon edited Jun 26, 2018
+    @Wisgon Wisgon edited Jun 26, 2018
+    @Wisgon Wisgon created Jun 26, 2018
+
+I can't download the dataset, when I click the Download button, there is some error appear:
+This XML file does not appear to have any style information associated with it. The document tree is shown below. <Error><Code>InvalidAccessKeyId</Code><Message>The OSS Access Key Id you provided is disabled.</Message><RequestId>5B31AE6FF68A5D785875635D</RequestId><HostId>dgplaygroundopen.oss-cn-qingdao.aliyuncs.com</HostId><OSSAccessKeyId>LTAIKdTReMdV71Zi</OSSAccessKeyId></Error>
+@shineway14
+This comment has been minimized.
+Show comment
+Hide comment
+@shineway14
+shineway14 Jun 26, 2018
+
+I can't sign in http://trillionpairs.deepglint.com/data , the button of "sign in" is dark!
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+shineway14 commented Jun 26, 2018
+
+I can't sign in http://trillionpairs.deepglint.com/data , the button of "sign in" is dark!
+@Wisgon
+This comment has been minimized.
+Show comment
+Hide comment
+@Wisgon
+Wisgon Jun 26, 2018
+
+@shineway14 You can use http://trillionpairs.deepglint.com/login to sign in, when you finsh fill in the blanks, press enter instead of the 'log in' button.
+BTW, http://trillionpairs.deepglint.com/register to register
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Wisgon commented Jun 26, 2018 •
+edited
+Edited 2 times
+
+    @Wisgon Wisgon edited Jun 26, 2018 (most recent)
+    @Wisgon Wisgon edited Jun 26, 2018
+    @Wisgon Wisgon created Jun 26, 2018
+
+@shineway14 You can use http://trillionpairs.deepglint.com/login to sign in, when you finsh fill in the blanks, press enter instead of the 'log in' button.
+BTW, http://trillionpairs.deepglint.com/register to register
+👍 4
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@meanmee
+This comment has been minimized.
+Show comment
+Hide comment
+@meanmee
+meanmee Jun 28, 2018
+
+@nttstar what is the exactly script to merge msra and celeb?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+meanmee commented Jun 28, 2018
+
+@nttstar what is the exactly script to merge msra and celeb?
+👍 1
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Jun 28, 2018
+
+@aaaaaaaak 我最新用BT下载的亚洲人脸数据集是正常的，和官方提供的数据一致，我给你参考下我的
+目录大小 98G ./asian-celeb
+人数 ls -lR| grep "^d" | wc -l 93979
+图片数 ls -lR |grep "^-"| grep ".jpg" |wc -l 2830146
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Jun 28, 2018
+
+@aaaaaaaak 我最新用BT下载的亚洲人脸数据集是正常的，和官方提供的数据一致，我给你参考下我的
+目录大小 98G ./asian-celeb
+人数 ls -lR| grep "^d" | wc -l 93979
+图片数 ls -lR |grep "^-"| grep ".jpg" |wc -l 2830146
+👍 1
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@jackytu256
+This comment has been minimized.
+Show comment
+Hide comment
+@jackytu256
+jackytu256 Jul 2, 2018
+
+HI all,
+I have already done the step1, which is to get glint_cn file; however, I got a error while trying to do step 2. The error code is following and please please help me to fix this issue. Thanks.
+
+ OpenCV Error: Assertion failed (src.cols >  0 &&  src.rows >  0) in  warpAffine, file /build/buildd/opencv-2.4.8+dfsg1/modules/imgproc/src/imgwarp.cpp, line 3445
+Traceback (most recent call last):
+  File " face2rec2.py "  , line 256, in  < module > 
+    image_encode(args, i, item, q_out)
+  File " face2rec2.py "  , line 99, in  image_encode
+    img = face_preprocess.preprocess(img, bbox = item.bbox, landmark=item.landmark, image_size= ' %d,%d '  %(args.image_h, args.image_w))
+  File " ../common/face_preprocess.py "  , line 107, in  preprocess
+    warped = cv2.warpAffine(img,M,(image_size[1],image_size[0]), borderValue = 0.0)
+cv2.error: /build/buildd/opencv-2.4.8+dfsg1/modules/imgproc/src/imgwarp.cpp:3445: error: (-215) src.cols >  0 &&  src.rows >  0 in  function  warpAffine 
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+jackytu256 commented Jul 2, 2018 •
+edited
+Edited 1 time
+
+    @jackytu256 jackytu256 edited Jul 2, 2018 (most recent)
+    @jackytu256 jackytu256 created Jul 2, 2018
+
+HI all,
+I have already done the step1, which is to get glint_cn file; however, I got a error while trying to do step 2. The error code is following and please please help me to fix this issue. Thanks.
+
+ OpenCV Error: Assertion failed (src.cols >  0 &&  src.rows >  0) in  warpAffine, file /build/buildd/opencv-2.4.8+dfsg1/modules/imgproc/src/imgwarp.cpp, line 3445
+Traceback (most recent call last):
+  File " face2rec2.py "  , line 256, in  < module > 
+    image_encode(args, i, item, q_out)
+  File " face2rec2.py "  , line 99, in  image_encode
+    img = face_preprocess.preprocess(img, bbox = item.bbox, landmark=item.landmark, image_size= ' %d,%d '  %(args.image_h, args.image_w))
+  File " ../common/face_preprocess.py "  , line 107, in  preprocess
+    warped = cv2.warpAffine(img,M,(image_size[1],image_size[0]), borderValue = 0.0)
+cv2.error: /build/buildd/opencv-2.4.8+dfsg1/modules/imgproc/src/imgwarp.cpp:3445: error: (-215) src.cols >  0 &&  src.rows >  0 in  function  warpAffine 
+
+@anguoyang
+This comment has been minimized.
+Show comment
+Hide comment
+@anguoyang
+anguoyang Jul 2, 2018
+
+@jackytu256 请问你下载的包里面有lmk文件么？
+lmk_file = os.path.join(input_dir, "%s_lmk"%(ds))
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+anguoyang commented Jul 2, 2018
+
+@jackytu256 请问你下载的包里面有lmk文件么？
+lmk_file = os.path.join(input_dir, "%s_lmk"%(ds))
+@jackytu256
+This comment has been minimized.
+Show comment
+Hide comment
+@jackytu256
+jackytu256 Jul 2, 2018
+
+@anguoyang
+Yes, I got a file called celebrity_lmk
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+jackytu256 commented Jul 2, 2018
+
+@anguoyang
+Yes, I got a file called celebrity_lmk
+@YunYang1994
+This comment has been minimized.
+Show comment
+Hide comment
+@YunYang1994
+YunYang1994 Jul 2, 2018
+
+您好，谢谢您将程序开源，但是现在我遇到这样一个问题：因为我要吧msra和celebrity数据合并在一起，但是我发现于微软的celebrity数据库好像没有property文件？期待您的解答，谢谢
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+YunYang1994 commented Jul 2, 2018
+
+您好，谢谢您将程序开源，但是现在我遇到这样一个问题：因为我要吧msra和celebrity数据合并在一起，但是我发现于微软的celebrity数据库好像没有property文件？期待您的解答，谢谢
+@nttstar
+This comment has been minimized.
+Show comment
+Hide comment
+@nttstar
+nttstar Jul 2, 2018
+Collaborator
+
+property自己写一下, 格式: <数据集总人数>,112,112
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jul 2, 2018
+
+property自己写一下, 格式: <数据集总人数>,112,112
+👍 6
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@wangchust
+This comment has been minimized.
+Show comment
+Hide comment
+@wangchust
+wangchust Jul 2, 2018
+
+各位有谁上传结果成功过的吗？上传了好几次，都没有结果
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+wangchust commented Jul 2, 2018
+
+各位有谁上传结果成功过的吗？上传了好几次，都没有结果
+@TopcoderX
+This comment has been minimized.
+Show comment
+Hide comment
+@TopcoderX
+TopcoderX Jul 2, 2018
+
+@wangchust 换一个浏览器?我用的chrome可以。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+TopcoderX commented Jul 2, 2018
+
+@wangchust 换一个浏览器?我用的chrome可以。
+@wangchust
+This comment has been minimized.
+Show comment
+Hide comment
+@wangchust
+wangchust Jul 2, 2018
+
+@TopcoderX 请问上传就只需要上传自己的bin文件吗，还有结果是在哪里看啊：）
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+wangchust commented Jul 2, 2018
+
+@TopcoderX 请问上传就只需要上传自己的bin文件吗，还有结果是在哪里看啊：）
+@TopcoderX
+This comment has been minimized.
+Show comment
+Hide comment
+@TopcoderX
+TopcoderX Jul 2, 2018
+
+@wangchust 对上传bin文件即可，结果 results页面就可以看到。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+TopcoderX commented Jul 2, 2018
+
+@wangchust 对上传bin文件即可，结果 results页面就可以看到。
+@wangchust
+This comment has been minimized.
+Show comment
+Hide comment
+@wangchust
+wangchust Jul 3, 2018
+
+@TopcoderX 谢谢！
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+wangchust commented Jul 3, 2018
+
+@TopcoderX 谢谢！
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Jul 5, 2018
+
+How can I improve my training accuracy?
+有人分享训练的情况吗？下面是我的
+
+    dataset: msra + celebrity
+    network backbone: r34 ( output=E, emb_size=512, prelu )
+    loss function: arcface(m=0.5)
+    training pipeline: batch_size=384, pre_batch_size=96(4GPUx12G), verbose=2000
+    Highest LFW: 99.767%; Highest CFP_FP: 93.829%; Highest AgeDB30: 97.567% (epoch=14) megaface: 96.1564%
+
+测试的准确率不错，但是训练的准确率现在上不去了，接近60%，如下：
+INFO:root:Epoch[14] Batch [16000] Speed: 499.24 samples/sec acc=0.583464
+INFO:root:Epoch[18] Batch [8380] Speed: 499.95 samples/sec acc=0.596615
+
+INFO:root:Epoch[11] Train-acc=0.500434
+INFO:root:Epoch[12] Train-acc=0.570312
+INFO:root:Epoch[13] Train-acc=0.575087
+INFO:root:Epoch[14] Train-acc=0.578993
+INFO:root:Epoch[15] Train-acc=0.584201
+INFO:root:Epoch[16] Train-acc=0.582465
+INFO:root:Epoch[17] Train-acc=0.595920
+
+1初始lr=0.1，没有设置lr_step, 但看到日志里有lr_steps [133333, 186666, 213333]，目前学习率已经降到了0.0001，按我的理解继续训练下去的，训练准确率也不会提升了，不知道这样理解对不？
+2 目前情况下，我该如何提升训练准确率了？更换更小的学习率继续训练？需要更换为TripletLoss吗？
+3 有必要继续再提升训练准确率吗？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Jul 5, 2018 •
+edited
+Edited 4 times
+
+    @goodpp goodpp edited Jul 10, 2018 (most recent)
+    @goodpp goodpp edited Jul 6, 2018
+    @goodpp goodpp edited Jul 5, 2018
+    @goodpp goodpp edited Jul 5, 2018
+    @goodpp goodpp created Jul 5, 2018
+
+How can I improve my training accuracy?
+有人分享训练的情况吗？下面是我的
+
+    dataset: msra + celebrity
+    network backbone: r34 ( output=E, emb_size=512, prelu )
+    loss function: arcface(m=0.5)
+    training pipeline: batch_size=384, pre_batch_size=96(4GPUx12G), verbose=2000
+    Highest LFW: 99.767%; Highest CFP_FP: 93.829%; Highest AgeDB30: 97.567% (epoch=14) megaface: 96.1564%
+
+测试的准确率不错，但是训练的准确率现在上不去了，接近60%，如下：
+INFO:root:Epoch[14] Batch [16000] Speed: 499.24 samples/sec acc=0.583464
+INFO:root:Epoch[18] Batch [8380] Speed: 499.95 samples/sec acc=0.596615
+
+INFO:root:Epoch[11] Train-acc=0.500434
+INFO:root:Epoch[12] Train-acc=0.570312
+INFO:root:Epoch[13] Train-acc=0.575087
+INFO:root:Epoch[14] Train-acc=0.578993
+INFO:root:Epoch[15] Train-acc=0.584201
+INFO:root:Epoch[16] Train-acc=0.582465
+INFO:root:Epoch[17] Train-acc=0.595920
+
+1初始lr=0.1，没有设置lr_step, 但看到日志里有lr_steps [133333, 186666, 213333]，目前学习率已经降到了0.0001，按我的理解继续训练下去的，训练准确率也不会提升了，不知道这样理解对不？
+2 目前情况下，我该如何提升训练准确率了？更换更小的学习率继续训练？需要更换为TripletLoss吗？
+3 有必要继续再提升训练准确率吗？
+👍 5
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+@mengzhibin
+This comment has been minimized.
+Show comment
+Hide comment
+@mengzhibin
+mengzhibin Jul 6, 2018
+
+For those people who cannot login the web site, you can change to chrome for login.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+mengzhibin commented Jul 6, 2018
+
+For those people who cannot login the web site, you can change to chrome for login.
+30 hidden items Load more…
+@yhw-yhw
+This comment has been minimized.
+Show comment
+Hide comment
+@yhw-yhw
+yhw-yhw Jul 24, 2018
+
+@becauseofAI I have the same problems with you, my network training accuracy gets 0.82 while using whole deepglint datasets, however, I submit my result and get 0.016 identity results. @nttstar
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+yhw-yhw commented Jul 24, 2018
+
+@becauseofAI I have the same problems with you, my network training accuracy gets 0.82 while using whole deepglint datasets, however, I submit my result and get 0.016 identity results. @nttstar
+@AaronYKing
+This comment has been minimized.
+Show comment
+Hide comment
+@AaronYKing
+AaronYKing Jul 24, 2018
+
+@yhw-yhw How did you get the result file of .bin? If you use the code src/eval/gen_glint.py also, did you modify it somewhere? And do you know what the file of Trillion Pairs/testdata/feature_tools/matio.py downloaded with the Dataset is for?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+AaronYKing commented Jul 24, 2018
+
+@yhw-yhw How did you get the result file of .bin? If you use the code src/eval/gen_glint.py also, did you modify it somewhere? And do you know what the file of Trillion Pairs/testdata/feature_tools/matio.py downloaded with the Dataset is for?
+@AaronYKing
+This comment has been minimized.
+Show comment
+Hide comment
+@AaronYKing
+AaronYKing Jul 24, 2018
+
+@nttstar I use the same modify with @becauseofAI to generate the result through using the model of LResNet100E-IR|Emore in Model-Zoo , but only gets 0.00178 identity results. Can you test with it and share you result and code with us?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+AaronYKing commented Jul 24, 2018
+
+@nttstar I use the same modify with @becauseofAI to generate the result through using the model of LResNet100E-IR|Emore in Model-Zoo , but only gets 0.00178 identity results. Can you test with it and share you result and code with us?
+@nttstar
+This comment has been minimized.
+Show comment
+Hide comment
+@nttstar
+nttstar Jul 24, 2018
+Collaborator
+
+@becauseofAI @yhw-yhw @AaronYKing Can you give us a complete right way to generate the correct submit file? I'm sorry that recently I have no time to test it. Thanks~
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jul 24, 2018
+
+@becauseofAI @yhw-yhw @AaronYKing Can you give us a complete right way to generate the correct submit file? I'm sorry that recently I have no time to test it. Thanks~
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 24, 2018
+
+有人测试出结果吗？我把bin上传到deepglint官网，传完数据就卡死在那个页面了，没有反应，在result界面也没有结果。求助大家，该怎么操作。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 24, 2018
+
+有人测试出结果吗？我把bin上传到deepglint官网，传完数据就卡死在那个页面了，没有反应，在result界面也没有结果。求助大家，该怎么操作。
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Jul 24, 2018
+
+@nttstar @becauseofAI @yhw-yhw I have the same problems, I submit my result and get 0.01465 identity results.
+I have not modified the code, My step is :
+
+    src/data/glint2lst.py /xxx/glint testdata > /home/xxx/glint_test.lst
+    src/eval/gen_glint.py --input /home/xxx/glint_test.lst --output my_result.bin {...other param}
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Jul 24, 2018 •
+edited
+Edited 1 time
+
+    @goodpp goodpp edited Jul 24, 2018 (most recent)
+    @goodpp goodpp created Jul 24, 2018
+
+@nttstar @becauseofAI @yhw-yhw I have the same problems, I submit my result and get 0.01465 identity results.
+I have not modified the code, My step is :
+
+    src/data/glint2lst.py /xxx/glint testdata > /home/xxx/glint_test.lst
+    src/eval/gen_glint.py --input /home/xxx/glint_test.lst --output my_result.bin {...other param}
+
+@yhw-yhw
+This comment has been minimized.
+Show comment
+Hide comment
+@yhw-yhw
+yhw-yhw Jul 24, 2018
+
+@Edwardmark 我也遇到过，注销下重新登录就好了，如果还没有可能是数据没传成功。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+yhw-yhw commented Jul 24, 2018
+
+@Edwardmark 我也遇到过，注销下重新登录就好了，如果还没有可能是数据没传成功。
+@becauseofAI
+This comment has been minimized.
+Show comment
+Hide comment
+@becauseofAI
+becauseofAI Jul 24, 2018
+
+@nttstar @yhw-yhw @AaronYKing I have upload the code to generate submit file on GoogleDrive . You need to put it in the directory of insightface/src/eval/ and you can use the model of LResNet100E-IR|Emore in Model-Zoo to generate the submit file. But maybe the code have something with wrong, It only gets 0.00178 identity results.
+Anyone who can check the code to solve the problom will be grateful!
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+becauseofAI commented Jul 24, 2018 •
+edited
+Edited 1 time
+
+    @becauseofAI becauseofAI edited Jul 24, 2018 (most recent)
+    @becauseofAI becauseofAI created Jul 24, 2018
+
+@nttstar @yhw-yhw @AaronYKing I have upload the code to generate submit file on GoogleDrive . You need to put it in the directory of insightface/src/eval/ and you can use the model of LResNet100E-IR|Emore in Model-Zoo to generate the submit file. But maybe the code have something with wrong, It only gets 0.00178 identity results.
+Anyone who can check the code to solve the problom will be grateful!
+@tornadomeet
+This comment has been minimized.
+Show comment
+Hide comment
+@tornadomeet
+tornadomeet Jul 25, 2018
+
+@nttstar could glint provide the original non-aligned face data set?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+tornadomeet commented Jul 25, 2018 •
+edited
+Edited 1 time
+
+    @tornadomeet tornadomeet edited Jul 25, 2018 (most recent)
+    @tornadomeet tornadomeet created Jul 25, 2018
+
+@nttstar could glint provide the original non-aligned face data set?
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 25, 2018
+
+我测试了在celebrity数据集上微调的结果，结果见下，应该是测对了，但是效果很差。。。
+verification@1e-9： res1
+identification@1e-3: res2
+代码就使用@nttstat给出的，不需要任何修改。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 25, 2018 •
+edited
+Edited 1 time
+
+    @Edwardmark Edwardmark edited Jul 25, 2018 (most recent)
+    @Edwardmark Edwardmark created Jul 25, 2018
+
+我测试了在celebrity数据集上微调的结果，结果见下，应该是测对了，但是效果很差。。。
+verification@1e-9： res1
+identification@1e-3: res2
+代码就使用@nttstat给出的，不需要任何修改。
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 25, 2018
+
+@yhw-yhw 多谢，请问你有遇到如下的问题吗？下面这行代码是什么意思？ https://github.com/deepinsight/insightface/blob/master/src/eval/gen_glint.py#L131
+When I run the code, I got following error:
+sh: 1: bypy: not found
+Please help me out, thank you very much.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 25, 2018
+
+@yhw-yhw 多谢，请问你有遇到如下的问题吗？下面这行代码是什么意思？ https://github.com/deepinsight/insightface/blob/master/src/eval/gen_glint.py#L131
+When I run the code, I got following error:
+sh: 1: bypy: not found
+Please help me out, thank you very much.
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 25, 2018
+
+@cysin @zhaowwenzhong 生成triplet训练数据的rec要改rec的格式吗？我也遇到了如下问题：
+ValueError: operands could not be broadcast together with remapped shapes [original->remapped]: (2,) and requested shape (1,)
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 25, 2018
+
+@cysin @zhaowwenzhong 生成triplet训练数据的rec要改rec的格式吗？我也遇到了如下问题：
+ValueError: operands could not be broadcast together with remapped shapes [original->remapped]: (2,) and requested shape (1,)
+@yhw-yhw
+This comment has been minimized.
+Show comment
+Hide comment
+@yhw-yhw
+yhw-yhw Jul 25, 2018
+
+@Edwardmark bypy 是百度云上传的脚本命名，可以不用管的；
+另外我在使用triplet loss训练glint data时，也遇到这样的问题, 这是两个数据集生成rec格式不同;
+解决方法：
+修改 data.py 中 528，529行：
+https://github.com/deepinsight/insightface/blob/master/src/data.py#L528
+label[i-ba][:] = header.label
+tag.append( ( int(header.label), _idx) )
+为
+label[i-ba][:] = header.label[0]
+tag.append( ( int(header.label[0]), _idx) ) 即可；
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+yhw-yhw commented Jul 25, 2018 •
+edited
+Edited 3 times
+
+    @yhw-yhw yhw-yhw edited Jul 25, 2018 (most recent)
+    @yhw-yhw yhw-yhw edited Jul 25, 2018
+    @yhw-yhw yhw-yhw edited Jul 25, 2018
+    @yhw-yhw yhw-yhw created Jul 25, 2018
+
+@Edwardmark bypy 是百度云上传的脚本命名，可以不用管的；
+另外我在使用triplet loss训练glint data时，也遇到这样的问题, 这是两个数据集生成rec格式不同;
+解决方法：
+修改 data.py 中 528，529行：
+https://github.com/deepinsight/insightface/blob/master/src/data.py#L528
+label[i-ba][:] = header.label
+tag.append( ( int(header.label), _idx) )
+为
+label[i-ba][:] = header.label[0]
+tag.append( ( int(header.label[0]), _idx) ) 即可；
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 25, 2018
+
+@yhw-yhw @nttstar 好的，还有个问题就是直接运行：
+python glint2lst.py /data/glint_data msra,celebrity > glint.lst 生成两个数据集合并起来的list，然后运行：
+python src/data/face2rec2.py ${path-to-glint-data-and-glint-lst}（该路径下包含glint.lst），rec文件不是已经生成完了吗？还需要运行merge.py吗？为什么要运行merge.py呢?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 25, 2018
+
+@yhw-yhw @nttstar 好的，还有个问题就是直接运行：
+python glint2lst.py /data/glint_data msra,celebrity > glint.lst 生成两个数据集合并起来的list，然后运行：
+python src/data/face2rec2.py ${path-to-glint-data-and-glint-lst}（该路径下包含glint.lst），rec文件不是已经生成完了吗？还需要运行merge.py吗？为什么要运行merge.py呢?
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 26, 2018
+
+@yhw-yhw 十分感谢，还有就是我不太明白为何要运行merge.py合并数据，运行python glint2lst.py /data/glint_data msra,celebrity > glint.lst，不是就生成了list了吗？直接根据这个list生成rec不就好了吗？为啥还要合并呢？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 26, 2018
+
+@yhw-yhw 十分感谢，还有就是我不太明白为何要运行merge.py合并数据，运行python glint2lst.py /data/glint_data msra,celebrity > glint.lst，不是就生成了list了吗？直接根据这个list生成rec不就好了吗？为啥还要合并呢？
+@nttstar
+This comment has been minimized.
+Show comment
+Hide comment
+@nttstar
+nttstar Jul 26, 2018
+Collaborator
+
+这是合并其他数据集用的
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jul 26, 2018
+
+这是合并其他数据集用的
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 26, 2018
+
+@nttstar 多谢您的耐心回复，十分感谢。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 26, 2018
+
+@nttstar 多谢您的耐心回复，十分感谢。
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 26, 2018
+
+@nttstar @yhw-yhw 请问您一下，对于这种18万类的分类，使用softmax loss以及其改进训练或者微调是不是很难达到较好的效果呢？对于该问题，是否应该直接使用triplet loss在glint数据上微调即可呢?我使用arcface的损失函数在r50模型上对glint数据微调了一天，发现训练准确率一直在0附近，测试准 确率也下降很多。希望跟您讨论一下对这种类别很多的多分类任务有什么较好的方法。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 26, 2018
+
+@nttstar @yhw-yhw 请问您一下，对于这种18万类的分类，使用softmax loss以及其改进训练或者微调是不是很难达到较好的效果呢？对于该问题，是否应该直接使用triplet loss在glint数据上微调即可呢?我使用arcface的损失函数在r50模型上对glint数据微调了一天，发现训练准确率一直在0附近，测试准 确率也下降很多。希望跟您讨论一下对这种类别很多的多分类任务有什么较好的方法。
+@yhw-yhw
+This comment has been minimized.
+Show comment
+Hide comment
+@yhw-yhw
+yhw-yhw Jul 26, 2018
+
+@Edwardmark 用arcface loss对作者release的r50模型再glint数据集上进行finetune，我目前训练了10w iteration，使用的lr 是 0.0001，目前acc为0.55； 这个lr还需要再调，我的经验是lr的选取很重要，一般在很多id数据集上训练，先用 0.01训练10w iteration，再用0.001训练20w iteration，再用0.0001训练10w iteration基本上就能到一个非常好的结果，最后0.00001训练一段时间，acc就不会变，我的batch size是128；
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+yhw-yhw commented Jul 26, 2018
+
+@Edwardmark 用arcface loss对作者release的r50模型再glint数据集上进行finetune，我目前训练了10w iteration，使用的lr 是 0.0001，目前acc为0.55； 这个lr还需要再调，我的经验是lr的选取很重要，一般在很多id数据集上训练，先用 0.01训练10w iteration，再用0.001训练20w iteration，再用0.0001训练10w iteration基本上就能到一个非常好的结果，最后0.00001训练一段时间，acc就不会变，我的batch size是128；
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 26, 2018
+
+@yhw-yhw 多谢，我之前在作者的r50上仅使用celebrity fine-tune过，acc在58%，上传glint官网仅有18%的准确率，请问您训练的模型有上传glint测试吗？结果如何？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 26, 2018
+
+@yhw-yhw 多谢，我之前在作者的r50上仅使用celebrity fine-tune过，acc在58%，上传glint官网仅有18%的准确率，请问您训练的模型有上传glint测试吗？结果如何？
+@yhw-yhw
+This comment has been minimized.
+Show comment
+Hide comment
+@yhw-yhw
+yhw-yhw Jul 26, 2018
+
+@Edwardmark 我使用整个数据集训练时，finetune r50，training acc为50%， glint测试结果也只有 16%，好多人都遇到这样的问题，很奇怪，目前我在分别使用ms1m，celebrity训练测试下。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+yhw-yhw commented Jul 26, 2018
+
+@Edwardmark 我使用整个数据集训练时，finetune r50，training acc为50%， glint测试结果也只有 16%，好多人都遇到这样的问题，很奇怪，目前我在分别使用ms1m，celebrity训练测试下。
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 27, 2018
+
+@yhw-yhw ,您好，我使用triplet fine-tune的时候，将batch设为120，使用4卡训练，出现下面错误，请问您遇到过吗？
+Traceback (most recent call last):
+File "train.py", line 1062, in
+main()
+File "train.py", line 1059, in main
+train_net(args)
+File "train.py", line 1053, in train_net
+epoch_end_callback = epoch_cb )
+File "/usr/local/lib/python2.7/dist-packages/mxnet/module/base_module.py", line 506, in fit
+next_data_batch = next(data_iter)
+File "/mntML/dongbin/insightface/src/data.py", line 1011, in next
+ret = self.cur_iter.next()
+File "/mntML/dongbin/insightface/src/data.py", line 861, in next
+self.reset()
+File "/mntML/dongbin/insightface/src/data.py", line 727, in reset
+self.triplet_reset()
+File "/mntML/dongbin/insightface/src/data.py", line 576, in triplet_reset
+self.select_triplets()
+File "/mntML/dongbin/insightface/src/data.py", line 545, in select_triplets
+embeddings[ba:bb,:] = net_out
+ValueError: could not broadcast input array from shape (480,512) into shape (240,512)
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 27, 2018
+
+@yhw-yhw ,您好，我使用triplet fine-tune的时候，将batch设为120，使用4卡训练，出现下面错误，请问您遇到过吗？
+Traceback (most recent call last):
+File "train.py", line 1062, in
+main()
+File "train.py", line 1059, in main
+train_net(args)
+File "train.py", line 1053, in train_net
+epoch_end_callback = epoch_cb )
+File "/usr/local/lib/python2.7/dist-packages/mxnet/module/base_module.py", line 506, in fit
+next_data_batch = next(data_iter)
+File "/mntML/dongbin/insightface/src/data.py", line 1011, in next
+ret = self.cur_iter.next()
+File "/mntML/dongbin/insightface/src/data.py", line 861, in next
+self.reset()
+File "/mntML/dongbin/insightface/src/data.py", line 727, in reset
+self.triplet_reset()
+File "/mntML/dongbin/insightface/src/data.py", line 576, in triplet_reset
+self.select_triplets()
+File "/mntML/dongbin/insightface/src/data.py", line 545, in select_triplets
+embeddings[ba:bb,:] = net_out
+ValueError: could not broadcast input array from shape (480,512) into shape (240,512)
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 27, 2018
+
+有人在glint训练后，提交结果比较好的吗？我不管怎么训练在测试集上效果很好，但是上传上去却结果很差，不知道是什么原因。 @nttstar @becauseofAI@yhw-yhw，今天换用triplet loss 微调后，结果从18%上涨到20%，但是还是不如不进行调节的r50模型，r50模型我上传上官网获得了48%左右的准确率。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 27, 2018
+
+有人在glint训练后，提交结果比较好的吗？我不管怎么训练在测试集上效果很好，但是上传上去却结果很差，不知道是什么原因。 @nttstar @becauseofAI@yhw-yhw，今天换用triplet loss 微调后，结果从18%上涨到20%，但是还是不如不进行调节的r50模型，r50模型我上传上官网获得了48%左右的准确率。
+@nttstar
+This comment has been minimized.
+Show comment
+Hide comment
+@nttstar
+nttstar Jul 27, 2018
+Collaborator
+
+We will try to ask Glint to check recent test results soon
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Collaborator
+nttstar commented Jul 27, 2018
+
+We will try to ask Glint to check recent test results soon
+@xmuszq
+This comment has been minimized.
+Show comment
+Hide comment
+@xmuszq
+xmuszq Jul 28, 2018
+
+Does this dataset is better than the one provide by @nttstar ?
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+xmuszq commented Jul 28, 2018
+
+Does this dataset is better than the one provide by @nttstar ?
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 30, 2018
+
+@nttstar 大侠，请问有向glint反映吗？是代码问题还是说确实是训练效果太差呢？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 30, 2018
+
+@nttstar 大侠，请问有向glint反映吗？是代码问题还是说确实是训练效果太差呢？
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Jul 30, 2018
+
+有人在glint训练后，提交结果比较好的吗？我不管怎么训练在测试集上效果很好，但是上传上去却结果很差，不知道是什么原因。 @becauseofAI @yhw-yhw，今天换用triplet loss 微调后，结果从18%上涨到20%，但是还是不如不进行调节的r50模型，r50模型我上传上官网获得了48%左右的准确率。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Jul 30, 2018
+
+有人在glint训练后，提交结果比较好的吗？我不管怎么训练在测试集上效果很好，但是上传上去却结果很差，不知道是什么原因。 @becauseofAI @yhw-yhw，今天换用triplet loss 微调后，结果从18%上涨到20%，但是还是不如不进行调节的r50模型，r50模型我上传上官网获得了48%左右的准确率。
+@wenjie710
+This comment has been minimized.
+Show comment
+Hide comment
+@wenjie710
+wenjie710 Jul 31, 2018
+
+@Edwardmark 你获得48%的准确率用的模型直接是它这里提供的LResNet50E-IR吗?用来生成bin 的代码也是gen_glint.py吗?还是做了别的什么改进?
+我用LResNet50E-IR模型提的特征上传只有31%的准确率.
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+wenjie710 commented Jul 31, 2018
+
+@Edwardmark 你获得48%的准确率用的模型直接是它这里提供的LResNet50E-IR吗?用来生成bin 的代码也是gen_glint.py吗?还是做了别的什么改进?
+我用LResNet50E-IR模型提的特征上传只有31%的准确率.
+@xsr-ai
+This comment has been minimized.
+Show comment
+Hide comment
+@xsr-ai
+xsr-ai Jul 31, 2018
+
+我直接合并msra和celebrity两个数据集，经过数据均衡和数据增强处理后，得到15W ID和3000W图像，使用caffe + mobilefacenet + insightface loss训练，训练的Acc可达70%以上，但是测试LFW最高也就98.7%，大家对训练大数据集人脸有什么建议吗？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+xsr-ai commented Jul 31, 2018
+
+我直接合并msra和celebrity两个数据集，经过数据均衡和数据增强处理后，得到15W ID和3000W图像，使用caffe + mobilefacenet + insightface loss训练，训练的Acc可达70%以上，但是测试LFW最高也就98.7%，大家对训练大数据集人脸有什么建议吗？
+@JianbangZ
+This comment has been minimized.
+Show comment
+Hide comment
+@JianbangZ
+JianbangZ Aug 1, 2018
+
+@xsr-ai 你做完平衡还有15W？我看了一下ac_glint 长尾很严重，大部分图片都只有几张20张
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+JianbangZ commented Aug 1, 2018
+
+@xsr-ai 你做完平衡还有15W？我看了一下ac_glint 长尾很严重，大部分图片都只有几张20张
+@xsr-ai
+This comment has been minimized.
+Show comment
+Hide comment
+@xsr-ai
+xsr-ai Aug 1, 2018
+
+@JianbangZ 是的，原始的msra和celebrity混合后ID足有18W，我会剔除一些张数特别少的，所以大概也就剩15W个ID，之后会做数据均衡和数据增强。 现在训练10个epoch这样，采用base lr为0.1的epoch（3,3,2,1）衰减方法，看起来loss到21左右后就没办法收敛了，我还在做实验看看是什么原因，也许是训练不够，lr为 0.1时需要更多步长，看大家有什么好建议吗？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+xsr-ai commented Aug 1, 2018
+
+@JianbangZ 是的，原始的msra和celebrity混合后ID足有18W，我会剔除一些张数特别少的，所以大概也就剩15W个ID，之后会做数据均衡和数据增强。 现在训练10个epoch这样，采用base lr为0.1的epoch（3,3,2,1）衰减方法，看起来loss到21左右后就没办法收敛了，我还在做实验看看是什么原因，也许是训练不够，lr为 0.1时需要更多步长，看大家有什么好建议吗？
+@HaoLiuHust
+This comment has been minimized.
+Show comment
+Hide comment
+@HaoLiuHust
+HaoLiuHust Aug 1, 2018
+
+@xsr-ai 数据均衡这块怎么弄
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+HaoLiuHust commented Aug 1, 2018
+
+@xsr-ai 数据均衡这块怎么弄
+@xsr-ai
+This comment has been minimized.
+Show comment
+Hide comment
+@xsr-ai
+xsr-ai Aug 1, 2018
+
+@HaoLiuHust 这个因人而异，有上采样，有下采样，有补充数据，看自己怎么选择。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+xsr-ai commented Aug 1, 2018
+
+@HaoLiuHust 这个因人而异，有上采样，有下采样，有补充数据，看自己怎么选择。
+@YunYang1994
+This comment has been minimized.
+Show comment
+Hide comment
+@YunYang1994
+YunYang1994 Aug 1, 2018
+
+@nttstar 您好， 请问您训练集上的accuracy大概能达到多少呢?因为我发现我训练集上的准确率很低, 但是lfw上的准确率很高。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+YunYang1994 commented Aug 1, 2018
+
+@nttstar 您好， 请问您训练集上的accuracy大概能达到多少呢?因为我发现我训练集上的准确率很低, 但是lfw上的准确率很高。
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Aug 1, 2018
+
+@nttstar @yhw-yhw 请问一下，有人训过triplit loss吗？为啥感觉完全不收敛啊
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Aug 1, 2018
+
+@nttstar @yhw-yhw 请问一下，有人训过triplit loss吗？为啥感觉完全不收敛啊
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Aug 1, 2018
+
+请问一下，有人训过triplit loss吗？为啥感觉完全不收敛啊。虽说是online-hard-negtive-mining,但是总得有个整体的趋势吧？感觉一直不降啊，有啥好办法吗？
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Aug 1, 2018
+
+请问一下，有人训过triplit loss吗？为啥感觉完全不收敛啊。虽说是online-hard-negtive-mining,但是总得有个整体的趋势吧？感觉一直不降啊，有啥好办法吗？
+@caocuong0306 caocuong0306 referenced this issue in davidsandberg/facenet Aug 2, 2018
+Open
+Transfer learning on custom dataset (Asian faces)? #739
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Aug 3, 2018
+
+@Edwardmark @yhw-yhw 请问下你们解决了自己训练的模型在glint训练后测试结果不好的问题了吗？
+我试了好多次自己的模型就是不行。。。, 自己glint训练的模型在其他测试包括megaface上都没有问题
+Name 	TPR@FPR=1e-3 	metric
+基准demo 	0.43883 	cos
+Pretrained r34 	0.49736 	cos
+Pretrained r50 	0.49473 	cos
+自己glint训练 	0.01465 	cos
+
+我生成测试文件的步骤都是一样的，只是模型不一样，只改了src/eval/gen_glint.py里使use_flip = False
+
+    src/data/glint2lst.py /xxx/glint testdata > /home/xxx/glint_test.lst
+    src/eval/gen_glint.py --input /home/xxx/glint_test.lst --output my_result.bin {...other param}
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Aug 3, 2018
+
+@Edwardmark @yhw-yhw 请问下你们解决了自己训练的模型在glint训练后测试结果不好的问题了吗？
+我试了好多次自己的模型就是不行。。。, 自己glint训练的模型在其他测试包括megaface上都没有问题
+Name 	TPR@FPR=1e-3 	metric
+基准demo 	0.43883 	cos
+Pretrained r34 	0.49736 	cos
+Pretrained r50 	0.49473 	cos
+自己glint训练 	0.01465 	cos
+
+我生成测试文件的步骤都是一样的，只是模型不一样，只改了src/eval/gen_glint.py里使use_flip = False
+
+    src/data/glint2lst.py /xxx/glint testdata > /home/xxx/glint_test.lst
+    src/eval/gen_glint.py --input /home/xxx/glint_test.lst --output my_result.bin {...other param}
+
+@Edwardmark
+This comment has been minimized.
+Show comment
+Hide comment
+@Edwardmark
+Edwardmark Aug 3, 2018
+
+@goodpp I solved it by use triplet loss.我微调后测试结果为48%，比原来的有所下降，但是还算正常。
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+Edwardmark commented Aug 3, 2018
+
+@goodpp I solved it by use triplet loss.我微调后测试结果为48%，比原来的有所下降，但是还算正常。
+@goodpp
+This comment has been minimized.
+Show comment
+Hide comment
+@goodpp
+goodpp Aug 3, 2018
+
+@Edwardmark 谢谢，我也试试
+
+Pick your reaction
+👍 👎 😄 🎉 😕 ❤️
+goodpp commented Aug 3, 2018
+
+@Edwardmark 谢谢，我也试试
+@Chen-Zhihui
+Select a reply ctrl .
+Write Preview
+There was an error creating your Issue.
+
+Attach files by dragging & dropping, selecting them , or pasting from the clipboard. Uploading your files… We don’t support that file type. Try again with a GIF, JPEG, JPG, PNG, DOCX, GZ, LOG, PDF, PPTX, TXT, XLSX or ZIP. Attaching documents requires write permission to this repository. Try again with a GIF, JPEG, JPG, PNG, DOCX, GZ, LOG, PDF, PPTX, TXT, XLSX or ZIP. We don’t support that file type. Try again with a GIF, JPEG, JPG, PNG, DOCX, GZ, LOG, PDF, PPTX, TXT, XLSX or ZIP. Yowza, that’s a big file Try again with a file smaller than 10MB. This file is empty. Try again with a file that’s not empty. This file is hidden. Try again with another file. Something went really wrong, and we can’t process that file. Try again.
+
+Nothing to preview
+Styling with Markdown is supported
+Comment
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
+You can’t perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.
