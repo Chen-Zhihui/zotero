@@ -1,0 +1,154 @@
+
+Similarity learning
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 137.222.184.246 ( talk ) at 15:34, 27 March 2018 . The present address (URL) is a permanent link to this version.
+Revision as of 15:34, 27 March 2018 by 137.222.184.246 ( talk )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+Similarity learning is an area of supervised machine learning in artificial intelligence . It is closely related to regression and classification , but the goal is to learn from examples a similarity function that measures how similar or related two objects are. It has applications in ranking , in recommendation systems , visual identity tracking, face verification, and speaker verification.
+Contents
+
+    1 Learning setup
+    2 Metric learning
+    3 Applications
+    4 Scalability
+    5 See also
+    6 Further reading
+    7 References
+
+Learning setup [ edit ]
+
+There are four common setups for similarity and metric distance learning.
+
+Regression similarity learning
+    In this setup, pairs of objects are given ( x i 1 , x i 2 ) {\displaystyle (x_{i}^{1},x_{i}^{2})} (x_{i}^{1},x_{i}^{2}) together with a measure of their similarity y i ∈ R {\displaystyle y_{i}\in R} y_{i}\in R . The goal is to learn a function that approximates f ( x i 1 , x i 2 ) ∼ y i {\displaystyle f(x_{i}^{1},x_{i}^{2})\sim y_{i}} f(x_{i}^{1},x_{i}^{2})\sim y_{i} for every new labeled triplet example ( x i 1 , x i 2 , y i ) {\displaystyle (x_{i}^{1},x_{i}^{2},y_{i})} (x_{i}^{1},x_{i}^{2},y_{i}) . This is typically achieved by minimizing a regularized loss min W ∑ i l o s s ( w ; x i 1 , x i 2 , y i ) + r e g ( w ) {\displaystyle \min _{W}\sum _{i}loss(w;x_{i}^{1},x_{i}^{2},y_{i})+reg(w)} {\displaystyle \min _{W}\sum _{i}loss(w;x_{i}^{1},x_{i}^{2},y_{i})+reg(w)} .
+Classification similarity learning
+    Given are pairs of similar objects ( x i , x i + ) {\displaystyle (x_{i},x_{i}^{+})} (x_{i},x_{i}^{+}) and non similar objects ( x i , x i − ) {\displaystyle (x_{i},x_{i}^{-})} (x_{i},x_{i}^{-}) . An equivalent formulation is that every pair ( x i 1 , x i 2 ) {\displaystyle (x_{i}^{1},x_{i}^{2})} (x_{i}^{1},x_{i}^{2}) is given together with a binary label y i ∈ { 0 , 1 } {\displaystyle y_{i}\in \{0,1\}} y_{i}\in \{0,1\} that determines if the two objects are similar or not. The goal is again to learn a classifier that can decide if a new pair of objects is similar or not.
+Ranking similarity learning
+    Given are triplets of objects ( x i , x i + , x i − ) {\displaystyle (x_{i},x_{i}^{+},x_{i}^{-})} (x_{i},x_{i}^{+},x_{i}^{-}) whose relative similarity obey a predefined order: x i {\displaystyle x_{i}} x_{i} is known to be more similar to x i + {\displaystyle x_{i}^{+}} x_{i}^{+} than to x i − {\displaystyle x_{i}^{-}} x_{i}^{-} . The goal is to learn a function f {\displaystyle f} f such that for any new triplet of objects ( x , x + , x − ) {\displaystyle (x,x^{+},x^{-})} (x,x^{+},x^{-}) , it obeys f ( x , x + ) > f ( x , x − ) {\displaystyle f(x,x^{+})>f(x,x^{-})} f(x,x^{+})>f(x,x^{-}) . This setup assumes a weaker form of supervision than in regression, because instead of providing an exact measure of similarity , one only has to provide the relative order of similarity. For this reason, ranking-based similarity learning is easier to apply in real large-scale applications. [1] 
+Locality sensitive hashing (LSH) [2]
+    hashes input items so that similar items map to the same "buckets" in memory with high probability (the number of buckets being much smaller than the universe of possible input items). It is often applied in nearest neighbor search on large-scale high-dimensional data, e.g., image databases, document collections, time-series databases, and genome databases. [3] 
+
+A common approach for learning similarity, is to model the similarity function as a bilinear form . For example, in the case of ranking similarity learning, one aims to learn a matrix W that parametrizes the similarity function f W ( x , z ) = x T W z {\displaystyle f_{W}(x,z)=x^{T}Wz} f_{W}(x,z)=x^{T}Wz .
+Metric learning [ edit ]
+
+Similarity learning is closely related to distance metric learning . Metric learning is the task of learning a distance function over objects. A metric or distance function has to obey four axioms: non-negativity , Identity of indiscernibles , symmetry and subadditivity / triangle inequality. In practice, metric learning algorithms ignore the condition of identity of indiscernibles and learn a pseudo-metric.
+
+When the objects x i {\displaystyle x_{i}} x_{i} are vectors in R d {\displaystyle R^{d}} R^{d} , then any matrix W {\displaystyle W} W in the symmetric positive semi-definite cone S + d {\displaystyle S_{+}^{d}} S_{+}^{d} defines a distance pseudo-metric of the space of x through the form D W ( x 1 , x 2 ) 2 = ( x 1 − x 2 ) ⊤ W ( x 1 − x 2 ) {\displaystyle D_{W}(x_{1},x_{2})^{2}=(x_{1}-x_{2})^{\top }W(x_{1}-x_{2})} D_{W}(x_{1},x_{2})^{2}=(x_{1}-x_{2})^{\top }W(x_{1}-x_{2}) . When W {\displaystyle W} W is a symmetric positive definite matrix, D W {\displaystyle D_{W}} D_{W} is a metric. Moreover, as any symmetric positive semi-definite matrix W ∈ S + d {\displaystyle W\in S_{+}^{d}} W\in S_{+}^{d} can be decomposed as W = L ⊤ L {\displaystyle W=L^{\top }L} W=L^{\top }L where L ∈ R e × d {\displaystyle L\in R^{e\times d}} L\in R^{e\times d} and e ≥ r a n k ( W ) {\displaystyle e\geq rank(W)} e\geq rank(W) , the distance function D W {\displaystyle D_{W}} D_{W} can be rewritten equivalently D W ( x 1 , x 2 ) 2 = ( x 1 − x 2 ) ⊤ L ⊤ L ( x 1 − x 2 ) = ‖ L ( x 1 − x 2 ) ‖ 2 2 {\displaystyle D_{W}(x_{1},x_{2})^{2}=(x_{1}-x_{2})^{\top }L^{\top }L(x_{1}-x_{2})=\|L(x_{1}-x_{2})\|_{2}^{2}} D_{W}(x_{1},x_{2})^{2}=(x_{1}-x_{2})^{\top }L^{\top }L(x_{1}-x_{2})=\|L(x_{1}-x_{2})\|_{2}^{2} . The distance D W ( x 1 , x 2 ) 2 = ‖ x 1 ′ − x 2 ′ ‖ 2 2 {\displaystyle D_{W}(x_{1},x_{2})^{2}=\|x_{1}'-x_{2}'\|_{2}^{2}} D_{W}(x_{1},x_{2})^{2}=\|x_{1}'-x_{2}'\|_{2}^{2} corresponds to the Euclidean distance between the projected feature vectors x 1 ′ = L x 1 {\displaystyle x_{1}'=Lx_{1}} x_{1}'=Lx_{1} and x 2 ′ = L x 2 {\displaystyle x_{2}'=Lx_{2}} x_{2}'=Lx_{2} . Some well-known approaches for metric learning include Large margin nearest neighbor , [4] Information theoretic metric learning (ITML). [5]
+
+In statistics , the covariance matrix of the data is sometimes used to define a distance metric called Mahalanobis distance .
+Applications [ edit ]
+
+Similarity learning is used in information retrieval for learning to rank, in face verification or face identification, [6] [7] and in recommendation systems . Also, many machine learning approaches rely on some metric. This includes unsupervised learning such as clustering , which groups together close or similar objects. It also includes supervised approaches like K-nearest neighbor algorithm which rely on labels of nearby objects to decide on the label of a new object. Metric learning has been proposed as a preprocessing step for many of these approaches . [8]
+Scalability [ edit ]
+
+Metric and similarity learning naively scale quadratically with the dimension of the input space, as can easily see when the learned metric has a bilinear form f W ( x , z ) = x T W z {\displaystyle f_{W}(x,z)=x^{T}Wz} f_{W}(x,z)=x^{T}Wz . Scaling to higher dimensions can be achieved by enforcing a sparseness structure over the matrix model, as done with HDSL, [9] and with COMET. [10]
+See also [ edit ]
+
+    Latent semantic analysis
+
+Further reading [ edit ]
+
+For further information on this topic, see the surveys on metric and similarity learning by Bellet et al. [11] and Kulis. [12] . A general framework for metric learning has been proposed by Huang et al. [13]
+
+
+References [ edit ]
+
+    Jump up ^ Chechik, G.; Sharma, V.; Shalit, U.; Bengio, S. (2010). "Large Scale Online Learning of Image Similarity Through Ranking" (PDF) . Journal of Machine Learning research . 11 : 1109–1135.  
+    Jump up ^ Gionis, Aristides, Piotr Indyk, and Rajeev Motwani. "Similarity search in high dimensions via hashing." VLDB. Vol. 99. No. 6. 1999.
+    Jump up ^ Rajaraman, A.; Ullman, J. (2010). "Mining of Massive Datasets, Ch. 3" .  
+    Jump up ^ Weinberger, K. Q.; Blitzer, J. C.; Saul, L. K. (2006). "Distance Metric Learning for Large Margin Nearest Neighbor Classification" (PDF) . Advances in Neural Information Processing Systems . 18 : 1473–1480.  
+    Jump up ^ Davis, J. V.; Kulis, B.; Jain, P.; Sra, S.; Dhillon, I. S. (2007). "Information-theoretic metric learning" . International conference in machine learning (ICML) : 209–216.  
+    Jump up ^ Guillaumin, M.; Verbeek, J.; Schmid, C. (2009). "Is that you? Metric learning approaches for face identification" (PDF) . IEEE International Conference on Computer Vision (ICCV) .  
+    Jump up ^ Mignon, A.; Jurie, F. (2012). "PCCA: A new approach for distance learning from sparse pairwise constraints" (PDF) . IEEE Conference on Computer Vision and Pattern Recognition (CVPR) .  
+    Jump up ^ Xing, E. P.; Ng, A. Y.; Jordan, M. I.; Russell, S. (2002). "Distance Metric Learning, with Application to Clustering with Side-information". Advances in Neural Information Processing Systems . MIT Press. 15 : 505–512.  
+    Jump up ^ Liu; Bellet; Sha (2015). "Similarity Learning for High-Dimensional Sparse Data" (PDF) . International Conference on Artificial Intelligence and Statistics (AISTATS) .  
+    Jump up ^ Atzmon; Shalit; Chechik (2015). "Learning Sparse Metrics, One Feature at a Time" (PDF) . J. Mach. Learn. Research (JMLR) .  
+    Jump up ^ Bellet, A.; Habrard, A.; Sebban, M. (2013). "A Survey on Metric Learning for Feature Vectors and Structured Data". arXiv : 1306.6709  Freely accessible [ cs.LG ].  
+    Jump up ^ Kulis, B. (2012). "Metric Learning: A Survey" (PDF) . Foundations and Trends in Machine Learning .  
+    Jump up ^ Huang, K. (2011). "Generalized sparse metric learning with relative comparisons" . Knowledge and Information Systems (KAIS) . 28 : 25–45.  
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Similarity_learning&oldid=832709090 "
+Categories :
+
+    Machine learning
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+Add links
+
+    This page was last edited on 27 March 2018, at 15:34  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+
