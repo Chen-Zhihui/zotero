@@ -1,0 +1,313 @@
+
+Kernel method
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 170.48.2.182 ( talk ) at 11:35, 28 May 2018 . The present address (URL) is a permanent link to this version.
+Revision as of 11:35, 28 May 2018 by 170.48.2.182 ( talk )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+Machine learning and
+data mining
+Kernel Machine.svg
+Problems [show]
+
+    Classification
+    Clustering
+    Regression
+    Anomaly detection
+    AutoML
+    Association rules
+    Reinforcement learning
+    Structured prediction
+    Feature engineering
+    Feature learning
+    Online learning
+    Semi-supervised learning
+    Unsupervised learning
+    Learning to rank
+    Grammar induction
+
+Supervised learning
+( classification  • regression )
+[show]
+
+    Decision trees
+    Ensembles ( Bagging , Boosting , Random forest )
+    k -NN
+    Linear regression
+    Naive Bayes
+    Neural networks
+    Logistic regression
+    Perceptron
+    Relevance vector machine (RVM)
+    Support vector machine (SVM)
+
+Clustering [show]
+
+    BIRCH
+    CURE
+    Hierarchical
+    k -means
+    Expectation–maximization (EM)
+
+    DBSCAN
+    OPTICS
+    Mean-shift
+
+Dimensionality reduction [show]
+
+    Factor analysis
+    CCA
+    ICA
+    LDA
+    NMF
+    PCA
+    t-SNE
+
+Structured prediction [show]
+
+    Graphical models ( Bayes net , CRF , HMM )
+
+Anomaly detection [show]
+
+    k -NN
+    Local outlier factor
+
+Neural nets [show]
+
+    Autoencoder
+    Deep learning
+    Multilayer perceptron
+    RNN ( LSTM , GRU )
+    Restricted Boltzmann machine
+    SOM
+    Convolutional neural network ( U-Net )
+
+Reinforcement learning [show]
+
+    Q-learning
+    SARSA
+    Temporal difference (TD)
+
+Theory [show]
+
+    Bias-variance dilemma
+    Computational learning theory
+    Empirical risk minimization
+    Occam learning
+    PAC learning
+    Statistical learning
+    VC theory
+
+Machine-learning venues [show]
+
+    NIPS
+    ICML
+    ML
+    JMLR
+    ArXiv:cs.LG
+
+Glossary of artificial intelligence [show]
+
+    Glossary of artificial intelligence
+
+Related articles [show]
+
+    List of datasets for machine-learning research
+    Outline of machine learning
+
+    Portal-puzzle.svg Machine learning portal
+
+    v
+    t
+    e
+
+In machine learning , kernel methods are a class of algorithms for pattern analysis , whose best known member is the support vector machine (SVM). The general task of pattern analysis is to find and study general types of relations (for example clusters , rankings , principal components , correlations , classifications ) in datasets. For many algorithms that solve these tasks, the data in raw representation have to be explicitly transformed into feature vector representations via a user-specified feature map : in contrast, kernel methods require only a user-specified kernel , i.e., a similarity function over pairs of data points in raw representation.
+
+Kernel methods owe their name to the use of kernel functions , which enable them to operate in a high-dimensional, implicit feature space without ever computing the coordinates of the data in that space, but rather by simply computing the inner products between the images of all pairs of data in the feature space. This operation is often computationally cheaper than the explicit computation of the coordinates. This approach is called the " kernel trick " [1] . Kernel functions have been introduced for sequence data, graphs , text, images, as well as vectors.
+
+Algorithms capable of operating with kernels include the kernel perceptron , support vector machines (SVM), Gaussian processes , principal components analysis (PCA), canonical correlation analysis , ridge regression , spectral clustering , linear adaptive filters and many others. Any linear model can be turned into a non-linear model by applying the kernel trick to the model: replacing its features (predictors) by a kernel function [ citation needed ] .
+
+Most kernel algorithms are based on convex optimization or eigenproblems and are statistically well-founded. Typically, their statistical properties are analyzed using statistical learning theory (for example, using Rademacher complexity ).
+Contents
+
+    1 Motivation and informal explanation
+    2 Mathematics: the kernel trick
+    3 Applications
+    4 Popular kernels
+    5 See also
+    6 Notes
+    7 References
+    8 External links
+
+Motivation and informal explanation [ edit ]
+
+Kernel methods can be thought of as instance-based learners : rather than learning some fixed set of parameters corresponding to the features of their inputs, they instead "remember" the i {\displaystyle i} i -th training example ( x i , y i ) {\displaystyle (\mathbf {x} _{i},y_{i})} (\mathbf {x} _{i},y_{i}) and learn for it a corresponding weight w i {\displaystyle w_{i}} w_{i} . Prediction for unlabeled inputs, i.e., those not in the training set, is treated by the application of a similarity function k {\displaystyle k} k , called a kernel , between the unlabeled input x ′ {\displaystyle \mathbf {x'} } \mathbf {x'} and each of the training inputs x i {\displaystyle \mathbf {x} _{i}} \mathbf {x} _{i} . For instance, a kernelized binary classifier typically computes a weighted sum of similarities
+
+    y ^ = sgn ⁡ ∑ i = 1 n w i y i k ( x i , x ′ ) {\displaystyle {\hat {y}}=\operatorname {sgn} \sum _{i=1}^{n}w_{i}y_{i}k(\mathbf {x} _{i},\mathbf {x'} )} {\hat {y}}=\operatorname {sgn} \sum _{i=1}^{n}w_{i}y_{i}k(\mathbf {x} _{i},\mathbf {x'} ) ,
+
+where
+
+    y ^ ∈ { − 1 , + 1 } {\displaystyle {\hat {y}}\in \{-1,+1\}} {\hat {y}}\in \{-1,+1\} is the kernelized binary classifier's predicted label for the unlabeled input x ′ {\displaystyle \mathbf {x'} } \mathbf {x'} whose hidden true label y {\displaystyle y} y is of interest;
+    k : X × X → R {\displaystyle k\colon {\mathcal {X}}\times {\mathcal {X}}\to \mathbb {R} } k\colon {\mathcal {X}}\times {\mathcal {X}}\to \mathbb {R} is the kernel function that measures similarity between any pair of inputs x , x ′ ∈ X {\displaystyle \mathbf {x} ,\mathbf {x'} \in {\mathcal {X}}} \mathbf {x} ,\mathbf {x'} \in {\mathcal {X}} ;
+    the sum ranges over the n labeled examples { ( x i , y i ) } i = 1 n {\displaystyle \{(\mathbf {x} _{i},y_{i})\}_{i=1}^{n}} \{(\mathbf {x} _{i},y_{i})\}_{i=1}^{n} in the classifier's training set, with y i ∈ { − 1 , + 1 } {\displaystyle y_{i}\in \{-1,+1\}} y_{i}\in \{-1,+1\} ;
+    the w i ∈ R {\displaystyle w_{i}\in \mathbb {R} } w_{i}\in \mathbb {R} are the weights for the training examples, as determined by the learning algorithm;
+    the sign function sgn {\displaystyle \operatorname {sgn} } \operatorname {sgn} determines whether the predicted classification y ^ {\displaystyle {\hat {y}}} {\hat {y}} comes out positive or negative.
+
+Kernel classifiers were described as early as the 1960s, with the invention of the kernel perceptron . [2] They rose to great prominence with the popularity of the support vector machine (SVM) in the 1990s, when the SVM was found to be competitive with neural networks on tasks such as handwriting recognition .
+Mathematics: the kernel trick [ edit ]
+SVM with kernel given by φ(( a , b )) = ( a , b , a 2 + b 2 ) and thus K ( x , y ) = x • y + x 2 y 2 . The training points are mapped to a 3-dimensional space where a separating hyperplane can be easily found.
+
+The kernel trick avoids the explicit mapping that is needed to get linear learning algorithms to learn a nonlinear function or decision boundary . For all x {\displaystyle \mathbf {x} } \mathbf {x} and x ′ {\displaystyle \mathbf {x'} } \mathbf {x'} in the input space X {\displaystyle {\mathcal {X}}} {\mathcal {X}} , certain functions k ( x , x ′ ) {\displaystyle k(\mathbf {x} ,\mathbf {x'} )} k(\mathbf {x} ,\mathbf {x'} ) can be expressed as an inner product in another space V {\displaystyle {\mathcal {V}}} {\mathcal {V}} . The function k : X × X → R {\displaystyle k\colon {\mathcal {X}}\times {\mathcal {X}}\to \mathbb {R} } k\colon {\mathcal {X}}\times {\mathcal {X}}\to \mathbb {R} is often referred to as a kernel or a kernel function . The word "kernel" is used in mathematics to denote a weighting function for a weighted sum or integral .
+
+Certain problems in machine learning have additional structure than an arbitrary weighting function k {\displaystyle k} k . The computation is made much simpler if the kernel can be written in the form of a "feature map" φ : X → V {\displaystyle \varphi \colon {\mathcal {X}}\to {\mathcal {V}}} \varphi \colon {\mathcal {X}}\to {\mathcal {V}} which satisfies
+
+    k ( x , x ′ ) = ⟨ φ ( x ) , φ ( x ′ ) ⟩ V . {\displaystyle k(\mathbf {x} ,\mathbf {x'} )=\langle \varphi (\mathbf {x} ),\varphi (\mathbf {x'} )\rangle _{\mathcal {V}}.} k(\mathbf {x} ,\mathbf {x'} )=\langle \varphi (\mathbf {x} ),\varphi (\mathbf {x'} )\rangle _{\mathcal {V}}. 
+
+The key restriction is that ⟨ ⋅ , ⋅ ⟩ V {\displaystyle \langle \cdot ,\cdot \rangle _{\mathcal {V}}} \langle \cdot ,\cdot \rangle _{\mathcal {V}} must be a proper inner product. On the other hand, an explicit representation for φ {\displaystyle \varphi } \varphi is not necessary, as long as V {\displaystyle {\mathcal {V}}} {\mathcal {V}} is an inner product space . The alternative follows from Mercer's theorem : an implicitly defined function φ {\displaystyle \varphi } \varphi exists whenever the space X {\displaystyle {\mathcal {X}}} {\mathcal {X}} can be equipped with a suitable measure ensuring the function k {\displaystyle k} k satisfies Mercer's condition .
+
+Mercer's theorem is similar to a generalization of the result from linear algebra that associates an inner product to any positive-definite matrix . In fact, Mercer's condition can be reduced to this simpler case. If we choose as our measure the counting measure μ ( T ) = | T | {\displaystyle \mu (T)=|T|} \mu (T)=|T| for all T ⊂ X {\displaystyle T\subset X} T\subset X , which counts the number of points inside the set T {\displaystyle T} T , then the integral in Mercer's theorem reduces to a summation
+
+    ∑ i = 1 n ∑ j = 1 n k ( x i , x j ) c i c j ≥ 0. {\displaystyle \sum _{i=1}^{n}\sum _{j=1}^{n}k(\mathbf {x} _{i},\mathbf {x} _{j})c_{i}c_{j}\geq 0.} \sum _{i=1}^{n}\sum _{j=1}^{n}k(\mathbf {x} _{i},\mathbf {x} _{j})c_{i}c_{j}\geq 0. 
+
+If this summation holds for all finite sequences of points ( x 1 , … , x n ) {\displaystyle (\mathbf {x} _{1},\dotsc ,\mathbf {x} _{n})} (\mathbf {x} _{1},\dotsc ,\mathbf {x} _{n}) in X {\displaystyle {\mathcal {X}}} {\mathcal {X}} and all choices of n {\displaystyle n} n real-valued coefficients ( c 1 , … , c n ) {\displaystyle (c_{1},\dots ,c_{n})} (c_{1},\dots ,c_{n}) (cf. positive definite kernel ), then the function k {\displaystyle k} k satisfies Mercer's condition.
+
+Some algorithms that depend on arbitrary relationships in the native space X {\displaystyle {\mathcal {X}}} {\mathcal {X}} would, in fact, have a linear interpretation in a different setting: the range space of φ {\displaystyle \varphi } \varphi . The linear interpretation gives us insight about the algorithm. Furthermore, there is often no need to compute φ {\displaystyle \varphi } \varphi directly during computation, as is the case with support vector machines . Some cite this running time shortcut as the primary benefit. Researchers also use it to justify the meanings and properties of existing algorithms.
+
+Theoretically, a Gram matrix K ∈ R n × n {\displaystyle \mathbf {K} \in \mathbb {R} ^{n\times n}} \mathbf {K} \in \mathbb {R} ^{n\times n} with respect to { x 1 , … , x n } {\displaystyle \{\mathbf {x} _{1},\dotsc ,\mathbf {x} _{n}\}} \{\mathbf {x} _{1},\dotsc ,\mathbf {x} _{n}\} (sometimes also called a "kernel matrix" [3] ), where K i j = k ( x i , x j ) {\displaystyle K_{ij}=k(\mathbf {x} _{i},\mathbf {x} _{j})} {\displaystyle K_{ij}=k(\mathbf {x} _{i},\mathbf {x} _{j})} , must be positive semi-definite (PSD) . [4] Empirically, for machine learning heuristics, choices of a function k {\displaystyle k} k that do not satisfy Mercer's condition may still perform reasonably if k {\displaystyle k} k at least approximates the intuitive idea of similarity. [5] Regardless of whether k {\displaystyle k} k is a Mercer kernel, k {\displaystyle k} k may still be referred to as a "kernel".
+
+If the kernel function k {\displaystyle k} k is also a covariance function as used in Gaussian processes , then the Gram matrix K {\displaystyle \mathbf {K} } \mathbf {K} can also be called a covariance matrix . [6]
+Applications [ edit ]
+
+Application areas of kernel methods are diverse and include geostatistics , [7] kriging , inverse distance weighting , 3D reconstruction , bioinformatics , chemoinformatics , information extraction and handwriting recognition .
+Popular kernels [ edit ]
+
+    Fisher kernel
+    Graph kernels
+    Kernel smoother
+    Polynomial kernel
+    Radial basis function kernel (RBF)
+    String kernels
+
+See also [ edit ]
+
+    Kernel methods for vector output
+    Representer theorem
+
+Notes [ edit ]
+
+    Jump up ^ Theodoridis, Sergios (2008). Pattern Recognition . Elsevier B.V. p. 203. ISBN   9780080949123 .  
+    Jump up ^ Aizerman, M. A.; Braverman, Emmanuel M.; Rozoner, L. I. (1964). "Theoretical foundations of the potential function method in pattern recognition learning". Automation and Remote Control . 25 : 821–837.   Cited in Guyon, Isabelle; Boser, B.; Vapnik, Vladimir (1993). Automatic capacity tuning of very large VC-dimension classifiers . Advances in neural information processing systems. CiteSeerX   10.1.1.17.7215  Freely accessible .  
+    Jump up ^ Hofmann, Thomas; Scholkopf, Bernhard; Smola, Alexander J. (2008). "Kernel Methods in Machine Learning".  
+    Jump up ^ Mohri, Mehryar ; Rostamizadeh, Afshin; Talwalkar, Ameet (2012). Foundations of Machine Learning . USA, Massachusetts: MIT Press. ISBN   9780262018258 .  
+    Jump up ^ Sewell, Martin. "Support Vector Machines: Mercer's Condition" . www.svms.org .  
+    Jump up ^ Rasmussen, C. E.; Williams, C. K. I. (2006). "Gaussian Processes for Machine Learning".  
+    Jump up ^ Honarkhah, M.; Caers, J. (2010). "Stochastic Simulation of Patterns Using Distance-Based Pattern Modeling". Mathematical Geosciences . 42 : 487–517. doi : 10.1007/s11004-010-9276-7 .  
+
+References [ edit ]
+
+    Shawe-Taylor, J. ; Cristianini, N. (2004). Kernel Methods for Pattern Analysis . Cambridge University Press.  
+    Liu, W.; Principe, J.; Haykin, S. (2010). Kernel Adaptive Filtering: A Comprehensive Introduction . Wiley.  
+
+External links [ edit ]
+
+    Kernel-Machines Org —community website
+    www.support-vector-machines.org (Literature, Review, Software, Links related to Support Vector Machines - Academic Site)
+    onlineprediction.net Kernel Methods Article
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Kernel_method&oldid=843324967 "
+Categories :
+
+    Kernel methods for machine learning
+    Geostatistics
+    Classification algorithms
+
+Hidden categories:
+
+    All articles with unsourced statements
+    Articles with unsourced statements from October 2017
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Deutsch
+    Français
+    Italiano
+    日本語
+    Українська
+
+Edit links
+
+    This page was last edited on 28 May 2018, at 11:35  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+    Enable previews
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

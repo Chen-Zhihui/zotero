@@ -1,0 +1,312 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>SVM - Support Vector Machines</title>
+<meta name="keywords" content="SVM, support vector machines, SVMC, support vector machines classification, SVMR, support vector machines regression, kernel, machine learning, pattern recognition, cheminformatics, computational chemistry, bioinformatics, computational biology">
+<meta name="description" content="SVM, support vector machines, SVMC, support vector machines classification, SVMR, support vector machines regression, kernel, machine learning, pattern recognition, cheminformatics, computational chemistry, bioinformatics, computational biology">
+<style type="text/css">
+body{background-color:#FFFFFF;border:0px;margin:0px;font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";font-size:13px;font-weight:normal;color:#000000;}
+table{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";font-size:11px;}
+tr{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";font-size:11px;}
+td{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";font-size:11px;}
+b{font-weight:bold;}
+p{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";}
+a{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:none;}
+form{margin:0px;padding:0px;}
+a:link{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:none;font-size:11px;color:#000099;}
+a:visited{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:none;font-size:11px;color:#000099;}
+a:active{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:none;font-size:11px;color:#000099;}
+a:hover{font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";font-size:11px;color:#000099;text-decoration:underline;}
+
+  H1      {FONT-SIZE: 14px; COLOR: blue; ALIGN: center}
+  H2      {FONT-SIZE: 14px; COLOR: blue; ALIGN: center}
+</style>
+</head>
+<body topmargin="0" leftmargin="0" bgcolor="#FFFFFF" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody><tr bgcolor="white"><td colspan="3" width="100%" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="CENTER">
+
+<tbody><tr bgcolor="#E8E8E8" align="CENTER"><td colspan="4">&nbsp;</td></tr>
+<tr bgcolor="#E8E8E8" align="CENTER">
+<td><img src="SVM_02.jpg"></td>
+<td><img src="SVM_01.jpg"></td>
+<td><img src="SVM_03.jpg"></td>
+<td><img src="SVM_05.jpg"></td></tr>
+<tr bgcolor="#E8E8E8" align="CENTER"><td colspan="4">&nbsp;</td></tr>
+
+</tbody></table>
+</td></tr>
+<tr><td width="15%" valign="TOP">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="CENTER">
+<tbody><tr bgcolor="#FFFF00"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/index.html">&nbsp;Home
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#FF0000"><td>
+<font color="#FFFFFF"><b>&nbsp;Support Vector Machines
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_review.html">&nbsp;SVM Reviews
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_book.html">&nbsp;SVM Books
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_soft.html">&nbsp;SVM Software
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_pr.html">&nbsp;Pattern Recognition
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_osh.html">&nbsp;Optimum Hyperplane
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_regression.html">&nbsp;SVM Regression
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_nusvm.html">&nbsp;ν-SVM
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.support-vector-machines.org/SVM_stat.html">&nbsp;SVM Statistics
+</a></font></td></tr>
+<tr width="100%" bgcolor="#FF0000"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#0000FF"><td>
+<font color="#FFFFFF"><b>&nbsp;Machine Learning
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.mlnet.org/" target="_blank">&nbsp;MLnet
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.kcl.ac.uk/neuronet/" target="_blank">&nbsp;NEuroNet
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://evonet.lri.fr/" target="_blank">&nbsp;EvoNet
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ics.uci.edu/%7Emlearn/MLRepository.html" target="_blank">&nbsp;UCI Repository
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://home.earthlink.net/%7Edwaha/research/machine-learning.html" target="_blank">&nbsp;List 1
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www-dsi.ing.unifi.it/neural/w3-sites.html" target="_blank">&nbsp;List 2
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ph.tn.tudelft.nl/PRInfo/software.html" target="_blank">&nbsp;List 3
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://en.wikipedia.org/wiki/Machine_learning" target="_blank">&nbsp;Wikipedia
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://scalab.uc3m.es/%7Edborrajo/ml-systems/" target="_blank">&nbsp;Repository
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://xray.bsd.uchicago.edu/krl/KRL_ROC/software_index.htm" target="_blank">&nbsp;ROCKIT
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.cs.waikato.ac.nz/ml/weka/" target="_blank">&nbsp;Weka
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.rulequest.com/Personal/" target="_blank">&nbsp;C4.5
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www-ai.cs.uni-dortmund.de/SOFTWARE/YALE/index.html" target="_blank">&nbsp;YALE
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www-2.cs.cmu.edu/%7Eawm/tutorials/" target="_blank">&nbsp;Tutorials
+</a></font></td></tr>
+<tr width="100%" bgcolor="#0000FF"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+</tbody></table>
+</td>
+<td width="70%" valign="TOP">
+<table width="97%" border="0" cellspacing="0" cellpadding="0" align="CENTER">
+<tbody><tr><td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr bgcolor="#FFFFCC" align="CENTER"><td><font color="#FF0000"><span style="font-size:16px"><b>
+SVM - Support Vector Machines
+</b></span></font></td></tr></tbody></table>
+<p align="JUSTIFY">Kernel-based techniques (such as support vector machines,
+ Bayes point machines, kernel principal component analysis,
+ and Gaussian processes) represent a major development in
+ machine learning algorithms.
+ Support vector machines (SVM) are a group of supervised
+ learning methods that can be applied to classification or
+ regression. Support vector machines represent an extension
+ to nonlinear models of the generalized portrait algorithm developed by
+ <a href="http://www.clrc.rhul.ac.uk/people/vlad/index.shtml">Vladimir Vapnik</a>.
+ The SVM algorithm is based on the statistical learning
+ theory and the Vapnik-Chervonenkis (VC) dimension introduced by
+ <a href="http://www.clrc.rhul.ac.uk/people/chervonenkis/index.shtml">Vladimir Vapnik</a>
+ and <a href="http://www.clrc.rhul.ac.uk/people/vlad/index.shtml">Alexey Chervonenkis</a>.</p>
+<br>
+<ul>
+<li><a href="http://www.ivanciuc.org/Files/Reprint/Ivanciuc_SVM_CCR_2007_23_291.pdf">Review: <b>Applications of Support Vector Machines in Chemistry</b>, <i>Rev. Comput. Chem.</i> <b>2007</b>, <i>23</i>, 291-400</a>
+</li></ul>
+<br>
+
+<li><a href="http://www.support-vector-machines.org/SVM_review.html">SVM Reviews</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_book.html">SVM Books</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_soft.html">SVM Software</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_pr.html">Pattern Recognition</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_osh.html">Optimum Separation Hyperplane</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_regression.html">SVM Regression</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_nusvm.html">ν-SVM</a>
+</li><li><a href="http://www.support-vector-machines.org/SVM_stat.html">Classification and Regression Statistics</a>
+
+</li></td></tr>
+</tbody></table>
+</td>
+<td width="15%" valign="TOP">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="CENTER">
+<tbody><tr bgcolor="#9900CC"><td>
+<font color="FFFFFF"><b>&nbsp;Search "SVM" in:
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=pubmed&amp;cmd=Search&amp;term=%22svm%22" target="_blank">&nbsp;PubMed
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PMC&amp;cmd=Search&amp;term=%22svm%22" target="_blank">&nbsp;PubMed Central
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://citeseer.ist.psu.edu/cis?q=svm&amp;cs=1" target="_blank">&nbsp;CiteSeer
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://scholar.google.com/scholar?hl=en&amp;lr=&amp;ie=ISO-8859-1&amp;q=svm" target="_blank">&nbsp;Google Scholar
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.google.com/search?hl=en&amp;ie=ISO-8859-1&amp;q=svm" target="_blank">&nbsp;Google
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.scirus.com/srsapp/search?q=svm&amp;ds=jnl&amp;g=s&amp;t=all" target="_blank">&nbsp;Scirus
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://search.atomz.com/search/?sp-q=svm&amp;sp-a=sp1002a1f3&amp;sp-p=all&amp;sp-f=ISO-8859-1" target="_blank">&nbsp;BioChem Press
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#9900CC"><td>
+<font color="FFFFFF"><b>&nbsp;Search "Support Vector" in:
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=pubmed&amp;cmd=Search&amp;term=%22support+vector%22" target="_blank">&nbsp;PubMed
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PMC&amp;cmd=Search&amp;term=%22support+vector%22" target="_blank">&nbsp;PubMed Central
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://citeseer.ist.psu.edu/cis?q=%22support+vector%22&amp;cs=1" target="_blank">&nbsp;CiteSeer
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://scholar.google.com/scholar?hl=en&amp;lr=&amp;ie=ISO-8859-1&amp;q=%22support+vector%22" target="_blank">&nbsp;Google Scholar
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.google.com/search?hl=en&amp;lr=&amp;ie=ISO-8859-1&amp;q=%22support+vector%22" target="_blank">&nbsp;Google
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.scirus.com/srsapp/search?q=%22support+vector%22&amp;ds=jnl&amp;g=s&amp;t=all" target="_blank">&nbsp;Scirus
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://search.atomz.com/search/?sp-q=%22support+vector%22&amp;sp-a=sp1002a1f3&amp;sp-p=all&amp;sp-f=ISO-8859-1" target="_blank">&nbsp;BioChem Press
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#9900CC"><td>
+<font color="FFFFFF"><b>&nbsp;Journals
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.jmlr.org/" target="_blank">&nbsp;JMLR
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.biochempress.com/" target="_blank">&nbsp;IEJMD
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://bioinformatics.oxfordjournals.org/" target="_blank">&nbsp;Bioinformatics
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://nar.oxfordjournals.org/" target="_blank">&nbsp;Nucleic Acids Research
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.biomedcentral.com/" target="_blank">&nbsp;BioMed Central
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#9900CC"><td>
+<font color="FFFFFF"><b>&nbsp;Literature Databases
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed" target="_blank">&nbsp;PubMed
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.pubmedcentral.nih.gov/" target="_blank">&nbsp;PubMed Central
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://citeseer.ist.psu.edu/" target="_blank">&nbsp;CiteSeer
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#9900CC"><td>
+<font color="FFFFFF"><b>&nbsp;Search Engines
+</b></font></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.doaj.org/" target="_blank">&nbsp;DOAJ
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.scirus.com/" target="_blank">&nbsp;Scirus
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+<tr bgcolor="#E8E8E8"><td>
+<font color="red"><a href="http://www.ojose.com/" target="_blank">&nbsp;OJOSE
+</a></font></td></tr>
+<tr width="100%" bgcolor="#9900CC"><td width="100%"><img src="dot.gif" width="1" border="0" height="2"></td></tr>
+</tbody></table>
+</td></tr>
+<tr bgcolor="white"><td colspan="3" width="100%" align="center">
+<br><br><br><font color="#000000"></font><font color="#000000"><font color="#000000"></font></font><table width="100%" border="0" cellspacing="0" cellpadding="0" align="CENTER">
+
+
+
+<tbody><tr bgcolor="#00FFFF" align="CENTER"><td>
+<font color="#000000">http://www.support-vector-machines.org/</font></td></tr>
+<tr bgcolor="#FFFF66" align="CENTER">
+<td>The "SVM - Support Vector Machines" Portal is part of the OIRI network</td></tr>
+<tr bgcolor="#FFCCFF" align="CENTER">
+<td><b>All rights reserved - Copyright © 2005 Ovidiu Ivanciuc</b></td></tr>
+</tbody></table><font color="#000000"><font color="#000000">
+</font></font></td></tr></tbody></table>
+
+
+</body></html>
