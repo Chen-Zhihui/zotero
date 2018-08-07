@@ -1,0 +1,109 @@
+
+GrabCut
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Diannaa ( talk  | contribs ) at 21:06, 20 May 2018 (remove copyright content copied from https://docs.opencv.org/3.1.0/d8/d83/tutorial_py_grabcut.html and http://www.cs.ru.ac.za/research/g02m1682/Research.htm) . The present address (URL) is a permanent link to this version.
+Revision as of 21:06, 20 May 2018 by Diannaa ( talk  | contribs ) (remove copyright content copied from https://docs.opencv.org/3.1.0/d8/d83/tutorial_py_grabcut.html and http://www.cs.ru.ac.za/research/g02m1682/Research.htm)
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+GrabCut is an image segmentation method based on graph cuts .
+
+Starting with a user-specified bounding box around the object to be segmented, the algorithm estimates the color distribution of the target object and that of the background using a Gaussian mixture model . This is used to construct a Markov random field over the pixel labels, with an energy function that prefers connected regions having the same label, and running a graph cut based optimization to infer their values. As this estimate is likely to be more accurate than the original, taken from the bounding box, this two-step procedure is repeated until convergence.
+
+Estimates can be further corrected by the user by pointing out misclassified regions and rerunning the optimization. The method also corrects the results to preserve edges.
+
+There are several open source implementations available including OpenCV (as of version 2.1).
+See also [ edit ]
+
+    Connectivity (graph theory)
+    Prim's algorithm
+    Edmonds-Karp algorithm
+    Graph cuts in computer vision
+
+References [ edit ]
+
+    C. Rother, V. Kolmogorov, and A. Blake, GrabCut: Interactive foreground extraction using iterated graph cuts , ACM Trans. Graph., vol. 23, pp. 309–314, 2004.
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=GrabCut&oldid=842190266 "
+Categories :
+
+    Image segmentation
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+Add links
+
+    This page was last edited on 20 May 2018, at 21:06  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

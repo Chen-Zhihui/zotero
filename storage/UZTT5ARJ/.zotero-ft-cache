@@ -1,0 +1,241 @@
+
+Graph cuts in computer vision
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 2601:640:8580:a18:b975:c0e7:2c24:881d ( talk ) at 05:07, 20 July 2018 (Updated links) . The present address (URL) is a permanent link to this version.
+Revision as of 05:07, 20 July 2018 by 2601:640:8580:a18:b975:c0e7:2c24:881d ( talk ) (Updated links)
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+As applied in the field of computer vision , graph cuts can be employed to efficiently solve a wide variety of low-level computer vision problems ( early vision [1] ), such as image smoothing , the stereo correspondence problem , image segmentation , and many other computer vision problems that can be formulated in terms of energy minimization . Many of these energy minimization problems can be approximated by solving a maximum flow problem in a graph [2] (and thus, by the max-flow min-cut theorem , define a minimal cut of the graph). Under most formulations of such problems in computer vision, the minimum energy solution corresponds to the maximum a posteriori estimate of a solution. Although many computer vision algorithms involve cutting a graph (e.g., normalized cuts), the term "graph cuts" is applied specifically to those models which employ a max-flow/min-cut optimization (other graph cutting algorithms may be considered as graph partitioning algorithms).
+
+"Binary" problems (such as denoising a binary image ) can be solved exactly using this approach; problems where pixels can be labeled with more than two different labels (such as stereo correspondence, or denoising of a grayscale image) cannot be solved exactly, but solutions produced are usually near the global optimum .
+Contents
+
+    1 History
+    2 Binary segmentation of images
+        2.1 Notation
+        2.2 Existing methods
+        2.3 Energy function
+            2.3.1 Likelihood / Color model / Regional term
+                2.3.1.1 Histogram
+                2.3.1.2 GMM (Gaussian Mixture Model)
+                2.3.1.3 Texon
+            2.3.2 Prior / Coherence model / Boundary term
+    3 Criticism
+    4 Algorithm
+        4.1 Implementation (exact)
+        4.2 Implementation (approximation)
+    5 Software
+    6 References
+
+History [ edit ]
+
+The theory of graph cuts was first applied in computer vision in the seminal paper by Greig, Porteous and Seheult [3] of Durham University . In the Bayesian statistical context of smoothing noisy (or corrupted) images, they showed how the maximum a posteriori estimate of a binary image can be obtained exactly by maximizing the flow through an associated image network, involving the introduction of a source and sink . The problem was therefore shown to be efficiently solvable. Prior to this result, approximate techniques such as simulated annealing (as proposed by the Geman brothers [4] ), or iterated conditional modes (a type of greedy algorithm as suggested by Julian Besag ) [5] were used to solve such image smoothing problems.
+
+Although the general k {\displaystyle k} k -colour problem remains unsolved for k > 2 , {\displaystyle k>2,} k>2, the approach of Greig, Porteous and Seheult [3] has turned out [6] [7] to have wide applicability in general computer vision problems. Greig, Porteous and Seheult approaches are often applied iteratively to a sequence of binary problems, usually yielding near optimal solutions.
+
+In 2011, C. Couprie et al. [8] proposed a general image segmentation framework, called the "Power Watershed", that minimized a real-valued indicator function from [0,1] over a graph, constrained by user seeds (or unary terms) set to 0 or 1, in which the minimization of the indicator function over the graph is optimized with respect to an exponent p {\displaystyle p} p . When p = 1 {\displaystyle p=1} p=1 , the Power Watershed is optimized by graph cuts, when p = 0 {\displaystyle p=0} p=0 the Power Watershed is optimized by shortest paths, p = 2 {\displaystyle p=2} p=2 is optimized by the Random walker algorithm and p = ∞ {\displaystyle p=\infty } p=\infty is optimized by the Watershed (image processing) algorithm. In this way, the Power Watershed may be viewed as a generalization of graph cuts that provides a straightforward connection with other energy optimization segmentation/clustering algorithms.
+Binary segmentation of images [ edit ]
+Notation [ edit ]
+
+    Image: x ∈ { R , G , B } N {\displaystyle x\in \{R,G,B\}^{N}} x\in \{R,G,B\}^{N}
+    Output: Segmentation (also called opacity) S ∈ R N {\displaystyle S\in R^{N}} S\in R^{N} (soft segmentation). For hard segmentation S ∈ { 0  for background , 1  for foreground/object to be detected } N {\displaystyle S\in \{0{\text{ for background}},1{\text{ for foreground/object to be detected}}\}^{N}} S\in \{0{\text{ for background}},1{\text{ for foreground/object to be detected}}\}^{N}
+    Energy function : E ( x , S , C , λ ) {\displaystyle E(x,S,C,\lambda )} E(x,S,C,\lambda ) where C is the color parameter and λ is the coherence parameter.
+    E ( x , S , C , λ ) = E c o l o r + E c o h e r e n c e {\displaystyle E(x,S,C,\lambda )=E_{\rm {color}}+E_{\rm {coherence}}} E(x,S,C,\lambda )=E_{{{\rm {color}}}}+E_{{{\rm {coherence}}}}
+    Optimization: The segmentation can be estimated as a global minimum over S: arg ⁡ min S E ( x , S , C , λ ) {\displaystyle {\arg \min }_{S}E(x,S,C,\lambda )} {\arg \min }_{S}E(x,S,C,\lambda )
+
+Existing methods [ edit ]
+
+    Standard Graph cuts: optimize energy function over the segmentation (unknown S value).
+    Iterated Graph cuts:
+
+    First step optimizes over the color parameters using K-means.
+    Second step performs the usual graph cuts algorithm.
+
+    These 2 steps are repeated recursively until convergence.
+
+    Dynamic graph cuts:
+    Allows to re-run the algorithm much faster after modifying the problem (e.g. after new seeds have been added by a user).
+
+Energy function [ edit ]
+
+P r ( x | S ) = K {\displaystyle Pr(x|S)=K} Pr(x|S)=K ( − E ) {\displaystyle (-E)} (-E) where the energy E {\displaystyle E} E is composed of 2 different models ( E c o l o r {\displaystyle E_{\rm {color}}} E_{{{\rm {color}}}} and E c o h e r e n c e {\displaystyle E_{\rm {coherence}}} E_{{{\rm {coherence}}}} ):
+Likelihood / Color model / Regional term [ edit ]
+
+E c o l o r {\displaystyle E_{\rm {color}}} E_{{{\rm {color}}}} — unary term describing the likelihood of each color.
+
+    This term can be modeled using different local (e.g. texons) or global (e.g. histograms, GMMs, Adaboost likelihood) approaches that are described below.
+
+Histogram [ edit ]
+
+    We use intensities of pixels marked as seeds to get histograms for object (foreground) and background intensity distributions: P(I|O) and P(I|B).
+    Then, we use these histograms to set the regional penalties as negative log-likelihoods.
+
+GMM (Gaussian Mixture Model) [ edit ]
+
+    We usually use 2 distributions to model background and foreground pixels.
+    Use a Gaussian mixture model (with 5–8 components) to model those 2 distributions.
+    Goal: Try to pull apart those 2 distributions.
+
+Texon [ edit ]
+
+    A texon (or texton) is a set of pixels that has certain characteristics and is repeated in an image.
+    Steps:
+
+    Determine a good natural scale for the texture elements.
+    Compute non-parametric statistics of the model-interior texons, either on intensity or on Gabor filter responses.
+
+    Examples:
+        Deformable-model based Textured Object Segmentation
+        Contour and Texture Analysis for Image Segmentation
+
+Prior / Coherence model / Boundary term [ edit ]
+
+E c o h e r e n c e {\displaystyle E_{\rm {coherence}}} E_{{{\rm {coherence}}}} — binary term describing the coherence between neighborhood pixels.
+
+    In practice, pixels are defined as neighbors if they are adjacent either horizontally, vertically or diagonally (4 way connectivity or 8 way connectivity for 2D images).
+    Costs can be based on local intensity gradient, Laplacian zero-crossing, gradient direction, color mixture model,...
+    Different energy functions have been defined:
+        Standard Markov random field (MRF): Associate a penalty to disagreeing pixels by evaluating the difference between their segmentation label (crude measure of the length of the boundaries). See Boykov and Kolmogorov ICCV 2003
+        Conditional random field (CRF): If the color is very different, it might be a good place to put a boundary. See Lafferty et al. 2001; Kumar and Hebert 2003
+
+Criticism [ edit ]
+
+Graph cuts methods have become popular alternatives to the level set-based approaches for optimizing the location of a contour (see [9] for an extensive comparison). However, graph cut approaches have been criticized in the literature for several issues:
+
+    Metrication artifacts: When an image is represented by a 4-connected lattice, graph cuts methods can exhibit unwanted "blockiness" artifacts. Various methods have been proposed for addressing this issue, such as using additional edges [10] or by formulating the max-flow problem in continuous space. [11]
+    Shrinking bias: Since graph cuts finds a minimum cut, the algorithm can be biased toward producing a small contour. [12] For example, the algorithm is not well-suited for segmentation of thin objects like blood vessels (see [13] for a proposed fix).
+    Multiple labels: Graph cuts is only able to find a global optimum for binary labeling (i.e., two labels) problems, such as foreground/background image segmentation. Extensions have been proposed that can find approximate solutions for multilabel graph cuts problems. [7]
+    Memory: the memory usage of graph cuts increase quickly as the image size increase. As an illustration, the Boykov-Kolmogorov max-flow algorithm v2.2 allocates 24 n + 14 m {\displaystyle 24n+14m} 24n+14m bytes ( n {\displaystyle n} n and m {\displaystyle m} m are respectively the number of nodes and edges in the graph). Nevertheless, some amount of work has been recently done in this direction for reducing the graphs before the maximum-flow computation. [14] [15] [16]
+
+Algorithm [ edit ]
+
+    Minimization is done using a standard minimum cut algorithm.
+    Due to the Max-flow min-cut theorem we can solve energy minimization by maximizing the flow over the network. The Max Flow problem consists of a directed graph with edges labeled with capacities, and there are two distinct nodes: the source and the sink. Intuitively, it's easy to see that the maximum flow is determined by the bottleneck.
+
+Implementation (exact) [ edit ]
+	The Wikibook Algorithm Implementation has a page on the topic of: Graphs/Maximum flow/Boykov & Kolmogorov
+
+The Boykov-Kolmogorov algorithm [17] is an efficient way to compute the max-flow for computer vision related graph.
+Implementation (approximation) [ edit ]
+
+The Sim Cut algorithm [18] approximates the graph cut by the solution of the set of simultaneous non-linear equations based on the analog electrical model of the flow network. [19] Acceleration of the algorithm is possible through parallel computing.
+Software [ edit ]
+
+    http://pub.ist.ac.at/~vnk/software.html — An implementation of the maxflow algorithm described in "An Experimental Comparison of Min-Cut/Max-Flow Algorithms for Energy Minimization in Computer Vision" by Vladimir Kolmogorov
+    http://vision.csd.uwo.ca/code/ — some graph cut libraries and MATLAB wrappers
+    http://gridcut.com/ — fast multi-core max-flow/min-cut solver optimized for grid-like graphs
+    http://virtualscalpel.com/ — An implementation of the Sim Cut ; an algorithm for computing an approximate solution of the minimum s-t cut in a massively parallel manner.
+
+References [ edit ]
+
+    Jump up ^ Adelson, Edward H., and James R. Bergen (1991), " The plenoptic function and the elements of early vision ", Computational models of visual processing 1.2 (1991).
+    Jump up ^ Boykov, Y., Veksler, O., and Zabih, R. (2001), "Fast approximate energy minimization via graph cuts," IEEE Trans. Pattern Analysis and Machine Intelligence, 23(11): 1222-1239.
+    ^ Jump up to: a b D.M. Greig, B.T. Porteous and A.H. Seheult (1989), Exact maximum a posteriori estimation for binary images , Journal of the Royal Statistical Society, Series B, 51 , 271–279.
+    Jump up ^ D. Geman and S. Geman (1984), Stochastic relaxation, Gibbs distributions and the Bayesian restoration of images , IEEE Trans. Pattern Anal. Mach. Intell., 6 , 721–741.
+    Jump up ^ J.E. Besag (1986), On the statistical analysis of dirty pictures (with discussion) , Journal of the Royal Statistical Society Series B, 48 , 259–302
+    Jump up ^ Y. Boykov, O. Veksler and R. Zabih (1998), " Markov Random Fields with Efficient Approximations ", International Conference on Computer Vision and Pattern Recognition (CVPR) .
+    ^ Jump up to: a b Y. Boykov, O. Veksler and R. Zabih (2001), " Fast approximate energy minimisation via graph cuts ", IEEE Transactions on Pattern Analysis and Machine Intelligence , 29 , 1222–1239.
+    Jump up ^ Camille Couprie, Leo Grady, Laurent Najman and Hugues Talbot, " Power Watersheds: A Unifying Graph-Based Optimization Framework ”, IEEE Trans. on Pattern Analysis and Machine Intelligence, Vol. 33, No. 7, pp. 1384-1399, July 2011
+    Jump up ^ Leo Grady and Christopher Alvino (2009), " The Piecewise Smooth Mumford-Shah Functional on an Arbitrary Graph ", IEEE Trans. on Image Processing, pp. 2547–2561
+    Jump up ^ Yuri Boykov and Vladimir Kolmogorov (2003), "Computing Geodesics and Minimal Surfaces via Graph Cuts", Proc. of ICCV
+    Jump up ^ Ben Appleton and Hugues Talbot (2006), "Globally Minimal Surfaces by Continuous Maximal Flows", IEEE Trans. on Pattern Analysis and Machine Intelligence, pp. 106–118
+    Jump up ^ Ali Kemal Sinop and Leo Grady, "A Seeded Image Segmentation Framework Unifying Graph Cuts and Random Walker Which Yields A New Algorithm", Proc. of ICCV, 2007
+    Jump up ^ Vladimir Kolmogorov and Yuri Boykov (2005), "What Metrics Can Be Approximated by Geo-Cuts, or Global Optimization of Length/Area and Flux", Proc. of ICCV pp. 564–571
+    Jump up ^ Nicolas Lermé, François Malgouyres and Lucas Létocart (2010), " Reducing graphs in graph cut segmentation ", Proc. of ICIP, pp. 3045–3048
+    Jump up ^ Herve Lombaert, Yiyong Sun, Leo Grady, Chenyang Xu (2005), " A Multilevel Banded Graph Cuts Method for Fast Image Segmentation ", Proc. of ICCV, pp. 259–265
+    Jump up ^ Yin Li, Jian Sun, Chi-Keung Tang, and Heung-Yeung Shum (2004), " Lazy Snapping ", ACM Transactions on Graphics, pp. 303–308
+    Jump up ^ Yuri Boykov, Vladimir Kolmogorov: An Experimental Comparison of Min-Cut/Max-Flow Algorithms for Energy Minimization in Vision. IEEE Trans. Pattern Anal. Mach. Intell. 26(9): 1124–1137 (2004)
+    Jump up ^ P.J. Yim: "Method and System for Image Segmentation," United States Patent US8929636, January 6, 2016
+    Jump up ^ I.T. Frisch, "On Electrical analogs for flow networks," Proceedings of IEEE, 57:2, pp. 209-210, 1969
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Graph_cuts_in_computer_vision&oldid=851114018 "
+Categories :
+
+    Bayesian statistics
+    Computer vision
+    Computational problems in graph theory
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Català
+    Español
+    Svenska
+
+Edit links
+
+    This page was last edited on 20 July 2018, at 05:07  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+    Enable previews
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+
