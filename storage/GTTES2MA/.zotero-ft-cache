@@ -1,0 +1,50 @@
+
+Crash Dump Analysis Poster v3.0 (HTML version)
+--- Common commands for all dumps --- 	--- Common commands for all dumps ---
+d{d|q|p}{s|p|a|u} [/c Width] [/p | /pc | /puc | /pwc] [Range] 	.reload [ ReloadOptions ] [Module [= Address [, Size [, Timestamp]]]]
+.effmach [. | # | x86 | amd64 | ia64 | ebc] 	ReloadOptions := [/d] [/f] [/i] [/l] [/n] [/o] [/s] [/u] [/unl] [/user] [/v] [/w]
+u[b] [Range | Address] 	.frame [/r] [FrameNumber]
+uf [/m] [/o] Address 	.frame [/r] = BasePtr [FrameIncrement]
+x [[/t] [/v] [/s Size] [/q] [/p] [/a | /A | /n | /N | /z | /Z]] Module!Symbol 	.frame [/r] = BasePtr StackPtr InstructionPtr
+x [[/t] [/v] [/s Size] [/q] [/p] [/a | /A | /n | /N | /z | /Z]] * 	dv [[/i] [/t] [/v] [/V] [/a | /A | /n | /N | /z | /Z]] [Pattern]
+!list -t [Module!]Type.Field -x "Commands" [-a "Arguments"] [Options] StartAddress 	!list " -t [Module!]Type.Field -x \"Commands\" [-a \"Arguments\"] [Options] StartAddress "
+ln Address 	!list -h
+!analyze -c [-load KnownIssuesFile | -unload | -help] 	!analyze [-v] [-f | -hang] [-D BucketID]
+--- User dumps --- 	--- Kernel/Complete memory dumps ---
+d{a|b|c|d|D|f|p|q|u|w|W} [/c Width] [Range] 	!analyze -show BugCheckCode [BugParameters]
+dy{b|d} [/c Width] [Range] 	!locks [-v] [-p] [-d]
+d [/c Width] [Range] 	!cs [-l] [-o] [-s]
+dt [ DisplayOptions ] [[-n] [-y]] [module!]NAME [[[-n] [-y]] Field] [Address] [-l List] 	!peb [Address]
+dt [ DisplayOptions ] Address [-l List] 	!teb [Address]
+dt -h 	lm [olvecifnpt] [1m] [u | k] [a Address] [m Pattern | M Pattern]
+DisplayOptions := [-a[quantity]] [-b] [-c] [-e] [-i] [-o] [-p] [-r[depth]] [-s size] [-v] 	d{a|b|c|d|D|f|p|q|u|w|W} [/c Width] [/p | /pc | /puc | /pwc] [Range]
+!cs [-l] [-o] [-s] 	dy{b|d} [/c Width] [/p | /pc | /puc | /pwc] [Range]
+lm [olvecifnpt] [1m] [a Address] [m Pattern | M Pattern] 	d [/c Width] [/p | /pc | /puc | /pwc] [Range]
+~*kv /  !uniqstack [ -b | -v | -p ] [ -n ] 	[Processor] dt [ DisplayOptions ] [[-n] [-y]] [module!]NAME [[[-n] [-y]] Field] [Address] [-l List]
+[~Thread] r[M Mask|F|X|?] [ Register[:[Num]Type] [= [Value]] ] 	dt [ DisplayOptions ] Address [-l List]
+[~Thread] k[b|p|P|v] [n] [f] [L] [FrameCount] 	dt -h
+[~Thread] k[b|p|P|v] [n] [f] [L] = BasePtr [FrameCount] 	DisplayOptions := [-a[quantity]] [-b] [-c] [-e] [-i] [-o] [-p] [-r[depth]] [-s size] [-v]
+[~Thread] k[b|p|P|v] [n] [f] [L] = BasePtr StackPtr InstructionPtr 	!vm [0-0x3F]
+[~Thread] kd [WordCount] 	!irpfind [-v] [0-4 [RestartAddress [arg|device|fileobject|mdlprocess|thread|userevent Data]]]
+!peb [Address] 	!exqueue [0-0xF | 0x10 | 0x20 | 0x40]
+!teb [Address] 	!poolused [0-1[0x2 | 0x4 | 0x8]] [TagString]]
+!gflag -? 	!stacks [0-2 [FilterString]]
+!gflag 	!lpc message MessageID
+!heap [ HeapOptions ] [ ValidationOptions ] [Heap] 	!lpc port Port
+HeapOptions := [-v] [-a] [-h] [-f] [-m] [-t] [-T] [-g] [-s] [-k] [-c] 	!lpc scan Port
+ValidationOptions := -C | -D | -E | -d | -e 	!lpc thread Thread
+!heap -b [{alloc|realloc|free} [Tag]] [Heap | BreakAddress] 	!lpc PoolSearch
+!heap -B {alloc|realloc|free} [Heap | BreakAddress] 	!lpc
+!heap -l 	~<p>s
+!heap -s [ SummaryOptions ] [StatHeapAddress] 	[Processor] r[M Mask|F|X|?] [ Register[:[Num]Type] [= [Value]]
+SummaryOptions := [-v] [-b BucketSize] [-d DumpBlockSize] [-a] [-c] 	[Processor] k[b|p|P|v] [n] [f] [L] [FrameCount]
+!heap -i HeapAddress 	[Processor] k[b|p|P|v] [n] [f] [L] = BasePtr [FrameCount]
+!heap -x [-v] Address 	[Processor] k[b|p|P|v] [n] [f] [L] = BasePtr StackPtr InstructionPtr
+!heap -p [ PageHeapOptions ] 	[Processor] kd [WordCount]
+PageHeapOptions := -h Handle | -a Address | -t[c|s] [Traces] | -t[c|s] [Traces] | -all | -? 	.process [/p] [/r] [Process]
+!heap -srch [-b | -w | -d | -q] Pattern 	!process [/s Session] [/m Module] [Process [0-0x3F]]
+!heap -flt {s Size | r SizeMin SizeMax} 	!process [/s Session] [/m Module] 0 Flags ImageName
+!heap -stat [-h Handle [-grp {A | B | S} [MaxDisplay]]] 	!thread [-p] [-t] [Address [0-0x3F]]
+!heap [-p] -? 	.thread [Thread]
+
+Designed by Dmitry Vostokov ( http://www.dumpanalysis.org )

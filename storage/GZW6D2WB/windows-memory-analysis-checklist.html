@@ -1,0 +1,873 @@
+<html><head>
+    <title>Windows Memory Analysis Checklist | Software Diagnostics Institute</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="http://www.dumpanalysis.org/flavicon.ico" type="image/x-icon">
+    <style type="text/css" media="all">@import "/modules/book/book.css";</style>
+<style type="text/css" media="all">@import "/modules/node/node.css";</style>
+<style type="text/css" media="all">@import "/modules/system/defaults.css";</style>
+<style type="text/css" media="all">@import "/modules/system/system.css";</style>
+<style type="text/css" media="all">@import "/modules/user/user.css";</style>
+<style type="text/css" media="all">@import "/modules/bookreview/bookreview.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/cck/content.css";</style>
+<style type="text/css" media="all">@import "/sites/all/modules/event/event.css";</style>
+<style type="text/css" media="all">@import "/themes/garland/style.css";</style>
+        <style type="text/css" media="print">@import "/themes/garland/print.css";</style>
+    <!--[if lt IE 7]>
+    <style type="text/css" media="all">@import "/themes/garland/fix-ie.css";</style>
+    <![endif]-->
+  </head>
+  <body class="sidebars">
+
+<!-- Layout -->
+  <div id="header-region" class="clear-block"></div>
+
+    <div id="wrapper">
+    <div id="container" class="clear-block">
+
+      <div id="header">
+        <div id="logo-floater">
+        <h1><a href="http://www.dumpanalysis.org/" title="Software Diagnostics Institute"><span>Software Diagnostics Institute</span></a></h1>        </div>
+
+                  <ul class="links primary-links"><li class="first menu-1-1-2"><a href="http://www.dumpanalysis.org/arts-photography" class="menu-1-1-2">Arts &amp; Photography</a></li>
+<li class="menu-1-2-2"><a href="http://www.windbg.org/" title="WinDbg links and common crash dump analysis commands" class="menu-1-2-2">Help</a></li>
+<li class="menu-1-3-2"><a href="http://www.dumpanalysis.org/blog" title="Software Diagnostics Library" class="menu-1-3-2">Library</a></li>
+<li class="menu-1-4-2"><a href="http://www.dumpanalysis.org/Links" title="Various useful links" class="menu-1-4-2">Links</a></li>
+<li class="menu-1-5-2"><a href="http://www.dumpanalysis.org/Tools" title="Useful tools for crash dump analysis and debugging" class="menu-1-5-2">Tools</a></li>
+<li class="menu-1-6-2"><a href="http://www.debugging.tv/" title="Debugging TV" class="menu-1-6-2">TV</a></li>
+<li class="last menu-1-7-2"><a href="http://www.dumpanalysis.org/contact" title="Leave feedback" class="menu-1-7-2">Contact</a></li>
+</ul>                
+      </div> <!-- /header -->
+
+              <div id="sidebar-left" class="sidebar">
+                    <div id="block-search-0" class="clear-block block block-search">
+
+  <h2>Search</h2>
+
+  <div class="content"><form action="/search/node" method="post" id="search-block-form">
+<div><div class="container-inline"><div class="form-item">
+ <input maxlength="128" name="search_block_form_keys" id="edit-search-block-form-keys" size="15" title="Enter the terms you wish to search for." class="form-text" type="text">
+</div>
+<input name="op" id="edit-submit" value="Search" class="form-submit" type="submit">
+<input name="form_id" id="edit-search-block-form" value="search_block_form" type="hidden">
+</div>
+</div></form>
+</div>
+</div>
+<div id="block-block-3" class="clear-block block block-block">
+
+  <h2>Memory Analysis Patterns</h2>
+
+  <div class="content"><ul>
+<li><img src="PatternIcon-MultipleExceptions-UserMode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/10/30/crash-dump-analysis-patterns-part-1/">Multiple Exceptions (user mode)</a> - <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/16/models-for-memory-and-trace-analysis-patterns-part-1/">Modeling Example</a></li>
+<li><img src="PatternIcon-MultipleExceptions-KernelMode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/10/15/crash-dump-analysis-patterns-part-1b/">Multiple Exceptions (kernel mode)</a></li>
+<li><img src="PatternIcon-MultipleExceptions-ManagedSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/28/crash-dump-analysis-patterns-part-1c/">Multiple Exceptions (managed space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/08/crash-dump-analysis-patterns-part-1d/">Multiple Exceptions (stowed)</a></li>
+<li><img src="PatternIcon-DynamicMemoryCorruption-ProcessHeap-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/10/31/crash-dump-analysis-patterns-part-2/">Dynamic Memory Corruption (process heap)</a></li>
+<li><img src="PatternIcon-DynamicMemoryCorruption-KernelPool-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/03/13/crash-dump-analysis-patterns-part-2b/">Dynamic Memory Corruption (kernel pool)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/24/crash-dump-analysis-patterns-part-2c/">Dynamic Memory Corruption (managed heap)</a></li>
+<li><img src="PatternIcon-FalsePositiveDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/11/01/crash-dump-analysis-patterns-part-3/">False Positive Dump</a></li>
+<li><img src="PatternIcon-LateralDamage-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/11/03/crash-dump-analysis-patterns-part-4/">Lateral Damage</a></li>
+<li><img src="PatternIcon-OptimizedCode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/12/15/crash-dump-analysis-patterns-part-5/">Optimized Code</a></li>
+<li><img src="PatternIcon-InvalidPointerGeneral-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2006/12/18/crash-dump-analysis-patterns-part-6/">Invalid Pointer (general)</a></li>
+<li><img src="PatternIcon-NULLPointerCode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/28/crash-dump-analysis-patterns-part-6a/">NULL Pointer (code)</a></li>
+<li><img src="PatternIcon-NULLPointerData-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/04/14/crash-dump-analysis-patterns-part-6b/">NULL Pointer (data)</a></li>
+<li><img src="PatternIcon-InconsistentDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/01/24/crash-dump-analysis-patterns-part-7/">Inconsistent Dump</a></li>
+<li><img src="PatternIcon-HiddenException-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/02/02/crash-dump-analysis-patterns-part-8/">Hidden Exception (user space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/08/30/crash-dump-analysis-patterns-part-8b/">Hidden Exception (kernel space)</a></li>
+<li><img src="PatternIcon-DeadlockCriticalSection-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/02/09/crash-dump-analysis-patterns-part-9a/">Deadlock (critical sections)</a></li>
+<li><img src="PatternIcon-DeadlockExecutiveResources-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/03/crash-dump-analysis-patterns-part-9b/">Deadlock (executive resources)</a></li>
+<li><img src="PatternIcon-DeadlockMixedObjectsUserSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/28/crash-dump-analysis-patterns-part-9c/">Deadlock (mixed objects, user space)</a></li>
+<li><img src="PatternIcon-DeadlockLPC-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/29/crash-dump-analysis-patterns-part-9d/">Deadlock (LPC)</a></li>
+<li><img src="PatternIcon-DeadlockMixedObjectsKernelSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/10/25/crash-dump-analysis-patterns-part-9e/">Deadlock (mixed objects, kernel space)</a></li>
+<li><img src="PatternIcon-DeadlockSelf-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/27/crash-dump-analysis-patterns-part-9f/">Deadlock (self)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/17/crash-dump-analysis-patterns-part-9g/">Deadlock (managed space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/13/crash-dump-analysis-patterns-part-9h/">Deadlock (.NET Finalizer)</a></li>
+<li><img src="PatternIcon-ChangedEnvironment-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/03/19/crash-dump-analysis-patterns-part-10/">Changed Environment</a></li>
+<li><img src="PatternIcon-IncorrectStackTraces-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/04/03/crash-dump-analysis-patterns-part-11/">Incorrect Stack Trace</a></li>
+<li><img src="PatternIcon-OMAPCodeOptimization-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/04/20/crash-dump-analysis-patterns-part-5b/">OMAP Code Optimization</a></li>
+<li><img src="PatternIcon-NoComponentSymbols-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/04/20/crash-dump-analysis-patterns-part-12/">No Component Symbols</a></li>
+<li><img src="PatternIcon-InsufficientMemoryCommittedMemory-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/05/09/crash-dump-analysis-patterns-part-13a/">Insufficient Memory (committed memory)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryHandleLeak-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/15/crash-dump-analysis-patterns-part-13b/">Insufficient Memory (handle leak)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryKernelPool-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/02/crash-dump-analysis-patterns-part-13c/">Insufficient Memory (kernel pool)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryPTE-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/04/crash-dump-analysis-patterns-part-13d/">Insufficient Memory (PTE)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryVirtualMemory-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/03/18/crash-dump-analysis-patterns-part-13e/">Insufficient Memory (module fragmentation)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryPhysicalMemory-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/01/05/crash-dump-analysis-patterns-part-13f/">Insufficient Memory (physical memory)</a></li>
+<li><img src="PatternIcon-InsufficientMemoryControlBlocks-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/12/30/crash-dump-analysis-patterns-part-13g/">Insufficient Memory (control blocks)</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2012/04/09/crash-dump-analysis-patterns-part-13h/" target="_blank">Insufficient Memory (reserved virtual memory)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/05/crash-dump-analysis-patterns-part-13i/">Insufficient Memory (session pool)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/27/crash-dump-analysis-patterns-part-13j/">Insufficient Memory (stack trace database)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/27/crash-dump-analysis-patterns-part-13k/">Insufficient Memory (region)</a></li>
+<li><img src="PatternIcon-SpikingThread-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/05/11/crash-dump-analysis-patterns-part-14/">Spiking Thread</a></li>
+<li><img src="PatternIcon-ModuleVariety-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/05/24/crash-dump-analysis-patterns-part-15/">Module Variety</a></li>
+<li><img src="PatternIcon-StackOverflow-KernelMode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/06/21/crash-dump-analysis-patterns-part-16a/">Stack Overflow (kernel mode)</a></li>
+<li><img src="PatternIcon-StackOverflow-UserMode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/10/crash-dump-analysis-patterns-part-16b/">Stack Overflow (user mode)</a></li>
+<li><img src="PatternIcon-StackOverflow-SoftwareImpl-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/03/01/crash-dump-analysis-patterns-part-16c/">Stack Overflow (software implementation)</a></li>
+<li><img src="PatternIcon-ManagedCodeException-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/20/crash-dump-analysis-patterns-part-17/">Managed Code Exception</a></li>
+<li><img src="PatternIcon-TruncatedDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/20/crash-dump-analysis-patterns-part-18/">Truncated Dump</a></li>
+<li><img src="PatternIcon-WaitingThreadTime-KernelDumps-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/07/22/crash-dump-analysis-patterns-part-19/">Waiting Thread Time (kernel dumps)</a></li>
+<li><img src="PatternIcon-WaitingThreadTime-UserDumps-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/10/crash-dump-analysis-patterns-part-19b/">Waiting Thread Time (user dumps)</a></li>
+<li><img src="PatternIcon-MemoryLeak-ProcessHeap-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/06/crash-dump-analysis-patterns-part-20a/">Memory Leak (process heap)</a> - <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/23/models-for-memory-and-trace-analysis-patterns-part-2/">Modeling Example</a></li>
+<li><img src="PatternIcon-MemoryLeak-NETHeap-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/19/crash-dump-analysis-patterns-part-20b/">Memory Leak (.NET heap)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/26/crash-dump-analysis-patterns-part-20c/">Memory Leak (page tables)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/05/19/crash-dump-analysis-patterns-part-20d/">Memory Leak (I/O completion packets)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/30/crash-dump-analysis-patterns-part-20e/">Memory Leak (regions)</a></li>
+<li><img src="PatternIcon-MissingThread-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/12/crash-dump-analysis-patterns-part-21/">Missing Thread</a></li>
+<li><img src="PatternIcon-UnknownComponent-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/16/crash-dump-analysis-patterns-part-22/">Unknown Component</a></li>
+<li><img src="PatternIcon-DoubleFree-ProcessHeap-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/19/crash-dump-analysis-patterns-part-23a/">Double Free (process heap)</a></li>
+<li><img src="PatternIcon-DoubleFree-KernelPool-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/25/crash-dump-analysis-patterns-part-23b/">Double Free (kernel pool)</a></li>
+<li><img src="PatternIcon-CoincidentalSymbolicInformation-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/30/crash-dump-analysis-patterns-part-24/">Coincidental Symbolic Information</a></li>
+<li><img src="PatternIcon-StackTrace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/09/10/crash-dump-analysis-patterns-part-25/">Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/12/crash-dump-analysis-patterns-part-25b/">Stack Trace (I/O request)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/12/crash-dump-analysis-patterns-part-25c/">Stack Trace (file system filters)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/21/crash-dump-analysis-patterns-part-25d/">Stack Trace (database)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/06/crash-dump-analysis-patterns-part-25e/">Stack Trace (I/O devices)</a></li>
+<li><img src="PatternIcon-VirtualizedProcess-WOW64-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/09/11/crash-dump-analysis-patterns-part-26/">Virtualized Process (WOW64)</a></li>
+<li><img src="PatternIcon-StackTraceCollection-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/09/14/crash-dump-analysis-patterns-part-27/">Stack Trace Collection (unmanaged space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/24/crash-dump-analysis-patterns-part-27b/">Stack Trace Collection (managed space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/03/crash-dump-analysis-patterns-part-27c/">Stack Trace Collection (predicate)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/01/11/crash-dump-analysis-patterns-part-27d/">Stack Trace Collection (I/O requests)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/08/24/crash-dump-analysis-patterns-part-27e/">Stack Trace Collection (CPUs)</a></li>
+<li><img src="PatternIcon-CoupledProcesses-Strong-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/09/26/crash-dump-analysis-patterns-part-28/">Coupled Processes (strong)</a></li>
+<li><img src="PatternIcon-CoupledProcesses-Weak-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/04/07/crash-dump-analysis-patterns-part-28b/">Coupled Processes (weak)</a></li>
+<li><img src="PatternIcon-CoupledProcesses-Semantics-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/08/04/crash-dump-analysis-patterns-part-103/">Coupled Processes (semantics)</a></li>
+<li><img src="PatternIcon-HighContention-ExecutiveResources-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/10/08/crash-dump-analysis-patterns-part-29/">High Contention (executive resources)</a></li>
+<li><img src="PatternIcon-HighContention-CriticalSections-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/09/10/crash-dump-analysis-patterns-part-29b/">High Contention (critical sections)</a></li>
+<li><img src="PatternIcon-HighContention-Processors-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/21/crash-dump-analysis-patterns-part-29c/">High Contention (processors)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/09/24/crash-dump-analysis-patterns-part-29d/">High Contention (.NET CLR monitors)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/08/crash-dump-analysis-patterns-part-29e/">High Contention (.NET heap)</a></li>
+<li><img src="PatternIcon-AccidentalLock-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/10/15/crash-dump-analysis-patterns-part-30/">Accidental Lock</a></li>
+<li><img src="PatternIcon-PassiveThread-UserSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/10/17/crash-dump-analysis-patterns-part-31/">Passive Thread (user space)</a></li>
+<li><img src="PatternIcon-PassiveSystemThread-KernelSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/20/crash-dump-analysis-patterns-part-31a/">Passive System Thread (kernel space)</a></li>
+<li><img src="PatternIcon-MainThread-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/10/23/crash-dump-analysis-patterns-part-32/">Main Thread</a></li>
+<li><img src="PatternIcon-BusySystem-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/05/crash-dump-analysis-patterns-part-33/">Busy System</a></li>
+<li><img src="PatternIcon-HistoricalInformation-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/06/crash-dump-analysis-patterns-part-34/">Historical Information</a></li>
+<li><img src="PatternIcon-IRPDistributionAnomaly-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/12/crash-dump-analysis-patterns-part-35/">Object Distribution Anomaly (IRP)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/09/12/crash-dump-analysis-patterns-part-35b/">Object Distribution Anomaly (.NET heap)</a></li>
+<li><img src="PatternIcon-LocalBufferOverflow-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/14/crash-dump-analysis-patterns-part-36/">Local Buffer Overflow</a></li>
+<li><img src="PatternIcon-EarlyCrashDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/21/crash-dump-analysis-patterns-part-37/">Early Crash Dump</a></li>
+<li><img src="PatternIcon-HookedFunctions-UserSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/22/crash-dump-analysis-patterns-part-38/">Hooked Functions (user space)</a></li>
+<li><img src="PatternIcon-HookedFunctions-KernelSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/07/crash-dump-analysis-patterns-part-38b/">Hooked Functions (kernel space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/09/19/hooked-modules/">Hooked Modules</a></li>
+<li><img src="PatternIcon-CustomExceptionHandler-UserSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/11/23/crash-dump-analysis-patterns-part-39/">Custom Exception Handler (user space)</a></li>
+<li><img src="PatternIcon-CustomExceptionHandler-KernelSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/05/crash-dump-analysis-patterns-part-39b/">Custom Exception Handler (kernel space)</a></li>
+<li><img src="PatternIcon-SpecialStackTrace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/12/10/crash-dump-analysis-patterns-part-40a/">Special Stack Trace</a></li>
+<li><img src="PatternIcon-ManualDump-Kernel-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/12/12/crash-dump-analysis-patterns-part-41a/">Manual Dump (kernel)</a></li>
+<li><img src="PatternIcon-ManualDump-Process-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/12/17/crash-dump-analysis-patterns-part-41b/">Manual Dump (process)</a></li>
+<li><img src="PatternIcon-WaitChain-General-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/12/14/crash-dump-analysis-patterns-part-42a/">Wait Chain (general)</a></li>
+<li><img src="PatternIcon-WaitChain-CriticalSections-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/12/19/crash-dump-analysis-patterns-part-42b/">Wait Chain (critical sections)</a></li>
+<li><img src="PatternIcon-WaitChain-ExecutiveResources-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/01/22/crash-dump-analysis-patterns-part-42c/">Wait Chain (executive resources)</a></li>
+<li><img src="PatternIcon-WaitChain-ThreadObjects-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/11/07/crash-dump-analysis-patterns-part-42d/">Wait Chain (thread objects)</a></li>
+<li><img src="PatternIcon-WaitChain-LPC-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/12/17/crash-dump-analysis-patterns-part-42e/">Wait Chain (LPC/ALPC)</a></li>
+<li><img src="PatternIcon-WaitChain-ProcessObjects-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/02/16/crash-dump-analysis-patterns-part-42f/">Wait Chain (process objects)</a></li>
+<li><img src="PatternIcon-WaitChain-RPC-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/14/crash-dump-analysis-patterns-part-42g/">Wait Chain (RPC)</a></li>
+<li><img src="PatternIcon-WaitChain-WindowMessaging-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/16/crash-dump-analysis-patterns-part-42h/">Wait Chain (window messaging)</a></li>
+<li><img src="PatternIcon-WaitChain-NamedPipes-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/03/crash-dump-analysis-patterns-part-42i/">Wait Chain (named pipes)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/13/crash-dump-analysis-part-42j/">Wait Chain (mutex objects)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/08/crash-dump-analysis-patterns-part-42k/">Wait Chain (pushlocks)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/09/crash-dump-analysis-patterns-part-42l/">Wait Chain (CLR monitors)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/09/08/crash-dump-analysis-patterns-part-210/">Wait Chain (RTL_RESOURCE)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/23/crash-dump-analysis-patterns-part-42m/">Wait Chain (modules)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/03/17/crash-dump-analysis-patterns-part-238/">Wait Chain (nonstandard synchronization)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/23/crash-dump-analysis-patterns-part-42n/">Wait Chain (C++11, condition variable)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/20/crash-dump-analysis-patterns-part-42o/">Wait Chain (SRW lock)</a></li>
+<li><img src="PatternIcon-CorruptDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/01/24/crash-dump-analysis-patterns-part-43/">Corrupt Dump</a></li>
+<li><img src="PatternIcon-DispatchLevelSpin-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/01/25/crash-dump-analysis-patterns-part-44/">Dispatch Level Spin</a></li>
+<li><img src="PatternIcon-NoProcessDumps-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/01/30/crash-dump-analysis-patterns-part-45/">No Process Dumps</a></li>
+<li><img src="PatternIcon-NoSystemDumps-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/01/31/crash-dump-analysis-patterns-part-46/">No System Dumps</a></li>
+<li><img src="PatternIcon-SuspendedThread-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/06/crash-dump-analysis-patterns-part-47/">Suspended Thread</a></li>
+<li><img src="PatternIcon-SpecialProcess-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/12/crash-dump-analysis-patterns-part-48/">Special Process</a></li>
+<li><img src="PatternIcon-FramePointerOmission-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/13/crash-dump-analysis-patterns-part-49/">Frame Pointer Omission</a></li>
+<li><img src="PatternIcon-FalseFunctionParameters-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/15/crash-dump-analysis-patterns-part-50/">False Function Parameters</a></li>
+<li><img src="PatternIcon-MessageBox-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/19/crash-dump-analysis-patterns-part-51/">Message Box</a></li>
+<li><img src="PatternIcon-SelfDump-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/22/crash-dump-analysis-patterns-part-52/">Self-Dump</a></li>
+<li><img src="PatternIcon-BlockedThread-Software-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/27/crash-dump-analysis-patterns-part-53/">Blocked Thread (software)</a></li>
+<li><img src="PatternIcon-BlockedThread-Hardware-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/14/crash-dump-analysis-patterns-part-53b/">Blocked Thread (hardware)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/04/28/crash-dump-analysis-patterns-part-53c/">Blocked Thread (timeout)</a></li>
+<li><img src="PatternIcon-ZombieProcesses-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/02/28/crash-dump-analysis-patterns-part-54/">Zombie Processes</a></li>
+<li><img src="PatternIcon-WildPointer-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/03/11/crash-dump-analysis-patterns-part-55/">Wild Pointer</a></li>
+<li><img src="PatternIcon-WildCode-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/03/27/crash-dump-analysis-patterns-part-56/">Wild Code</a></li>
+<li><img src="PatternIcon-HardwareError-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/03/crash-dump-analysis-patterns-part-57/">Hardware Error</a></li>
+<li><img src="PatternIcon-HandleLimit-GDI-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/09/crash-dump-analysis-patterns-part-58a/">Handle Limit (GDI, kernel space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/06/05/crash-dump-analysis-patterns-part-58b/">Handle Limit (GDI, user space)</a></li>
+<li><img src="PatternIcon-MissingComponent-General-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/22/crash-dump-analysis-patterns-part-59/">Missing Component (general)</a></li>
+<li><img src="PatternIcon-MissingComponent-StaticLinking-UserSpace-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/12/crash-dump-analysis-patterns-part-59b/">Missing Component (static linking, user mode)</a></li>
+<li><img src="PatternIcon-ExecutionResidue-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/29/crash-dump-analysis-patterns-part-60/">Execution Residue (unmanaged space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/17/crash-dump-analysis-patterns-part-60b/">Execution Residue (managed space)</a></li>
+<li><img src="PatternIcon-OptimizedVMLayout-color.png" width="48" border="0" height="20"> <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/05/07/crash-dump-analysis-patterns-part-10a/">Optimized VM Layout</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/05/20/crash-dump-analysis-patterns-part-61/">Invalid Handle (general)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/15/crash-dump-analysis-patterns-part-61b/">Invalid Handle (managed space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/05/28/crash-dump-analysis-patterns-part-62/">Overaged System</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/06/crash-dump-analysis-patterns-part-63/">Thread Starvation (realtime priority)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/29/crash-dump-analysis-patterns-part-102/">Thread Starvation (normal priority)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/19/crash-dump-analysis-patterns-part-64/">Duplicated Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/19/crash-dump-analysis-patterns-part-65/">Not My Version (software)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/16/crash-dump-analysis-patterns-part-65b/">Not My Version (hardware)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/20/crash-dump-analysis-patterns-part-66/">Data Contents Locality</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/24/crash-dump-analysis-patterns-part-67/">Nested Exceptions (unmanaged code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/25/crash-dump-analysis-patterns-part-67b/">Nested Exceptions (managed code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/06/27/crash-dump-analysis-patterns-part-68/">Affine Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/09/crash-dump-analysis-patterns-part-69/">Self-Diagnosis (user mode)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/26/crash-dump-analysis-patterns-part-69b/">Self-Diagnosis (kernel mode)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/04/crash-dump-analysis-patterns-part-69c/">Self-Diagnosis (registry)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/10/crash-dump-analysis-patterns-part-70/">Inline Function Optimization (unmanaged code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/10/crash-dump-analysis-patterns-part-70b/">Inline Function Optimization (managed code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/11/crash-dump-analysis-patterns-part-71/">Critical Section Corruption</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/26/crash-dump-analysis-patterns-part-72/">Lost Opportunity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/29/crash-dump-analysis-patterns-part-73/">Young System</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/05/crash-dump-analysis-patterns-part-74/">Last Error Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/07/crash-dump-analysis-patterns-part-75/">Hidden Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/10/06/crash-dump-analysis-patterns-part-76/">Data Alignment (page boundary)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/10/21/crash-dump-analysis-patterns-part-77/">C++ Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/12/01/crash-dump-analysis-patterns-part-78a/">Divide by Zero (user mode)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/02/crash-dump-analysis-patterns-part-78b/">Divide by Zero (kernel mode)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/02/09/crash-dump-analysis-patterns-part-79/">Swarm of Shared Locks</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/02/13/crash-dump-analysis-patterns-part-80/">Process Factory</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/02/19/crash-dump-analysis-patterns-part-81/">Paged Out Data</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/03/09/crash-dump-analysis-patterns-part-82/">Semantic Split</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/04/14/crash-dump-analysis-patterns-part-83/">Pass Through Function</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/05/15/crash-dump-analysis-patterns-part-84/">JIT Code (.NET)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/20/crash-dump-analysis-patterns-part-84b/">JIT Code (Java)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/06/23/crash-dump-analysis-patterns-part-85/">Ubiquitous Component (user space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/31/crash-dump-analysis-patterns-part-85b/">Ubiquitous Component (kernel space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/06/24/crash-dump-analysis-patterns-part-86/">Nested Offender</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/07/10/crash-dump-analysis-patterns-part-87/">Virtualized System</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/23/crash-dump-analysis-patterns-part-88/">Effect Component</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/23/crash-dump-analysis-patterns-part-89/">Well-Tested Function</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/28/crash-dump-analysis-patterns-part-90/">Mixed Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/12/crash-dump-analysis-patterns-part-91/">Random Object</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/24/crash-dump-analysis-patterns-part-92/">Missing Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/24/crash-dump-analysis-patterns-part-93/">Platform-Specific Debugger</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/30/crash-dump-analysis-patterns-part-94a/">Value Deviation (stack trace)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/02/crash-dump-analysis-patterns-part-94b/">Value Deviation (structure field)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/12/07/crash-dump-analysis-patterns-part-95/">CLR Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/02/21/crash-dump-analysis-patterns-part-96/">Coincidental Frames</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/03/16/crash-dump-analysis-patterns-part-97/">Fault Context</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/08/crash-dump-analysis-patterns-part-98/">Hardware Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/29/crash-dump-analysis-patterns-part-99a/">Incorrect Symbolic Information</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/06/crash-dump-analysis-patterns-part-100/">Message Hooks</a> - <a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/13/models-for-memory-and-trace-analysis-patterns-part-3/">Modeling Example</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/07/16/crash-dump-analysis-patterns-part-101/">Coupled Machines</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/08/04/crash-dump-analysis-patterns-part-104/">Abridged Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/08/05/crash-dump-analysis-patterns-part-105/">Exception Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/19/crash-dump-analysis-patterns-part-106/">Distributed Spike</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/27/crash-dump-analysis-patterns-part-107/">Instrumentation Information</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/04/crash-dump-analysis-patterns-part-108/">Template Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/08/crash-dump-analysis-patterns-part-109/">Invalid Exception Information</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/18/crash-dump-analysis-patterns-part-110/">Shared Buffer Overwrite</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/26/crash-dump-analysis-patterns-part-111/">Pervasive System</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/27/crash-dump-analysis-patterns-part-112/">Problem Exception Handler</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/29/crash-dump-analysis-patterns-part-113/">Same Vendor</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/09/crash-dump-analysis-patterns-part-114/">Crash Signature</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/11/crash-dump-analysis-patterns-part-115a/">Blocked Queue (LPC/ALPC)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/20/crash-dump-analysis-patterns-part-116/">Fat Process Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/29/crash-dump-analysis-patterns-part-117/">Invalid Parameter (process heap)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/14/crash-dump-analysis-patterns-part-117b/">Invalid Parameter (runtime function)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/02/crash-dump-analysis-patterns-part-118/">String Parameter</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/06/crash-dump-analysis-patterns-part-119/">Well-Tested Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/08/crash-dump-analysis-patterns-part-120/">Embedded Comment</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/11/crash-dump-analysis-patterns-part-121/">Hooking Level</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/21/crash-dump-analysis-patterns-part-122/">Blocking Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/21/crash-dump-analysis-patterns-part-123/">Dual Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/24/crash-dump-analysis-patterns-part-124/">Environment Hint</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/02/crash-dump-analysis-patterns-part-125/">Top Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/08/crash-dump-analysis-patterns-part-126/">Livelock</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/15/crash-dump-analysis-patterns-part-127/">Technology-Specific Subtrace (COM interface invocation)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/25/crash-dump-analysis-patterns-part-127b/">Technology-Specific Subtrace (dynamic memory)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/10/crash-dump-analysis-patterns-part-127c/">Technology-Specific Subtrace (JIT .NET code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/10/crash-dump-analysis-patterns-part-127d/">Technology-Specific Subtrace (COM client call)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/29/crash-dump-analysis-patterns-part-128/">Dialog Box</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/02/09/crash-dump-analysis-patterns-part-129/">Instrumentation Side Effect</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/02/19/crash-dump-analysis-patterns-part-130a/">Semantic Structure (PID.TID)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/03/07/crash-dump-analysis-patterns-part-131/">Directing Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/03/12/crash-dump-analysis-patterns-part-132/">Least Common Frame</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/03/20/crash-dump-analysis-patterns-part-133/">Truncated Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/03/28/crash-dump-analysis-patterns-part-134a/">Data Correlation (function parameters)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/11/25/crash-dump-analysis-patterns-part-134b/">Data Correlation (CPU times)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/24/crash-dump-analysis-patterns-part-135/">Module Hint</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/01/crash-dump-analysis-patterns-part-136/">Version-Specific Extension</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/12/crash-dump-analysis-patterns-part-137/">Cloud Environment</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/12/crash-dump-analysis-patterns-part-138/">No Data Types</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/17/crash-dump-analysis-patterns-part-139/">Managed Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/20/crash-dump-analysis-patterns-part-140/">Coupled Modules</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/23/crash-dump-analysis-patterns-part-141/">Thread Age</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/24/crash-dump-analysis-patterns-part-142/">Unsynchronized Dumps</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/25/crash-dump-analysis-patterns-part-143/">Pleiades</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/25/crash-dump-analysis-patterns-part-144/">Quiet Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/25/crash-dump-analysis-patterns-part-145/">Blocking File</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/07/15/crash-dump-analysis-patterns-part-146/">Problem Vocabulary</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/08/30/crash-dump-analysis-patterns-part-147/">Activation Context</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/09/07/crash-dump-analysis-patterns-part-148/">Stack Trace Set</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/07/crash-dump-analysis-patterns-part-149/">Double IRP Completion</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/10/crash-dump-analysis-patterns-part-150/">Caller-n-Callee</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/13/crash-dump-analysis-patterns-part-151/">Annotated Disassembly (JIT .NET code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/17/crash-dump-analysis-patterns-part-152a/">Handled Exception (user space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/17/crash-dump-analysis-patterns-part-152b/">Handled Exception (.NET CLR)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/08/31/crash-dump-analysis-patterns-part-152c/">Handled Exception (kernel space)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/21/crash-dump-analysis-patterns-part-153/">Duplicate Extension</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/10/27/crash-dump-analysis-patterns-part-154a/">Special Thread (.NET CLR)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/11/10/crash-dump-analysis-patterns-part-155/">Hidden Parameter</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/11/29/crash-dump-analysis-patterns-part-156/">FPU Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/03/crash-dump-analysis-patterns-part-157/">Module Variable</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/04/crash-dump-analysis-patterns-part-158/">System Object</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/05/crash-dump-analysis-patterns-part-159/">Value References</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/11/crash-dump-analysis-patterns-part-160/">Debugger Bug</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/12/crash-dump-analysis-patterns-part-161/">Empty Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/14/crash-dump-analysis-patterns-part-162/">Problem Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/25/crash-dump-analysis-patterns-part-163/">Disconnected Network Adapter</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/25/crash-dump-analysis-patterns-part-164/">Network Packet Buildup</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/12/26/crash-dump-analysis-patterns-part-165/">Unrecognizable Symbolic Information</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/02/12/crash-dump-analysis-patterns-part-166/">Translated Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/02/12/crash-dump-analysis-patterns-part-167/">Regular Data</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/03/20/crash-dump-analysis-patterns-part-168/">Late Crash Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/03/22/crash-dump-analysis-patterns-part-169/">Blocked DPC</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/04/05/crash-dump-analysis-patterns-part-170/">Coincidental Error Code</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/04/28/crash-dump-analysis-patterns-part-171/">Punctuated Memory Leak</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/05/19/crash-dump-analysis-patterns-part-172/">No Current Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/05/20/crash-dump-analysis-patterns-part-173/">Value Adding Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/05/20/crash-dump-analysis-patterns-part-174/">Activity Resonance</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/05/23/crash-dump-analysis-patterns-part-175/">Stored Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/06/crash-dump-analysis-patterns-part-176/">Spike Interval</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2012/06/09/crash-dump-analysis-patterns-part-177/" target="_blank">Stack Trace Change</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/27/crash-dump-analysis-patterns-part-178/">Unloaded Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/07/15/crash-dump-analysis-patterns-part-179/">Deviant Module</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2012/07/28/crash-dump-analysis-patterns-part-180-mac-os-x/" target="_blank">Paratext</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/01/crash-dump-analysis-patterns-part-181/">Incomplete Session</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/09/crash-dump-analysis-patterns-part-182/">Error Reporting Fault</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/10/crash-dump-analysis-patterns-part-183/">First Fault Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/31/crash-dump-analysis-patterns-part-184/">Frozen Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/11/05/crash-dump-analysis-patterns-part-185/">Disk Packet Buildup</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/11/13/crash-dump-analysis-patterns-part-186/">Hidden Process</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2012/11/17/crash-dump-analysis-patterns-part-187-mac-os-x/" target="_blank">Active Thread (Mac OS X)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/31/crash-dump-analysis-patterns-part-232/">Active Thread (Windows)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/23/crash-dump-analysis-patterns-part-188/">Critical Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/23/crash-dump-analysis-patterns-part-189/">Handle Leak</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/24/crash-dump-analysis-patterns-part-190/">Module Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/19/crash-dump-analysis-patterns-part-190b/">Module Collection (predicate)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/31/crash-dump-analysis-patterns-part-191/">Deviant Token</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/04/crash-dump-analysis-patterns-part-192/">Step Dumps</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/09/crash-dump-analysis-patterns-part-193/">Broken Link</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/18/crash-dump-analysis-patterns-part-194/">Debugger Omission</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/26/crash-dump-analysis-patterns-part-195/">Glued Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/26/crash-dump-analysis-patterns-part-196/">Reduced Symbolic Information</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/27/crash-dump-analysis-patterns-part-197/">Injected Symbols</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/26/crash-dump-analysis-patterns-part-198/">Distributed Wait Chain</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/28/crash-dump-analysis-patterns-part-199/">One-Thread Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/08/16/crash-dump-analysis-patterns-part-200/">Module Product Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/11/04/crash-dump-analysis-patterns-part-201/">Crash Signature Invariant</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/11/09/crash-dump-analysis-patterns-part-202/">Small Value</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/12/07/crash-dump-analysis-patterns-part-203/">Shared Structure</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/18/crash-dump-analysis-patterns-part-204/">Thread Cluster</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/26/crash-dump-analysis-patterns-part-205/">False Effective Address</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/10/crash-dump-analysis-patterns-part-206/">Screwbolt Wait Chain</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/06/21/crash-dump-analysis-patterns-part-207/">Design Value</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/06/23/crash-dump-analysis-patterns-part-208/">Hidden IRP</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/09/06/crash-dump-analysis-patterns-part-209/">Tampered Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/04/crash-dump-analysis-patterns-part-211/">Memory Fluctuation (process heap)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/05/crash-dump-analysis-patterns-part-212/">Last Object</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/07/crash-dump-analysis-patterns-part-213/">Rough Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/08/crash-dump-analysis-patterns-part-214/">Past Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/16/crash-dump-analysis-patterns-part-215/">Ghost Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/19/crash-dump-analysis-patterns-part-216/">Dry Weight</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/29/crash-dump-analysis-patterns-part-217/">Exception Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/12/31/crash-dump-analysis-patterns-part-218/">Reference Leak</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/02/07/crash-dump-analysis-patterns-part-219/">Origin Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/02/17/crash-dump-analysis-patterns-part-220/">Hidden Call</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/02/21/crash-dump-analysis-patterns-part-221/">Corrupt Structure</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/02/28/crash-dump-analysis-patterns-part-222/">Software Exception</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/03/07/crash-dump-analysis-patterns-part-223/">Crashed Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/04/25/crash-dump-analysis-patterns-part-224/">Variable Subtrace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/09/crash-dump-analysis-patterns-part-225/">User Space Evidence</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/13/crash-dump-analysis-patterns-part-226/">Internal Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/17/crash-dump-analysis-patterns-part-227/">Distributed Exception (managed code)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/06/28/crash-dump-analysis-patterns-part-228/">Thread Poset</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/09/13/crash-dump-analysis-patterns-part-229/">Stack Trace Surface</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/14/crash-dump-analysis-patterns-part-230/">Hidden Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/26/crash-dump-analysis-patterns-part-231/">Evental Dumps</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/11/18/crash-dump-analysis-patterns-part-233/">Clone Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/11/30/crash-dump-analysis-patterns-part-234/">Parameter Flow</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/12/18/crash-dump-analysis-patterns-part-235-linux/">Critical Region</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/02/13/crash-dump-analysis-patterns-part-236/">Diachronic Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/03/17/crash-dump-analysis-patterns-part-237/">Constant Subtrace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/05/02/crash-dump-analysis-patterns-part-239/">Not My Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/05/29/crash-dump-analysis-patterns-part-240/">Window Hint</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/05/29/crash-dump-analysis-patterns-part-241/">Place Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/13/crash-dump-analysis-patterns-part-242/">Stack Trace Signature</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/15/crash-dump-analysis-patterns-part-243/">Relative Memory Leak</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/10/10/crash-dump-analysis-patterns-part-244/">Quotient Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/12/01/crash-dump-analysis-patterns-part-245/">Module Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/12/07/crash-dump-analysis-patterns-part-246/">Foreign Module Frame</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/02/05/crash-dump-analysis-patterns-part-247/">Unified Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/02/19/crash-dump-analysis-patterns-part-248/">Mirror Dump Set</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/03/22/crash-dump-analysis-patterns-part-249/">Memory Fibration</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/03/crash-dump-analysis-patterns-part-250/">Aggregated Frames</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/12/crash-dump-analysis-patterns-part-251/">Frame Regularity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/21/crash-dump-analysis-patterns-part-252/">Stack Trace Motif</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/11/25/crash-dump-analysis-patterns-part-253/">System Call</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2018/01/31/crash-dump-analysis-patterns-part-254/">Stack Trace Race</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2018/03/11/crash-dump-analysis-patterns-part-255/" target="_blank">Hyperdump</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2018/08/04/crash-dump-analysis-patterns-part-256/" target="_blank">Disassembly Ambiguity</a></li>
+</ul>
+</div>
+</div>
+        </div>
+      
+      <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
+          <div class="breadcrumb"><a href="http://www.dumpanalysis.org/">Home</a></div>          
+                    <h2>Windows Memory Analysis Checklist</h2>          
+          
+                              
+<div id="node-474" class="node sticky">
+
+
+
+  
+  <div class="content">
+    <p align="left"><strong>General:</strong></p>
+<ul>
+<li>Symbol servers (<em>.symfix</em>)</li>
+<li>Internal database(s) search</li>
+<li>Google or Microsoft search for suspected components as this could be
+ a known issue. Sometimes a simple search immediately points to the fix 
+on a vendor’s site</li>
+<li>The tool used to save a dump (to flag false positive, incomplete or inconsistent dumps)</li>
+<li>OS/SP version (<em>version</em>)</li>
+<li>Language</li>
+<li>Debug time</li>
+<li>System uptime</li>
+<li>Computer name (<em>dS srv!srvcomputername</em> or <em>!envvar COMPUTERNAME</em>)</li>
+<li>List of loaded and unloaded modules (<em>lmv</em> or <em>!dlls</em>)</li>
+<li>Hardware configuration (<em>!sysinfo</em>)</li>
+<li><em>.kframes 1000</em></li>
+</ul>
+<p align="left"><strong>Application or service:</strong></p>
+<ul>
+<li>Default analysis <em>(!analyze -v</em> or <em>!analyze -v -hang</em> for hangs)</li>
+<li>Critical sections (<em>!cs -s -l -o, !locks</em>) for both crashes and hangs</li>
+<li>Component timestamps, duplication and paths. DLL Hell? (<em>lmv</em> and <em>!dlls</em>)</li>
+<li>Do any newer components exist?</li>
+<li>Process threads (<em>~*kv</em> or <em>!uniqstack</em>) for multiple exceptions and blocking functions</li>
+<li>Process uptime</li>
+<li>Your components on the full raw stack of the problem thread</li>
+<li>Your components on the full raw stack of the main application thread</li>
+<li>Process size</li>
+<li>Number of threads</li>
+<li>Gflags value (<em>!gflag</em>)</li>
+<li>Time consumed by threads (<em>!runaway</em>)</li>
+<li>Environment (<em>!peb</em>)</li>
+<li>Import table (<em>!dh</em>)</li>
+<li>Hooked functions (<em>!chkimg</em>)</li>
+<li>Exception handlers (<em>!exchain</em>)</li>
+<li>Computer name (<em>!envvar COMPUTERNAME</em>)</li>
+<li>Process heap stats and validation (<em>!heap -s, !heap -s -v</em>)</li>
+<li>CLR threads? (<em>mscorwks</em> or <em>clr</em> modules on stack traces) Yes: use .NET checklist below</li>
+<li>Hidden (unhandled and handled) exceptions on thread raw stacks</li>
+</ul>
+<p align="left"><strong>System hang:</strong></p>
+<ul>
+<li>Default analysis (<em>!analyze -v -hang</em>)</li>
+<li>ERESOURCE contention (<em>!locks</em>)</li>
+<li>Processes and virtual memory including session space (<em>!vm 4</em>)</li>
+<li>Important services are present and not hanging</li>
+<li>Pools (<em>!poolused</em>)</li>
+<li>Waiting threads (<em>!stacks</em>)</li>
+<li>Critical system queues (<em>!exqueue f</em>)</li>
+<li>I/O (<em>!irpfind</em>)</li>
+<li>The list of all thread stack traces (<em>!process 0 3f</em>)</li>
+<li>LPC/ALPC chain for suspected threads (<em>!lpc message</em> or <em>!alpc /m</em> after search for "Waiting for reply to LPC" or "Waiting for reply to ALPC" in <em>!process 0 3f</em> output)</li>
+<li>RPC threads (search for "RPCRT4!OSF" in <em>!process 0 3f</em> output)</li>
+<li>Mutants (search for "Mutants - owning thread" in <em>!process 0 3f</em> output)</li>
+<li>Critical sections for suspected processes (<em>!cs -l -o -s</em>)</li>
+<li>Sessions, session processes (<em>!session, !sprocess</em>)</li>
+<li>Processes (size, handle table size) (<em>!process 0 0</em>)</li>
+<li>Running threads (<em>!running</em>)</li>
+<li>Ready threads (<em>!ready</em>)</li>
+<li>DPC queues (<em>!dpcs</em>)</li>
+<li>The list of APCs (<em>!apc</em>)</li>
+<li>Internal queued spinlocks (<em>!qlocks</em>)</li>
+<li>Computer name (<em>dS srv!srvcomputername</em>)</li>
+<li>File cache, VACB (<em>!filecache</em>)</li>
+<li>File objects for blocked thread IRPs (<em>!irp -&gt; !fileobj</em>)</li>
+<li>Network (<em>!ndiskd.miniports</em> and <em>!ndiskd.pktpools</em>)</li>
+<li>Disk (<em>!scsikd.classext</em> -&gt; <em>!scsikd.classext class_device 2</em>)</li>
+<li>Modules rdbss, mrxdav, mup, mrxsmb in stack traces</li>
+<li>Functions Ntfs!Ntfs*, nt!Fs* and fltmgr!Flt* in stack traces</li>
+</ul>
+<p align="left"><strong>BSOD:</strong></p>
+<ul>
+<li>Default analysis (<em>!analyze -v</em>)</li>
+<li>Pool address (<em>!pool</em>)</li>
+<li>Component timestamps (<em>lmv</em>)</li>
+<li>Processes and virtual memory (<em>!vm 4</em>)</li>
+<li>Current threads on other processors</li>
+<li>Raw stack</li>
+<li>Bugcheck description (including <em>ln exception address</em> for corrupt or truncated dumps)</li>
+<li>Bugcheck callback data (<em>!bugdump</em> for systems prior to Windows XP SP1)</li>
+<li>Bugcheck secondary callback data (<em>.enumtag</em>)</li>
+<li>Computer name (<em>dS srv!srvcomputername</em>)</li>
+<li>Hardware configuration (<em>!sysinfo</em>)</li>
+</ul>
+<p align="left"><strong>.NET application or service:</strong></p>
+<ul>
+<li>CLR module and SOS extension versions (<em>lmv</em> and <em>.chain</em>)</li>
+<li>Managed exceptions (<em>~*e !pe</em>)</li>
+<li>Nested managed exceptions (<em>!pe -nested</em>)</li>
+<li>Managed threads (<em>!Threads -special</em>)</li>
+<li>Managed stack traces (<em>~*e !CLRStack</em>)</li>
+<li>Managed execution residue (<em>~*e !DumpStackObjects</em> and <em>!DumpRuntimeTypes</em>)</li>
+<li>Managed heap (<em>!VerifyHeap</em>, <em>!DumpHeap -stat</em> and <em>!eeheap -gc</em>)</li>
+<li>GC handles (<em>!GCHandles</em>, <em>!GCHandleLeaks</em>)</li>
+<li>Finalizer queue (<em>!FinalizeQueue</em>)</li>
+<li>Sync blocks (<em>!syncblk</em>)</li>
+</ul>
+  </div>
+
+  <div class="clear-block clear">
+    <div class="meta">
+        </div>
+
+      </div>
+
+</div><div id="block-block-14" class="clear-block block block-block">
+
+
+  <div class="content"><p><iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FDumpAnalysis%2F147374578671879&amp;width=292&amp;colorscheme=light&amp;show_faces=false&amp;border_color=blue&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" style="border:none; overflow:hidden; width:292px; height:62px;" allowtransparency="true" frameborder="0"></iframe></p>
+</div>
+</div>
+<div id="block-block-15" class="clear-block block block-block">
+
+
+  <div class="content"><p><iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2FTraceAnalysis%2F&amp;width=292&amp;colorscheme=light&amp;show_faces=false&amp;border_color=blue&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" style="border:none; overflow:hidden; width:292px; height:62px;" allowtransparency="true" frameborder="0"></iframe></p>
+</div>
+</div>
+          <span class="clear"></span>
+                    <div id="footer">Copyright © 2006 - 2018 Software 
+Diagnostics Institute. Crash Dump Analysis Portal. Trace and Log 
+Analysis Portal. Pattern-Oriented Software Diagnostics, Forensics, 
+Prognostics, Root Cause Analysis, Debugging. Software Diagnostics 
+Engineering and Diagnostics-Driven Development. 
+<div id="block-block-2" class="clear-block block block-block">
+
+
+  <div class="content"><script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="ga" type="text/javascript"></script><script src="ga" type="text/javascript"></script><script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1291479-10");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script></div>
+</div>
+</div>
+      </div></div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze, /#center -->
+
+              <div id="sidebar-right" class="sidebar">
+                    <div id="block-block-5" class="clear-block block block-block">
+
+  <h2>Trace and Log Analysis Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/04/28/trace-analysis-patterns-part-1/">Periodic Error</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/05/07/trace-analysis-patterns-part-2/">Basic Facts</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/06/03/trace-analysis-patterns-part-3/">Circular Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/06/16/trace-analysis-patterns-part-4/">Intra-Correlation</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/07/22/trace-analysis-patterns-part-5/">Statement Density and Current</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/07/29/trace-analysis-patterns-part-6/">Exception Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/08/03/trace-analysis-patterns-part-7/">Thread of Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/08/04/trace-analysis-patterns-part-8/">Discontinuity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/08/06/trace-analysis-patterns-part-9/">Missing Component</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/09/01/trace-analysis-patterns-part-10/">Bifurcation Point</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/07/trace-analysis-patterns-part-11/">Characteristic Message Block</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/11/17/trace-analysis-patterns-part-12/">Activity Region</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/12/31/trace-analysis-patterns-part-13/">Vocabulary Index</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/01/12/trace-analysis-patterns-part-14/">Inter-Correlation</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/02/13/trace-analysis-patterns-part-15/">Significant Event</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/02/13/trace-analysis-patterns-part-16/">Time Delta</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/03/04/trace-analysis-patterns-part-17/">Adjoint Thread of Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/03/08/trace-analysis-patterns-part-18/">Trace Acceleration</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/04/05/trace-analysis-patterns-part-19/">Incomplete History</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/04/08/trace-analysis-patterns-part-20/">Background and Foreground Components</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/04/08/trace-analysis-patterns-part-21/">Defamiliarizing Effect</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/04/12/trace-analysis-patterns-part-22/">Anchor Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/05/10/trace-analysis-patterns-part-23/">No Trace Metafile</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/06/02/trace-analysis-patterns-part-24/">No Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/06/08/trace-analysis-patterns-part-25/">Partition: Head, Prologue, Core, Epilogue, Tail</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/08/10/trace-analysis-patterns-part-26/">Truncated Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/08/27/trace-analysis-patterns-part-27/">Diegetic Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/13/trace-analysis-patterns-part-28/">False Positive Error</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/20/trace-analysis-patterns-part-29/">Guest Component</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/13/trace-analysis-patterns-part-30/">Message Change</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/20/trace-analysis-patterns-part-31/">Layered Periodization</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/04/trace-analysis-patterns-part-32/">Focus of Tracing</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/24/trace-analysis-patterns-part-33/">Event Sequence Order</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/07/trace-analysis-patterns-part-34/">Implementation Discourse</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/12/24/trace-analysis-patterns-part-35/">News Value</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/01/30/trace-analysis-patterns-part-36/">Master Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/02/08/trace-analysis-patterns-part-37/">Gossip</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/02/20/trace-analysis-patterns-part-38/">Impossible Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/11/trace-analysis-patterns-part-39/">Glued Activity (ATID reuse)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/05/01/trace-analysis-patterns-part-40/">Message Invariant</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/07/28/trace-analysis-patterns-part-41/">UI Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/09/14/trace-analysis-patterns-part-42/">Original Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/11/02/trace-analysis-patterns-part-43/">Linked Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/11/22/trace-analysis-patterns-part-44/">Macrofunction</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/01/02/trace-analysis-patterns-part-45/">Marked Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/03/22/trace-analysis-patterns-part-46/">Trace Frames</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/02/trace-analysis-patterns-part-47/">Break-in Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/02/trace-analysis-patterns-part-48/">Resume Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/03/trace-analysis-patterns-part-49/">Error Distribution</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/06/03/trace-analysis-patterns-part-50/">Message Context</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2012/06/23/trace-analysis-patterns-part-51/" target="_blank">Counter Value</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/09/26/trace-analysis-patterns-part-52/">Fiber Bundle</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/08/trace-analysis-patterns-part-53/">Periodic Message Block</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/21/trace-analysis-patterns-part-54/">Error Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/21/trace-analysis-patterns-part-55/">Empty Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/10/26/trace-analysis-patterns-part-56/">Data Flow</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/11/01/trace-analysis-patterns-part-57/">Relative Density</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/11/13/trace-analysis-patterns-part-58/">Visibility Limit</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/08/trace-analysis-patterns-part-59/">Sparse Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/11/trace-analysis-patterns-part-60/">Message Interleave</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/13/trace-analysis-patterns-part-61/">Split Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/14/trace-analysis-patterns-part-62/">Opposition Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/08/trace-analysis-patterns-part-63/">Indexical Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/15/trace-analysis-patterns-part-64/">Sheaf of Activities</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/03/14/trace-analysis-patterns-part-65/">Traces of Individuality</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/03/16/trace-analysis-patterns-part-66/">Pivot Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/03/20/trace-analysis-patterns-part-67/">Dominant Event Sequence</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/03/23/trace-analysis-patterns-part-68/">Abnormal Value</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/04/25/trace-analysis-patterns-part-69/">Indirect Facts</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/04/trace-analysis-patterns-part-70/">State and Event</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/12/trace-analysis-patterns-part-71/">Last Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/05/21/trace-analysis-patterns-part-72/">Hidden Error</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/06/12/trace-analysis-patterns-part-73/">Dialogue</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/07/19/trace-analysis-patterns-part-74/">Motif</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/11/09/trace-analysis-patterns-part-75/">Correlated Discontinuity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/12/22/trace-analysis-patterns-part-76/">Piecewise Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/02/11/trace-analysis-patterns-part-77/">Density Distribution</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/02/12/trace-analysis-patterns-part-78/">Factor Group</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/20/trace-analysis-patterns-part-79/">Silent Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/04/21/trace-analysis-patterns-part-80/">Shared Point</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/02/trace-analysis-patterns-part-81/">Data Association</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/05/trace-analysis-patterns-part-82/">Meta Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/05/trace-analysis-patterns-part-83/">State Dump</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/07/trace-analysis-patterns-part-84/">Message Cover</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/12/trace-analysis-patterns-part-85/">Message Set</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/20/trace-analysis-patterns-part-86/">Error Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/05/25/trace-analysis-patterns-part-87/">Activity Divergence</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/06/24/trace-analysis-patterns-part-88/">Hidden Facts</a>
+</li><li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/06/26/trace-analysis-patterns-part-89/">Back Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/09/25/trace-analysis-patterns-part-90/">Blackout</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/10/06/trace-analysis-patterns-part-91/">Missing Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/09/trace-analysis-patterns-part-92/">Use Case Trail</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/09/trace-analysis-patterns-part-93/">Event Sequence Phase</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/11/trace-analysis-patterns-part-94/">Milestones</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/16/trace-analysis-patterns-part-95/">File Size</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/19/trace-analysis-patterns-part-96/">Singleton Event</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2014/11/29/trace-analysis-patterns-part-97/">Visitor Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/01/07/trace-analysis-patterns-part-98/">Timeout</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/01/24/trace-analysis-patterns-part-99/">Activity Overlap</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/01/31/trace-analysis-patterns-part-100/">Adjoint Space</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/02/22/trace-analysis-patterns-part-101/">Indirect Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/03/03/trace-analysis-patterns-part-102/">Watch Thread</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/03/14/trace-analysis-patterns-part-103/">Punctuated Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/03/17/trace-analysis-patterns-part-104/">Trace Mask</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/04/23/trace-analysis-patterns-part-105/">Trace Viewpoints</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/04/28/trace-analysis-patterns-part-106/">Data Reversal</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/03/trace-analysis-patterns-part-107/">Recovered Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/05/13/trace-analysis-patterns-part-108/">Palimpsest Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/06/29/trace-analysis-patterns-part-109/">Message Space</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/06/30/trace-analysis-patterns-part-110/">Interspace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/07/06/trace-analysis-patterns-part-111/">Translated Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/07/09/trace-analysis-patterns-part-112/">Activity Disruption</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/09/12/trace-analysis-patterns-part-113/">Ruptured Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/09/30/trace-analysis-patterns-part-114/">Sequence Repeat Anomaly</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/12/trace-analysis-patterns-part-115/">Adjoint Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/18/trace-analysis-patterns-part-116/">Coupled Activities</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/10/22/trace-analysis-patterns-part-117/">Error Powerset</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/11/10/trace-analysis-patterns-part-118/">Trace Dimension</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/11/14/trace-analysis-patterns-part-119/">Calibrating Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/01/16/trace-analysis-patterns-part-120/">Data Interval</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/01/30/trace-analysis-patterns-part-121/">Identification Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/03/12/trace-analysis-patterns-part-122/">Data Selector</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/04/27/trace-analysis-patterns-part-123/">Declarative Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/04/30/trace-analysis-patterns-part-124/">Trace Extension</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/06/27/trace-analysis-patterns-part-125/">Fourier Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/06/29/trace-analysis-patterns-part-126/">Fiber of Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/07/13/trace-analysis-patterns-part-127/">Missing Data</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/08/09/trace-analysis-patterns-part-128/">Message Pattern</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/08/13/trace-analysis-patterns-part-129/">Activity Theatre</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/08/15/trace-analysis-patterns-part-130/">Small DA+TA</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/03/trace-analysis-patterns-part-131/">Surveyor</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/04/trace-analysis-patterns-part-132/">Corrupt Message</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/09/30/trace-analysis-patterns-part-133/">Quotient Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/11/15/trace-analysis-patterns-part-134/">Projective Space</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/11/19/trace-analysis-patterns-part-135/">Ornament</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/11/23/trace-analysis-patterns-part-136/">Poincaré Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/12/12/trace-analysis-patterns-part-137/">De Broglie Trace Duality</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/02/07/trace-analysis-patterns-part-138/">Braid Group</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/02/15/trace-analysis-patterns-part-139/">Delay Dynamics</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/02/21/trace-analysis-patterns-part-140/">Activity Quantum</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/03/24/trace-analysis-patterns-part-141/">Trace Presheaf</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/02/trace-analysis-patterns-part-142/">Message Directory</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/18/trace-analysis-patterns-part-143/">Galois Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/19/trace-analysis-patterns-part-144/">Singleton Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/29/trace-analysis-patterns-part-145/">Braid of Activity</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/04/29/trace-analysis-patterns-part-146/">Tensor Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/03/trace-analysis-patterns-part-147/">Unsynchronized Traces</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/17/trace-analysis-patterns-part-148/">Intrinsic ID</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/18/trace-analysis-patterns-part-149/">Combed Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/05/22/trace-analysis-patterns-part-150/">Activity Packet</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/07/20/trace-analysis-patterns-part-151/">Ultrasimilar Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/08/02/trace-analysis-patterns-part-152/">Hedges</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/08/06/trace-analysis-patterns-part-153/">Trace Field</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/10/04/trace-analysis-patterns-part-154/">Script Messages</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2017/11/26/trace-analysis-patterns-part-155/">Working Set</a></li>
+<li><a a="" target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2018/01/18/trace-analysis-patterns-part-156/">Trace Homotopy</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2018/05/13/trace-analysis-patterns-part-157/" target="_blank">Signal</a></li>
+<li><a href="http://www.dumpanalysis.org/blog/index.php/2018/06/28/trace-analysis-patterns-part-158/" target="_blank">Renormalization</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-13" class="clear-block block block-block">
+
+  <h2>UI Problem Analysis Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/07/14/user-interface-problem-analysis-patterns-part-1/">Error Message Box</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/09/09/user-interface-problem-analysis-patterns-part-2/">Unresponsive Window</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-12" class="clear-block block block-block">
+
+  <h2>Structural Memory Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/24/structural-memory-patterns-part-1/">Memory Snapshot</a> (Structured or BLOB)</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/26/structural-memory-patterns-part-2/">Aggregate Snapshot</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/09/26/structural-memory-patterns-part-3/">Snapshot Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/01/structural-memory-patterns-part-4/">Memory Region</a> (Open or Closed)</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/01/structural-memory-patterns-part-5/">Region Boundary</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/13/structural-memory-patterns-part-6/">Memory Hierarchy (General)</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/10/18/structural-memory-patterns-part-7/">Anchor Region</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2016/08/08/structural-memory-patterns-part-8/">Region Strata</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-16" class="clear-block block block-block">
+
+  <h2>Malware Analysis Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/07/15/crash-dump-analysis-patterns-part-179/">Deviant Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/29/malware-analysis-patterns-part-2/">Fake Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/19/malware-analysis-patterns-part-3/">Packed Code</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/19/malware-analysis-patterns-part-4/">Pre-Obfuscation Residue</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/24/crash-dump-analysis-patterns-part-190/">Module Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/04/20/crash-dump-analysis-patterns-part-12/">No Component Symbols</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/09/14/crash-dump-analysis-patterns-part-27/">Stack Trace Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/07/crash-dump-analysis-patterns-part-75/">Hidden Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/11/13/crash-dump-analysis-patterns-part-186/">Hidden Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/20/malware-analysis-patterns-part-10/">Driver Device Collection</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/01/20/malware-analysis-patterns-part-11/">RIP Stack Trace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/10/hooksware/">Hooksware</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/24/crash-dump-analysis-patterns-part-135/">Module Hint</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2007/08/16/crash-dump-analysis-patterns-part-22/">Unknown Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/04/14/crash-dump-analysis-patterns-part-83/">Pass Through Function</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/12/31/crash-dump-analysis-patterns-part-191/">Deviant Token</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/04/26/crash-dump-analysis-patterns-part-69b/">Self-Diagnosis</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/01/malware-analysis-patterns-part-18/">String Hint</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/04/29/crash-dump-analysis-patterns-part-60/">Execution Residue</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/05/malware-analysis-patterns-part-20/">Namespace</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/09/malware-analysis-patterns-part-21/">Patched Code</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/09/malware-analysis-patterns-part-22/">Raw Pointer</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2013/02/10/malware-analysis-patterns-part-23/">Out-of-Module Pointer</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2012/01/11/crash-dump-analysis-patterns-part-27d/">Stack Trace Collection (I/O requests)</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-11" class="clear-block block block-block">
+
+  <h2>Workaround Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/01/24/workaround-patterns/">Hidden Output</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/01/25/workaround-patterns-part-2/">Frozen Process</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/01/26/workaround-patterns-part-3/">Axed Code</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2011/06/26/workaround-patterns-part-4/">Fake API</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2015/09/26/workaround-patterns-part-5/">Axed Data</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-10" class="clear-block block block-block">
+
+  <h2>DebugWare Patterns</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/19/debugware-patterns-part-1/">API Query</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/07/20/debugware-patterns-part-2/">Tool Façade</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/04/debugware-patterns-part-3/">Configuration Wrapper</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/08/10/debugware-patterns-part-4/">Dual Interface</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/09/12/debugware-patterns-part-5/">Tool Chain</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2008/09/15/debugware-patterns-part-6/">Tool Box</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/09/10/debugware-patterns-part-7/">Trace Expert</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/09/21/debugware-patterns-part-8/">Troubleshooting Unit of Work</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/09/24/debugware-patterns-part-9/">Checklist</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/20/debugware-patterns-part-10/">Supporting Module</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/21/debugware-patterns-part-11/">Span Differentiator</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2009/10/28/debugware-patterns-part-12/">Self Extractor</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/2010/11/25/debugware-patterns-part-13/">System Description Snapshot</a></li>
+</ul>
+</div>
+</div>
+<div id="block-block-4" class="clear-block block block-block">
+
+  <h2>Dictionary of Debugging</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/7/">7</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/8/">8</a></li>
+<li>A</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/b/">B</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/c/">C</a></li>
+<li>D</li>
+<li>E</li>
+<li>F</li>
+<li>G</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/h/">H</a></li>
+<li>I</li>
+<li>J</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/k/">K</a></li>
+<li>L</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/m/">M</a></li>
+<li>N</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/o/">O</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/p/">P</a></li>
+<li>Q</li>
+<li>S</li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/t/">T</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/u/">U</a></li>
+<li><a target="_blank" href="http://www.dumpanalysis.org/blog/index.php/category/dictionary-of-debugging/v/">V</a></li>
+<li>W</li>
+<li>X</li>
+<li>Y</li>
+<li>Z</li>
+</ul>
+</div>
+</div>
+<div id="block-block-9" class="clear-block block block-block">
+
+  <h2>x86/64 Instructions</h2>
+
+  <div class="content"><ul>
+<li><a target="_blank" href="http://www.asmpedia.org/">Asmpedia</a></li>
+</ul>
+</div>
+</div>
+        </div>
+      
+    </div> <!-- /container -->
+  </div>
+<!-- /layout -->
+
+    
+
+</body></html>

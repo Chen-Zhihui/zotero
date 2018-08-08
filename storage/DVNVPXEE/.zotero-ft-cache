@@ -1,0 +1,318 @@
+
+Tikhonov regularization
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by AnomieBOT ( talk  | contribs ) at 12:56, 16 July 2018 (Dating maintenance tags: {{Citation needed}}) . The present address (URL) is a permanent link to this version.
+Revision as of 12:56, 16 July 2018 by AnomieBOT ( talk  | contribs ) (Dating maintenance tags: {{Citation needed}})
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+	
+This article includes a list of references , but its sources remain unclear because it has insufficient inline citations . Please help to improve this article by introducing more precise citations. (April 2012) ( Learn how and when to remove this template message )
+Part of a series on Statistics
+Regression analysis
+Linear regression.svg
+Models
+
+    Linear regression
+    Simple regression
+    Polynomial regression
+    General linear model
+
+    Generalized linear model
+    Discrete choice
+    Logistic regression
+    Multinomial logit
+    Mixed logit
+    Probit
+    Multinomial probit
+    Ordered logit
+    Ordered probit
+    Poisson
+
+    Multilevel model
+    Fixed effects
+    Random effects
+    Mixed model
+
+    Nonlinear regression
+    Nonparametric
+    Semiparametric
+    Robust
+    Quantile
+    Isotonic
+    Principal components
+    Least angle
+    Local
+    Segmented
+
+    Errors-in-variables
+
+Estimation
+
+    Least squares
+    Linear
+    Non-linear
+
+    Ordinary
+    Weighted
+    Generalized
+
+    Partial
+    Total
+    Non-negative
+    Ridge regression
+    Regularized
+
+    Least absolute deviations
+    Iteratively reweighted
+    Bayesian
+    Bayesian multivariate
+
+Background
+
+    Regression model validation
+    Mean and predicted response
+    Errors and residuals
+    Goodness of fit
+    Studentized residual
+    Gauss–Markov theorem
+
+    Fisher iris versicolor sepalwidth.svg Statistics portal
+
+    v
+    t
+    e
+
+Tikhonov regularization , named for Andrey Tikhonov , is the most commonly used method of regularization of ill-posed problems . In statistics , the method is known as ridge regression , in machine learning it is known as weight decay , and with multiple independent discoveries, it is also variously known as the Tikhonov–Miller method , the Phillips–Twomey method , the constrained linear inversion method, and the method of linear regularization . It is related to the Levenberg–Marquardt algorithm for non-linear least-squares problems.
+
+Suppose that for a known matrix A {\displaystyle A} A and vector b {\displaystyle \mathbf {b} } \mathbf {b} , we wish to find a vector x {\displaystyle \mathbf {x} } \mathbf {x} such that:
+
+    A x = b {\displaystyle A\mathbf {x} =\mathbf {b} } A\mathbf {x} =\mathbf {b} 
+
+The standard approach is ordinary least squares linear regression. However, if no x {\displaystyle \mathbf {x} } \mathbf {x} satisfies the equation or more than one x {\displaystyle \mathbf {x} } \mathbf {x} does—that is, the solution is not unique—the problem is said to be ill posed . In such cases, ordinary least squares estimation leads to an overdetermined ( over-fitted ), or more often an underdetermined ( under-fitted ) system of equations. Most real-world phenomena have the effect of low-pass filters in the forward direction where A {\displaystyle A} A maps x {\displaystyle \mathbf {x} } \mathbf {x} to b {\displaystyle \mathbf {b} } \mathbf {b} . Therefore, in solving the inverse-problem, the inverse mapping operates as a high-pass filter that has the undesirable tendency of amplifying noise ( eigenvalues / singular values are largest in the reverse mapping where they were smallest in the forward mapping). In addition, ordinary least squares implicitly nullifies every element of the reconstructed version of x {\displaystyle \mathbf {x} } \mathbf {x} that is in the null-space of A {\displaystyle A} A , rather than allowing for a model to be used as a prior for x {\displaystyle \mathbf {x} } \mathbf {x} . Ordinary least squares seeks to minimize the sum of squared residuals , which can be compactly written as:
+
+    ‖ A x − b ‖ 2 2 {\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}} {\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}} 
+
+where ‖ ⋅ ‖ 2 {\displaystyle \left\|\cdot \right\|_{2}} {\displaystyle \left\|\cdot \right\|_{2}} is the Euclidean norm .
+
+In order to give preference to a particular solution with desirable properties, a regularization term can be included in this minimization:
+
+    ‖ A x − b ‖ 2 2 + ‖ Γ x ‖ 2 2 {\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}+\|\Gamma \mathbf {x} \|_{2}^{2}} {\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}+\|\Gamma \mathbf {x} \|_{2}^{2}} 
+
+for some suitably chosen Tikhonov matrix , Γ {\displaystyle \Gamma } \Gamma . In many cases, this matrix is chosen as a multiple of the identity matrix ( Γ = α I {\displaystyle \Gamma =\alpha I} \Gamma =\alpha I ), giving preference to solutions with smaller norms ; this is known as L 2 regularization . [1] In other cases, high-pass operators (e.g., a difference operator or a weighted Fourier operator ) may be used to enforce smoothness if the underlying vector is believed to be mostly continuous. This regularization improves the conditioning of the problem, thus enabling a direct numerical solution. An explicit solution, denoted by x ^ {\displaystyle {\hat {x}}} {\hat {x}} , is given by:
+
+    x ^ = ( A ⊤ A + Γ ⊤ Γ ) − 1 A ⊤ b {\displaystyle {\hat {x}}=(A^{\top }A+\Gamma ^{\top }\Gamma )^{-1}A^{\top }\mathbf {b} } {\displaystyle {\hat {x}}=(A^{\top }A+\Gamma ^{\top }\Gamma )^{-1}A^{\top }\mathbf {b} } 
+
+The effect of regularization may be varied via the scale of matrix Γ {\displaystyle \Gamma } \Gamma . For Γ = 0 {\displaystyle \Gamma =0} \Gamma =0 this reduces to the unregularized least squares solution provided that (A T A) −1 exists.
+
+L 2 regularization is used in many contexts aside from linear regression, such as classification with logistic regression or support vector machines , [2] and matrix factorization. [3]
+Contents
+
+    1 History
+    2 Generalized Tikhonov regularization
+    3 Regularization in Hilbert space
+    4 Relation to singular value decomposition and Wiener filter
+    5 Determination of the Tikhonov factor
+    6 Relation to probabilistic formulation
+    7 Bayesian interpretation
+    8 See also
+    9 References
+
+History [ edit ]
+
+Tikhonov regularization has been invented independently in many different contexts. It became widely known from its application to integral equations from the work of Andrey Tikhonov and David L. Phillips. Some authors use the term Tikhonov–Phillips regularization . The finite-dimensional case was expounded by Arthur E. Hoerl , who took a statistical approach, and by Manus Foster, who interpreted this method as a Wiener–Kolmogorov (Kriging) filter. Following Hoerl, it is known in the statistical literature as ridge regression .
+Generalized Tikhonov regularization [ edit ]
+
+For general multivariate normal distributions for x {\displaystyle x} x and the data error, one can apply a transformation of the variables to reduce to the case above. Equivalently, one can seek an x {\displaystyle x} x to minimize
+
+    ‖ A x − b ‖ P 2 + ‖ x − x 0 ‖ Q 2 {\displaystyle \|Ax-b\|_{P}^{2}+\|x-x_{0}\|_{Q}^{2}\,} \|Ax-b\|_{P}^{2}+\|x-x_{0}\|_{Q}^{2}\, 
+
+where we have used ‖ x ‖ Q 2 {\displaystyle \left\|x\right\|_{Q}^{2}} \left\|x\right\|_{Q}^{2} to stand for the weighted norm x ⊤ Q x {\displaystyle x^{\top }Qx} {\displaystyle x^{\top }Qx} (compare with the Mahalanobis distance ). In the Bayesian interpretation P {\displaystyle P} P is the inverse covariance matrix of b {\displaystyle b} b , x 0 {\displaystyle x_{0}} x_{0} is the expected value of x {\displaystyle x} x , and Q {\displaystyle Q} Q is the inverse covariance matrix of x {\displaystyle x} x . The Tikhonov matrix is then given as a factorization of the matrix Q = Γ ⊤ Γ {\displaystyle Q=\Gamma ^{\top }\Gamma } {\displaystyle Q=\Gamma ^{\top }\Gamma } (e.g. the Cholesky factorization ), and is considered a whitening filter .
+
+This generalized problem has an optimal solution x ∗ {\displaystyle x^{*}} x^{*} which can be solved explicitly using the formula
+
+    x ∗ = ( A ⊤ P A + Q ) − 1 ( A ⊤ P b + Q x 0 ) . {\displaystyle x^{*}=(A^{\top }PA+Q)^{-1}(A^{\top }Pb+Qx_{0}).\,} {\displaystyle x^{*}=(A^{\top }PA+Q)^{-1}(A^{\top }Pb+Qx_{0}).\,} 
+
+or equivalently
+
+    x ∗ = x 0 + ( A ⊤ P A + Q ) − 1 ( A ⊤ P ( b − A x 0 ) ) . {\displaystyle x^{*}=x_{0}+(A^{\top }PA+Q)^{-1}(A^{\top }P(b-Ax_{0})).\,} {\displaystyle x^{*}=x_{0}+(A^{\top }PA+Q)^{-1}(A^{\top }P(b-Ax_{0})).\,} 
+
+Regularization in Hilbert space [ edit ]
+
+Typically discrete linear ill-conditioned problems result from discretization of integral equations , and one can formulate a Tikhonov regularization in the original infinite-dimensional context. In the above we can interpret A {\displaystyle A} A as a compact operator on Hilbert spaces , and x {\displaystyle x} x and b {\displaystyle b} b as elements in the domain and range of A {\displaystyle A} A . The operator A ∗ A + Γ ⊤ Γ {\displaystyle A^{*}A+\Gamma ^{\top }\Gamma } {\displaystyle A^{*}A+\Gamma ^{\top }\Gamma } is then a self-adjoint bounded invertible operator.
+Relation to singular value decomposition and Wiener filter [ edit ]
+
+With Γ = α I {\displaystyle \Gamma =\alpha I} \Gamma =\alpha I , this least squares solution can be analyzed in a special way via the singular value decomposition . Given the singular value decomposition of A
+
+    A = U Σ V ⊤ {\displaystyle A=U\Sigma V^{\top }\,} {\displaystyle A=U\Sigma V^{\top }\,} 
+
+with singular values σ i {\displaystyle \sigma _{i}} \sigma _{i} , the Tikhonov regularized solution can be expressed as
+
+    x ^ = V D U ⊤ b {\displaystyle {\hat {x}}=VDU^{\top }b} {\displaystyle {\hat {x}}=VDU^{\top }b} 
+
+where D {\displaystyle D} D has diagonal values
+
+    D i i = σ i σ i 2 + α 2 {\displaystyle D_{ii}={\frac {\sigma _{i}}{\sigma _{i}^{2}+\alpha ^{2}}}} D_{ii}={\frac {\sigma _{i}}{\sigma _{i}^{2}+\alpha ^{2}}} 
+
+and is zero elsewhere. This demonstrates the effect of the Tikhonov parameter on the condition number of the regularized problem. For the generalized case a similar representation can be derived using a generalized singular value decomposition .
+
+Finally, it is related to the Wiener filter :
+
+    x ^ = ∑ i = 1 q f i u i ⊤ b σ i v i {\displaystyle {\hat {x}}=\sum _{i=1}^{q}f_{i}{\frac {u_{i}^{\top }b}{\sigma _{i}}}v_{i}} {\displaystyle {\hat {x}}=\sum _{i=1}^{q}f_{i}{\frac {u_{i}^{\top }b}{\sigma _{i}}}v_{i}} 
+
+where the Wiener weights are f i = σ i 2 σ i 2 + α 2 {\displaystyle f_{i}={\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}} f_{i}={\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}} and q {\displaystyle q} q is the rank of A {\displaystyle A} A .
+Determination of the Tikhonov factor [ edit ]
+
+The optimal regularization parameter α {\displaystyle \alpha } \alpha is usually unknown and often in practical problems is determined by an ad hoc method. A possible approach relies on the Bayesian interpretation described below. Other approaches include the discrepancy principle , cross-validation , L-curve method , restricted maximum likelihood and unbiased predictive risk estimator . Grace Wahba proved [ citation needed ] that the optimal parameter, in the sense of leave-one-out cross-validation minimizes:
+
+    G = RSS τ 2 = ‖ X β ^ − y ‖ 2 [ Tr ⁡ ( I − X ( X T X + α 2 I ) − 1 X T ) ] 2 {\displaystyle G={\frac {\operatorname {RSS} }{\tau ^{2}}}={\frac {\left\|X{\hat {\beta }}-y\right\|^{2}}{\left[\operatorname {Tr} \left(I-X(X^{T}X+\alpha ^{2}I)^{-1}X^{T}\right)\right]^{2}}}} G={\frac {\operatorname {RSS} }{\tau ^{2}}}={\frac {\left\|X{\hat {\beta }}-y\right\|^{2}}{\left[\operatorname {Tr} \left(I-X(X^{T}X+\alpha ^{2}I)^{-1}X^{T}\right)\right]^{2}}} 
+
+where RSS {\displaystyle \operatorname {RSS} } \operatorname {RSS} is the residual sum of squares and τ {\displaystyle \tau } \tau is the effective number of degrees of freedom .
+
+Using the previous SVD decomposition, we can simplify the above expression:
+
+    RSS = ‖ y − ∑ i = 1 q ( u i ′ b ) u i ‖ 2 + ‖ ∑ i = 1 q α 2 σ i 2 + α 2 ( u i ′ b ) u i ‖ 2 {\displaystyle \operatorname {RSS} =\left\|y-\sum _{i=1}^{q}(u_{i}'b)u_{i}\right\|^{2}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}} \operatorname {RSS} =\left\|y-\sum _{i=1}^{q}(u_{i}'b)u_{i}\right\|^{2}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2} 
+
+    RSS = RSS 0 + ‖ ∑ i = 1 q α 2 σ i 2 + α 2 ( u i ′ b ) u i ‖ 2 {\displaystyle \operatorname {RSS} =\operatorname {RSS} _{0}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}} \operatorname {RSS} =\operatorname {RSS} _{0}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2} 
+
+and
+
+    τ = m − ∑ i = 1 q σ i 2 σ i 2 + α 2 = m − q + ∑ i = 1 q α 2 σ i 2 + α 2 {\displaystyle \tau =m-\sum _{i=1}^{q}{\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}=m-q+\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}} \tau =m-\sum _{i=1}^{q}{\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}=m-q+\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}} 
+
+Relation to probabilistic formulation [ edit ]
+
+The probabilistic formulation of an inverse problem introduces (when all uncertainties are Gaussian) a covariance matrix C M {\displaystyle C_{M}} C_{M} representing the a priori uncertainties on the model parameters, and a covariance matrix C D {\displaystyle C_{D}} C_{D} representing the uncertainties on the observed parameters (see, for instance, Tarantola, 2005 [1] ). In the special case when these two matrices are diagonal and isotropic, C M = σ M 2 I {\displaystyle C_{M}=\sigma _{M}^{2}I} C_{M}=\sigma _{M}^{2}I and C D = σ D 2 I {\displaystyle C_{D}=\sigma _{D}^{2}I} C_{D}=\sigma _{D}^{2}I , and, in this case, the equations of inverse theory reduce to the equations above, with α = σ D / σ M {\displaystyle \alpha ={\sigma _{D}}/{\sigma _{M}}} \alpha ={\sigma _{D}}/{\sigma _{M}} .
+Bayesian interpretation [ edit ]
+Further information: Minimum mean square error § Linear MMSE estimator for linear observation process
+
+Although at first the choice of the solution to this regularized problem may look artificial, and indeed the matrix Γ {\displaystyle \Gamma } \Gamma seems rather arbitrary, the process can be justified from a Bayesian point of view . Note that for an ill-posed problem one must necessarily introduce some additional assumptions in order to get a unique solution. Statistically, the prior probability distribution of x {\displaystyle x} x is sometimes taken to be a multivariate normal distribution . For simplicity here, the following assumptions are made: the means are zero; their components are independent; the components have the same standard deviation σ x {\displaystyle \sigma _{x}} \sigma _{x} . The data are also subject to errors, and the errors in b {\displaystyle b} b are also assumed to be independent with zero mean and standard deviation σ b {\displaystyle \sigma _{b}} \sigma _{b} . Under these assumptions the Tikhonov-regularized solution is the most probable solution given the data and the a priori distribution of x {\displaystyle x} x , according to Bayes' theorem . [4]
+
+If the assumption of normality is replaced by assumptions of homoscedasticity and uncorrelatedness of errors , and if one still assumes zero mean, then the Gauss–Markov theorem entails that the solution is the minimal unbiased estimator . [ citation needed ]
+See also [ edit ]
+
+    LASSO estimator is another regularization method in statistics.
+    Matrix regularization
+
+References [ edit ]
+
+    ^ Ng, Andrew Y. (2004). Feature selection, L1 vs. L2 regularization, and rotational invariance (PDF) . Proc. ICML .  
+    ^ R.-E. Fan; K.-W. Chang; C.-J. Hsieh; X.-R. Wang; C.-J. Lin (2008). "LIBLINEAR: A library for large linear classification". Journal of Machine Learning Research . 9 : 1871–1874.  
+    ^ Guan, Naiyang; Tao, Dacheng; Luo, Zhigang; Yuan, Bo (2012). "Online nonnegative matrix factorization with robust stochastic approximation". IEEE Trans. Neural Networks and Learning Systems . 23 (7): 1087–1099.  
+    ^ Vogel, Curtis R. (2002). Computational methods for inverse problems . Philadelphia: Society for Industrial and Applied Mathematics. ISBN   0-89871-550-4 .  
+
+    Amemiya, Takeshi (1985). Advanced Econometrics . Harvard University Press. pp. 60–61. ISBN   0-674-00560-0 .  
+    Tikhonov, Andrey Nikolayevich (1943). "Об устойчивости обратных задач" [On the stability of inverse problems]. Doklady Akademii Nauk SSSR . 39 (5): 195–198.  
+    Tikhonov, A. N. (1963). "О решении некорректно поставленных задач и методе регуляризации". Doklady Akademii Nauk SSSR . 151 : 501–504.   . Translated in "Solution of incorrectly formulated problems and the regularization method". Soviet Mathematics . 4 : 1035–1038.  
+    Tikhonov, A. N.; V. Y. Arsenin (1977). Solution of Ill-posed Problems . Washington: Winston & Sons. ISBN   0-470-99124-0 .  
+    Tikhonov A.N., Goncharsky A.V., Stepanov V.V., Yagola A.G., 1995, Numerical Methods for the Solution of Ill-Posed Problems , Kluwer Academic Publishers.
+    Tikhonov A.N., Leonov A.S., Yagola A.G., 1998, Nonlinear Ill-Posed Problems , V. 1, V. 2, Chapman and Hall.
+    Hansen, P.C., 1998, Rank-deficient and Discrete ill-posed problems , SIAM
+    Hoerl AE, 1962, Application of ridge analysis to regression problems , Chemical Engineering Progress, 1958, 54–59.
+    Hoerl, A.E.; R.W. Kennard (1970). "Ridge regression: Biased estimation for nonorthogonal problems". Technometrics . 12 (1): 55–67. doi : 10.2307/1267351 . JSTOR   1271436 .  
+    Foster, M. (1961). "An Application of the Wiener-Kolmogorov Smoothing Theory to Matrix Inversion". Journal of the Society for Industrial and Applied Mathematics . 9 (3): 387. doi : 10.1137/0109031 .  
+    Phillips, D. L. (1962). "A Technique for the Numerical Solution of Certain Integral Equations of the First Kind". Journal of the ACM . 9 : 84. doi : 10.1145/321105.321114 .  
+    Press, WH; Teukolsky, SA; Vetterling, WT; Flannery, BP (2007). "Section 19.5. Linear Regularization Methods" . Numerical Recipes: The Art of Scientific Computing (3rd ed.). New York: Cambridge University Press. ISBN   978-0-521-88068-8 .  
+    Tarantola A, 2005, Inverse Problem Theory ( free PDF version ), Society for Industrial and Applied Mathematics, ISBN   0-89871-572-5
+    Wahba, G. (1990). "Spline Models for Observational Data". Society for Industrial and Applied Mathematics.  
+    Golub, G.; Heath, M.; Wahba, G. (1979). "Generalized cross-validation as a method for choosing a good ridge parameter" (PDF) . Technometrics . 21 : 215–223. doi : 10.1080/00401706.1979.10489751 .  
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&oldid=850526955 "
+Categories :
+
+    Linear algebra
+    Estimation methods
+    Inverse problems
+
+Hidden categories:
+
+    Articles lacking in-text citations from April 2012
+    All articles lacking in-text citations
+    All articles with unsourced statements
+    Articles with unsourced statements from July 2018
+    Articles with unsourced statements from April 2012
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Español
+    Français
+    Italiano
+    Polski
+    Русский
+    Türkçe
+    Українська
+
+Edit links
+
+    This page was last edited on 16 July 2018, at 12:56  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

@@ -1,0 +1,329 @@
+
+Lasso (statistics)
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Rdwalk ( talk  | contribs ) at 11:00, 16 July 2018 ( → ‎ Model fitting: formatting error ) . The present address (URL) is a permanent link to this version.
+Revision as of 11:00, 16 July 2018 by Rdwalk ( talk  | contribs ) ( → ‎ Model fitting: formatting error )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+In statistics and machine learning , lasso (least absolute shrinkage and selection operator) (also Lasso or LASSO) is a regression analysis method that performs both variable selection and regularization in order to enhance the prediction accuracy and interpretability of the statistical model it produces. It was originally introduced in geophysics literature in 1986 but was independently rediscovered and popularized by Robert Tibshirani in 1996 who coined out the term and provided further insights into the observed performance. [1] [2] Lasso was originally formulated for least squares models and this simple case reveals a substantial amount about the behavior of the estimator, including its relationship to ridge regression and best subset selection and the connections between lasso coefficient estimates and so-called soft thresholding. It also reveals that (like standard linear regression ) the coefficient estimates need not be unique if covariates are collinear .
+
+Though originally defined for least squares, lasso regularization is easily extended to a wide variety of statistical models including generalized linear models , generalized estimating equations , proportional hazards models , and M-estimators , in a straightforward fashion. [1] [3] Lasso’s ability to perform subset selection relies on the form of the constraint and has a variety of interpretations including in terms of geometry , Bayesian statistics , and convex analysis .
+
+The LASSO is closely related to basis pursuit denoising .
+Contents
+
+    1 Motivation
+    2 Basic form
+        2.1 Orthonormal covariates
+        2.2 Correlated covariates
+    3 General form
+    4 Interpretations of lasso
+        4.1 Geometric interpretation
+        4.2 Bayesian interpretation
+        4.3 Convex relaxation interpretation
+    5 Generalizations of lasso
+        5.1 Elastic net
+        5.2 Group lasso
+        5.3 Fused lasso
+        5.4 Quasi-norms and bridge regression
+        5.5 Adaptive lasso
+    6 Model fitting
+    7 See also
+    8 References
+
+Motivation [ edit ]
+
+Lasso was introduced in order to improve the prediction accuracy and interpretability of regression models by altering the model fitting process to select only a subset of the provided covariates for use in the final model rather than using all of them. [1] [2] It was developed independently in geophysics, based on prior work that used the ℓ 1 {\displaystyle \ell ^{1}} \ell ^{1} penalty for both fitting and penalization of the coefficients, and by the statistician, Robert Tibshirani based on Breiman’s nonnegative garrote. [2] [4]
+
+Prior to lasso, the most widely used method for choosing which covariates to include was stepwise selection , which only improves prediction accuracy in certain cases, such as when only a few covariates have a strong relationship with the outcome. However, in other cases, it can make prediction error worse. Also, at the time, ridge regression was the most popular technique for improving prediction accuracy. Ridge regression improves prediction error by shrinking large regression coefficients in order to reduce overfitting , but it does not perform covariate selection and therefore does not help to make the model more interpretable.
+
+Lasso is able to achieve both of these goals by forcing the sum of the absolute value of the regression coefficients to be less than a fixed value, which forces certain coefficients to be set to zero, effectively choosing a simpler model that does not include those coefficients. This idea is similar to ridge regression, in which the sum of the squares of the coefficients is forced to be less than a fixed value, though in the case of ridge regression, this only shrinks the size of the coefficients, it does not set any of them to zero.
+Basic form [ edit ]
+
+Lasso was originally introduced in the context of least squares, and it can be instructive to consider this case first, since it illustrates many of lasso’s properties in a straightforward setting.
+
+Consider a sample consisting of N cases, each of which consists of p covariates and a single outcome. Let y i {\displaystyle y_{i}} y_{i} be the outcome and x i := ( x 1 , x 2 , … , x p ) T {\displaystyle x_{i}:=(x_{1},x_{2},\ldots ,x_{p})^{T}} {\displaystyle x_{i}:=(x_{1},x_{2},\ldots ,x_{p})^{T}} be the covariate vector for the i th case. Then the objective of lasso is to solve
+
+    min β 0 , β { 1 N ∑ i = 1 N ( y i − β 0 − x i T β ) 2 }  subject to  ∑ j = 1 p | β j | ≤ t . {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\sum _{i=1}^{N}(y_{i}-\beta _{0}-x_{i}^{T}\beta )^{2}\right\}{\text{ subject to }}\sum _{j=1}^{p}|\beta _{j}|\leq t.} {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\sum _{i=1}^{N}(y_{i}-\beta _{0}-x_{i}^{T}\beta )^{2}\right\}{\text{ subject to }}\sum _{j=1}^{p}|\beta _{j}|\leq t.} [1] 
+
+Here t {\displaystyle t} t is a prespecified free parameter that determines the amount of regularisation. Letting X {\displaystyle X} X be the covariate matrix, so that X i j = ( x i ) j {\displaystyle X_{ij}=(x_{i})_{j}} {\displaystyle X_{ij}=(x_{i})_{j}} and x i T {\displaystyle x_{i}^{T}} {\displaystyle x_{i}^{T}} is the i th row of X {\displaystyle X} X , the expression can be written more compactly as
+
+    min β 0 , β { 1 N ‖ y − β 0 1 N − X β ‖ 2 2 }  subject to  ‖ β ‖ 1 ≤ t . {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\left\|y-\beta _{0}1_{N}-X\beta \right\|_{2}^{2}\right\}{\text{ subject to }}\|\beta \|_{1}\leq t.} {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\left\|y-\beta _{0}1_{N}-X\beta \right\|_{2}^{2}\right\}{\text{ subject to }}\|\beta \|_{1}\leq t.} 
+
+where ‖ β ‖ p = ( ∑ i = 1 N | β i | p ) 1 / p {\displaystyle \|\beta \|_{p}=\left(\sum _{i=1}^{N}|\beta _{i}|^{p}\right)^{1/p}} {\displaystyle \|\beta \|_{p}=\left(\sum _{i=1}^{N}|\beta _{i}|^{p}\right)^{1/p}} is the standard ℓ p {\displaystyle \ell ^{p}} {\displaystyle \ell ^{p}} norm , and 1 N {\displaystyle 1_{N}} {\displaystyle 1_{N}} is an N × 1 {\displaystyle N\times 1} {\displaystyle N\times 1} vector of ones.
+
+Since β ^ 0 = y ¯ − x ¯ T β {\displaystyle {\hat {\beta }}_{0}={\bar {y}}-{\bar {x}}^{T}\beta } {\displaystyle {\hat {\beta }}_{0}={\bar {y}}-{\bar {x}}^{T}\beta } [ definition needed ] , so that
+
+    y i − β ^ 0 − x i T β = y i − ( y ¯ − x ¯ T β ) − x i T β = ( y i − y ¯ ) − ( x i − x ¯ ) T β , {\displaystyle y_{i}-{\hat {\beta }}_{0}-x_{i}^{T}\beta =y_{i}-({\bar {y}}-{\bar {x}}^{T}\beta )-x_{i}^{T}\beta =(y_{i}-{\bar {y}})-(x_{i}-{\bar {x}})^{T}\beta ,} {\displaystyle y_{i}-{\hat {\beta }}_{0}-x_{i}^{T}\beta =y_{i}-({\bar {y}}-{\bar {x}}^{T}\beta )-x_{i}^{T}\beta =(y_{i}-{\bar {y}})-(x_{i}-{\bar {x}})^{T}\beta ,} 
+
+it is standard to work with centered variables. Additionally, the covariates are typically standardized ( ∑ i = 1 N x i j 2 = 1 ) {\displaystyle \textstyle \left(\sum _{i=1}^{N}x_{ij}^{2}=1\right)} {\displaystyle \textstyle \left(\sum _{i=1}^{N}x_{ij}^{2}=1\right)} so that the solution does not depend on the measurement scale.
+
+It can be helpful to rewrite
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 }  subject to  ‖ β ‖ 1 ≤ t . {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}\right\}{\text{ subject to }}\|\beta \|_{1}\leq t.} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}\right\}{\text{ subject to }}\|\beta \|_{1}\leq t.} 
+
+in the so-called Lagrangian form
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 + λ ‖ β ‖ 1 } {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \|\beta \|_{1}\right\}} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \|\beta \|_{1}\right\}} 
+
+where the exact relationship between t {\displaystyle t} t and λ {\displaystyle \lambda } \lambda is data dependent.
+Orthonormal covariates [ edit ]
+
+Some basic properties of the lasso estimator can now be considered.
+
+Assuming first that the covariates are orthonormal so that ( x i ∣ x j ) = δ i j {\displaystyle (x_{i}\mid x_{j})=\delta _{ij}} {\displaystyle (x_{i}\mid x_{j})=\delta _{ij}} , where ( ⋅ ∣ ⋅ ) {\displaystyle (\cdot \mid \cdot )} {\displaystyle (\cdot \mid \cdot )} is the inner product and δ i j {\displaystyle \delta _{ij}} \delta _{ij} is the Kronecker delta , or, equivalently, X T X = I {\displaystyle X^{T}X=I} {\displaystyle X^{T}X=I} , then using subgradient methods it can be shown that
+
+    β ^ j = S N λ ( β ^ j OLS ) = β ^ j OLS max ( 0 , 1 − N λ | β ^ j OLS | )  where  β ^ OLS = ( X T X ) − 1 X T y {\displaystyle {\begin{aligned}{\hat {\beta }}_{j}={}&S_{N\lambda }({\hat {\beta }}_{j}^{\text{OLS}})={\hat {\beta }}_{j}^{\text{OLS}}\max \left(0,1-{\frac {N\lambda }{|{\hat {\beta }}_{j}^{\text{OLS}}|}}\right)\\&{\text{ where }}{\hat {\beta }}^{\text{OLS}}=(X^{T}X)^{-1}X^{T}y\end{aligned}}} {\displaystyle {\begin{aligned}{\hat {\beta }}_{j}={}&S_{N\lambda }({\hat {\beta }}_{j}^{\text{OLS}})={\hat {\beta }}_{j}^{\text{OLS}}\max \left(0,1-{\frac {N\lambda }{|{\hat {\beta }}_{j}^{\text{OLS}}|}}\right)\\&{\text{ where }}{\hat {\beta }}^{\text{OLS}}=(X^{T}X)^{-1}X^{T}y\end{aligned}}} [1] 
+
+S α {\displaystyle S_{\alpha }} {\displaystyle S_{\alpha }} is referred to as the soft thresholding operator, since it translates values towards zero (making them exactly zero if they are small enough) instead of setting smaller values to zero and leaving larger ones untouched as the hard thresholding operator, often denoted H α {\displaystyle H_{\alpha }} {\displaystyle H_{\alpha }} , would.
+
+This can be compared to ridge regression , where the objective is to minimize
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 + λ ‖ β ‖ 2 2 } {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\|y-X\beta \|_{2}^{2}+\lambda \|\beta \|_{2}^{2}\right\}} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\|y-X\beta \|_{2}^{2}+\lambda \|\beta \|_{2}^{2}\right\}} 
+
+yielding
+
+    β ^ j = ( 1 + N λ ) − 1 β ^ j OLS . {\displaystyle {\hat {\beta }}_{j}=(1+N\lambda )^{-1}{\hat {\beta }}_{j}^{\text{OLS}}.} {\displaystyle {\hat {\beta }}_{j}=(1+N\lambda )^{-1}{\hat {\beta }}_{j}^{\text{OLS}}.} 
+
+So ridge regression shrinks all coefficients by a uniform factor of ( 1 + N λ ) − 1 {\displaystyle (1+N\lambda )^{-1}} {\displaystyle (1+N\lambda )^{-1}} and does not set any coefficients to zero.
+
+It can also be compared to regression with best subset selection , in which the goal is to minimize
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 + λ ‖ β ‖ 0 } {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \|\beta \|_{0}\right\}} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \|\beta \|_{0}\right\}} 
+
+where ‖ ⋅ ‖ 0 {\displaystyle \|\cdot \|_{0}} {\displaystyle \|\cdot \|_{0}} is the " ℓ 0 {\displaystyle \ell ^{0}} {\displaystyle \ell ^{0}} norm", which is defined as ‖ z ‖ = m {\displaystyle \|z\|=m} {\displaystyle \|z\|=m} if exactly m components of z are nonzero. In this case, it can be shown that
+
+    β ^ j = H N λ ( β ^ j OLS ) = β ^ j OLS I ( | β ^ j OLS | ≥ N λ ) {\displaystyle {\hat {\beta }}_{j}=H_{\sqrt {N\lambda }}\left({\hat {\beta }}_{j}^{\text{OLS}}\right)={\hat {\beta }}_{j}^{\text{OLS}}\mathrm {I} \left(\left|{\hat {\beta }}_{j}^{\text{OLS}}\right|\geq {\sqrt {N\lambda }}\right)} {\displaystyle {\hat {\beta }}_{j}=H_{\sqrt {N\lambda }}\left({\hat {\beta }}_{j}^{\text{OLS}}\right)={\hat {\beta }}_{j}^{\text{OLS}}\mathrm {I} \left(\left|{\hat {\beta }}_{j}^{\text{OLS}}\right|\geq {\sqrt {N\lambda }}\right)} 
+
+where H α {\displaystyle H_{\alpha }} {\displaystyle H_{\alpha }} is the so-called hard thresholding function and I {\displaystyle \mathrm {I} } {\displaystyle \mathrm {I} } is an indicator function (it is 1 if its argument is true and 0 otherwise).
+
+Therefore, the lasso estimates share features of the estimates from both ridge and best subset selection regression since they both shrink the magnitude of all the coefficients, like ridge regression, but also set some of them to zero, as in the best subset selection case. Additionally, while ridge regression scales all of the coefficients by a constant factor, lasso instead translates the coefficients towards zero by a constant value and sets them to zero if they reach it.
+Correlated covariates [ edit ]
+
+Returning to the general case, in which the different covariates may not be independent , a special case may be considered in which two of the covariates, say j and k , are identical for each case, so that x ( j ) = x ( k ) {\displaystyle x_{(j)}=x_{(k)}} {\displaystyle x_{(j)}=x_{(k)}} , where x ( j ) , i = x i j {\displaystyle x_{(j),i}=x_{ij}} {\displaystyle x_{(j),i}=x_{ij}} . Then the values of β j {\displaystyle \beta _{j}} \beta _{j} and β k {\displaystyle \beta _{k}} {\displaystyle \beta _{k}} that minimize the lasso objective function are not uniquely determined. In fact, if there is some solution β ^ {\displaystyle {\hat {\beta }}} {\displaystyle {\hat {\beta }}} in which β ^ j β ^ k ≥ 0 {\displaystyle {\hat {\beta }}_{j}{\hat {\beta }}_{k}\geq 0} {\displaystyle {\hat {\beta }}_{j}{\hat {\beta }}_{k}\geq 0} , then if s ∈ [ 0 , 1 ] {\displaystyle s\in [0,1]} {\displaystyle s\in [0,1]} replacing β ^ j {\displaystyle {\hat {\beta }}_{j}} {\displaystyle {\hat {\beta }}_{j}} by s ( β ^ j + β ^ k ) {\displaystyle s({\hat {\beta }}_{j}+{\hat {\beta }}_{k})} {\displaystyle s({\hat {\beta }}_{j}+{\hat {\beta }}_{k})} and β ^ k {\displaystyle {\hat {\beta }}_{k}} {\displaystyle {\hat {\beta }}_{k}} by ( 1 − s ) ( β ^ j + β ^ k ) {\displaystyle (1-s)({\hat {\beta }}_{j}+{\hat {\beta }}_{k})} {\displaystyle (1-s)({\hat {\beta }}_{j}+{\hat {\beta }}_{k})} , while keeping all the other β ^ i {\displaystyle {\hat {\beta }}_{i}} {\displaystyle {\hat {\beta }}_{i}} fixed, gives a new solution, so the lasso objective function then has a continuum of valid minimizers. [5] Several variants of the lasso, including the Elastic Net, have been designed to address this shortcoming, which are discussed below.
+General form [ edit ]
+
+Lasso regularization can be extended to a wide variety of objective functions such as those for generalized linear models , generalized estimating equations , proportional hazards models , and M-estimators in general, in the obvious way. [1] [3] Given the objective function
+
+    1 N ∑ i = 1 N f ( x i , y i , α , β ) {\displaystyle {\frac {1}{N}}\sum _{i=1}^{N}f(x_{i},y_{i},\alpha ,\beta )} {\displaystyle {\frac {1}{N}}\sum _{i=1}^{N}f(x_{i},y_{i},\alpha ,\beta )} 
+
+the lasso regularized version of the estimator will be the solution to
+
+    min α , β 1 N ∑ i = 1 N f ( x i , y i , α , β )  subject to  ‖ β ‖ 1 ≤ t {\displaystyle \min _{\alpha ,\beta }{\frac {1}{N}}\sum _{i=1}^{N}f(x_{i},y_{i},\alpha ,\beta ){\text{ subject to }}\|\beta \|_{1}\leq t} {\displaystyle \min _{\alpha ,\beta }{\frac {1}{N}}\sum _{i=1}^{N}f(x_{i},y_{i},\alpha ,\beta ){\text{ subject to }}\|\beta \|_{1}\leq t} 
+
+where only β {\displaystyle \beta } \beta is penalized while α {\displaystyle \alpha } \alpha is free to take any allowed value, just as β 0 {\displaystyle \beta _{0}} \beta _{0} was not penalized in the basic case.
+Interpretations of lasso [ edit ]
+Geometric interpretation [ edit ]
+Forms of the constraint regions for lasso and ridge regression.
+
+As discussed above, lasso can set coefficients to zero, while ridge regression, which appears superficially similar, cannot. This is due to the difference in the shape of the constraint boundaries in the two cases. Both lasso and ridge regression can be interpreted as minimizing the same objective function
+
+    min β 0 , β { 1 N ‖ y − β 0 − X β ‖ 2 2 } {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\left\|y-\beta _{0}-X\beta \right\|_{2}^{2}\right\}} {\displaystyle \min _{\beta _{0},\beta }\left\{{\frac {1}{N}}\left\|y-\beta _{0}-X\beta \right\|_{2}^{2}\right\}} 
+
+but with respect to different constraints: ‖ β ‖ 1 ≤ t {\displaystyle \|\beta \|_{1}\leq t} {\displaystyle \|\beta \|_{1}\leq t} for lasso and ‖ β ‖ 2 2 ≤ t {\displaystyle \|\beta \|_{2}^{2}\leq t} {\displaystyle \|\beta \|_{2}^{2}\leq t} for ridge. From the figure, one can see that the constraint region defined by the ℓ 1 {\displaystyle \ell ^{1}} {\displaystyle \ell ^{1}} norm is a square rotated so that its corners lie on the axes (in general a cross-polytope ), while the region defined by the ℓ 2 {\displaystyle \ell ^{2}} \ell ^{2} norm is a circle (in general an n -sphere ), which is rotationally invariant and, therefore, has no corners. As seen in the figure, a convex object that lies tangent to the boundary, such as the line shown, is likely to encounter a corner (or in higher dimensions an edge or higher-dimensional equivalent) of a hypercube, for which some components of β {\displaystyle \beta } \beta are identically zero, while in the case of an n -sphere, the points on the boundary for which some of the components of β {\displaystyle \beta } \beta are zero are not distinguished from the others and the convex object is no more likely to contact a point at which some components of β {\displaystyle \beta } \beta are zero than one for which none of them are.
+Bayesian interpretation [ edit ]
+Laplace distributions are sharply peaked at their mean with more probability density concentrated there compared to a normal distribution.
+
+Just as ridge regression can be interpreted as linear regression for which the coefficients have been assigned normal prior distributions, lasso can be interpreted as linear regression for which the coefficients have Laplace prior distributions . The Laplace distribution is sharply peaked at zero (its first derivative is discontinuous) and it concentrates its probability mass closer to zero than does the normal distribution. This provides an alternative explanation of why lasso tends to set some coefficients to zero, while ridge regression does not. [1]
+Convex relaxation interpretation [ edit ]
+
+Lasso can also be viewed as a convex relaxation of the best subset selection regression problem, which is to find the subset of ≤ k {\displaystyle \leq k} {\displaystyle \leq k} covariates that results in the smallest value of the objective function for some fixed k ≤ n {\displaystyle k\leq n} {\displaystyle k\leq n} , where n is the total number of covariates. The " ℓ 0 {\displaystyle \ell ^{0}} {\displaystyle \ell ^{0}} norm", ‖ ⋅ ‖ 0 {\displaystyle \|\cdot \|_{0}} {\displaystyle \|\cdot \|_{0}} , which gives the number of nonzero entries of a vector, is the limiting case of " ℓ p {\displaystyle \ell ^{p}} {\displaystyle \ell ^{p}} norms", of the form ‖ x ‖ p = ( ∑ i = 1 n | x j | p ) 1 / p {\displaystyle \textstyle \|x\|_{p}=\left(\sum _{i=1}^{n}|x_{j}|^{p}\right)^{1/p}} {\displaystyle \textstyle \|x\|_{p}=\left(\sum _{i=1}^{n}|x_{j}|^{p}\right)^{1/p}} (where the quotation marks signify that these are not really norms for p < 1 {\displaystyle p<1} {\displaystyle p<1} since ‖ ⋅ ‖ p {\displaystyle \|\cdot \|_{p}} {\displaystyle \|\cdot \|_{p}} is not convex for p < 1 {\displaystyle p<1} {\displaystyle p<1} , so the triangle inequality does not hold). Therefore, since p = 1 is the smallest value for which the " ℓ p {\displaystyle \ell ^{p}} {\displaystyle \ell ^{p}} norm" is convex (and therefore actually a norm), lasso is, in some sense, the best convex approximation to the best subset selection problem, since the region defined by ‖ x ‖ 1 ≤ t {\displaystyle \|x\|_{1}\leq t} {\displaystyle \|x\|_{1}\leq t} is the convex hull of the region defined by ‖ x ‖ p ≤ t {\displaystyle \|x\|_{p}\leq t} {\displaystyle \|x\|_{p}\leq t} for p < 1 {\displaystyle p<1} {\displaystyle p<1} .
+Generalizations of lasso [ edit ]
+
+A number of lasso variants have been created in order to remedy certain limitations of the original technique and to make the method more useful for particular problems. Almost all of these focus on respecting or utilizing different types of dependencies among the covariates. Elastic net regularization adds an additional ridge regression-like penalty which improves performance when the number of predictors is larger than the sample size, allows the method to select strongly correlated variables together, and improves overall prediction accuracy. [5] Group lasso allows groups of related covariates to be selected as a single unit, which can be useful in settings where it does not make sense to include some covariates without others. [6] Further extensions of group lasso to perform variable selection within individual groups (sparse group lasso) and to allow overlap between groups (overlap group lasso) have also been developed. [7] [8] Fused lasso can account for the spatial or temporal characteristics of a problem, resulting in estimates that better match the structure of the system being studied. [9] Lasso regularized models can be fit using a variety of techniques including subgradient methods , least-angle regression (LARS), and proximal gradient methods . Determining the optimal value for the regularization parameter is an important part of ensuring that the model performs well; it is typically chosen using cross-validation .
+Elastic net [ edit ]
+
+In 2005, Zou and Hastie introduced the elastic net to address several shortcomings of lasso. [5] When p  >  n (the number of covariates is greater than the sample size) lasso can select only n covariates (even when more are associated with the outcome) and it tends to select only one covariate from any set of highly correlated covariates. Additionally, even when n  >  p , if the covariates are strongly correlated, ridge regression tends to perform better.
+
+The elastic net extends lasso by adding an additional ℓ 2 {\displaystyle \ell ^{2}} \ell ^{2} penalty term giving
+
+    min β ∈ R p { ‖ y − X β ‖ 2 2 + λ 1 ‖ β ‖ 1 + λ 2 ‖ β ‖ 2 2 } , {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{\left\|y-X\beta \right\|_{2}^{2}+\lambda _{1}\|\beta \|_{1}+\lambda _{2}\|\beta \|_{2}^{2}\right\},} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{\left\|y-X\beta \right\|_{2}^{2}+\lambda _{1}\|\beta \|_{1}+\lambda _{2}\|\beta \|_{2}^{2}\right\},} 
+
+which is equivalent to solving
+
+    min β 0 , β { ‖ y − β 0 − X β ‖ 2 2 }  subject to  ( 1 − α ) ‖ β ‖ 1 + α ‖ β ‖ 2 2 ≤ t ,  where  α = λ 2 λ 1 + λ 2 . {\displaystyle {\begin{aligned}\min _{\beta _{0},\beta }\left\{\left\|y-\beta _{0}-X\beta \right\|_{2}^{2}\right\}&{\text{ subject to }}(1-\alpha )\|\beta \|_{1}+\alpha \|\beta \|_{2}^{2}\leq t,\\&{\text{ where }}\alpha ={\frac {\lambda _{2}}{\lambda _{1}+\lambda _{2}}}.\end{aligned}}} {\displaystyle {\begin{aligned}\min _{\beta _{0},\beta }\left\{\left\|y-\beta _{0}-X\beta \right\|_{2}^{2}\right\}&{\text{ subject to }}(1-\alpha )\|\beta \|_{1}+\alpha \|\beta \|_{2}^{2}\leq t,\\&{\text{ where }}\alpha ={\frac {\lambda _{2}}{\lambda _{1}+\lambda _{2}}}.\end{aligned}}} 
+
+Somewhat surprisingly, this problem can be written in a simple lasso form
+
+    min β ∗ ∈ R p { ‖ y ∗ − X ∗ β ∗ ‖ 2 2 + λ ∗ ‖ β ∗ ‖ 1 } {\displaystyle \min _{\beta ^{*}\in \mathbb {R} ^{p}}\left\{\left\|y^{*}-X^{*}\beta ^{*}\right\|_{2}^{2}+\lambda ^{*}\|\beta ^{*}\|_{1}\right\}} {\displaystyle \min _{\beta ^{*}\in \mathbb {R} ^{p}}\left\{\left\|y^{*}-X^{*}\beta ^{*}\right\|_{2}^{2}+\lambda ^{*}\|\beta ^{*}\|_{1}\right\}} 
+
+letting
+
+    X ( n + p ) × p ∗ = ( 1 + λ 2 ) − 1 / 2 ( X λ 2 1 / 2 I p × p ) {\displaystyle X_{(n+p)\times p}^{*}=(1+\lambda _{2})^{-1/2}{\binom {X}{\lambda _{2}^{1/2}I_{p\times p}}}} {\displaystyle X_{(n+p)\times p}^{*}=(1+\lambda _{2})^{-1/2}{\binom {X}{\lambda _{2}^{1/2}I_{p\times p}}}} ,   y ( n + p ) ∗ = ( y 0 p ) , λ ∗ = λ 1 1 + λ 2 {\displaystyle y_{(n+p)}^{*}={\binom {y}{0^{p}}},\qquad \lambda ^{*}={\frac {\lambda _{1}}{\sqrt {1+\lambda _{2}}}}} {\displaystyle y_{(n+p)}^{*}={\binom {y}{0^{p}}},\qquad \lambda ^{*}={\frac {\lambda _{1}}{\sqrt {1+\lambda _{2}}}}} ,   β ∗ = 1 + λ 2 β . {\displaystyle \beta ^{*}={\sqrt {1+\lambda _{2}}}\beta .} {\displaystyle \beta ^{*}={\sqrt {1+\lambda _{2}}}\beta .} 
+
+Then β ^ = β ^ ∗ 1 + λ 2 {\displaystyle {\hat {\beta }}={\frac {{\hat {\beta }}^{*}}{\sqrt {1+\lambda _{2}}}}} {\displaystyle {\hat {\beta }}={\frac {{\hat {\beta }}^{*}}{\sqrt {1+\lambda _{2}}}}} , which, when the covariates are orthogonal to each other, gives
+
+    β ^ j = β ^ j *,OLS 1 + λ 2 max ( 0 , 1 − λ ∗ | β ^ j *,OLS | ) = β ^ j OLS 1 + λ 2 max ( 0 , 1 − λ 1 | β ^ j OLS | ) = ( 1 + λ 2 ) − 1 β ^ j lasso . {\displaystyle {\hat {\beta }}_{j}={\frac {{\hat {\beta }}_{j}^{\text{*,OLS}}}{\sqrt {1+\lambda _{2}}}}\max \left(0,1-{\frac {\lambda ^{*}}{\left|{\hat {\beta }}_{j}^{\text{*,OLS}}\right|}}\right)={\frac {{\hat {\beta }}_{j}^{\text{OLS}}}{1+\lambda _{2}}}\max \left(0,1-{\frac {\lambda _{1}}{\left|{\hat {\beta }}_{j}^{\text{OLS}}\right|}}\right)=(1+\lambda _{2})^{-1}{\hat {\beta }}_{j}^{\text{lasso}}.} {\displaystyle {\hat {\beta }}_{j}={\frac {{\hat {\beta }}_{j}^{\text{*,OLS}}}{\sqrt {1+\lambda _{2}}}}\max \left(0,1-{\frac {\lambda ^{*}}{\left|{\hat {\beta }}_{j}^{\text{*,OLS}}\right|}}\right)={\frac {{\hat {\beta }}_{j}^{\text{OLS}}}{1+\lambda _{2}}}\max \left(0,1-{\frac {\lambda _{1}}{\left|{\hat {\beta }}_{j}^{\text{OLS}}\right|}}\right)=(1+\lambda _{2})^{-1}{\hat {\beta }}_{j}^{\text{lasso}}.} 
+
+So the result of the elastic net penalty is a combination of the effects of the lasso and Ridge penalties.
+
+Returning to the general case, the fact that the penalty function is now strictly convex means that if x ( j ) = x ( k ) {\displaystyle x_{(j)}=x_{(k)}} {\displaystyle x_{(j)}=x_{(k)}} , β ^ j = β ^ k {\displaystyle {\hat {\beta }}_{j}={\hat {\beta }}_{k}} {\displaystyle {\hat {\beta }}_{j}={\hat {\beta }}_{k}} , which is a change from lasso. [5] In general, if β ^ j β k ^ > 0 {\displaystyle {\hat {\beta }}_{j}{\hat {\beta _{k}}}>0} {\displaystyle {\hat {\beta }}_{j}{\hat {\beta _{k}}}>0}
+
+    | β ^ j − β k ^ | ‖ y ‖ ≤ λ 2 − 1 2 ( 1 − ρ j k ) ,  where  ρ = X t X , {\displaystyle {\frac {|{\hat {\beta }}_{j}-{\hat {\beta _{k}}}|}{\|y\|}}\leq \lambda _{2}^{-1}{\sqrt {2(1-\rho _{jk})}},{\text{ where }}\rho =X^{t}X,} {\displaystyle {\frac {|{\hat {\beta }}_{j}-{\hat {\beta _{k}}}|}{\|y\|}}\leq \lambda _{2}^{-1}{\sqrt {2(1-\rho _{jk})}},{\text{ where }}\rho =X^{t}X,} 
+
+is the sample correlation matrix because the x {\displaystyle x} x 's are normalized.
+
+Therefore, highly correlated covariates will tend to have similar regression coefficients, with the degree of similarity depending on both ‖ y ‖ 1 {\displaystyle \|y\|_{1}} {\displaystyle \|y\|_{1}} and λ 2 {\displaystyle \lambda _{2}} \lambda _{2} , which is very different from lasso. This phenomenon, in which strongly correlated covariates have similar regression coefficients, is referred to as the grouping effect and is generally considered desirable since, in many applications, such as identifying genes associated with a disease, one would like to find all the associated covariates, rather than selecting only one from each set of strongly correlated covariates, as lasso often does. [5] In addition, selecting only a single covariate from each group will typically result in increased prediction error, since the model is less robust (which is why ridge regression often outperforms lasso).
+Group lasso [ edit ]
+
+In 2006, Yuan and Lin introduced the group lasso in order to allow predefined groups of covariates to be selected into or out of a model together, so that all the members of a particular group are either included or not included. [6] While there are many settings in which this is useful, perhaps the most obvious is when levels of a categorical variable are coded as a collection of binary covariates. In this case, it often doesn't make sense to include only a few levels of the covariate; the group lasso can ensure that all the variables encoding the categorical covariate are either included or excluded from the model together. Another setting in which grouping is natural is in biological studies. Since genes and proteins often lie in known pathways, an investigator may be more interested in which pathways are related to an outcome than whether particular individual genes are. The objective function for the group lasso is a natural generalization of the standard lasso objective
+
+    min β ∈ R p { ‖ y − ∑ j = 1 J X j β j ‖ 2 2 + λ ∑ j = 1 J ‖ β j ‖ K j } , ‖ z ‖ K j = ( z t K j z ) 1 / 2 {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{\left\|y-\sum _{j=1}^{J}X_{j}\beta _{j}\right\|_{2}^{2}+\lambda \sum _{j=1}^{J}\|\beta _{j}\|_{K_{j}}\right\},\qquad \|z\|_{K_{j}}=(z^{t}K_{j}z)^{1/2}} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{\left\|y-\sum _{j=1}^{J}X_{j}\beta _{j}\right\|_{2}^{2}+\lambda \sum _{j=1}^{J}\|\beta _{j}\|_{K_{j}}\right\},\qquad \|z\|_{K_{j}}=(z^{t}K_{j}z)^{1/2}} 
+
+where the design matrix X {\displaystyle X} X and covariate vector β {\displaystyle \beta } \beta have been replaced by a collection of design matrices X j {\displaystyle X_{j}} X_{j} and covariate vectors β j {\displaystyle \beta _{j}} \beta _{j} , one for each of the J groups. Additionally, the penalty term is now a sum over ℓ 2 {\displaystyle \ell ^{2}} \ell ^{2} norms defined by the positive definite matrices K j {\displaystyle K_{j}} {\displaystyle K_{j}} . If each covariate is in its own group and K j = I {\displaystyle K_{j}=I} {\displaystyle K_{j}=I} , then this reduces to the standard lasso, while if there is only a single group and K 1 = I {\displaystyle K_{1}=I} {\displaystyle K_{1}=I} , it reduces to ridge regression. Since the penalty reduces to an ℓ 2 {\displaystyle \ell ^{2}} \ell ^{2} norm on the subspaces defined by each group, it cannot select out only some of the covariates from a group, just as ridge regression cannot. However, because the penalty is the sum over the different subspace norms, as in the standard lasso, the constraint has some non-differential points, which correspond to some subspaces being identically zero. Therefore, it can set the coefficient vectors corresponding to some subspaces to zero, while only shrinking others. However, it is possible to extend the group lasso to the so-called sparse group lasso, which can select individual covariates within a group, by adding an additional ℓ 1 {\displaystyle \ell ^{1}} {\displaystyle \ell ^{1}} penalty to each group subspace. [7] Another extension, group lasso with Overlap allows covariates to be shared between different groups, e.g. if a gene were to occur in two pathways. [8]
+Fused lasso [ edit ]
+
+In some cases, the object being studied may have important spatial or temporal structure that must be accounted for during analysis, such as time series or image based data. In 2005, Tibshirani and colleagues introduced the Fused lasso to extend the use of lasso to exactly this type of data. [9] The fused lasso objective function is
+
+    min β { 1 N ∑ i = 1 N ( y i − x i t β ) 2 }  subject to  ∑ j = 1 p | β j | ≤ t 1  and  ∑ j = 2 p | β j − β j − 1 | ≤ t 2 . {\displaystyle {\begin{aligned}&\min _{\beta }\left\{{\frac {1}{N}}\sum _{i=1}^{N}\left(y_{i}-x_{i}^{t}\beta \right)^{2}\right\}\\[4pt]&{\text{ subject to }}\sum _{j=1}^{p}|\beta _{j}|\leq t_{1}{\text{ and }}\sum _{j=2}^{p}|\beta _{j}-\beta _{j-1}|\leq t_{2}.\end{aligned}}} {\displaystyle {\begin{aligned}&\min _{\beta }\left\{{\frac {1}{N}}\sum _{i=1}^{N}\left(y_{i}-x_{i}^{t}\beta \right)^{2}\right\}\\[4pt]&{\text{ subject to }}\sum _{j=1}^{p}|\beta _{j}|\leq t_{1}{\text{ and }}\sum _{j=2}^{p}|\beta _{j}-\beta _{j-1}|\leq t_{2}.\end{aligned}}} 
+
+The first constraint is just the typical lasso constraint, but the second directly penalizes large changes with respect to the temporal or spatial structure, which forces the coefficients to vary in a smooth fashion that reflects the underlying logic of the system being studied. Clustered lasso [10] is a generalization to fused lasso that identifies and groups relevant covariates based on their effects (coefficients). The basic idea is to penalize the differences between the coefficients so that nonzero ones make clusters together. This can be modeled using the following regularization:
+
+    ∑ i < j p | β i − β j | ≤ t 2 . {\displaystyle \sum _{i<j}^{p}|\beta _{i}-\beta _{j}|\leq t_{2}.} {\displaystyle \sum _{i<j}^{p}|\beta _{i}-\beta _{j}|\leq t_{2}.} 
+
+In contrast, one can first cluster variables into highly correlated groups, and then extract a single representative covariate from each cluster. [11]
+Quasi-norms and bridge regression [ edit ]
+An example of a PQSQ (piece-wise quadratic function of subquadratic growth) potential function u ( x ) {\displaystyle u(x)} u(x) ; here the majorant function is f ( x ) = x {\displaystyle f(x)=x} f(x)=x ; the potential is defined with trimming after r 3 {\displaystyle r_{3}} r_3 .
+An example how efficient PQSQ regularized regression works just as ℓ 1 {\displaystyle \ell ^{1}} {\displaystyle \ell ^{1}} -norm lasso. [12]
+
+Lasso, elastic net, group and fused lasso construct the penalty functions from the ℓ 1 {\displaystyle \ell ^{1}} {\displaystyle \ell ^{1}} and ℓ 2 {\displaystyle \ell ^{2}} \ell ^{2} norms (with weights, if necessary). The bridge regression utilises general ℓ p {\displaystyle \ell ^{p}} {\displaystyle \ell ^{p}} norms ( p ≥ 1 {\displaystyle p\geq 1} {\displaystyle p\geq 1} ) and quasinorms ( 0 < p < 1 {\displaystyle 0<p<1} {\displaystyle 0<p<1} ). [13] For example, for p =1/2 the analogue of lasso objective in the Lagrangian form is to solve
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 + λ ‖ β ‖ 1 / 2 } , {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda {\sqrt {\|\beta \|_{1/2}}}\right\},} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda {\sqrt {\|\beta \|_{1/2}}}\right\},} 
+
+where
+
+    ‖ β ‖ 1 / 2 = ( ∑ j = 1 p | β j | ) 2 {\displaystyle \|\beta \|_{1/2}=\left(\sum _{j=1}^{p}{\sqrt {|\beta _{j}|}}\right)^{2}} {\displaystyle \|\beta \|_{1/2}=\left(\sum _{j=1}^{p}{\sqrt {|\beta _{j}|}}\right)^{2}} 
+
+It is claimed that the fractional quasi-norms ℓ p {\displaystyle \ell ^{p}} {\displaystyle \ell ^{p}} ( 0 < p < 1 {\displaystyle 0<p<1} {\displaystyle 0<p<1} ) provide more meaningful results in data analysis both from the theoretical and empirical perspective. [14] But non-convexity of these quasi-norms causes difficulties in solution of the optimization problem. To solve this problem, an expectation-minimization procedure is developed [15] and implemented [12] for minimization of function
+
+    min β ∈ R p { 1 N ‖ y − X β ‖ 2 2 + λ ∑ j = 1 p ϑ ( β j 2 ) } , {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \sum _{j=1}^{p}\vartheta (\beta _{j}^{2})\right\},} {\displaystyle \min _{\beta \in \mathbb {R} ^{p}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \sum _{j=1}^{p}\vartheta (\beta _{j}^{2})\right\},} 
+
+where ϑ ( γ ) {\displaystyle \vartheta (\gamma )} {\displaystyle \vartheta (\gamma )} is an arbitrary concave monotonically increasing function (for example, ϑ ( γ ) = γ {\displaystyle \vartheta (\gamma )={\sqrt {\gamma }}} {\displaystyle \vartheta (\gamma )={\sqrt {\gamma }}} gives the lasso penalty and ϑ ( γ ) = γ 1 / 4 {\displaystyle \vartheta (\gamma )=\gamma ^{1/4}} {\displaystyle \vartheta (\gamma )=\gamma ^{1/4}} gives the ℓ 1 / 2 {\displaystyle \ell ^{1/2}} {\displaystyle \ell ^{1/2}} penalty).
+
+The efficient algorithm for minimization is based on piece-wise quadratic approximation of subquadratic growth (PQSQ). [15]
+Adaptive lasso [ edit ]
+
+The adaptive lasso was introduced by Zou (2006, JASA) for linear regression and by Zhang and Lu (2007, Biometrika) for proportional hazards regression.
+Model fitting [ edit ]
+Main article: Proximal gradient methods for learning § Lasso regularization
+
+Though the lasso penalty is not differentiable, a wide variety of techniques from convex analysis and optimization theory have been developed to extremize such functions. These include coordinate descent [16] , subgradient methods, least-angle regression (LARS), and proximal gradient methods. [17] Subgradient methods, are the natural generalization of traditional methods such as gradient descent and stochastic gradient descent to the case in which the objective function is not differentiable at all points. LARS is a method that is closely tied to lasso models, and in many cases allows them to be fit very efficiently, though it may not perform well in all circumstances. Proximal methods have become popular because of their flexibility and performance and are an area of active research. The choice of method will depend on the particular lasso variant being used, the data, and the available resources. However, proximal methods will generally perform well in most circumstances.
+
+In addition to fitting the parameters, choosing the regularization parameter is also a fundamental part of using lasso. Selecting it well is essential to the performance of lasso since it controls the strength of shrinkage and variable selection, which, in moderation can improve both prediction and interpretability. However, if the regularization becomes too strong, important variables may be left out of the model and coefficients may be shrunk excessively, which can harm both predictive capacity and the inferences drawn about the system being studied. LARS is unique in this regard as it generates complete regularization paths which makes determining the optimal value of the regularization parameter much more straightforward. [17] With other methods, cross-validation is typically used to select the parameter. Additionally, a variety of heuristics related to choosing the regularization and optimization parameters are often used in order to attempt to improve performance further.
+See also [ edit ]
+
+    Model selection
+    Tikhonov regularization
+
+References [ edit ]
+
+    ^ Jump up to: a b c d e f g Tibshirani, Robert (1996). "Regression Shrinkage and Selection via the lasso". Journal of the Royal Statistical Society . Series B (methodological). Wiley. 58 (1): 267–88. JSTOR   2346178 .  
+    ^ Jump up to: a b c Santosa, Fadil; Symes, William W. (1986). "Linear inversion of band-limited reflection seismograms". SIAM Journal on Scientific and Statistical Computing . SIAM. 7 (4): 1307––1330.  
+    ^ Jump up to: a b Tibshirani, Robert (1997). "The lasso Method for Variable Selection in the Cox Model". Statistics in Medicine . 16 : 385–395. doi : 10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3 .  
+    Jump up ^ Breiman, Leo. "Better Subset Regression Using the Nonnegative Garrote". Technometrics . 37 (4): 373–84.  
+    ^ Jump up to: a b c d e Zou, Hui; Hastie, Trevor (2005). "Regularization and Variable Selection via the Elastic Net". Journal of the Royal Statistical Society . Series B (statistical Methodology). Wiley. 67 (2): 301–20. JSTOR   3647580 .  
+    ^ Jump up to: a b Yuan, Ming; Lin, Yi (2006). "Model Selection and Estimation in Regression with Grouped Variables". Journal of the Royal Statistical Society . Series B (statistical Methodology). Wiley. 68 (1): 49–67. JSTOR   3647556 .  
+    ^ Jump up to: a b Puig, Arnau Tibau, Ami Wiesel, and Alfred O. Hero. "A Multidimensional Shrinkage-Thresholding Operator". Proceedings of the 15th workshop on Statistical Signal Processing, SSP’09, IEEE, pp. 113–116.
+    ^ Jump up to: a b Jacob, Laurent, Guillaume Obozinski, and Jean-Philippe Vert. "Group Lasso with Overlap and Graph LASSO". Appearing in Proceedings of the 26th International Conference on Machine Learning, Montreal, Canada, 2009.
+    ^ Jump up to: a b Tibshirani, Robert, Michael Saunders, Saharon Rosset, Ji Zhu, and Keith Knight. 2005. “Sparsity and Smoothness via the Fused lasso”. Journal of the Royal Statistical Society. Series B (statistical Methodology) 67 (1). Wiley: 91–108. https://www.jstor.org/stable/3647602 .
+    Jump up ^ She, Yiyuan. "Sparse regression with exact clustering" . Electronic Journal of Statistics . 4 : 1055–1096.  
+    Jump up ^ Reid, Stephen (2015). "Sparse regression and marginal testing using cluster prototypes" . Biostatistics . doi : 10.1093/biostatistics/kxv049 .  
+    ^ Jump up to: a b Mirkes E.M. PQSQ-regularized-regression repository , GitHub.
+    Jump up ^ Fu, Wenjiang J. 1998. “ The Bridge versus the Lasso ”. Journal of Computational and Graphical Statistics 7 (3). Taylor & Francis: 397-416.
+    Jump up ^ Aggarwal C.C., Hinneburg A., Keim D.A. (2001) "On the Surprising Behavior of Distance Metrics in High Dimensional Space." In: Van den Bussche J., Vianu V. (eds) Database Theory — ICDT 2001. ICDT 2001. Lecture Notes in Computer Science, Vol. 1973. Springer, Berlin, Heidelberg, pp. 420-434.
+    ^ Jump up to: a b Gorban, A.N.; Mirkes, E.M.; Zinovyev, A. (2016) " Piece-wise quadratic approximations of arbitrary error functions for fast and robust machine learning. " Neural Networks, 84, 28-38.
+    Jump up ^ Jerome Friedman, Trevor Hastie, and Robert Tibshirani. 2010. “Regularization Paths for Generalized Linear Models via Coordinate Descent”. Journal of Statistical Software 33 (1): 1-21. https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf .
+    ^ Jump up to: a b Efron, Bradley, Trevor Hastie, Iain Johnstone, and Robert Tibshirani. 2004. “Least Angle Regression”. The Annals of Statistics 32 (2). Institute of Mathematical Statistics: 407–51. https://www.jstor.org/stable/3448465 .
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Lasso_(statistics)&oldid=850516019 "
+Categories :
+
+    Regression analysis
+
+Hidden categories:
+
+    Wikipedia articles needing clarification from July 2017
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Español
+    Français
+    中文
+
+Edit links
+
+    This page was last edited on 16 July 2018, at 11:00  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

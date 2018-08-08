@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html class="client-js" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Tikhonov regularization - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Tikhonov_regularization","wgTitle":"Tikhonov regularization","wgCurRevisionId":850526955,"wgRevisionId":850526955,"wgArticleId":954323,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Articles lacking in-text citations from April 2012","All articles lacking in-text citations","All articles with unsourced statements","Articles with unsourced statements from July 2018","Articles with unsourced statements from April 2012","Linear algebra","Estimation methods","Inverse problems"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Tikhonov_regularization","wgRelevantArticleId":954323,"wgRequestId":"W2pO8QpAICMAAFXxPWgAAAAT","wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgWikibaseItemId":"Q2778212","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":true,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.math.styles":"ready","ext.cite.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.toc.styles":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.math.scripts","ext.cite.a11y","site","mediawiki.page.startup","mediawiki.user","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","mmv.head","mmv.bootstrap.autostart","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="load_002.css">
+<script async="" src="load_002.php"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load.css">
+<link rel="stylesheet" href="load_003.css">
+<meta name="generator" content="MediaWiki 1.32.0-wmf.15">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-crossorigin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/1200px-Linear_regression.svg.png">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit">
+<link rel="edit" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit">
+<link rel="apple-touch-icon" href="https://en.wikipedia.org/static/apple-touch/wikipedia.png">
+<link rel="shortcut icon" href="https://en.wikipedia.org/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikipedia.org/w/api.php?action=rsd">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="https://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Tikhonov_regularization">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+<script src="load.php"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Tikhonov_regularization rootpage-Tikhonov_regularization skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">Tikhonov regularization</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"><div class="mw-revision"><div id="mw-revision-info-current"><table id="revision-info-current" class="plainlinks fmbox fmbox-system" role="presentation"><tbody><tr><td class="mbox-text"><b>This is the <a href="https://en.wikipedia.org/wiki/Help:Page_history" title="Help:Page history">current revision</a> of this page, as edited by <span id="mw-revision-name"><a href="https://en.wikipedia.org/wiki/User:AnomieBOT" class="mw-userlink" title="User:AnomieBOT"><bdi>AnomieBOT</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:AnomieBOT" class="mw-usertoollinks-talk" title="User talk:AnomieBOT">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/AnomieBOT" class="mw-usertoollinks-contribs" title="Special:Contributions/AnomieBOT">contribs</a>)</span></span> at <span id="mw-revision-date">12:56, 16 July 2018</span><span id="mw-revision-summary"> <span class="comment">(Dating maintenance tags: {{Citation needed}})</span></span>. The present address (URL) is a <a href="https://en.wikipedia.org/wiki/Help:Permanent_link" title="Help:Permanent link">permanent link</a> to this version.</b></td></tr></tbody></table><div id="revision-info-current-plain" style="display: none;">Revision as of 12:56, 16 July 2018 by <a href="https://en.wikipedia.org/wiki/User:AnomieBOT" class="mw-userlink" title="User:AnomieBOT"><bdi>AnomieBOT</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:AnomieBOT" class="mw-usertoollinks-talk" title="User talk:AnomieBOT">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/AnomieBOT" class="mw-usertoollinks-contribs" title="Special:Contributions/AnomieBOT">contribs</a>)</span> <span class="comment">(Dating maintenance tags: {{Citation needed}})</span></div>
+</div><div id="mw-revision-nav">(<a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;diff=prev&amp;oldid=850526955" title="Tikhonov regularization">diff</a>) <a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;direction=prev&amp;oldid=850526955" title="Tikhonov regularization">← Previous revision</a>&nbsp;| Latest revision (diff)&nbsp;| Newer revision → (diff)</div></div></div>
+				<div id="jump-to-nav"></div>				<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+				<a class="mw-jump-link" href="#p-search">Jump to search</a>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="mw-parser-output"><table class="plainlinks metadata ambox ambox-style ambox-More_footnotes" role="presentation"><tbody><tr><td class="mbox-image"><div style="width:52px"><img alt="" src="40px-Text_document_with_red_question_mark.png" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/60px-Text_document_with_red_question_mark.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/80px-Text_document_with_red_question_mark.svg.png 2x" data-file-width="48" data-file-height="48" width="40" height="40"></div></td><td class="mbox-text"><div class="mbox-text-span">This article includes a <a href="https://en.wikipedia.org/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">list of references</a>, but <b>its sources remain unclear</b> because it has <b>insufficient <a href="https://en.wikipedia.org/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.<span class="hide-when-compact"> Please help to <a href="https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check" title="Wikipedia:WikiProject Fact and Reference Check">improve</a> this article by <a href="https://en.wikipedia.org/wiki/Wikipedia:When_to_cite" title="Wikipedia:When to cite">introducing</a> more precise citations.</span>  <small><i>(April 2012)</i></small><small class="hide-when-compact"><i> (<a href="https://en.wikipedia.org/wiki/Help:Maintenance_template_removal" title="Help:Maintenance template removal">Learn how and when to remove this template message</a>)</i></small></div></td></tr></tbody></table>
+<table class="vertical-navbox nowraplinks hlist" style="float:right;clear:right;width:22.0em;margin:0 0 1.0em 1.0em;background:#f9f9f9;border:1px solid #aaa;padding:0.2em;border-spacing:0.4em 0;text-align:center;line-height:1.4em;font-size:88%"><tbody><tr><td style="padding-top:0.4em;line-height:1.2em">Part of a series on <a href="https://en.wikipedia.org/wiki/Statistics" title="Statistics">Statistics</a></td></tr><tr><th style="padding:0.2em 0.4em 0.2em;padding-top:0;font-size:145%;line-height:1.2em"><a href="https://en.wikipedia.org/wiki/Regression_analysis" title="Regression analysis">Regression analysis</a></th></tr><tr><td style="padding:0.2em 0 0.4em"><a href="https://en.wikipedia.org/wiki/File:Linear_regression.svg" class="image"><img alt="Linear regression.svg" src="220px-Linear_regression.png" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/330px-Linear_regression.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Linear_regression.svg/440px-Linear_regression.svg.png 2x" data-file-width="438" data-file-height="289" width="220" height="145"></a></td></tr><tr><th style="padding:0.1em">
+Models</th></tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Linear_regression" title="Linear regression">Linear regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Simple_linear_regression" title="Simple linear regression">Simple regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Polynomial_regression" title="Polynomial regression">Polynomial regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/General_linear_model" title="General linear model">General linear model</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Generalized_linear_model" title="Generalized linear model">Generalized linear model</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Discrete_choice" title="Discrete choice">Discrete choice</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Logistic_regression" title="Logistic regression">Logistic regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multinomial_logit" class="mw-redirect" title="Multinomial logit">Multinomial logit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mixed_logit" title="Mixed logit">Mixed logit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Probit_model" title="Probit model">Probit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multinomial_probit" title="Multinomial probit">Multinomial probit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ordered_logit" title="Ordered logit">Ordered logit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ordered_probit" title="Ordered probit">Ordered probit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Poisson_regression" title="Poisson regression">Poisson</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Multilevel_model" title="Multilevel model">Multilevel model</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Fixed_effects_model" title="Fixed effects model">Fixed effects</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Random_effects_model" title="Random effects model">Random effects</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mixed_model" title="Mixed model">Mixed model</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Nonlinear_regression" title="Nonlinear regression">Nonlinear regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Nonparametric_regression" title="Nonparametric regression">Nonparametric</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Semiparametric_regression" title="Semiparametric regression">Semiparametric</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Robust_regression" title="Robust regression">Robust</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Quantile_regression" title="Quantile regression">Quantile</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Isotonic_regression" title="Isotonic regression">Isotonic</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Principal_component_regression" title="Principal component regression">Principal components</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Least-angle_regression" title="Least-angle regression">Least angle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Local_regression" title="Local regression">Local</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Segmented_regression" title="Segmented regression">Segmented</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Errors-in-variables_models" title="Errors-in-variables models">Errors-in-variables</a></li></ul></td>
+</tr><tr><th style="padding:0.1em">
+Estimation</th></tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Least_squares" title="Least squares">Least squares</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Linear_least_squares" title="Linear least squares">Linear</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Non-linear_least_squares" title="Non-linear least squares">Non-linear</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" title="Ordinary least squares">Ordinary</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Weighted_least_squares" title="Weighted least squares">Weighted</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Generalized_least_squares" title="Generalized least squares">Generalized</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Partial_least_squares_regression" title="Partial least squares regression">Partial</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Total_least_squares" title="Total least squares">Total</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Non-negative_least_squares" title="Non-negative least squares">Non-negative</a></li>
+<li><a class="mw-selflink selflink">Ridge regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Regularized_least_squares" title="Regularized least squares">Regularized</a></li></ul></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Least_absolute_deviations" title="Least absolute deviations">Least absolute deviations</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Iteratively_reweighted_least_squares" title="Iteratively reweighted least squares">Iteratively reweighted</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression" title="Bayesian linear regression">Bayesian</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bayesian_multivariate_linear_regression" title="Bayesian multivariate linear regression">Bayesian multivariate</a></li></ul></td>
+</tr><tr><th style="padding:0.1em">
+Background</th></tr><tr><td style="padding:0 0.1em 0.4em">
+<ul><li><a href="https://en.wikipedia.org/wiki/Regression_model_validation" class="mw-redirect" title="Regression model validation">Regression model validation</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mean_and_predicted_response" title="Mean and predicted response">Mean and predicted response</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Errors_and_residuals_in_statistics" class="mw-redirect" title="Errors and residuals in statistics">Errors and residuals</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Goodness_of_fit" title="Goodness of fit">Goodness of fit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Studentized_residual" title="Studentized residual">Studentized residual</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" title="Gauss–Markov theorem">Gauss–Markov theorem</a></li></ul></td>
+</tr><tr><td style="padding:0.3em 0.4em 0.3em;font-weight:bold">
+<ul><li><a href="https://en.wikipedia.org/wiki/File:Fisher_iris_versicolor_sepalwidth.svg" class="image"><img alt="Fisher iris versicolor sepalwidth.svg" src="16px-Fisher_iris_versicolor_sepalwidth.png" class="noviewer" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/4/40/Fisher_iris_versicolor_sepalwidth.svg/24px-Fisher_iris_versicolor_sepalwidth.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/4/40/Fisher_iris_versicolor_sepalwidth.svg/32px-Fisher_iris_versicolor_sepalwidth.svg.png 2x" data-file-width="822" data-file-height="567" width="16" height="11"></a> <a href="https://en.wikipedia.org/wiki/Portal:Statistics" title="Portal:Statistics">Statistics portal</a></li></ul></td></tr><tr><td style="text-align:right;font-size:115%"><div class="plainlinks hlist navbar mini"><ul><li class="nv-view"><a href="https://en.wikipedia.org/wiki/Template:Regression_bar" title="Template:Regression bar"><abbr title="View this template">v</abbr></a></li><li class="nv-talk"><a href="https://en.wikipedia.org/wiki/Template_talk:Regression_bar" title="Template talk:Regression bar"><abbr title="Discuss this template">t</abbr></a></li><li class="nv-edit"><a class="external text" href="https://en.wikipedia.org/w/index.php?title=Template:Regression_bar&amp;action=edit"><abbr title="Edit this template">e</abbr></a></li></ul></div></td></tr></tbody></table>
+<p><b>Tikhonov regularization</b>, named for <a href="https://en.wikipedia.org/wiki/Andrey_Nikolayevich_Tikhonov" title="Andrey Nikolayevich Tikhonov">Andrey Tikhonov</a>, is the most commonly used method of <a href="https://en.wikipedia.org/wiki/Regularization_%28mathematics%29" title="Regularization (mathematics)">regularization</a> of <a href="https://en.wikipedia.org/wiki/Ill-posed_problem" class="mw-redirect" title="Ill-posed problem">ill-posed problems</a>.  In <a href="https://en.wikipedia.org/wiki/Statistics" title="Statistics">statistics</a>, the method is known as <b>ridge regression</b>, in <a href="https://en.wikipedia.org/wiki/Machine_learning" title="Machine learning">machine learning</a> it is known as <b>weight decay</b>, and with multiple independent discoveries, it is also variously known as the <b>Tikhonov–Miller method</b>, the <b>Phillips–Twomey method</b>, the <b>constrained linear inversion</b> method, and the method of <b>linear regularization</b>. It is related to the <a href="https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm" title="Levenberg–Marquardt algorithm">Levenberg–Marquardt algorithm</a> for <a href="https://en.wikipedia.org/wiki/Non-linear_least_squares" title="Non-linear least squares">non-linear least-squares</a> problems.
+</p><p>Suppose that for a known matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span> and vector <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {b} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {b} }</annotation>
+  </semantics>
+</math></span><img src="13ebf4628a1adf07133a6009e4a78bdd990c6eb9.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.485ex; height:2.176ex;" alt="\mathbf {b} "></span>, we wish to find a vector <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span> such that: 
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A\mathbf {x} =\mathbf {b} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A\mathbf {x} =\mathbf {b} }</annotation>
+  </semantics>
+</math></span><img src="45d894430af69e29d6dda5aacbf4bb19336226a0.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.738ex; height:2.176ex;" alt="A\mathbf {x} =\mathbf {b} "></span></dd></dl>
+<p>The standard approach is <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" title="Ordinary least squares">ordinary least squares</a> linear regression. However, if no <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span> satisfies the equation or more than one <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span> does—that is, the solution is not unique—the problem is said to be <a href="https://en.wikipedia.org/wiki/Well-posed_problem" title="Well-posed problem">ill posed</a>. In such cases, ordinary least squares estimation leads to an <a href="https://en.wikipedia.org/wiki/Overdetermined_system" title="Overdetermined system">overdetermined</a> (<a href="https://en.wikipedia.org/wiki/Over-fitted" class="mw-redirect" title="Over-fitted">over-fitted</a>), or more often an <a href="https://en.wikipedia.org/wiki/Underdetermined_system" title="Underdetermined system">underdetermined</a> (<a href="https://en.wikipedia.org/wiki/Under-fitted" class="mw-redirect" title="Under-fitted">under-fitted</a>) system of equations.  Most real-world phenomena have the effect of <a href="https://en.wikipedia.org/wiki/Low-pass_filters" class="mw-redirect" title="Low-pass filters">low-pass filters</a> in the forward direction where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span> maps <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span> to <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {b} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {b} }</annotation>
+  </semantics>
+</math></span><img src="13ebf4628a1adf07133a6009e4a78bdd990c6eb9.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.485ex; height:2.176ex;" alt="\mathbf {b} "></span>.  Therefore, in solving the inverse-problem, the inverse mapping operates as a <a href="https://en.wikipedia.org/wiki/High-pass_filter" title="High-pass filter">high-pass filter</a> that has the undesirable tendency of amplifying noise (<a href="https://en.wikipedia.org/wiki/Eigenvalues" class="mw-redirect" title="Eigenvalues">eigenvalues</a>
+ / singular values are largest in the reverse mapping where they were 
+smallest in the forward mapping).  In addition, ordinary least squares 
+implicitly nullifies every element of the reconstructed version of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span> that is in the null-space of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span>, rather than allowing for a model to be used as a prior for <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {x} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {x} }</annotation>
+  </semantics>
+</math></span><img src="32adf004df5eb0a8c7fd8c0b6b7405183c5a5ef2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.411ex; height:1.676ex;" alt="\mathbf {x} "></span>.
+Ordinary least squares seeks to minimize the sum of squared <a href="https://en.wikipedia.org/wiki/Residual_%28numerical_analysis%29" title="Residual (numerical analysis)">residuals</a>, which can be compactly written as:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>A</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}}</annotation>
+  </semantics>
+</math></span><img src="f5bd3eb3300755c86b32d38822b7056e9b2e78d2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:10.859ex; height:3.176ex;" alt="{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}}"></span></dd></dl>
+<p>where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \left\|\cdot \right\|_{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow>
+            <mo symmetric="true">‖</mo>
+            <mo>⋅<!-- ⋅ --></mo>
+            <mo symmetric="true">‖</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \left\|\cdot \right\|_{2}}</annotation>
+  </semantics>
+</math></span><img src="6819dac863bd3b1c3513f56934da617ef06e6856.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:4.026ex; height:3.009ex;" alt="{\displaystyle \left\|\cdot \right\|_{2}}"></span> is the <a href="https://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_norm" title="Norm (mathematics)">Euclidean norm</a>.
+</p><p>In order to give preference to a particular solution with 
+desirable properties, a regularization term can be included in this 
+minimization:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}+\|\Gamma \mathbf {x} \|_{2}^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>A</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo>+</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">x</mi>
+        </mrow>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}+\|\Gamma \mathbf {x} \|_{2}^{2}}</annotation>
+  </semantics>
+</math></span><img src="37f3753e1ac34f985393aa606a63bd77e72e0ad6.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:19.942ex; height:3.176ex;" alt="{\displaystyle \|A\mathbf {x} -\mathbf {b} \|_{2}^{2}+\|\Gamma \mathbf {x} \|_{2}^{2}}"></span></dd></dl>
+<p>for some suitably chosen <b>Tikhonov matrix</b>, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma }</annotation>
+  </semantics>
+</math></span><img src="4cfde86a3f7ec967af9955d0988592f0693d2b19.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.453ex; height:2.176ex;" alt="\Gamma "></span>. In many cases, this matrix is chosen as a multiple of the <a href="https://en.wikipedia.org/wiki/Identity_matrix" title="Identity matrix">identity matrix</a> (<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma =\alpha I}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+        <mo>=</mo>
+        <mi>α<!-- α --></mi>
+        <mi>I</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma =\alpha I}</annotation>
+  </semantics>
+</math></span><img src="e4f98625d965adb2214d6e07b6973fca9690a1ca.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.211ex; height:2.176ex;" alt="\Gamma =\alpha I"></span>), giving preference to solutions with smaller <a href="https://en.wikipedia.org/wiki/Norm_%28mathematics%29" title="Norm (mathematics)">norms</a>; this is known as <b><span class="texhtml"><i>L</i><sub>2</sub></span> regularization</b>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup> In other cases, high-pass operators (e.g., a <a href="https://en.wikipedia.org/wiki/Difference_operator" class="mw-redirect" title="Difference operator">difference operator</a> or a weighted <a href="https://en.wikipedia.org/wiki/Discrete_fourier_transform" class="mw-redirect" title="Discrete fourier transform">Fourier operator</a>)
+ may be used to enforce smoothness if the underlying vector is believed 
+to be mostly continuous.
+This regularization improves the conditioning of the problem, thus 
+enabling a direct numerical solution. An explicit solution, denoted by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\hat {x}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mover>
+              <mi>x</mi>
+              <mo stretchy="false">^<!-- ^ --></mo>
+            </mover>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\hat {x}}}</annotation>
+  </semantics>
+</math></span><img src="18d95a7845e4e16ffb7e18ab37a208d0ab18e0e0.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:2.176ex;" alt="{\hat {x}}"></span>, is given by:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\hat {x}}=(A^{\top }A+\Gamma ^{\top }\Gamma )^{-1}A^{\top }\mathbf {b} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mover>
+              <mi>x</mi>
+              <mo stretchy="false">^<!-- ^ --></mo>
+            </mover>
+          </mrow>
+        </mrow>
+        <mo>=</mo>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>A</mi>
+        <mo>+</mo>
+        <msup>
+          <mi mathvariant="normal">Γ<!-- Γ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msup>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">b</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\hat {x}}=(A^{\top }A+\Gamma ^{\top }\Gamma )^{-1}A^{\top }\mathbf {b} }</annotation>
+  </semantics>
+</math></span><img src="585ca70b5e2376702d2648067fc850ba46e3046c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:25.563ex; height:3.176ex;" alt="{\displaystyle {\hat {x}}=(A^{\top }A+\Gamma ^{\top }\Gamma )^{-1}A^{\top }\mathbf {b} }"></span></dd></dl>
+<p>The effect of regularization may be varied via the scale of matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma }</annotation>
+  </semantics>
+</math></span><img src="4cfde86a3f7ec967af9955d0988592f0693d2b19.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.453ex; height:2.176ex;" alt="\Gamma "></span>.  For <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma =0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+        <mo>=</mo>
+        <mn>0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma =0}</annotation>
+  </semantics>
+</math></span><img src="f9896b8ebf4dd4079563aefd15653a9880687480.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.714ex; height:2.176ex;" alt="\Gamma =0"></span> this reduces to the unregularized least squares solution provided that (A<sup>T</sup>A)<sup>−1</sup> exists.
+</p><p><span class="texhtml"><i>L</i><sub>2</sub></span> regularization is used in many contexts aside from linear regression, such as <a href="https://en.wikipedia.org/wiki/Statistical_classification" title="Statistical classification">classification</a> with <a href="https://en.wikipedia.org/wiki/Logistic_regression" title="Logistic regression">logistic regression</a> or <a href="https://en.wikipedia.org/wiki/Support_vector_machine" title="Support vector machine">support vector machines</a>,<sup id="cite_ref-2" class="reference"><a href="#cite_note-2">[2]</a></sup> and matrix factorization.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">[3]</a></sup>
+</p>
+<div id="toc" class="toc"><input role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" type="checkbox"><div class="toctitle" dir="ltr" lang="en"><h2>Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#History"><span class="tocnumber">1</span> <span class="toctext">History</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Generalized_Tikhonov_regularization"><span class="tocnumber">2</span> <span class="toctext">Generalized Tikhonov regularization</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Regularization_in_Hilbert_space"><span class="tocnumber">3</span> <span class="toctext">Regularization in Hilbert space</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Relation_to_singular_value_decomposition_and_Wiener_filter"><span class="tocnumber">4</span> <span class="toctext">Relation to singular value decomposition and Wiener filter</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Determination_of_the_Tikhonov_factor"><span class="tocnumber">5</span> <span class="toctext">Determination of the Tikhonov factor</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#Relation_to_probabilistic_formulation"><span class="tocnumber">6</span> <span class="toctext">Relation to probabilistic formulation</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#Bayesian_interpretation"><span class="tocnumber">7</span> <span class="toctext">Bayesian interpretation</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#See_also"><span class="tocnumber">8</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#References"><span class="tocnumber">9</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="History">History</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=1" title="Edit section: History">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Tikhonov regularization has been invented independently in many different contexts.
+It became widely known from its application to integral equations from the work of
+<a href="https://en.wikipedia.org/wiki/Andrey_Nikolayevich_Tikhonov" title="Andrey Nikolayevich Tikhonov">Andrey Tikhonov</a> and David L. Phillips. 
+Some authors use the term <b>Tikhonov–Phillips regularization</b>.
+The finite-dimensional case was expounded by <a href="https://en.wikipedia.org/w/index.php?title=Arthur_E._Hoerl&amp;action=edit&amp;redlink=1" class="new" title="Arthur E. Hoerl (page does not exist)">Arthur E. Hoerl</a>, who took a statistical approach, and by Manus Foster, who interpreted this method as a <a href="https://en.wikipedia.org/wiki/Kriging" title="Kriging">Wiener–Kolmogorov (Kriging)</a> filter. Following Hoerl, it is known in the statistical literature as <b>ridge regression</b>.
+</p>
+<h2><span class="mw-headline" id="Generalized_Tikhonov_regularization">Generalized Tikhonov regularization</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=2" title="Edit section: Generalized Tikhonov regularization">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>For general multivariate normal distributions for <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span> and the data error, one can apply a transformation of the variables to reduce to the case above. Equivalently, one can seek an <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span> to minimize
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \|Ax-b\|_{P}^{2}+\|x-x_{0}\|_{Q}^{2}\,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>A</mi>
+        <mi>x</mi>
+        <mo>−<!-- − --></mo>
+        <mi>b</mi>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>P</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo>+</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>x</mi>
+        <mo>−<!-- − --></mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>Q</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mspace width="thinmathspace"></mspace>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \|Ax-b\|_{P}^{2}+\|x-x_{0}\|_{Q}^{2}\,}</annotation>
+  </semantics>
+</math></span><img src="4ecf78d642c5c27d41fb7be52d3f1da7e6246544.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.338ex; width:24.341ex; height:3.509ex;" alt="\|Ax-b\|_{P}^{2}+\|x-x_{0}\|_{Q}^{2}\,"></span></dd></dl>
+<p>where we have used <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \left\|x\right\|_{Q}^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msubsup>
+          <mrow>
+            <mo symmetric="true">‖</mo>
+            <mi>x</mi>
+            <mo symmetric="true">‖</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>Q</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \left\|x\right\|_{Q}^{2}}</annotation>
+  </semantics>
+</math></span><img src="b126424a548f1abf81e41810938d9750fd897390.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.171ex; width:5.187ex; height:3.676ex;" alt="\left\|x\right\|_{Q}^{2}"></span> to stand for the weighted norm <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x^{\top }Qx}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>Q</mi>
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x^{\top }Qx}</annotation>
+  </semantics>
+</math></span><img src="118deae1f75fe35791e6f9931bbd87efbb3e7f98.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:6.008ex; height:3.009ex;" alt="{\displaystyle x^{\top }Qx}"></span> (compare with the <a href="https://en.wikipedia.org/wiki/Mahalanobis_distance" title="Mahalanobis distance">Mahalanobis distance</a>). In the Bayesian interpretation <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle P}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>P</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle P}</annotation>
+  </semantics>
+</math></span><img src="b4dc73bf40314945ff376bd363916a738548d40a.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.745ex; height:2.176ex;" alt="P"></span> is the inverse <a href="https://en.wikipedia.org/wiki/Covariance_matrix" title="Covariance matrix">covariance matrix</a> of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle b}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>b</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle b}</annotation>
+  </semantics>
+</math></span><img src="f11423fbb2e967f986e36804a8ae4271734917c3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:0.998ex; height:2.176ex;" alt="b"></span>, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x_{0}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x_{0}}</annotation>
+  </semantics>
+</math></span><img src="86f21d0e31751534cd6584264ecf864a6aa792cf.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.384ex; height:2.009ex;" alt="x_{0}"></span> is the <a href="https://en.wikipedia.org/wiki/Expected_value" title="Expected value">expected value</a> of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span>, and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Q}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Q</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Q}</annotation>
+  </semantics>
+</math></span><img src="8752c7023b4b3286800fe3238271bbca681219ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.838ex; height:2.509ex;" alt="Q"></span> is the inverse covariance matrix of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span>. The Tikhonov matrix is then given as a factorization of the matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Q=\Gamma ^{\top }\Gamma }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Q</mi>
+        <mo>=</mo>
+        <msup>
+          <mi mathvariant="normal">Γ<!-- Γ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Q=\Gamma ^{\top }\Gamma }</annotation>
+  </semantics>
+</math></span><img src="b84e2a97a47da6bfac24e076ea1813cd39ff7e7c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:9.353ex; height:3.009ex;" alt="{\displaystyle Q=\Gamma ^{\top }\Gamma }"></span> (e.g. the <a href="https://en.wikipedia.org/wiki/Cholesky_factorization" class="mw-redirect" title="Cholesky factorization">Cholesky factorization</a>), and is considered a <a href="https://en.wikipedia.org/wiki/Whitening_transformation" title="Whitening transformation">whitening filter</a>.
+</p><p>This generalized problem has an optimal solution <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x^{*}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>∗<!-- ∗ --></mo>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x^{*}}</annotation>
+  </semantics>
+</math></span><img src="e5be23ee5d433f8b576e63bcb47518128ee0b6bb.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.384ex; height:2.343ex;" alt="x^{*}"></span> which can be solved explicitly using the formula
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x^{*}=(A^{\top }PA+Q)^{-1}(A^{\top }Pb+Qx_{0}).\,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>∗<!-- ∗ --></mo>
+          </mrow>
+        </msup>
+        <mo>=</mo>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>P</mi>
+        <mi>A</mi>
+        <mo>+</mo>
+        <mi>Q</mi>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>P</mi>
+        <mi>b</mi>
+        <mo>+</mo>
+        <mi>Q</mi>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo>.</mo>
+        <mspace width="thinmathspace"></mspace>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x^{*}=(A^{\top }PA+Q)^{-1}(A^{\top }Pb+Qx_{0}).\,}</annotation>
+  </semantics>
+</math></span><img src="99481edc203d302b5d734181f3cd008e1e39ac05.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:36.948ex; height:3.176ex;" alt="{\displaystyle x^{*}=(A^{\top }PA+Q)^{-1}(A^{\top }Pb+Qx_{0}).\,}"></span></dd></dl>
+<p>or equivalently
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x^{*}=x_{0}+(A^{\top }PA+Q)^{-1}(A^{\top }P(b-Ax_{0})).\,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>∗<!-- ∗ --></mo>
+          </mrow>
+        </msup>
+        <mo>=</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>+</mo>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>P</mi>
+        <mi>A</mi>
+        <mo>+</mo>
+        <mi>Q</mi>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>P</mi>
+        <mo stretchy="false">(</mo>
+        <mi>b</mi>
+        <mo>−<!-- − --></mo>
+        <mi>A</mi>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+        <mo>.</mo>
+        <mspace width="thinmathspace"></mspace>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x^{*}=x_{0}+(A^{\top }PA+Q)^{-1}(A^{\top }P(b-Ax_{0})).\,}</annotation>
+  </semantics>
+</math></span><img src="46ab79451c2decdf99a8297fcf7d013890cc0143.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:43.887ex; height:3.176ex;" alt="{\displaystyle x^{*}=x_{0}+(A^{\top }PA+Q)^{-1}(A^{\top }P(b-Ax_{0})).\,}"></span></dd></dl>
+<h2><span class="mw-headline" id="Regularization_in_Hilbert_space">Regularization in Hilbert space</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=3" title="Edit section: Regularization in Hilbert space">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Typically discrete linear ill-conditioned problems result from discretization of <a href="https://en.wikipedia.org/wiki/Integral_equation" title="Integral equation">integral equations</a>, and one can formulate a Tikhonov regularization in the original infinite-dimensional context. In the above we can interpret <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span> as a <a href="https://en.wikipedia.org/wiki/Compact_operator" title="Compact operator">compact operator</a> on <a href="https://en.wikipedia.org/wiki/Hilbert_space" title="Hilbert space">Hilbert spaces</a>, and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle b}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>b</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle b}</annotation>
+  </semantics>
+</math></span><img src="f11423fbb2e967f986e36804a8ae4271734917c3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:0.998ex; height:2.176ex;" alt="b"></span> as elements in the domain and range of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span>. The operator <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A^{*}A+\Gamma ^{\top }\Gamma }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>A</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>∗<!-- ∗ --></mo>
+          </mrow>
+        </msup>
+        <mi>A</mi>
+        <mo>+</mo>
+        <msup>
+          <mi mathvariant="normal">Γ<!-- Γ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A^{*}A+\Gamma ^{\top }\Gamma }</annotation>
+  </semantics>
+</math></span><img src="c87b5b56c7e8905446a908379c5333eeee0bf81c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:11.797ex; height:2.843ex;" alt="{\displaystyle A^{*}A+\Gamma ^{\top }\Gamma }"></span> is then a <a href="https://en.wikipedia.org/wiki/Hermitian_adjoint" title="Hermitian adjoint">self-adjoint</a> bounded invertible operator.
+</p>
+<h2><span class="mw-headline" id="Relation_to_singular_value_decomposition_and_Wiener_filter">Relation to singular value decomposition and Wiener filter</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=4" title="Edit section: Relation to singular value decomposition and Wiener filter">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>With <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma =\alpha I}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+        <mo>=</mo>
+        <mi>α<!-- α --></mi>
+        <mi>I</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma =\alpha I}</annotation>
+  </semantics>
+</math></span><img src="e4f98625d965adb2214d6e07b6973fca9690a1ca.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.211ex; height:2.176ex;" alt="\Gamma =\alpha I"></span>, this least squares solution can be analyzed in a special way via the <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition" class="mw-redirect" title="Singular value decomposition">singular value decomposition</a>. Given the singular value decomposition of A
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A=U\Sigma V^{\top }\,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+        <mo>=</mo>
+        <mi>U</mi>
+        <mi mathvariant="normal">Σ<!-- Σ --></mi>
+        <msup>
+          <mi>V</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mspace width="thinmathspace"></mspace>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A=U\Sigma V^{\top }\,}</annotation>
+  </semantics>
+</math></span><img src="9032dd5269b894ce878480aa36801b9564b0e01e.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:12.117ex; height:2.676ex;" alt="{\displaystyle A=U\Sigma V^{\top }\,}"></span></dd></dl>
+<p>with singular values <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \sigma _{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>σ<!-- σ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \sigma _{i}}</annotation>
+  </semantics>
+</math></span><img src="6ab3208a7d0c634ef720e03ff5a9949e8310edc4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.127ex; height:2.009ex;" alt="\sigma _{i}"></span>, the Tikhonov regularized solution can be expressed as
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\hat {x}}=VDU^{\top }b}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mover>
+              <mi>x</mi>
+              <mo stretchy="false">^<!-- ^ --></mo>
+            </mover>
+          </mrow>
+        </mrow>
+        <mo>=</mo>
+        <mi>V</mi>
+        <mi>D</mi>
+        <msup>
+          <mi>U</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mi>b</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\hat {x}}=VDU^{\top }b}</annotation>
+  </semantics>
+</math></span><img src="7948ad332b1814b5b25cca60cf0e5a80d8f610a3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:12.489ex; height:2.676ex;" alt="{\displaystyle {\hat {x}}=VDU^{\top }b}"></span></dd></dl>
+<p>where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="f34a0c600395e5d4345287e21fb26efd386990e6.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"></span> has diagonal values
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle D_{ii}={\frac {\sigma _{i}}{\sigma _{i}^{2}+\alpha ^{2}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>D</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <msub>
+              <mi>σ<!-- σ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <mrow>
+              <msubsup>
+                <mi>σ<!-- σ --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msubsup>
+              <mo>+</mo>
+              <msup>
+                <mi>α<!-- α --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msup>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D_{ii}={\frac {\sigma _{i}}{\sigma _{i}^{2}+\alpha ^{2}}}}</annotation>
+  </semantics>
+</math></span><img src="f293104e37a2381034fcf9e3e7801f1fa503511f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:14.993ex; height:5.843ex;" alt="D_{ii}={\frac {\sigma _{i}}{\sigma _{i}^{2}+\alpha ^{2}}}"></span></dd></dl>
+<p>and is zero elsewhere. This demonstrates the effect of the Tikhonov parameter on the <a href="https://en.wikipedia.org/wiki/Condition_number" title="Condition number">condition number</a> of the regularized problem. For the generalized case a similar representation can be derived using a <a href="https://en.wikipedia.org/wiki/Generalized_singular_value_decomposition" title="Generalized singular value decomposition">generalized singular value decomposition</a>.
+</p><p>Finally, it is related to the <a href="https://en.wikipedia.org/wiki/Wiener_filter" title="Wiener filter">Wiener filter</a>:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\hat {x}}=\sum _{i=1}^{q}f_{i}{\frac {u_{i}^{\top }b}{\sigma _{i}}}v_{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mover>
+              <mi>x</mi>
+              <mo stretchy="false">^<!-- ^ --></mo>
+            </mover>
+          </mrow>
+        </mrow>
+        <mo>=</mo>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>q</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mrow>
+              <msubsup>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+                </mrow>
+              </msubsup>
+              <mi>b</mi>
+            </mrow>
+            <msub>
+              <mi>σ<!-- σ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+          </mfrac>
+        </mrow>
+        <msub>
+          <mi>v</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\hat {x}}=\sum _{i=1}^{q}f_{i}{\frac {u_{i}^{\top }b}{\sigma _{i}}}v_{i}}</annotation>
+  </semantics>
+</math></span><img src="eb6e4cee5c0a231d266df8c3705130f04411fc24.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:16.711ex; height:7.009ex;" alt="{\displaystyle {\hat {x}}=\sum _{i=1}^{q}f_{i}{\frac {u_{i}^{\top }b}{\sigma _{i}}}v_{i}}"></span></dd></dl>
+<p>where the Wiener weights are <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle f_{i}={\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <msubsup>
+              <mi>σ<!-- σ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msubsup>
+            <mrow>
+              <msubsup>
+                <mi>σ<!-- σ --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msubsup>
+              <mo>+</mo>
+              <msup>
+                <mi>α<!-- α --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msup>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{i}={\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}}</annotation>
+  </semantics>
+</math></span><img src="cf0a1bf2c95a3bacc8a5f76fb55844e5f178c2f2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:13.64ex; height:7.009ex;" alt="f_{i}={\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle q}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>q</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle q}</annotation>
+  </semantics>
+</math></span><img src="06809d64fa7c817ffc7e323f85997f783dbdf71d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.07ex; height:2.009ex;" alt="q"></span> is the <a href="https://en.wikipedia.org/wiki/Rank_%28linear_algebra%29" title="Rank (linear algebra)">rank</a> of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle A}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle A}</annotation>
+  </semantics>
+</math></span><img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.743ex; height:2.176ex;" alt="A"></span>.
+</p>
+<h2><span class="mw-headline" id="Determination_of_the_Tikhonov_factor">Determination of the Tikhonov factor</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=5" title="Edit section: Determination of the Tikhonov factor">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>The optimal regularization parameter <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \alpha }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>α<!-- α --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \alpha }</annotation>
+  </semantics>
+</math></span><img src="b79333175c8b3f0840bfb4ec41b8072c83ea88d3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.488ex; height:1.676ex;" alt="\alpha "></span> is usually unknown and often in practical problems is determined by an <i>ad hoc</i> method. A possible approach relies on the Bayesian interpretation described below. Other approaches include the <a href="https://en.wikipedia.org/w/index.php?title=Discrepancy_principle&amp;action=edit&amp;redlink=1" class="new" title="Discrepancy principle (page does not exist)">discrepancy principle</a>, <a href="https://en.wikipedia.org/wiki/Cross-validation_%28statistics%29" title="Cross-validation (statistics)">cross-validation</a>, <a href="https://en.wikipedia.org/w/index.php?title=L-curve_method&amp;action=edit&amp;redlink=1" class="new" title="L-curve method (page does not exist)">L-curve method</a>, <a href="https://en.wikipedia.org/wiki/Restricted_maximum_likelihood" title="Restricted maximum likelihood">restricted maximum likelihood</a> and <a href="https://en.wikipedia.org/w/index.php?title=Unbiased_predictive_risk_estimator&amp;action=edit&amp;redlink=1" class="new" title="Unbiased predictive risk estimator (page does not exist)">unbiased predictive risk estimator</a>. <a href="https://en.wikipedia.org/wiki/Grace_Wahba" title="Grace Wahba">Grace Wahba</a> proved<sup class="noprint Inline-Template Template-Fact" style="white-space:nowrap;">[<i><a href="https://en.wikipedia.org/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources. (July 2018)">citation needed</span></a></i>]</sup> that the optimal parameter, in the sense of <a href="https://en.wikipedia.org/wiki/Cross-validation_%28statistics%29#Leave-one-out_cross-validation" title="Cross-validation (statistics)">leave-one-out cross-validation</a> minimizes:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G={\frac {\operatorname {RSS} }{\tau ^{2}}}={\frac {\left\|X{\hat {\beta }}-y\right\|^{2}}{\left[\operatorname {Tr} \left(I-X(X^{T}X+\alpha ^{2}I)^{-1}X^{T}\right)\right]^{2}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>G</mi>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mi>RSS</mi>
+            <msup>
+              <mi>τ<!-- τ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msup>
+          </mfrac>
+        </mrow>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <msup>
+              <mrow>
+                <mo symmetric="true">‖</mo>
+                <mrow>
+                  <mi>X</mi>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mover>
+                        <mi>β<!-- β --></mi>
+                        <mo stretchy="false">^<!-- ^ --></mo>
+                      </mover>
+                    </mrow>
+                  </mrow>
+                  <mo>−<!-- − --></mo>
+                  <mi>y</mi>
+                </mrow>
+                <mo symmetric="true">‖</mo>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msup>
+            <msup>
+              <mrow>
+                <mo>[</mo>
+                <mrow>
+                  <mi>Tr</mi>
+                  <mo>⁡<!-- ⁡ --></mo>
+                  <mrow>
+                    <mo>(</mo>
+                    <mrow>
+                      <mi>I</mi>
+                      <mo>−<!-- − --></mo>
+                      <mi>X</mi>
+                      <mo stretchy="false">(</mo>
+                      <msup>
+                        <mi>X</mi>
+                        <mrow class="MJX-TeXAtom-ORD">
+                          <mi>T</mi>
+                        </mrow>
+                      </msup>
+                      <mi>X</mi>
+                      <mo>+</mo>
+                      <msup>
+                        <mi>α<!-- α --></mi>
+                        <mrow class="MJX-TeXAtom-ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msup>
+                      <mi>I</mi>
+                      <msup>
+                        <mo stretchy="false">)</mo>
+                        <mrow class="MJX-TeXAtom-ORD">
+                          <mo>−<!-- − --></mo>
+                          <mn>1</mn>
+                        </mrow>
+                      </msup>
+                      <msup>
+                        <mi>X</mi>
+                        <mrow class="MJX-TeXAtom-ORD">
+                          <mi>T</mi>
+                        </mrow>
+                      </msup>
+                    </mrow>
+                    <mo>)</mo>
+                  </mrow>
+                </mrow>
+                <mo>]</mo>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msup>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G={\frac 
+{\operatorname {RSS} }{\tau ^{2}}}={\frac {\left\|X{\hat {\beta 
+}}-y\right\|^{2}}{\left[\operatorname {Tr} \left(I-X(X^{T}X+\alpha 
+^{2}I)^{-1}X^{T}\right)\right]^{2}}}}</annotation>
+  </semantics>
+</math></span><img src="a776cf038796ccc289048f80f61c8273d6f2f047.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.171ex; width:46.179ex; height:8.509ex;" alt="G={\frac {\operatorname {RSS} }{\tau ^{2}}}={\frac {\left\|X{\hat {\beta }}-y\right\|^{2}}{\left[\operatorname {Tr} \left(I-X(X^{T}X+\alpha ^{2}I)^{-1}X^{T}\right)\right]^{2}}}"></span></dd></dl>
+<p>where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \operatorname {RSS} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>RSS</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \operatorname {RSS} }</annotation>
+  </semantics>
+</math></span><img src="b97be1027da8dbb49fee7727c1cb19855256fd2c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:4.296ex; height:2.176ex;" alt="\operatorname {RSS} "></span> is the <a href="https://en.wikipedia.org/wiki/Residual_sum_of_squares" title="Residual sum of squares">residual sum of squares</a> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \tau }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>τ<!-- τ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \tau }</annotation>
+  </semantics>
+</math></span><img src="38a7dcde9730ef0853809fefc18d88771f95206c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.202ex; height:1.676ex;" alt="\tau "></span> is the <a href="https://en.wikipedia.org/wiki/Effective_number_of_degrees_of_freedom" class="mw-redirect" title="Effective number of degrees of freedom">effective number of degrees of freedom</a>.
+</p><p>Using the previous SVD decomposition, we can simplify the above expression:
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \operatorname {RSS} =\left\|y-\sum _{i=1}^{q}(u_{i}'b)u_{i}\right\|^{2}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>RSS</mi>
+        <mo>=</mo>
+        <msup>
+          <mrow>
+            <mo symmetric="true">‖</mo>
+            <mrow>
+              <mi>y</mi>
+              <mo>−<!-- − --></mo>
+              <munderover>
+                <mo>∑<!-- ∑ --></mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>q</mi>
+                </mrow>
+              </munderover>
+              <mo stretchy="false">(</mo>
+              <msubsup>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mo>′</mo>
+              </msubsup>
+              <mi>b</mi>
+              <mo stretchy="false">)</mo>
+              <msub>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msub>
+            </mrow>
+            <mo symmetric="true">‖</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+        <mo>+</mo>
+        <msup>
+          <mrow>
+            <mo symmetric="true">‖</mo>
+            <mrow>
+              <munderover>
+                <mo>∑<!-- ∑ --></mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>q</mi>
+                </mrow>
+              </munderover>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <msup>
+                    <mi>α<!-- α --></mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mn>2</mn>
+                    </mrow>
+                  </msup>
+                  <mrow>
+                    <msubsup>
+                      <mi>σ<!-- σ --></mi>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi>i</mi>
+                      </mrow>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msubsup>
+                    <mo>+</mo>
+                    <msup>
+                      <mi>α<!-- α --></mi>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msup>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mo stretchy="false">(</mo>
+              <msubsup>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mo>′</mo>
+              </msubsup>
+              <mi>b</mi>
+              <mo stretchy="false">)</mo>
+              <msub>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msub>
+            </mrow>
+            <mo symmetric="true">‖</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 
+\operatorname {RSS} =\left\|y-\sum 
+_{i=1}^{q}(u_{i}'b)u_{i}\right\|^{2}+\left\|\sum _{i=1}^{q}{\frac 
+{\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}}</annotation>
+  </semantics>
+</math></span><img src="9be41c3db844164baabda618f105ca76b18322b5.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:50.82ex; height:7.676ex;" alt="\operatorname {RSS} =\left\|y-\sum _{i=1}^{q}(u_{i}'b)u_{i}\right\|^{2}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}"></span></dd></dl>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \operatorname {RSS} =\operatorname {RSS} _{0}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>RSS</mi>
+        <mo>=</mo>
+        <msub>
+          <mi>RSS</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>+</mo>
+        <msup>
+          <mrow>
+            <mo symmetric="true">‖</mo>
+            <mrow>
+              <munderover>
+                <mo>∑<!-- ∑ --></mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>q</mi>
+                </mrow>
+              </munderover>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <msup>
+                    <mi>α<!-- α --></mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mn>2</mn>
+                    </mrow>
+                  </msup>
+                  <mrow>
+                    <msubsup>
+                      <mi>σ<!-- σ --></mi>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi>i</mi>
+                      </mrow>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msubsup>
+                    <mo>+</mo>
+                    <msup>
+                      <mi>α<!-- α --></mi>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msup>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mo stretchy="false">(</mo>
+              <msubsup>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mo>′</mo>
+              </msubsup>
+              <mi>b</mi>
+              <mo stretchy="false">)</mo>
+              <msub>
+                <mi>u</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msub>
+            </mrow>
+            <mo symmetric="true">‖</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 
+\operatorname {RSS} =\operatorname {RSS} _{0}+\left\|\sum 
+_{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha 
+^{2}}}(u_{i}'b)u_{i}\right\|^{2}}</annotation>
+  </semantics>
+</math></span><img src="377f7ecfe62b6c52cd166b3d3da36818170e2cc6.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:37.729ex; height:7.676ex;" alt="\operatorname {RSS} =\operatorname {RSS} _{0}+\left\|\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}(u_{i}'b)u_{i}\right\|^{2}"></span></dd></dl>
+<p>and
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \tau =m-\sum _{i=1}^{q}{\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}=m-q+\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>τ<!-- τ --></mi>
+        <mo>=</mo>
+        <mi>m</mi>
+        <mo>−<!-- − --></mo>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>q</mi>
+          </mrow>
+        </munderover>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <msubsup>
+              <mi>σ<!-- σ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msubsup>
+            <mrow>
+              <msubsup>
+                <mi>σ<!-- σ --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msubsup>
+              <mo>+</mo>
+              <msup>
+                <mi>α<!-- α --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msup>
+            </mrow>
+          </mfrac>
+        </mrow>
+        <mo>=</mo>
+        <mi>m</mi>
+        <mo>−<!-- − --></mo>
+        <mi>q</mi>
+        <mo>+</mo>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>q</mi>
+          </mrow>
+        </munderover>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <msup>
+              <mi>α<!-- α --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msup>
+            <mrow>
+              <msubsup>
+                <mi>σ<!-- σ --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msubsup>
+              <mo>+</mo>
+              <msup>
+                <mi>α<!-- α --></mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msup>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \tau =m-\sum
+ _{i=1}^{q}{\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha 
+^{2}}}=m-q+\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha 
+^{2}}}}</annotation>
+  </semantics>
+</math></span><img src="67752894e4b10333014e045f9cf66210ad4393e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:45.761ex; height:7.009ex;" alt="\tau =m-\sum _{i=1}^{q}{\frac {\sigma _{i}^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}=m-q+\sum _{i=1}^{q}{\frac {\alpha ^{2}}{\sigma _{i}^{2}+\alpha ^{2}}}"></span></dd></dl>
+<h2><span class="mw-headline" id="Relation_to_probabilistic_formulation">Relation to probabilistic formulation</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=6" title="Edit section: Relation to probabilistic formulation">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>The probabilistic formulation of an <a href="https://en.wikipedia.org/wiki/Inverse_problem" title="Inverse problem">inverse problem</a> introduces (when all uncertainties are Gaussian) a covariance matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle C_{M}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>C</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>M</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C_{M}}</annotation>
+  </semantics>
+</math></span><img src="7b36d6b18ea6be45cbe07fe5fcee599d531ff486.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.621ex; height:2.509ex;" alt="C_{M}"></span> representing the <i>a priori</i> uncertainties on the model parameters, and a covariance matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle C_{D}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>C</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>D</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C_{D}}</annotation>
+  </semantics>
+</math></span><img src="5b0d15598a7c5085c97643aeaa00dcaa98a23975.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.255ex; height:2.509ex;" alt="C_{D}"></span> representing the uncertainties on the observed parameters (see, for instance, Tarantola, 2005 <a rel="nofollow" class="external autonumber" href="http://www.ipgp.jussieu.fr/%7Etarantola/Files/Professional/SIAM/index.html">[1]</a>). In the special case when these two matrices are diagonal and isotropic, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle C_{M}=\sigma _{M}^{2}I}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>C</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>M</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <msubsup>
+          <mi>σ<!-- σ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>M</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mi>I</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C_{M}=\sigma _{M}^{2}I}</annotation>
+  </semantics>
+</math></span><img src="289650279fa950bf12bba569cb79b7ed4258b17f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:11.178ex; height:3.176ex;" alt="C_{M}=\sigma _{M}^{2}I"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle C_{D}=\sigma _{D}^{2}I}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>C</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>D</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <msubsup>
+          <mi>σ<!-- σ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>D</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mi>I</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C_{D}=\sigma _{D}^{2}I}</annotation>
+  </semantics>
+</math></span><img src="2261117f28bcfd364be619d0495afe61ac9a6421.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:10.445ex; height:3.176ex;" alt="C_{D}=\sigma _{D}^{2}I"></span>, and, in this case, the equations of inverse theory reduce to the equations above, with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \alpha ={\sigma _{D}}/{\sigma _{M}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>α<!-- α --></mi>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <msub>
+            <mi>σ<!-- σ --></mi>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi>D</mi>
+            </mrow>
+          </msub>
+        </mrow>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo>/</mo>
+        </mrow>
+        <mrow class="MJX-TeXAtom-ORD">
+          <msub>
+            <mi>σ<!-- σ --></mi>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi>M</mi>
+            </mrow>
+          </msub>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \alpha ={\sigma _{D}}/{\sigma _{M}}}</annotation>
+  </semantics>
+</math></span><img src="8de6501e3226e2b7266d6c973944f57b7b84d619.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:11.955ex; height:2.843ex;" alt="\alpha ={\sigma _{D}}/{\sigma _{M}}"></span>.
+</p>
+<h2><span class="mw-headline" id="Bayesian_interpretation">Bayesian interpretation</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=7" title="Edit section: Bayesian interpretation">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div role="note" class="hatnote navigation-not-searchable">Further information: <a href="https://en.wikipedia.org/wiki/Minimum_mean_square_error#Linear_MMSE_estimator_for_linear_observation_process" title="Minimum mean square error">Minimum mean square error §&nbsp;Linear MMSE estimator for linear observation process</a></div>
+<p>Although at first the choice of the solution to this regularized problem may look artificial, and indeed the matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Gamma }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Γ<!-- Γ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Gamma }</annotation>
+  </semantics>
+</math></span><img src="4cfde86a3f7ec967af9955d0988592f0693d2b19.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.453ex; height:2.176ex;" alt="\Gamma "></span> seems rather arbitrary, the process can be justified from a <a href="https://en.wikipedia.org/wiki/Bayesian_probability" title="Bayesian probability">Bayesian point of view</a>.
+ Note that for an ill-posed problem one must necessarily introduce some 
+additional assumptions in order to get a unique solution. Statistically,
+ the <a href="https://en.wikipedia.org/wiki/Prior_probability" title="Prior probability">prior probability</a> distribution of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span> is sometimes taken to be a <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution" title="Multivariate normal distribution">multivariate normal distribution</a>.
+ For simplicity here, the following assumptions are made: the means are 
+zero; their components are independent; the components have the same <a href="https://en.wikipedia.org/wiki/Standard_deviation" title="Standard deviation">standard deviation</a> <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \sigma _{x}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>σ<!-- σ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>x</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \sigma _{x}}</annotation>
+  </semantics>
+</math></span><img src="ebf4ab08fe163a6c495cad6f4d67653287c4044c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.5ex; height:2.009ex;" alt="\sigma _{x}"></span>. The data are also subject to errors, and the errors in <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle b}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>b</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle b}</annotation>
+  </semantics>
+</math></span><img src="f11423fbb2e967f986e36804a8ae4271734917c3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:0.998ex; height:2.176ex;" alt="b"></span> are also assumed to be <a href="https://en.wikipedia.org/wiki/Statistical_independence" class="mw-redirect" title="Statistical independence">independent</a> with zero mean and standard deviation <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \sigma _{b}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>σ<!-- σ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>b</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \sigma _{b}}</annotation>
+  </semantics>
+</math></span><img src="d24e9b96d360a83440f8c0e70658b5ec24e6efa7.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.265ex; height:2.009ex;" alt="\sigma _{b}"></span>. Under these assumptions the Tikhonov-regularized solution is the <a href="https://en.wikipedia.org/wiki/Maximum_a_posteriori" class="mw-redirect" title="Maximum a posteriori">most probable</a> solution given the data and the <i>a priori</i> distribution of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span>, according to <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" title="Bayes' theorem">Bayes' theorem</a>.<sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[4]</a></sup>
+</p><p>If the assumption of <a href="https://en.wikipedia.org/wiki/Normal_distribution" title="Normal distribution">normality</a> is replaced by assumptions of <a href="https://en.wikipedia.org/wiki/Homoscedasticity" title="Homoscedasticity">homoscedasticity</a> and uncorrelatedness of <a href="https://en.wikipedia.org/wiki/Errors_and_residuals_in_statistics" class="mw-redirect" title="Errors and residuals in statistics">errors</a>, and if one still assumes zero mean, then the <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" title="Gauss–Markov theorem">Gauss–Markov theorem</a> entails that the solution is the minimal <a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator" title="Bias of an estimator">unbiased estimator</a>.<sup class="noprint Inline-Template Template-Fact" style="white-space:nowrap;">[<i><a href="https://en.wikipedia.org/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources. (April 2012)">citation needed</span></a></i>]</sup>
+</p>
+<h2><span class="mw-headline" id="See_also">See also</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=8" title="Edit section: See also">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul><li><a href="https://en.wikipedia.org/wiki/Lasso_%28statistics%29" title="Lasso (statistics)">LASSO estimator</a> is another regularization method in statistics.</li>
+<li><a href="https://en.wikipedia.org/wiki/Matrix_regularization" title="Matrix regularization">Matrix regularization</a></li></ul>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit&amp;section=9" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="reflist" style="list-style-type: decimal;">
+<div class="mw-references-wrap"><ol class="references">
+<li id="cite_note-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-1">^</a></b></span> <span class="reference-text"><cite class="citation conference"><a href="https://en.wikipedia.org/wiki/Andrew_Ng" title="Andrew Ng">Ng, Andrew Y.</a> (2004). <a rel="nofollow" class="external text" href="https://icml.cc/Conferences/2004/proceedings/papers/354.pdf"><i>Feature selection, L1 vs. L2 regularization, and rotational invariance</i></a> <span style="font-size:85%;">(PDF)</span>. Proc. <a href="https://en.wikipedia.org/wiki/International_Conference_on_Machine_Learning" title="International Conference on Machine Learning">ICML</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Feature+selection%2C+L1+vs.+L2+regularization%2C+and+rotational+invariance&amp;rft.date=2004&amp;rft.aulast=Ng&amp;rft.aufirst=Andrew+Y.&amp;rft_id=https%3A%2F%2Ficml.cc%2FConferences%2F2004%2Fproceedings%2Fpapers%2F354.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-2">^</a></b></span> <span class="reference-text"><cite class="citation journal">R.-E. Fan; K.-W. Chang; C.-J. Hsieh; X.-R. Wang; C.-J. Lin (2008). "LIBLINEAR: A library for large linear classification". <i><a href="https://en.wikipedia.org/wiki/Journal_of_Machine_Learning_Research" title="Journal of Machine Learning Research">Journal of Machine Learning Research</a></i>. <b>9</b>: 1871–1874.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+Machine+Learning+Research&amp;rft.atitle=LIBLINEAR%3A+A+library+for+large+linear+classification&amp;rft.volume=9&amp;rft.pages=1871-1874&amp;rft.date=2008&amp;rft.au=R.-E.+Fan&amp;rft.au=K.-W.+Chang&amp;rft.au=C.-J.+Hsieh&amp;rft.au=X.-R.+Wang&amp;rft.au=C.-J.+Lin&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-3">^</a></b></span> <span class="reference-text"><cite class="citation journal">Guan, Naiyang; Tao, Dacheng; Luo, Zhigang; Yuan, Bo (2012). "Online <a href="https://en.wikipedia.org/wiki/Nonnegative_matrix_factorization" class="mw-redirect" title="Nonnegative matrix factorization">nonnegative matrix factorization</a> with robust stochastic approximation". <i>IEEE Trans. Neural Networks and Learning Systems</i>. <b>23</b> (7): 1087–1099.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=IEEE+Trans.+Neural+Networks+and+Learning+Systems&amp;rft.atitle=Online+nonnegative+matrix+factorization+with+robust+stochastic+approximation&amp;rft.volume=23&amp;rft.issue=7&amp;rft.pages=1087-1099&amp;rft.date=2012&amp;rft.aulast=Guan&amp;rft.aufirst=Naiyang&amp;rft.au=Tao%2C+Dacheng&amp;rft.au=Luo%2C+Zhigang&amp;rft.au=Yuan%2C+Bo&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-4">^</a></b></span> <span class="reference-text"><cite class="citation book">Vogel, Curtis R. (2002). <i>Computational methods for inverse problems</i>. Philadelphia: Society for Industrial and Applied Mathematics. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/0-89871-550-4" title="Special:BookSources/0-89871-550-4">0-89871-550-4</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Computational+methods+for+inverse+problems&amp;rft.place=Philadelphia&amp;rft.pub=Society+for+Industrial+and+Applied+Mathematics&amp;rft.date=2002&amp;rft.isbn=0-89871-550-4&amp;rft.au=Vogel%2C+Curtis+R.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+</ol></div></div>
+<ul><li><cite class="citation book"><a href="https://en.wikipedia.org/wiki/Takeshi_Amemiya" title="Takeshi Amemiya">Amemiya, Takeshi</a> (1985). <i>Advanced Econometrics</i>. Harvard University Press. pp.&nbsp;60–61. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/0-674-00560-0" title="Special:BookSources/0-674-00560-0">0-674-00560-0</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Advanced+Econometrics&amp;rft.pages=60-61&amp;rft.pub=Harvard+University+Press&amp;rft.date=1985&amp;rft.isbn=0-674-00560-0&amp;rft.aulast=Amemiya&amp;rft.aufirst=Takeshi&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation journal"><a href="https://en.wikipedia.org/wiki/Andrey_Nikolayevich_Tikhonov" title="Andrey Nikolayevich Tikhonov">Tikhonov, Andrey Nikolayevich</a> (1943). <a rel="nofollow" class="external text" href="http://a-server.math.nsc.ru/IPP/BASE_WORK/tihon_en.html">"Об устойчивости обратных задач"</a> [On the stability of inverse problems]. <i><a href="https://en.wikipedia.org/wiki/Doklady_Akademii_Nauk_SSSR" class="mw-redirect" title="Doklady Akademii Nauk SSSR">Doklady Akademii Nauk SSSR</a></i>. <b>39</b> (5): 195–198.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Doklady+Akademii+Nauk+SSSR&amp;rft.atitle=%D0%9E%D0%B1+%D1%83%D1%81%D1%82%D0%BE%D0%B9%D1%87%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D0%B8+%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D1%8B%D1%85+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87&amp;rft.volume=39&amp;rft.issue=5&amp;rft.pages=195-198&amp;rft.date=1943&amp;rft.aulast=Tikhonov&amp;rft.aufirst=Andrey+Nikolayevich&amp;rft_id=http%3A%2F%2Fa-server.math.nsc.ru%2FIPP%2FBASE_WORK%2Ftihon_en.html&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation journal">Tikhonov, A. N. (1963). "О решении некорректно поставленных задач и методе регуляризации". <i>Doklady Akademii Nauk SSSR</i>. <b>151</b>: 501–504.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Doklady+Akademii+Nauk+SSSR&amp;rft.atitle=%D0%9E+%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B8+%D0%BD%D0%B5%D0%BA%D0%BE%D1%80%D1%80%D0%B5%D0%BA%D1%82%D0%BD%D0%BE+%D0%BF%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8B%D1%85+%D0%B7%D0%B0%D0%B4%D0%B0%D1%87+%D0%B8+%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%B5+%D1%80%D0%B5%D0%B3%D1%83%D0%BB%D1%8F%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8&amp;rft.volume=151&amp;rft.pages=501-504&amp;rft.date=1963&amp;rft.aulast=Tikhonov&amp;rft.aufirst=A.+N.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span>. Translated in <cite class="citation journal">"Solution of incorrectly formulated problems and the regularization method". <i>Soviet Mathematics</i>. <b>4</b>: 1035–1038.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Soviet+Mathematics&amp;rft.atitle=Solution+of+incorrectly+formulated+problems+and+the+regularization+method&amp;rft.volume=4&amp;rft.pages=1035-1038&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation book">Tikhonov, A. N.; V. Y. Arsenin (1977). <i>Solution of Ill-posed Problems</i>. Washington: Winston &amp; Sons. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/0-470-99124-0" title="Special:BookSources/0-470-99124-0">0-470-99124-0</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Solution+of+Ill-posed+Problems&amp;rft.place=Washington&amp;rft.pub=Winston+%26+Sons&amp;rft.date=1977&amp;rft.isbn=0-470-99124-0&amp;rft.aulast=Tikhonov&amp;rft.aufirst=A.+N.&amp;rft.au=V.+Y.+Arsenin&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li>Tikhonov A.N., Goncharsky A.V., Stepanov V.V., Yagola A.G., 1995, <i>Numerical Methods for the Solution of Ill-Posed Problems</i>, Kluwer Academic Publishers.</li>
+<li>Tikhonov A.N., Leonov A.S., Yagola A.G., 1998, <i>Nonlinear Ill-Posed Problems</i>, V. 1, V. 2, Chapman and Hall.</li>
+<li>Hansen, P.C., 1998, <i>Rank-deficient and Discrete ill-posed problems</i>, SIAM</li>
+<li>Hoerl AE, 1962, <i>Application of ridge analysis to regression problems</i>, Chemical Engineering Progress, 1958, 54–59.</li>
+<li><cite class="citation journal">Hoerl, A.E.; R.W. Kennard (1970). "Ridge regression: Biased estimation for nonorthogonal problems". <i>Technometrics</i>. <b>12</b> (1): 55–67. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.2307/1267351">10.2307/1267351</a>. <a href="https://en.wikipedia.org/wiki/JSTOR" title="JSTOR">JSTOR</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.jstor.org/stable/1271436">1271436</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Technometrics&amp;rft.atitle=Ridge+regression%3A+Biased+estimation+for+nonorthogonal+problems&amp;rft.volume=12&amp;rft.issue=1&amp;rft.pages=55-67&amp;rft.date=1970&amp;rft_id=info%3Adoi%2F10.2307%2F1267351&amp;rft_id=%2F%2Fwww.jstor.org%2Fstable%2F1271436&amp;rft.aulast=Hoerl&amp;rft.aufirst=A.E.&amp;rft.au=R.W.+Kennard&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation journal">Foster, M. (1961). "An Application of the Wiener-Kolmogorov Smoothing Theory to Matrix Inversion". <i>Journal of the Society for Industrial and Applied Mathematics</i>. <b>9</b> (3): 387. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1137/0109031">10.1137/0109031</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+the+Society+for+Industrial+and+Applied+Mathematics&amp;rft.atitle=An+Application+of+the+Wiener-Kolmogorov+Smoothing+Theory+to+Matrix+Inversion&amp;rft.volume=9&amp;rft.issue=3&amp;rft.pages=387&amp;rft.date=1961&amp;rft_id=info%3Adoi%2F10.1137%2F0109031&amp;rft.aulast=Foster&amp;rft.aufirst=M.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation journal">Phillips, D. L. (1962). "A Technique for the Numerical Solution of Certain Integral Equations of the First Kind". <i>Journal of the ACM</i>. <b>9</b>: 84. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1145/321105.321114">10.1145/321105.321114</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+the+ACM&amp;rft.atitle=A+Technique+for+the+Numerical+Solution+of+Certain+Integral+Equations+of+the+First+Kind&amp;rft.volume=9&amp;rft.pages=84&amp;rft.date=1962&amp;rft_id=info%3Adoi%2F10.1145%2F321105.321114&amp;rft.aulast=Phillips&amp;rft.aufirst=D.+L.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation book">Press, WH; Teukolsky, SA; Vetterling, WT; Flannery, BP (2007). <a rel="nofollow" class="external text" href="http://apps.nrbook.com/empanel/index.html#pg=1006">"Section 19.5. Linear Regularization Methods"</a>. <i>Numerical Recipes: The Art of Scientific Computing</i> (3rd ed.). New York: Cambridge University Press. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/978-0-521-88068-8" title="Special:BookSources/978-0-521-88068-8">978-0-521-88068-8</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.atitle=Section+19.5.+Linear+Regularization+Methods&amp;rft.btitle=Numerical+Recipes%3A+The+Art+of+Scientific+Computing&amp;rft.place=New+York&amp;rft.edition=3rd&amp;rft.pub=Cambridge+University+Press&amp;rft.date=2007&amp;rft.isbn=978-0-521-88068-8&amp;rft.aulast=Press&amp;rft.aufirst=WH&amp;rft.au=Teukolsky%2C+SA&amp;rft.au=Vetterling%2C+WT&amp;rft.au=Flannery%2C+BP&amp;rft_id=http%3A%2F%2Fapps.nrbook.com%2Fempanel%2Findex.html%23pg%3D1006&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li>Tarantola A, 2005, <i>Inverse Problem Theory</i> (<a rel="nofollow" class="external text" href="http://www.ipgp.jussieu.fr/%7Etarantola/Files/Professional/SIAM/index.html">free PDF version</a>), Society for Industrial and Applied Mathematics, <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/0-89871-572-5" title="Special:BookSources/0-89871-572-5">0-89871-572-5</a></li>
+<li><cite class="citation journal">Wahba, G. (1990). "Spline Models for Observational Data". Society for Industrial and Applied Mathematics.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Spline+Models+for+Observational+Data&amp;rft.date=1990&amp;rft.aulast=Wahba&amp;rft.aufirst=G.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li>
+<li><cite class="citation journal">Golub, G.; Heath, M.; Wahba, G. (1979). <a rel="nofollow" class="external text" href="http://www.stat.wisc.edu/%7Ewahba/ftp1/oldie/golub.heath.wahba.pdf">"Generalized cross-validation as a method for choosing a good ridge parameter"</a> <span style="font-size:85%;">(PDF)</span>. <i>Technometrics</i>. <b>21</b>: 215–223. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1080/00401706.1979.10489751">10.1080/00401706.1979.10489751</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Technometrics&amp;rft.atitle=Generalized+cross-validation+as+a+method+for+choosing+a+good+ridge+parameter&amp;rft.volume=21&amp;rft.pages=215-223&amp;rft.date=1979&amp;rft_id=info%3Adoi%2F10.1080%2F00401706.1979.10489751&amp;rft.aulast=Golub&amp;rft.aufirst=G.&amp;rft.au=Heath%2C+M.&amp;rft.au=Wahba%2C+G.&amp;rft_id=http%3A%2F%2Fwww.stat.wisc.edu%2F~wahba%2Fftp1%2Foldie%2Fgolub.heath.wahba.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ATikhonov+regularization" class="Z3988"><span style="display:none;">&nbsp;</span></span></li></ul>
+
+<!-- 
+NewPP limit report
+Parsed by mw1268
+Cached time: 20180727173232
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.348 seconds
+Real time usage: 0.470 seconds
+Preprocessor visited node count: 1710/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 44102/2097152 bytes
+Template argument size: 1597/2097152 bytes
+Highest expansion depth: 15/40
+Expensive parser function count: 3/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 6569/5000000 bytes
+Number of Wikibase entities loaded: 0/400
+Lua time usage: 0.135/10.000 seconds
+Lua memory usage: 4.56 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  275.990      1 -total
+ 27.12%   74.856      1 Template:Reflist
+ 20.37%   56.215      1 Template:More_footnotes
+ 20.23%   55.834     10 Template:Cite_journal
+ 13.55%   37.402      1 Template:Cite_conference
+ 12.78%   35.280      1 Template:Ambox
+ 10.22%   28.220      2 Template:Citation_needed
+  9.04%   24.939      1 Template:Isbn
+  8.77%   24.199      2 Template:Fix
+  8.10%   22.358      4 Template:Cite_book
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:954323-0!canonical!math=5 and timestamp 20180727173232 and revision id 850526955
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;oldid=850526955">https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;oldid=850526955</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikipedia.org/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="https://en.wikipedia.org/wiki/Category:Linear_algebra" title="Category:Linear algebra">Linear algebra</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Estimation_methods" title="Category:Estimation methods">Estimation methods</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Inverse_problems" title="Category:Inverse problems">Inverse problems</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="https://en.wikipedia.org/wiki/Category:Articles_lacking_in-text_citations_from_April_2012" title="Category:Articles lacking in-text citations from April 2012">Articles lacking in-text citations from April 2012</a></li><li><a href="https://en.wikipedia.org/wiki/Category:All_articles_lacking_in-text_citations" title="Category:All articles lacking in-text citations">All articles lacking in-text citations</a></li><li><a href="https://en.wikipedia.org/wiki/Category:All_articles_with_unsourced_statements" title="Category:All articles with unsourced statements">All articles with unsourced statements</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Articles_with_unsourced_statements_from_July_2018" title="Category:Articles with unsourced statements from July 2018">Articles with unsourced statements from July 2018</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Articles_with_unsourced_statements_from_April_2012" title="Category:Articles with unsourced statements from April 2012">Articles with unsourced statements from April 2012</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikipedia.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="https://en.wikipedia.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikipedia.org/w/index.php?title=Special:CreateAccount&amp;returnto=Tikhonov+regularization&amp;returntoquery=oldid%3D850526955" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Tikhonov+regularization&amp;returntoquery=oldid%3D850526955" title="You're encouraged to log in; however, it's not mandatory. [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikipedia.org/wiki/Tikhonov_regularization" title="View the content page [Alt+Shift+c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="https://en.wikipedia.org/wiki/Talk:Tikhonov_regularization" rel="discussion" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input class="vectorMenuCheckbox" aria-labelledby="p-variants-label" type="checkbox">
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="https://en.wikipedia.org/wiki/Tikhonov_regularization">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<input class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" type="checkbox">
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input name="search" placeholder="Search Wikipedia" title="Search Wikipedia [Alt+Shift+f]" accesskey="f" id="searchInput" type="search"><input value="Special:Search" name="title" type="hidden"><input name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="https://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="https://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="https://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="https://en.wikipedia.org/wiki/Special:Random" title="Load a random article [Alt+Shift+x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="https://shop.wikimedia.org/" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="https://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="https://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="https://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="https://en.wikipedia.org/wiki/Special:WhatLinksHere/Tikhonov_regularization" title="List of all English Wikipedia pages containing links to this page [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Tikhonov_regularization" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;oldid=850526955" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q2778212" title="Link to connected data repository item [Alt+Shift+g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="https://en.wikipedia.org/w/index.php?title=Special:CiteThisPage&amp;page=Tikhonov_regularization&amp;id=850526955" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="https://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Tikhonov+regularization">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikipedia.org/w/index.php?title=Special:ElectronPdf&amp;page=Tikhonov+regularization&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="https://en.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+					<li class="interlanguage-link interwiki-es"><a href="https://es.wikipedia.org/wiki/Regularizaci%C3%B3n_de_T%C3%ADjonov" title="Regularización de Tíjonov – Spanish" hreflang="es" class="interlanguage-link-target" lang="es">Español</a></li><li class="interlanguage-link interwiki-fr"><a href="https://fr.wikipedia.org/wiki/R%C3%A9gularisation_de_Tikhonov" title="Régularisation de Tikhonov – French" hreflang="fr" class="interlanguage-link-target" lang="fr">Français</a></li><li class="interlanguage-link interwiki-it"><a href="https://it.wikipedia.org/wiki/Regolarizzazione_di_Tichonov" title="Regolarizzazione di Tichonov – Italian" hreflang="it" class="interlanguage-link-target" lang="it">Italiano</a></li><li class="interlanguage-link interwiki-pl"><a href="https://pl.wikipedia.org/wiki/Regularyzacja_Tichonowa" title="Regularyzacja Tichonowa – Polish" hreflang="pl" class="interlanguage-link-target" lang="pl">Polski</a></li><li class="interlanguage-link interwiki-ru"><a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D1%80%D0%B5%D0%B3%D1%83%D0%BB%D1%8F%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8_%D0%A2%D0%B8%D1%85%D0%BE%D0%BD%D0%BE%D0%B2%D0%B0" title="Метод регуляризации Тихонова – Russian" hreflang="ru" class="interlanguage-link-target" lang="ru">Русский</a></li><li class="interlanguage-link interwiki-tr"><a href="https://tr.wikipedia.org/wiki/Ridge_regresyon" title="Ridge regresyon – Turkish" hreflang="tr" class="interlanguage-link-target" lang="tr">Türkçe</a></li><li class="interlanguage-link interwiki-uk"><a href="https://uk.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B3%D1%83%D0%BB%D1%8F%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D1%96%D1%8F_%D0%A2%D0%B8%D1%85%D0%BE%D0%BD%D0%BE%D0%B2%D0%B0" title="Регуляризація Тихонова – Ukrainian" hreflang="uk" class="interlanguage-link-target" lang="uk">Українська</a></li>				</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q2778212#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 16 July 2018, at 12:56<span class="anonymous-show">&nbsp;(UTC)</span>.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="https://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="https://en.m.wikipedia.org/w/index.php?title=Tikhonov_regularization&amp;oldid=850526955&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://wikimediafoundation.org/"><img src="wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="https://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.348","walltime":"0.470","ppvisitednodes":{"value":1710,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":44102,"limit":2097152},"templateargumentsize":{"value":1597,"limit":2097152},"expansiondepth":{"value":15,"limit":40},"expensivefunctioncount":{"value":3,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":6569,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%  275.990      1 -total"," 27.12%   74.856      1 Template:Reflist"," 20.37%   56.215      1 Template:More_footnotes"," 20.23%   55.834     10 Template:Cite_journal"," 13.55%   37.402      1 Template:Cite_conference"," 12.78%   35.280      1 Template:Ambox"," 10.22%   28.220      2 Template:Citation_needed","  9.04%   24.939      1 Template:Isbn","  8.77%   24.199      2 Template:Fix","  8.10%   22.358      4 Template:Cite_book"]},"scribunto":{"limitreport-timeusage":{"value":"0.135","limit":"10.000"},"limitreport-memusage":{"value":4782683,"limit":52428800}},"cachereport":{"origin":"mw1268","timestamp":"20180727173232","ttl":1900800,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":124,"wgHostname":"mw1333"});});</script>
+	
+
+</body></html>
