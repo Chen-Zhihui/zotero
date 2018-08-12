@@ -1,0 +1,151 @@
+
+Point distribution model
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by InternetArchiveBot ( talk  | contribs ) at 03:07, 27 March 2018 (Rescuing 1 sources and tagging 0 as dead. #IABot (v1.6.5)) . The present address (URL) is a permanent link to this version.
+Revision as of 03:07, 27 March 2018 by InternetArchiveBot ( talk  | contribs ) (Rescuing 1 sources and tagging 0 as dead. #IABot (v1.6.5))
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+The point distribution model is a model for representing the mean geometry of a shape and some statistical modes of geometric variation inferred from a training set of shapes.
+Contents
+
+    1 Background
+    2 Details
+    3 Discussion
+    4 See also
+    5 References
+    6 External links
+
+Background [ edit ]
+
+It has been developed by Cootes, [1] Taylor et al. [2] and became a standard in computer vision for the statistical study of shape [3] and for segmentation of medical images [2] where shape priors really help interpretation of noisy and low-contrasted pixels / voxels . The latter point leads to active shape models (ASM) and active appearance models (AAM).
+
+Point distribution models rely on landmark points . A landmark is an annotating point posed by an anatomist onto a given locus for every shape instance across the training set population. For instance, the same landmark will designate the tip of the index finger in a training set of 2D hands outlines. Principal component analysis (PCA), for instance, is a relevant tool for studying correlations of movement between groups of landmarks among the training set population. Typically, it might detect that all the landmarks located along the same finger move exactly together across the training set examples showing different finger spacing for a flat-posed hands collection.
+Details [ edit ]
+
+First, a set of training images are manually landmarked with enough corresponding landmarks to sufficiently approximate the geometry of the original shapes. These landmarks are aligned using the generalized procrustes analysis , which minimizes the least squared error between the points.
+
+k {\displaystyle k} k aligned landmarks in two dimensions are given as
+
+    X = ( x 1 , y 1 , … , x k , y k ) {\displaystyle \mathbf {X} =(x_{1},y_{1},\ldots ,x_{k},y_{k})} {\displaystyle \mathbf {X} =(x_{1},y_{1},\ldots ,x_{k},y_{k})} .
+
+It's important to note that each landmark i ∈ { 1 , … k } {\displaystyle i\in \lbrace 1,\ldots k\rbrace } {\displaystyle i\in \lbrace 1,\ldots k\rbrace } should represent the same anatomical location. For example, landmark #3, ( x 3 , y 3 ) {\displaystyle (x_{3},y_{3})} {\displaystyle (x_{3},y_{3})} might represent the tip of the ring finger across all training images.
+
+Now the shape outlines are reduced to sequences of k {\displaystyle k} k landmarks, so that a given training shape is defined as the vector X ∈ R 2 k {\displaystyle \mathbf {X} \in \mathbb {R} ^{2k}} {\displaystyle \mathbf {X} \in \mathbb {R} ^{2k}} . Assuming the scattering is gaussian in this space, PCA is used to compute normalized eigenvectors and eigenvalues of the covariance matrix across all training shapes. The matrix of the top d {\displaystyle d} d eigenvectors is given as P ∈ R 2 k × d {\displaystyle \mathbf {P} \in \mathbb {R} ^{2k\times d}} {\displaystyle \mathbf {P} \in \mathbb {R} ^{2k\times d}} , and each eigenvector describes a principal mode of variation along the set.
+
+Finally, a linear combination of the eigenvectors is used to define a new shape X ′ {\displaystyle \mathbf {X} '} {\displaystyle \mathbf {X} '} , mathematically defined as:
+
+    X ′ = X ¯ + P b {\displaystyle \mathbf {X} '={\overline {\mathbf {X} }}+\mathbf {P} \mathbf {b} } {\displaystyle \mathbf {X} '={\overline {\mathbf {X} }}+\mathbf {P} \mathbf {b} } 
+
+where X ¯ {\displaystyle {\overline {\mathbf {X} }}} {\displaystyle {\overline {\mathbf {X} }}} is defined as the mean shape across all training images, and b {\displaystyle \mathbf {b} } \mathbf {b} is a vector of scaling values for each principal component. Therefore, by modifying the variable b {\displaystyle \mathbf {b} } \mathbf {b} an infinite number of shapes can be defined. To ensure that the new shapes are all within the variation seen in the training set, it is common to only allow each element of b {\displaystyle \mathbf {b} } \mathbf {b} to be within ± {\displaystyle \pm } \pm 3 standard deviations, where the standard deviation of a given principal component is defined as the square root of its corresponding eigenvalue.
+
+PDM's can be extended to any arbitrary number of dimensions, but are typically used in 2D image and 3D volume applications (where each landmark point is R 2 {\displaystyle \mathbb {R} ^{2}} \mathbb {R} ^{2} or R 3 {\displaystyle \mathbb {R} ^{3}} \mathbb {R} ^{3} ).
+Discussion [ edit ]
+
+An eigenvector, interpreted in euclidean space , can be seen as a sequence of k {\displaystyle k} k euclidean vectors associated to corresponding landmark and designating a compound move for the whole shape. Global nonlinear variation is usually well handled provided nonlinear variation is kept to a reasonable level. Typically, a twisting nematode worm is used as an example in the teaching of kernel PCA -based methods.
+
+Due to the PCA properties: eigenvectors are mutually orthogonal , form a basis of the training set cloud in the shape space, and cross at the 0 in this space, which represents the mean shape. Also, PCA is a traditional way of fitting a closed ellipsoid to a Gaussian cloud of points (whatever their dimension): this suggests the concept of bounded variation.
+
+The idea behind PDM's is that eigenvectors can be linearly combined to create an infinity of new shape instances that will 'look like' the one in the training set. The coefficients are bounded alike the values of the corresponding eigenvalues, so as to ensure the generated 2n/3n-dimensional dot will remain into the hyper-ellipsoidal allowed domain— allowable shape domain (ASD). [2]
+See also [ edit ]
+
+    Procrustes analysis
+
+References [ edit ]
+
+    Jump up ^ T. F. Cootes (May 2004), Statistical models of appearance for computer vision (PDF)  
+    ^ Jump up to: a b c D.H. Cooper; T.F. Cootes; C.J. Taylor; J. Graham (1995), "Active shape models—their training and application", Computer Vision and Image Understanding (61): 38–59  
+    Jump up ^ Rhodri H. Davies and Carole J. Twining and P. Daniel Allen and Tim F. Cootes and Chris J. Taylor (2003), Shape discrimination in the Hippocampus using an MDL Model  
+
+External links [ edit ]
+
+    Flexible Models for Computer Vision , Tim Cootes, Manchester University.
+    A practical introduction to PDM and ASMs .
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Point_distribution_model&oldid=832628847 "
+Categories :
+
+    Computer vision
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Deutsch
+    Français
+    한국어
+
+Edit links
+
+    This page was last edited on 27 March 2018, at 03:07  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

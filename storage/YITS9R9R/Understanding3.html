@@ -1,0 +1,540 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>55:148,55:247 Chapter 8, Part 3</title>
+</head>
+
+<body>
+
+<hr size="3" noshade="noshade">
+
+<h1>55:148 Digital Image Processing<br>
+55:247 Image Analysis and Understanding </h1>
+
+<h1>Chapter 8, Part III<br>
+Image understanding: Point distribution models<br>
+</h1>
+
+<hr>
+
+<p><b>Point distribution models</b> 
+
+</p><ul>
+  <li>The Point Distribution Model (PDM) is a powerful shape description technique that may
+    subsequently be used in locating new instances of such shapes in other images. </li>
+  <li>It is most useful for describing features that have well understood `general' shape, but
+    which cannot be easily described by a rigid model. </li>
+  <li>The PDM is a relatively recent development that has seen enormous application in a short
+    time. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>The PDM approach assumes the existence of a set of M examples (a training set) from
+    which to derive a statistical description of the shape and its variation. </li>
+  <li>In our context, we take this to mean some number of instances of the shape represented
+    by a boundary (a sequence of pixel co-ordinates). </li>
+  <li>In addition, some number N of <b>landmark</b> points is selected on each boundary; these
+    points are chosen to correspond to a feature of the underlying object. </li>
+</ul>
+
+<p align="center"><img src="f8_004.gif" width="645" height="332"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>It is intuitively clear that if the hands so represented were in `about the same place',
+    so would the N landmark points be. </li>
+  <li>Variations in the positions of these points would then be attributable to natural
+    variation between individuals. </li>
+  <li>We may expect, though, that these differences would be `small' measured on the scale of
+    the overall shape. </li>
+  <li>The PDM approach allows us to model these `small' differences (and, indeed, to identify
+    which are truly small, and which are more significant). </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li><font size="5">Aligning the training data</font> </li>
+  <li>It is necessary first to align all the training shapes in an approximate sense. </li>
+  <li>This is done by selecting for each example a suitable translation, scaling and rotation
+    to ensure that they all correspond as closely as possible - informally, the
+    transformations are chosen to reduce (in a least squares sense) the difference between an
+    aligned shape and a `mean' shape derived from the whole set. </li>
+  <li>Specifically, suppose we wish to align just two shapes - each of these is described by a
+    vector of N co-ordinate pairs; </li>
+</ul>
+
+<p align="center"><img src="misc1.gif" width="334" height="76"> <br>
+</p>
+
+<hr>
+
+<ul>
+  <li>A transform is composed of translation, rotation, and scaling represented by matrix R
+    applied to x<sup>2</sup> </li>
+</ul>
+
+<p align="center"><img src="misc2.gif" width="581" height="71"> <br>
+</p>
+
+<hr>
+
+<ul>
+  <li>The best transform can be found by minimizing </li>
+</ul>
+
+<p align="center"><img src="e8_005.gif" width="535" height="45"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>This minimization is a routine application of a least squares approach - partial
+    derivatives of E are calculated with respect to the unknowns (theta, s, t<sub>x</sub> and
+    t<sub>y</sub>), and set to zero, leaving simultaneous linear equations to solve. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This general idea is used to co-align all M shapes using the following algorithm; </li>
+</ul>
+
+<p align="center"><img src="alg8_003.gif" width="637" height="307"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>Step 3 of this algorithm is necessary since otherwise it is ill-conditioned
+    (underconstrained); without doing this, convergence would not occur. Final convergence may
+    be tested by examining the differences involved in realigning the shapes to the mean. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This approach assumes that each of the landmark points is of equal significance, but
+    that may not be the case. If for some reason one of them moves around the shape less than
+    others, it has a desirable stability that we might wish to exploit during the alignment.
+    This can be done by introducing a (diagonal) weight matrix W into equation 8.10 </li>
+</ul>
+
+<p align="center"><img src="e8.gif" width="541" height="48"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>The elements of W indicate the relative `stability' of each of the landmarks in which a
+    high number indicates high stability (so counts for more in the error computation), and a
+    low number the opposite. </li>
+  <li>There are various ways of measuring this; one is to compute for each shape the distance
+    between landmarks k and l, and to let V<sub>kl</sub> be the variance in these distances. </li>
+  <li>A high variance would indicate high mobility, and so setting the weight for the k-th
+    point to <br>
+  </li>
+  <li><p align="center"><img src="misc3.gif" width="214" height="64"> <br>
+    </p>
+  </li>
+  <li>would have the desired weighting effect. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Deriving the model </li>
+  <li>The outcome of the alignment will be M (mutually aligned) boundaries<br>
+  </li>
+  <li><p align="center"><img src="misc4.gif" width="294" height="51"> <br>
+    </p>
+  </li>
+  <li>Mean shape is given by <br>
+  </li>
+  <li><img src="misc5.gif" width="279" height="52"><br>
+  </li>
+  <li>where <br>
+  </li>
+  <li><img src="misc6.gif" width="309" height="63"><br>
+  </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Knowledge of this mean allows explicit measurement of the variation and co-variation
+    exhibited by each landmark and landmark pair; we can write<br>
+    <ul>
+      <li><p align="center"><img src="misc7.gif" width="168" height="51"> <br>
+        </p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Doing this for each training vector, we can calculate the 2N x 2N covariance matrix <br>
+    <ul>
+      <li><p align="center"><img src="misc8.gif" width="192" height="70"> <br>
+        </p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This matrix has some particularly useful properties. </li>
+  <li>If we imagine the aligned training set plotted in 2N dimensions, it will exhibit
+    variation more in some directions than others (these directions will not, of course, in
+    general align with the co-ordinate axes) - these variations are important properties of
+    the shape we are describing. </li>
+  <li>What these directions are, and their (relative) importance, may be derived from an
+    eigen-decomposition of S - that is, solving the equation </li>
+</ul>
+
+<p align="center"><img src="e8_002.gif" width="377" height="50"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>Solutions to equation (8.12) provide the <b>eigenvectors</b> p<sub>i</sub> and <b>eigenvalues</b>
+    lambda<sub>i</sub> of S; conventionally, we assume \lambda<sub>i</sub> &gt;= \lambda<sub>i+1</sub>.
+  </li>
+  <li>It can be shown that the eigenvectors associated with larger eigenvalues correspond to
+    the directions of larger variation in the underlying data - they provide the <b>modes of
+    variation</b>. </li>
+  <li>Thus solving the equation and finding the highest eigenvalues tells us where the
+    variation in the model is most likely to occur. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>It is well known that a set of eigenvectors provides a basis, meaning that we can
+    represent any vector x as a linear combination of the 2N different p<sup>i</sup>. If we
+    write <br>
+  </li>
+  <li><p align="center"><img src="misc9.gif" width="209" height="46"> <br>
+    </p>
+  </li>
+  <li>then for any vector x, a vector b exists such that <br>
+  </li>
+  <li><img src="misc10.gif" width="147" height="44"><br>
+  </li>
+  <li>where the components of b indicate how much variation is exhibited with respect to each
+    of the eigenvectors. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Using the observation that the eigenvectors of lower index describe most of the changes
+    in the training set, we may expect that the contributions from p<sup>2N</sup>, p<sup>2N+1</sup>,
+    ... will play a small role, thus </li>
+</ul>
+
+<p align="center"><img src="e8_004.gif" width="436" height="75"> <br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>and </li>
+</ul>
+
+<p align="center"><img src="e8_003.gif" width="387" height="38"> </p>
+
+<ul>
+  <li>will be good for sufficiently high t </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This permits a dimensional compression of the representation - if there is a lot of
+    structure in the data, t will be low (relative to 2N) and good shape description will be
+    possible very compactly by representing the shape as b<sub>t</sub> rather than x. </li>
+  <li>One approach to this is to calculate lambda<sub>total</sub>, the sum of the lambda<sub>i</sub>,
+    and choose t such that <br>
+    <ul>
+      <li><p align="center"><img src="misc11.gif" width="298" height="68"> <br>
+        </p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>The choice of alpha here will govern how much of the variation seen in the training set
+    can be recaptured by the compacted model. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Further, it can be shown that the variance of b<sub>i</sub> over the training set will
+    be the associated lambda<sub>i</sub>; accordingly, for `well behaved' shapes we might
+    expect <br>
+  </li>
+  <li><p align="center"><img src="misc12.gif" width="209" height="47"> <br>
+    </p>
+  </li>
+  <li>- that is, most of the population is within 3 sigma of the mean. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This allows us to generate, from knowledge of P and lambda<sub>i</sub>, plausible shapes
+    that are not part of the training set. </li>
+</ul>
+
+<hr>
+
+<p><font size="5">Example - Metacarpal analysis</font> 
+
+</p><ul>
+  <li>We can illustrate this theory with an example taken from automatic hand X-ray analysis. </li>
+  <li>The finger bones (metacarpals) have characteristic long, thin shape with bulges near the
+    ends - precise shape differs from individual to individual, and as an individual ages. </li>
+  <li>Scrutiny of bone shape is of great value in diagnosing bone aging disorders and is
+    widely used by pediatricians. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>From a collection of X-rays, 40 landmarks (so vectors are 80 dimensional) were picked
+    out by hand on a number (approximately 50) of segmented metacarpals. </li>
+  <li>Next figure illustrates (after alignment) the mean shape, together with the actual
+    positions of the landmark points from the entire data set. </li>
+</ul>
+
+<p align="center"><img src="f8_005.gif" width="652" height="444"><br>
+<br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>The covariance matrix<b> </b>and its eigenvectors associated with the variation are
+    extracted; the relative contribution of the most influential components is illustrated in
+    Table~\ref{tab.PDM}. </li>
+  <li>From this we see that more than 95% of the shape variation is captured by the first
+    eight modes of variation. </li>
+</ul>
+
+<p align="center"><img src="t8.gif" width="644" height="486"><br>
+<br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>Next figure illustrates the effect of varying the first mode of the mean shape by up to
+    2.5 sqrt{lambda_1}. </li>
+  <li>This mode, which accounts for more than 60% of the variation seen in the data, captures
+    the (asymmetric) thickening and thining of bones (relative to their length) which is an
+    obvious characteristic of maturity. </li>
+  <li>In this example, it is clear that 2.5 is an unlikely factor for sqrt{lambda_1} since the
+    resulting shapes are too extreme - thus we may expect b_1 to be smaller in magnitude for
+    this application. </li>
+</ul>
+
+<p align="center"><img src="f8_002.gif" width="647" height="291"><br>
+<br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>Next figure similarly illustrates extremes of the third mode. </li>
+  <li>The shape change here is somewhat subtler; part of what is captured is a bending (in
+    banana fashion) of the bone. </li>
+  <li>Both extremes have a plausible `bone-like' look about them. </li>
+</ul>
+
+<p align="center"><img src="f8_003.gif" width="647" height="262"><br>
+<br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<p><font size="5">Fitting models to data</font> 
+
+</p><ul>
+  <li>A strength of this approach is that it permits plausible shapes to be fitted to new
+    data. </li>
+  <li>Given an image in which we wish to locate an instance of a modelled shape (specifically,
+    given an edge map of the image, so having information about where boundaries are most
+    likely to lie), we require to know <ul>
+      <li>the mean shape x </li>
+      <li>the transformation matrix P_t </li>
+      <li>the particular shape parameter vector b_t </li>
+      <li>the particular pose (translation, rotation, scale) </li>
+    </ul>
+  </li>
+</ul>
+
+<ul>
+  <li>The mean shape and the transformation matrix are known from the model construction </li>
+  <li>The identification of b_t and the pose is an optimization problem <ul>
+      <li>locate the parameters that best fit the data at hand, subject to certain constraints. </li>
+      <li>These constraints would include the known limits on reasonable values for the components
+        of b_t, and might also include domain knowledge about plausible positions for the object
+        to constrain the pose. </li>
+      <li>In the metacarpal example, this would include knowledge that a bone lies within the hand
+        silhouette, is aligned with the finger and is of a known approximate size. </li>
+    </ul>
+  </li>
+</ul>
+
+<p align="center"><img src="f8_006.gif" width="643" height="318"><br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>This approach may be used successfully with a number of well known optimization
+    algorithms. </li>
+  <li>It is likely, however, that convergence would be slow. </li>
+  <li>An alternative, quicker approach is to use the PDM as the basis of an Active Shape Model
+    (ASM). </li>
+  <li>Here, we iterate toward the best fit by examining an approximate fit, locating improved
+    positions for the landmark points, then recalculating pose and parameters. <br>
+    <br>
+  </li>
+</ul>
+
+<p align="center"><br>
+</p>
+
+<hr>
+
+<p><font size="5">Fitting an active shape model (ASM)</font> </p>
+
+<p align="center"><img src="alg8.gif" width="633" height="145"><br>
+<img src="alg8_004.gif" width="633" height="687"><br>
+</p>
+
+<p align="center"><img src="alg8_002.gif" width="633" height="319"><br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<ul>
+  <li>Step 2 assumes that a suitable target can be found, which may not always be true. </li>
+  <li>If there is none, the landmark can be left where it is, and the model constraints will
+    eventually pull it into a reasonable position. </li>
+  <li>There is also the option of locating targets by more sophisticated means than simple
+    intensity gradient measurements. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>The algorithm is illustrated in the next figure. </li>
+  <li>Note that the model locates the correct position despite the proximity of strong
+    boundaries that could distract it - this does not occur because the shape of the boundary
+    is tightly bound in. </li>
+</ul>
+
+<hr>
+
+<p align="center"><img src="f8.gif" width="648" height="627"><br>
+<br>
+<br>
+<br>
+</p>
+
+<hr>
+
+<p><font size="5">Extensions</font> 
+
+</p><ul>
+  <li>In a short time, the literature on PDMs and ASMs has become very extensive - the
+    technique lends itself to a very wide range of problems, but has some drawbacks. </li>
+  <li>The placing of the landmark<b> </b>points for construction of the training set is
+    clearly very labor intensive, and in some application error-prone. </li>
+  <li>Automatic placing of these points has been addressed. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Efficiency of the approach has also been enhanced by the common idea of a
+    multi-resolution attack. </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>Using a coarse-to-fine strategy can produce benefits in both quality of final fit, and
+    reduction of computational load </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>As presented, the approach is strictly linear in the sense that control points may only
+    move along a straight line (albeit with respect to directions of maximum variation); <ul>
+      <li>non-linear effects are produced by combining contributions from different modes; </li>
+      <li>aside from being imperfect, this results in a representation that is not as compact as
+        it might be if the non-linear aspects were explicitly modeled. </li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<ul>
+  <li>This problem has been addressed in two ways; <ul>
+      <li>introduction of the Polynomial Regression PDM which assumes dependence between the
+        modes, with minor modes being polynomial combinations of major ones, and </li>
+      <li>extension of the linear model by permitting polar relationships between modes, thereby
+        efficiently capturing the ability of (parts of) objects to rotate around one another. <br>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p align="center"><br>
+</p>
+
+<hr size="3" noshade="noshade">
+
+<p><i>Last Modified: April 1, 1997</i> </p>
+
+<p><a href="http://user.engineering.uiowa.edu/%7Edip/LECTURE/Understanding.html"><img src="next.gif" alt="[Go Back]" width="50" height="25"></a> <br>
+</p>
+
+
+</body></html>

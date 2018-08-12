@@ -1,0 +1,242 @@
+
+Procrustes analysis
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by KolbertBot ( talk  | contribs ) at 11:31, 12 December 2017 (Bot: HTTP→HTTPS (v478)) . The present address (URL) is a permanent link to this version.
+Revision as of 11:31, 12 December 2017 by KolbertBot ( talk  | contribs ) (Bot: HTTP→HTTPS (v478))
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+Procrustes superimposition. The figure shows the three transformation steps of an ordinary Procrustes fit for two configurations of landmarks. (a) Scaling of both configurations to the same size; (b) Transposition to the same position of the center of gravity; (c) Rotation to the orientation that provides the minimum sum of squared distances between corresponding landmarks.
+
+In statistics , Procrustes analysis is a form of statistical shape analysis used to analyse the distribution of a set of shapes . The name Procrustes ( Greek : Προκρούστης ) refers to a bandit from Greek mythology who made his victims fit his bed either by stretching their limbs or cutting them off.
+
+To compare the shapes of two or more objects, the objects must be first optimally "superimposed". Procrustes superimposition (PS) is performed by optimally translating , rotating and uniformly scaling the objects. In other words, both the placement in space and the size of the objects are freely adjusted. The aim is to obtain a similar placement and size, by minimizing a measure of shape difference called the Procrustes distance between the objects. This is sometimes called full , as opposed to partial PS, in which scaling is not performed (i.e. the size of the objects is preserved). Notice that, after full PS, the objects will exactly coincide if their shape is identical. For instance, with full PS two spheres with different radii will always coincide, because they have exactly the same shape. Conversely, with partial PS they will never coincide. This implies that, by the strict definition of the term shape in geometry , shape analysis should be performed using full PS. A statistical analysis based on partial PS is not a pure shape analysis as it is not only sensitive to shape differences, but also to size differences. Both full and partial PS will never manage to perfectly match two objects with different shape, such as a cube and a sphere, or a right hand and a left hand.
+
+In some cases, both full and partial PS may also include reflection . Reflection allows, for instance, a successful (possibly perfect) superimposition of a right hand to a left hand. Thus, partial PS with reflection enabled preserves size but allows translation, rotation and reflection, while full PS with reflection enabled allows translation, rotation, scaling and reflection.
+
+In mathematics:
+
+    an orthogonal Procrustes problem is a method which can be used to find out the optimal rotation and/or reflection (i.e., the optimal orthogonal linear transformation) for the PS of an object with respect to another.
+    a constrained orthogonal Procrustes problem , subject to det ( R ) = 1 (where R is a rotation matrix), is a method which can be used to determine the optimal rotation for the PS of an object with respect to another (reflection is not allowed). In some contexts, this method is called the Kabsch algorithm .
+
+Optimal translation and scaling are determined with much simpler operations (see below).
+
+When a shape is compared to another, or a set of shapes is compared to an arbitrarily selected reference shape, Procrustes analysis is sometimes further qualified as classical or ordinary , as opposed to Generalized Procrustes analysis (GPA), which compares three or more shapes to an optimally determined "mean shape".
+Contents
+
+    1 Ordinary Procrustes analysis
+        1.1 Translation
+        1.2 Uniform scaling
+        1.3 Rotation
+        1.4 Shape comparison
+        1.5 Superimposing a set of shapes
+    2 Generalized Procrustes analysis (GPA)
+    3 Variations
+    4 Examples
+    5 See also
+    6 References
+    7 External links
+
+Ordinary Procrustes analysis [ edit ]
+
+Here we just consider objects made up from a finite number k of points in n dimensions. Often, these points are selected on the continuous surface of complex objects, such as a human bone, and in this case they are called landmark points .
+
+The shape of an object can be considered as a member of an equivalence class formed by removing the translational , rotational and uniform scaling components.
+Translation [ edit ]
+
+For example, translational components can be removed from an object by translating the object so that the mean of all the object's points (i.e. its centroid ) lies at the origin.
+
+Mathematically: take k {\displaystyle k} k points in two dimensions, say
+
+    ( ( x 1 , y 1 ) , ( x 2 , y 2 ) , … , ( x k , y k ) ) {\displaystyle ((x_{1},y_{1}),(x_{2},y_{2}),\dots ,(x_{k},y_{k}))\,} ((x_{1},y_{1}),(x_{2},y_{2}),\dots ,(x_{k},y_{k}))\, .
+
+The mean of these points is ( x ¯ , y ¯ ) {\displaystyle ({\bar {x}},{\bar {y}})} ({\bar {x}},{\bar {y}}) where
+
+    x ¯ = x 1 + x 2 + ⋯ + x k k , y ¯ = y 1 + y 2 + ⋯ + y k k . {\displaystyle {\bar {x}}={\frac {x_{1}+x_{2}+\cdots +x_{k}}{k}},\quad {\bar {y}}={\frac {y_{1}+y_{2}+\cdots +y_{k}}{k}}.} {\bar {x}}={\frac {x_{1}+x_{2}+\cdots +x_{k}}{k}},\quad {\bar {y}}={\frac {y_{1}+y_{2}+\cdots +y_{k}}{k}}. 
+
+Now translate these points so that their mean is translated to the origin ( x , y ) → ( x − x ¯ , y − y ¯ ) {\displaystyle (x,y)\to (x-{\bar {x}},y-{\bar {y}})} (x,y)\to (x-{\bar {x}},y-{\bar {y}}) , giving the point ( x 1 − x ¯ , y 1 − y ¯ ) , … {\displaystyle (x_{1}-{\bar {x}},y_{1}-{\bar {y}}),\dots } (x_{1}-{\bar {x}},y_{1}-{\bar {y}}),\dots .
+Uniform scaling [ edit ]
+
+Likewise, the scale component can be removed by scaling the object so that the root mean square distance ( RMSD ) from the points to the translated origin is 1. This RMSD is a statistical measure of the object's scale or size :
+
+    s = ( x 1 − x ¯ ) 2 + ( y 1 − y ¯ ) 2 + ⋯ k {\displaystyle s={\sqrt {{(x_{1}-{\bar {x}})^{2}+(y_{1}-{\bar {y}})^{2}+\cdots } \over k}}} s={\sqrt {{(x_{1}-{\bar {x}})^{2}+(y_{1}-{\bar {y}})^{2}+\cdots } \over k}} 
+
+The scale becomes 1 when the point coordinates are divided by the object's initial scale:
+
+    ( ( x 1 − x ¯ ) / s , ( y 1 − y ¯ ) / s ) {\displaystyle ((x_{1}-{\bar {x}})/s,(y_{1}-{\bar {y}})/s)} ((x_{1}-{\bar {x}})/s,(y_{1}-{\bar {y}})/s) .
+
+Notice that other methods for defining and removing the scale are sometimes used in the literature.
+Rotation [ edit ]
+
+Removing the rotational component is more complex, as a standard reference orientation is not always available. Consider two objects composed of the same number of points with scale and translation removed. Let the points of these be ( ( x 1 , y 1 ) , … ) {\displaystyle ((x_{1},y_{1}),\ldots )} ((x_{1},y_{1}),\ldots ) , ( ( w 1 , z 1 ) , … ) {\displaystyle ((w_{1},z_{1}),\ldots )} ((w_{1},z_{1}),\ldots ) . One of these objects can be used to provide a reference orientation. Fix the reference object and rotate the other around the origin, until you find an optimum angle of rotation θ {\displaystyle \theta \,\!} \theta\,\! such that the sum of the squared distances ( SSD ) between the corresponding points is minimised (an example of least squares technique).
+
+A rotation by angle θ {\displaystyle \theta \,\!} \theta\,\! gives
+
+    ( u 1 , v 1 ) = ( cos ⁡ θ w 1 − sin ⁡ θ z 1 , sin ⁡ θ w 1 + cos ⁡ θ z 1 ) {\displaystyle (u_{1},v_{1})=(\cos \theta \,w_{1}-\sin \theta \,z_{1},\,\sin \theta \,w_{1}+\cos \theta \,z_{1})\,\!} (u_{1},v_{1})=(\cos \theta \,w_{1}-\sin \theta \,z_{1},\,\sin \theta \,w_{1}+\cos \theta \,z_{1})\,\! .
+
+where (u,v) are the coordinates of a rotated point. Taking the derivative of ( u 1 − x 1 ) 2 + ( v 1 − y 1 ) 2 + ⋯ {\displaystyle (u_{1}-x_{1})^{2}+(v_{1}-y_{1})^{2}+\cdots } (u_{1}-x_{1})^{2}+(v_{1}-y_{1})^{2}+\cdots with respect to θ {\displaystyle \theta } \theta and solving for θ {\displaystyle \theta } \theta when the derivative is zero gives
+
+    θ = tan − 1 ⁡ ( ∑ i = 1 k ( w i y i − z i x i ) ∑ i = 1 k ( w i x i + z i y i ) ) . {\displaystyle \theta =\tan ^{-1}\left({\frac {\sum _{i=1}^{k}(w_{i}y_{i}-z_{i}x_{i})}{\sum _{i=1}^{k}(w_{i}x_{i}+z_{i}y_{i})}}\right).} \theta =\tan ^{{-1}}\left({\frac {\sum _{{i=1}}^{k}(w_{i}y_{i}-z_{i}x_{i})}{\sum _{{i=1}}^{k}(w_{i}x_{i}+z_{i}y_{i})}}\right). 
+
+When the object is three-dimensional, the optimum rotation is represented by a 3-by-3 rotation matrix R , rather than a simple angle, and in this case singular value decomposition can be used to find the optimum value for R (see the solution for the constrained orthogonal Procrustes problem , subject to det ( R ) = 1).
+Shape comparison [ edit ]
+
+The difference between the shape of two objects can be evaluated only after "superimposing" the two objects by translating, scaling and optimally rotating them as explained above. The square root of the above mentioned SSD between corresponding points can be used as a statistical measure of this difference in shape:
+
+    d = ( u 1 − x 1 ) 2 + ( v 1 − y 1 ) 2 + ⋯ . {\displaystyle d={\sqrt {(u_{1}-x_{1})^{2}+(v_{1}-y_{1})^{2}+\cdots }}.} d={\sqrt {(u_{1}-x_{1})^{2}+(v_{1}-y_{1})^{2}+\cdots }}. 
+
+This measure is often called Procrustes distance . Notice that other more complex definitions of Procrustes distance, and other measures of "shape difference" are sometimes used in the literature.
+Superimposing a set of shapes [ edit ]
+
+We showed how to superimpose two shapes. The same method can be applied to superimpose a set of three or more shapes, as far as the above mentioned reference orientation is used for all of them. However, Generalized Procrustes analysis provides a better method to achieve this goal.
+Generalized Procrustes analysis (GPA) [ edit ]
+Main article: Generalized Procrustes analysis
+
+GPA applies the Procrustes analysis method to optimally superimpose a set of objects, instead of superimposing them to an arbitrarily selected shape.
+
+Generalized and ordinary Procrustes analysis differ only in their determination of a reference orientation for the objects, which in the former technique is optimally determined, and in the latter one is arbitrarily selected. Scaling and translation are performed the same way by both techniques. When only two shapes are compared, GPA is equivalent to ordinary Procrustes analysis.
+
+The algorithm outline is the following:
+
+    arbitrarily choose a reference shape (typically by selecting it among the available instances)
+    superimpose all instances to current reference shape
+    compute the mean shape of the current set of superimposed shapes
+    if the Procrustes distance between mean and reference shape is above a threshold, set reference to mean shape and continue to step 2.
+
+Variations [ edit ]
+
+There are many ways of representing the shape of an object. The shape of an object can be considered as a member of an equivalence class formed by taking the set of all sets of k points in n dimensions, that is R kn and factoring out the set of all translations, rotations and scalings. A particular representation of shape is found by choosing a particular representation of the equivalence class. This will give a manifold of dimension kn -4. Procrustes is one method of doing this with particular statistical justification.
+
+Bookstein obtains a representation of shape by fixing the position of two points called the bases line. One point will be fixed at the origin and the other at (1,0) the remaining points form the Bookstein coordinates.
+
+It is also common to consider shape and scale that is with translational and rotational components removed.
+Examples [ edit ]
+
+Shape analysis is used in biological data to identify the variations of anatomical features characterised by landmark data, for example in considering the shape of jaw bones. [1]
+
+One study by David George Kendall examined the triangles formed by standing stones to deduce if these were often arranged in straight lines. The shape of a triangle can be represented as a point on the sphere, and the distribution of all shapes can be thought of a distribution over the sphere. The sample distribution from the standing stones was compared with the theoretical distribution to show that the occurrence of straight lines was no more than average. [2]
+See also [ edit ]
+
+    Active shape model
+    Alignments of random points
+    Biometrics
+    Generalized Procrustes analysis
+    Image registration
+    Kent distribution
+    Morphometrics
+    Orthogonal Procrustes problem
+    Procrustes
+
+References [ edit ]
+
+    Jump up ^ "Exploring Space Shape" by Nancy Marie Brown, Research/Penn State, Vol. 15, no. 1, March 1994
+    Jump up ^ "A Survey of the Statistical Theory of Shape" , by David G. Kendall, Statistical Science, Vol. 4, No. 2 (May, 1989), pp. 87–99
+
+    F.L. Bookstein, Morphometric tools for landmark data , Cambridge University Press, (1991).
+    J.C. Gower, G.B. Dijksterhuis, Procrustes Problems , Oxford University Press (2004).
+    I.L.Dryden, K.V. Mardia, Statistical Shape Analysis , Wiley, Chichester, (1998).
+
+External links [ edit ]
+	Wikimedia Commons has media related to Procrustes analysis .
+
+    Extensions to continuum of points and distributions Procrustes Methods, Shape Recognition, Similarity and Docking, by Michel Petitjean.
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Procrustes_analysis&oldid=815039743 "
+Categories :
+
+    Multivariate statistics
+    Euclidean symmetries
+    Biometrics
+    Greek mythology studies
+    Greek words and phrases
+
+Hidden categories:
+
+    Articles containing Greek-language text
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+In other projects
+
+    Wikimedia Commons
+
+Languages
+
+    Español
+    فارسی
+    Français
+
+Edit links
+
+    This page was last edited on 12 December 2017, at 11:31  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+    Enable previews
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

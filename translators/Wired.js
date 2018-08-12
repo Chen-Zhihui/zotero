@@ -9,7 +9,7 @@
 	"priority": 100,
 	"inRepository": true,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2018-07-08 15:30:00"
+	"lastUpdated": "2018-08-11 21:25:00"
 }
 
 /*
@@ -248,7 +248,7 @@ var testCases = [
 				"abstractNote": "A high-performance, solar-powered phone charger designed by artist Olafur Eliasson and engineer Frederik Ottesen has raised more than €40,000 (£29,100) on Kickstarter",
 				"libraryCatalog": "www.wired.co.uk",
 				"publicationTitle": "Wired UK",
-				"url": "http://www.wired.co.uk/article/olafur-eliasson-little-sun-charge",
+				"url": "https://www.wired.co.uk/article/olafur-eliasson-little-sun-charge",
 				"attachments": [
 					{
 						"title": "Snapshot"

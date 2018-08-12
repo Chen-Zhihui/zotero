@@ -1,18 +1,18 @@
 {
 	"translatorID": "25f4c5e2-d790-4daa-a667-797619c7e2f2",
+	"translatorType": 2,
 	"label": "CSV",
 	"creator": "Philipp Zumstein and Aurimas Vinckevicius",
 	"target": "csv",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
+	"inRepository": true,
 	"displayOptions": {
 		"exportCharset": "UTF-8xBOM",
 		"exportNotes": false
 	},
-	"inRepository": true,
-	"translatorType": 2,
-	"lastUpdated": "2016-06-21 08:45:20"
+	"lastUpdated": "2018-08-10 06:45:00"
 }
 
 /*
@@ -206,8 +206,8 @@ function getValue(item, field) {
 			}
 		break;
 		default:
-			if (item[field] || item.uniqueFields[field]) {
-				value += escapeValue('' + (item[field] || item.uniqueFields[field]));
+			if (item[field] || (item.uniqueFields && item.uniqueFields[field])) {
+				value += escapeValue('' + (item[field] || (item.uniqueFields && item.uniqueFields[field])));
 			}
 	}
 	return value + fieldWrapperCharacter;

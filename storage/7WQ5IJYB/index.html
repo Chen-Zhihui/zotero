@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html class="client-js" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Sparse dictionary learning - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Sparse_dictionary_learning","wgTitle":"Sparse dictionary learning","wgCurRevisionId":841576132,"wgRevisionId":841576132,"wgArticleId":48813654,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Machine learning","Unsupervised learning"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Sparse_dictionary_learning","wgRelevantArticleId":48813654,"wgRequestId":"W2t7TQpAMEkAAKH9VGgAAABI","wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgWikibaseItemId":"Q25304494","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":true,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.cite.styles":"ready","ext.math.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.toc.styles":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.cite.a11y","ext.math.scripts","site","mediawiki.page.startup","mediawiki.user","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","mmv.head","mmv.bootstrap.autostart","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="load_002.css">
+<script async="" src="load_002.php"></script>
+<style>
+.cite-accessibility-label{ top:-99999px;clip:rect(1px 1px 1px 1px); clip:rect(1px,1px,1px,1px); position:absolute !important;padding:0 !important;border:0 !important;height:1px !important;width:1px !important; overflow:hidden}
+@media screen {
+	.tochidden,.toctoggle{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.toctoggle{font-size:94%}}
+@media print {
+	.toc.tochidden,.toctoggle{display:none}}
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:0;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:#fff;cursor:pointer;border:1px solid #a2a9b1;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:#fff;cursor:pointer;border:1px solid #a2a9b1;padding:0;margin:0}.suggestions-result{color:#000;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#2a4b8d;color:#fff}.suggestions-special .special-label{color:#72777d;text-align:left}.suggestions-special .special-query{color:#000;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:#c8ccd1}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:#fff}.highlight{font-weight:bold}
+.wp-teahouse-question-form{position:absolute;margin-left:auto;margin-right:auto;background-color:#f4f3f0;border:1px solid #a7d7f9;padding:1em}#wp-th-question-ask{float:right}.wp-teahouse-ask a.external{background-image:none !important}.wp-teahouse-respond-form{position:absolute;margin-left:auto;margin-right:auto;background-color:#f4f3f0;border:1px solid #a7d7f9;padding:1em}.wp-th-respond{float:right}.wp-teahouse-respond a.external{background-image:none !important}
+.referencetooltip{position:absolute;list-style:none;list-style-image:none;opacity:0;font-size:12px;margin:0;z-index:5;padding:0}.referencetooltip > li{background:#fff;border:1px solid #bbb;-webkit-box-shadow:0 0 10px rgba(0,0,0,0.2);-moz-box-shadow:0 0 10px rgba(0,0,0,0.2);box-shadow:0 0 10px rgba(0,0,0,0.2);margin:0;padding:8px 10px;line-height:18px;max-width:300px}.referencetooltip > li + li{box-sizing:border-box;margin-left:7px;margin-top:-1px;border:0;padding:0;height:3px;width:0;background-color:transparent;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;border-top:12px #bbb solid;border-right:7px transparent solid;border-left:7px transparent solid}.referencetooltip > li + li::after{z-index:111;content:'';border:6px solid transparent;border-bottom:0;border-top:8px solid #fff;height:0;width:0;display:block;margin-left:-6px;margin-top:-12px}.RTflipped{padding-top:13px}.referencetooltip.RTflipped > li + li{position:absolute;top:0;border-top:0;border-bottom:12px #bbb solid}.referencetooltip.RTflipped > li + li::after{border-top:0;border-bottom:8px #fff solid;position:absolute;margin-top:7px}.RTsettings{ background-image:linear-gradient(transparent,transparent),url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%0D%0A%20%20%20%20%3Cpath%20fill%3D%22%23555%22%20d%3D%22M20%2014.5v-2.9l-1.8-.3c-.1-.4-.3-.8-.6-1.4l1.1-1.5-2.1-2.1-1.5%201.1c-.5-.3-1-.5-1.4-.6L13.5%205h-2.9l-.3%201.8c-.5.1-.9.3-1.4.6L7.4%206.3%205.3%208.4l1%201.5c-.3.5-.4.9-.6%201.4l-1.7.2v2.9l1.8.3c.1.5.3.9.6%201.4l-1%201.5%202.1%202.1%201.5-1c.4.2.9.4%201.4.6l.3%201.8h3l.3-1.8c.5-.1.9-.3%201.4-.6l1.5%201.1%202.1-2.1-1.1-1.5c.3-.5.5-1%20.6-1.4l1.5-.3zM12%2016c-1.7%200-3-1.3-3-3s1.3-3%203-3%203%201.3%203%203-1.3%203-3%203z%22%2F%3E%0D%0A%3C%2Fsvg%3E);  display:block;float:right;cursor:pointer;margin:0;margin-top:-4px;height:24px;width:24px;border-radius:2px;box-sizing:border-box;background-position:center center;background-repeat:no-repeat;background-size:24px 24px;margin-left:8px}.RTsettings:hover{background-color:#eee}.RTTarget{background-color:#def}
+@-webkit-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-webkit-transform:translateY(-20px)}100%{opacity:1;-webkit-transform:translateY(0)}}@-moz-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-moz-transform:translateY(-20px)}100%{opacity:1;-moz-transform:translateY(0)}}@-o-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-o-transform:translateY(-20px)}100%{opacity:1;-o-transform:translateY(0)}}@keyframes centralAuthPPersonalAnimation{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}.centralAuthPPersonalAnimation{-webkit-animation-duration:1s;-moz-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:centralAuthPPersonalAnimation;-moz-animation-name:centralAuthPPersonalAnimation;-o-animation-name:centralAuthPPersonalAnimation;animation-name:centralAuthPPersonalAnimation}
+.mw-ui-button{font-family:inherit;font-size:1em;display:inline-block;min-width:4em;max-width:28.75em;padding:0.546875em 1em;line-height:1.286;margin:0;border-radius:2px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:none;*display:inline; zoom:1;vertical-align:middle;background-color:#f8f9fa;color:#222222;border:1px solid #a2a9b1;text-align:center;font-weight:bold;cursor:pointer}.mw-ui-button:visited{color:#222222}.mw-ui-button:hover{background-color:#ffffff;color:#444444;border-color:#a2a9b1}.mw-ui-button:focus{background-color:#ffffff;color:#222222;border-color:#3366cc;box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button:active,.mw-ui-button.is-on,.mw-ui-button.mw-ui-checked{background-color:#d9d9d9;color:#000000;border-color:#72777d;box-shadow:none}.mw-ui-button:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button:disabled:hover,.mw-ui-button:disabled:active{background-color:#c8ccd1;color:#fff;box-shadow:none;border-color:#c8ccd1}.mw-ui-button:focus{outline-width:0}.mw-ui-button:focus::-moz-focus-inner{border-color:transparent;padding:0}.mw-ui-button:not(:disabled){-webkit-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;-moz-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms}.mw-ui-button:disabled{text-shadow:none;cursor:default}.mw-ui-button.mw-ui-big{font-size:1.3em}.mw-ui-button.mw-ui-block{display:block;width:100%;margin-left:auto;margin-right:auto}.mw-ui-button.mw-ui-progressive{background-color:#3366cc;color:#fff;border:1px solid #3366cc}.mw-ui-button.mw-ui-progressive:hover{background-color:#447ff5;border-color:#447ff5}.mw-ui-button.mw-ui-progressive:focus{box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-progressive:active,.mw-ui-button.mw-ui-progressive.is-on,.mw-ui-button.mw-ui-progressive.mw-ui-checked{background-color:#2a4b8d;border-color:#2a4b8d;box-shadow:none}.mw-ui-button.mw-ui-progressive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-progressive:disabled:hover,.mw-ui-button.mw-ui-progressive:disabled:active,.mw-ui-button.mw-ui-progressive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-progressive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:hover{background-color:transparent;color:#447ff5}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:active,.mw-ui-button.mw-ui-progressive.mw-ui-quiet.mw-ui-checked{color:#2a4b8d}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:focus{background-color:transparent;color:#3366cc}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-destructive{background-color:#dd3333;color:#fff;border:1px solid #dd3333}.mw-ui-button.mw-ui-destructive:hover{background-color:#ff4242;border-color:#ff4242}.mw-ui-button.mw-ui-destructive:focus{box-shadow:inset 0 0 0 1px #dd3333,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-destructive:active,.mw-ui-button.mw-ui-destructive.is-on,.mw-ui-button.mw-ui-destructive.mw-ui-checked{background-color:#b32424;border-color:#b32424;box-shadow:none}.mw-ui-button.mw-ui-destructive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-destructive:disabled:hover,.mw-ui-button.mw-ui-destructive:disabled:active,.mw-ui-button.mw-ui-destructive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-destructive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:hover{background-color:transparent;color:#ff4242}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:active,.mw-ui-button.mw-ui-destructive.mw-ui-quiet.mw-ui-checked{color:#b32424}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:focus{background-color:transparent;color:#dd3333}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet{background:transparent;border:0;text-shadow:none;color:#222222}.mw-ui-button.mw-ui-quiet:hover{background-color:transparent;color:#444444}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet.mw-ui-checked{color:#000000}.mw-ui-button.mw-ui-quiet:focus{background-color:transparent;color:#222222}.mw-ui-button.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet:hover,.mw-ui-button.mw-ui-quiet:focus{box-shadow:none}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet:disabled{background:transparent}input.mw-ui-button::-moz-focus-inner,button.mw-ui-button::-moz-focus-inner{margin-top:-1px;margin-bottom:-1px}a.mw-ui-button{text-decoration:none}a.mw-ui-button:hover,a.mw-ui-button:focus{text-decoration:none}.mw-ui-button-group > *{min-width:48px;border-radius:0;float:left}.mw-ui-button-group > *:first-child{border-top-left-radius:2px;border-bottom-left-radius:2px}.mw-ui-button-group > *:not(:first-child){border-left:0}.mw-ui-button-group > *:last-child{border-top-right-radius:2px;border-bottom-right-radius:2px}.mw-ui-button-group .is-on .button{cursor:default}
+.mw-ui-icon{position:relative;line-height:1.5em;min-height:1.5em;min-width:1.5em}span.mw-ui-icon{display:inline-block}.mw-ui-icon.mw-ui-icon-element{text-indent:-999px;overflow:hidden;width:3.5em;min-width:3.5em;max-width:3.5em}.mw-ui-icon.mw-ui-icon-element:before{left:0;right:0;position:absolute;margin:0 1em}.mw-ui-icon.mw-ui-icon-element.mw-ui-icon-large{width:4.625em;min-width:4.625em;max-width:4.625em;line-height:4.625em;min-height:4.625em}.mw-ui-icon.mw-ui-icon-element.mw-ui-icon-large:before{min-height:4.625em}.mw-ui-icon.mw-ui-icon-before:before,.mw-ui-icon.mw-ui-icon-element:before{background-position:50% 50%;background-repeat:no-repeat;background-size:100% auto;float:left;display:block;min-height:1.5em;content:''}.mw-ui-icon.mw-ui-icon-before:before{position:relative;width:1.5em;margin-right:1em}.mw-ui-icon.mw-ui-icon-small:before{background-size:66.67% auto}
+.mw-editfont-monospace{font-family:monospace,monospace}.mw-editfont-sans-serif{font-family:sans-serif}.mw-editfont-serif{font-family:serif} .mw-editfont-monospace,.mw-editfont-sans-serif,.mw-editfont-serif{font-size:13px; }.mw-editfont-monospace.oo-ui-textInputWidget,.mw-editfont-sans-serif.oo-ui-textInputWidget,.mw-editfont-serif.oo-ui-textInputWidget{font-size:inherit}.mw-editfont-monospace > .oo-ui-inputWidget-input,.mw-editfont-sans-serif > .oo-ui-inputWidget-input,.mw-editfont-serif > .oo-ui-inputWidget-input{font-size:13px}
+.uls-menu{border-radius:2px; font-size:medium}.uls-search,.uls-language-settings-close-block{border-top-right-radius:2px;border-top-left-radius:2px}.uls-language-list{border-bottom-right-radius:2px;border-bottom-left-radius:2px}.uls-menu.callout:before,.uls-menu.callout:after{border-top:10px solid transparent;border-bottom:10px solid transparent;display:inline-block; top:17px;position:absolute;content:''}.uls-menu.callout.selector-right:before{ border-left:10px solid #c8ccd1; right:-11px}.uls-menu.callout.selector-right:after{ border-left:10px solid #f8f9fa; right:-10px}.uls-menu.callout.selector-left:before{ border-right:10px solid #c8ccd1; left:-11px}.uls-menu.callout.selector-left:after{ border-right:10px solid #f8f9fa; left:-10px}.uls-ui-languages button{margin:5px 15px 5px 0;white-space:nowrap;overflow:hidden}.uls-search-wrapper-wrapper{position:relative;padding-left:40px;margin-top:5px;margin-bottom:5px}.uls-icon-back{background:transparent url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.png?90e9b) no-repeat scroll center center;background-image:-webkit-linear-gradient(transparent,transparent),url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.svg?e226b);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E %3Cpath fill=%22%2354595d%22 d=%22M7 13.1l8.9 8.9c.8-.8.8-2 0-2.8l-6.1-6.1 6-6.1c.8-.8.8-2 0-2.8L7 13.1z%22/%3E %3C/svg%3E");background-size:28px;background-position:center center;height:32px;width:40px;display:block;position:absolute;left:0;border-right:1px solid #c8ccd1;opacity:0.8}.uls-icon-back:hover{opacity:1;cursor:pointer}.uls-menu .uls-no-results-view .uls-no-found-more{background-color:#fff}.uls-menu .uls-no-results-view h3{padding:0 28px;margin:0;color:#54595d;font-size:1em;font-weight:normal}  .skin-vector .uls-menu{border-color:#c8ccd1;-webkit-box-shadow:0 2px 2px 0 rgba(0,0,0,0.25);box-shadow:0 2px 2px 0 rgba(0,0,0,0.25);font-size:0.875em}.skin-vector .uls-search{border-bottom-color:#c8ccd1}.skin-vector .uls-filtersuggestion{color:#72777d}.skin-vector .uls-lcd-region-title{color:#54595d}
+.mw-spinner{background-color:transparent;background-position:center center;background-repeat:no-repeat}.mw-spinner-small{background-image:url(data:image/gif;base64,R0lGODlhFAAUAIQQAAYJBRkbGCYnJTI0MT9APk5QTVhZV2ZoZXR2c4SGg5CSj52fnKyuq7m7uMfJxtPV0v///////////////////////////////////////////////////////////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJCgABACwAAAAAFAAUAAAFc2AgjuNQkCipHCMAiI6TjoWAiG7gNM08CgTca+cbGWyBXEMm6okMJxGBNWLuGo8ngWBY+HgxlIFwm4VnimKKkWgn1Dzwwv0uxpfqfJWZ2p1hV0VXTA9gMCRETXxOOj08jXxfMo+NcHiUgT5nlAFZejqRKCEAIfkECQoADAAsAAAAABQAFAAABXYgI45jcZAouSSjIIjDkI4HwTJBIALvLBIFUY4xAPhoA1ZAcAjIRI2RQlFCkIIMR6PxEC0UiYXDt3WMSdOFz0w+prTb6DHeMNPd9LN7n9WjtGwjdnIzcGeGIn5aI3WMglFbWY14kHKLR4AMkZKEb2ebDF18fUchACH5BAkKAAEALAAAAAAUABQAAAV6YCCO44GQKOkw40CIxZuKi9KIwyAK8hwkCpyOIPCNFglWTjEojAgJkeMmUixIhiABADhIGw3HwycACLyqsI+ATo2NqCmY6puH5WC43QHvjxx8M3KBUnJGgyIPYIGEAVMjaiJ0j3lTjTN5eQGadWqainQpgJJ0b36jPiEAIfkECQoAAQAsAAAAABQAFAAABXVgII7jwpAo+TxjkoiGkY5OwwauSBTz2DSinIHQozUcuISCIIMpRDUfcoRYBAwCwQH6c9xSBAEBgapNUwfy7Fs0/oBFgBwwqL3bcwCvzYeey10qdkV2Uw+BAX9RIkc+RgE/iY1tkZGSlI2Wgz0OU5YBbG2dRSEAIfkECQoACAAsAAAAABQAFAAABXcgIo4j05Ao+TjjsohuOjoNi8RIoshjDb+KBG/mczUUL9EhSevZYKwDgSBE0GoPXmFgqBKfqIMXlR2iro3TMCBgF9BqXpt9MKPGJAeYRAhw81dDAwAAAyIPaTZgTSIChiJxTWlWPmaTk5SWPpiBPHqQcWV2VnskIQAh+QQJCgABACwAAAAAFAAUAAAFemAgjqPjkCj5nGLTiAyTlg3rios8t/bLLDvayeXIjRYsx4tHcjwCi0RCp6w9Z4qEQifcxXbXYNN1Cw7Og0O1vEMTEGKUYmfaGQaEQ7O6WxQEAwUiD0QiLCIEAiMEBCNLAUoBNwcAA3E3ZQIAYoVllI10PSMHCXGGhykhACH5BAkKAAEALAAAAAAUABQAAAV3YCCOo+OQKPmcYtOIZlo2T/sGDSvjrBs4t90vh6MRYbXh6Igc0mAuRzIV1UGtpJhsKpy5grKEOLEAfrvjBKOLUuy0KQTBkMiadwsDYS56RGEkBwQjBQZLMwEAAAEIAoZdPooiBAKQRJKMAgVCWpgBB25sAQUDQiEAIfkECQoAEAAsAAAAABQAFAAABXsgJI6j45Ao+Zxi04hmWjZP+0INK+OsCzm33S+HoxFhteHoiBzSYC5HMhXVQa2kmGwqnLmCsm8O+O2KseadNrVQKBhZsnqRSChEj6iIQEIURm5LIwMBCAIBEAkDB10QAAIQAYgQBnxChyKYiQSMOwKQEJ8jCQuNIgd/OyEAIfkECQoAHwAsAAAAABQAFAAABXzgJ46j45Ao+Zxi04hmWjZP+34NK+Os+zm33S+HoxFhteHoiBzSYC5HMhXVQa2kmGwqnLmCsm8O+O2KsV0u6UDYAbWigwAg2K2iIgMAMPgsDCQMCkssCW0iBQMKA30MCQtdHwNtjCILCV0EfZKbDY9CBAUimiMMaDIIgDshACH5BAkKAB8ALAAAAAAUABQAAAV44CeOo+OQKPmcYtOIZlo2T/t+DSvjrPs5t90vh6MRYbXh6Igc0mAuRzIV1UGtpJhsKhwVAGBA1xUdhMVCMrMr4pIQhx1QK0IQBITdKio6CAQFHwsIWUFHCoEiBgQKCQlDWCkEgY5QXQV5H5WQQgWJmx8PbjsMC0IhACH5BAkKAB8ALAAAAAAUABQAAAV14CeOo+OQKPmcYtO0bwo/cC3b7pffotOcrsevRPsMBKMh8eNrFAcBwEBxczlRUMLNdEvwUgWAGPC1/gZjMs9c/I7aqMRh62KJEoZB4bay3gkEcw4LJD5JMQtzIgsKfj52XVQ7OzcKVDoxQjEyCoSYb3A8XDchACH5BAEKAB8ALAAAAAAUABQAAAV64CeOo+OQKJkcY9OIZjoSAPu5Ii6LgJC/jtdONKjdGo/GCfYQEQYjAYHkaAaVosJgUFjsXDHS07ALpxTDFOK5TbvAh217+MamSU0Zg1FWLkUMCgloMg9XSwwJCV6GVEI3Sw5eMEg4QX9fJzo6X0I6SZgoYZwPeXdmKSEAOw==);background-image:url(/w/resources/src/jquery.spinner/images/spinner.gif?ca65b)!ie;height:20px;width:20px; min-width:20px}.mw-spinner-large{background-image:url(data:image/gif;base64,R0lGODlhIAAgAOMAAP///wAAAMbGxoSEhLa2tpqamjY2NlZWVtjY2OTk5Ly8vB4eHgQEBP///////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAPACwAAAAAIAAgAAAE5/DJSWlhperN52JLhSSdRgwVo1ICQZRUsiwHpTJT4iowNS8vyW2icCF6k8HMMBk+EDskxTBDPZwuAkkqIfxIQyhBQBFvHwSDITM5VDW6XNE4KagNh6Bgwe60smQUB3d4Rz1ZBApnFASDd0hihh12BkE9kjAJVlycXIg7CQIFA6SlnJ87paqbSKiKoqusnbMdmDC2tXQlkUhziYtyWTxIfy6BE8WJt5YJvpJivxNaGmLHT0VnOgSYf0dZXS7APdpB309RnHOG5g/qXGLDaC457D1zZ/V/nmOM82XiHRLYKhKP1oZmADdEAAAh+QQFCgAPACwAAAAAGAAXAAAEcvDJSesiNetplqlDsYnUYlIGw2jGV55SoS5sq0wmLS3qoBWtAw42mG0ehxYp90CoGKRNy8U8qFzNweCGwlJkgolCq0VIEAbMkUIghxLrDcLti2/Gg7D9qN774wkKBIOEfw+ChIV/gYmDho+QkZKTR3p7EQAh+QQFCgAPACwBAAAAHQAOAAAEcvDJSScxNev9jjkZwU2IUhkodSzLKA2DOKGYRLD1CA/InEoGlkui2PlyuKGkADM9aI8EayGbJDYI4zM1YIEmAwajkCAoehNmTNNaLsQMHmGuuEYHgpHAAGfUBHNzeUp9VBQJCoFOLmFxWHNoQweRWEocEQAh+QQFCgAPACwHAAAAGQARAAAEavDJ+cQQNOtdRsnf9iRINpyZYYgEgU3nQKnr1hIJjEqHGmqIlkInexRUB5FE0So9YhKaUpK4SaAPlWaxIFAETQ3B4BxzF2Kn8nBeJKebdm3SgksKXDt8kNP7/xoMgoMLP36DiAyAD4kMhREAIfkEBQoADwAsDgAAABIAGAAABGUQFfSqvZiUghXF1cZZxTCA4WYh5omKVqugD/woLV2rT/u9KoJpFDIYaIJBwnIwGogoivOoq0wPs6r1qe16v5WFeEzVjc+LKnphIIC9g193wGC4uvX6Aoo05BllVQULeXdadAxuEQAh+QQFCgAPACwOAAAAEgAeAAAEgDCp9Kq9WBGFBb5ECBbFV4XERaYmahGk14qPQJbm4z53foq2AquiGAwQJsQQYTRyfIlCc4DzTY8+i8CZxQy74KxhTD58P+S0Qaw+hN8WyruwWMDrdcM5ecAv3CYDDDIEBngmBwwMaxeGJgmKDFVdggx2bwuKA28EkXAGinJhVCYRACH5BAUKAA8ALA8AAQARAB8AAAR88Mn5UKIYC0KyT5ziZQqHjBQSohRHXGzFCSkHU/eTlCa7uTSUi6DIeVSEU0yiXDo9g6i0EIRKr6hrlPrsOgkGQ8EZDh+eZcOosKAcymPKYLE4TwphCWMvoS86HnsME3RqgXwSBnQjghR+h4MTB4sZjRiAGAsMbU4FDHFLEQAh+QQFCgAPACwIAA4AGAASAAAEbPDJSesjOKtk+8yg4nkgto1oihIqKgyD2FpwjcxUUtRDMROG2wPBkz0EjEHHYKgoYMKHgcE4PBZYCbM5KlAZHOxCUmBaPQuq8pqVHJg+GnUsEVO2nTQjzqZPmB1UXHVtE3wVOxUGC4M4H34qEQAh+QQFCgAPACwCABIAHQAOAAAEePDJSat96FJ0tEUEkV0DwwwepYSEklDEYpopJbCEIBkzY+geweD1SKxCiJJpUZAgmBbCYNCcIFaJggk1OSwWKINYMh2MLMRJ7LsbPxTl2sTAbhsmhalC/vje7VZxNXQLBHNuEnlcKV8dh38TCmcehhUHBo58cpA1EQAh+QQFCgAPACwAAA8AGQARAAAEZ7AsRuu7OOtbO9tgJnlfaJ7omQwpuixFCxrvK2dHvRwoQmw1w+8i3PgIggzBpjEYLoPohUBNoJzPR5T1OCpOB2dMK70oqIhQwcmDlh8J6nCDzWwzAmrIqblnEFZqGgUDYzcaAgNJGxEAIfkEBQoADwAsAQAIABEAGAAABFyQMDaevfiOyVbJ4GNwjCGEWLGQaLZRbYZUcW3feK7vaGEYNsXh96sRgYiW73e4JAYn0O9zKQwGhAdhi5pdLdts6DpQgLkgBfkSHl+TZ7ELi2mDEHKLgmC+JRQJEQAh+QQFCgAPACwAAAIADgAdAAAEcvDJ+cqgeDJmMt4M4U3DtozTsl1oASJpRxnbkS6LIT4Cw0oHHO4A8xAMwhPqgSssH4nnknAwWK+Zq1ZGoW650vAOpRgMBCOEee2xrAtRTNlcQEsI8Yd6oKAICARFHgmAYx4KgIIZCIB9ZIB5RgR2KAmKEQA7);background-image:url(/w/resources/src/jquery.spinner/images/spinner-large.gif?57f34)!ie;height:32px;width:32px; min-width:32px}.mw-spinner-block{display:block; width:100%}.mw-spinner-inline{display:inline-block;vertical-align:middle}
+@media print{#centralNotice{display:none}}.cn-closeButton{display:inline-block;zoom:1;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAElBMVEUAAAAQEBDPz88AAABAQEDv7+9oe1vvAAAABnRSTlMA3rLe3rJS22KzAAAARElEQVQI12PAAUIUQCSTK5BwFgIxFU1AhKECUFAYKAAioXwwBeZChMGCEGGQIFQYJohgIhQgtCEMQ7ECYTHCOciOxA4AADgJTXIb9s8AAAAASUVORK5CYII=) no-repeat;background:url(/w/extensions/CentralNotice/resources/subscribing/close.png?8e3d8) no-repeat!ie;width:20px;height:20px;text-indent:20px;white-space:nowrap;overflow:hidden}
+.mw-ui-icon-popups-settings:before{background-image:url(/w/load.php?modules=ext.popups.images&image=popups-settings&format=rasterized&lang=en&skin=vector&version=1t0nopp);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg width=%2220px%22 height=%2220px%22 viewbox=%220 0 20 20%22 xmlns=%22http://www.w3.org/2000/svg%22%3E %3Cg fill=%22%2354595D%22%3E %3Cpath d=%22M10.112 4.554a5.334 5.334 0 1 0 0 10.668 5.334 5.334 0 0 0 0-10.668zm0 7.823a2.49 2.49 0 1 1 0-4.978 2.49 2.49 0 0 1 0 4.978z%22/%3E %3Cpath d=%22M11.4 5.303L11.05 3h-2.1L8.6 5.303a4.9 4.9 0 0 1 2.8 0zm-2.8 9.394L8.95 17h2.1l.35-2.303a4.9 4.9 0 0 1-2.8 0zm5.712-7.028l1.4-1.876L14.2 4.309l-1.876 1.4a4.9 4.9 0 0 1 1.981 1.981l.007-.021zm-8.624 4.662L4.309 14.2 5.8 15.691l1.876-1.4a4.9 4.9 0 0 1-1.981-1.981l-.007.021zm9.009-.931L17 11.05v-2.1l-2.303-.35a4.9 4.9 0 0 1 0 2.8zM5.303 8.6L3 8.95v2.1l2.303.35a4.9 4.9 0 0 1 0-2.8zm7.028 5.712l1.876 1.4 1.484-1.512-1.4-1.876a4.9 4.9 0 0 1-1.981 1.981l.021.007zM7.669 5.688L5.8 4.309 4.309 5.8l1.4 1.876a4.9 4.9 0 0 1 1.96-1.988z%22/%3E %3C/g%3E %3C/svg%3E")}.mw-ui-icon-popups-close:before{background-image:url(/w/load.php?modules=ext.popups.images&image=popups-close&format=rasterized&lang=en&skin=vector&version=1t0nopp);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Cpath d=%22M3.636 2.222l14.142 14.142-1.414 1.414L2.222 3.636z%22/%3E %3Cpath d=%22M17.778 3.636L3.636 17.778l-1.414-1.414L16.364 2.222z%22/%3E %3C/svg%3E")}.mw-ui-icon-preview-generic:before{background-image:url(/w/load.php?modules=ext.popups.images&image=preview-generic&format=rasterized&lang=en&skin=vector&version=1t0nopp);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg width=%2237%22 height=%2227%22 xmlns=%22http://www.w3.org/2000/svg%22%3E %3Cg id=%22Page-1%22 fill=%22none%22 fill-rule=%22evenodd%22%3E %3Cg id=%22sad-face%22 fill=%22%23C8CCD1%22%3E %3Cpath d=%22M5.475.7v20.075L0 26.25h31.025c3.102 0 5.475-2.372 5.475-5.475V.7H5.475zm20.44 4.562c1.277 0 2.19 1.095 2.19 2.19 0 1.096-.913 2.373-2.19 2.373-1.278 0-2.19-1.095-2.19-2.19s1.095-2.373 2.19-2.373zm-9.855 0c1.277 0 2.19 1.095 2.19 2.19 0 1.096-1.095 2.373-2.19 2.373s-2.19-1.095-2.19-2.19.913-2.373 2.19-2.373zm4.928 8.213c-7.153 0-8.415 7.012-8.415 7.012s2.805-1.403 8.415-1.403c5.61 0 8.414 1.403 8.414 1.403S28 13.475 20.988 13.475z%22 id=%22Shape%22/%3E %3C/g%3E %3C/g%3E %3C/svg%3E")}.mw-ui-icon-footer:before{background-image:url(/w/load.php?modules=ext.popups.images&image=footer&format=rasterized&lang=en&skin=vector&version=1t0nopp);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22230%22 height=%22179%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 viewBox=%220 0 230 179%22%3E %3Cdefs%3E %3Crect id=%22a%22 width=%22201%22 height=%2213%22 rx=%222%22/%3E %3Crect id=%22b%22 width=%22201%22 height=%22169%22 y=%2210%22 rx=%222%22/%3E %3Crect id=%22c%22 width=%2230%22 height=%222%22 x=%22135%22 y=%22158%22 rx=%221%22/%3E %3C/defs%3E %3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E %3Cg transform=%22matrix%281 0 0 -1 0 13%29%22%3E %3Cuse fill=%22%23f8f9fa%22 xlink:href=%22%23a%22/%3E %3Crect width=%22199%22 height=%2211%22 x=%221%22 y=%221%22 stroke=%22%23a2a9b1%22 stroke-width=%222%22 rx=%222%22/%3E %3C/g%3E %3Cuse fill=%22%23fff%22 xlink:href=%22%23b%22/%3E %3Crect width=%22199%22 height=%22167%22 x=%221%22 y=%2211%22 stroke=%22%23a2a9b1%22 stroke-width=%222%22 rx=%222%22/%3E %3Cg opacity=%22.4%22 transform=%22translate%2867 35%29%22%3E %3Crect width=%2273%22 height=%222%22 y=%227%22 fill=%22%23c8ccd1%22 rx=%221%22/%3E %3Crect width=%2281%22 height=%222%22 y=%2231%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2232%22 height=%222%22 y=%2285%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2273%22 height=%222%22 x=%2235%22 y=%2285%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2217%22 height=%222%22 y=%2245%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2217%22 height=%222%22 x=%2291%22 y=%2245%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2268%22 height=%222%22 x=%2220%22 y=%2245%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2217%22 height=%222%22 y=%2278%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2237%22 height=%222%22 x=%2272%22 y=%2278%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2249%22 height=%222%22 x=%2220%22 y=%2278%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2224%22 height=%222%22 x=%2284%22 y=%2231%22 fill=%22%2372777d%22 rx=%221%22 transform=%22matrix%28-1 0 0 1 192 0%29%22/%3E %3Crect width=%2281%22 height=%222%22 y=%2266%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2214%22 height=%222%22 x=%2254%22 y=%2224%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2237%22 height=%222%22 x=%2271%22 y=%2224%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2251%22 height=%222%22 y=%2224%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%22108%22 height=%222%22 y=%2259%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%22108%22 height=%222%22 y=%2252%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%22108%22 height=%222%22 y=%2292%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%22108%22 height=%222%22 y=%2238%22 fill=%22%2372777d%22 rx=%221%22/%3E %3Crect width=%2251%22 height=%222%22 fill=%22%2372777d%22 rx=%221%22/%3E %3C/g%3E %3Crect width=%2230%22 height=%222%22 x=%2267%22 y=%22158%22 fill=%22%2372777d%22 opacity=%22.4%22 rx=%221%22/%3E %3Crect width=%2230%22 height=%222%22 x=%2299%22 y=%22158%22 fill=%22%2372777d%22 opacity=%22.4%22 rx=%221%22/%3E %3Cuse fill=%22%2336c%22 xlink:href=%22%23c%22/%3E %3Crect width=%2233%22 height=%225%22 x=%22133.5%22 y=%22156.5%22 stroke=%22%23ffc057%22 stroke-opacity=%22.447%22 stroke-width=%223%22 rx=%222.5%22/%3E %3Ccircle cx=%2234%22 cy=%2249%22 r=%2219%22 fill=%22%23eaecf0%22/%3E %3Cg fill=%22%23a2a9b1%22 transform=%22translate%285 5%29%22%3E %3Ccircle cx=%221.5%22 cy=%221.5%22 r=%221.5%22/%3E %3Ccircle cx=%226%22 cy=%221.5%22 r=%221.5%22/%3E %3Ccircle cx=%2210.5%22 cy=%221.5%22 r=%221.5%22/%3E %3C/g%3E %3Cpath stroke=%22%23ff00af%22 d=%22M174.5 159.5h54.01%22 stroke-linecap=%22square%22/%3E %3C/g%3E %3C/svg%3E")}.mw-ui-icon-preview-disambiguation:before{background-image:url(/w/load.php?modules=ext.popups.images&image=preview-disambiguation&format=rasterized&lang=en&skin=vector&version=1t0nopp);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%222 2 20 20%22%3E %3Cpath fill=%22%23C8CCD1%22 d=%22M11 12h4V7h-4v5zm-5 2h9v-1H6v1zm0 2h9v-1H6v1zm0 2h9v-1H6v1zm4-9H6v1h4V9zm0 2H6v1h4v-1zm0-4H6v1h4V7zM4 5h13v16H7c-1.7 0-3-1.3-3-3V5z%22/%3E %3Cpath fill-rule=%22evenodd%22 fill=%22%23C8CCD1%22 d=%22M18 4v14h2V2H7v2%22/%3E %3C/svg%3E")}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load.css">
+<link rel="stylesheet" href="load_003.css">
+<meta name="generator" content="MediaWiki 1.32.0-wmf.15">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-crossorigin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Kernel_Machine.svg/1200px-Kernel_Machine.svg.png">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit">
+<link rel="edit" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit">
+<link rel="apple-touch-icon" href="https://en.wikipedia.org/static/apple-touch/wikipedia.png">
+<link rel="shortcut icon" href="https://en.wikipedia.org/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikipedia.org/w/api.php?action=rsd">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="https://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Sparse_dictionary_learning">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+<script src="load.php"></script><script src="//login.wikimedia.org/wiki/Special:CentralAutoLogin/checkLoggedIn?type=script&amp;wikiid=enwiki&amp;proto=https"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Sparse_dictionary_learning rootpage-Sparse_dictionary_learning skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><div id="centralNotice"></div><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">Sparse dictionary learning</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"><div class="mw-revision"><div id="mw-revision-info-current"><table id="revision-info-current" class="plainlinks fmbox fmbox-system" role="presentation"><tbody><tr><td class="mbox-text"><b>This is the <a href="https://en.wikipedia.org/wiki/Help:Page_history" title="Help:Page history">current revision</a> of this page, as edited by <span id="mw-revision-name"><a href="https://en.wikipedia.org/wiki/User:Nemo_bis" class="mw-userlink" title="User:Nemo bis"><bdi>Nemo bis</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:Nemo_bis" class="mw-usertoollinks-talk" title="User talk:Nemo bis">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/Nemo_bis" class="mw-usertoollinks-contribs" title="Special:Contributions/Nemo bis">contribs</a>)</span></span> at <span id="mw-revision-date">17:43, 16 May 2018</span><span id="mw-revision-summary"> <span class="comment">(Added free to read link in citations with <a href="https://en.wikipedia.org/wiki/Wikipedia:OABOT" title="Wikipedia:OABOT">OAbot</a> #oabot)</span></span>. The present address (URL) is a <a href="https://en.wikipedia.org/wiki/Help:Permanent_link" title="Help:Permanent link">permanent link</a> to this version.</b></td></tr></tbody></table><div id="revision-info-current-plain" style="display: none;">Revision as of 17:43, 16 May 2018 by <a href="https://en.wikipedia.org/wiki/User:Nemo_bis" class="mw-userlink" title="User:Nemo bis"><bdi>Nemo bis</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/wiki/User_talk:Nemo_bis" class="mw-usertoollinks-talk" title="User talk:Nemo bis">talk</a>&nbsp;| <a href="https://en.wikipedia.org/wiki/Special:Contributions/Nemo_bis" class="mw-usertoollinks-contribs" title="Special:Contributions/Nemo bis">contribs</a>)</span> <span class="comment">(Added free to read link in citations with <a href="https://en.wikipedia.org/wiki/Wikipedia:OABOT" title="Wikipedia:OABOT">OAbot</a> #oabot)</span></div>
+</div><div id="mw-revision-nav">(<a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;diff=prev&amp;oldid=841576132" title="Sparse dictionary learning">diff</a>) <a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;direction=prev&amp;oldid=841576132" title="Sparse dictionary learning">← Previous revision</a>&nbsp;| Latest revision (diff)&nbsp;| Newer revision → (diff)</div></div></div>
+				<div id="jump-to-nav"></div>				<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+				<a class="mw-jump-link" href="#p-search">Jump to search</a>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="mw-parser-output"><table class="vertical-navbox nowraplinks" style="float:right;clear:right;width:22.0em;margin:0 0 1.0em 1.0em;background:#f9f9f9;border:1px solid #aaa;padding:0.2em;border-spacing:0.4em 0;text-align:center;line-height:1.4em;font-size:88%"><tbody><tr><th style="padding:0.2em 0.4em 0.2em;font-size:145%;line-height:1.2em"><a href="https://en.wikipedia.org/wiki/Machine_learning" title="Machine learning">Machine learning</a> and<br><a href="https://en.wikipedia.org/wiki/Data_mining" title="Data mining">data mining</a></th></tr><tr><td style="padding:0.2em 0 0.4em;padding:0.25em 0.25em 0.75em;"><a href="https://en.wikipedia.org/wiki/File:Kernel_Machine.svg" class="image"><img alt="Kernel Machine.svg" src="220px-Kernel_Machine.png" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Kernel_Machine.svg/330px-Kernel_Machine.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Kernel_Machine.svg/440px-Kernel_Machine.svg.png 2x" data-file-width="512" data-file-height="233" width="220" height="100"></a></td></tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame1"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left">Problems<a class="NavToggle" id="NavToggle1" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Statistical_classification" title="Statistical classification">Classification</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cluster_analysis" title="Cluster analysis">Clustering</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Regression_analysis" title="Regression analysis">Regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Anomaly_detection" title="Anomaly detection">Anomaly detection</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Automated_machine_learning" title="Automated machine learning">AutoML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Association_rule_learning" title="Association rule learning">Association rules</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Reinforcement_learning" title="Reinforcement learning">Reinforcement learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Structured_prediction" title="Structured prediction">Structured prediction</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Feature_engineering" title="Feature engineering">Feature engineering</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Feature_learning" title="Feature learning">Feature learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Online_machine_learning" title="Online machine learning">Online learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Semi-supervised_learning" title="Semi-supervised learning">Semi-supervised learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Unsupervised_learning" title="Unsupervised learning">Unsupervised learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Learning_to_rank" title="Learning to rank">Learning to rank</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Grammar_induction" title="Grammar induction">Grammar induction</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame2"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><div style="padding:0.1em 0;line-height:1.2em;"><a href="https://en.wikipedia.org/wiki/Supervised_learning" title="Supervised learning">Supervised learning</a><br><span style="font-weight:normal;"><span style="font-size:85%;">(<b><a href="https://en.wikipedia.org/wiki/Statistical_classification" title="Statistical classification">classification</a></b>&nbsp;• <b><a href="https://en.wikipedia.org/wiki/Regression_analysis" title="Regression analysis">regression</a></b>)</span></span> </div><a class="NavToggle" id="NavToggle2" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Decision_tree_learning" title="Decision tree learning">Decision trees</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ensemble_learning" title="Ensemble learning">Ensembles</a> (<a href="https://en.wikipedia.org/wiki/Bootstrap_aggregating" title="Bootstrap aggregating">Bagging</a>, <a href="https://en.wikipedia.org/wiki/Boosting_%28machine_learning%29" title="Boosting (machine learning)">Boosting</a>, <a href="https://en.wikipedia.org/wiki/Random_forest" title="Random forest">Random forest</a>)</li>
+<li><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" title="K-nearest neighbors algorithm"><i>k</i>-NN</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Linear_regression" title="Linear regression">Linear regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier" title="Naive Bayes classifier">Naive Bayes</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Artificial_neural_network" title="Artificial neural network">Neural networks</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Logistic_regression" title="Logistic regression">Logistic regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Perceptron" title="Perceptron">Perceptron</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Relevance_vector_machine" title="Relevance vector machine">Relevance vector machine (RVM)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Support_vector_machine" title="Support vector machine">Support vector machine (SVM)</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame3"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Cluster_analysis" title="Cluster analysis">Clustering</a><a class="NavToggle" id="NavToggle3" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/BIRCH" title="BIRCH">BIRCH</a></li>
+<li><a href="https://en.wikipedia.org/wiki/CURE_data_clustering_algorithm" class="mw-redirect" title="CURE data clustering algorithm">CURE</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hierarchical_clustering" title="Hierarchical clustering">Hierarchical</a></li>
+<li><a href="https://en.wikipedia.org/wiki/K-means_clustering" title="K-means clustering"><i>k</i>-means</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm" title="Expectation–maximization algorithm">Expectation–maximization (EM)</a></li>
+<li><br><a href="https://en.wikipedia.org/wiki/DBSCAN" title="DBSCAN">DBSCAN</a></li>
+<li><a href="https://en.wikipedia.org/wiki/OPTICS_algorithm" title="OPTICS algorithm">OPTICS</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mean-shift" class="mw-redirect" title="Mean-shift">Mean-shift</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame4"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Dimensionality_reduction" title="Dimensionality reduction">Dimensionality reduction</a><a class="NavToggle" id="NavToggle4" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Factor_analysis" title="Factor analysis">Factor analysis</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Canonical_correlation_analysis" class="mw-redirect" title="Canonical correlation analysis">CCA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Independent_component_analysis" title="Independent component analysis">ICA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis" title="Linear discriminant analysis">LDA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Non-negative_matrix_factorization" title="Non-negative matrix factorization">NMF</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Principal_component_analysis" title="Principal component analysis">PCA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding" title="T-distributed stochastic neighbor embedding">t-SNE</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame5"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Structured_prediction" title="Structured prediction">Structured prediction</a><a class="NavToggle" id="NavToggle5" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Graphical_model" title="Graphical model">Graphical models</a> (<a href="https://en.wikipedia.org/wiki/Bayesian_network" title="Bayesian network">Bayes net</a>, <a href="https://en.wikipedia.org/wiki/Conditional_random_field" title="Conditional random field">CRF</a>, <a href="https://en.wikipedia.org/wiki/Hidden_Markov_model" title="Hidden Markov model">HMM</a>)</li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame6"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Anomaly_detection" title="Anomaly detection">Anomaly detection</a><a class="NavToggle" id="NavToggle6" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_classification" class="mw-redirect" title="K-nearest neighbors classification"><i>k</i>-NN</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Local_outlier_factor" title="Local outlier factor">Local outlier factor</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame7"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Artificial_neural_network" title="Artificial neural network">Neural nets</a><a class="NavToggle" id="NavToggle7" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Autoencoder" title="Autoencoder">Autoencoder</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Deep_learning" title="Deep learning">Deep learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron" title="Multilayer perceptron">Multilayer perceptron</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Recurrent_neural_network" title="Recurrent neural network">RNN</a> (<a href="https://en.wikipedia.org/wiki/Long_short-term_memory" title="Long short-term memory">LSTM</a>, <a href="https://en.wikipedia.org/wiki/Gated_recurrent_unit" title="Gated recurrent unit">GRU</a>)</li>
+<li><a href="https://en.wikipedia.org/wiki/Restricted_Boltzmann_machine" title="Restricted Boltzmann machine">Restricted Boltzmann machine</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Self-organizing_map" title="Self-organizing map">SOM</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Convolutional_neural_network" title="Convolutional neural network">Convolutional neural network</a> (<a href="https://en.wikipedia.org/wiki/U-Net" title="U-Net">U-Net</a>)</li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame8"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Reinforcement_learning" title="Reinforcement learning">Reinforcement learning</a><a class="NavToggle" id="NavToggle8" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Q-learning" title="Q-learning">Q-learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/State%E2%80%93action%E2%80%93reward%E2%80%93state%E2%80%93action" title="State–action–reward–state–action">SARSA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Temporal_difference_learning" title="Temporal difference learning">Temporal difference (TD)</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame9"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left">Theory<a class="NavToggle" id="NavToggle9" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Bias-variance_dilemma" class="mw-redirect" title="Bias-variance dilemma">Bias-variance dilemma</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Computational_learning_theory" title="Computational learning theory">Computational learning theory</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Empirical_risk_minimization" title="Empirical risk minimization">Empirical risk minimization</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Occam_learning" title="Occam learning">Occam learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Probably_approximately_correct_learning" title="Probably approximately correct learning">PAC learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Statistical_learning_theory" title="Statistical learning theory">Statistical learning</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_theory" title="Vapnik–Chervonenkis theory">VC theory</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame10"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left">Machine-learning venues<a class="NavToggle" id="NavToggle10" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Conference_on_Neural_Information_Processing_Systems" title="Conference on Neural Information Processing Systems">NIPS</a></li>
+<li><a href="https://en.wikipedia.org/wiki/International_Conference_on_Machine_Learning" title="International Conference on Machine Learning">ICML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Machine_Learning_%28journal%29" title="Machine Learning (journal)">ML</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Journal_of_Machine_Learning_Research" title="Journal of Machine Learning Research">JMLR</a></li>
+<li><a rel="nofollow" class="external text" href="https://arxiv.org/list/cs.LG/recent">ArXiv:cs.LG</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame11"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left"><a href="https://en.wikipedia.org/wiki/Glossary_of_artificial_intelligence" title="Glossary of artificial intelligence">Glossary of artificial intelligence</a><a class="NavToggle" id="NavToggle11" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/Glossary_of_artificial_intelligence" title="Glossary of artificial intelligence">Glossary of artificial intelligence</a></li></ul>
+</div></div></div></td>
+</tr><tr><td style="padding:0 0.1em 0.4em">
+<div class="NavFrame collapsed" style="border:none;padding:0" id="NavFrame12"><div class="NavHead" style="font-size:105%;background:transparent;text-align:left">Related articles<a class="NavToggle" id="NavToggle12" href="#">[show]</a></div><div class="NavContent" style="font-size: 105%; padding: 0.2em 0px 0.4em; text-align: center; display: none;"><div class="hlist">
+<ul><li><a href="https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research" class="mw-redirect" title="List of datasets for machine-learning research">List of datasets for machine-learning research</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Outline_of_machine_learning" title="Outline of machine learning">Outline of machine learning</a></li></ul>
+</div></div></div></td>
+</tr><tr><td class="plainlist" style="padding:0.3em 0.4em 0.3em;font-weight:bold;border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;border-top:1px solid #aaa;border-bottom:1px solid #aaa;">
+<ul><li><a href="https://en.wikipedia.org/wiki/File:Portal-puzzle.svg" class="image"><img alt="Portal-puzzle.svg" src="16px-Portal-puzzle.png" class="noviewer" srcset="//upload.wikimedia.org/wikipedia/en/thumb/f/fd/Portal-puzzle.svg/24px-Portal-puzzle.svg.png 1.5x, //upload.wikimedia.org/wikipedia/en/thumb/f/fd/Portal-puzzle.svg/32px-Portal-puzzle.svg.png 2x" data-file-width="32" data-file-height="28" width="16" height="14"></a> <a href="https://en.wikipedia.org/wiki/Portal:Machine_learning" title="Portal:Machine learning">Machine learning portal</a></li></ul></td></tr><tr><td style="text-align:right;font-size:115%;padding-top: 0.6em;"><div class="plainlinks hlist navbar mini"><ul><li class="nv-view"><a href="https://en.wikipedia.org/wiki/Template:Machine_learning_bar" title="Template:Machine learning bar"><abbr title="View this template">v</abbr></a></li><li class="nv-talk"><a href="https://en.wikipedia.org/wiki/Template_talk:Machine_learning_bar" title="Template talk:Machine learning bar"><abbr title="Discuss this template">t</abbr></a></li><li class="nv-edit"><a class="external text" href="https://en.wikipedia.org/w/index.php?title=Template:Machine_learning_bar&amp;action=edit"><abbr title="Edit this template">e</abbr></a></li></ul></div></td></tr></tbody></table>
+<p><b>Sparse dictionary learning</b> is a <a href="https://en.wikipedia.org/wiki/Representation_learning" class="mw-redirect" title="Representation learning">representation learning</a> method which aims at finding a <a href="https://en.wikipedia.org/wiki/Sparse_matrix" title="Sparse matrix">sparse</a> representation of the input data (also known as <i>sparse coding</i>) in the form of a linear combination of basic elements as well as those basic elements themselves. These elements are called <i>atoms</i> and they compose a <i>dictionary</i>. Atoms in the dictionary are not required to be <a href="https://en.wikipedia.org/wiki/Orthogonal_basis" title="Orthogonal basis">orthogonal</a>,
+ and they may be an over-complete spanning set. This problem setup also 
+allows the dimensionality of the signals being represented to be higher 
+than the one of the signals being observed. The above two properties 
+lead to having seemingly redundant atoms that allow multiple 
+representations of the same signal but also provide an improvement in <a href="https://en.wikipedia.org/wiki/Sparsity" class="mw-redirect" title="Sparsity">sparsity</a> and flexibility of the representation. 
+</p><p>One of the most important applications of sparse dictionary learning is in the field of <i><b><a href="https://en.wikipedia.org/wiki/Compressed_sensing" title="Compressed sensing">compressed sensing</a></b></i> or <i><b><a href="https://en.wikipedia.org/wiki/Detection_theory" title="Detection theory">signal recovery</a></b></i>.
+ In compressed sensing, a high dimensional signal can be recovered with 
+only a few linear measurements provided that the signal is sparse or 
+nearly sparse. Since not all signals satisfy this sparsity condition, it
+ is of great importance to find a sparse representation of that signal 
+such as the <i><b><a href="https://en.wikipedia.org/wiki/Wavelet_transform" title="Wavelet transform">wavelet transform</a></b></i>
+ or the directional gradient of a rasterized matrix. Once a matrix or a 
+high dimensional vector is transferred to a sparse space, different 
+recovery algorithms like <i><b><a href="https://en.wikipedia.org/wiki/Basis_pursuit" title="Basis pursuit">basis pursuit</a></b></i>, CoSaMP<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup> or <i><b>fast non-iterative algorithms</b></i><sup id="cite_ref-2" class="reference"><a href="#cite_note-2">[2]</a></sup> can be used to recover the signal. 
+</p><p>One of the key principles of dictionary learning is that the 
+dictionary has to be inferred from the input data. The emergence of 
+sparse dictionary learning methods was stimulated by the fact that in <a href="https://en.wikipedia.org/wiki/Signal_processing" title="Signal processing">signal processing</a>
+ one typically wants to represent the input data using as few components
+ as possible. Before this approach the general practice was to use 
+predefined dictionaries (such as <a href="https://en.wikipedia.org/wiki/Fourier_transform" title="Fourier transform">fourier</a> or <a href="https://en.wikipedia.org/wiki/Wavelet_transform" title="Wavelet transform">wavelet</a>
+ transforms). However, in certain cases a dictionary that is trained to 
+fit the input data can significantly improve the sparsity, which has 
+applications in data decomposition, compression and analysis and has 
+been used in the fields of image <a href="https://en.wikipedia.org/wiki/Noise_reduction" title="Noise reduction">denoising</a> and <a href="https://en.wikipedia.org/wiki/Image_classification" class="mw-redirect" title="Image classification">classification</a>, video and <a href="https://en.wikipedia.org/wiki/Audio_signal_processing" title="Audio signal processing">audio processing</a>. Sparsity and overcomplete dictionaries have immense applications in image compression, image fusion and inpainting.  
+</p>
+<div class="thumb tright"><div class="thumbinner" style="width:222px;"><a href="https://en.wikipedia.org/wiki/File:Dic_learning.jpg" class="image"><img alt="" src="220px-Dic_learning.jpg" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Dic_learning.jpg/330px-Dic_learning.jpg 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Dic_learning.jpg/440px-Dic_learning.jpg 2x" data-file-width="1105" data-file-height="330" width="220" height="66"></a>  <div class="thumbcaption"><div class="magnify"><a href="https://en.wikipedia.org/wiki/File:Dic_learning.jpg" class="internal" title="Enlarge"></a></div>Image Denoising by Dictionary Learning</div></div></div>
+<div id="toc" class="toc"><input role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" type="checkbox"><div class="toctitle" dir="ltr" lang="en"><h2>Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Problem_statement"><span class="tocnumber">1</span> <span class="toctext">Problem statement</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Properties_of_the_dictionary"><span class="tocnumber">1.1</span> <span class="toctext">Properties of the dictionary</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-3"><a href="#Algorithms"><span class="tocnumber">2</span> <span class="toctext">Algorithms</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Method_of_optimal_directions_%28MOD%29"><span class="tocnumber">2.1</span> <span class="toctext">Method of optimal directions (MOD)</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#K-SVD"><span class="tocnumber">2.2</span> <span class="toctext">K-SVD</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="#Stochastic_gradient_descent"><span class="tocnumber">2.3</span> <span class="toctext">Stochastic gradient descent</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Lagrange_dual_method"><span class="tocnumber">2.4</span> <span class="toctext">Lagrange dual method</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="#Parametric_training_methods"><span class="tocnumber">2.5</span> <span class="toctext">Parametric training methods</span></a></li>
+<li class="toclevel-2 tocsection-9"><a href="#Online_dictionary_learning"><span class="tocnumber">2.6</span> <span class="toctext">Online dictionary learning</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-10"><a href="#Applications"><span class="tocnumber">3</span> <span class="toctext">Applications</span></a></li>
+<li class="toclevel-1 tocsection-11"><a href="#See_also"><span class="tocnumber">4</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#References"><span class="tocnumber">5</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Problem_statement">Problem statement</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=1" title="Edit section: Problem statement">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Given the input dataset <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle X=[x_{1},...,x_{K}],x_{i}\in \mathbb {R} ^{d}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>X</mi>
+        <mo>=</mo>
+        <mo stretchy="false">[</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>K</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">]</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>∈<!-- ∈ --></mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>d</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle X=[x_{1},...,x_{K}],x_{i}\in \mathbb {R} ^{d}}</annotation>
+  </semantics>
+</math></span><img src="f81aab97e24cae9838f71d752815ccd74c23ce9a.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:25.723ex; height:3.176ex;" alt="{\displaystyle X=[x_{1},...,x_{K}],x_{i}\in \mathbb {R} ^{d}}"></span> we wish to find a dictionary <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} \in \mathbb {R} ^{d\times n}:D=[d_{1},...,d_{n}]}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>∈<!-- ∈ --></mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>d</mi>
+            <mo>×<!-- × --></mo>
+            <mi>n</mi>
+          </mrow>
+        </msup>
+        <mo>:</mo>
+        <mi>D</mi>
+        <mo>=</mo>
+        <mo stretchy="false">[</mo>
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">]</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} \in \mathbb {R} ^{d\times n}:D=[d_{1},...,d_{n}]}</annotation>
+  </semantics>
+</math></span><img src="8737bebe3150b98f667b894ca4c795c2d49d734d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:28.039ex; height:3.176ex;" alt="{\displaystyle \mathbf {D} \in \mathbb {R} ^{d\times n}:D=[d_{1},...,d_{n}]}"></span> and a representation <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R=[r_{1},...,r_{K}],r_{i}\in \mathbb {R} ^{n}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mo stretchy="false">[</mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>K</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">]</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>∈<!-- ∈ --></mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=[r_{1},...,r_{K}],r_{i}\in \mathbb {R} ^{n}}</annotation>
+  </semantics>
+</math></span><img src="33e741160490ff5f71f9712d3800e9f502fbbb71.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:24.79ex; height:2.843ex;" alt="{\displaystyle R=[r_{1},...,r_{K}],r_{i}\in \mathbb {R} ^{n}}"></span> such that both <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \|X-\mathbf {D} R\|_{F}^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>X</mi>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mi>R</mi>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \|X-\mathbf {D} R\|_{F}^{2}}</annotation>
+  </semantics>
+</math></span><img src="0e8cb1c56f280cf64283c98f0477add3dca91a59.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:12.422ex; height:3.176ex;" alt="{\displaystyle \|X-\mathbf {D} R\|_{F}^{2}}"></span> is minimized and the representations <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle r_{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle r_{i}}</annotation>
+  </semantics>
+</math></span><img src="a0b6d651eaf432dbf1f106021c8bb499ae83fd1f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.848ex; height:2.009ex;" alt="r_{i}"></span> are sparse enough. This can be formulated as the following <a href="https://en.wikipedia.org/wiki/Optimization_problem" title="Optimization problem">optimization problem</a>:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\underset {\mathbf {D} \in {\mathcal {C}},r_{i}\in \mathbb {R} ^{n}}{\text{argmin}}}\sum _{i=1}^{K}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{0}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mtext>argmin</mtext>
+            <mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">D</mi>
+              </mrow>
+              <mo>∈<!-- ∈ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+                </mrow>
+              </mrow>
+              <mo>,</mo>
+              <msub>
+                <mi>r</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msub>
+              <mo>∈<!-- ∈ --></mo>
+              <msup>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="double-struck">R</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>n</mi>
+                </mrow>
+              </msup>
+            </mrow>
+          </munder>
+        </mrow>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>K</mi>
+          </mrow>
+        </munderover>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo>+</mo>
+        <mi>λ<!-- λ --></mi>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msub>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\underset 
+{\mathbf {D} \in {\mathcal {C}},r_{i}\in \mathbb {R} 
+^{n}}{\text{argmin}}}\sum _{i=1}^{K}\|x_{i}-\mathbf {D} 
+r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{0}}</annotation>
+  </semantics>
+</math></span><img src="81449a31e07ad388801379c804b73e6d1f044ce2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:34.292ex; height:7.343ex;" alt="{\displaystyle {\underset {\mathbf {D} \in {\mathcal {C}},r_{i}\in \mathbb {R} ^{n}}{\text{argmin}}}\sum _{i=1}^{K}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{0}}"></span>, where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\mathcal {C}}\equiv \{\mathbb {D} \in \mathbb {R} ^{d\times n}:\|d_{i}\|_{2}\leq 1\,\,\forall i=1,...,n\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+          </mrow>
+        </mrow>
+        <mo>≡<!-- ≡ --></mo>
+        <mo fence="false" stretchy="false">{</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="double-struck">D</mi>
+        </mrow>
+        <mo>∈<!-- ∈ --></mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>d</mi>
+            <mo>×<!-- × --></mo>
+            <mi>n</mi>
+          </mrow>
+        </msup>
+        <mo>:</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msub>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>≤<!-- ≤ --></mo>
+        <mn>1</mn>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mi mathvariant="normal">∀<!-- ∀ --></mi>
+        <mi>i</mi>
+        <mo>=</mo>
+        <mn>1</mn>
+        <mo>,</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>,</mo>
+        <mi>n</mi>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\mathcal {C}}\equiv \{\mathbb {D} \in \mathbb {R} ^{d\times n}:\|d_{i}\|_{2}\leq 1\,\,\forall i=1,...,n\}}</annotation>
+  </semantics>
+</math></span><img src="21e2e57ee7099a569571f64f08b88d0a0789e1e8.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:41.496ex; height:3.176ex;" alt="{\displaystyle {\mathcal {C}}\equiv \{\mathbb {D} \in \mathbb {R} ^{d\times n}:\|d_{i}\|_{2}\leq 1\,\,\forall i=1,...,n\}}"></span>
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\mathcal {C}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\mathcal {C}}}</annotation>
+  </semantics>
+</math></span><img src="e7b3edab7022ca9e2976651bc59c489513ee9019.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.239ex; height:2.176ex;" alt="{\mathcal {C}}"></span> is required to constrain <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span> so that its atoms would not reach arbitrarily high values allowing for arbitrarily low (but non-zero) values of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle r_{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle r_{i}}</annotation>
+  </semantics>
+</math></span><img src="a0b6d651eaf432dbf1f106021c8bb499ae83fd1f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.848ex; height:2.009ex;" alt="r_{i}"></span>.
+</p><p>The minimization problem above is not convex because of the <a href="https://en.wikipedia.org/wiki/L0_norm" class="mw-redirect" title="L0 norm">ℓ<sub>0</sub>-"norm"</a> and solving this problem is NP-hard.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">[3]</a></sup> In some cases <i><a href="https://en.wikipedia.org/wiki/L1-norm" class="mw-redirect" title="L1-norm">L</a></i><sup><a href="https://en.wikipedia.org/wiki/L1-norm" class="mw-redirect" title="L1-norm">1</a></sup><a href="https://en.wikipedia.org/wiki/L1-norm" class="mw-redirect" title="L1-norm">-norm</a> is known to ensure sparsity<sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[4]</a></sup> and so the above becomes a <a href="https://en.wikipedia.org/wiki/Convex_optimization" title="Convex optimization">convex optimization</a> problem with respect to each of the variables <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {R} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">R</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {R} }</annotation>
+  </semantics>
+</math></span><img src="5de85fcc2a00d8ba14aae84aeef812d7fef4b3d5.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.003ex; height:2.176ex;" alt="\mathbf {R} "></span> when the other one is fixed, but it is not jointly convex in <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle (\mathbf {D} ,\mathbf {R} )}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>,</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">R</mi>
+        </mrow>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle (\mathbf {D} ,\mathbf {R} )}</annotation>
+  </semantics>
+</math></span><img src="448bbe0c050e6ad02efd294306fe356cb936d948.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.896ex; height:2.843ex;" alt="{\displaystyle (\mathbf {D} ,\mathbf {R} )}"></span>.
+</p><p><br>
+</p>
+<h3><span class="mw-headline" id="Properties_of_the_dictionary">Properties of the dictionary</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=2" title="Edit section: Properties of the dictionary">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>The dictionary <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span> defined above can be "undercomplete" if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n&lt;d}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+        <mo>&lt;</mo>
+        <mi>d</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n&lt;d}</annotation>
+  </semantics>
+</math></span><img src="fb24d50a959320f2b673f848b6195d1a6ddf0dba.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.709ex; height:2.176ex;" alt="{\displaystyle n&lt;d}"></span> or "overcomplete" in case <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n&gt;d}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+        <mo>&gt;</mo>
+        <mi>d</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n&gt;d}</annotation>
+  </semantics>
+</math></span><img src="dfe1896db4e754264895da715791d9bd9387b3ce.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.709ex; height:2.176ex;" alt="{\displaystyle n&gt;d}"></span>
+ with the latter being a typical assumption for a sparse dictionary 
+learning problem. The case of a complete dictionary does not provide any
+ improvement from a representational point of view and thus isn't 
+considered.
+</p><p>Undercomplete dictionaries represent the setup in which the 
+actual input data lies in a lower-dimensional space. This case is 
+strongly related to <a href="https://en.wikipedia.org/wiki/Dimensionality_reduction" title="Dimensionality reduction">dimensionality reduction</a> and techniques like <a href="https://en.wikipedia.org/wiki/Principal_component_analysis" title="Principal component analysis">principal component analysis</a> which require atoms <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d_{1},...,d_{n}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>.</mo>
+        <mo>,</mo>
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d_{1},...,d_{n}}</annotation>
+  </semantics>
+</math></span><img src="b3b89a8665e8b6ec19d0787a8f064a2d1a0024c3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:9.86ex; height:2.509ex;" alt="{\displaystyle d_{1},...,d_{n}}"></span>
+ to be orthogonal.   The choice of these subspaces is crucial for 
+efficient dimensionality reduction, but it is not trivial.  And 
+dimensionality reduction based on dictionary representation can be 
+extended to address specific tasks such as data analysis or 
+classification. However, their main downside is limiting the choice of 
+atoms.
+</p><p>Overcomplete dictionaries, however, do not require the atoms to be orthogonal (they will never be a <a href="https://en.wikipedia.org/wiki/Basis_%28linear_algebra%29" title="Basis (linear algebra)">basis</a> anyway) thus allowing for more flexible dictionaries and richer data representations. 
+</p><p>An overcomplete dictionary which allows for sparse representation
+ of signal can be a famous transform matrix (wavelets transform, fourier
+ transform) or it can be formulated so that its elements are changed in 
+such a way that it sparsely represents given signal in a best way.  
+Learned dictionaries are capable to give more sparse solution as 
+compared to predefined transform matrices.
+</p>
+<h2><span class="mw-headline" id="Algorithms">Algorithms</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=3" title="Edit section: Algorithms">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>As the optimization problem described above can be solved as a convex
+ problem with respect to either dictionary or sparse coding while the 
+other one of the two is fixed, most of the algorithms are based on the 
+idea of iteratively updating one and then the other.
+</p><p>The problem of finding an optimal sparse coding <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R}</annotation>
+  </semantics>
+</math></span><img src="4b0bfb3769bf24d80e15374dc37b0441e2616e33.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="R"></span> with a given dictionary <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span> is known as <a href="https://en.wikipedia.org/wiki/Sparse_approximation" title="Sparse approximation">sparse approximation</a> (or sometimes just sparse coding problem). There has been developed a number of algorithms to solve it (such as <a href="https://en.wikipedia.org/wiki/Matching_pursuit" title="Matching pursuit">matching pursuit</a> and <a href="https://en.wikipedia.org/wiki/Lasso_%28statistics%29" title="Lasso (statistics)">LASSO</a>) which are incorporated into the algorithms described below.
+</p>
+<h3><span id="Method_of_optimal_directions_.28MOD.29"></span><span class="mw-headline" id="Method_of_optimal_directions_(MOD)">Method of optimal directions (MOD)</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=4" title="Edit section: Method of optimal directions (MOD)">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>The method of optimal directions (or MOD) was one of the first 
+methods introduced to tackle the sparse dictionary learning problem.<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[5]</a></sup>
+ The core idea of it is to solve the minimization problem subject to the
+ limited number of non-zero components of the representation vector:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <munder>
+          <mo movablelimits="true" form="prefix">min</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <mo>,</mo>
+            <mi>R</mi>
+          </mrow>
+        </munder>
+        <mo fence="false" stretchy="false">{</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>X</mi>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mi>R</mi>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo fence="false" stretchy="false">}</mo>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>s.t.</mtext>
+        </mrow>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mi mathvariant="normal">∀<!-- ∀ --></mi>
+        <mi>i</mi>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msub>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>≤<!-- ≤ --></mo>
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T}</annotation>
+  </semantics>
+</math></span><img src="a5969b918bfcef6fec905764c827db5ca78b0f7c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.338ex; width:36.117ex; height:4.509ex;" alt="{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T}"></span>
+</p><p>Here, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle F}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>F</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle F}</annotation>
+  </semantics>
+</math></span><img src="545fd099af8541605f7ee55f08225526be88ce57.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.741ex; height:2.176ex;" alt="F"></span> denotes the <a href="https://en.wikipedia.org/wiki/Frobenius_norm" class="mw-redirect" title="Frobenius norm">Frobenius norm</a>. MOD alternates between getting the <a href="https://en.wikipedia.org/wiki/Sparse_approximation" title="Sparse approximation">sparse coding</a> using a method such as <a href="https://en.wikipedia.org/wiki/Matching_pursuit" title="Matching pursuit">matching pursuit</a> and updating the dictionary by computing the analytical solution of the problem given by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} =XR^{+}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>=</mo>
+        <mi>X</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>+</mo>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} =XR^{+}}</annotation>
+  </semantics>
+</math></span><img src="414b5a914ef85da13a21354d33a17d4d64ee96dd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:10.403ex; height:2.509ex;" alt="{\displaystyle \mathbf {D} =XR^{+}}"></span> where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R^{+}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>+</mo>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R^{+}}</annotation>
+  </semantics>
+</math></span><img src="86bba4b120e2b4fcffb404952d8965923b481380.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:3.275ex; height:2.509ex;" alt="{\displaystyle R^{+}}"></span> is a <a href="https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse" class="mw-redirect" title="Moore–Penrose pseudoinverse">Moore-Penrose pseudoinverse</a>. After this update <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D} "></span>
+ is renormalized to fit the constraints and the new sparse coding is 
+obtained again. The process is repeated until convergence (or until a 
+sufficiently small residue).
+</p><p>MOD has proved to be a very efficient method for low-dimensional input data <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle X}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>X</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle X}</annotation>
+  </semantics>
+</math></span><img src="68baa052181f707c662844a465bfeeb135e82bab.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.98ex; height:2.176ex;" alt="X"></span>
+ requiring just a few iterations to converge. However, due to the high 
+complexity of the matrix-inversion operation, computing the 
+pseudoinverse in high-dimensional cases is in many cases intractable. 
+This shortcoming has inspired the development of other dictionary 
+learning methods.
+</p>
+<h3><span class="mw-headline" id="K-SVD">K-SVD</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=5" title="Edit section: K-SVD">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<div role="note" class="hatnote navigation-not-searchable">Main article: <a href="https://en.wikipedia.org/wiki/K-SVD" title="K-SVD">K-SVD</a></div><p><a href="https://en.wikipedia.org/wiki/K-SVD" title="K-SVD">K-SVD</a> is an algorithm that performs <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition" class="mw-redirect" title="Singular value decomposition">SVD</a> at its core to update the atoms of the dictionary one by one and basically is a generalization of <a href="https://en.wikipedia.org/wiki/K-means_clustering" title="K-means clustering">K-means</a>. It enforces that each element of the input data <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x_{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x_{i}}</annotation>
+  </semantics>
+</math></span><img src="e87000dd6142b81d041896a30fe58f0c3acb2158.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.129ex; height:2.009ex;" alt="x_{i}"></span> is encoded by a linear combination of not more than <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle T_{0}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>T</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T_{0}}</annotation>
+  </semantics>
+</math></span><img src="55b9e7d7b96196b5a6a26f4349caa3ac82fd67e3.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.412ex; height:2.509ex;" alt="T_{0}"></span> elements in a way identical to the MOD approach:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T_{0}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <munder>
+          <mo movablelimits="true" form="prefix">min</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <mo>,</mo>
+            <mi>R</mi>
+          </mrow>
+        </munder>
+        <mo fence="false" stretchy="false">{</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>X</mi>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mi>R</mi>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo fence="false" stretchy="false">}</mo>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>s.t.</mtext>
+        </mrow>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mi mathvariant="normal">∀<!-- ∀ --></mi>
+        <mi>i</mi>
+        <mspace width="thinmathspace"></mspace>
+        <mspace width="thinmathspace"></mspace>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msub>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>≤<!-- ≤ --></mo>
+        <msub>
+          <mi>T</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T_{0}}</annotation>
+  </semantics>
+</math></span><img src="f364303e02f4afdb29a734898b136cb20b094d81.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.338ex; width:36.892ex; height:4.509ex;" alt="{\displaystyle \min _{\mathbf {D} ,R}\{\|X-\mathbf {D} R\|_{F}^{2}\}\,\,{\text{s.t.}}\,\,\forall i\,\,\|r_{i}\|_{0}\leq T_{0}}"></span>
+</p><p>This algorithm's essence is to first fix the dictionary, find the best possible <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R}</annotation>
+  </semantics>
+</math></span><img src="4b0bfb3769bf24d80e15374dc37b0441e2616e33.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="R"></span> under the above constraint (using <a href="https://en.wikipedia.org/wiki/Matching_pursuit#Extensions" title="Matching pursuit">Orthogonal Matching Pursuit</a>) and then iteratively update the atoms of dictionary <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span> in the following manner:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \|X-\mathbf {D} R\|_{F}^{2}=\left|X-\sum _{i=1}^{K}d_{i}x_{T}^{i}\right|_{F}^{2}=\|E_{k}-d_{k}x_{T}^{k}\|_{F}^{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <mi>X</mi>
+        <mo>−<!-- − --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mi>R</mi>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo>=</mo>
+        <msubsup>
+          <mrow>
+            <mo>|</mo>
+            <mrow>
+              <mi>X</mi>
+              <mo>−<!-- − --></mo>
+              <munderover>
+                <mo>∑<!-- ∑ --></mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                  <mo>=</mo>
+                  <mn>1</mn>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>K</mi>
+                </mrow>
+              </munderover>
+              <msub>
+                <mi>d</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msub>
+              <msubsup>
+                <mi>x</mi>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>T</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>i</mi>
+                </mrow>
+              </msubsup>
+            </mrow>
+            <mo>|</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+        <mo>=</mo>
+        <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+        <msub>
+          <mi>E</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+        <mo>−<!-- − --></mo>
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+        <msubsup>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msubsup>
+        <msubsup>
+          <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msubsup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \|X-\mathbf 
+{D} R\|_{F}^{2}=\left|X-\sum 
+_{i=1}^{K}d_{i}x_{T}^{i}\right|_{F}^{2}=\|E_{k}-d_{k}x_{T}^{k}\|_{F}^{2}}</annotation>
+  </semantics>
+</math></span><img src="4894b688799f3f2f8db7937b7b354e37bb79fc1d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.171ex; width:49.115ex; height:7.843ex;" alt="{\displaystyle \|X-\mathbf {D} R\|_{F}^{2}=\left|X-\sum _{i=1}^{K}d_{i}x_{T}^{i}\right|_{F}^{2}=\|E_{k}-d_{k}x_{T}^{k}\|_{F}^{2}}"></span>
+</p><p>The next steps of the algorithm include <a href="https://en.wikipedia.org/wiki/Low-rank_approximation" title="Low-rank approximation">rank-1 approximation</a> of the residual matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle E_{k}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>E</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle E_{k}}</annotation>
+  </semantics>
+</math></span><img src="7587849b44d775263271e89499f4327eeac5dc81.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.804ex; height:2.509ex;" alt="{\displaystyle E_{k}}"></span>, updating <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle d_{k}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>d</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d_{k}}</annotation>
+  </semantics>
+</math></span><img src="b78f5b2abc48e63b987b6d7527caa5aa9b1bb512.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.298ex; height:2.509ex;" alt="{\displaystyle d_{k}}"></span> and enforcing the sparsity of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x_{k}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x_{k}}</annotation>
+  </semantics>
+</math></span><img src="6d2b88c64c76a03611549fb9b4cf4ed060b56002.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.418ex; height:2.009ex;" alt="{\displaystyle x_{k}}"></span>
+ after the update. This algorithm is considered to be standard for 
+dictionary learning and is used in a variety of applications. However, 
+it shares weaknesses with MOD being efficient only for signals with 
+relatively low dimensionality and having the possibility for being stuck
+ at local minima.
+</p>
+<h3><span class="mw-headline" id="Stochastic_gradient_descent">Stochastic gradient descent</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=6" title="Edit section: Stochastic gradient descent">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<div role="note" class="hatnote navigation-not-searchable">Main article: <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" title="Stochastic gradient descent">Stochastic gradient descent</a></div><p>One can also apply a widespread stochastic gradient descent method with iterative projection to solve this problem.<sup id="cite_ref-6" class="reference"><a href="#cite_note-6">[6]</a></sup><sup id="cite_ref-7" class="reference"><a href="#cite_note-7">[7]</a></sup>
+ The idea of this method is to update the dictionary using the first 
+order stochastic gradient and project it on the constraint set <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\mathcal {C}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\mathcal {C}}}</annotation>
+  </semantics>
+</math></span><img src="e7b3edab7022ca9e2976651bc59c489513ee9019.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.239ex; height:2.176ex;" alt="{\mathcal {C}}"></span>. The step that occurs at i-th iteration is described by this expression:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} _{i}={\text{proj}}_{\mathcal {C}}\left\{\mathbf {D} _{i-1}-\delta _{i}\nabla _{\mathbf {D} }\sum _{i\in S}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">D</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mtext>proj</mtext>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+            </mrow>
+          </mrow>
+        </msub>
+        <mrow>
+          <mo>{</mo>
+          <mrow>
+            <msub>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">D</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+                <mo>−<!-- − --></mo>
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mo>−<!-- − --></mo>
+            <msub>
+              <mi>δ<!-- δ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <msub>
+              <mi mathvariant="normal">∇<!-- ∇ --></mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="bold">D</mi>
+                </mrow>
+              </mrow>
+            </msub>
+            <munder>
+              <mo>∑<!-- ∑ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+                <mo>∈<!-- ∈ --></mo>
+                <mi>S</mi>
+              </mrow>
+            </munder>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <msub>
+              <mi>x</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <mo>−<!-- − --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <msub>
+              <mi>r</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msubsup>
+            <mo>+</mo>
+            <mi>λ<!-- λ --></mi>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <msub>
+              <mi>r</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <msub>
+              <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+          </mrow>
+          <mo>}</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} 
+_{i}={\text{proj}}_{\mathcal {C}}\left\{\mathbf {D} _{i-1}-\delta 
+_{i}\nabla _{\mathbf {D} }\sum _{i\in S}\|x_{i}-\mathbf {D} 
+r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right\}}</annotation>
+  </semantics>
+</math></span><img src="e91f6977f7bb5a6d98971a73984c843d070f4bbb.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.171ex; width:54.307ex; height:7.509ex;" alt="{\displaystyle \mathbf {D} _{i}={\text{proj}}_{\mathcal {C}}\left\{\mathbf {D} _{i-1}-\delta _{i}\nabla _{\mathbf {D} }\sum _{i\in S}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right\}}"></span>, where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle S}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>S</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle S}</annotation>
+  </semantics>
+</math></span><img src="4611d85173cd3b508e67077d4a1252c9c05abca2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.499ex; height:2.176ex;" alt="S"></span> is a random subset of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \{1...K\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">{</mo>
+        <mn>1...</mn>
+        <mi>K</mi>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \{1...K\}}</annotation>
+  </semantics>
+</math></span><img src="a1814ace4a60b175597d7fc9c6f8321015a7ce4f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:7.494ex; height:2.843ex;" alt="{\displaystyle \{1...K\}}"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \delta _{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>δ<!-- δ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \delta _{i}}</annotation>
+  </semantics>
+</math></span><img src="e0c5e905acee9cc0cf8bc01c08a4e876f43d5c1b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.832ex; height:2.676ex;" alt="\delta _{i}"></span> is a gradient step.
+</p>
+<h3><span class="mw-headline" id="Lagrange_dual_method">Lagrange dual method</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=7" title="Edit section: Lagrange dual method">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>An algorithm based on solving a <a href="https://en.wikipedia.org/wiki/Duality_%28optimization%29" title="Duality (optimization)">dual Lagrangian problem</a> provides an efficient way to solve for the dictionary having no complications induced by the sparsity function.<sup id="cite_ref-8" class="reference"><a href="#cite_note-8">[8]</a></sup> Consider the following Lagrangian:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\mathcal {L}}(\mathbf {D} ,\Lambda )={\text{tr}}\left((X-\mathbf {D} R)^{T}(X-\mathbf {D} R)\right)+\sum _{j=1}^{n}\lambda _{i}\left({\sum _{i=1}^{d}\mathbf {D} _{ij}^{2}-c}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">L</mi>
+          </mrow>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>,</mo>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>tr</mtext>
+        </mrow>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mo stretchy="false">(</mo>
+            <mi>X</mi>
+            <mo>−<!-- − --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <mi>R</mi>
+            <msup>
+              <mo stretchy="false">)</mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>T</mi>
+              </mrow>
+            </msup>
+            <mo stretchy="false">(</mo>
+            <mi>X</mi>
+            <mo>−<!-- − --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <mi>R</mi>
+            <mo stretchy="false">)</mo>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+        <mo>+</mo>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>j</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>λ<!-- λ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mrow>
+          <mo>(</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <munderover>
+              <mo>∑<!-- ∑ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>d</mi>
+              </mrow>
+            </munderover>
+            <msubsup>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">D</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+                <mi>j</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msubsup>
+            <mo>−<!-- − --></mo>
+            <mi>c</mi>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\mathcal 
+{L}}(\mathbf {D} ,\Lambda )={\text{tr}}\left((X-\mathbf {D} 
+R)^{T}(X-\mathbf {D} R)\right)+\sum _{j=1}^{n}\lambda _{i}\left({\sum 
+_{i=1}^{d}\mathbf {D} _{ij}^{2}-c}\right)}</annotation>
+  </semantics>
+</math></span><img src="b22432b029443db3fe019ca12a8204c07c9831d4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.338ex; width:61.739ex; height:7.676ex;" alt="{\displaystyle {\mathcal {L}}(\mathbf {D} ,\Lambda )={\text{tr}}\left((X-\mathbf {D} R)^{T}(X-\mathbf {D} R)\right)+\sum _{j=1}^{n}\lambda _{i}\left({\sum _{i=1}^{d}\mathbf {D} _{ij}^{2}-c}\right)}"></span>, where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle c}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>c</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle c}</annotation>
+  </semantics>
+</math></span><img src="86a67b81c2de995bd608d5b2df50cd8cd7d92455.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.007ex; height:1.676ex;" alt="c"></span> is a constraint on the norm of the atoms and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \lambda _{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>λ<!-- λ --></mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \lambda _{i}}</annotation>
+  </semantics>
+</math></span><img src="72fde940918edf84caf3d406cc7d31949166820f.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.155ex; height:2.509ex;" alt="\lambda _{i}"></span> are the so-called dual variables forming the diagonal matrix <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Lambda }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Lambda }</annotation>
+  </semantics>
+</math></span><img src="0ac0a4a98a414e3480335f9ba652d12571ec6733.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.613ex; height:2.176ex;" alt="\Lambda "></span>.
+</p><p>We can then provide an analytical expression for the Lagrange dual after minimization over <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span>:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\mathcal {D}}(\Lambda )=\min _{\mathbf {D} }{\mathcal {L}}(\mathbf {D} ,\Lambda )={\text{tr}}(X^{T}X-XR^{T}(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}-c\Lambda )}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">D</mi>
+          </mrow>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <munder>
+          <mo movablelimits="true" form="prefix">min</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+          </mrow>
+        </munder>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi class="MJX-tex-caligraphic" mathvariant="script">L</mi>
+          </mrow>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>,</mo>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>tr</mtext>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>X</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mi>X</mi>
+        <mo>−<!-- − --></mo>
+        <mi>X</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <mi>R</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mo>+</mo>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <mi>X</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mo>−<!-- − --></mo>
+        <mi>c</mi>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\mathcal 
+{D}}(\Lambda )=\min _{\mathbf {D} }{\mathcal {L}}(\mathbf {D} ,\Lambda 
+)={\text{tr}}(X^{T}X-XR^{T}(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}-c\Lambda 
+)}</annotation>
+  </semantics>
+</math></span><img src="7f2f50090df545befbca3ffbc303659130be83ae.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.005ex; width:68.053ex; height:4.343ex;" alt="{\displaystyle {\mathcal {D}}(\Lambda )=\min _{\mathbf {D} }{\mathcal {L}}(\mathbf {D} ,\Lambda )={\text{tr}}(X^{T}X-XR^{T}(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}-c\Lambda )}"></span>.
+</p><p>After applying one of the optimization methods to the value of the dual (such as <a href="https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization" title="Newton's method in optimization">Newton's method</a> or <a href="https://en.wikipedia.org/wiki/Conjugate_gradient_method" title="Conjugate gradient method">conjugate gradient</a>) we get the value of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} }</annotation>
+  </semantics>
+</math></span><img src="b2345293072878db24e119c580def49ad582e3ed.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.05ex; height:2.176ex;" alt="\mathbf{D}"></span>:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} ^{T}=(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">D</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mo>=</mo>
+        <mo stretchy="false">(</mo>
+        <mi>R</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <mo>+</mo>
+        <mi mathvariant="normal">Λ<!-- Λ --></mi>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">(</mo>
+        <mi>X</mi>
+        <msup>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+        <msup>
+          <mo stretchy="false">)</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} ^{T}=(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}}</annotation>
+  </semantics>
+</math></span><img src="d1dc6bb18909e71a3cadb0617e83ce6a04cde07e.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:28.382ex; height:3.176ex;" alt="{\displaystyle \mathbf {D} ^{T}=(RR^{T}+\Lambda )^{-1}(XR^{T})^{T}}"></span>
+</p><p>Solving this problem is less computational hard because the amount of dual variables <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n}</annotation>
+  </semantics>
+</math></span><img src="a601995d55609f2d9f5e233e36fbe9ea26011b3b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.395ex; height:1.676ex;" alt="n"></span> is a lot of times much less than the amount of variables in the primal problem.
+</p>
+<h3><span class="mw-headline" id="Parametric_training_methods">Parametric training methods</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=8" title="Edit section: Parametric training methods">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Parametric training methods are aimed to incorporate the best of both
+ worlds — the realm of analytically constructed dictionaries and the 
+learned ones.<sup id="cite_ref-9" class="reference"><a href="#cite_note-9">[9]</a></sup>
+ This allows to construct more powerful generalized dictionaries that 
+can potentially be applied to the cases of arbitrary-sized signals. 
+Notable approaches include: 
+</p>
+<ul><li>Translation-invariant dictionaries.<sup id="cite_ref-10" class="reference"><a href="#cite_note-10">[10]</a></sup>
+ These dictionaries are composed by the translations of the atoms 
+originating from the dictionary constructed for a finite-size signal 
+patch. This allows the resulting dictionary to provide a representation 
+for the arbitrary-sized signal.</li>
+<li>Multiscale dictionaries.<sup id="cite_ref-11" class="reference"><a href="#cite_note-11">[11]</a></sup> This method focuses on constructing a dictionary that is composed of differently scaled dictionaries to improve sparsity.</li>
+<li>Sparse dictionaries.<sup id="cite_ref-12" class="reference"><a href="#cite_note-12">[12]</a></sup>
+ This method focuses on not only providing a sparse representation but 
+also constructing a sparse dictionary which is enforced by the 
+expression <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} =\mathbf {B} \mathbf {A} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">D</mi>
+        </mrow>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">B</mi>
+        </mrow>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">A</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} =\mathbf {B} \mathbf {A} }</annotation>
+  </semantics>
+</math></span><img src="f90c98969d8e38d85cebd5ad01ac5f150d71ae46.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:9.069ex; height:2.176ex;" alt="{\displaystyle \mathbf {D} =\mathbf {B} \mathbf {A} }"></span> where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {B} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">B</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {B} }</annotation>
+  </semantics>
+</math></span><img src="cafb0ef39b0f5ffa23c170aa7f7b4e718327c4d1.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.901ex; height:2.176ex;" alt="\mathbf {B} "></span> is some pre-defined analytical dictionary with desirable properties such as fast computation and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {A} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">A</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {A} }</annotation>
+  </semantics>
+</math></span><img src="0795cc96c75d81520a120482662b90f024c9a1a1.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.019ex; height:2.176ex;" alt="\mathbf {A} "></span>
+ is a sparse matrix. Such formulation allows to directly combine the 
+fast implementation of analytical dictionaries with the flexibility of 
+sparse approaches.</li></ul>
+<h3><span class="mw-headline" id="Online_dictionary_learning">Online dictionary learning</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=9" title="Edit section: Online dictionary learning">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Many common approaches to sparse dictionary learning rely on the fact that the whole input data <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle X}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>X</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle X}</annotation>
+  </semantics>
+</math></span><img src="68baa052181f707c662844a465bfeeb135e82bab.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.98ex; height:2.176ex;" alt="X"></span>
+ (or at least a large enough training dataset) is available for the 
+algorithm. However, this might not be the case in the real-world 
+scenario as the size of the input data might be too big to fit it into 
+memory. The other case where this assumption can not be made is when the
+ input data comes in a form of a <a href="https://en.wikipedia.org/wiki/Stream_%28computing%29" title="Stream (computing)">stream</a>. Such cases lie in the field of study of <a href="https://en.wikipedia.org/wiki/Online_machine_learning" title="Online machine learning">online learning</a> which essentially suggests iteratively updating the model upon the new data points <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="87f9e315fd7e2ba406057a97300593c4802b53e4.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"></span> becoming available.
+</p><p>A dictionary can be learned in an online manner the following way:<sup id="cite_ref-13" class="reference"><a href="#cite_note-13">[13]</a></sup>
+</p>
+<ol><li>For <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle t=1...T:}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>t</mi>
+        <mo>=</mo>
+        <mn>1...</mn>
+        <mi>T</mi>
+        <mo>:</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle t=1...T:}</annotation>
+  </semantics>
+</math></span><img src="c5c03b197932ce233789aa0e1db873882387ad55.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:9.969ex; height:2.176ex;" alt="{\displaystyle t=1...T:}"></span></li>
+<li>Draw a new sample <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle x_{t}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x_{t}}</annotation>
+  </semantics>
+</math></span><img src="f279a30bc8eabc788f3fe81c9cfb674e72e858db.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.156ex; height:2.009ex;" alt="x_{t}"></span></li>
+<li>Find a sparse coding using <a href="https://en.wikipedia.org/wiki/Least-angle_regression" title="Least-angle regression">LARS</a>: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle r_{t}={\underset {r\in \mathbb {R} ^{n}}{\text{argmin}}}\left({\frac {1}{2}}\|x_{t}-\mathbf {D} _{t-1}r\|+\lambda \|r\|_{1}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>r</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mtext>argmin</mtext>
+            <mrow>
+              <mi>r</mi>
+              <mo>∈<!-- ∈ --></mo>
+              <msup>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="double-struck">R</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>n</mi>
+                </mrow>
+              </msup>
+            </mrow>
+          </munder>
+        </mrow>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mfrac>
+                <mn>1</mn>
+                <mn>2</mn>
+              </mfrac>
+            </mrow>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <msub>
+              <mi>x</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>t</mi>
+              </mrow>
+            </msub>
+            <mo>−<!-- − --></mo>
+            <msub>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">D</mi>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>t</mi>
+                <mo>−<!-- − --></mo>
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mi>r</mi>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <mo>+</mo>
+            <mi>λ<!-- λ --></mi>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <mi>r</mi>
+            <msub>
+              <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 
+r_{t}={\underset {r\in \mathbb {R} ^{n}}{\text{argmin}}}\left({\frac 
+{1}{2}}\|x_{t}-\mathbf {D} _{t-1}r\|+\lambda \|r\|_{1}\right)}</annotation>
+  </semantics>
+</math></span><img src="9459b74b076816441fa0bf50ca63b635e5884a0b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.671ex; width:39.861ex; height:6.343ex;" alt="{\displaystyle r_{t}={\underset {r\in \mathbb {R} ^{n}}{\text{argmin}}}\left({\frac {1}{2}}\|x_{t}-\mathbf {D} _{t-1}r\|+\lambda \|r\|_{1}\right)}"></span></li>
+<li>Update dictionary using <a href="https://en.wikipedia.org/wiki/Coordinate_descent" title="Coordinate descent">block-coordinate</a> approach: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \mathbf {D} _{t}={\underset {\mathbf {D} \in {\mathcal {C}}}{\text{argmin}}}{\frac {1}{t}}\sum _{i=1}^{t}\left({\frac {1}{2}}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">D</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mtext>argmin</mtext>
+            <mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">D</mi>
+              </mrow>
+              <mo>∈<!-- ∈ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi class="MJX-tex-caligraphic" mathvariant="script">C</mi>
+                </mrow>
+              </mrow>
+            </mrow>
+          </munder>
+        </mrow>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mn>1</mn>
+            <mi>t</mi>
+          </mfrac>
+        </mrow>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </munderover>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mfrac>
+                <mn>1</mn>
+                <mn>2</mn>
+              </mfrac>
+            </mrow>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <msub>
+              <mi>x</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <mo>−<!-- − --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">D</mi>
+            </mrow>
+            <msub>
+              <mi>r</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <msubsup>
+              <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msubsup>
+            <mo>+</mo>
+            <mi>λ<!-- λ --></mi>
+            <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+            <msub>
+              <mi>r</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <msub>
+              <mo fence="false" stretchy="false">‖<!-- ‖ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {D} 
+_{t}={\underset {\mathbf {D} \in {\mathcal {C}}}{\text{argmin}}}{\frac 
+{1}{t}}\sum _{i=1}^{t}\left({\frac {1}{2}}\|x_{i}-\mathbf {D} 
+r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right)}</annotation>
+  </semantics>
+</math></span><img src="8fc47051c8b102e27c9199733e35ea5b38e50b60.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:46.303ex; height:7.176ex;" alt="{\displaystyle \mathbf {D} _{t}={\underset {\mathbf {D} \in {\mathcal {C}}}{\text{argmin}}}{\frac {1}{t}}\sum _{i=1}^{t}\left({\frac {1}{2}}\|x_{i}-\mathbf {D} r_{i}\|_{2}^{2}+\lambda \|r_{i}\|_{1}\right)}"></span></li></ol>
+<p>This method allows us to gradually update the dictionary as new data 
+becomes available for sparse representation learning and helps 
+drastically reduce the amount of memory needed to store the dataset 
+(which often has a huge size).
+</p>
+<h2><span class="mw-headline" id="Applications">Applications</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=10" title="Edit section: Applications">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>The dictionary learning framework, namely the linear decomposition of
+ an input signal using a few basis elements learned from data itself, 
+has led to state-of-art results in various image and video processing 
+tasks. This technique can be applied to classification problems in a way
+ that if we have built specific dictionaries for each class, the input 
+signal can be classified by finding the dictionary corresponding to the 
+sparsest representation.
+</p><p>It also has properties that are useful for signal denoising since
+ usually one can learn a dictionary to represent the meaningful part of 
+the input signal in a sparse way but the noise in the input will have a 
+much less sparse representation.<sup id="cite_ref-14" class="reference"><a href="#cite_note-14">[14]</a></sup>
+</p><p>Sparse dictionary learning has been successfully applied to 
+various image, video and audio processing tasks as well as to texture 
+synthesis<sup id="cite_ref-15" class="reference"><a href="#cite_note-15">[15]</a></sup> and unsupervised clustering.<sup id="cite_ref-16" class="reference"><a href="#cite_note-16">[16]</a></sup> In evaluations with the <a href="https://en.wikipedia.org/wiki/Bag-of-words_model_in_computer_vision" title="Bag-of-words model in computer vision">Bag-of-Words</a> model,<sup id="cite_ref-17" class="reference"><a href="#cite_note-17">[17]</a></sup><sup id="cite_ref-18" class="reference"><a href="#cite_note-18">[18]</a></sup> sparse coding was found empirically to outperform other coding approaches on the object category recognition tasks.
+</p><p>Dictionary learning is used to analyse medical signals in detail.
+ Such medical signals include those from electroencephalography (EEG), 
+electrocardiography (ECG), magnetic resonance imaging (MRI), functional 
+MRI (fMRI), and ultrasound computer tomography (USCT), where different 
+assumptions are used to analyze each signal.
+</p>
+<h2><span class="mw-headline" id="See_also">See also</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=11" title="Edit section: See also">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul><li><a href="https://en.wikipedia.org/wiki/Sparse_approximation" title="Sparse approximation">Sparse approximation</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sparse_PCA" title="Sparse PCA">Sparse PCA</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Matrix_factorization" class="mw-redirect" title="Matrix factorization">Matrix factorization</a></li>
+<li><a href="https://en.wikipedia.org/wiki/K-SVD" title="K-SVD">K-SVD</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sparse_coding" class="mw-redirect" title="Sparse coding">Neural sparse coding</a></li></ul>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit&amp;section=12" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="mw-references-wrap mw-references-columns"><ol class="references">
+<li id="cite_note-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-1"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Needell, D.; Tropp, J.A. <a rel="nofollow" class="external text" href="https://doi.org/10.1016/j.acha.2008.07.002">"CoSaMP: Iterative signal recovery from incomplete and inaccurate samples"</a>. <i>Applied and Computational Harmonic Analysis</i>. <b>26</b> (3): 301–321. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1016/j.acha.2008.07.002">10.1016/j.acha.2008.07.002</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Applied+and+Computational+Harmonic+Analysis&amp;rft.atitle=CoSaMP%3A+Iterative+signal+recovery+from+incomplete+and+inaccurate+samples&amp;rft.volume=26&amp;rft.issue=3&amp;rft.pages=301-321&amp;rft_id=info%3Adoi%2F10.1016%2Fj.acha.2008.07.002&amp;rft.aulast=Needell&amp;rft.aufirst=D.&amp;rft.au=Tropp%2C+J.A.&amp;rft_id=https%3A%2F%2Fdoi.org%2F10.1016%2Fj.acha.2008.07.002&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-2"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Lotfi, M.; Vidyasagar, M."<a href="https://arxiv.org/abs/1708.03608" class="extiw" title="arxiv:1708.03608">A Fast Non-iterative Algorithm for Compressive Sensing Using Binary Measurement Matrices</a>"</span>
+</li>
+<li id="cite_note-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-3"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">A. M. Tillmann, "<a href="https://doi.org/10.1109/LSP.2014.2345761" class="extiw" title="doi:10.1109/LSP.2014.2345761">On the Computational Intractability of Exact and Approximate Dictionary Learning</a>", IEEE Signal Processing Letters 22(1), 2015: 45–49.</span>
+</li>
+<li id="cite_note-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-4"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Donoho, David L. (2006-06-01). <a rel="nofollow" class="external text" href="http://onlinelibrary.wiley.com/doi/10.1002/cpa.20132/abstract">"For most large underdetermined systems of linear equations the minimal 𝓁1-norm solution is also the sparsest solution"</a>. <i>Communications on Pure and Applied Mathematics</i>. <b>59</b> (6): 797–829. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1002/cpa.20132">10.1002/cpa.20132</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1097-0312">1097-0312</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Communications+on+Pure+and+Applied+Mathematics&amp;rft.atitle=For+most+large+underdetermined+systems+of+linear+equations+the+minimal+%F0%9D%93%811-norm+solution+is+also+the+sparsest+solution&amp;rft.volume=59&amp;rft.issue=6&amp;rft.pages=797-829&amp;rft.date=2006-06-01&amp;rft_id=info%3Adoi%2F10.1002%2Fcpa.20132&amp;rft.issn=1097-0312&amp;rft.aulast=Donoho&amp;rft.aufirst=David+L.&amp;rft_id=http%3A%2F%2Fonlinelibrary.wiley.com%2Fdoi%2F10.1002%2Fcpa.20132%2Fabstract&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-5"><span class="mw-cite-backlink"><b><a href="#cite_ref-5"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Engan, K.; Aase, S.O.; Hakon Husoy, J. (1999-01-01). <a rel="nofollow" class="external text" href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=760624&amp;url=http%253A%252F%252Fieeexplore.ieee.org%252Fxpls%252Fabs_all.jsp%253Farnumber%253D760624">"Method of optimal directions for frame design"</a>. <i>1999 IEEE International Conference on Acoustics, Speech, and Signal Processing, 1999. Proceedings</i>. <b>5</b>: 2443–2446 vol.5. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/ICASSP.1999.760624">10.1109/ICASSP.1999.760624</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=1999+IEEE+International+Conference+on+Acoustics%2C+Speech%2C+and+Signal+Processing%2C+1999.+Proceedings&amp;rft.atitle=Method+of+optimal+directions+for+frame+design&amp;rft.volume=5&amp;rft.pages=2443-2446+vol.5&amp;rft.date=1999-01-01&amp;rft_id=info%3Adoi%2F10.1109%2FICASSP.1999.760624&amp;rft.aulast=Engan&amp;rft.aufirst=K.&amp;rft.au=Aase%2C+S.O.&amp;rft.au=Hakon+Husoy%2C+J.&amp;rft_id=http%3A%2F%2Fieeexplore.ieee.org%2Fxpl%2Flogin.jsp%3Ftp%3D%26arnumber%3D760624%26url%3Dhttp%25253A%25252F%25252Fieeexplore.ieee.org%25252Fxpls%25252Fabs_all.jsp%25253Farnumber%25253D760624&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-6"><span class="mw-cite-backlink"><b><a href="#cite_ref-6"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Aharon, Michal; Elad, Michael. <a rel="nofollow" class="external text" href="http://epubs.siam.org/doi/pdf/10.1137/07070156X">"Sparse and Redundant Modeling of Image Content Using an Image-Signature-Dictionary"</a>. <i>SIAM Journal on Imaging Sciences</i>. <b>1</b> (3): 228–247. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1137/07070156x">10.1137/07070156x</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=SIAM+Journal+on+Imaging+Sciences&amp;rft.atitle=Sparse+and+Redundant+Modeling+of+Image+Content+Using+an+Image-Signature-Dictionary&amp;rft.volume=1&amp;rft.issue=3&amp;rft.pages=228-247&amp;rft_id=info%3Adoi%2F10.1137%2F07070156x&amp;rft.aulast=Aharon&amp;rft.aufirst=Michal&amp;rft.au=Elad%2C+Michael&amp;rft_id=http%3A%2F%2Fepubs.siam.org%2Fdoi%2Fpdf%2F10.1137%2F07070156X&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-7"><span class="mw-cite-backlink"><b><a href="#cite_ref-7"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Pintér, János D. (2000-01-01). <a rel="nofollow" class="external text" href="https://link.springer.com/article/10.1023/A%3A1008311628080">"Yair
+ Censor and Stavros A. Zenios, Parallel Optimization — Theory, 
+Algorithms, and Applications. Oxford University Press, New York/Oxford, 
+1997, xxviii+539 pages. (US $ 85.00)"</a>. <i>Journal of Global Optimization</i>. <b>16</b> (1): 107–108. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1023/A%3A1008311628080">10.1023/A:1008311628080</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/0-19-510062-X" title="Special:BookSources/0-19-510062-X">0-19-510062-X</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/0925-5001">0925-5001</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+Global+Optimization&amp;rft.atitle=Yair+Censor+and+Stavros+A.+Zenios%2C+Parallel+Optimization+%E2%80%94+Theory%2C+Algorithms%2C+and+Applications.+Oxford+University+Press%2C+New+York%2FOxford%2C+1997%2C+xxviii%2B539+pages.+%28US+%24+85.00%29&amp;rft.volume=16&amp;rft.issue=1&amp;rft.pages=107-108&amp;rft.date=2000-01-01&amp;rft.issn=0925-5001&amp;rft_id=info%3Adoi%2F10.1023%2FA%3A1008311628080&amp;rft.isbn=0-19-510062-X&amp;rft.aulast=Pint%C3%A9r&amp;rft.aufirst=J%C3%A1nos+D.&amp;rft_id=https%3A%2F%2Flink.springer.com%2Farticle%2F10.1023%2FA%253A1008311628080&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-8"><span class="mw-cite-backlink"><b><a href="#cite_ref-8"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Lee, Honglak, et al. "Efficient sparse coding algorithms." <i>Advances in neural information processing systems</i>. 2006.</span>
+</li>
+<li id="cite_note-9"><span class="mw-cite-backlink"><b><a href="#cite_ref-9"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Rubinstein, R.; Bruckstein, A.M.; Elad, M. (2010-06-01). <a rel="nofollow" class="external text" href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=5452966&amp;url=http%253A%252F%252Fieeexplore.ieee.org%252Fxpls%252Fabs_all.jsp%253Farnumber%253D5452966">"Dictionaries for Sparse Representation Modeling"</a>. <i>Proceedings of the IEEE</i>. <b>98</b> (6): 1045–1057. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/JPROC.2010.2040551">10.1109/JPROC.2010.2040551</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/0018-9219">0018-9219</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Proceedings+of+the+IEEE&amp;rft.atitle=Dictionaries+for+Sparse+Representation+Modeling&amp;rft.volume=98&amp;rft.issue=6&amp;rft.pages=1045-1057&amp;rft.date=2010-06-01&amp;rft_id=info%3Adoi%2F10.1109%2FJPROC.2010.2040551&amp;rft.issn=0018-9219&amp;rft.aulast=Rubinstein&amp;rft.aufirst=R.&amp;rft.au=Bruckstein%2C+A.M.&amp;rft.au=Elad%2C+M.&amp;rft_id=http%3A%2F%2Fieeexplore.ieee.org%2Fxpl%2Flogin.jsp%3Ftp%3D%26arnumber%3D5452966%26url%3Dhttp%25253A%25252F%25252Fieeexplore.ieee.org%25252Fxpls%25252Fabs_all.jsp%25253Farnumber%25253D5452966&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-10"><span class="mw-cite-backlink"><b><a href="#cite_ref-10"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Engan, Kjersti; Skretting, Karl; Husøy, John H\a akon (2007-01-01). <a rel="nofollow" class="external text" href="https://dx.doi.org/10.1016/j.dsp.2006.02.002">"Family of Iterative LS-based Dictionary Learning Algorithms, ILS-DLA, for Sparse Signal Representation"</a>. <i>Digit. Signal Process</i>. <b>17</b> (1): 32–49. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1016/j.dsp.2006.02.002">10.1016/j.dsp.2006.02.002</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1051-2004">1051-2004</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Digit.+Signal+Process.&amp;rft.atitle=Family+of+Iterative+LS-based+Dictionary+Learning+Algorithms%2C+ILS-DLA%2C+for+Sparse+Signal+Representation&amp;rft.volume=17&amp;rft.issue=1&amp;rft.pages=32-49&amp;rft.date=2007-01-01&amp;rft_id=info%3Adoi%2F10.1016%2Fj.dsp.2006.02.002&amp;rft.issn=1051-2004&amp;rft.aulast=Engan&amp;rft.aufirst=Kjersti&amp;rft.au=Skretting%2C+Karl&amp;rft.au=Hus%C3%B8y%2C+John+H%5Ca+akon&amp;rft_id=https%3A%2F%2Fdx.doi.org%2F10.1016%2Fj.dsp.2006.02.002&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-11"><span class="mw-cite-backlink"><b><a href="#cite_ref-11"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Mairal, J.; Sapiro, G.; Elad, M. (2008-01-01). <a rel="nofollow" class="external text" href="http://epubs.siam.org/doi/abs/10.1137/070697653">"Learning Multiscale Sparse Representations for Image and Video Restoration"</a>. <i>Multiscale Modeling &amp; Simulation</i>. <b>7</b> (1): 214–241. <a href="https://en.wikipedia.org/wiki/CiteSeerX" title="CiteSeerX">CiteSeerX</a>&nbsp;<span class="plainlinks"><a rel="nofollow" class="external text" href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.95.6239">10.1.1.95.6239</a> <img alt="Freely accessible" src="9px-Lock-green.png" title="Freely accessible" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" width="9" height="14"></span>. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1137/070697653">10.1137/070697653</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1540-3459">1540-3459</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Multiscale+Modeling+%26+Simulation&amp;rft.atitle=Learning+Multiscale+Sparse+Representations+for+Image+and+Video+Restoration&amp;rft.volume=7&amp;rft.issue=1&amp;rft.pages=214-241&amp;rft.date=2008-01-01&amp;rft_id=%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fsummary%3Fdoi%3D10.1.1.95.6239&amp;rft.issn=1540-3459&amp;rft_id=info%3Adoi%2F10.1137%2F070697653&amp;rft.aulast=Mairal&amp;rft.aufirst=J.&amp;rft.au=Sapiro%2C+G.&amp;rft.au=Elad%2C+M.&amp;rft_id=http%3A%2F%2Fepubs.siam.org%2Fdoi%2Fabs%2F10.1137%2F070697653&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-12"><span class="mw-cite-backlink"><b><a href="#cite_ref-12"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Rubinstein, R.; Zibulevsky, M.; Elad, M. (2010-03-01). <a rel="nofollow" class="external text" href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=5325694&amp;url=http%253A%252F%252Fieeexplore.ieee.org%252Fxpls%252Fabs_all.jsp%253Farnumber%253D5325694">"Double Sparsity: Learning Sparse Dictionaries for Sparse Signal Approximation"</a>. <i>IEEE Transactions on Signal Processing</i>. <b>58</b> (3): 1553–1564. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/TSP.2009.2036477">10.1109/TSP.2009.2036477</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1053-587X">1053-587X</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=IEEE+Transactions+on+Signal+Processing&amp;rft.atitle=Double+Sparsity%3A+Learning+Sparse+Dictionaries+for+Sparse+Signal+Approximation&amp;rft.volume=58&amp;rft.issue=3&amp;rft.pages=1553-1564&amp;rft.date=2010-03-01&amp;rft_id=info%3Adoi%2F10.1109%2FTSP.2009.2036477&amp;rft.issn=1053-587X&amp;rft.aulast=Rubinstein&amp;rft.aufirst=R.&amp;rft.au=Zibulevsky%2C+M.&amp;rft.au=Elad%2C+M.&amp;rft_id=http%3A%2F%2Fieeexplore.ieee.org%2Fxpl%2Flogin.jsp%3Ftp%3D%26arnumber%3D5325694%26url%3Dhttp%25253A%25252F%25252Fieeexplore.ieee.org%25252Fxpls%25252Fabs_all.jsp%25253Farnumber%25253D5325694&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-13"><span class="mw-cite-backlink"><b><a href="#cite_ref-13"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Mairal, Julien; Bach, Francis; Ponce, Jean; Sapiro, Guillermo (2010-03-01). <a rel="nofollow" class="external text" href="http://dl.acm.org/citation.cfm?id=1756006.1756008">"Online Learning for Matrix Factorization and Sparse Coding"</a>. <i>J. Mach. Learn. Res</i>. <b>11</b>: 19–60. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1532-4435">1532-4435</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=J.+Mach.+Learn.+Res.&amp;rft.atitle=Online+Learning+for+Matrix+Factorization+and+Sparse+Coding&amp;rft.volume=11&amp;rft.pages=19-60&amp;rft.date=2010-03-01&amp;rft.issn=1532-4435&amp;rft.aulast=Mairal&amp;rft.aufirst=Julien&amp;rft.au=Bach%2C+Francis&amp;rft.au=Ponce%2C+Jean&amp;rft.au=Sapiro%2C+Guillermo&amp;rft_id=http%3A%2F%2Fdl.acm.org%2Fcitation.cfm%3Fid%3D1756006.1756008&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-14"><span class="mw-cite-backlink"><b><a href="#cite_ref-14"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Aharon,
+ M, M Elad, and A Bruckstein. 2006. "K-SVD: An Algorithm for Designing 
+Overcomplete Dictionaries for Sparse Representation." Signal Processing,
+ IEEE Transactions on 54 (11): 4311-4322</span>
+</li>
+<li id="cite_note-15"><span class="mw-cite-backlink"><b><a href="#cite_ref-15"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Peyré, Gabriel (2008-11-06). <a rel="nofollow" class="external text" href="https://link.springer.com/article/10.1007/s10851-008-0120-3">"Sparse Modeling of Textures"</a>. <i>Journal of Mathematical Imaging and Vision</i>. <b>34</b> (1): 17–31. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1007/s10851-008-0120-3">10.1007/s10851-008-0120-3</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/0924-9907">0924-9907</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+Mathematical+Imaging+and+Vision&amp;rft.atitle=Sparse+Modeling+of+Textures&amp;rft.volume=34&amp;rft.issue=1&amp;rft.pages=17-31&amp;rft.date=2008-11-06&amp;rft_id=info%3Adoi%2F10.1007%2Fs10851-008-0120-3&amp;rft.issn=0924-9907&amp;rft.aulast=Peyr%C3%A9&amp;rft.aufirst=Gabriel&amp;rft_id=https%3A%2F%2Flink.springer.com%2Farticle%2F10.1007%2Fs10851-008-0120-3&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-16"><span class="mw-cite-backlink"><b><a href="#cite_ref-16"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Ramirez, Ignacio; Sprechmann, Pablo; Sapiro, Guillermo (2010-01-01). <a rel="nofollow" class="external text" href="http://www.computer.org/csdl/proceedings/cvpr/2010/6984/00/05539964-abs.html">"Classification and clustering via dictionary learning with structured incoherence and shared features"</a>. <i>2014 IEEE Conference on Computer Vision and Pattern Recognition</i>. Los Alamitos, CA, USA: IEEE Computer Society. <b>0</b>: 3501–3508. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/CVPR.2010.5539964">10.1109/CVPR.2010.5539964</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/978-1-4244-6984-0" title="Special:BookSources/978-1-4244-6984-0">978-1-4244-6984-0</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=2014+IEEE+Conference+on+Computer+Vision+and+Pattern+Recognition&amp;rft.atitle=Classification+and+clustering+via+dictionary+learning+with+structured+incoherence+and+shared+features&amp;rft.volume=0&amp;rft.pages=3501-3508&amp;rft.date=2010-01-01&amp;rft_id=info%3Adoi%2F10.1109%2FCVPR.2010.5539964&amp;rft.isbn=978-1-4244-6984-0&amp;rft.aulast=Ramirez&amp;rft.aufirst=Ignacio&amp;rft.au=Sprechmann%2C+Pablo&amp;rft.au=Sapiro%2C+Guillermo&amp;rft_id=http%3A%2F%2Fwww.computer.org%2Fcsdl%2Fproceedings%2Fcvpr%2F2010%2F6984%2F00%2F05539964-abs.html&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-17"><span class="mw-cite-backlink"><b><a href="#cite_ref-17"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Koniusz, Piotr; Yan, Fei; Mikolajczyk, Krystian (2013-05-01). <a rel="nofollow" class="external text" href="https://dx.doi.org/10.1016/j.cviu.2012.10.010">"Comparison of mid-level feature coding approaches and pooling strategies in visual concept detection"</a>. <i>Computer Vision and Image Understanding</i>. <b>117</b> (5): 479–492. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1016/j.cviu.2012.10.010">10.1016/j.cviu.2012.10.010</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/1077-3142">1077-3142</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Computer+Vision+and+Image+Understanding&amp;rft.atitle=Comparison+of+mid-level+feature+coding+approaches+and+pooling+strategies+in+visual+concept+detection&amp;rft.volume=117&amp;rft.issue=5&amp;rft.pages=479-492&amp;rft.date=2013-05-01&amp;rft_id=info%3Adoi%2F10.1016%2Fj.cviu.2012.10.010&amp;rft.issn=1077-3142&amp;rft.aulast=Koniusz&amp;rft.aufirst=Piotr&amp;rft.au=Yan%2C+Fei&amp;rft.au=Mikolajczyk%2C+Krystian&amp;rft_id=https%3A%2F%2Fdx.doi.org%2F10.1016%2Fj.cviu.2012.10.010&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+<li id="cite_note-18"><span class="mw-cite-backlink"><b><a href="#cite_ref-18"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><cite class="citation journal">Koniusz, Piotr; Yan, Fei; Gosselin, Philippe Henri; Mikolajczyk, Krystian (2017-02-24). <a rel="nofollow" class="external text" href="http://ieeexplore.ieee.org/document/7439823">"Higher-order occurrence pooling for bags-of-words: Visual concept detection"</a>. <i>IEEE Transactions on Pattern Analysis and Machine Intelligence</i>. <b>39</b> (2): 313–326. <a href="https://en.wikipedia.org/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="https://doi.org/10.1109/TPAMI.2016.2545667">10.1109/TPAMI.2016.2545667</a>. <a href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number" title="International Standard Serial Number">ISSN</a>&nbsp;<a rel="nofollow" class="external text" href="https://www.worldcat.org/issn/0162-8828">0162-8828</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=IEEE+Transactions+on+Pattern+Analysis+and+Machine+Intelligence&amp;rft.atitle=Higher-order+occurrence+pooling+for+bags-of-words%3A+Visual+concept+detection&amp;rft.volume=39&amp;rft.issue=2&amp;rft.pages=313-326&amp;rft.date=2017-02-24&amp;rft_id=info%3Adoi%2F10.1109%2FTPAMI.2016.2545667&amp;rft.issn=0162-8828&amp;rft.aulast=Koniusz&amp;rft.aufirst=Piotr&amp;rft.au=Yan%2C+Fei&amp;rft.au=Gosselin%2C+Philippe+Henri&amp;rft.au=Mikolajczyk%2C+Krystian&amp;rft_id=http%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F7439823&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3ASparse+dictionary+learning" class="Z3988"><span style="display:none;">&nbsp;</span></span></span>
+</li>
+</ol></div>
+
+<!-- 
+NewPP limit report
+Parsed by mw1247
+Cached time: 20180802034020
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.276 seconds
+Real time usage: 0.429 seconds
+Preprocessor visited node count: 1268/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 60434/2097152 bytes
+Template argument size: 634/2097152 bytes
+Highest expansion depth: 10/40
+Expensive parser function count: 0/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 26130/5000000 bytes
+Number of Wikibase entities loaded: 0/400
+Lua time usage: 0.093/10.000 seconds
+Lua memory usage: 3.95 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  164.471      1 -total
+ 56.60%   93.086     14 Template:Cite_journal
+ 26.06%   42.866      1 Template:Machine_learning_bar
+ 23.74%   39.042      1 Template:Sidebar_with_collapsible_lists
+  5.81%    9.550      2 Template:Main
+  5.66%    9.313      1 Template:Portal-inline
+  2.99%    4.913      1 Template:Longitem
+  2.15%    3.540      1 Template:Nobold
+  1.46%    2.397      1 Template:Small
+  0.68%    1.117      1 Template:•
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:48813654-0!canonical!math=5 and timestamp 20180802034019 and revision id 841576132
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;oldid=841576132">https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;oldid=841576132</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikipedia.org/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="https://en.wikipedia.org/wiki/Category:Machine_learning" title="Category:Machine learning">Machine learning</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Unsupervised_learning" title="Category:Unsupervised learning">Unsupervised learning</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikipedia.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="https://en.wikipedia.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikipedia.org/w/index.php?title=Special:CreateAccount&amp;returnto=Sparse+dictionary+learning&amp;returntoquery=oldid%3D841576132" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Sparse+dictionary+learning&amp;returntoquery=oldid%3D841576132" title="You're encouraged to log in; however, it's not mandatory. [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikipedia.org/wiki/Sparse_dictionary_learning" title="View the content page [Alt+Shift+c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="https://en.wikipedia.org/wiki/Talk:Sparse_dictionary_learning" rel="discussion" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input class="vectorMenuCheckbox" aria-labelledby="p-variants-label" type="checkbox">
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="https://en.wikipedia.org/wiki/Sparse_dictionary_learning">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label" style="">
+						<input class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" type="checkbox">
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input name="search" placeholder="Search Wikipedia" title="Search Wikipedia [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" type="search"><input value="Special:Search" name="title" type="hidden"><input name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="https://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="https://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="https://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="https://en.wikipedia.org/wiki/Special:Random" title="Load a random article [Alt+Shift+x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="https://shop.wikimedia.org/" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="https://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="https://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="https://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="https://en.wikipedia.org/wiki/Special:WhatLinksHere/Sparse_dictionary_learning" title="List of all English Wikipedia pages containing links to this page [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Sparse_dictionary_learning" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;oldid=841576132" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q25304494" title="Link to connected data repository item [Alt+Shift+g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="https://en.wikipedia.org/w/index.php?title=Special:CiteThisPage&amp;page=Sparse_dictionary_learning&amp;id=841576132" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="https://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Sparse+dictionary+learning">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikipedia.org/w/index.php?title=Special:ElectronPdf&amp;page=Sparse+dictionary+learning&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="https://en.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+									</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-add wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q25304494#sitelinks-wikipedia" title="Add interlanguage links" class="wbc-editpage">Add links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 16 May 2018, at 17:43<span class="anonymous-show">&nbsp;(UTC)</span>.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="https://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="https://en.m.wikipedia.org/w/index.php?title=Sparse_dictionary_learning&amp;oldid=841576132&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://wikimediafoundation.org/"><img src="wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="https://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.276","walltime":"0.429","ppvisitednodes":{"value":1268,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":60434,"limit":2097152},"templateargumentsize":{"value":634,"limit":2097152},"expansiondepth":{"value":10,"limit":40},"expensivefunctioncount":{"value":0,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":26130,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%  164.471      1 -total"," 56.60%   93.086     14 Template:Cite_journal"," 26.06%   42.866      1 Template:Machine_learning_bar"," 23.74%   39.042      1 Template:Sidebar_with_collapsible_lists","  5.81%    9.550      2 Template:Main","  5.66%    9.313      1 Template:Portal-inline","  2.99%    4.913      1 Template:Longitem","  2.15%    3.540      1 Template:Nobold","  1.46%    2.397      1 Template:Small","  0.68%    1.117      1 Template:•"]},"scribunto":{"limitreport-timeusage":{"value":"0.093","limit":"10.000"},"limitreport-memusage":{"value":4139273,"limit":52428800}},"cachereport":{"origin":"mw1247","timestamp":"20180802034020","ttl":1900800,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":118,"wgHostname":"mw1238"});});</script>
+	
+
+</body></html>
