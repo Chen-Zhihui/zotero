@@ -1,0 +1,687 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript" async="async" src="s94366846192646.js"></script><script type="text/javascript" async="" src="analytics.js"></script><script async="" src="gtm.js"></script><script type="text/javascript" async="async" src="s99711013273003.js"></script>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title -->
+    <title>OAuth redirect example—ArcGIS Runtime SDK for Qt | ArcGIS for Developers</title>
+
+   <!-- Google Tag Manager -->
+  <script type="text/javascript" async="" src="analytics.js"></script><script async="" src="gtm.js"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NJGGV5');</script>
+  <!-- End Google Tag Manager -->
+    
+    <link rel="pingback" href="https://pingback.me/esri/xmlrpc">
+    <link rel="shortcut icon" href="https://developers.arcgis.com/favicon.ico">
+
+    <link href="screen.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="sdks.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="base.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="documentation.css" media="all" rel="stylesheet" type="text/css">
+    <link href="print.css" media="print" rel="stylesheet" type="text/css">
+
+	  <!--- search MD -->
+   	<meta name="description" content="Sample: OAuthRedirectExample, Category: CloudAndPortal"><meta name="last-modified" content="2018-7-24"><meta name="product" content="api-cqt"><meta name="sub_category" content="Runtime SDK for Qt (C++)"><meta name="search-collection" content="help"><meta name="content_type_label" content="Sample"><meta name="sub_category_label" content="Runtime SDK for Qt (C++)"><meta name="search-category" content="help-api,help-api-sample"><meta name="subject_label" content="DEVELOPER,ARCGIS RUNTIME"><meta name="version" content="100"><meta name="content_type" content="Sample"><meta name="subject" content="DEVELOPER,ARCGIS RUNTIME"><meta name="content-language" content="en">
+   	<!--- search MD -->
+	<script src="jquery_002.js" type="text/javascript"></script>
+  
+  <script src="jquery.js" type="text/javascript"></script>
+	<script src="sdk-qt-1.js" type="text/javascript"></script>
+	
+
+	
+
+  
+  <script src="showdown.js" type="text/javascript"></script>
+  <script src="mdtohtml.js" type="text/javascript"></script>
+  
+
+  <!-- Adobe Analytics head code include -->
+  <script src="satelliteLib-0ed1001fd441a838aefe8e755be42aaafddcc46b.js"></script>
+  <!-- END: Adobe Analytics head code include -->
+<script src="satellite-5afa117d64746d5998007a14.js"></script><script src="s-code-contents-4aefdae3bc830a1a6e55f51b0e942680d69005c4.js"></script><script src="cookie-banner.js"></script><link href="fonts.css" type="text/css" rel="stylesheet"><link href="cookie-banner.css" type="text/css" rel="stylesheet"><link href="fonts.css" type="text/css" rel="stylesheet"><link href="cookie-banner.css" type="text/css" rel="stylesheet"><script src="satellite-5afa117d64746d5998007a14.js"></script><script src="s-code-contents-4aefdae3bc830a1a6e55f51b0e942680d69005c4.js"></script><script src="cookie-banner.js"></script><link href="fonts.css" type="text/css" rel="stylesheet"><link href="cookie-banner.css" type="text/css" rel="stylesheet"></head>
+
+<!--
+      pub: GUID-720FBAA5-8286-4ADF-A4B7-97852F2CF5D1=9
+      tpc: GUID-B6E4E00D-6F62-4F04-9CF6-832516684406=1
+      -->
+<!-- variable declaration, if any -->
+<!-- can change following macro to set variable once we are on Jinja 2.8 -->
+
+
+<body class="claro logged-out en"><div id="esri-cookie-notification"><div id="esri-cookie-banner" data-theme="dark" data-position="bottom" data-fixed="false" style="display: none;">   <div class="esri-cookie-banner__inner">       <div class="esri-cookie-banner__inner-content">           <div class="esri-cookie-banner__text-wrapper">                  <div class="esri-cookie-banner__text"> <p>We use cookies to support your experience.</p>
+</div>           </div>           <div class="esri-cookie-banner__button-wrapper">               <a class="cookie-banner-action esri-cookie-banner__button-one link" data-is-link="true" data-link-url="https://www.esri.com/en-us/privacy/manage-privacy/cookies" data-sets-cookie="true" data-cookie-value="false">Learn more</a>               <a class="cookie-banner-action esri-cookie-banner__button-two button" data-is-link="false" data-link-url="" data-sets-cookie="true" data-cookie-value="true">Accept cookies</a>           </div>       </div>   </div></div></div>
+      <div class="js-search search-overlay">
+        <div class="search-content column-24" role="dialog" aria-labelledby="search">
+          <form method="GET" action="/search/">
+            <label>
+              <span class="font-size-1">Search ArcGIS for Developers</span>
+              <input class="search-input js-search-input" name="q" placeholder="map, feature layer, etc…" type="search">
+            </label>
+
+            <label class="inline-block margin-right-2">
+              Product
+              <select id="developersSearchProduct" class="top-nav-filter" type="search" name="p">
+                <option value="">All Products</option>
+                <option value="api-for-android">Android SDK</option><option value="arcgis-arcade">Arcade</option><option value="api-ios-swift">iOS SDK (Swift)</option><option value="api-ios">iOS SDK (Objective C)</option><option value="api-java">Java SDK</option><option value="js-api-arcgis">JavaScript API</option><option value="api-mac-osx-swift">macOS SDK (Swift)</option><option value="api-mac-osx">macOS SDK (Objective C)</option><option value="api-net-win-desktop">.Net SDK (WPF API)</option><option value="api-net-uwp">.Net SDK (UWP API)</option><option value="api-net-android">.Net SDK (Xamarin.Android API)</option><option value="api-net-ios">.Net SDK (Xamarin.iOS API)</option><option value="api-net-forms">.Net SDK (Xamarin.Forms API)</option><option value="api-net-win-phone">.Net SDK (Phone API)</option><option value="api-win-store">.Net SDK (Store API)</option><option value="api-python">Python API</option><option value="api-cqt" selected="selected">Qt SDK (C++)</option><option value="api-qt-qml">Qt SDK (QML)</option><option value="api-rest">REST APIs</option><option value="web-appbuilder">Web AppBuilder</option>
+              </select>
+            </label>
+
+            <label class="inline-block margin-right-2">
+              Version
+              <select id="developersSearchVersion" type="search" name="v">
+                <option id="default-version" value="">All Versions</option>
+                <option value="10.3">10.2</option><option value="100" selected="selected">100.3</option>
+              </select>
+            </label>
+            <button type="submit" class="btn btn-large right leader-1">Search</button>
+            </form></div>
+          
+        </div>
+      
+    
+      <div class="drawer drawer-left js-drawer" data-drawer="left" tabindex="0">
+        <nav class="drawer-nav" role="navigation">
+          <aside class="side-nav">
+            <!-- Context -->
+            <h2 class="side-nav-title"><a href="https://developers.arcgis.com/">ArcGIS for Developers</a></h2>
+
+            <a class="side-nav-link icon-ui-dashboard hide-if-logged-out" href="https://developers.arcgis.com/dashboard/">Dashboard</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/labs/">Get Started</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/documentation/">Documentation</a>
+            <a class="side-nav-link hide-if-logged-in" href="https://developers.arcgis.com/features/">Features</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/pricing/">Pricing</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/support/">Support</a>
+          </aside>
+        </nav>
+      </div>
+    <div id="esri-cookie-notification"><div id="esri-cookie-banner" data-theme="dark" data-position="bottom" data-fixed="false" style="display: none;">   <div class="esri-cookie-banner__inner">       <div class="esri-cookie-banner__inner-content">           <div class="esri-cookie-banner__text-wrapper">                  <div class="esri-cookie-banner__text"> <p>We use cookies to support your experience.</p>
+</div>           </div>           <div class="esri-cookie-banner__button-wrapper">               <a class="cookie-banner-action esri-cookie-banner__button-one link" data-is-link="true" data-link-url="https://www.esri.com/en-us/privacy/manage-privacy/cookies" data-sets-cookie="true" data-cookie-value="false">Learn more</a>               <a class="cookie-banner-action esri-cookie-banner__button-two button" data-is-link="false" data-link-url="" data-sets-cookie="true" data-cookie-value="true">Accept cookies</a>           </div>       </div>   </div></div></div>
+      <div class="js-search search-overlay">
+        <div class="search-content column-24" role="dialog" aria-labelledby="search">
+          <form method="GET" action="/search/">
+            <label>
+              <span class="font-size-1">Search ArcGIS for Developers</span>
+              <input class="search-input js-search-input" name="q" placeholder="map, feature layer, etc…" type="search">
+            </label>
+
+            <label class="inline-block margin-right-2">
+              Product
+              <select id="developersSearchProduct" class="top-nav-filter" type="search" name="p">
+                <option value="">All Products</option>
+                <option value="api-for-android">Android SDK</option><option value="arcgis-arcade">Arcade</option><option value="api-ios-swift">iOS SDK (Swift)</option><option value="api-ios">iOS SDK (Objective C)</option><option value="api-java">Java SDK</option><option value="js-api-arcgis">JavaScript API</option><option value="api-mac-osx-swift">macOS SDK (Swift)</option><option value="api-mac-osx">macOS SDK (Objective C)</option><option value="api-net-win-desktop">.Net SDK (WPF API)</option><option value="api-net-uwp">.Net SDK (UWP API)</option><option value="api-net-android">.Net SDK (Xamarin.Android API)</option><option value="api-net-ios">.Net SDK (Xamarin.iOS API)</option><option value="api-net-forms">.Net SDK (Xamarin.Forms API)</option><option value="api-net-win-phone">.Net SDK (Phone API)</option><option value="api-win-store">.Net SDK (Store API)</option><option value="api-python">Python API</option><option value="api-cqt" selected="selected">Qt SDK (C++)</option><option value="api-qt-qml">Qt SDK (QML)</option><option value="api-rest">REST APIs</option><option value="web-appbuilder">Web AppBuilder</option>
+              </select>
+            </label>
+
+            <label class="inline-block margin-right-2">
+              Version
+              <select id="developersSearchVersion" type="search" name="v">
+                <option id="default-version" value="">All Versions</option>
+                <option value="10.3">10.2</option><option value="100" selected="selected">100.3</option>
+              </select>
+            </label>
+            <button type="submit" class="btn btn-large right leader-1">Search</button>
+            </form></div>
+          
+        </div>
+      
+    
+      <div class="drawer drawer-left js-drawer" data-drawer="left" tabindex="0">
+        <nav class="drawer-nav" role="navigation">
+          <aside class="side-nav">
+            <!-- Context -->
+            <h2 class="side-nav-title"><a href="https://developers.arcgis.com/">ArcGIS for Developers</a></h2>
+
+            <a class="side-nav-link icon-ui-dashboard hide-if-logged-out" href="https://developers.arcgis.com/dashboard/">Dashboard</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/labs/">Get Started</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/documentation/">Documentation</a>
+            <a class="side-nav-link hide-if-logged-in" href="https://developers.arcgis.com/features/">Features</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/pricing/">Pricing</a>
+            <a class="side-nav-link" href="https://developers.arcgis.com/support/">Support</a>
+          </aside>
+        </nav>
+      </div>
+    
+	<!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJGGV5"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Account Notifications -->
+  <developers-account-notifications style="display: block;"></developers-account-notifications>
+
+	<!-- The wrapper exists for enabling certain animations
+         as well as proper ARIA handling when the body
+         document is occludded by a modal or drawer. -->
+	<!--<div class="drawer drawer-left js-drawer" data-drawer="top-nav">
+      <nav class="drawer-nav">
+        <aside class="side-nav">
+          <h2 class="side-nav-title text-center font-size-3">ArcGIS for Developers</h2>
+          
+<a href="/get-started/" class="side-nav-link">Get Started</a>
+		<a href="/documentation/" class="side-nav-link">Documentation</a>
+		<a href="/features/" class="side-nav-link hide-if-logged-in">Features</a>
+		<a href="/pricing/" class="side-nav-link">Pricing</a>
+		<a href="/support/" class="side-nav-link">Support</a>
+ 
+        </aside>
+      </nav>
+  </div>-->
+<!-- End of drawer -->
+
+	
+	<div class="wrapper">
+      <!--googleoff: all-->
+    <!-- Primary Navigation Begins -->
+    <developers-top-navigation style="display: block;">
+      <header class="top-nav">
+        <!-- Constrain content to grid container -->
+          <div class="grid-container">
+            <div class="column-24">
+              <!-- Flex sizing is needed to perform tablet and mobile layout -->
+              <div class="top-nav-flex">
+                <!-- This is Desktop exposed Navigation -->
+                <div class="tablet-hide">
+                  <!-- Skip to content jumps to body, avoiding navigation -->
+                  <a class="skip-to-content" href="#skip-to-content">Skip To Content</a>
+                  <!-- Site Title, always goes to root landing page. -->
+                  <a href="https://developers.arcgis.com/" class="top-nav-title font-size-1">ArcGIS for Developers</a>
+
+                  <nav class="top-nav-list top-nav-animation" role="navigation" aria-labelledby="topnav">
+                    <span class="global-divider global-divider-right" aria-role="presentation"></span>
+
+                    <!-- Logged In Specific Items -->
+                    <a href="https://developers.arcgis.com/dashboard/" class="icon-ui-dashboard top-nav-link hide-if-logged-out">Dashboard</a>
+
+                    <!-- Nav Dropdown -->
+                    <div class="dropdown js-dropdown top-nav-margin-left hide-if-logged-out">
+                      <a class="btn-transparent top-nav-link dropdown-btn dropdown-btn-filled js-dropdown-toggle text-no-wrap hide-if-public-account" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button">
+                        <span class="icon-ui-plus icon-ui-flush right"></span>
+                      </a>
+
+                      <nav class="js-dropdown-menu dropdown-menu dropdown-left text-left">
+                      <a href="https://developers.arcgis.com/applications/new/" class="icon-ui-applications dropdown-link">New Application</a>
+                      <a href="https://developers.arcgis.com/layers/new/" class="icon-ui-layers dropdown-link">New Layer</a>
+                      </nav>
+                    </div>
+
+                    <span class="global-divider hide-if-logged-out" aria-role="presentation"></span>
+
+                    
+<a href="https://developers.arcgis.com/get-started/" class="top-nav-link">Get Started</a>
+		<a href="https://developers.arcgis.com/documentation/" class="top-nav-link">Documentation</a>
+		<a href="https://developers.arcgis.com/features/" class="top-nav-link hide-if-logged-in">Features</a>
+		<a href="https://developers.arcgis.com/pricing/" class="top-nav-link">Pricing</a>
+		<a href="https://developers.arcgis.com/support/" class="top-nav-link">Support</a>
+ 
+                  </nav>
+                </div>
+
+                <!-- Collapse list of links to hamburger icon which activates above drawer -->
+                <nav class="tablet-show top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                  <!-- Icon and Word on Tablet -->
+                  <a href="#" aria-label="Menu" class="top-nav-link js-drawer-toggle icon-ui-drag-horizontal" data-drawer="left">Menu</a>
+                </nav>
+
+                <!-- On Tablet, float Site Title to center -->
+                <header class="tablet-show top-nav-flex-title">
+                  <a href="https://developers.arcgis.com/" class="top-nav-link">ArcGIS <span class="phone-hide">for Developers</span></a>
+                </header>
+
+                <!-- Web components handle Search and User experience -->
+                <nav class="top-nav-flex-list text-right top-nav-animation" role="navigation" aria-labelledby="usernav">
+                  <developers-user-navigation class="right">
+      <div class="top-nav-list right">
+        <a href="https://developers.arcgis.com/sign-in/" class="icon-ui-user top-nav-link link-blue">Sign In</a>
+      </div>
+    
+      <div class="top-nav-list right">
+        <a href="https://developers.arcgis.com/sign-in/" class="icon-ui-user top-nav-link link-blue">Sign In</a>
+      </div>
+    </developers-user-navigation>
+                  <span class="global-divider global-divider-left global-divider-right right" aria-role="presentation"></span>
+                  <developers-search class="flex-vertical-center right" placeholder="map, feature layer, etc&amp;hellip;" product="api-cqt" version="100">
+      <button class="flex-1 flex-vertical-center padding-left-0 padding-right-0 search-top-nav js-search-toggle" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 -4 32 36" class="flex-0 svg-icon js-search-icon">
+          <path d="M31.607 27.838l-6.133-6.137a1.336 1.336 0 0 0-1.887 0l-.035.035-2.533-2.533-.014.014c3.652-4.556 3.422-11.195-.803-15.42-4.529-4.527-11.875-4.531-16.404 0-4.531 4.531-4.529 11.875 0 16.406 4.205 4.204 10.811 4.455 15.365.848l.004.003-.033.033 2.541 2.54a1.33 1.33 0 0 0 .025 1.848l6.135 6.133a1.33 1.33 0 0 0 1.887 0l1.885-1.883a1.332 1.332 0 0 0 0-1.887zM17.811 17.809a8.213 8.213 0 0 1-11.619 0 8.217 8.217 0 0 1 0-11.622 8.219 8.219 0 0 1 11.619.004 8.216 8.216 0 0 1 0 11.618z"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 -4 32 36" class="flex-0 svg-icon js-close-icon hide">
+          <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"></path>
+        </svg>
+      </button>
+    
+      <button class="flex-1 flex-vertical-center padding-left-0 padding-right-0 search-top-nav js-search-toggle" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 -4 32 36" class="flex-0 svg-icon js-search-icon">
+          <path d="M31.607 27.838l-6.133-6.137a1.336 1.336 0 0 0-1.887 0l-.035.035-2.533-2.533-.014.014c3.652-4.556 3.422-11.195-.803-15.42-4.529-4.527-11.875-4.531-16.404 0-4.531 4.531-4.529 11.875 0 16.406 4.205 4.204 10.811 4.455 15.365.848l.004.003-.033.033 2.541 2.54a1.33 1.33 0 0 0 .025 1.848l6.135 6.133a1.33 1.33 0 0 0 1.887 0l1.885-1.883a1.332 1.332 0 0 0 0-1.887zM17.811 17.809a8.213 8.213 0 0 1-11.619 0 8.217 8.217 0 0 1 0-11.622 8.219 8.219 0 0 1 11.619.004 8.216 8.216 0 0 1 0 11.618z"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 -4 32 36" class="flex-0 svg-icon js-close-icon hide">
+          <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"></path>
+        </svg>
+      </button>
+    </developers-search>
+                </nav>
+              </div>
+            </div>
+          </div>
+      </header> 
+      <!-- End the Header -->
+    </developers-top-navigation>
+
+      <!--googleon: all-->
+      <div id="skip-to-content">
+      	<!--googleoff: all-->
+        <header class="sub-nav sdk-header-container" role="banner">
+          <div class="grid-container">
+            <div class="column-24">
+              <nav class="breadcrumbs breadcrumbs-white padding-leader-1 clearfix"><a class="crumb" href="https://developers.arcgis.com/arcgis-runtime/" target="_top">ArcGIS Runtime</a><a class="crumb" href="https://developers.arcgis.com/qt/" target="_top">Qt SDK</a><a class="crumb" href="https://developers.arcgis.com/qt/latest/" target="_top">100.3.0</a><a class="crumb is-active" href="https://developers.arcgis.com/qt/latest/cpp/sample-code">Sample Code</a></nav>
+              <h1 class="sub-nav-title text-white">ArcGIS Runtime SDK for Qt</h1>
+    		      <nav class="sub-nav-list tablet-hide"><a class="sub-nav-link" href="https://developers.arcgis.com/qt/latest/" target="_top" title="Home: ArcGIS Runtime SDK for Qt Home">Home</a><a class="sub-nav-link" href="https://developers.arcgis.com/qt/latest/qml/guide/" target="_top" title="Guide: ArcGIS Runtime SDK for Qt">Guide</a><a class="sub-nav-link" href="https://developers.arcgis.com/qt/latest/api-reference/" target="_top" title="API Reference: ArcGIS Runtime SDK for Qt">API Reference</a><a class="sub-nav-link" href="https://developers.arcgis.com/qt/latest/qml/sample-code/" target="_top" title="Samples: ArcGIS Qt SDK—QML samples">QML Samples</a><a class="sub-nav-link is-active" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/" target="_top" title="Samples: ArcGIS Qt SDK—C++ samples">C++ Samples</a><a class="sub-nav-link" href="https://developers.arcgis.com/qt/support/" target="_top" title="Support: ArcGIS Runtime SDK for Qt">Support</a></nav><select class="tablet-show select-full trailer-half js-select-nav"><option value="/qt/latest/">Home</option><option value="/qt/latest/qml/guide/">Guide</option><option value="/qt/latest/api-reference/">API Reference</option><option value="/qt/latest/qml/sample-code/">QML Samples</option><option selected="selected" value="/qt/latest/cpp/sample-code/">C++ Samples</option><option value="/qt/support/">Support</option></select>
+            </div>
+	        </div>
+          
+
+        </header>
+        
+        <!--googleon: all-->
+        
+        <!-- content goes here -->
+        <div class="grid-container leader-1">
+        	
+            
+ <!--googleoff: all-->
+  
+  <div class="column-5 tablet-column-12 trailer-2">
+    <aside class="js-accordion accordion" aria-live="polite" role="tablist">
+        <div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Analysis</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-analyzehotspots.htm">Analyze hotspots</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-analyzeviewshed.htm">Analyze viewshed</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-lineofsightlocation.htm">Line of sight (location)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-statisticalquery.htm">Statistical query</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-viewshedcamera.htm">Viewshed (Camera)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-viewshedgeoelement.htm">Viewshed (GeoElement)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-viewshedlocation.htm">Viewshed (Location)</a></nav></div><div class="accordion-section is-active" area-expanded="true" aria-expanded="true"><h4 class="accordion-title" role="tab" tabindex="0">Cloud and portal</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-additemstoportal.htm">Add items to portal</a><a class="side-nav-link is-active" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-oauthredirectexample.htm">OAuth redirect example</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-portaluserinfo.htm">Portal user info</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-searchforwebmap.htm">Search for web map by keyword</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-showorgbasemaps.htm">Show organization basemaps</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-tokenauthentication.htm">Token authentication</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Display information</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-gorenderers.htm">Add graphics with renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-gosymbols.htm">Add graphics with symbols</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displaygrid.htm">Display grid</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-godictionaryrenderer.htm">Graphics overlay (dictionary renderer)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-godictionaryrenderer-3d.htm">Graphics overlay (dictionary renderer) 3D</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-identifygraphics.htm">Identify graphics</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-picturemarkersymbol.htm">PictureMarkerSymbol</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-showcallout.htm">Show callout</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-showlegend.htm">Show legend</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-simplemarkersymbol.htm">SimpleMarkerSymbol</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-simplerenderer.htm">SimpleRenderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-symbolizeshapefile.htm">Symbolize a shapefile</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-uniquevaluerenderer.htm">UniqueValueRenderer</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Edit data</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-addfeaturesfeatureservice.htm">Add features (feature service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-deletefeaturesfeatureservice.htm">Delete features (feature service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-editandsyncfeatures.htm">Edit and sync features</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-editfeatureattachments.htm">Edit feature attachments</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-updateattributesfeatureservice.htm">Update attributes (feature service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-updategeometryfeatureservice.htm">Update geometry (feature service)</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Features</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayer-changerenderer.htm">Feature layer change renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerdefinitionexpression.htm">Feature layer definition expression</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerdictionaryrenderer.htm">Feature layer (dictionary renderer)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayer-featureservice.htm">Feature layer (feature service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayergeodatabase.htm">Feature layer (geodatabase)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayergeopackage.htm">Feature layer (GeoPackage)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerquery.htm">Feature layer query</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerselection.htm">Feature layer selection</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-generategeodatabase.htm">Generate geodatabase</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-listrelatedfeatures.htm">List related features</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-servicefeaturetable-cache.htm">Service feature table (cache)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-servicefeaturetable-manualcache.htm">Service feature table (manual cache)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-servicefeaturetable-nocache.htm">Service feature table (no cache)</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Geometry</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-formatcoordinates.htm">Format coordinates</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-listtransformations.htm">List transformations by suitability</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Layers</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-arcgismapimagelayerurl.htm">ArcGIS map image layer (URL)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-arcgistiledlayerurl.htm">ArcGIS tiled layer (URL)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-blendrasterlayer.htm">Blend raster layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-changesublayervisibility.htm">Change sublayer visibility</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-exporttiles.htm">Export tiles</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-feature-collection-layer.htm">Feature collection layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurecollectionlayerquery.htm">Feature collection layer (query)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerrenderingmodescene.htm">Feature layer rendering mode (scene)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayershapefile.htm">Feature layer (Shapefile)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-hillshade-renderer.htm">Hillshade renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-osm-layer.htm">OpenStreetMap layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rastercolormaprenderer.htm">Raster colormap renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterfunctionfile.htm">Raster function (file)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterfunctionservice.htm">Raster function (service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterlayerfile.htm">Raster layer (file)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterlayergeopackage.htm">Raster layer (GeoPackage)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterlayerservice.htm">Raster layer (service)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterrenderingrule.htm">Raster rendering rule</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterrgbrenderer.htm">Raster RGB renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-rasterstretchrenderer.htm">Raster stretch renderer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-vectortilelayerurl.htm">Vector tiled layer (URL)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-wmts-layer.htm">Web Map Tile Service (WMTS) layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-web-tiled-layer.htm">Web tiled layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-wmslayerurl.htm">WMS layer (URL)</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Local Server</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-dynamicworkspaceraster.htm">Dynamic workspace raster</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-dynamicworkspaceshapefile.htm">Dynamic workspace shapefile</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-localserverfeaturelayer.htm">Local Server feature layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-localservermapimagelayer.htm">Local Server map image layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-localserverservices.htm">Local Server services</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Maps</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-changebasemap.htm">Change basemap</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-changeviewpoint.htm">Change viewpoint</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displaymap.htm">Display a map</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displaydevicelocation.htm">Display device location</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displaylayerviewdrawstatus.htm">Display layer view draw  status</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displaydrawingstatus.htm">Display drawing status</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-generateofflinemap.htm">Generate offline map</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-managebookmarks.htm">Manage bookmarks</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-maploaded.htm">Map loaded</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-maprotation.htm">Map rotation</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-mobilemap-searchandroute.htm">Mobile map (search and route)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-openmobilemap-mappackage.htm">Open mobile map (map package)</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-openmapurl.htm">Open map using URL</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-setinitialmaparea.htm">Set initial map area</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-setinitialmaplocation.htm">Set initial map location</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-setmapspatialreference.htm">Set map spatial reference</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-showmagnifier.htm">Show magnifier</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Routing</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-closestfacility.htm">Closest facility</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-findroute.htm">Find a route</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-servicearea.htm">Service area</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Scenes</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-animate3dsymbols.htm">Animate 3D symbols</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-basicsceneviewurl.htm">Display a scene</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-displayscenelayer.htm">Display a scene layer</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-distancecompositesymbolurl.htm">Distance Composite Symbol</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-extrudegraphics.htm">Extrude Graphics</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-featurelayerextrusion.htm">FeatureLayer extrusion</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-surfaceplacement.htm">Surface placement</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-scenesymbols.htm">Symbols</a></nav></div><div class="accordion-section"><h4 class="accordion-title" role="tab" tabindex="0">Search</h4><nav class="accordion-content"><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-findaddress.htm">Find an address</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-findplace.htm">Find place</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-offlinegeocode.htm">Offline geocode</a><a class="side-nav-link" href="https://developers.arcgis.com/qt/latest/cpp/sample-code/sample-qt-searchdictionarysymbolstyle.htm">Search dictionary symbol style</a></nav></div>
+    </aside>
+    <div class=" scroll-show tablet-hide leader-1 back-to-top js-shim" data-top="0" style="top: 0px; visibility: hidden;" data-sticky-id="73f3d360-8f6e-bb19-8d7d-bd6e85516323">
+      <a href="#" class="btn btn-fill btn-clear">Back to Top</a>
+    </div><div class="js-sticky scroll-show tablet-hide leader-1 back-to-top is-sticky" data-top="0" style="top: 0px;" data-sticky-id="73f3d360-8f6e-bb19-8d7d-bd6e85516323">
+      <a href="#" class="btn btn-fill btn-clear">Back to Top</a>
+    </div>
+  </div>
+  
+  <!--googleon: all-->
+
+            
+	<div class="column-13  pre-1 content-section">
+		<header class="trailer-1"><h1>OAuth redirect example</h1></header>
+
+		 
+	
+		<!--googleoff: all-->
+		
+				<aside id="main-toc-small" class="js-accordion accordion tablet-show trailer-1" aria-live="polite" role="tablist">
+			      <div class="accordion-section">
+			        <h4 class="accordion-title" role="tab" tabindex="0">In this topic</h4>
+			        <div class="accordion-content list-plain">
+			          <ol class="list-plain pre-0 trailer-0"><li><a href="#ESRI_SECTION1_DECF829649714F85A0C07764B4A3117E">Code</a></li></ol>
+			        </div>
+			      </div>
+			     </aside>
+		
+		<!--googleon: all-->
+	
+
+
+		<main>
+			
+	
+    	<div class="clear"></div>
+    
+
+
+			
+  <p id="GUID-01119A95-20B1-4FAC-947C-09CC2EB5E99F">  </p><nav class="
+                trailer-1 sdksample_toplinks"><a class="btn btn-grouped icon-ui-storage" href="http://links.esri.com/qt/latest/cpp/sample-app-download" target="_blank">Download samples viewer</a><a class="btn btn-grouped icon-ui-github" href="http://links.esri.com/qt/100-1/cpp/samples/oauth-redirect-example" target="_blank">GitHub project</a></nav>
+
+  <div class="loader is-active padding-leader-3 padding-trailer-3" style="display: none;"><div class="loader-bars"></div><div class="loader-text">Loading</div></div><div style="" class="
+                trailer-1 sdksample_md"><p><code>gconftool-2 -s /desktop/gnome/url-handlers/foo/enabled --type Boolean true</code>
+<code>-spec macx-xcode</code></p></div>
+  
+  <p></p>  <section class="section1 padded-anchor" id="ESRI_SECTION1_DECF829649714F85A0C07764B4A3117E" outputclass="sdksample.no_markdown" purpose="section1"><h2>Code</h2><p id="GUID-FD466DA8-5D9D-4233-8833-4E239D4466D7">    </p><div class="tab-group trailer-2 js-tab-group" aria-live="polite" data-tab="5c67799d-ee70-5b1d-ca2f-c203d14feae8"><nav class="tab-nav" role="tablist"><a class="tab-title js-tab is-active" aria-expanded="false" style="max-width: 33.3333%;" role="tab" tabindex="0">OAuthRedirectExample.cpp</a><a class="tab-title js-tab" aria-expanded="false" style="max-width: 33.3333%;" role="tab" tabindex="0">OAuthRedirectExample.h</a><a class="tab-title js-tab" aria-expanded="false" style="max-width: 33.3333%;" role="tab" tabindex="0">OAuthRedirectExample.qml</a></nav><section class="tab-contents"><article class="tab-section js-tab-section no-padding is-active" aria-expanded="true" codelang="cpp" role="tabpanel"><div class="codeblockdesc" purpose="codeblockdesc">  <p id="GUID-E11A38C7-F31B-453C-ADB8-4828ECD2FFE8"></p>  </div><div class="codeblockbody"><pre><code class="cpp hljs"><span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">"Credential.h"</span></span></span></span>
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">"Portal.h"</span></span></span></span>
+
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">"OAuthRedirectExample.h"</span></span></span></span>
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">"OAuthRedirectHandler.h"</span></span></span></span>
+
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">define</span></span></span><span class="hljs-meta"> STRINGIZE(x) #x</span></span>
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">define</span></span></span><span class="hljs-meta"> QUOTE(x) STRINGIZE(x)</span></span>
+
+<span class="hljs-keyword"><span class="hljs-keyword">using</span></span> <span class="hljs-keyword"><span class="hljs-keyword">namespace</span></span> Esri::ArcGISRuntime;
+
+OAuthRedirectExample::OAuthRedirectExample(QQuickItem* parent <span class="hljs-comment"><span class="hljs-comment">/* = nullptr */</span></span>):
+    QQuickItem(parent),
+    m_portal(<span class="hljs-keyword"><span class="hljs-keyword">new</span></span> Portal(<span class="hljs-keyword"><span class="hljs-keyword">new</span></span> Credential(OAuthClientInfo(QUOTE(CLIENT_ID), <span class="hljs-string"><span class="hljs-string">""</span></span>, QString(<span class="hljs-string"><span class="hljs-string">"%1://"</span></span>).arg(customUrlProtocol()), OAuthMode::User ), <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>), <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>)),
+    m_handler(<span class="hljs-keyword"><span class="hljs-keyword">new</span></span> OAuthRedirectHandler(customUrlProtocol(), <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>))
+{
+    connect(m_handler, &amp;OAuthRedirectHandler::statusChanged, <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>, &amp;OAuthRedirectExample::statusChanged);
+    connect(m_portal, &amp;Portal::loadStatusChanged, <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>, &amp;OAuthRedirectExample::portalLoadStatusChanged);
+    connect(m_portal, &amp;Portal::loadStatusChanged, <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>, &amp;OAuthRedirectExample::statusChanged);
+}
+
+OAuthRedirectExample::~OAuthRedirectExample()
+{
+}
+
+<span class="hljs-comment"><span class="hljs-comment">//static</span></span>
+QString OAuthRedirectExample::customUrlProtocol()
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> QUOTE(URL_SCHEME);
+}
+
+<span class="hljs-comment"><span class="hljs-comment">//static</span></span>
+QString OAuthRedirectExample::clientId() <span class="hljs-keyword"><span class="hljs-keyword">const</span></span>
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> m_portal-&gt;credential()-&gt;oAuthClientInfo().clientId();
+}
+
+<span class="hljs-keyword"><span class="hljs-keyword">void</span></span> OAuthRedirectExample::componentComplete()
+{
+  QQuickItem::componentComplete();
+}
+
+<span class="hljs-keyword"><span class="hljs-keyword">void</span></span> OAuthRedirectExample::loadPortal()
+{
+    m_portal-&gt;load();
+    <span class="hljs-function"><span class="hljs-function">emit </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">statusChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+}
+
+<span class="hljs-keyword"><span class="hljs-keyword">void</span></span> OAuthRedirectExample::setClientId(<span class="hljs-keyword"><span class="hljs-keyword">const</span></span> QString &amp;clientId)
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">if</span></span> (m_portal-&gt;credential()-&gt;oAuthClientInfo().clientId() == clientId)
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span>;
+
+    m_portal-&gt;credential()-&gt;setOAuthClientInfo(
+        OAuthClientInfo(clientId, <span class="hljs-string"><span class="hljs-string">""</span></span>, QString(<span class="hljs-string"><span class="hljs-string">"%1://"</span></span>).arg(customUrlProtocol()), OAuthMode::User));
+    qDebug() &lt;&lt; <span class="hljs-string"><span class="hljs-string">"clientId"</span></span> &lt;&lt; m_portal-&gt;credential()-&gt;oAuthClientInfo().clientId();
+    <span class="hljs-function"><span class="hljs-function">emit </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">clientIdChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+}
+
+QString OAuthRedirectExample::portalLoadStatus() <span class="hljs-keyword"><span class="hljs-keyword">const</span></span>
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">switch</span></span> (m_portal-&gt;loadStatus())
+    {
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::FailedToLoad:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"Failed to Load"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::Loaded:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"Loaded"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::Loading:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"Loading..."</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::NotLoaded:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"Not Loaded"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::Unknown:
+    <span class="hljs-keyword"><span class="hljs-keyword">default</span></span>:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"Unknown"</span></span>;
+    }
+
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">""</span></span>;
+}
+
+QString OAuthRedirectExample::status() <span class="hljs-keyword"><span class="hljs-keyword">const</span></span>
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">switch</span></span> (m_portal-&gt;loadStatus())
+    {
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::FailedToLoad:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> m_portal-&gt;loadError().message();
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> LoadStatus::Loaded:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"successfully authenticated!"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">default</span></span>:
+        <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+    }
+
+    <span class="hljs-keyword"><span class="hljs-keyword">switch</span></span> (m_handler-&gt;status())
+    {
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> OAuthRedirectHandlerStatus::Idle:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"waiting"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> OAuthRedirectHandlerStatus::ChallengeReceived:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"challenge received"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> OAuthRedirectHandlerStatus::AuthorizeUrlOpened:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"authorizeUrl opened"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> OAuthRedirectHandlerStatus::MessageReceived:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"app msg received"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> OAuthRedirectHandlerStatus::AuthorizationCodeSent:
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">"authorization code sent"</span></span>;
+    <span class="hljs-keyword"><span class="hljs-keyword">default</span></span>:
+        <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+    }
+
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">""</span></span>;
+}
+
+QString OAuthRedirectExample::portalName() <span class="hljs-keyword"><span class="hljs-keyword">const</span></span>
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">if</span></span> (m_portal-&gt;loadStatus() != LoadStatus::Loaded)
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> <span class="hljs-string"><span class="hljs-string">""</span></span>;
+
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> m_portal-&gt;portalInfo()-&gt;organizationName();
+}</code></pre></div></article><article class="tab-section js-tab-section no-padding" aria-expanded="false" codelang="cpp" role="tabpanel"><div class="codeblockdesc" purpose="codeblockdesc">  <p id="GUID-747618EE-FF07-469C-B534-44907B348B16"></p>  </div><div class="codeblockbody"><pre><code class="cpp hljs"><span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">ifndef</span></span></span><span class="hljs-meta"> OAUTHREDIRECTEXAMPLE_H</span></span>
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">define</span></span></span><span class="hljs-meta"> OAUTHREDIRECTEXAMPLE_H</span></span>
+
+<span class="hljs-keyword"><span class="hljs-keyword">namespace</span></span> Esri
+{
+    <span class="hljs-keyword"><span class="hljs-keyword">namespace</span></span> ArcGISRuntime
+    {
+        <span class="hljs-class"><span class="hljs-keyword"><span class="hljs-class"><span class="hljs-keyword">class</span></span></span><span class="hljs-class"> </span><span class="hljs-title"><span class="hljs-class"><span class="hljs-title">Portal</span></span></span><span class="hljs-class">;</span></span>
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword"><span class="hljs-class"><span class="hljs-keyword">class</span></span></span><span class="hljs-class"> </span><span class="hljs-title"><span class="hljs-class"><span class="hljs-title">OAuthRedirectHandler</span></span></span><span class="hljs-class">;</span></span>
+
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">&lt;QQuickItem&gt;</span></span></span></span>
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">include</span></span></span><span class="hljs-meta"> </span><span class="hljs-meta-string"><span class="hljs-meta"><span class="hljs-meta-string">&lt;QUrl&gt;</span></span></span></span>
+
+<span class="hljs-class"><span class="hljs-keyword"><span class="hljs-class"><span class="hljs-keyword">class</span></span></span><span class="hljs-class"> </span><span class="hljs-title"><span class="hljs-class"><span class="hljs-title">OAuthRedirectExample</span></span></span><span class="hljs-class"> :</span></span> <span class="hljs-keyword"><span class="hljs-keyword">public</span></span> QQuickItem
+{
+    <span class="hljs-function"><span class="hljs-function">Q_OBJECT
+
+    </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">Q_PROPERTY</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(QString  clientId READ clientId WRITE setClientId NOTIFY clientIdChanged)</span></span></span><span class="hljs-function">
+    </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">Q_PROPERTY</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(QString portalLoadStatus READ portalLoadStatus NOTIFY portalLoadStatusChanged)</span></span></span><span class="hljs-function">
+    </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">Q_PROPERTY</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(QString status READ status NOTIFY statusChanged)</span></span></span><span class="hljs-function">
+    </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">Q_PROPERTY</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(QString portalName READ portalName NOTIFY portalLoadStatusChanged)</span></span></span><span class="hljs-function">
+
+</span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">public</span></span></span><span class="hljs-function">:
+    </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">OAuthRedirectExample</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(QQuickItem* parent = </span></span><span class="hljs-literal"><span class="hljs-function"><span class="hljs-params"><span class="hljs-literal">nullptr</span></span></span></span><span class="hljs-function"><span class="hljs-params">)</span></span></span></span>;
+    ~OAuthRedirectExample();
+
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">componentComplete</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span><span class="hljs-function"> Q_DECL_OVERRIDE</span></span>;
+
+    <span class="hljs-function"><span class="hljs-function">Q_INVOKABLE </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">loadPortal</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-function">Q_INVOKABLE </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">setClientId</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(</span></span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-params"><span class="hljs-keyword">const</span></span></span></span><span class="hljs-function"><span class="hljs-params"> QString&amp; clientId)</span></span></span></span>;
+
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">static</span></span></span><span class="hljs-function"> QString </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">customUrlProtocol</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+
+signals:
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">clientIdChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">portalLoadStatusChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">statusChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">void</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">portalNameChanged</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span></span>;
+
+<span class="hljs-keyword"><span class="hljs-keyword">private</span></span>:
+    <span class="hljs-function"><span class="hljs-function">QString </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">clientId</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span><span class="hljs-function"> </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">const</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-function">QString </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">portalLoadStatus</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span><span class="hljs-function"> </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">const</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-function">QString </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">status</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span><span class="hljs-function"> </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">const</span></span></span></span>;
+    <span class="hljs-function"><span class="hljs-function">QString </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">portalName</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">()</span></span></span><span class="hljs-function"> </span><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">const</span></span></span></span>;
+
+    Esri::ArcGISRuntime::Portal* m_portal;
+    OAuthRedirectHandler* m_handler;
+};
+
+<span class="hljs-meta"><span class="hljs-meta">#</span><span class="hljs-meta-keyword"><span class="hljs-meta"><span class="hljs-meta-keyword">endif</span></span></span><span class="hljs-meta"> </span><span class="hljs-comment"><span class="hljs-meta"><span class="hljs-comment">// OAUTHREDIRECTEXAMPLE_H</span></span></span></span></code></pre></div></article><article class="tab-section js-tab-section no-padding" aria-expanded="false" codelang="qml" role="tabpanel"><div class="codeblockdesc" purpose="codeblockdesc">  <p id="GUID-6EF16BED-BBBA-4133-9050-BD1CD5BBD62E"></p>  </div><div class="codeblockbody"><pre><code class="qml hljs"><span class="hljs-keyword"><span class="hljs-keyword">import</span></span> QtQuick <span class="hljs-number"><span class="hljs-number">2.6</span></span>
+<span class="hljs-keyword"><span class="hljs-keyword">import</span></span> QtQuick.Controls <span class="hljs-number"><span class="hljs-number">1.4</span></span>
+<span class="hljs-keyword"><span class="hljs-keyword">import</span></span> Esri.Samples <span class="hljs-number"><span class="hljs-number">1.0</span></span>
+<span class="hljs-keyword"><span class="hljs-keyword">import</span></span> Esri.ArcGISExtras <span class="hljs-number"><span class="hljs-number">1.1</span></span>
+
+<span class="hljs-title"><span class="hljs-title">OAuthRedirectExample</span></span> {
+    <span class="hljs-attribute"><span class="hljs-attribute">id:</span></span><span class="hljs-string"><span class="hljs-string"> root</span></span>
+    <span class="hljs-attribute"><span class="hljs-attribute">width</span></span>: <span class="hljs-number"><span class="hljs-number">800</span></span>
+    <span class="hljs-attribute"><span class="hljs-attribute">height</span></span>: <span class="hljs-number"><span class="hljs-number">600</span></span>
+    <span class="hljs-keyword"><span class="hljs-keyword">property</span></span><span class="hljs-string"><span class="hljs-string"> double scaleFactor</span></span>: System.displayScaleFactor
+
+    <span class="hljs-title"><span class="hljs-title">Column</span></span> {
+        <span class="hljs-title"><span class="hljs-title">anchors</span></span>{
+            <span class="hljs-attribute"><span class="hljs-attribute">fill</span></span>: <span class="hljs-built_in"><span class="hljs-built_in">parent</span></span>
+            <span class="hljs-attribute"><span class="hljs-attribute">margins</span></span>: <span class="hljs-number"><span class="hljs-number">16</span></span>
+        }
+        <span class="hljs-attribute"><span class="hljs-attribute">spacing</span></span>: <span class="hljs-number"><span class="hljs-number">16</span></span>
+
+        <span class="hljs-title"><span class="hljs-title">GroupBox</span></span> {
+            <span class="hljs-title"><span class="hljs-title">Column</span></span> {
+                <span class="hljs-attribute"><span class="hljs-attribute">spacing</span></span>: <span class="hljs-number"><span class="hljs-number">16</span></span>
+
+                <span class="hljs-title"><span class="hljs-title">Text</span></span> {
+                    <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: <span class="hljs-string"><span class="hljs-string">"client id"</span></span>
+                    <span class="hljs-attribute"><span class="hljs-attribute">font.bold</span></span>: <span class="hljs-literal"><span class="hljs-literal">true</span></span>
+                }
+
+                <span class="hljs-title"><span class="hljs-title">TextField</span></span> {
+                    <span class="hljs-attribute"><span class="hljs-attribute">id:</span></span><span class="hljs-string"><span class="hljs-string"> clientIdField</span></span>
+                    <span class="hljs-attribute"><span class="hljs-attribute">width</span></span>: <span class="hljs-number"><span class="hljs-number">128</span></span> * scaleFactor
+                    <span class="hljs-attribute"><span class="hljs-attribute">placeholderText</span></span>: clientId
+                    <span class="hljs-attribute"><span class="hljs-attribute">onAccepted</span></span>: setClientId(text);
+                }
+
+                <span class="hljs-title"><span class="hljs-title">Button</span></span> {
+                    <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: <span class="hljs-string"><span class="hljs-string">"update"</span></span>
+                    <span class="hljs-attribute"><span class="hljs-attribute">onClicked</span></span>: setClientId(clientIdField.text);
+                }
+            }
+        }
+
+        <span class="hljs-title"><span class="hljs-title">Button</span></span> {
+            <span class="hljs-attribute"><span class="hljs-attribute">id:</span></span><span class="hljs-string"><span class="hljs-string"> loadPortalButton</span></span>
+            <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: <span class="hljs-string"><span class="hljs-string">"load portal"</span></span>
+            <span class="hljs-attribute"><span class="hljs-attribute">onClicked</span></span>: {
+                enabled = <span class="hljs-literal"><span class="hljs-literal">false</span></span>;
+                loadPortal();
+            }
+        }
+
+        <span class="hljs-title"><span class="hljs-title">Text</span></span> {
+            <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: portalLoadStatus
+        }
+
+        <span class="hljs-title"><span class="hljs-title">Text</span></span> {
+            <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: status
+        }
+
+        <span class="hljs-title"><span class="hljs-title">Text</span></span> {
+            <span class="hljs-attribute"><span class="hljs-attribute">text</span></span>: portalName
+            <span class="hljs-attribute"><span class="hljs-attribute">font.bold</span></span>: <span class="hljs-literal"><span class="hljs-literal">true</span></span>
+        }
+    }
+}</code></pre></div></article></section></div>  <p></p></section>
+  
+			
+				<hr>
+				<!--googleoff: all-->
+				
+	
+        
+		    <p class="feedback right">
+		        <a id="afb" class="icon-ui-contact" href="https://developers.arcgis.com/feedback/" data-langlabel="feedback-on-this-topic">Feedback on this topic?</a>
+		    </p>
+        
+	
+
+				<!--googleon: all-->
+			
+		</main>
+	</div>
+	
+	
+		<!--googleoff: all-->
+		
+			<div id="main-toc-large" class="column-5">
+			    <div class="panel font-size--2 tablet-hide">
+			      <h5 class="trailer-half">In this topic</h5>
+			      <ol class="list-plain pre-0 trailer-0"><li><a href="#ESRI_SECTION1_DECF829649714F85A0C07764B4A3117E">Code</a></li></ol>
+			    </div>
+			    
+	  		</div>
+		
+		<!--googleon: all-->
+	
+
+
+
+          
+        </div>
+        <!-- ENDPAGECONTENT -->
+      </div> <!-- End of skip to content -->
+    </div>  <!-- End of wrapper -->
+
+	<footer class="footer leader-3 link-dark-gray" role="contentinfo">
+		<div class="grid-container">
+			  <nav class="column-6">
+			    <h6 data-langlabel="arcgis">ArcGIS for Developers</h6>
+			    <ul class="list-plain">
+            <li><a href="https://developers.arcgis.com/">Home</a></li>
+            <li><a href="https://developers.arcgis.com/features/">Features</a></li>
+            <li><a href="https://developers.arcgis.com/documentation/">Documentation</a></li>
+             <li><a href="https://developers.arcgis.com/support/">Support</a></li>
+             <li><a href="https://developers.arcgis.com/pricing/">Pricing</a></li>
+            <li><a href="https://developers.arcgis.com/startups/">Startups</a></li>
+            <li><a href="http://blogs.esri.com/esri/arcgis/category/developer/">Blog</a></li>
+			    </ul>
+			  </nav>
+			  
+  <nav class="column-6">
+    <h6 data-langlabel="arcgis-platform">ArcGIS Platform</h6>
+    <ul class="list-plain">
+      <li><a data-langlabel="arcgis" href="http://www.arcgis.com/">ArcGIS Online</a></li>
+      <li><a data-langlabel="arcgis-for-desktop" href="http://desktop.arcgis.com/">ArcGIS Desktop</a></li>
+      <li><a data-langlabel="arcgis-for-server" href="http://enterprise.arcgis.com/">ArcGIS Enterprise</a></li>
+      <li><a data-langlabel="arcgis-for-developers" href="https://developers.arcgis.com/">ArcGIS for Developers</a></li>
+      <li><a data-langlabel="arcgis-solutions" href="http://solutions.arcgis.com/">ArcGIS Solutions</a></li>
+      <li><a data-langlabel="arcgis-marketplace" href="http://marketplace.arcgis.com/">ArcGIS Marketplace</a></li>
+    </ul>
+  </nav>
+
+  <nav class="column-6">
+    <h6 data-langlabel="about-esri">About Esri</h6>
+    <ul class="list-plain">
+      <li><a data-langlabel="about-us" href="http://www.esri.com/about-esri/">About Us</a></li>
+      <li><a data-langlabel="careers" href="http://www.esri.com/careers/">Careers</a></li>
+      <li><a data-langlabel="insiders-blog" href="http://blogs.esri.com/esri/esri-insider/">Insiders Blog</a></li>
+      <li><a data-langlabel="user-conference" href="http://www.esri.com/events/user-conference/index.html">User Conference</a></li>
+      <li><a data-langlabel="developer-summit" href="http://www.esri.com/events/devsummit/index.html">Developer Summit</a></li>
+    </ul>
+  </nav>
+
+  <nav class="column-6">
+    <a class="esri-logo" href="https://www.esri.com/" aria-label="Esri Home"></a>
+    <section class="footer-social-nav leader-1">
+            <a class="icon-social-twitter" aria-label="Esri on Twitter" href="https://twitter.com/Esri/"></a>
+            <a class="icon-social-facebook" aria-label="Esri on Facebook" href="https://www.facebook.com/esrigis/"></a>
+            <a class="icon-social-github" aria-label="Esri on GitHub" href="http://esri.github.io/"></a>
+            <a class="icon-social-contact" aria-label="Contact Esri" href="http://www.esri.com/about-esri/contact/"></a>
+    </section>
+	  
+  </nav>
+  
+
+        <div class="column-24 leader-1">
+          <p><small><a href="http://www.esri.com/legal/copyright-trademarks">Copyright © 2018 Esri</a>. All rights reserved. | <a href="http://www.esri.com/legal/privacy">Privacy</a> | <a href="http://www.esri.com/legal/software-license">Terms of use</a> | <a href="https://developers.arcgis.com/terms/faq/">FAQ</a></small></p>
+        </div>
+		</div>
+	</footer>
+	<!--googleoff: all-->
+  <script>
+  $('.sub-nav-list a[href*="forums"], .sub-nav-list a[href*="geonet.esri.com"], .sub-nav-list a[href*="community.esri.com"]').addClass("icon-ui-sub-nav").attr("target","_blank");
+  if(!window.location.pathname.match(/(\/web-appbuilder\/)/)){
+    $('.sub-nav-list a[href*="api-reference"]').addClass("icon-ui-sub-nav").attr("target","_blank");
+  }
+  $('.sub-nav .breadcrumbs a:last-child').addClass('is-active');
+  </script>
+	
+	<!-- Javascript -->
+  
+  <script src="config.js"></script>
+  <script src="index.js"></script><iframe sandbox="allow-scripts allow-same-origin" title="Adobe ID Syncing iFrame" id="destination_publishing_iframe_esri_0" name="destination_publishing_iframe_esri_0_name" style="display: none; width: 0px; height: 0px;" src="https://esri.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fdevelopers.arcgis.com%2Fqt%2Flatest%2Fcpp%2Fsample-code%2Fsample-qt-oauthredirectexample.htm" class="aamIframeLoaded"></iframe><iframe sandbox="allow-scripts allow-same-origin" title="Adobe ID Syncing iFrame" id="destination_publishing_iframe_esri_0" name="destination_publishing_iframe_esri_0_name" style="display: none; width: 0px; height: 0px;" src="https://esri.demdex.net/dest5.html?d_nsid=0#https%3A%2F%2Fdevelopers.arcgis.com%2Fqt%2Flatest%2Fcpp%2Fsample-code%2Fsample-qt-oauthredirectexample.htm" class="aamIframeLoaded"></iframe>
+	<script type="text/javascript">if (_satellite && _satellite.pageBottom) { _satellite.pageBottom(); }</script>
+  
+<iframe style="display: none;" src="https://assets.adobedtm.com/2e9cd01e19dc5ac4867e752f17a2f1ea1923e5af/scripts/satellite-5b03621d64746d0ab7009092.html"></iframe><iframe style="display: none;" src="https://assets.adobedtm.com/2e9cd01e19dc5ac4867e752f17a2f1ea1923e5af/scripts/satellite-5b03621d64746d0ab7009092.html"></iframe></body></html>

@@ -1,0 +1,168 @@
+
+
+We bake cookies in your browser for a better experience. Using this site means that you consent. Read more
+Continue »
+
+    Blog
+    Contact Us
+
+    Wiki
+    Documentation
+    Forum
+    Bug Reports
+    Code Review
+
+Qt Documentation
+
+    Qt 5.11
+    Qt GUI
+    C++ Classes
+    QFileOpenEvent
+
+Contents
+
+    Public Functions
+    Detailed Description
+    macOS Example
+
+Resource Center
+
+Find webinars, use cases, tutorials, videos & more at resources.qt.io
+Resource Center
+
+Find webinars, use cases, tutorials, videos & more at resources.qt.io
+Reference
+Reference
+
+    All Qt C++ Classes
+    All QML Types
+    All Qt Modules
+    Qt Creator Manual
+
+    All Qt Reference Documentation
+
+Getting Started
+
+    Getting Started with Qt
+    What's New in Qt 5
+    Examples and Tutorials
+    Supported Platforms
+    Qt Licensing
+
+Overviews
+
+    Development Tools
+    User Interfaces
+    Core Internals
+    Data Storage
+    Multimedia
+    Networking and Connectivity
+    Graphics
+    Mobile APIs
+    QML Applications
+
+    All Qt Overviews
+
+QFileOpenEvent Class
+
+The QFileOpenEvent class provides an event that will be sent when there is a request to open a file or a URL. More...
+Header: 	#include <QFileOpenEvent>
+qmake: 	QT += gui
+Inherits: 	QEvent
+
+    List of all members, including inherited members
+
+Public Functions
+QString 	file () const
+bool 	openFile (QFile & file , QIODevice::OpenMode flags ) const
+QUrl 	url () const
+
+    7 public functions inherited from QEvent
+
+Additional Inherited Members
+
+    1 property inherited from QEvent
+    1 public variable inherited from QEvent
+    1 static public member inherited from QEvent
+    2 protected variables inherited from QEvent
+
+Detailed Description
+
+The QFileOpenEvent class provides an event that will be sent when there is a request to open a file or a URL.
+
+File open events will be sent to the QApplication::instance() when the operating system requests that a file or URL should be opened. This is a high-level event that can be caused by different user actions depending on the user's desktop environment; for example, double clicking on an file icon in the Finder on macOS .
+
+This event is only used to notify the application of a request. It may be safely ignored.
+
+Note: This class is currently supported for macOS only.
+macOS Example
+
+In order to trigger the event on macOS , the application must be configured to let the OS know what kind of file(s) it should react on.
+
+For example, the following Info.plist file declares that the application can act as a viewer for files with a PNG extension:
+
+  <? xml version = "1.0" encoding = "UTF-8" ?>  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">  <plist  version = "1.0" >  <dict>  <key> CFBundleDocumentTypes </key>  <array>  <dict>  <key> CFBundleTypeExtensions </key>  <array>  <string> png </string>  </array>  <key> CFBundleTypeRole </key>  <string> Viewer </string>  </dict>  </array>  </dict>  </plist> 
+
+The following implementation of a QApplication subclass prints the path to the file that was, for example, dropped on the Dock icon of the application.
+
+  #include < QApplication >   #include < QFileOpenEvent >   #include < QtDebug >   class   MyApplication  :  public   QApplication   {  public  :  MyApplication ( int   &  argc ,   char   *  *  argv )  :  QApplication  ( argc ,  argv )  {  }  bool  event ( QEvent   *  event )  {  if   ( event -  >  type ()  =  =   QEvent  ::  FileOpen )  {  QFileOpenEvent   *  openEvent  =   static_cast  <  QFileOpenEvent   *  >  ( event );  qDebug  ()  <  <   "Open file"   <  <  openEvent -  >  file ();  }  return   QApplication  ::  event ( event );  }  }; 
+
+Member Function Documentation
+QString QFileOpenEvent:: file () const
+
+Returns the file that is being opened.
+bool QFileOpenEvent:: openFile ( QFile & file , QIODevice::OpenMode flags ) const
+
+Opens a QFile on the file referenced by this event in the mode specified by flags . Returns true if successful; otherwise returns false .
+
+This is necessary as some files cannot be opened by name, but require specific information stored in this event.
+
+This function was introduced in Qt 4.8.
+QUrl QFileOpenEvent:: url () const
+
+Returns the url that is being opened.
+
+This function was introduced in Qt 4.6.
+
+© 2018 The Qt Company Ltd. Documentation contributions included herein are the copyrights of their respective owners. The documentation provided herein is licensed under the terms of the GNU Free Documentation License version 1.3 as published by the Free Software Foundation. Qt and respective logos are trademarks of The Qt Company Ltd. in Finland and/or other countries worldwide. All other trademarks are property of their respective owners.
+
+    Download
+        Start for Free
+        Qt for Application Development
+        Qt for Device Creation
+        Qt Open Source
+        Terms & Conditions
+        Licensing FAQ
+    Product
+        Qt in Use
+        Qt for Application Development
+        Qt for Device Creation
+        Commercial Features
+        Qt Creator IDE
+        Qt Quick
+    Services
+        Technology Evaluation
+        Proof of Concept
+        Design & Implementation
+        Productization
+        Qt Training
+        Partner Network
+    Developers
+        Documentation
+        Examples & Tutorials
+        Development Tools
+        Wiki
+        Forums
+        Contribute to Qt
+    About us
+        Training & Events
+        Resource Center
+        News
+        Careers
+        Locations
+        Contact Us
+
+    Sign In
+    Feedback
+    © 2018 The Qt Company
+

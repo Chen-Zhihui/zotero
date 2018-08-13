@@ -1,0 +1,103 @@
+
+
+We use cookies to support your experience.
+Learn more Accept cookies
+Search ArcGIS for Developers Product Version Search
+ArcGIS for Developers
+Dashboard Get Started Documentation Features Pricing Support
+
+We use cookies to support your experience.
+Learn more Accept cookies
+Search ArcGIS for Developers Product Version Search
+ArcGIS for Developers
+Dashboard Get Started Documentation Features Pricing Support
+Skip To Content ArcGIS for Developers
+Dashboard
+New Application New Layer
+Get Started Documentation Features Pricing Support
+Menu
+ArcGIS for Developers
+Sign In
+Sign In
+ArcGIS Runtime Qt SDK 100.3.0 Sample Code
+ArcGIS Runtime SDK for Qt
+Home Guide API Reference QML Samples C++ Samples Support
+Analysis
+Analyze hotspots Analyze viewshed Line of sight (location) Statistical query Viewshed (Camera) Viewshed (GeoElement) Viewshed (Location)
+Cloud and portal
+Add items to portal OAuth redirect example Portal user info Search for web map by keyword Show organization basemaps Token authentication
+Display information
+Add graphics with renderer Add graphics with symbols Display grid Graphics overlay (dictionary renderer) Graphics overlay (dictionary renderer) 3D Identify graphics PictureMarkerSymbol Show callout Show legend SimpleMarkerSymbol SimpleRenderer Symbolize a shapefile UniqueValueRenderer
+Edit data
+Add features (feature service) Delete features (feature service) Edit and sync features Edit feature attachments Update attributes (feature service) Update geometry (feature service)
+Features
+Feature layer change renderer Feature layer definition expression Feature layer (dictionary renderer) Feature layer (feature service) Feature layer (geodatabase) Feature layer (GeoPackage) Feature layer query Feature layer selection Generate geodatabase List related features Service feature table (cache) Service feature table (manual cache) Service feature table (no cache)
+Geometry
+Format coordinates List transformations by suitability
+Layers
+ArcGIS map image layer (URL) ArcGIS tiled layer (URL) Blend raster layer Change sublayer visibility Export tiles Feature collection layer Feature collection layer (query) Feature layer rendering mode (scene) Feature layer (Shapefile) Hillshade renderer OpenStreetMap layer Raster colormap renderer Raster function (file) Raster function (service) Raster layer (file) Raster layer (GeoPackage) Raster layer (service) Raster rendering rule Raster RGB renderer Raster stretch renderer Vector tiled layer (URL) Web Map Tile Service (WMTS) layer Web tiled layer WMS layer (URL)
+Local Server
+Dynamic workspace raster Dynamic workspace shapefile Local Server feature layer Local Server map image layer Local Server services
+Maps
+Change basemap Change viewpoint Display a map Display device location Display layer view draw status Display drawing status Generate offline map Manage bookmarks Map loaded Map rotation Mobile map (search and route) Open mobile map (map package) Open map using URL Set initial map area Set initial map location Set map spatial reference Show magnifier
+Routing
+Closest facility Find a route Service area
+Scenes
+Animate 3D symbols Display a scene Display a scene layer Distance Composite Symbol Extrude Graphics FeatureLayer extrusion Surface placement Symbols
+Search
+Find an address Find place Offline geocode Search dictionary symbol style
+Back to Top
+Back to Top
+OAuth redirect example
+In this topic
+
+    Code
+
+Download samples viewer GitHub project
+Loading
+
+gconftool-2 -s /desktop/gnome/url-handlers/foo/enabled --type Boolean true -spec macx-xcode
+
+Code
+
+OAuthRedirectExample.cpp OAuthRedirectExample.h OAuthRedirectExample.qml
+
+ # include "Credential.h" # include "Portal.h" # include "OAuthRedirectExample.h" # include "OAuthRedirectHandler.h" # define STRINGIZE(x) #x # define QUOTE(x) STRINGIZE(x) using namespace Esri::ArcGISRuntime; OAuthRedirectExample::OAuthRedirectExample(QQuickItem* parent /* = nullptr */ ): QQuickItem(parent), m_portal( new Portal( new Credential(OAuthClientInfo(QUOTE(CLIENT_ID), "" , QString( "%1://" ).arg(customUrlProtocol()), OAuthMode::User ), this ), this )), m_handler( new OAuthRedirectHandler(customUrlProtocol(), this )) { connect(m_handler, &OAuthRedirectHandler::statusChanged, this , &OAuthRedirectExample::statusChanged); connect(m_portal, &Portal::loadStatusChanged, this , &OAuthRedirectExample::portalLoadStatusChanged); connect(m_portal, &Portal::loadStatusChanged, this , &OAuthRedirectExample::statusChanged); } OAuthRedirectExample::~OAuthRedirectExample() { } //static QString OAuthRedirectExample::customUrlProtocol() { return QUOTE(URL_SCHEME); } //static QString OAuthRedirectExample::clientId() const { return m_portal->credential()->oAuthClientInfo().clientId(); } void OAuthRedirectExample::componentComplete() { QQuickItem::componentComplete(); } void OAuthRedirectExample::loadPortal() { m_portal->load(); emit statusChanged () ; } void OAuthRedirectExample::setClientId( const QString &clientId) { if (m_portal->credential()->oAuthClientInfo().clientId() == clientId) return ; m_portal->credential()->setOAuthClientInfo( OAuthClientInfo(clientId, "" , QString( "%1://" ).arg(customUrlProtocol()), OAuthMode::User)); qDebug() << "clientId" << m_portal->credential()->oAuthClientInfo().clientId(); emit clientIdChanged () ; } QString OAuthRedirectExample::portalLoadStatus() const { switch (m_portal->loadStatus()) { case LoadStatus::FailedToLoad: return "Failed to Load" ; case LoadStatus::Loaded: return "Loaded" ; case LoadStatus::Loading: return "Loading..." ; case LoadStatus::NotLoaded: return "Not Loaded" ; case LoadStatus::Unknown: default : return "Unknown" ; } return "" ; } QString OAuthRedirectExample::status() const { switch (m_portal->loadStatus()) { case LoadStatus::FailedToLoad: return m_portal->loadError().message(); case LoadStatus::Loaded: return "successfully authenticated!" ; default : break ; } switch (m_handler->status()) { case OAuthRedirectHandlerStatus::Idle: return "waiting" ; case OAuthRedirectHandlerStatus::ChallengeReceived: return "challenge received" ; case OAuthRedirectHandlerStatus::AuthorizeUrlOpened: return "authorizeUrl opened" ; case OAuthRedirectHandlerStatus::MessageReceived: return "app msg received" ; case OAuthRedirectHandlerStatus::AuthorizationCodeSent: return "authorization code sent" ; default : break ; } return "" ; } QString OAuthRedirectExample::portalName() const { if (m_portal->loadStatus() != LoadStatus::Loaded) return "" ; return m_portal->portalInfo()->organizationName(); } 
+
+ # ifndef OAUTHREDIRECTEXAMPLE_H # define OAUTHREDIRECTEXAMPLE_H namespace Esri { namespace ArcGISRuntime { class Portal ; } } class OAuthRedirectHandler ; # include <QQuickItem> # include <QUrl> class OAuthRedirectExample : public QQuickItem { Q_OBJECT Q_PROPERTY (QString clientId READ clientId WRITE setClientId NOTIFY clientIdChanged) Q_PROPERTY (QString portalLoadStatus READ portalLoadStatus NOTIFY portalLoadStatusChanged) Q_PROPERTY (QString status READ status NOTIFY statusChanged) Q_PROPERTY (QString portalName READ portalName NOTIFY portalLoadStatusChanged) public : OAuthRedirectExample (QQuickItem* parent = nullptr ) ; ~OAuthRedirectExample(); void componentComplete () Q_DECL_OVERRIDE ; Q_INVOKABLE void loadPortal () ; Q_INVOKABLE void setClientId ( const QString& clientId) ; static QString customUrlProtocol () ; signals: void clientIdChanged () ; void portalLoadStatusChanged () ; void statusChanged () ; void portalNameChanged () ; private : QString clientId () const ; QString portalLoadStatus () const ; QString status () const ; QString portalName () const ; Esri::ArcGISRuntime::Portal* m_portal; OAuthRedirectHandler* m_handler; }; # endif // OAUTHREDIRECTEXAMPLE_H  
+
+ import QtQuick 2.6 import QtQuick.Controls 1.4 import Esri.Samples 1.0 import Esri.ArcGISExtras 1.1 OAuthRedirectExample { id: root width : 800 height : 600 property double scaleFactor : System.displayScaleFactor Column { anchors { fill : parent margins : 16 } spacing : 16 GroupBox { Column { spacing : 16 Text { text : "client id" font.bold : true } TextField { id: clientIdField width : 128 * scaleFactor placeholderText : clientId onAccepted : setClientId(text); } Button { text : "update" onClicked : setClientId(clientIdField.text); } } } Button { id: loadPortalButton text : "load portal" onClicked : { enabled = false ; loadPortal(); } } Text { text : portalLoadStatus } Text { text : status } Text { text : portalName font.bold : true } } } 
+
+Feedback on this topic?
+In this topic
+
+    Code
+
+ArcGIS for Developers
+
+    Home
+    Features
+    Documentation
+    Support
+    Pricing
+    Startups
+    Blog
+
+ArcGIS Platform
+
+    ArcGIS Online
+    ArcGIS Desktop
+    ArcGIS Enterprise
+    ArcGIS for Developers
+    ArcGIS Solutions
+    ArcGIS Marketplace
+
+About Esri
+
+    About Us
+    Careers
+    Insiders Blog
+    User Conference
+    Developer Summit
+
+Copyright © 2018 Esri . All rights reserved. | Privacy | Terms of use | FAQ

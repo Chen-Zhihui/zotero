@@ -1,0 +1,485 @@
+
+Qt Centre Forum
+
+    Register
+    Help
+    Remember Me?
+
+    Home
+    Forum
+        Today's Posts
+        FAQ
+        Calendar
+        Forum Actions
+            Mark Forums Read
+        Quick Links
+            View Site Leaders
+    Docs
+    Contest
+    FAQ
+    Blogs
+    Links
+    What's New?
+
+    Advanced Search
+
+    Home
+    Forum
+    Qt
+    Qt Programming
+    Url protocol scheme
+
+    If this is your first visit, be sure to check out the FAQ by clicking the link above. You may have to register before you can post: click the register link above to proceed. To start viewing messages, select the forum that you want to visit from the selection below.
+
+    Welcome to Qt Centre .
+
+    Qt Centre is a community site devoted to programming in C++ using the Qt framework . Over 90 percent of questions asked here gets answered. If you are looking for information about Qt related issue — register and post your question.
+
+    You are currently viewing our boards as a guest which gives you limited access to view most discussions and access our other features. By joining our free community you will have access to post topics, communicate privately with other members (PM), respond to polls, upload content and access many other special features. Registration is fast, simple and absolutely free so please, join our community today !
+
+    If you have any problems with the registration process or your account login, please contact us .
+
++ Reply to Thread
+Results 1 to 6 of 6
+Thread: Url protocol scheme
+
+    Thread Tools
+        Show Printable Version
+        Subscribe to this Thread…
+    Search Thread
+         
+        Advanced Search
+    Display
+        Linear Mode
+        Switch to Hybrid Mode
+        Switch to Threaded Mode
+
+    15th January 2016,  00:04 #1
+    #Dragon
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    #Dragon is offline Novice
+
+    Join Date
+        Aug 2015
+    Location
+        Poland/UK
+    Posts
+        29
+    Thanks
+        6
+    Qt products
+        Qt5 
+    Platforms
+        Unix/X11 Windows 
+
+    Default Url protocol scheme
+
+        Hi, last time I am trying to implement a Url protocol scheme, How it works ? Very simple, as first we need to register a url scheme in our system, to assign url address with our app and then we can send some message using web browser address bar.
+
+        Code to register url address
+
+        Qt Code:
+        Switch view
+
+         
+
+         
+            bool Settings :: registerProtocol ( )
+            {
+            #ifdef Q_OS_WIN
+            const QString urlScheme = "myapp" ;
+            const QString appPath = QDir :: toNativeSeparators ( QCoreApplication :: applicationFilePath ( ) ) ;
+            const QString regPath = QStringLiteral ( "HKEY_CURRENT_USER \\ Software \\ Classes \\ " ) + urlScheme;
+             
+            QScopedPointer<QSettings> reg ( new QSettings ( regPath, QSettings :: NativeFormat ) ) ;
+             
+            reg - >setValue ( QStringLiteral ( "Default" ) , "download manager" ) ;
+            reg - >setValue ( QStringLiteral ( "URL Protocol" ) , QString ( ) ) ;
+             
+            reg - >beginGroup ( QStringLiteral ( "DefaultIcon" ) ) ;
+            reg - >setValue ( QStringLiteral ( "Default" ) , QString ( "%1,1" ) . arg ( appPath ) ) ;
+            reg - >endGroup ( ) ;
+             
+            reg - >beginGroup ( QStringLiteral ( "shell" ) ) ;
+            reg - >beginGroup ( QStringLiteral ( "open" ) ) ;
+            reg - >beginGroup ( QStringLiteral ( "command" ) ) ;
+            reg - >setValue ( QStringLiteral ( "Default" ) , appPath + QLatin1String ( " %1" ) ) ;
+             
+            return true ;
+             
+            #elif defined(Q_OS_UNIX)
+            //TODO
+            Logger :: getInstance ( ) - >Info ( tr ( "Cannot integrate with web browser - unsupported system" ) ) ;
+            return false ;
+            #endif
+            return false ;
+            }
+         
+
+         
+
+         bool Settings::registerProtocol()
+        {
+           #ifdef Q_OS_WIN
+           const QString urlScheme = "myapp";
+           const QString appPath = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+           const QString regPath = QStringLiteral("HKEY_CURRENT_USER\\Software\\Classes\\") + urlScheme;
+
+           QScopedPointer<QSettings> reg(new QSettings(regPath, QSettings::NativeFormat));
+
+           reg->setValue(QStringLiteral("Default"), "download manager");
+           reg->setValue(QStringLiteral("URL Protocol"), QString());
+
+           reg->beginGroup(QStringLiteral("DefaultIcon"));
+           reg->setValue(QStringLiteral("Default"), QString("%1,1").arg(appPath));
+           reg->endGroup();
+
+           reg->beginGroup(QStringLiteral("shell"));
+           reg->beginGroup(QStringLiteral("open"));
+           reg->beginGroup(QStringLiteral("command"));
+           reg->setValue(QStringLiteral("Default"), appPath + QLatin1String(" %1"));
+
+           return true;
+
+           #elif defined(Q_OS_UNIX)
+           //TODO
+           Logger::getInstance()->Info(tr("Cannot integrate with web browser - unsupported system"));
+           return false;
+           #endif
+           return false;
+        }
+
+        To copy to clipboard, switch view to plain text mode 
+
+        Receiving messages
+
+        Qt Code:
+        Switch view
+
+         
+
+         
+            void MainWindow :: checkApplicationArguments ( )
+            {
+            for ( int i = 0 ; i < QCoreApplication :: arguments ( ) . count ( ) ; i ++ )
+            {
+            QString arg = QCoreApplication :: arguments ( ) . at ( i ) ;
+            if ( arg. contains ( "myapp:[" ) )
+            {
+            //do something
+            }
+            }
+            }
+         
+
+         
+
+         void MainWindow::checkApplicationArguments()
+        {
+            for(int i = 0; i < QCoreApplication::arguments().count(); i++)
+            {
+               QString arg = QCoreApplication::arguments().at(i);
+               if(arg.contains("myapp:["))
+               {
+                   //do something
+               }
+            }
+        }
+
+        To copy to clipboard, switch view to plain text mode 
+
+        ... and then if we will register it, we can enter a message into web browser address bar and send it to our app, for example:
+        Qt Code:
+        Switch view
+
+         
+
+         
+            myapp : [ hello ]
+         
+
+         
+
+         myapp:[hello]
+
+        To copy to clipboard, switch view to plain text mode 
+        then program will start and we can receive our message, but I'm wondering and I have completely no idea how to receive a message when app is currently running... normally web browser tries to open a new instance of application...
+        Have you got some idea how to handle application args when program is open ? I know that this is possible, I have seen it in different app about two years ago but the project is no longer being developed and I can't remember how it worked...
+
+        Thank you for time spent reading this topic
+        Cheers 
+
+        Ygoow v2 - P2M Client
+
+    Reply With Quote Reply With Quote
+    15th January 2016,  06:03 #2
+    jefftee
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    jefftee is offline Advanced user
+
+    Join Date
+        Dec 2009
+    Location
+        New Orleans, Louisiana
+    Posts
+        791
+    Thanks
+        13
+        Thanked 152 Times in 150 Posts
+    Qt products
+        Qt5 
+    Platforms
+        MacOS X 
+
+    Default Re: Url protocol scheme
+
+        I believe you will have to subclass QNetworkAccessManager to implement your own protocol and then see the doc for QNetworkAccessManager::supportedSchemesImplementation() . 
+
+        I write the best type of code possible, code that I want to write, not code that someone tells me to write!
+
+    Reply With Quote Reply With Quote
+    15th January 2016,  09:40 #3
+    anda_skoa
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    anda_skoa is offline Administrator
+    Nokia Certified Qt Developer
+
+    Join Date
+        Jan 2006
+    Location
+        Graz, Austria
+    Posts
+        8,068
+    Thanks
+        35
+        Thanked 1,462 Times in 1,416 Posts
+    Qt products
+        Qt3 Qt4 Qt5 
+    Platforms
+        Unix/X11 Windows 
+
+    Default Re: Url protocol scheme
+
+        You are looking for something like a single instance application.
+        E.g. http://stackoverflow.com/questions/5...app-protection
+
+        Cheers,
+        _ 
+
+    Reply With Quote Reply With Quote
+    15th January 2016,  09:52 #4
+    #Dragon
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    #Dragon is offline Novice
+
+    Join Date
+        Aug 2015
+    Location
+        Poland/UK
+    Posts
+        29
+    Thanks
+        6
+    Qt products
+        Qt5 
+    Platforms
+        Unix/X11 Windows 
+
+    Default Re: Url protocol scheme
+
+        I've got single instance app protection using QSharedMemory
+
+        I've attached example app
+
+        http://www79.zippyshare.com/v/gW9uCi3f/file.html
+
+        Please open it, and click button "Enable integration with web browsers", then close app and enter myapp:[hello] into web browser address bar.
+        App will start and you will see received message, but how can I get message when app is already running ?
+
+        Cheers 
+
+        Last edited by #Dragon; 15th January 2016 at 11:06 . 
+
+        Ygoow v2 - P2M Client
+
+    Reply With Quote Reply With Quote
+    15th January 2016,  11:23 #5
+    anda_skoa
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    anda_skoa is offline Administrator
+    Nokia Certified Qt Developer
+
+    Join Date
+        Jan 2006
+    Location
+        Graz, Austria
+    Posts
+        8,068
+    Thanks
+        35
+        Thanked 1,462 Times in 1,416 Posts
+    Qt products
+        Qt3 Qt4 Qt5 
+    Platforms
+        Unix/X11 Windows 
+
+    Default Re: Url protocol scheme
+
+        Quote Originally Posted by #Dragon View Post
+        App will start and you will see received message, but how can I get message when app is already running ?
+        That's what single instance mechanisms usually do.
+        They detect that there is an already running instance and then pass the argument to the running instance.
+
+        Since you implement your own single instance mechanism, it is also up to you to implement instance communication.
+
+        Cheers,
+        _ 
+
+    Reply With Quote Reply With Quote
+    The following user says thank you to anda_skoa for this useful post:
+
+        #Dragon  (15th January 2016) 
+
+    15th January 2016,  19:25 #6
+    #Dragon
+        View Profile
+        View Forum Posts
+        View Blog Entries
+        View Articles
+    #Dragon is offline Novice
+
+    Join Date
+        Aug 2015
+    Location
+        Poland/UK
+    Posts
+        29
+    Thanks
+        6
+    Qt products
+        Qt5 
+    Platforms
+        Unix/X11 Windows 
+
+    Default Re: Url protocol scheme
+
+        Thank You again, all is done and now works properly 
+
+        Ygoow v2 - P2M Client
+
+    Reply With Quote Reply With Quote
+
++ Reply to Thread
+Quick Navigation Qt Programming Top
+
+    Site Areas
+    Settings
+    Private Messages
+    Subscriptions
+    Who's Online
+    Search Forums
+    Forums Home
+    Forums
+    Qt
+        Newbie
+        Qt Programming
+            Qwt
+        Qt Quick
+        Qt Tools
+        Qt-based Software
+        Qt for Embedded and Mobile
+        Installation and Deployment
+        Wiki
+        KDE Forum
+    Other
+        General Programming
+        ICSNetwork
+            Introduction to Qt
+            An Introduction to QThreads
+            The GraphicsView Framework
+            What's New in Qt 4.4
+            Design Patterns in Qt
+            The Model-View Framework
+            Best Practices in Qt Programming
+            Qt Webkit
+            Best Practices for Qt Localization
+            What's New in Qt 4.5
+            This Week in Qt
+        General Discussion
+        Jobs
+            Resumes
+    Contests
+        QtCentre Programming Contest 2008
+        QtCentre Programming Contest 2007
+
+« Previous Thread | Next Thread »
+Similar Threads
+
+    Getting Device Interface Protocol (SCSI or ATA protocol)
+    By Ryuuji in forum General Programming
+    Replies: 1
+    Last Post: 18th July 2013, 08:37
+    SSL protocol
+    By tpthyd in forum Qt Programming
+    Replies: 1
+    Last Post: 2nd March 2009, 12:53
+    Protocol Implementation. ?
+    By dheeraj in forum Qt Programming
+    Replies: 32
+    Last Post: 9th May 2008, 10:26
+    Modbus Protocol
+    By ^NyAw^ in forum General Programming
+    Replies: 0
+    Last Post: 21st January 2008, 10:37
+    Signalling Protocol
+    By mahe2310 in forum Qt for Embedded and Mobile
+    Replies: 7
+    Last Post: 16th February 2006, 05:31
+
+Bookmarks
+Bookmarks
+
+    Submit to Digg Digg
+    Submit to del.icio.us del.icio.us
+    Submit to StumbleUpon StumbleUpon
+    Submit to Google Google
+
+Posting Permissions
+
+    You may not post new threads
+    You may not post replies
+    You may not post attachments
+    You may not edit your posts
+
+    BB code is On
+    Smilies are On
+    [IMG] code is On
+    HTML code is Off
+
+Forum Rules
+
+    Contact Us
+    Qt Centre
+    Archive
+    Top
+
+All times are GMT +1. The time now is 05:24 .
+Powered by vBulletin Version 4.1.9 Copyright ©2000 - 2018, Jelsoft Enterprises Ltd.,
+© 2006–2017 Qt Centre - The Ultimate Qt Community site
+Nokia and its respective logos are trademarks of Nokia Corporation in Finland and/or other countries worldwide.
+Digia, Qt and their respective logos are trademarks of Digia Plc in Finland and/or other countries worldwide.
