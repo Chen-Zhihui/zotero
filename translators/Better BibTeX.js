@@ -19,15 +19,15 @@
 	"browserSupport": "gcsv",
 	"priority": 199,
 	"inRepository": false,
-	"lastUpdated": "2018-08-11 16:09:55"
+	"lastUpdated": "2018-08-17 18:37:21"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.183",
+  version: "5.0.189",
   BetterBibTeX: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"ca65189f-8815-4afe-8c8b-8c7c15f0edca","label":"Better BibTeX","description":"exports references in BibTeX format","creator":"Simon Kornblith, Richard Karnesky and Emiliano heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"translatorType":3,"browserSupport":"gcsv","priority":199,"inRepository":false,"lastUpdated":"2018-08-11 16:09:55"},
+  header: {"translatorID":"ca65189f-8815-4afe-8c8b-8c7c15f0edca","label":"Better BibTeX","description":"exports references in BibTeX format","creator":"Simon Kornblith, Richard Karnesky and Emiliano heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"translatorType":3,"browserSupport":"gcsv","priority":199,"inRepository":false,"lastUpdated":"2018-08-17 18:37:21"},
   preferences: {"debug":false,"rawLaTag":"#LaTeX","testing":false,"DOIandURL":"both","asciiBibLaTeX":false,"asciiBibTeX":true,"autoExport":"immediate","quickCopyMode":"latex","citeCommand":"cite","quickCopyPandocBrackets":false,"citekeyFormat":"​[auth:lower][shorttitle3_3][year]","citekeyFold":true,"keyConflictPolicy":"keep","keyScope":"library","preserveBibTeXVariables":false,"bibtexParticleNoOp":false,"skipFields":"","bibtexURL":"off","warnBulkModify":10,"postscript":"","strings":"","autoAbbrev":false,"autoAbbrevStyle":"","autoExportIdleWait":10,"cacheFlushInterval":5,"csquotes":"","skipWords":"a,ab,aboard,about,above,across,after,against,al,along,amid,among,an,and,anti,around,as,at,before,behind,below,beneath,beside,besides,between,beyond,but,by,d,da,das,de,del,dell,dello,dei,degli,della,dell,delle,dem,den,der,des,despite,die,do,down,du,during,ein,eine,einem,einen,einer,eines,el,en,et,except,for,from,gli,i,il,in,inside,into,is,l,la,las,le,les,like,lo,los,near,nor,of,off,on,onto,or,over,past,per,plus,round,save,since,so,some,sur,than,the,through,to,toward,towards,un,una,unas,under,underneath,une,unlike,uno,unos,until,up,upon,versus,via,von,while,with,within,without,yet,zu,zum","jabrefFormat":0,"jurismPreferredLanguage":"","qualityReport":false,"biblatexExtendedDateFormat":true,"biblatexExtendedNameFormat":false,"suppressTitleCase":false,"itemObserverDelay":100,"parseParticles":true,"citeprocNoteCitekey":false,"scrubDatabase":false,"lockedInit":false,"autoPin":false,"kuroshiro":false,"sorted":false,"debugLog":"","ajv":true},
   options: {"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},
 
@@ -215,6 +215,56 @@ var Translator = {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BibFieldTypes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return BibTypes; });
+/*::
+export type MarkObject = {
+    type: string;
+}
+
+type OtherNodeObject = {
+    type: string;
+    marks?: Array<MarkObject>;
+    attrs?: Object;
+}
+
+export type TextNodeObject = {
+    type: 'text';
+    text: string;
+    marks?: Array<MarkObject>;
+    attrs?: Object;
+}
+
+export type NodeObject = OtherNodeObject | TextNodeObject;
+
+export type NodeArray = Array<NodeObject>;
+
+export type EntryObject = {
+    entry_key: string;
+    incomplete?: boolean;
+    bib_type: string;
+    fields: Object;
+    unexpected_fields?: Object;
+    unknown_fields?: UnknownFieldsObject;
+}
+
+export type NameDictObject = {
+    literal?: NodeArray;
+    family?: NodeArray;
+    given?: NodeArray;
+    prefix?: NodeArray;
+    suffix?: NodeArray;
+    useprefix?: boolean;
+}
+
+export type GroupObject = {
+    name: string;
+    references: Array<string>;
+    groups: Array<GroupObject>;
+}
+
+export type RangeArray = [NodeArray, NodeArray] | [NodeArray];
+
+*/
+
 /** A list of supported languages (without aliases)  in the langid field */
 const langidOptions = {
     "acadian": {
@@ -1162,6 +1212,7 @@ const BibTypes = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return BiblatexAliasTypes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BiblatexAliasOptions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return TeXSpecialChars; });
+// @flow
 /** A list of all field aliases and what they refer to. */
 const BiblatexFieldAliasTypes = {
     'address': 'location',
@@ -4203,6 +4254,8 @@ const TeXSpecialChars = [
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return edtfParse; });
+// @flow
+
 // Class to do a simple check for level 0 and 1 while waiting for a compatible
 // edtf.js version and figuring out if the license is OK.
 // It has an interface that is similar to the part of edtf.js we use so that we
@@ -4210,36 +4263,81 @@ const TeXSpecialChars = [
 
 // Notice: this allows open ended date ranges and it uses 1-12 rather than 0-11 for months.
 
+/*::
+
+type SimpleDateArray = Array<string | number>;
+
+type DateArray = $ReadOnlyArray<string | number | SimpleDateArray>;
+
+type EDTFOutputObject = {
+    type: string;
+    valid: boolean;
+    values: DateArray;
+    cleanedString: string;
+    uncertain: boolean;
+    approximate: boolean;
+}
+
+*/
+
 class SimpleEDTFParser {
-    constructor(string) {
+    /*::
+    string: string;
+    type: string;
+    valid: boolean;
+    values: SimpleDateArray;
+    uncertain: boolean;
+    approximate: boolean;
+    parts: Array<SimpleEDTFParser>;
+    */
+
+    constructor(string /*: string */) {
         this.string = string
         this.type = 'None' // default
         this.valid = true // default
-        this.values = false
+        this.values = []
         this.uncertain = false
         this.approximate = false
         this.parts = []
     }
 
-    init() {
+    init() /*: EDTFOutputObject */ {
         this.checkCertainty()
         this.splitInterval()
         return {
             type: this.type,
             valid: this.valid,
-            values: this.values,
-            cleanedString: this.cleanString()
+            values: this.type === 'Interval' ? this.getPartValues() : this.values,
+            cleanedString: this.cleanString(),
+            uncertain: this.uncertain,
+            approximate: this.approximate
         }
     }
 
-    cleanString() {
+    getPartValues() /*: DateArray */ {
+        if (this.parts.length===0) {
+            const emptyPart = []
+            return emptyPart
+        } else if (this.parts.length===1) {
+            const datePart = this.parts[0].values
+            return datePart
+        } else {
+            const datePartInterval = [
+                this.parts[0].values,
+                this.parts[1].values
+            ]
+            return datePartInterval
+        }
+    }
+
+    cleanString() /*: string */ {
         let cleanedString = ''
         if (this.parts.length) {
             cleanedString = this.parts.map(datePart => datePart.cleanString()).join('/')
         } else if (this.values) {
             cleanedString = this.values.reduce((dateString, value, index) => {
                 if (index === 0) {
-                    if (value > 0) {
+                    if (typeof value === 'number' && value > 0) {
                         return String(value).padStart(4, '0')
                     } else {
                         return String(value)
@@ -4281,13 +4379,11 @@ class SimpleEDTFParser {
             this.valid = false
         } else if (parts.length === 2) {
             this.type = 'Interval'
-            this.values = []
             let valid = false
             parts.forEach(part => {
                 let parser = new SimpleEDTFParser(part)
                 parser.init()
                 if (parser.valid || parser.type==='Open') {
-                    this.values.push(parser.values)
                     this.parts.push(parser)
                     if (parser.valid) {
                         valid = true
@@ -4336,7 +4432,7 @@ class SimpleEDTFParser {
             from.init()
             let to = new SimpleEDTFParser(year.replace(/u/g,'9'))
             to.init()
-            this.values = [from.values, to.values]
+            this.parts = [from, to]
             if (!from.valid || !to.valid) {
                 this.valid = false
             }
@@ -4490,7 +4586,7 @@ class SimpleEDTFParser {
 }
 
 
-function edtfParse(dateString) {
+function edtfParse(dateString /*: string */) {
 
     let parser = new SimpleEDTFParser(dateString)
     return parser.init()
@@ -4528,6 +4624,7 @@ exports.debug = debug;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BibLatexLiteralParser; });
+// @flow
 const LATEX_COMMANDS = [ // commands that can can contain richtext.
     ['\\textbf{', 'strong'],
     ['\\mkbibbold{', 'strong'],
@@ -4562,8 +4659,27 @@ const LATEX_SPECIAL_CHARS = {
     '\\': '\n'
 }
 
+/*::
+
+import type {NodeObject, TextNodeObject, MarkObject} from "../const"
+*/
+
 class BibLatexLiteralParser {
-    constructor(string, cpMode = false) {
+    /*::
+    string: string;
+    cpMode: boolean;
+    braceLevel: number;
+    slen: number;
+    si: number;
+    json: Array<NodeObject>;
+    braceClosings: Array<boolean>;
+    currentMarks: Array<MarkObject>;
+    inCasePreserve: number | null;
+    textNode: TextNodeObject;
+    */
+
+
+    constructor(string /*: string */, cpMode /*: boolean */ = false) {
         this.string = string
         this.cpMode = cpMode // Whether to consider case preservation.
         this.braceLevel = 0
@@ -4572,8 +4688,8 @@ class BibLatexLiteralParser {
         this.json = []
         this.braceClosings = []
         this.currentMarks = []
-        this.inCasePreserve = false
-        this.textNode = false
+        this.inCasePreserve = null
+        this.addNewTextNode()
     }
 
     // If the last text node has no content, remove it.
@@ -4592,13 +4708,13 @@ class BibLatexLiteralParser {
     }
 
     addNewTextNode() {
-        this.textNode = {type: 'text', text: ''}
-        this.json.push(this.textNode)
+        const textNode /*: TextNodeObject */ = {type: 'text', text: ''}
+        this.json.push(textNode)
+        this.textNode = textNode
     }
 
     stringParser() {
-        this.addNewTextNode()
-
+        let variable, sj
         parseString: while (this.si < this.slen) {
             switch(this.string[this.si]) {
                 case '\\':
@@ -4616,7 +4732,7 @@ class BibLatexLiteralParser {
                                     this.currentMarks[this.currentMarks.length-1].type === 'nocase'
                                 ) {
                                     this.currentMarks.pop()
-                                    this.inCasePreserve = false
+                                    this.inCasePreserve = null
                                 } else {
                                     // Of not immediately inside a brace, any styling also
                                     // adds case protection.
@@ -4734,7 +4850,7 @@ class BibLatexLiteralParser {
                                 }
                             }
                             this.si += 2
-                            continue parseString
+                            //continue parseString
                         } else {
                             // A brace was closed before it was opened. Abort and return the original string.
                             return [{type: 'text', text: this.string}]
@@ -4798,7 +4914,7 @@ class BibLatexLiteralParser {
                             this.checkAndAddNewTextNode()
                             let lastMark = this.currentMarks.pop()
                             if (this.inCasePreserve===(this.braceLevel+1)) {
-                                this.inCasePreserve = false
+                                this.inCasePreserve = null
                                 // The last tag may have added more tags. The
                                 // lowest level will be the case preserving one.
                                 while(lastMark.type !== 'nocase' && this.currentMarks.length) {
@@ -4812,7 +4928,7 @@ class BibLatexLiteralParser {
                             }
                         }
                         this.si++
-                        continue parseString
+                        //continue parseString
                     } else {
                         // A brace was closed before it was opened. Abort and return the original string.
                         return [{type: 'text', text: this.string}]
@@ -4830,11 +4946,11 @@ class BibLatexLiteralParser {
                 case '\u0870':
                     // An undefined variable.
                     this.removeIfEmptyTextNode()
-                    let sj = this.si + 1
+                    sj = this.si + 1
                     while (sj < this.slen && this.string[sj] !== '\u0870') {
                         sj++
                     }
-                    let variable = this.string.substring(this.si+1, sj)
+                    variable = this.string.substring(this.si+1, sj)
                     this.json.push({type:'variable', attrs:{variable}})
                     this.addNewTextNode()
                     this.si = sj + 1
@@ -4895,15 +5011,19 @@ class BibLatexLiteralParser {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return splitTeXString; });
+// @flow
 // split at each occurence of splitToken, but only if no braces are currently open.
-function splitTeXString(texString, splitToken='and') {
+function splitTeXString(texString /*: string */, splitToken /*: string */ ='and') /*: Array<string> */ {
     let output = []
     let tokenRe = /([^\s{}]+|\s|{|})/g
     let j = 0
     let k = 0
     let item
     while ((item = tokenRe.exec(texString)) !== null) {
-        let token = item[0]
+        const token = item && item.length ? item[0] : false
+        if (token===false) {
+            break
+        }
         if (k === output.length) {
             output.push('')
         }
@@ -5059,6 +5179,7 @@ exports.Exporter = new class {
 /* harmony import */ var _group_parser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group-parser */ 12);
 /* harmony import */ var _tools__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tools */ 5);
 /* harmony import */ var _edtf_parser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../edtf-parser */ 2);
+// @flow
 
 
 
@@ -5117,16 +5238,77 @@ exports.Exporter = new class {
         }
   */
 
-class BibLatexParser {
+/*::
+import type {GroupObject, NodeObject, NodeArray, EntryObject, NameDictObject, RangeArray} from "../const"
 
-    constructor(input, config = {}) {
+type ConfigObject = {
+    processUnknown?: Object;
+    processUnexpected?: boolean;
+    processInvalidURIs?: boolean;
+};
+
+type ErrorObject = {
+    type: string;
+    expected?: string;
+    found?: string;
+    line?: number;
+    key?: string;
+    entry?: string;
+    field_name?: string;
+    value?: Array<string> | string;
+}
+
+type MatchOptionsObject = {
+    skipWhitespace : string | boolean;
+};
+
+type UnknownFieldsObject = {
+    groups?: Array<NodeObject>;
+    [string]: Array<NodeObject> | Array<RangeArray> | Array<NodeArray> | Array<NodeArray | string> | Array<NameDictObject> | string;
+}
+
+*/
+
+class BibLatexParser {
+    /*::
+        input: string;
+        config: ConfigObject;
+        pos: number;
+        entries: Array<EntryObject>;
+        currentKey: string | false;
+        currentEntry: ?EntryObject;
+        currentType: string;
+        currentRawFields: Object;
+        bibDB: Object;
+        errors: Array<ErrorObject>;
+        warnings: Array<ErrorObject>;
+        variables: {
+            JAN: string,
+            FEB: string,
+            MAR: string,
+            APR: string,
+            MAY: string,
+            JUN: string,
+            JUL: string,
+            AUG: string,
+            SEP: string,
+            OCT: string,
+            NOV: string,
+            DEC: string
+        };
+        groupParser: GroupParser;
+        groups: Array<GroupObject> | false;
+    */
+
+
+    constructor(input /*: string */, config /*: ConfigObject */ = {}) {
         this.input = input
         this.config = config
         this.pos = 0
         this.entries = []
         this.bibDB = {}
         this.currentKey = false
-        this.currentEntry = false
+        this.currentEntry = null
         this.currentType = ""
         this.errors = []
         this.warnings = []
@@ -5146,27 +5328,29 @@ class BibLatexParser {
             DEC: "12"
         }
         this.groupParser = new _group_parser__WEBPACK_IMPORTED_MODULE_4__[/* GroupParser */ "a"](this.entries)
+        this.groups = false
     }
 
-    isWhitespace(s) {
+    isWhitespace(s /*: string */) {
         return (s == ' ' || s == '\r' || s == '\t' || s == '\n')
     }
 
-    error(data) {
+    error(data /*: ErrorObject */) {
         this.errors.push(Object.assign({}, data, {line: this.input.slice(0, this.pos).split('\n').length }))
     }
 
-    warning(data) {
+    warning(data /*: ErrorObject */) {
         this.warnings.push(Object.assign({}, data, {line: this.input.slice(0, this.pos).split('\n').length }))
     }
 
-    match(s, options) {
-        if (!options) options = { skipWhitespace: true }
-        if (options.skipWhitespace === true || options.skipWhitespace === 'leading') this.skipWhitespace()
+
+    match(s /*: string */, options /*: MatchOptionsObject */ = { skipWhitespace: true }) {
+        if (options.skipWhitespace === true || options.skipWhitespace === 'leading') {
+            this.skipWhitespace()
+        }
         if (this.input.substring(this.pos, this.pos + s.length) == s) {
             this.pos += s.length
         } else {
-
             this.error({
                 type: 'token_mismatch',
                 expected: s,
@@ -5176,7 +5360,7 @@ class BibLatexParser {
         if (options.skipWhitespace === true || options.skipWhitespace === 'trailing') this.skipWhitespace()
     }
 
-    tryMatch(s) {
+    tryMatch(s /*: string */) {
         this.skipWhitespace()
         if (this.input.substring(this.pos, this.pos + s.length) == s) {
             return true
@@ -5264,7 +5448,6 @@ class BibLatexParser {
     }
 
     singleValue() {
-        let start = this.pos
         if (this.tryMatch("{")) {
             return this.valueBraces()
         } else if (this.tryMatch('"')) {
@@ -5276,12 +5459,17 @@ class BibLatexParser {
             } else if (k.match("^[0-9]+$")) {
                 return k
             } else {
-                this.warning({
+                const warning /*: Object */ = {
                     type: 'undefined_variable',
-                    entry: this.currentEntry['entry_key'],
-                    key: this.currentKey,
                     variable: k
-                })
+                }
+                if (this.currentEntry) {
+                    warning.entry = this.currentEntry['entry_key']
+                }
+                if (this.currentKey) {
+                    warning.key = this.currentKey
+                }
+                this.warning(warning)
                 // Using \u0870 as a delimiter for variables as they cannot be
                 // used in regular latex code.
                 return `\u0870${k}\u0870`
@@ -5299,12 +5487,12 @@ class BibLatexParser {
         return values.join("").replace(/[\t ]+/g, ' ').trim()
     }
 
-    key(optional) {
+    key(optional /*: boolean */ = false) /*: string */ {
         let start = this.pos
         while (true) {
             if (this.pos == this.input.length) {
                 this.error({type: 'runaway_key' })
-                return
+                break
             }
             if (['(',')',',','{','}',' ','=', '\t', '\n'].includes(this.input[this.pos])) {
                 let key = this.input.substring(start, this.pos)
@@ -5312,7 +5500,7 @@ class BibLatexParser {
                     this.skipWhitespace()
                     if (this.input[this.pos] != ',') {
                         this.pos = start
-                        return null
+                        return ''
                     }
                 }
                 return key
@@ -5320,36 +5508,51 @@ class BibLatexParser {
                 this.pos++
             }
         }
+
+        return ''
     }
 
-    keyEqualsValue() {
+    keyEqualsValue() /*: [string, string] | false */{
         let key = this.key()
-        if (!key) {
-            this.error({
+        if (!key.length) {
+            const error /*: ErrorObject */ = {
                 type: 'cut_off_citation',
-                entry: this.currentEntry['entry_key'],
-            })
-            // The citation is not full, we remove the existing parts.
-            this.currentEntry['incomplete'] = true
-            return
+            }
+            if (this.currentEntry) {
+                error.entry = this.currentEntry['entry_key']
+                // The citation is not full, we remove the existing parts.
+                this.currentEntry['incomplete'] = true
+            }
+            this.error(error)
+            return false
         }
         this.currentKey = key.toLowerCase()
         if (this.tryMatch("=")) {
             this.match("=")
-            let val = this.value()
-            return [this.currentKey, val]
+            const val = this.value()
+            if (this.currentKey) {
+                return [this.currentKey, val]
+            } else {
+                return false
+            }
         } else {
-            this.error({
-                type: 'missing_equal_sign',
-                key: this.currentKey,
-                entry: this.currentEntry['entry_key'],
-            })
+            const error /*: ErrorObject */ = {
+                type: 'missing_equal_sign'
+            }
+            if (this.currentEntry) {
+                error.entry = this.currentEntry['entry_key']
+            }
+            if (this.currentKey) {
+                error.key = this.currentKey
+            }
+            this.error(error)
         }
+        return false
     }
 
     keyValueList() {
         let kv = this.keyEqualsValue()
-        if (typeof(kv) === 'undefined') {
+        if (!kv || !this.currentRawFields) {
             // Entry has no fields, so we delete it.
             // It was the last one pushed, so we remove the last one
             this.entries.pop()
@@ -5364,11 +5567,14 @@ class BibLatexParser {
                 break
             }
             kv = this.keyEqualsValue()
-            if (typeof (kv) === 'undefined') {
-                this.error({
-                    type: 'key_value_error',
-                    entry: this.currentEntry['entry_key'],
-                })
+            if (!kv) {
+                const error /*: ErrorObject */ = {
+                    type: 'key_value_error'
+                }
+                if (this.currentEntry) {
+                    error.entry = this.currentEntry['entry_key']
+                }
+                this.error(error)
                 break
             }
             rawFields[kv[0]] = kv[1]
@@ -5376,6 +5582,9 @@ class BibLatexParser {
     }
 
     processFields() {
+        if (!this.currentEntry) {
+            return
+        }
         let rawFields = this.currentRawFields
         let fields = this.currentEntry['fields']
 
@@ -5418,12 +5627,15 @@ class BibLatexParser {
                     value = rawFields.year
                     errorList = this.warnings
                 }
-                errorList.push({
+                const error /*: ErrorObject */ = {
                     type: 'unknown_date',
-                    entry: this.currentEntry['entry_key'],
                     field_name: fieldName,
                     value
-                })
+                }
+                if (this.currentEntry) {
+                    error.entry = this.currentEntry['entry_key']
+                }
+                errorList.push(error)
             }
         }
         // Check for English language. If the citation is in English language,
@@ -5441,7 +5653,7 @@ class BibLatexParser {
             // If there is no langid, but a language, and the language happens to be
             // a known langid, set the langid to be equal to the language.
             let langid = this._reformKey(rawFields.language, 'langid')
-            if (langid) {
+            if (langid.length) {
                 fields['langid'] = langid
                 if (!['usenglish', 'ukenglish', 'caenglish', 'auenglish', 'nzenglish'].includes(langid)) {
                     langEnglish = false
@@ -5449,7 +5661,7 @@ class BibLatexParser {
             }
         }
 
-        iterateFields: for(let bKey in rawFields) {
+        iterateFields: for(let bKey /*: string */ in rawFields) {
 
             if (bKey==='date' || (['year','month'].includes(bKey) && !this.config.processUnknown)) {
                 // Handled above
@@ -5457,46 +5669,56 @@ class BibLatexParser {
             }
 
             // Replace alias fields with their main term.
-            let aliasKey = _const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexFieldAliasTypes */ "c"][bKey], fKey
+            let aliasKey = _const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexFieldAliasTypes */ "c"][bKey], fKey = ''
             if (aliasKey) {
                 if (rawFields[aliasKey]) {
-                    this.warning({
+                    const warning /*: ErrorObject */ = {
                         type: 'alias_creates_duplicate_field',
-                        entry: this.currentEntry['entry_key'],
                         field: bKey,
                         alias_of: aliasKey,
                         value: rawFields[bKey],
                         alias_of_value: rawFields[aliasKey]
-                    })
+                    }
+                    if (this.currentEntry) {
+                        warning.entry = this.currentEntry['entry_key']
+                    }
+                    this.warning(warning)
                     continue iterateFields
                 }
 
                 fKey = Object.keys(_const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"]).find((ft)=>{
                     return _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][ft].biblatex === aliasKey
-                })
+                }) || ''
             } else {
                 fKey = Object.keys(_const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"]).find((ft)=>{
                     return _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][ft].biblatex === bKey
-                })
+                }) || ''
             }
 
             let oFields, fType
             let bType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibTypes */ "b"][this.currentEntry['bib_type']]
 
-            if('undefined' == typeof(fKey)) {
-                this.warning({
+            if(!fKey.length) {
+                const warning /*: ErrorObject */ = {
                     type: 'unknown_field',
-                    entry: this.currentEntry['entry_key'],
                     field_name: bKey
-                })
+                }
+                if (this.currentEntry) {
+                    warning.entry = this.currentEntry['entry_key']
+                }
+                this.warning(warning)
                 if (!this.config.processUnknown) {
                     continue iterateFields
                 }
-                if (!this.currentEntry['unknown_fields']) {
+                if (this.currentEntry && !this.currentEntry['unknown_fields']) {
                     this.currentEntry['unknown_fields'] = {}
                 }
-                oFields = this.currentEntry['unknown_fields']
-                fType = this.config.processUnknown[bKey] ? this.config.processUnknown[bKey] : 'f_literal'
+                oFields = this.currentEntry && this.currentEntry['unknown_fields'] ?
+                        this.currentEntry['unknown_fields'] :
+                        {}
+                fType = this.config.processUnknown && this.config.processUnknown[bKey] ?
+                        this.config.processUnknown[bKey] :
+                        'f_literal'
                 fKey = bKey
             } else if (
                 bType['required'].includes(fKey) ||
@@ -5506,29 +5728,35 @@ class BibLatexParser {
                 oFields = fields
                 fType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]['type']
             } else {
-                this.warning({
+                const warning /*: ErrorObject */ = {
                     type: 'unexpected_field',
-                    entry: this.currentEntry['entry_key'],
                     field_name: bKey
-                })
+                }
+                if (this.currentEntry) {
+                    warning.entry = this.currentEntry['entry_key']
+                }
+                this.warning(warning)
                 if (!this.config.processUnexpected) {
                     continue iterateFields
                 }
-                if (!this.currentEntry['unexpected_fields']) {
+                if (this.currentEntry && !this.currentEntry['unexpected_fields']) {
                     this.currentEntry['unexpected_fields'] = {}
                 }
-                oFields = this.currentEntry['unexpected_fields']
+                oFields = this.currentEntry && this.currentEntry['unexpected_fields'] ?
+                        this.currentEntry['unexpected_fields'] :
+                        {}
                 fType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]['type']
             }
 
 
-            let fValue = rawFields[bKey]
+            let fValue = rawFields[bKey],
+                reformedValue
             switch(fType) {
                 case 'f_date':
-                    let dateObj = Object(_edtf_parser__WEBPACK_IMPORTED_MODULE_6__[/* edtfParse */ "a"])(fValue)
-                    if (dateObj.valid) {
-                        oFields[fKey] = dateObj.cleanedString
-                    } else {
+                    reformedValue = Object(_edtf_parser__WEBPACK_IMPORTED_MODULE_6__[/* edtfParse */ "a"])(fValue)
+                    if (reformedValue.valid) {
+                        oFields[fKey] = reformedValue.cleanedString
+                    } else if (this.currentEntry) {
                         this.error({
                             type: 'unknown_date',
                             entry: this.currentEntry['entry_key'],
@@ -5541,9 +5769,9 @@ class BibLatexParser {
                     oFields[fKey] = this._reformLiteral(fValue)
                     break
                 case 'f_key':
-                    let reformedKey = this._reformKey(fValue, fKey)
-                    if (reformedKey !== false) {
-                        oFields[fKey] = reformedKey
+                    reformedValue = this._reformKey(fValue, fKey)
+                    if (reformedValue.length) {
+                        oFields[fKey] = reformedValue
                     }
                     break
                 case 'f_literal':
@@ -5560,26 +5788,30 @@ class BibLatexParser {
                     if (this.config.processInvalidURIs || this._checkURI(fValue)) {
                         oFields[fKey] = this._reformURI(fValue)
                     } else {
-                        this.error({
+                        const error /*: ErrorObject */ = {
                             type: 'unknown_uri',
-                            entry: this.currentEntry['entry_key'],
                             field_name: fKey,
                             value: fValue,
-                        })
+                        }
+                        if (this.currentEntry) {
+                            error.entry = this.currentEntry['entry_key']
+                        }
+                        this.error(error)
                     }
                     break
                 case 'f_verbatim':
                     oFields[fKey] = fValue
                     break
                 case 'l_key':
-                    oFields[fKey] = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(fValue).map(keyField=> this._reformKey(keyField, fKey))
+                    oFields[fKey] = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(fValue).map(
+                        keyField => this._reformKey(keyField, fKey)
+                    )
                     break
                 case 'l_tag':
                     oFields[fKey] = fValue.split(/[,;]/).map(string => string.trim())
                     break
                 case 'l_literal':
-                    let items = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(fValue)
-                    oFields[fKey] = items.map(item => this._reformLiteral(item.trim()))
+                    oFields[fKey] = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(fValue).map(item => this._reformLiteral(item.trim()))
                     break
                 case 'l_name':
                     oFields[fKey] = this._reformNameList(fValue)
@@ -5592,7 +5824,7 @@ class BibLatexParser {
 
     }
 
-    _reformKey(keyString, fKey) {
+    _reformKey(keyString /*: string */, fKey /*: string */) /*: string | NodeArray */ {
         let keyValue = keyString.trim().toLowerCase()
         let fieldType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]
         if (_const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexAliasOptions */ "a"][fKey] && _const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexAliasOptions */ "a"][fKey][keyValue]) {
@@ -5609,42 +5841,55 @@ class BibLatexParser {
                 })
                 if (optionValue) {
                     return optionValue
+                } else {
+                    return ''
                 }
             }
         }
         if (fieldType.strict) {
-            this.warning({
+            const warning /*: ErrorObject */ = {
                 type: 'unknown_key',
-                entry: this.currentEntry['entry_key'],
                 field_name: fKey,
                 value: keyString
-            })
-            return false
+            }
+            if (this.currentEntry) {
+                warning.entry = this.currentEntry['entry_key']
+            }
+            this.warning(warning)
+            return ''
         }
         return this._reformLiteral(keyString)
-
     }
 
-    _checkURI(uriString) {
+    _checkURI(uriString /*: string */) /*: boolean */ {
         /* Copyright (c) 2010-2013 Diego Perini, MIT licensed
            https://gist.github.com/dperini/729294
          */
         return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(uriString)
     }
 
-    _reformURI(uriString) {
+    _reformURI(uriString /*: string */) {
         return uriString.replace(/\\/g,'')
     }
 
-    _reformNameList(nameString) {
-        let people = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(nameString)
-        return people.map(person => {
-            let nameParser = new _name_parser__WEBPACK_IMPORTED_MODULE_2__[/* BibLatexNameParser */ "a"](person)
-            return nameParser.output
-        }).filter(person => person)
+    _reformNameList(nameString /*: string */) /*: Array<NameDictObject> */ {
+        const people = Object(_tools__WEBPACK_IMPORTED_MODULE_5__[/* splitTeXString */ "a"])(nameString),
+            names = people.map(person => {
+                const nameParser = new _name_parser__WEBPACK_IMPORTED_MODULE_2__[/* BibLatexNameParser */ "a"](person),
+                    name = nameParser.output
+                if (name) {
+                    return name
+                } else {
+                    return false
+                }
+            }),
+            result = ((names.filter((name /*: NameDictObject | false */) => {
+                return typeof name == 'object'
+            }) /*: Array<any> */) /*: Array<NameDictObject> */)
+        return result
     }
 
-    _reformRange(rangeString) {
+    _reformRange(rangeString /*: string */) /*: Array<RangeArray> */{
         return rangeString.split(',').map(string => {
             let parts = string.split('--')
             if (parts.length > 1) {
@@ -5666,12 +5911,12 @@ class BibLatexParser {
         })
     }
 
-    _reformLiteral(theValue, cpMode) {
-        let parser = new _literal_parser__WEBPACK_IMPORTED_MODULE_3__[/* BibLatexLiteralParser */ "a"](theValue, cpMode)
+    _reformLiteral(theValue /*: string */, cpMode /*: boolean */ = false) /*: NodeArray */ {
+        const parser = new _literal_parser__WEBPACK_IMPORTED_MODULE_3__[/* BibLatexLiteralParser */ "a"](theValue, cpMode)
         return parser.output
     }
 
-    bibType() {
+    bibType() /*: string */ {
         let biblatexType = this.currentType
         if (_const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexAliasTypes */ "b"][biblatexType]) {
             biblatexType = _const__WEBPACK_IMPORTED_MODULE_1__[/* BiblatexAliasTypes */ "b"][biblatexType]
@@ -5700,27 +5945,26 @@ class BibLatexParser {
         }
         this.currentRawFields = {}
         this.entries.push(this.currentEntry)
-        if (this.currentEntry['entry_key'] !== null) {
+        if (this.currentEntry && this.currentEntry['entry_key'].length) {
             this.match(",")
         }
         this.keyValueList()
-        if (this.currentEntry['entry_key'] === null) {
-            this.currentEntry['entry_key'] = ''
-        }
         this.processFields()
     }
 
     directive() {
         this.match("@")
         this.currentType = this.key()
-        if (!this.currentType) return null
+        if (!this.currentType.length) return null
         this.currentType = this.currentType.toLowerCase()
         return "@" + this.currentType
     }
 
     string() {
-        let kv = this.keyEqualsValue()
-        this.variables[kv[0].toUpperCase()] = kv[1]
+        const kv = this.keyEqualsValue()
+        if (kv) {
+            this.variables[kv[0].toUpperCase()] = kv[1]
+        }
     }
 
     preamble() {
@@ -5776,7 +6020,7 @@ class BibLatexParser {
         }
     }
 
-    parseComment(braceless) {
+    parseComment(braceless /*: boolean */) {
         let start = this.pos
         let braces = 1
 
@@ -5804,7 +6048,7 @@ class BibLatexParser {
         this.pos--
         let comment = this.input.substring(start, this.pos)
         this.groupParser.checkString(comment)
-        if (this.groupParser.groups) {
+        if (this.groupParser.groups.length) {
             this.groups = this.groupParser.groups
         }
     }
@@ -5848,6 +6092,8 @@ class BibLatexParser {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BibLatexExporter; });
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./const */ 6);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../const */ 0);
+// @flow
+
 
 
 
@@ -5857,20 +6103,50 @@ class BibLatexParser {
  */
 
  const TAGS = {
-     'strong': {open:'\\mkbibbold{', close: '}'},
-     'em': {open:'\\mkbibitalic{', close: '}'},
-     'smallcaps': {open:'\\textsc{', close: '}'},
-     'enquote': {open:'\\enquote{', close: '}'},
-     'nocase': {open:'{{', close: '}}'},
-     'sub': {open:'_{', close: '}'},
-     'sup': {open:'^{', close: '}'},
-     'math': {open:'$', close: '$'},
+     'strong': {open:'\\mkbibbold{', close: '}', verbatim: false},
+     'em': {open:'\\mkbibitalic{', close: '}', verbatim: false},
+     'smallcaps': {open:'\\textsc{', close: '}', verbatim: false},
+     'enquote': {open:'\\enquote{', close: '}', verbatim: false},
+     'nocase': {open:'{{', close: '}}', verbatim: false},
+     'sub': {open:'_{', close: '}', verbatim: false},
+     'sup': {open:'^{', close: '}', verbatim: false},
+     'math': {open:'$', close: '$', verbatim: false},
      'url': {open:'\\url{', close: '}', verbatim: true}
   }
 
+/*::
+import type {NodeArray, RangeArray, NameDictObject} from "../const"
+
+type ConfigObject = {
+    traditionalNames?: boolean;
+};
+
+type BibObject = {
+    type: string;
+    key: string;
+    values?: Object;
+}
+
+type WarningObject = {
+    type: string;
+    variable: string;
+}
+
+*/
+
+
 class BibLatexExporter {
 
-    constructor(bibDB, pks = false, config = {}) {
+    /*::
+    bibDB: Object;
+    pks: Array<string>;
+    config: ConfigObject;
+    warnings: Array<WarningObject>;
+    bibtexStr: string;
+    bibtexArray: Array<BibObject>
+    */
+
+    constructor(bibDB /*: Object */, pks /*: Array<string> | false */ = false, config /*: ConfigObject */= {}) {
         this.bibDB = bibDB // The bibliography database to export from.
         if (pks) {
             this.pks = pks // A list of pk values of the bibliography items to be exported.
@@ -5879,15 +6155,15 @@ class BibLatexExporter {
         }
         this.config = config
         this.warnings = []
+        this.bibtexArray = []
+        this.bibtexStr = ''
     }
 
     get output() {
-        this.bibtexArray = []
-        this.bibtexStr = ''
 
         this.pks.forEach(pk => {
             let bib = this.bibDB[pk]
-            let bibEntry = {
+            let bibEntry /*: BibObject */ = {
                 'type': _const__WEBPACK_IMPORTED_MODULE_1__[/* BibTypes */ "b"][bib['bib_type']]['biblatex'],
                 'key': bib['entry_key'].length ? bib['entry_key'] : 'Undefined'
             }
@@ -5948,7 +6224,7 @@ class BibLatexExporter {
         return this.bibtexStr
     }
 
-    _reformKey(theValue, fKey) {
+    _reformKey(theValue /*: string | NodeArray */, fKey /*: string */) {
         if (typeof theValue==='string') {
             let fieldType = _const__WEBPACK_IMPORTED_MODULE_1__[/* BibFieldTypes */ "a"][fKey]
             if (Array.isArray(fieldType['options'])) {
@@ -5961,7 +6237,7 @@ class BibLatexExporter {
         }
     }
 
-    _reformRange(theValue) {
+    _reformRange(theValue /*: Array<RangeArray> */) /*: string */ {
         return theValue.map(
             range => range.map(
                 text => this._reformText(text)
@@ -5969,7 +6245,7 @@ class BibLatexExporter {
         ).join(',')
     }
 
-    _reformName(theValue) {
+    _reformName(theValue /*: Array<NameDictObject> */) /*: string */ {
         let names = []
         theValue.forEach((name)=>{
             if (name.literal) {
@@ -5982,7 +6258,7 @@ class BibLatexExporter {
                 let given = name.given ? this._reformText(name.given): ''
                 let suffix = name.suffix ? this._reformText(name.suffix) : false
                 let prefix = name.prefix ? this._reformText(name.prefix) : false
-                let useprefix = name.useprefix ? name.useprefix: false
+                let useprefix = name.useprefix ? name.useprefix : false
                 if (this.config.traditionalNames) {
                     if (suffix && prefix) {
                         names.push(`{${prefix} ${family}}, {${suffix}}, {${given}}`)
@@ -6006,7 +6282,7 @@ class BibLatexExporter {
                     }
                     if (prefix) {
                         nameParts.push(this._protectNamePart(`prefix={${prefix}}`))
-                        nameParts.push(`useprefix=${name.useprefix}`)
+                        nameParts.push(`useprefix=${String(useprefix)}`)
                     }
                     names.push(nameParts.join(', '))
                 }
@@ -6015,7 +6291,7 @@ class BibLatexExporter {
         return names.join(' and ')
     }
 
-    _protectNamePart(namePart) {
+    _protectNamePart(namePart /*: string */) /*: string */{
         if (namePart.includes(',')) {
             return `"${namePart}"`
         } else {
@@ -6023,10 +6299,7 @@ class BibLatexExporter {
         }
     }
 
-    _escapeTeX(theValue) {
-        if ('string' != typeof (theValue)) {
-            return false
-        }
+    _escapeTeX(theValue /*: string */) /*: string */ {
         let len = _const__WEBPACK_IMPORTED_MODULE_0__[/* TexSpecialChars */ "a"].length
         for (let i = 0; i < len; i++) {
             theValue = theValue.replace(
@@ -6037,7 +6310,7 @@ class BibLatexExporter {
         return theValue
     }
 
-    _reformText(theValue) {
+    _reformText(theValue /*: NodeArray */) /*: string */ {
         let latex = '', lastMarks = []
 
         // Add one extra empty node to theValue to close all still open tags for last node.
@@ -6120,17 +6393,17 @@ class BibLatexExporter {
         return latex
     }
 
-    _getBibtexString(biblist) {
-        let len = biblist.length,
-            str = ''
+    _getBibtexString(biblist /*: Array<BibObject> */) /*: string */ {
+        const len = biblist.length
+        let str = ''
         for (let i = 0; i < len; i++) {
             if (0 < i) {
                 str += '\n\n'
             }
-            let data = biblist[i]
+            const data = biblist[i]
             str += `@${data.type}{${data.key}`
             for (let vKey in data.values) {
-                let value = `{${data.values[vKey]}}`.replace(/\{\} \# /g,'').replace(/\# \{\}/g,'')
+                let value = `{${data.values[vKey]}}`.replace(/\{\} # /g,'').replace(/# \{\}/g,'')
                 str += `,\n${vKey} = ${value}`
             }
             str += "\n}"
@@ -6153,6 +6426,8 @@ class BibLatexExporter {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CSLExporter; });
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../const */ 0);
 /* harmony import */ var _edtf_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../edtf-parser */ 2);
+// @flow
+
 
 
 
@@ -6172,8 +6447,38 @@ const TAGS = {
     'undefined': {open:'[', close: ']'}
  }
 
+ /*::
+import type {NodeArray, RangeArray, NameDictObject} from "../const"
+
+type ErrorObject = {
+    type: string;
+    variable: string;
+}
+
+type CSLDateObject = {
+    'date-parts'?: Array<number> | [Array<number>, Array<number>];
+    circa?: boolean;
+}
+
+type CSLNameObject = {
+    literal?: string;
+    given?: string;
+    family?: string;
+    suffix?: string;
+    'non-dropping-particle'?: string;
+    'dropping-particle'?: string;
+}
+
+ */
+
 class CSLExporter {
-    constructor(bibDB, pks) {
+    /*::
+    bibDB: Object;
+    pks: Array<string>
+    cslDB: Object;
+    errors: Array<ErrorObject>;
+    */
+    constructor(bibDB /*: Object */, pks /*: Array<string> | false */ = false) {
         this.bibDB = bibDB
         if (pks) {
             this.pks = pks // A list of pk values of the bibliography items to be exported.
@@ -6197,7 +6502,7 @@ class CSLExporter {
      * @function getCSLEntry
      * @param id The id identifying the bibliography entry.
      */
-    getCSLEntry(id) {
+    getCSLEntry(id /*: string */) {
         let bib = this.bibDB[id], fValues = {}
         if (!bib.fields || !bib.bib_type || !_const__WEBPACK_IMPORTED_MODULE_0__[/* BibTypes */ "b"][bib.bib_type]) {
             return fValues
@@ -6207,11 +6512,12 @@ class CSLExporter {
                 let fValue = bib.fields[fKey]
                 let fType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]['type']
                 let key = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]['csl']
+                let reformedValue
                 switch(fType) {
                     case 'f_date':
-                        let date = this._reformDate(fValue)
-                        if (date) {
-                            fValues[key] = date
+                        reformedValue = this._reformDate(fValue)
+                        if (reformedValue) {
+                            fValues[key] = reformedValue
                         }
                         break
                     case 'f_integer':
@@ -6255,7 +6561,7 @@ class CSLExporter {
         return fValues
     }
 
-    _reformKey(theValue, fKey) {
+    _reformKey(theValue /*: string | NodeArray */, fKey /*: string */) {
         if (typeof theValue==='string') {
             let fieldType = _const__WEBPACK_IMPORTED_MODULE_0__[/* BibFieldTypes */ "a"][fKey]
             if (Array.isArray(fieldType['options'])) {
@@ -6268,7 +6574,7 @@ class CSLExporter {
         }
     }
 
-    _reformRange(theValue) {
+    _reformRange(theValue /*: Array<RangeArray> */) /*: string */ {
         return theValue.map(
             range => range.map(
                 text=> this._reformText(text)
@@ -6276,7 +6582,7 @@ class CSLExporter {
         ).join(',')
     }
 
-    _reformInteger(theValue) {
+    _reformInteger(theValue /*: NodeArray */) {
         let theString = this._reformText(theValue)
         let theInt = parseInt(theString)
         if (theString !== String(theInt)) {
@@ -6285,7 +6591,7 @@ class CSLExporter {
         return theInt
     }
 
-    _reformText(theValue) {
+    _reformText(theValue /*: NodeArray */) {
         let html = '', lastMarks = []
         theValue.forEach((node)=>{
             if (node.type === 'variable') {
@@ -6335,43 +6641,42 @@ class CSLExporter {
         return html
     }
 
-    _reformDate(dateStr) {
-        let dateObj = Object(_edtf_parser__WEBPACK_IMPORTED_MODULE_1__[/* edtfParse */ "a"])(dateStr), reformedDate = {}
+    _reformDate(dateStr /*: string */) {
+        let dateObj = Object(_edtf_parser__WEBPACK_IMPORTED_MODULE_1__[/* edtfParse */ "a"])(dateStr)
+        const reformedDate /*: CSLDateObject */ = {}
         if (!dateObj.valid) {
             return false
-        } else if (dateObj.type === 'Interval') {
-            let values = []
-            dateObj.values.forEach(value => {
-                if(value.length) {
-                    values.push(value.slice(0,3))
-                }
-            })
-            if (values.length===2) {
-                reformedDate = {
-                    'date-parts': values
-                }
-            } else {
-                // Open interval that we cannot represent, so we make it circa instead.
-                reformedDate = {
-                    'date-parts': values[0],
-                    'circa': true
-                }
-            }
-
+        } else if (
+            dateObj.values.length > 1 &&
+            Array.isArray(dateObj.values[0]) &&
+            Array.isArray(dateObj.values[1])
+        ) {
+            const intervalFrom /*: Array<number | string> */ = dateObj.values[0],
+                intervalTo /*: Array<number | string> */ = dateObj.values[1]
+            const intervalDateParts /*: [Array<number>, Array<number>] */ = [
+                intervalFrom.slice(0,3).map(value => parseInt(value)),
+                intervalTo.slice(0,3).map(value => parseInt(value))
+            ]
+            reformedDate['date-parts'] = intervalDateParts
         } else {
-            reformedDate = {
-                'date-parts': [ dateObj.values.slice(0,3) ]
+            const values /*: Array<number> */ =
+                dateObj.values.slice(0,3).map(value => parseInt(value))
+            reformedDate['date-parts'] = values
+            if (dateObj.type === 'Interval') {
+                // Open interval that we cannot represent, so we make it circa instead.
+                reformedDate['circa'] = true
             }
         }
+
         if (dateObj.uncertain || dateObj.approximate) {
             reformedDate['circa'] = true
         }
         return reformedDate
     }
 
-    _reformName(theNames) {
-        return theNames.map(name => {
-            let reformedName = {}
+    _reformName(theNames /*: Array<NameDictObject> */) /*: Array<CSLNameObject> */ {
+        const names = theNames.map(name => {
+            const reformedName /*: CSLNameObject */ = {}
             if (name.literal) {
                  let literal = this._reformText(name.literal)
                  if (literal.length) {
@@ -6395,7 +6700,8 @@ class CSLExporter {
                 reformedName['family'] = this._reformText(name['family'])
             }
             return reformedName
-        }).filter(name => name)
+        })
+        return ((names.filter(name => name)/*: Array<any>*/)/*: Array<CSLNameObject>*/)
     }
 
 }
@@ -6413,11 +6719,25 @@ class CSLExporter {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BibLatexNameParser; });
 /* harmony import */ var _literal_parser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./literal-parser */ 4);
+// @flow
 
+
+/*::
+
+import type {NodeArray, NameDictObject} from "../const"
+
+*/
 
 class BibLatexNameParser {
 
-    constructor(nameString) {
+    /*::
+    nameString: string;
+    nameDict: NameDictObject;
+    _particle: Array<string>;
+    _suffix: Array<string>;
+    */
+
+    constructor(nameString /*: string */) {
         this.nameString = nameString.trim()
         this.nameDict = {}
         this._particle = []
@@ -6481,9 +6801,9 @@ class BibLatexNameParser {
         }
     }
 
-    parseExtendedName(parts) {
+    parseExtendedName(parts /*: Array<string> */) {
         parts.forEach( part => {
-            let attrParts = part.trim().replace(/^\"|\"$/g,'').split('=')
+            let attrParts = part.trim().replace(/^"|"$/g,'').split('=')
             let attrName = attrParts.shift().trim().toLowerCase()
             if (['family', 'given', 'prefix', 'suffix'].includes(attrName)) {
                 this.nameDict[attrName] = this._reformLiteral(attrParts.join('=').trim())
@@ -6506,7 +6826,7 @@ class BibLatexNameParser {
         }
     }
 
-    splitTexString(string, sep='[\\s~]+') {
+    splitTexString(string /*: string */, sep /*: string */='[\\s~]+') {
         let braceLevel = 0
         let inQuotes = false
         let nameStart = 0
@@ -6550,11 +6870,11 @@ class BibLatexNameParser {
         return result
     }
 
-    processFirstMiddle(parts) {
+    processFirstMiddle(parts /*: Array<string> */) {
         this.nameDict['given'] = this._reformLiteral(parts.join(' ').trim())
     }
 
-    processVonLast(parts, lineage=[]) {
+    processVonLast(parts /*: Array<string> */, lineage /*: Array<string> */ =[]) {
         let rSplit = this.rsplitAt(parts)
         let von = rSplit[0]
         let last = rSplit[1]
@@ -6571,7 +6891,7 @@ class BibLatexNameParser {
         this.nameDict['family'] = this._reformLiteral(last.join(' ').trim())
     }
 
-    findFirstLowerCaseWord(lst) {
+    findFirstLowerCaseWord(lst /*: Array<string> */) {
         // return index of first lowercase word in lst. Else return length of lst.
         for(let i = 0;i<lst.length;i++) {
             let word = lst[i]
@@ -6582,20 +6902,20 @@ class BibLatexNameParser {
         return lst.length
     }
 
-    splitAt(lst) {
+    splitAt(lst /*: Array<string> */) /*: [Array<string>, Array<string>] */ {
         // Split the given list into two parts.
         // The second part starts with the first lowercase word.
-        let pos = this.findFirstLowerCaseWord(lst)
+        const pos = this.findFirstLowerCaseWord(lst)
         return [lst.slice(0, pos), lst.slice(pos)]
     }
 
-    rsplitAt(lst) {
-        let rpos = this.findFirstLowerCaseWord(lst.slice().reverse())
-        let pos = lst.length - rpos
+    rsplitAt(lst /*: Array<string> */) /*: [Array<string>, Array<string>] */{
+        const rpos = this.findFirstLowerCaseWord(lst.slice().reverse())
+        const pos = lst.length - rpos
         return [lst.slice(0, pos), lst.slice(pos)]
     }
 
-    _reformLiteral(litString) {
+    _reformLiteral(litString /*: string */) {
         let parser = new _literal_parser__WEBPACK_IMPORTED_MODULE_0__[/* BibLatexLiteralParser */ "a"](litString)
         return parser.output
     }
@@ -6614,27 +6934,59 @@ class BibLatexNameParser {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupParser; });
+// @flow
+
+/*::
+import type {EntryObject, NodeObject, GroupObject} from "../const"
+
+type StringStartTuplet = [string, () => void];
+
+type WarningObject = {
+    type: string;
+    group_type: string;
+}
+
+*/
+
+
+
 class GroupParser {
-    constructor(entries) {
-      this.groups = false
+
+    /*::
+    groups: Array<GroupObject>;
+    groupType: string;
+    warnings: Array<WarningObject>;
+    entries: Array<EntryObject>;
+    stringStarts: Array<StringStartTuplet>;
+    pos: number;
+    fileDirectory: string;
+    input: string;
+    */
+
+    constructor(entries /*: Array<EntryObject> */) {
+      this.groups = []
       this.groupType = 'jabref4'
       this.warnings = []
       this.entries = entries
+      this.pos = 0
+      this.fileDirectory = ''
+      this.input = ''
       this.stringStarts = [
-          ["jabref-meta: databaseType:bibtex;", () => this.groupType = 'jabref4'],
-          ["jabref-meta: databaseType:biblatex;", () => this.groupType = 'jabref4'],
-          ["jabref-meta: groupsversion:3;", () => this.groupType = 'jabref3'],
+          ["jabref-meta: databaseType:bibtex;", () => { this.groupType = 'jabref4' }],
+          ["jabref-meta: databaseType:biblatex;", () => { this.groupType = 'jabref4' }],
+          ["jabref-meta: groupsversion:3;", () => { this.groupType = 'jabref3' }],
           ["jabref-meta: grouping:", () => this.readGroupInfo('jabref4.1')],
-          ["jabref-meta: groupstree:", () => this.readGroupInfo()],
-          ["jabref-meta: fileDirectory:", () => this.readFileDirectory()],
+          ["jabref-meta: groupstree:", () => this.readGroupInfo('')], //@retorquere: There seems to be a string missing
+          ["jabref-meta: fileDirectory:", () => this.readFileDirectory()]
       ]
     }
 
-    checkString(input) {
+    checkString(input /*: string */) {
         this.input = input
+        //let searchPos = 0
         this.pos = 0
         this.stringStarts.find(stringStart => {
-            let pos = this.input.indexOf(stringStart[0], this.pos)
+            let pos = input.indexOf(stringStart[0], this.pos)
             if (pos < 0) {
                 return false
             } else {
@@ -6645,7 +6997,7 @@ class GroupParser {
         })
     }
 
-    readGroupInfo(groupType) {
+    readGroupInfo(groupType /*: string */) {
         if (groupType) this.groupType = groupType
 
         switch(this.groupType) {
@@ -6662,11 +7014,15 @@ class GroupParser {
     }
 
     readFileDirectory() {
-      this.fileDirectory = ''
-      while ((this.input.length > this.pos) && (this.input[this.pos]) !== ';') {
-        this.fileDirectory += this.input[this.pos];
-        this.pos++;
-      }
+        let fileDirectory = '',
+            input = this.input ? this.input : '',
+            pos = this.pos
+        while ((input.length > pos) && (input[pos]) !== ';') {
+            fileDirectory += input[pos]
+            pos++
+        }
+        this.fileDirectory = fileDirectory
+        this.pos = pos
     }
 
     readJabref3() {
@@ -6740,7 +7096,7 @@ class GroupParser {
         this.groups = levels['0'].groups
     }
 
-    clearGroups(groups) {
+    clearGroups(groups /*: Array<GroupObject> */) {
         for (const group of groups) {
             group.references = []
             this.clearGroups(group.groups || [])
@@ -6752,28 +7108,31 @@ class GroupParser {
         this.readJabref3()
 
         if (this.groupType === 'jabref4.1') {
-          this.clearGroups(this.groups)
+            this.clearGroups(this.groups)
         }
 
         // this assumes the JabRef groups always come after the references
         this.entries.forEach(bib => {
 
-            if (!bib.unknown_fields.groups || !bib.entry_key) {
+            if (!bib.unknown_fields || !bib.unknown_fields.groups || !bib.entry_key) {
                 return
             }
             // this assumes ref.unknown_fields.groups is a single text chunk
             let groups = bib.unknown_fields.groups.reduce(
-                (string, node) => {
-                    if (node.type === 'text') {
+                (string /*: string */, node /*: NodeObject */) => {
+                    if (typeof node.text === 'string') {
+                        const text /*: string */ = node.text,
                         // undo undescores to marks -- groups content is in verbatim-ish mode
-                        var sub = (node.marks || []).find(mark => mark.type === 'sub') ? '_' : ''
-                        string += sub + node.text
+                            sub = (node.marks || []).find(mark => mark.type === 'sub') ? '_' : ''
+                        string += sub + text
                     }
                     return string
                 },
                 ''
             ).trim()
-            delete bib.unknown_fields.groups
+            if (bib.unknown_fields) {
+                delete bib.unknown_fields.groups
+            }
 
             if (!groups.length) {
                 return
@@ -6788,7 +7147,7 @@ class GroupParser {
         })
     }
 
-    find (name, groups) {
+    find (name /*: string */, groups /*: Array<GroupObject> | void */) /*: GroupObject | false */ {
         groups = groups || this.groups
         if (!groups) {
             return false
@@ -8110,6 +8469,7 @@ class Reference {
         this.startsWithLowercase = new Zotero.Utilities.XRegExp('^[\\p{Ll}]');
         this.hasLowercaseWord = new Zotero.Utilities.XRegExp('\\s[\\p{Ll}]');
         this.whitespace = new Zotero.Utilities.XRegExp('\\p{Zs}');
+        this.inPostscript = false;
         this._enc_creators_initials_marker = '\u0097'; // end of guarded area
         this._enc_creators_relax_marker = '\u200C'; // zero-width non-joiner
         this.isBibVarRE = /^[a-z][a-z0-9_]*$/i;
@@ -8194,7 +8554,7 @@ class Reference {
         if (typeof postscript !== 'string' || postscript.trim() === '')
             return;
         try {
-            Reference.prototype.postscript = new Function('reference', 'item', postscript);
+            Reference.prototype.postscript = new Function('reference', 'item', `this.inPostscript = true; ${postscript}; this.inPostscript = false;`);
             Zotero.debug(`Installed postscript: ${JSON.stringify(postscript)}`);
         }
         catch (err) {
@@ -8259,7 +8619,7 @@ class Reference {
                 return;
         }
         if (this.has[field.name]) {
-            if (Translator.preferences.testing && !field.replace)
+            if (!this.inPostscript && !field.replace)
                 throw new Error(`duplicate field '${field.name}' for ${this.item.citekey}`);
             this.remove(field.name);
         }
@@ -9108,11 +9468,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug_1 = __webpack_require__(/*! ../lib/debug */ 3);
 const HE = __webpack_require__(/*! he */ 17);
 const unicodeMapping = __webpack_require__(/*! ./unicode_translator_mapping.js */ 20);
-function repeat(s, n) {
-    if (!n)
-        return '';
-    return ''.padStart(n * s.length, s);
-}
 const htmlConverter = new class HTMLConverter {
     convert(html, options) {
         this.embraced = false;
@@ -9176,7 +9531,7 @@ const htmlConverter = new class HTMLConverter {
             case 'h2':
             case 'h3':
             case 'h4':
-                latex = `\n\n\\${repeat(parseInt(tag.nodeName[1]) - 1, 'sub')}section{...}\n\n`;
+                latex = `\n\n\\${'sub'.repeat(parseInt(tag.nodeName[1]) - 1)}section{...}\n\n`;
                 break;
             case 'ol':
                 latex = '\n\n\\begin{enumerate}\n...\n\n\\end{enumerate}\n';
@@ -9275,7 +9630,7 @@ const htmlConverter = new class HTMLConverter {
                 latex += '\\vphantom\\}';
                 break;
             default:
-                latex += `\\vphantom{${repeat(braced, '\\}')}}`;
+                latex += `\\vphantom{${'\\}'.repeat(braced)}}`;
                 break;
         }
         // might still be in math mode at the end

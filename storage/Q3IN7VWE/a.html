@@ -1,0 +1,571 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <meta name="description"
+              content="The goal of this challenge is to evaluate new and existing algorithms for automated detection of cancer metastasis in digitized lymph node tissue sections. Two large datasets from both the Radboud University Medical Center and the University Medical Center Utrecht are provided."/>
+        <meta name="keywords"
+              content="COMIC, open, science, medical, image, computing, validated"/>
+
+        
+
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async
+                src="https://www.googletagmanager.com/gtag/js?id=UA-48224157-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+
+            gtag('config', "UA-48224157-1" );
+        </script>
+
+        
+            <script type="text/javascript"
+                    src="/static/jquery-3.2.1/js/jquery-3.2.1.min.c9f5aeeca3ad.js"></script>
+        
+
+        
+            
+            <link rel="stylesheet"
+                  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+                  crossorigin="anonymous">
+
+            
+            <link rel="stylesheet"
+                  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+                  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+                  crossorigin="anonymous">
+
+            
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                    crossorigin="anonymous"></script>
+
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1">
+        
+
+        
+            
+            <link rel="stylesheet" type="text/css"
+                  href="/static/DataTables-1.10.16/css/dataTables.bootstrap.min.cfb70e19d0dc.css"
+                  crossorigin="anonymous"/>
+
+            <script type="text/javascript"
+                    src="/static/DataTables-1.10.16/js/jquery.dataTables.min.114c26084cb4.js"
+                    crossorigin="anonymous"></script>
+
+            <script type="text/javascript"
+                    src="/static/DataTables-1.10.16/js/dataTables.bootstrap.min.19b11075f9b4.js"
+                    crossorigin="anonymous"></script>
+        
+
+        
+            <link href="/static/fontawesome-5.0.8/css/fontawesome-all.04cd24aa5b42.css"
+                  rel="stylesheet">
+        
+
+        
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+                    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+                    crossorigin="anonymous"></script>
+            <script type="text/javascript"
+                    src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.19.1/js/jquery.fileupload.min.js"></script>
+        
+
+        
+            <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.js"
+                    integrity="sha256-uEFhyfv3UgzRTnAZ+SEgvYepKKB0FW6RqZLrqfyUNug="
+                    crossorigin="anonymous"></script>
+        
+
+        
+        <link href="/static/css/core.0e4d6a51e443.css" type="text/css"
+              rel="stylesheet">
+
+        <link rel="shortcut icon" sizes="192x192" href="/media/favicon/fav-192.png"/><link rel="shortcut icon" sizes="128x128" href="/media/favicon/fav-128.png"/><link rel="shortcut icon" sizes="48x48" href="/media/favicon/fav-48.png"/><link rel="shortcut icon" sizes="32x32" href="/media/favicon/fav-32.png"/><link rel="shortcut icon" sizes="16x16" href="/media/favicon/fav-16.png"/><link rel="touch-icon" sizes="192x192" href="/media/favicon/fav-192_7PZdXPf.png"/><link rel="icon" sizes="192x192" href="/media/favicon/fav-192_qM4uU1n.png"/><link rel="apple-touch-icon" sizes="180x180" href="/media/favicon/fav-180.png"/><link rel="apple-touch-icon" sizes="144x144" href="/media/favicon/fav-144.png"/><link rel="apple-touch-icon" sizes="114x114" href="/media/favicon/fav-114.png"/><link rel="apple-touch-icon" sizes="72x72" href="/media/favicon/fav-72.png"/><link rel="apple-touch-icon" sizes="57x57" href="/media/favicon/fav-57.png"/><link rel="apple-touch-icon-precomposed" sizes="180x180" href="/media/favicon/fav-180_5ZOse3p.png"/><link rel="apple-touch-icon-precomposed" sizes="152x152" href="/media/favicon/fav-152.png"/><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/favicon/fav-144_1eVNVhl.png"/><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/media/favicon/fav-120.png"/><link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/favicon/fav-114_kStyatz.png"/><link rel="apple-touch-icon-precomposed" sizes="76x76" href="/media/favicon/fav-76.png"/><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/favicon/fav-72_mtIv3co.png"/><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/media/favicon/fav-57_GJY0rxC.png"/><link rel="shortcut icon" sizes="32x32" href="/media/favicon/fav-32.png"/>
+
+        <!--Put any site or page specific css here -->
+        <link href=" " type="text/css"
+              rel="stylesheet">
+
+        <script>
+            //url prefix for API functions
+            API_PREFIX = "https://camelyon16.grand-challenge.org/api";
+
+                $(document).ready(function () {
+
+                    $('table.sortable').dataTable({
+                        "bJQueryUI": false,
+                        "sPaginationType": "full_numbers",
+                        "bPaginate": false,
+                        "bLengthChange": false,
+                        "bFilter": false,
+                        "bInfo": false,
+                        "bAutoWidth": false
+                    });
+                });
+        </script>
+
+        <style>
+            
+    
+        /* custom css for this project */
+        #header{background-color: white; color: black;}
+.menuBullet{display: none;}
+.ui-state-default{background:url(/site/CAMELYON16/serve/public_html/sss.png/), linear-gradient(#3E3434, #212121)}
+.ui-state-default{color: #FFFFFF;}
+#navMenu li{margin-left:7px;}
+
+
+
+table {
+	background: #f5f5f5; 
+	border-collapse: collapse;
+	box-shadow: inset 0 1px 0 #fff;
+	font-size: 14px;
+	line-height: 10px;
+	margin: 5px auto;
+	text-align: left;
+	width: 800px;
+}	
+
+
+td {
+	border-right: 1px solid #fff;
+	border-left: 1px solid #e8e8e8;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #e8e8e8;
+	padding: 10px 15px;
+	position: relative;
+	transition: all 300ms;
+}
+
+
+
+
+
+
+    
+
+        </style>
+
+        <title>  CAMELYON16 -
+    Background  </title>
+    
+</head>
+<body>
+
+
+    
+        
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div id="topheader" class="container-fluid text-capitalize">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand text-capitalize"
+                   href="https://grand-challenge.org">
+                    grand-challenges
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse "
+                 id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a class="metaFooterMenuItem"
+                           href="/challenges/">All Challenges</a></li>
+                    <li><a class='metaFooterMenuItem' href='https://grand-challenge.org/Why_Challenges/'>Why Challenges?</a></li><li><a class='metaFooterMenuItem' href='https://grand-challenge.org/Create_your_own_challenge/'>Host a Challenge</a></li><li><a class='metaFooterMenuItem' href='https://grand-challenge.org/Contributors/'>Contributors</a></li>
+                </ul>
+                <div id="topheader_right">
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                            
+    
+        
+                                <li><a class="metaFooterMenuItem last"
+                                       href="/accounts/signin/?next=http://camelyon16.grand-challenge.org/Background/">Sign
+                                    in / Register</a></li>
+                            
+    
+
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+
+
+
+<div id="messagescontainer" class="container">
+    
+        
+    
+</div>
+
+<div id="page">
+
+    
+        <div id="header" class="container">
+            <a style="display:block"
+               href="https://camelyon16.grand-challenge.org/"
+>
+                <div id="headerTitle" class="jumbotron text-uppercase">
+                    <h1>
+                        
+    
+        <style>
+            #headerTitle {
+                padding: 0;
+            }
+        </style>
+        <div class="image">
+            <img src="/media/banners/65/header.png" class="headerImage">
+        </div>
+    
+
+                    </h1>
+                </div>
+            </a>
+        </div>
+    
+
+    
+
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div id="navMenuContainer"
+                     class="container-fluid text-capitalize">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed"
+                                data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-2"
+                                aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                    </div>
+
+                    <div class="collapse navbar-collapse"
+                         id="bs-example-navbar-collapse-2">
+                        <div id="navMenu">
+                            <ul class="nav navbar-nav">
+                                
+
+    
+        
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Home/">
+                    
+                        Home
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li class="active">
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Background/">
+                    
+                        Background
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Rules/">
+                    
+                        Rules
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Register/">
+                    
+                        Register
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Data/">
+                    
+                        Data
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Evaluation/">
+                    
+                        Evaluation
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Submit/">
+                    
+                        Submit
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Results/">
+                    
+                        Results
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Organizers/">
+                    
+                        Organizers
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Download/">
+                    
+                        Download
+                    
+                </a>
+            </li>
+
+        
+    
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Forum/">
+                    
+                        Forum
+                    
+                </a>
+            </li>
+
+        
+    
+        
+            
+                <li role="separator" class="divider"></li>
+            
+            <li >
+                <a class="menuItem"
+                   href="https://camelyon16.grand-challenge.org/Program/">
+                    
+                        Program
+                    
+                </a>
+            </li>
+
+        
+    
+        
+    
+        
+    
+        
+    
+
+    
+
+    
+
+
+                            </ul>
+                        </div>
+                        <div id="additionalNavigation">
+                            <ul class="nav navbar-nav navbar-right">
+                                
+    
+
+                                
+
+    
+    
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    
+
+
+    <div id="container" class="container">
+        <div id="mainContent">
+            
+
+    
+    
+
+    
+
+    
+    <div id=pageContainer><h4 style="text-align: center;">
+	The CAMELYON16 challenge has ended in November 2016</h4>
+<h4 style="text-align: center;">
+	PLEASE CHECK OUT CAMELYON17:</h4>
+<h4 style="text-align: center;">
+	<a href="https://camelyon17.grand-challenge.org/">https://camelyon17.grand-challenge.org</a></h4>
+<p>
+	&nbsp;</p>
+<h3 style="background-color: rgb(153, 204, 255); color: rgb(0, 0, 0); padding: 5px; margin: 10px 0px;">
+	Background</h3>
+<div style="box-sizing: border-box; margin: 0.2rem 0px 0.5rem; padding: 0px; font-family: Verdana, Lucida, sans-serif; font-weight: 300; text-rendering: optimizeLegibility; line-height: 20px; font-size: 1.6875rem;">
+	<span style="font-family: Verdana, Lucida, sans-serif; font-size: 12.16px;">Digital pathology is a new, rapidly expanding field of medical imaging. In digital pathology, whole-slide scanners are used to digitize glass slides containing tissue specimens at high resolution (up to 160nm per pixel). The availability of digital images has garnered the interest of the medical image analysis community, resulting in increasing numbers of publications on histopathologic image analysis.</span></div>
+<div style="box-sizing: border-box; margin: 0.2rem 0px 0.5rem; padding: 0px; font-family: Verdana, Lucida, sans-serif; font-weight: 300; text-rendering: optimizeLegibility; line-height: 20px; font-size: 1.6875rem;">
+	&nbsp;</div>
+<h3 style="background-color: rgb(153, 204, 255); color: rgb(0, 0, 0); padding: 5px; margin: 10px 0px;">
+	Motivation</h3>
+<div style="box-sizing: border-box; margin: 0.2rem 0px 0.5rem; padding: 0px; font-family: Verdana, Lucida, sans-serif; font-weight: 300; text-rendering: optimizeLegibility; line-height: 20px; font-size: 1.6875rem;">
+	<img src="/site/CAMELYON16/serve/public_html/lymphNode.png/" style="float: right; margin-left: 5px; margin-bottom: 5px;" /> <span style="font-family: Verdana, Lucida, sans-serif; font-size: 12.16px;">In this challenge, we will focus on the detection of micro- and macro-metastases in lymph node digitized images. This subject is highly relevant; lymph node metastases occur in most cancer types (e.g. breast, prostate, colon). Lymph nodes are small glands that filter lymph, the fluid that circulates through the lymphatic system. The lymph nodes in the underarm are the first place breast cancer is likely to spread. Metastatic involvement of lymph nodes is one of the most important prognostic variables in breast cancer. Prognosis is poorer when cancer has spread to the lymph nodes. The diagnostic procedure for pathologists is, however, tedious and time-consuming and prone to misinterpretation. </span></div>
+<div style="box-sizing: border-box; margin: 0.2rem 0px 0.5rem; padding: 0px; font-family: Verdana, Lucida, sans-serif; font-weight: 300; text-rendering: optimizeLegibility; line-height: 20px; font-size: 1.6875rem;">
+	&nbsp;</div>
+<h3 style="background-color: rgb(153, 204, 255); color: rgb(0, 0, 0); padding: 5px; margin: 10px 0px;">
+	The solution: A challenge to improve the detection of cancer metastasis</h3>
+<div style="box-sizing: border-box; margin: 0.2rem 0px 0.5rem; padding: 0px; font-family: Verdana, Lucida, sans-serif; font-weight: 300; text-rendering: optimizeLegibility; line-height: 20px; font-size: 1.6875rem;">
+	<span style="font-family: Verdana, Lucida, sans-serif; font-size: 12.16px;">Automated detection of lymph node metastasis has a great potential to help the pathologist and reduce their workload. Within the past few years, the field has been moving towards grand goals with strong potential diagnostic impact: (fully) automated analysis of whole-slide images to detect or grade cancer, to predict prognosis or identify metastases. As such, we feel now is the right time to offer a platform for interested groups to compare strategies and algorithms for this highly meaningful task in histopathology. This will be the first challenge using whole-slide images in histopathology. The goal of the CAMELYON Challenge is to apply an open science approach to develop algorithms to detect cancer metastasis in lymph node images. Such an approach could improve the diagnosis of the patients and significantly reduce the workload of the pathologists.</span></div>
+<p>
+	&nbsp;</p>
+</div>
+
+    <br/>
+    
+    
+        
+            
+                
+
+                
+            
+        
+    
+
+
+
+        </div>
+    </div>
+    <!-- container -->
+</div>
+
+<!-- page -->
+
+    
+        
+    <footer id="metafooter" class="container text-center">
+        <div id="copyrightNotice">
+            Consortium for Open Medical Image Computing &copy;
+            2012-2018
+        </div>
+    </footer>
+
+    
+
+
+</body>
+</html>

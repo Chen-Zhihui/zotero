@@ -1,0 +1,433 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>WG21 Proposals</title>
+<link href="css.css" rel="stylesheet">
+<style>
+      body {
+        font-family: 'PT Sans', sans-serif;      
+        color: #515151;
+      }
+
+      p code, h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+        padding: 0.2em 0.4em 0.2em 0.4em;
+        font-size: 85%;
+        font-family: 'Inconosolata', monospace;
+        background: #f6f8fa;
+        border-radius: 3px;
+      }
+
+      pre {
+        line-height: 1.45;
+        border-radius: 3px;
+        padding: 16px;
+        background: #f6f8fa;
+        color: #24292e;
+        overflow: auto;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        color: #313131;
+      }
+
+      .container {
+        padding: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 47rem;
+      }
+
+      table {
+        border-collapse: collapse;
+      border-style: hidden;
+      margin-left: auto;
+      margin-right: auto;
+      }
+      
+      td {
+        border-left: 1px solid;
+      }
+
+      tr td:first-child {
+        padding-right: 20px;
+      }
+      tr td:last-child {
+        padding-left: 20px;      
+      }
+      
+      a {
+        color: #268bd2;
+        text-decoration: none;
+      }
+    </style>
+</head>
+<body>
+<div class="container content">
+<pre class="metadata">Title: Monadic operations for std::optional
+Status: P
+ED: wg21.tartanllama.xyz/monadic-optional
+Shortname: p0798
+Level: 1
+Editor: Simon Brand, simon@codeplay.com
+Abstract: std::optional will be a very important vocabulary type in C++17 and up. Some uses of it can be very verbose and would benefit from operations which allow functional composition. I propose adding map, and_then, and or_else member functions to std::optional to support this monadic style of programming.
+Group: wg21
+Audience: LEWG, SG14
+Markup Shorthands: markdown yes
+Default Highlight: C++
+Line Numbers: yes
+</pre>
+<h1 id="changes-from-r0">Changes from r0</h1>
+<ul>
+<li>More notes on P0650</li>
+<li>Discussion about mapping of functions returning <code class="highlighter-rouge">void</code></li>
+</ul>
+<h1 id="motivation">Motivation</h1>
+<p><code class="highlighter-rouge">std::optional</code> aims to be a “vocabulary type”, i.e. the canonical type to represent some programming concept. As such, <code class="highlighter-rouge">std::optional</code>
+ will become widely used to represent an object which may or may not 
+contain a value. Unfortunately, chaining together many computations 
+which may or may not produce a value can be verbose, as empty-checking 
+code will be mixed in with the actual programming logic. As an example, 
+the following code automatically extracts cats from images and makes 
+them more cute:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>image get_cute_cat (const image&amp; img) {
+    return add_rainbow(
+             make_smaller(
+               make_eyes_sparkle(
+                 add_bow_tie(
+                   crop_to_cat(img))));
+}
+</code></pre></div></div>
+<p>But there’s a problem. What if there’s not a cat in the picture? What
+ if there’s no good place to add a bow tie? What if it has its back 
+turned and we can’t make its eyes sparkle? Some of these operations 
+could fail.</p>
+<p>One option would be to throw exceptions on failure. However, there 
+are many code bases which do not use exceptions for a variety of 
+reasons. There’s also the possibility that we’re going to get <em>lots</em>
+ of pictures without cats in them, in which case we’d be using 
+exceptions for control flow. This is commonly seen as bad practice, and 
+has an item warning against it in the <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#e3-use-exceptions-for-error-handling-only">C++ Core Guidelines</a>.</p>
+<p>Another option would be to make those operations which could fail return a <code class="highlighter-rouge">std::optional</code>:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;image&gt; get_cute_cat (const image&amp; img) {
+    auto cropped = crop_to_cat(img);
+    if (!cropped) {
+      return std::nullopt;
+    }
+
+    auto with_tie = add_bow_tie(*cropped);
+    if (!with_tie) {
+      return std::nullopt;
+    }
+
+    auto with_sparkles = make_eyes_sparkle(*with_tie);
+    if (!with_sparkles) {
+      return std::nullopt;
+    }
+
+    return add_rainbow(make_smaller(*with_sparkles));
+}
+</code></pre></div></div>
+<p>Our code now has a lot of boilerplate to deal with the case where a 
+step fails. Not only does this increase the noise and cognitive load of 
+the function, but if we forget to put in a check, then suddenly we’re 
+down the hole of undefined behaviour if we <code class="highlighter-rouge">*empty_optional</code>.</p>
+<p>Another possibility would be to call <code class="highlighter-rouge">.value()</code> on the optionals and let the exception be thrown and caught like so:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;image&gt; get_cute_cat (const image&amp; img) {
+    try {
+        auto cropped = crop_to_cat(img);
+        auto with_tie = add_bow_tie(cropped.value());
+        auto with_sparkles = make_eyes_sparkle(with_tie.value());
+        return add_rainbow(make_smaller(with_sparkles.value()));
+    catch (std::bad_optional_access&amp; e) {
+        return std::nullopt;
+    }
+}
+</code></pre></div></div>
+<p>Again, this is using exceptions for control flow. There must be a better way.</p>
+<h1 id="proposed-solution">Proposed solution</h1>
+<p>This paper proposes adding additional member functions to <code class="highlighter-rouge">std::optional</code> in order to push the handling of empty states off to the side. The proposed additions are <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">and_then</code> and <code class="highlighter-rouge">or_else</code>. Using these new functions, the code above becomes this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;image&gt; get_cute_cat (const image&amp; img) {
+    return crop_to_cat(img)
+           .and_then(add_bow_tie)
+           .and_then(make_eyes_sparkle)
+           .map(make_smaller)
+           .map(add_rainbow);
+}
+</code></pre></div></div>
+<p>We’ve successfully got rid of all the manual checking. We’ve even 
+improved on the clarity of the non-optional example, which needed to 
+either be read inside-out or split into multiple declarations. All that 
+we need now is an understanding of what <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">and_then</code> do and how to use them.</p>
+<h2 id="map"><code class="highlighter-rouge">map</code></h2>
+<p><code class="highlighter-rouge">map</code> applies a function to the 
+value stored in the optional and returns the result wrapped in an 
+optional. If there is no stored value, then it returns an empty 
+optional.</p>
+<p>For example, if you have a <code class="highlighter-rouge">std::optional&lt;std::string&gt;</code> and you want to get the size of the string if one is available, you could write this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;std::size_t&gt; s = opt_string.map(&amp;std::string::size);
+</code></pre></div></div>
+<p>which is somewhat equivalent to:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (opt_string) {
+    std::size_t s = opt_string-&gt;size();
+}
+</code></pre></div></div>
+<p><code class="highlighter-rouge">map</code> has one overload (in pseudocode for exposition):</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class T&gt;
+class optional {
+    template &lt;class Return&gt;
+    std::optional&lt;Return&gt; map (function&lt;Return(T)&gt; func);
+};
+</code></pre></div></div>
+<p>It takes any callable object (like a function). If the <code class="highlighter-rouge">optional</code>
+ does not have a value stored, then an empty optional is returned. 
+Otherwise, the given function is called with the stored value as an 
+argument, and the return value is returned inside an <code class="highlighter-rouge">optional</code>.</p>
+<p>If you come from a functional programming or category theory background, you may recognise this as a functor map.</p>
+<h2 id="and_then"><code class="highlighter-rouge">and_then</code></h2>
+<p><code class="highlighter-rouge">and_then</code> is like <code class="highlighter-rouge">map</code>, but it is used on functions which may not return a value.</p>
+<p>For example, say you have <code class="highlighter-rouge">std::optional&lt;std::string&gt;</code> and a function like <code class="highlighter-rouge">std::stoi</code> which returns a <code class="highlighter-rouge">std::optional&lt;int&gt;</code> instead of throwing on failure. Rather than manually checking the optional string before calling, you could do this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; i = opt_string.and_then(stoi);
+</code></pre></div></div>
+<p>Which is roughly equivalent to:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (opt_string) {
+   std::optional&lt;int&gt; i = stoi(*opt_string);
+}
+</code></pre></div></div>
+<p><code class="highlighter-rouge">and_then</code> has one overload which looks like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class T&gt;
+class optional {
+    template &lt;class Return&gt;
+    std::optional&lt;Return&gt; and_then (function&lt;std::optional&lt;Return&gt;(T)&gt; func);
+};
+</code></pre></div></div>
+<p>It takes any callable object which returns a <code class="highlighter-rouge">std::optional</code>.
+ If the optional does not have a value stored, then an empty optional is
+ returned. Otherwise, the given function is called with the stored value
+ as an argument, and the return value is returned.</p>
+<p>Again, those from an FP background will recognise this as a monadic bind.</p>
+<h2 id="or_else"><code class="highlighter-rouge">or_else</code></h2>
+<p><code class="highlighter-rouge">or_else</code> returns the optional 
+if it has a value, otherwise it calls a given function. This allows you 
+do things like logging or throwing exceptions in monadic contexts:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>get_opt().or_else([]{std::cout &lt;&lt; "get_opt failed";});
+get_opt().or_else([]{throw std::runtime_error("get_opt_failed")});
+</code></pre></div></div>
+<p>Users can easily abstract these patterns if they are common:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void opt_log(std::string_view msg) {
+     return [=] { std::cout &lt;&lt; msg; };
+}
+
+void opt_throw(std::string_view msg) {
+     return [=] { throw std::runtime_error(msg); };
+}
+
+get_opt().or_else(opt_log("get_opt failed"));
+get_opt().or_else(opt_throw("get_opt failed"));
+
+</code></pre></div></div>
+<p>It has one overload:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class T&gt;
+class optional {
+    template &lt;class Return&gt;
+    std::optional&lt;T&gt; or_else (function&lt;Return()&gt; func);
+};
+</code></pre></div></div>
+<p><code class="highlighter-rouge">func</code> will be called if <code class="highlighter-rouge">*this</code> is empty. <code class="highlighter-rouge">Return</code> will either be convertible to <code class="highlighter-rouge">std::optional&lt;T&gt;</code>, or <code class="highlighter-rouge">void</code>. In the former case, the return of <code class="highlighter-rouge">func</code> will be returned from <code class="highlighter-rouge">or_else</code>; in the second case <code class="highlighter-rouge">std::nullopt</code> will be returned.</p>
+<h2 id="chaining">Chaining</h2>
+<p>With these two functions, doing a lot of chaining of functions which could fail becomes very clean:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; foo() {
+    return
+      a().and_then(b)
+         .and_then(c)
+         .and_then(d)
+         .and_then(e);
+}
+</code></pre></div></div>
+<p>Taking the example of <code class="highlighter-rouge">stoi</code> from earlier, we could carry out mathematical operations on the result by just adding <code class="highlighter-rouge">map</code> calls:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; i = opt_string
+                       .and_then(stoi)
+                       .map([](auto i) { return i * 2; });
+</code></pre></div></div>
+<p>We can also intersperse our chain with error checking code:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; i = opt_string
+                       .and_then(stoi)
+                       .or_else(opt_throw("stoi failed"))
+                       .map([](auto i) { return i * 2; });
+</code></pre></div></div>
+<h1 id="how-other-languages-handle-this">How other languages handle this</h1>
+<p><code class="highlighter-rouge">std::optional</code> is known as <code class="highlighter-rouge">Maybe</code> in Haskell and it provides much the same functionality. <code class="highlighter-rouge">map</code> is in <code class="highlighter-rouge">Functor</code> and named <code class="highlighter-rouge">fmap</code>, and <code class="highlighter-rouge">and_then</code> is in <code class="highlighter-rouge">Monad</code> and named <code class="highlighter-rouge">&gt;&gt;=</code> (bind).</p>
+<p>Rust has an <code class="highlighter-rouge">Option</code> class, and uses the same names as are proposed in this paper. It also provides many additional member functions like <code class="highlighter-rouge">or</code>, <code class="highlighter-rouge">and</code>, <code class="highlighter-rouge">map_or_else</code>.</p>
+<h1 id="considerations">Considerations</h1>
+<h2 id="mapping-functions-returning-void">Mapping functions returning <code class="highlighter-rouge">void</code></h2>
+<p>There are two main options for supporting <code class="highlighter-rouge">void</code> returning functions for <code class="highlighter-rouge">map</code>. One is to return <code class="highlighter-rouge">std::optional&lt;std::monostate&gt;</code> (or some other unit type) instead of <code class="highlighter-rouge">std::optional&lt;void&gt;</code>. Another option is to add a specialization of <code class="highlighter-rouge">std::optional</code> for <code class="highlighter-rouge">void</code>.
+ This proposal currently doesn’t suggest a solution, although the former
+ is easier to support. This functionality can be desirable since it 
+allows chaining functions which are used purely for side effects.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>get_optional()          // returns std::optional&lt;T&gt;
+  .map(print_value)     // returns std::optional&lt;void&gt;
+  .map(notify_success); // Is only called when get_optional returned a value
+</code></pre></div></div>
+<h2 id="more-functions">More functions</h2>
+<p>Rust’s <a href="https://doc.rust-lang.org/std/option/enum.Option.html">Option</a> class provides a lot more than <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">and_then</code> and <code class="highlighter-rouge">or_else</code>. If the idea to add these is received favourably, then we can think about what other additions we may want to make.</p>
+<h2 id="map-only"><code class="highlighter-rouge">map</code> only</h2>
+<p>It would be possible to merge all of these into a single function 
+which handles all use cases. However, I think this would make the 
+function more difficult to teach and understand.</p>
+<h2 id="operator-overloading">Operator overloading</h2>
+<p>We could provide operator overloads with the same semantics as the functions. For example, <code class="highlighter-rouge">|</code> could mean <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">&gt;=</code> <code class="highlighter-rouge">and_then</code>, and <code class="highlighter-rouge">&amp;</code> <code class="highlighter-rouge">or_else</code>. Rewriting the original example gives this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// original
+crop_to_cat(img)
+  .and_then(add_bow_tie)
+  .and_then(make_eyes_sparkle)
+  .map(make_smaller)
+  .map(add_rainbow);
+
+// rewritten
+crop_to_cat(img)
+   &gt;= add_bow_tie
+   &gt;= make_eyes_sparkle
+    | make_smaller
+    | add_rainbow;
+
+</code></pre></div></div>
+<p>Another option would be <code class="highlighter-rouge">&gt;&gt;</code> for <code class="highlighter-rouge">and_then</code>.</p>
+<h2 id="applicative-functors">Applicative Functors</h2>
+<p><code class="highlighter-rouge">map</code> could be overloaded to accept callables wrapped in <code class="highlighter-rouge">std::optionals</code>. This fits the <em>applicative functor</em> concept. It would look like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class Return&gt;
+std::optional&lt;Return&gt; map (std::optional&lt;function&lt;Return(T)&gt;&gt; func);
+</code></pre></div></div>
+<p>This would give functional programmers the set of operations which 
+they may expect from a monadic-style interface. However, I couldn’t 
+think of many use-cases of this in C++. If some are found then we could 
+add the extra overload.</p>
+<h2 id="alternative-names">Alternative names</h2>
+<p><code class="highlighter-rouge">map</code> may confuse users who are 
+more familiar with its use as a data structure, or consider the common 
+array map from other languages to be different from this application. 
+Some other possible names are <code class="highlighter-rouge">then</code>, <code class="highlighter-rouge">when_value</code>, <code class="highlighter-rouge">fmap</code>, <code class="highlighter-rouge">transform</code>.</p>
+<p>Alternative names for <code class="highlighter-rouge">and_then</code> are <code class="highlighter-rouge">bind</code>, <code class="highlighter-rouge">compose</code>, <code class="highlighter-rouge">chain</code>.</p>
+<p><code class="highlighter-rouge">or_else</code> could be named <code class="highlighter-rouge">catch_error</code>, in line with <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0650r0.pdf">P0650r0</a></p>
+<h2 id="overloaded-and_then">Overloaded <code class="highlighter-rouge">and_then</code></h2>
+<p>Instead of an additional <code class="highlighter-rouge">or_else</code> function, <code class="highlighter-rouge">and_then</code> could be overloaded to take an additional error function:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>o.and_then(a, []{throw std::runtime_error("oh no");});
+</code></pre></div></div>
+<p>The above will throw if <code class="highlighter-rouge">a</code> returns an empty optional.</p>
+<h1 id="pitfalls">Pitfalls</h1>
+<p>Users may want to write code like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; foo(int i) {
+    return
+      a().and_then(b)
+         .and_then(get_func(i));
+}
+</code></pre></div></div>
+<p>The problem with this is <code class="highlighter-rouge">get_func</code> will be called regardless of whether <code class="highlighter-rouge">b</code> returns an empty <code class="highlighter-rouge">std::optional</code> or not. If it has side effects, then this may not be what the user wants.</p>
+<p>One possible solution to this would be to add an additional function, <code class="highlighter-rouge">bind_with</code> which will take a callable which provides what you want to bind to:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; foo(int i) {
+    return
+      a().and_then(b)
+         .bind_with([i](){return get_func(i)});
+}
+</code></pre></div></div>
+<h2 id="other-solutions">Other solutions</h2>
+<p>There is a proposal for adding a <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0650r0.pdf">general monadic interface</a>
+ to C++. Unfortunately doing the kind of composition described above 
+would be very verbose with the current proposal without some kind of 
+Haskell-style <code class="highlighter-rouge">do</code> notation. The code for my first solution above would look like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; get_cute_cat(const image&amp; img) {
+    return
+      functor::map(
+        functor::map(
+          monad::bind(
+            monad::bind(crop_to_cat(img),
+              add_bow_tie),
+            make_eyes_sparkle),
+         make_smaller),
+      add_rainbow);
+}
+</code></pre></div></div>
+<p>My proposal is not necessarily an alternative to this proposal; 
+compatibility between the two could be ensured and the generic proposal 
+could use my proposal as part of its implementation. This would allow 
+users to use both the generic syntax for flexibility and extensibility, 
+and the member-function syntax for brevity and clarity.</p>
+<p>If <code class="highlighter-rouge">do</code> notation or <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0301r1.html">unified call syntax</a>
+ is accepted, then my proposal may not be necessary, as use of the 
+generic monadic functionality would allow the same or similarly concise 
+syntax.</p>
+<p>Another option would be to use a ranges-style interface for the general monadic interface:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std::optional&lt;int&gt; get_cute_cat(const image&amp; img) {
+    return crop_to_cat(img)
+         | monad::bind(add_bow_tie)
+         | monad::bind(make_eyes_sparkle)
+         | functor::map(make_smaller)
+         | functor::map(add_rainbow);
+}
+</code></pre></div></div>
+<h2 id="interaction-with-other-proposals">Interaction with other proposals</h2>
+<p>There is a proposal for <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0323r2.pdf">std::expected</a>
+ which would benefit from many of these same ideas. If the idea to add 
+monadic interfaces to standard library classes on a case-by-case basis 
+is chosen rather than a unified non-member function interface, then 
+compatibility between this proposal and the <code class="highlighter-rouge">std::expected</code> one should be maintained.</p>
+<p>Mapping functions which return <code class="highlighter-rouge">void</code> can be supported, but is a pain to implement since <code class="highlighter-rouge">void</code> is not a regular type. If the <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0146r1.html">Regular Void</a>
+ proposal was accepted, implementation would be simpler and the results 
+of the operation would conform to users’ expectations better.</p>
+<p>Any proposals which make lambdas or overload sets easier to write and
+ pass around will greatly improve this proposal. In particular, 
+proposals for <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3617.htm">lift operators</a> and <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0573r0.html">abbreviated lambdas</a> would ensure that the clean style is preserved in the face of many anonymous functions and overloads.</p>
+<h1 id="implementation-experience">Implementation experience</h1>
+<p>This proposal has been implemented <a href="https://github.com/TartanLlama/monadic-optional">here</a>.</p>
+<hr>
+<h1 id="proposed-wording">Proposed Wording</h1>
+<h2 id="new-synopsis-entry-optionalmonadic-monadic-operations">New synopsis entry: <code class="highlighter-rouge">[optional.monadic]</code>, monadic operations</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) &amp;;
+template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) &amp;&amp;;
+template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) const&amp;;
+template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) const&amp;&amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) &amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) &amp;&amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) const&amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) const&amp;&amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) &amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) &amp;&amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) const&amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) const&amp;&amp;;
+</code></pre></div></div>
+<h2 id="new-section-monadic-operations-optionalmonadic">New section: Monadic operations <code class="highlighter-rouge">[optional.monadic</code>]</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) &amp;;
+template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) const&amp;;
+</code></pre></div></div>
+<p><em>Requires</em>: <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), value())</code> returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code> for some <code class="highlighter-rouge">U</code>.</p>
+<p><em>Returns</em>: Let <code class="highlighter-rouge">U</code> be the result of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), value())</code>. Returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code>. The return value is empty if <code class="highlighter-rouge">*this</code> is empty, otherwise the return value of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), value())</code> is returned.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) &amp;&amp;;
+template &lt;class F&gt; constexpr *see below* and_then(F&amp;&amp; f) const&amp;&amp;;
+</code></pre></div></div>
+<p><em>Requires</em>: <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), std::move(value()))</code> returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code> for some <code class="highlighter-rouge">U</code>.</p>
+<p><em>Returns</em>: Let <code class="highlighter-rouge">U</code> be the result of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), std::move(value()))</code>. Returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code>. The return value is empty if <code class="highlighter-rouge">*this</code> is empty, otherwise the return value of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), std::move(value()))</code> is returned.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) &amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) const&amp;;
+</code></pre></div></div>
+<p><em>Returns</em>: Let <code class="highlighter-rouge">U</code> be the result of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), value())</code>. Returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code>. The return value is empty if <code class="highlighter-rouge">*this</code> is empty, otherwise an <code class="highlighter-rouge">optional&lt;U&gt;</code> is constructed from the return value of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), value())</code> and is returned.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) &amp;&amp;;
+template &lt;class F&gt; constexpr *see below* map(F&amp;&amp; f) const&amp;&amp;;
+</code></pre></div></div>
+<p><em>Returns</em>: Let <code class="highlighter-rouge">U</code> be the result of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), std::move(value()))</code>. Returns a <code class="highlighter-rouge">std::optional&lt;U&gt;</code>. The return value is empty if <code class="highlighter-rouge">*this</code> is empty, otherwise an <code class="highlighter-rouge">optional&lt;U&gt;</code> is constructed from the return value of <code class="highlighter-rouge">std::invoke(std::forward&lt;F&gt;(f), std::move(value()))</code> and is returned.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) &amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) const&amp;;
+</code></pre></div></div>
+<p><em>Requires</em>: <code class="highlighter-rouge">std::invoke_result_t&lt;F&gt;</code> must be <code class="highlighter-rouge">void</code> or convertible to <code class="highlighter-rouge">optional&lt;T&gt;</code>.</p>
+<p><em>Effects</em>: If <code class="highlighter-rouge">*this</code> has a value, returns <code class="highlighter-rouge">*this</code>. Otherwise, if <code class="highlighter-rouge">f</code> returns void, calls <code class="highlighter-rouge">std::forward&lt;F&gt;(f)</code> and returns <code class="highlighter-rouge">std::nullopt</code>. Otherwise, returns <code class="highlighter-rouge">std::forward&lt;F&gt;(f)()</code>;</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) &amp;&amp;;
+template &lt;class F&gt; constexpr optional&lt;T&gt; or_else(F &amp;&amp;f) const&amp;&amp;;
+</code></pre></div></div>
+<p><em>Requires</em>: <code class="highlighter-rouge">std::invoke_result_t&lt;F&gt;</code> must be <code class="highlighter-rouge">void</code> or convertible to <code class="highlighter-rouge">optional&lt;T&gt;</code>.</p>
+<p><em>Effects</em>: If <code class="highlighter-rouge">*this</code> has a value, returns <code class="highlighter-rouge">std::move(*this)</code>. Otherwise, if <code class="highlighter-rouge">f</code> returns void, calls <code class="highlighter-rouge">std::forward&lt;F&gt;(f)</code> and returns <code class="highlighter-rouge">std::nullopt</code>. Otherwise, returns <code class="highlighter-rouge">std::forward&lt;F&gt;(f)()</code>;</p>
+<hr>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thank you to Michael Wong for representing this paper to the 
+committee. Thanks to Kenneth Benzie, Vittorio Romeo, Jonathan Müller, 
+Adi Shavit, Nicol Bolas, Vicente Escribá and Barry Revzin for review and
+ suggestions.</p>
+</div>
+
+
+</body></html>

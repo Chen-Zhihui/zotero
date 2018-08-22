@@ -1,0 +1,2 @@
+/*! 2018 Baidu Inc. All Rights Reserved */
+define("etpl/tpl",["require","exports","module","."],function(require,exports,module){var e=require(".");return{load:function(t,n,o){var a=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP");a.open("GET",n.toUrl(t),!0),a.onreadystatechange=function(){if(4===a.readyState){if(a.status>=200&&a.status<300){var t=a.responseText,n=module.config();if(n.autoCompile||null==n.autoCompile)e.compile(t);o(t)}a.onreadystatechange=new Function,a=null}},a.send(null)}}});

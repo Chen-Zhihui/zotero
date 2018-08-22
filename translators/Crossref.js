@@ -9,7 +9,7 @@
 	"priority": 90,
 	"inRepository": true,
 	"browserSupport": "gcsv",
-	"lastUpdated": "2018-04-19 05:25:00"
+	"lastUpdated": "2018-08-16 19:50:00"
 }
 
 /* CrossRef uses unixref; documentation at http://www.crossref.org/schema/documentation/unixref1.0/unixref.html */
@@ -69,6 +69,11 @@ function detectSearch(item) {
 }
 
 function fixAuthorCapitalization(string) {
+	// Try to use capitalization function from Zotero Utilities,
+	// because the current one doesn't support unicode names.
+	// Can't fix this either because ZU.XRegExp.replace is
+	// malfunctioning when calling from translators.
+	if (ZU.capitalizeName) return ZU.capitalizeName(string);
 	if(typeof string === "string" && string.toUpperCase() === string) {
 		string = string.toLowerCase().replace(/\b[a-z]/g, function(m) { return m[0].toUpperCase() });
 	}
@@ -240,9 +245,9 @@ function processCrossRef(xmlOutput) {
 		metadataXML = ZU.xpath(itemXML, 'c:proceedings_metadata', ns);
 		seriesXML = ZU.xpath(metadataXML, 'c:proceedings_metadata', ns);
 
-		item.publicationTitle = ZU.xpathText(metadataXML, 'c:publisher/c:proceedings_title', ns);
-		item.place = ZU.xpathText(metadataXML, 'c:event_metadata/c:conference_location', ns);
-		item.conferenceName = ZU.xpathText(metadataXML, 'c:event_metadata/c:conference_name', ns);
+		item.publicationTitle = ZU.xpathText(metadataXML, 'c:proceedings_title', ns);
+		item.place = ZU.xpathText(itemXML, 'c:event_metadata/c:conference_location', ns);
+		item.conferenceName = ZU.xpathText(itemXML, 'c:event_metadata/c:conference_name', ns);
 	}
 
 	else if((itemXML = ZU.xpath(doiRecord, 'c:crossref/c:database', ns)).length) {
@@ -479,6 +484,58 @@ var testCases = [
 				"volume": "50",
 				"pages": "197-221",
 				"libraryCatalog": "CrossRef"
+			}
+		]
+	},
+	{
+		"type": "search",
+		"input": {
+			"DOI":"10.1109/ISSCC.2017.7870285"
+		},
+		"items": [
+			{
+				"itemType": "conferencePaper",
+				"creators": [
+					{
+						"creatorType": "author",
+						"firstName": "Pen-Jui",
+						"lastName": "Peng"
+					},
+					{
+						"creatorType": "author",
+						"firstName": "Jeng-Feng",
+						"lastName": "Li"
+					},
+					{
+						"creatorType": "author",
+						"firstName": "Li-Yang",
+						"lastName": "Chen"
+					},
+					{
+						"creatorType": "author",
+						"firstName": "Jri",
+						"lastName": "Lee"
+					}
+				],
+				"notes": [],
+				"tags": [],
+				"seeAlso": [],
+				"attachments": [],
+				"publicationTitle": "2017 IEEE International Solid-State Circuits Conference (ISSCC)",
+				"place": "San Francisco, CA, USA",
+				"conferenceName": "2017 IEEE International Solid- State Circuits Conference - (ISSCC)",
+				"abstractNote": null,
+				"language": null,
+				"ISBN": "978-1-5090-3758-2",
+				"ISSN": null,
+				"publisher": "IEEE",
+				"edition": null,
+				"volume": null,
+				"date": "2/2017",
+				"pages": "110-111",
+				"DOI": "10.1109/ISSCC.2017.7870285",
+				"url": "http://ieeexplore.ieee.org/document/7870285/",
+				"title": "6.1 A 56Gb/s PAM-4/NRZ transceiver in 40nm CMOS"
 			}
 		]
 	}

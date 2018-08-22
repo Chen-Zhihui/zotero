@@ -1,0 +1,598 @@
+
+This site uses cookies for analytics, personalized content and ads. By continuing to browse this site, you agree to this use. Learn more
+Server & Tools Blogs > Developer Tools Blogs > Visual C++ Team Blog
+
+    Sign in
+
+Menu
+Skip to content
+
+    Executive Bloggers
+        Scott Guthrie
+        Brian Harry
+        Steve Guggenheimer
+    Visual Studio Products
+        Visual Studio
+        Visual Studio for Mac
+        Visual Studio Code
+        Visual Studio Team Services
+        Visual Studio App Center
+    DevOps
+        Continuous Integration and Deployment
+        Git and Version Control
+        Agile
+        Azure and Cloud
+        Test
+        Team Foundation Server
+        Visual Studio Team Services
+    Languages
+        Visual C#
+        Visual Basic
+        Visual C++
+        Visual F#
+        JavaScript
+        Java
+        TypeScript
+        Python
+    Features
+        Setup & Install by Heath Stewart
+        Diagnostics
+    .NET
+        .NET
+        ASP.NET by Scott Hanselman
+        WPF
+    Platform Development
+        Apps for Windows
+        Bing
+        Edge
+        Microsoft Azure
+        Office 365 Development
+        Web
+    Data Development
+        SQL Server
+        SQL Server Data Tools
+        Cosmos DB
+        Revolutions R
+
+Visual C++ Team Blog
+
+C++ tutorials, C and C++ news, and information about the C++ IDE Visual Studio from the Microsoft C++ team.
+Visual C++ Team Blog
+CMake Support in Visual Studio: Customizing your Environment
+★ ★ ★ ★ ★
+★ ★ ★ ★
+★ ★ ★
+★ ★
+★
+August 14, 2017 August 15, 2017 by Will Buik [MSFT]
+Avatar of Will Buik [MSFT]
+
+Will Buik [MSFT]
+}
+
+MSFT
+5,313 Points 4 1 1
+Recent Achievements
+Blog Party Starter Blog Conversation Starter New Blogger
+View Profile
+// 24 Comments
+
+    Share
+    0
+    0
+
+In Visual Studio 15.3 , there are new ways for you to apply advanced configuration to your CMake environments.
+
+Please  download the latest  and try out the latest CMake features.  If you are just getting started with CMake, follow the link to  learn more about CMake support in Visual Studio .  We are looking forward to your feedback.
+What’s new in CMakeSettings.json
+
+The heart of this new flexibility is inside your project’s CMakeSettings.json file and it stems from two new concepts:
+
+    The ability to inherit a set of default environment variables globally or per configuration.
+    The ability to define custom environment variables and their values globally or per configuration.
+
+Let’s start with a quick example of how using this feature might look:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+	
+{
+   // The "environments" property is an array of key value pairs of the form
+   // { "EnvVar1": "Value1", "EnvVar2": "Value2" }
+   "environments" : [
+     {
+       "BuildDir" : "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build" ,
+     }
+   ],
+ 
+   "configurations" : [
+     {
+       "name" : "x86-Debug" ,
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x86 compiler.
+       "inheritEnvironments" : [ "msvc_x86" ],
+       "buildRoot" : "${env.BuildDir}\\${name}"
+     },
+     {
+       "name" : "x64-Debug" ,
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x64 compiler.
+       "inheritEnvironments" : [ "msvc_x64" ],
+       "buildRoot" : "${env.BuildDir}\\${name}"
+     }
+   ]
+}
+
+To unpack this a bit, this example defines two configurations that use Ninja to build this CMake project.  The first builds x86 debug while the other builds x64 debug.  It also defines an environment variable “BuildDir” that it makes use of in both configurations.
+
+Keep in mind, both the “environments” (line 4) and “inheritEnvironments” (lines 16 and 24) properties can be defined globally for all configurations, per configuration, or both.  In the example above, the “BuildDir” variable will be global and the “inheritEnvironment” property will only apply to each individual configuration.
+
+Configuration-specific environment variables are evaluated last, so they override global ones.  The example below explains the override behavior in the comments:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+	
+{
+   // The "environments" property is an array of key value pairs of the form
+   // { "EnvVar1": "Value1", "EnvVar2": "Value2" }
+   "environments" : [
+     {
+       "BuildDir" : "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}" ,
+     }
+   ],
+ 
+   "configurations" : [
+     {
+       "name" : "x86-Debug" ,
+ 
+       // The syntax for this property is the same as the global one above.
+       "environments" : [
+         {
+           // Replace the global property entirely.
+           "BuildDir" : "D:\\custom-builddir" ,
+         }
+       ],
+ 
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x86 compiler.
+       "inheritEnvironments" : [ "msvc_x86" ],
+       // This will evaluate to "D:\custom-builddir\x86-Debug" due to the
+       // configuration-specific override.
+       "buildRoot" : "${env.BuildDir}\\${name}"
+     },
+     {
+       "name" : "x64-Debug" ,
+ 
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x64 compiler.
+       "inheritEnvironments" : [ "msvc_x64" ],
+ 
+       // Since this configuration doesn’t modify BuildDir, it inherits
+       // from the one defined globally.
+       "buildRoot" : "${env.BuildDir}\\${name}"
+     }
+   ]
+}
+
+If you need to declare a lot of variables for your build environment and then make only minor modifications to them for each configuration, this override behavior can condense your project’s CMakeSettings.json file considerably.
+What about Launch.vs.json and Tasks.vs.json
+
+In case you are wondering if you can use these variables outside of the CMakeSettings.json file, the answer is yes!  All the environment variables you declare in your CMakeSettings.json file are available to Tasks and Launch configuration using the same syntax.  Just embed the “${env.VarName}” syntax into any property’s value in a task or launch configuration.  The macro syntax will be expanded into its actual value, as it is on line 12 in the example below.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+	
+{
+   "version" : "0.2.1" ,
+   "defaults" : {},
+   "configurations" : [
+     {
+       "type" : "cppdbg" ,
+       "name" : "helloworld.exe" ,
+       "project" : "bin\\helloworld.exe" ,
+       "cwd" : "${workspaceRoot}" ,
+       "program" : "${debugInfo.target}" ,
+       "MIMode" : "gdb" ,
+       "miDebuggerPath" : "${env.MINGW_PREFIX}\\bin\\gdb.exe" ,
+       "externalConsole" : true
+     }
+   ]
+}
+
+If the value of an environment variable is configuration-specific, the value for the currently selected configuration when you try to run a task or debug your program will be used.
+The environment variables you declare will also be inherited by the processes launched by tasks. Programs being debugged, on the other hand, will not inherit the build environment.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+	
+{
+   "version" : "0.2.1" ,
+   "defaults" : {},
+   "configurations" : [
+     {
+       "type" : "default" ,
+       "project" : "ConsoleApp2\\PrintEnv.csproj" ,
+       "name" : "PrintEnv.csproj" ,
+       "env" : "var1=${env.var1}\u0000var2=hardcodedvalue"
+     }
+   ]
+}
+
+You can see on line 0 that it is possible to reference variables defined in your CMakeSettings.json file. The “\u0000” is a null character used to separate variables.
+Advanced Features
+
+Those of you with a keen eye might have noticed that “environments” and “inheritEnvironments” are arrays in the CMakeSettings.json syntax.  It is possible to declare and inherit from multiple environments.  For typical usage in CMake scenarios it is unlikely that you would want to inherit from more than one environment but there are some cases where you might want to declare more than one environment block.  The prime use case for this, for CMake, would be to declare a few variables that you can reference in CMakeSettings/launch.vs/tasks.vs JSON but don’t want added to the build environment itself – e.g. not inherited by spawned build processes.
+
+The following example shows how you accomplish this:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+	
+   // The "environments" property is an array of key value pairs of the form
+   // { "EnvVar1": "Value1", "EnvVar2": "Value2" }
+   "environments" : [
+     {
+       "BuildDir" : "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build" ,
+     },
+     {
+       // “namespace” is a reserved key that lets you put variables
+       // in namespaces other than $env.
+       "namespace" : "special" ,
+       // SpecialVar will not be added to the environment.
+       "SpecialVar" : "special" ,
+     }
+   ],
+ 
+   "configurations" : [
+     {
+       "name" : "x86-Debug" ,
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x86 compiler.
+       "inheritEnvironments" : [ "msvc_x86" ],
+       // You can use alternative namespaces (such as special defined above)
+       // just like "$env."
+       "buildRoot" : "${env.BuildDir}\\${special.SpecialVar}\\${name}"
+     },
+     {
+       "name" : "x64-Debug" ,
+       "generator" : "Ninja" ,
+       "configurationType" : "Debug" ,
+       // Inherit the defaults for using the MSVC x64 compiler.
+       "inheritEnvironments" : [ "msvc_x64" ],
+       "buildRoot" : "${env.BuildDir}\\${name}"
+     }
+   ]
+}
+
+You can access “SpecialVar” in any CMakeSettings, Launch, or Tasks JSON file with the syntax “${special.SpecialVar}”, as seen on line 25.
+Send Us Feedback
+
+To try out the latest and greatest CMake features and give us some early feedback, please download and install the latest  Visual Studio 2017 Preview .  As always, we welcome your feedback.  Feel free to send any comments through e-mail at  cmake@microsoft.com , through  Twitter @visualc , or Facebook at  Microsoft Visual Cpp .
+
+If you encounter other problems with Visual Studio 2017 please let us know via  Report a Problem , which is available in both the installer and the IDE itself.  For suggestions, let us know through  UserVoice . We look forward to your feedback!
+Back to
+top
+Download Visual Studio
+Start Here
+
+    Getting Started with C++ in VS
+    Bring Your Existing C++ Code to VS
+    C++ Code Editing & Navigation
+    C++ Unit Testing
+    C++ Debugging & Diagnosics
+    Collaborating with Your Team in VS
+    C++ Windows Development
+    C++ Linux Development
+    C++ Android & iOS Development
+    C++ Game Development
+
+Subscribe! Unsubscribe
+
+Search this blog Search all blogs
+Tags
+
+    Announcement
+    C++
+    CMake
+    cross platform
+    existing code
+    IDE
+    import
+    OpenFolder Edit
+
+Join the conversation
+Add Comment
+Cancel
+
+Name *
+
+Email *
+
+Website
+
+Save my name, email, and website in this browser for the next time I comment.
+
+    1 year ago
+    Reply
+    HGH
+
+    Isn’t 15.3 final already out?
+        1 year ago
+        Reply
+        Will Buik [MSFT]
+
+        Yes, as of this morning. I’ll add a link to it in the post.
+    1 year ago
+    Reply
+    SasaharaSenpai
+
+    Why don’t you simply add Cmake GUI for setting up all cmake settings. Why making users learn a new config format?
+    Best option for me, would be launching familiar cmake-gui for a source directory, configuring it there and building.
+        1 year ago
+        Reply
+        Will Buik [MSFT]
+
+        Thanks for this feedback, this is something we are considering. What do you typically use CMake GUI for with your own projects?
+            1 year ago
+            Reply
+            SasaharaSenpai
+
+            Sorry, I didn’t understand your question perfectly.
+
+            Usually for development I configure my projects through CMake GUI, so it would be perfect to have additional CMake window in Studio for displaying all settings. In the same way like in the original GUI: with grouping and advanced options.
+
+            I would say, one important thing would be adjusng ability to add new files to the solution. For now in CMake projects I have to create file in Windows explorer and then re-run CMake configure in order to get the new file in the solution (CMake uses file(GLOB…) ). Would be really handy if I could add files in Studio and in correct directories. (Because by default it always offers creating new files in build directory, not in source one!).
+
+            For testing I build projects from command like via CMake commands, but there is everythiong is cross platform and is not specific for Studio.
+
+            As I know you have already ability to open source directory with CMakeLists.txt and build it without creating solution manualy. But as I noticed Studio creates all bulid files in the AppData folder what is really inconvinient. I would consider showing CMake GUI in that case, allowing user to choose build directory, toolchain, configuration ortions, etc. I believe it would be very nice feature.
+            12 months ago
+            Reply
+            R
+
+            The ideal would be to use the NCurses CMake GUI, which works on terminal. Usually the bin is name ccmake.
+    1 year ago
+    Reply
+    C
+
+    Is there a convenient way to prevent certain targets from being displayed in the GUI, either through CMakeSettings.json or custom target properties? I still want to *build* them as part of normal dependency resolution, but I don’t want to see them in the top-level list of things to build.
+
+    My projects have a large number of “copy generated file”-type targets created through add_custom_command that are meaningless to the average developer but critical for install()-like functionality. I’d love to restrict the project view to just the “significant” targets and not clutter things up with the housekeeping targets.
+        1 year ago
+        Reply
+        Will Buik [MSFT]
+
+        There isn’t a way to do this today, unfortunately. This is valuable feedback, thank you for bringing this to our attention.
+    1 year ago
+    Reply
+    Chris Guzak
+
+    I see that Update 3 has extended the tasks.vs.json schema. please produce comprehensive documentation for it! I want to use this to invoke a custom build, deploy and debug command (that launches the VS debugger in the current IDE instance).
+        12 months ago
+        Reply
+        Paul Michalik
+
+        Agree! @Visual Studio team: Please do not continue the tradition of MSBuild for which the usage of public (aka “well known”) properties always remained a mystery…
+            12 months ago
+            Reply
+            HGH
+
+            +1
+                11 months ago
+                Reply
+                Roman Z
+
+                +1
+                It’s almost impossible to use without documentation.
+    12 months ago
+    Reply
+    Alexey
+
+    My project has testing capabilities – it defines functional tests in cmake, but also it has several unit tests written with googletest environment.
+    In usual workflow – when I generate projects with cmake gui, and then open/use them with Visual Studio, I have generated target ‘tests’ which runs all the test together. But when developing a new feature I like to use internally ‘test’ capability of VS, which takes the unit tests with googletest adapter. However when using cmake directly (without first generating projects) ‘test’ menu in VS became totally useless. It neither find any tests in solution, neither, of course, run them.
+    How to look at this thing? Is it a bug, misfeature, or I just missed something important about using cmake directly in VS?
+    For now the docs about configuring looks quite simple, however I’ve found nothing about it there.
+    12 months ago
+    Reply
+    solvingj
+
+    Will, I really like the continued progress on CMake in VS, and was excited to see release notes about improving intellisense experience. But to be clear, after the update, it’s still very buggy. I’ve opened multiple tickets and support has tried to help but they can’t and it’s not their fault. The nature of the problem is that it’s EXTREMELY hard to reproduce the bugs on-demand, and the problems manifest at seemingly random times. When issues have arisen, I’ve spent whole days trying to isolate exactly what’s happening for my own sanity and failed. It’s extremely frustrating because of the number of hidden factors that make intellisense work. Please advise the support team to stop expecting/asking for examples of these particular issues. So, how can your team troubleshoot then? To be honest, the problems are so fundamental and “consistently inconsistent”, that if you have any number of testers actually using the integration internally, they should be hitting the same issues and not need us to report it. Again, I love the integration, but my intellisense stops and starts working throughout the day and I have no idea why.
+        12 months ago
+        Reply
+        HGH
+
+        +1
+        12 months ago
+        Reply
+        HGH
+
+        I’ve reported various bugs that are random and very hard to reproduce. The CMake integration needs more rigorous testing.
+            11 months ago
+            Reply
+            rchiodo - MSFT
+
+            Do you have the bugs you reported? I can take a guess at HGH (I’ve seen some issues with somebody with those initials) but solving I can’t find anything from you.
+
+            Do you have any example projects that you’ve been having problems with?
+
+            We have internal teams at Microsoft using CMake and AFAIK there aren’t any outstanding intellisense issues with CMake. We still have some missing features (like adding classes and anything else that would have to auto update the CMakeLists.txt) but everything else should be working.
+
+            Also your version numbers would be helpful.
+
+            Thanks
+                11 months ago
+                Reply
+                rchiodo - MSFT
+
+                HGH, I’m guessing these are some of yours?
+                https://developercommunity.visualstudio.com/content/problem/62742/intellisense-is-not-working-for-libraries.html
+                https://developercommunity.visualstudio.com/content/problem/62743/cmake-if-the-source-is-changed-running-the-applica.html
+                https://developercommunity.visualstudio.com/content/problem/67207/cmake-intellisense-is-not-working-for-c17-synthax.html
+
+                These should all be fixed.
+
+                Are you hitting other issues?
+    11 months ago
+    Reply
+    Bill
+
+    The comment “Inherit the defaults for using the MSVC x64 compiler.” is misleading. In my environment, using “msvc_x64” will specify a 64 bit target, but the 32 bit toolset will still be used.
+
+    How do we specify the use of the 64-bit toolset?
+        11 months ago
+        Reply
+        rchiodo - MSFT
+
+        msvc_x64_x64. We need to have it tell what’s allowed in the intellisense for the CMakeSettings.json. I’ll add a bug to that effect.
+    11 months ago
+    Reply
+    jalf
+
+    This explains how I can define an ‘environments’ block, but it never really explained the ‘inheritEnvironments’ variable.
+
+    How do I use that? I assume it would let me define a named environment block… *somewhere*, and inherit that? How/where would I define that?
+    10 months ago
+    Reply
+    Florian Tischler
+
+    Are there any defaults to inherit for Clang/C2 and Clang/LLVM?
+    10 months ago
+    Reply
+    Laramore
+
+    I’d like to set additional environment variables to be visible to remote build processes (cmake/make/ninja) in “linux-x64” configuration. How can I do this? Our CMakeLists.txt files refer to various environment variables that are reported as not set when project is run from Visual Studio.
+        10 months ago
+        Reply
+        Ion Todirel
+
+        Hi, we don’t support this capability yet. The current options are to do it directly from your cmake scripts, or to put your environment in .bashrc.
+
+© 2018 Microsoft Corporation.
+
+    Privacy & Cookies
+

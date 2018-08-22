@@ -1,0 +1,1264 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style type="text/css">/*<![CDATA[*/
+
+body { color: #000000; background-color: #FFFFFF; }
+del { text-decoration: line-through; color: #8B0040; }
+ins { text-decoration: underline; color: #005100; }
+consistent { font-weight: bold; color: #005100; }
+inconsistent { font-weight: bold; color: #CC0000; }
+meh { font-weight: bold; color: #FFAA00; }
+
+p.example { margin-left: 2em; }
+pre.example { margin-left: 2em; }
+div.example { margin-left: 2em; }
+
+code.extract { background-color: #F5F6A2; }
+pre.extract { margin-left: 2em; background-color: #F5F6A2;
+  border: 1px solid #E1E28E; }
+
+p.function { }
+.attribute { margin-left: 2em; }
+.attribute dt { float: left; font-style: italic;
+  padding-right: 1ex; }
+.attribute dd { margin-left: 0em; }
+
+blockquote.std { color: #000000; background-color: #F1F1F1;
+  border: 1px solid #D1D1D1;
+  padding-left: 0.5em; padding-right: 0.5em; }
+blockquote.stddel { text-decoration: line-through;
+  color: #000000; background-color: #FFEBFF;
+  border: 1px solid #ECD7EC;
+  padding-left: 0.5empadding-right: 0.5em; ; }
+
+blockquote.stdins { text-decoration: underline;
+  color: #000000; background-color: #C8FFC8;
+  border: 1px solid #B3EBB3; padding: 0.5em; }
+
+blockquote pre em { font-family: normal }
+
+table, th, td { border: 1px solid black; }
+
+/*]]>*/
+</style>
+
+<title>Regular Void (Revision 1)</title>
+</head>
+<body>
+
+<p style="text-align: right; float: right">
+ISO/IEC JTC1 SC22 WG21<br>
+Document Number: P0146R1<br>
+Audience: Evolution Working Group<br>
+Matt Calabrese (<a href="mailto:metaprogrammingtheworld@gmail.com">metaprogrammingtheworld@gmail.com</a>)<br>
+2016-02-11<br>
+</p>
+
+<h1>Regular Void (Revision 1)</h1>
+
+<h2><a id="Abstract">Abstract</a></h2>
+<p>This paper evaluates the current specification of <code>void</code> in C++ as an incomplete type with exceptional rules and proposes changes that would update <code>void</code> to instead be a complete, object type. The intent of this modification is to eliminate special casing in generic code where <code>void</code> may appear as a dependent type, such as the existing <code>std::promise&lt;void&gt;</code>
+ specialization in the standard library, and to do so in a way that 
+minimizes breakage of existing code. This also has the positive 
+side-effect of simplifying the standard as a whole, due to the amendment
+ or outright removal of several clauses that currently need to treat <code>void</code> separately and explicitly.</p>
+
+<h2><a id="Motivation">Motivation</a></h2>
+
+<p>One of the many powerful aspects of C++ is its ability to represent 
+generic functions and types as exemplified by the algorithms and 
+containers of the standard library, which are able to operate on 
+built-in and user-defined types equivalently provided that the types 
+involved model the necessary concepts. One of the underlying properties 
+of the language that makes this feasible is the potential for 
+user-defined types to behave in both a syntactically and semantically 
+similar manner to built-in types. This is because the language gives 
+built-in object types and user-defined types value semantics, and allows
+ for overloading and generic functions by way of templates. In practice 
+this usually works well, however, <code>void</code> types often pose 
+difficulty in generic code because they are incomplete and not 
+instantiable, even though they can be appear as the result type of a 
+function that may be invoked in a generic setting. They are very unique 
+with respect to built-in types, let alone user-defined ones.</p>
+
+<p>Consider the following example, based on real-world code:</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#696969; ">// Invoke a Callable, logging its arguments and return value.</span>
+<span style="color:#696969; ">// Requires an exact match of Callable&amp;&amp;'s pseudo function type and R(P...).</span>
+<span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> R<span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">class</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span> P<span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">class</span> Callable<span style="color:#800080; ">&gt;</span>
+R invoke_and_log<span style="color:#808030; ">(</span>callable_log<span style="color:#808030; ">&lt;</span>R<span style="color:#808030; ">(</span>P<span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">)</span><span style="color:#808030; ">&gt;</span><span style="color:#808030; ">&amp;</span> <span style="color:#603000; ">log</span><span style="color:#808030; ">,</span> Callable<span style="color:#808030; ">&amp;</span><span style="color:#808030; ">&amp;</span> callable<span style="color:#808030; ">,</span>
+                 <span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>add_rvalue_reference_t<span style="color:#800080; ">&lt;</span>P<span style="color:#800080; ">&gt;</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span> args<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  log<span style="color:#808030; ">.</span>log_arguments<span style="color:#808030; ">(</span>args<span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+  R result <span style="color:#808030; ">=</span> <span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>invoke<span style="color:#808030; ">(</span><span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>forward<span style="color:#800080; ">&lt;</span>Callable<span style="color:#800080; ">&gt;</span><span style="color:#808030; ">(</span>callable<span style="color:#808030; ">)</span><span style="color:#808030; ">,</span>
+                         <span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>forward<span style="color:#800080; ">&lt;</span>P<span style="color:#800080; ">&gt;</span><span style="color:#808030; ">(</span>args<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+  log<span style="color:#808030; ">.</span>log_result<span style="color:#808030; ">(</span>result<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+  <span style="color:#800000; font-weight:bold; ">return</span> result<span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+</pre>
+
+<p>The above code is simple enough, however, it breaks down in one, very important case -- when the return type of the <code>Callable</code> happens to be <code>void</code>
+ (rvalue reference return types are also not handled here such that we 
+are able to take advantage of the named return value optimization). In 
+the <code>void</code> case, we'd still expect <code>callable</code> to be invoked and to have its arguments logged. Perhaps more subtle, the call to <code>log.log_result(result)</code> is meaningful even if serialization of a <code>void</code> were to end up being a no-op, since the invocation of the function still signals a successful execution of <code>callable</code> (i.e. if we get there, <code>std::invoke</code>
+ did not propagate an exception). Ideally, all of this code would just 
+work as written and without further specialization or indirection to 
+account for the case where <code>callable</code> returns <code>void</code>.</p>
+
+<h3><a id="StandardExample">Example in the Standard</a></h3>
+
+<p>The motivation for this change does not exist solely in user-written 
+generic code, as symptoms of the underlying problem are visible even in 
+the standard libary itself. Most cleary, this can be seen with the need 
+for specializations of <code>std::promise</code> and <code>std::future</code> for the <code>void</code> type. It can further be seen in proposals such as the <code>void</code> specialization for the <code>expected</code> template<sup><a href="#References_Expected">[1]</a></sup>. Unfortunately, even though we already have specializations for <code>std::promise</code> that at least allow <code>std::promise&lt;void&gt;</code> to be created, dealing with that type in generic code by users is still difficult due to the way that <code>void</code>
+ is handled in the language and the fact that the specializations 
+provide no common interface for setting the promised value (this latter 
+point does not actually have to be the case even without changes to the 
+language itself, though such an interface would be less than ideal). An 
+example of where things break down in simple generic code that deals 
+with <code>std::promise</code> can be seen here:</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> T<span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">class</span> Fun<span style="color:#800080; ">&gt;</span>
+<span style="color:#800000; font-weight:bold; ">void</span> set_value_with_result<span style="color:#808030; ">(</span><span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>promise<span style="color:#800080; ">&lt;</span>T<span style="color:#800080; ">&gt;</span><span style="color:#808030; ">&amp;</span> p<span style="color:#808030; ">,</span> Fun fun<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  p<span style="color:#808030; ">.</span>set_value<span style="color:#808030; ">(</span>fun<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+</pre>
+
+<p>In the above code, if <code>T</code> happens to be <code>void</code>, our code will fail because <code>set_value</code> in that case takes no parameters other than the promise itself, and you also cannot pass a <code>void</code> expression as a function argument. If you want to properly handle void, you'd need an overload:</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> Fun<span style="color:#800080; ">&gt;</span>
+<span style="color:#800000; font-weight:bold; ">void</span> set_value_with_result<span style="color:#808030; ">(</span><span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>promise<span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#800080; ">&gt;</span><span style="color:#808030; ">&amp;</span> p<span style="color:#808030; ">,</span> Fun fun<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  fun<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+  p<span style="color:#808030; ">.</span>set_value<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+</pre>
+
+<p>In this simple case the overload is fairly trivial, but in practice, 
+such functions can be sufficiently more complicated and it can be 
+difficult to provide such overloads in a way that is not prone to error 
+or full of explicit compile-time branching via template metaprogramming,
+ or the proposed <code>constexpr_if</code>. In an ideal world, no overload nor branching would be required. This proposal makes that a reality.</p>
+
+<p><i>Note: This paper strictly addresses language changes to <code>void</code> without proposing significant changes to the standard library. For changes to the standard library, such as the removal of the <code>void</code> specializations of <code>std::promise</code>, see the proposal drafts "Remove Future-Related Explicit Specializations for Void"</i> <sup><a href="#References_VoidFuture">[2]</a></sup><i> and "Standard Library Support for Void"</i> <sup><a href="#References_VoidStdLib">[3]</a></sup><i>, which both depend on the viability and acceptance of this proposal.</i></p>
+
+<h3><a id="Simplification">Simplification and Teachability</a></h3>
+
+<p>Apart from allowing the above motivating cases to be implemented and work as-is, the change of <code>void</code> to be a <code>Regular</code><sup><a href="#References_FoGP">[4]</a></sup> type also simplifies C++ itself by making the type system more consistent. Specifications in the standard that account for <code>void</code>
+ change from being made up almost entirely of special cases, to being 
+governed by the existing rules of object types, which is what <code>void</code> becomes as a part of this proposal. This makes it easier for users to think of <code>void</code>,
+ as it allows them to think of it in much the same way that they do most
+ other types in the language. It is akin to thinking of <code>0</code> as a number, which it is.</p>
+
+<h2><a id="ProblemDesc">Problem Description</a></h2>
+
+<p>Generic programming in C++ is especially powerful because with care, 
+concept requirements can usually be specified in a way such that they 
+may be met nonintrusively with respect to an existing type, making it 
+possible to have the type model a concept even if a programmer otherwise
+ has no control over its implementation (i.e. it is a part of a 
+dependency or is a built-in type). However, sometimes requirements are 
+specified that simply cannot be met nonintrusively. A good example of 
+this is when a type requirement is the instantiability of that type, or 
+proper semantics regarding special member functions. In these cases, if 
+the type does not already meet these requirements, they cannot be met 
+without modifying the type in question. If the type in question is a 
+part of a dependency or happens to be a fundamental type of the 
+language, then that type cannot be made to model the given concept 
+without either patching the dependency or changing the language, 
+respectively. This is particularly unfortunate if a type <i>could</i> model the concept without any cost, yet simply does not do so.</p>
+
+<p>The problem that generic libraries face when dealing with <code>void</code> can be thought of as precisely this last case. As currently specified in the language, <code>void</code> cannot be instantiated, nor can it be copied or compared, even though it can be logically thought of as a monostate type.</p>
+
+<h2><a id="RecommendedSolution">Recommended Solution</a></h2>
+
+<p>Briefly, the solution that is recommended by this proposal is to change <code>void</code>
+ to a complete object type and to do so in a way that prevents 
+considerable breakage to existing code. Although this change may sound 
+risky, the alterations are specified in such a way that potential 
+breakage is limited. Descriptions of the few potential breaking cases 
+are detailed later.</p>
+
+<p>In reality, what is likely if these changes were to be made, is that 
+most existing users of the language likely would not even notice the 
+update had they not heard about it before-hand, and their code would not
+ be affected adversely by such ignorance. What is proposed more formally
+ below is a fairly straight-forward simplification to the standard, 
+removing many parts that currently need to explicitly mention <code>void</code>
+ types in wording due to their nature as a unique kind of type in C++. 
+The most risky of changes are discussed in this documently explicitly, 
+separate from the actual changes that are suggested for the standard.</p>
+
+<h3><a id="ExistingPractice">Existing Practice in Other Languages</a></h3>
+
+<p>The notion of <code>void</code> as an instatiable type is nothing particularly new to programming languages as a whole. Indeed, descriptions of <code>void</code> types at a more general level than C++ present <code>void</code> as a unit type, much as it is proposed here. That C and C++ have a <code>void</code>
+ type that is not instantiable is incidental to its original use, but 
+the limitations have surfaced over time. Separate from C and C++, at 
+least one modern, mainstream language has a <code>void</code> type that is a <code>Regular</code> unit type -- the Swift programming language's <code>void</code> type, called <code>Void</code>, is both instantiable and an alias of the language's empty tuple type.<sup><a href="#References_Swift">[5]</a></sup> Apart from Swift, several other language provide such a void-like unit type, including Rust<sup><a href="#References_Rust">[6]</a></sup> and Haskell<sup><a href="#References_Haskell">[7]</a></sup> via <code>()</code>, and Python<sup><a href="#References_Python">[8]</a></sup> via <code>NoneType</code>.</p>
+
+<h3><a id="Overview">Overview</a></h3>
+
+<h4><a id="ThinkingAboutVoid">Thinking about Void</a></h4>
+
+<p>Presented below is a <code>struct</code> definition that is analogous to what is proposed for <code>void</code> in this paper. The actual definition is not a <code>class</code> type, but this serves as a fairly accurate approximation of what is proposed and how developers can think about <code>void</code>. What should be noticed is that this can be thought of as adding functionality to the existing <code>void</code>
+ type, much like adding a special member function to any other existing 
+type that didn't have it before, such as adding a move constructor to a 
+previously non-copyable type. This comparison is not entirely analogous 
+because <code>void</code> is currently no ordinary type, but it is a reasonable, informal description, with details covered later.</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">struct</span> <span style="color:#800000; font-weight:bold; ">void</span> <span style="color:#800080; ">{</span>
+  <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">(</span><span style="color:#808030; ">)</span> <span style="color:#808030; ">=</span> <span style="color:#800000; font-weight:bold; ">default</span><span style="color:#800080; ">;</span>
+  <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">const</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">&amp;</span><span style="color:#808030; ">)</span> <span style="color:#808030; ">=</span> <span style="color:#800000; font-weight:bold; ">default</span><span style="color:#800080; ">;</span>
+  <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">&amp;</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">=</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">const</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">&amp;</span><span style="color:#808030; ">)</span> <span style="color:#808030; ">=</span> <span style="color:#800000; font-weight:bold; ">default</span><span style="color:#800080; ">;</span>
+
+  <span style="color:#800000; font-weight:bold; ">template</span> <span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> T<span style="color:#800080; ">&gt;</span>
+  <span style="color:#800000; font-weight:bold; ">explicit constexpr void</span><span style="color:#808030; ">(</span>T<span style="color:#808030; ">&amp;</span><span style="color:#808030; ">&amp;</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span><span style="color:#800080; ">}</span>
+<span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
+
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">=</span><span style="color:#808030; ">=</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">true</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">!</span><span style="color:#808030; ">=</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">false</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">&lt;</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">false</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">&lt;</span><span style="color:#808030; ">=</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">true</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">&gt;</span><span style="color:#808030; ">=</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">true</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+<span style="color:#800000; font-weight:bold; ">constexpr bool</span> <span style="color:#800000; font-weight:bold; ">operator</span> <span style="color:#808030; ">&gt;</span><span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800000; font-weight:bold; ">noexcept</span> <span style="color:#800080; ">{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800000; font-weight:bold; ">false</span><span style="color:#800080; ">;</span> <span style="color:#800080; ">}</span>
+</pre>
+
+<h4><a id="BasicChanges">Basic Changes</a></h4>
+
+<p>The following is a high-level overview of the proposed changes along with comparisons between scalar types, the proposed <code>void</code> type, and the existing <code>void</code>
+ type. Consistencies with scalar types are highlighted in green, 
+inconsistencies are highlighted in red, and situations where the <code>void</code> type does <i>more</i>,
+ but in a compatible manner, are highlighted in orange. Rationale for 
+exactly the changes that are described here is provided in future 
+sections.</p>
+
+<h5><a id="TypeChanges">Type Changes</a></h5>
+
+<table style="width:100%">
+  <tbody><tr>
+    <td></td>
+    <td><b>Scalar Type</b></td>
+    <td><b>Proposed <code>void</code></b></td>
+    <td><b>Current <code>void</code></b></td>
+  </tr>
+  <tr>
+    <td><b>Classification</b></td>
+    <td><consistent>Object Type</consistent></td>
+    <td><consistent>Object Type</consistent></td>
+    <td><inconsistent>Not an Object Type</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Completeness</b></td>
+    <td><consistent>Complete</consistent></td>
+    <td><consistent>Complete</consistent></td>
+    <td><inconsistent>Incomplete</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Copyability and Assignability</b></td>
+    <td><consistent>Copyable and Assignable</consistent></td>
+    <td><consistent>Copyable and Assignable</consistent></td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td><b>Equality Operators</b></td>
+    <td><consistent>Yes</consistent></td>
+    <td><consistent>Yes</consistent></td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td><b>Relational Operators</b></td>
+    <td><consistent>Yes</consistent></td>
+    <td><consistent>Yes</consistent></td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td><b>Arrays of <code>T</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><inconsistent>Not Allowed</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>References of <code>T</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><inconsistent>Not Allowed</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Dereference of <code>T*</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><inconsistent>Not Allowed</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Arithmetic with <code>T*</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><inconsistent>Not Allowed (GCC Permits)</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Deletion via <code>T*</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><inconsistent>Undefined Behavior (GCC and Clang Warn)</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Non-Type Template Parameters of <code>T</code></b></td>
+    <td><consistent>Allowed</consistent></td>
+    <td><consistent>Allowed</consistent></td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td><b>Lack of Explicit Return of <code>T</code></b></td>
+    <td><consistent>Undefined Behavior</consistent></td>
+    <td><meh>Allowed (Value-Initialized)</meh></td>
+    <td><meh>Allowed</meh></td>
+  </tr>
+</tbody></table>
+
+<h5><a id="FunctionChangesDependent">Function Type Changes (Dependent <code>T</code>)</a></h5>
+
+<table style="width:100%">
+  <tbody><tr>
+    <td></td>
+    <td><b>Scalar Type</b></td>
+    <td><b>Proposed <code>void</code></b></td>
+    <td><b>Current <code>void</code></b></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent>Invalid or Substitution Failure</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(const T)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent>Invalid or Substitution Failure</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T name)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent>Invalid or Substitution Failure</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(int, T)</code></b></td>
+    <td><consistent><code>int(int, T)</code></consistent></td>
+    <td><consistent><code>int(int, T)</code></consistent></td>
+    <td><inconsistent>Invalid or Substitution Failure</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T, int)</code></b></td>
+    <td><consistent><code>int(T, int)</code></consistent></td>
+    <td><consistent><code>int(T, int)</code></consistent></td>
+    <td><inconsistent>Invalid or Substitution Failure</inconsistent></td>
+  </tr>
+</tbody></table>
+
+<h5><a id="FunctionChangesNondependent">Function Type Changes (Non-Dependent <code>T</code>)</a></h5>
+
+<table style="width:100%">
+  <tbody><tr>
+    <td></td>
+    <td><b>Scalar Type</b></td>
+    <td><b>Proposed <code>void</code></b></td>
+    <td><b>Current <code>void</code></b></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent><code>int()</code></inconsistent><sup><a href="#UnaryVoid">(See Rationale)</a></sup></td>
+    <td><inconsistent><code>int()</code></inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(const T)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent>Invalid</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T name)</code></b></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><consistent><code>int(T)</code></consistent></td>
+    <td><inconsistent>Invalid</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(int, T)</code></b></td>
+    <td><consistent><code>int(int, T)</code></consistent></td>
+    <td><consistent><code>int(int, T)</code></consistent></td>
+    <td><inconsistent>Invalid</inconsistent></td>
+  </tr>
+  <tr>
+    <td><b>Type of <code>int foo(T, int)</code></b></td>
+    <td><consistent><code>int(T, int)</code></consistent></td>
+    <td><consistent><code>int(T, int)</code></consistent></td>
+    <td><inconsistent>Invalid</inconsistent></td>
+  </tr>
+</tbody></table>
+
+<h3><a id="Considerations">Considerations</a></h3>
+
+<h4><a id="UnaryVoid">Unary Functions Taking Void</a></h4>
+
+<p>As <code>void</code> becomes a <code>Regular</code> type, it is 
+essential that it is allowed as a function parameter type, just like any
+ other object type in the language. Without that it is not suitable in 
+generic code, as seen in the logging and <code>std::promise</code> examples. This, however, brings about one minor subtlety. Syntactically, in current C++, a type such as <code>int(void)</code> is valid yet is not a function taking <code>void</code>
+ as a parameter. Instead, it is a function taking no parameters. In 
+other words, even though it is syntactically different it specifies the 
+same type as <code>int()</code>. This is obvious, but it means that we 
+would not be able to reclaim that syntax without causing a large amount 
+of breaks to existing code.</p>
+
+<p>The suggested solution to this problem is to not reclaim this syntax, at least not at this time, though only when the <code>void</code> type is not a dependent type. Importantly, we can and should use this syntax when <code>void</code>
+ is dependent, as is explicitly suggested in this proposal, and is 
+thankfully not allowed as a means to specify a nullary function in the 
+present state of the language. Because of that, it is very unlikely 
+(though still possible in hypothetical, contrived cases mentioned later)
+ that such a change would break existing code. The reason why it is 
+important that we allow this syntax in a dependent context is because 
+this is precisely where it matters to generic code. By utilizing the 
+syntax in this context, we have little-to-no chance of breaking any 
+existing code while also allowing for generic code to be written in a 
+way that does not need to specialize or go through indirection in the 
+event that <code>void</code> happens to show up as a dependent type.</p>
+
+<p>This leaves us with one question, though. If, when in a non-dependent context, you cannot declare a unary function that takes a <code>void</code>
+ parameter using this syntax, how exactly would you specify such a 
+function type? There are multiple options, but ultimately it is proposed
+ here that users either specify the <code>void</code> parameter type 
+with cv-qualification, which is not valid in this context in current 
+C++, or alternatively they can simply give the parameter a name, which 
+is also not currently allowed. Both of these solutions are specified as a
+ part of this proposal. Rationale for why this seemingly subtle syntax 
+is the preferred solution over alternatives is presented later.</p>
+
+<p>Finally, it deserves to be repeated that this quirkiness is only required when the function in question takes <i>exactly</i> one parameter, where that parameter is <code>void</code>, and where that <code>void</code>
+ is not a dependent type. If the function type takes multiple 
+parameters, then the user needs to do nothing special. Similarly, if the
+ <code>void</code> type is dependent, the user also needs to do nothing 
+special. This only would affect a small amount of yet-to-be-written code
+ that only a certain class of users would ever want to write, and it 
+does not at all negatively affect the simplicity of writing generic 
+code.
+
+</p><h4><a id="SFINAE">Substitution Failure Is Not an Error</a></h4>
+
+<p>While mostly theoretical, there are potentially SFINAE (Substitution 
+Failure Is Not an Error) exploits that might be in use that could take 
+advantage of <code>void</code>'s properties, such as its inability to be
+ used as a function parameter type in a dependent context, and its 
+inability to be used in a <code>sizeof</code> expression. At the very 
+least, such exploits are not known to have been used in standard library
+ implementations nor have they been encouraged in Boost. It is suspected
+ that such properties are exploited rarely, if it all, and in those few 
+cases if and where they are exploited, there already exist drop-in 
+alternatives via other forms of SFINAE exploits. Note that the <code>sizeof</code>
+ trick that is or was frequently used when defining metafunction traits 
+is distinct from what is described here and would not be affected. 
+Similarly, <code>std::enable_if</code> is not affected by this.</p>
+
+<h2><a id="Alternatives">Alternatives</a></h2>
+
+<p>The solution that is proposed was arrived at after carefully 
+considering possible alternatives. Notable suggestions from other 
+parties are presented below.
+
+</p><h3><a id="LibraryBasedSolutions">Library-Based Solutions</a></h3>
+
+<p>As described in the motivation section, the current way that generic code deals with <code>void</code>
+ is by special-casing, often through helper types and templates. It has 
+been suggested that we possibly consider standardizing helper templates 
+that ease dealing with <code>void</code> in generic code. The problems 
+with this are that such facilities are both complicated to specify and 
+require people writing generic code to actually know about and use those
+ facilities. When and why to use them is subtle. Readers of that code 
+who are not familiar with the problem are also baffled by the 
+subtleties. By simply making <code>void</code> an object type, we solve 
+our problems completely and in a way that is easy for users to utilize, 
+and also easier to specify fully and properly in the standard when 
+compared to a complicated set of library facilities.</p>
+
+<p>To stress this, as a generic programmer I have used a variety of library-based techniques over the years to help deal with <code>void</code>.
+ The results of such techniques, while "better" than handling each case 
+individually, are still not for the faint of heart due to the dependence
+ on advanced C++ techniques and the fact that those techniques need to 
+be explicitly employed by the developer of the generic code. A brief 
+outline of the most successful of those techniques, in my experience, 
+revolves around the following methodology:</p>
+
+<ol>
+<li>Introduce a <code>Void</code> type that is just a <code>Regular</code> unit type.</li>
+<li>Introduce metafunctions and high-order functions that are already special-cased for <code>void</code>.
+<ul>
+<li>A metafunction that is an identity metafunction for all types except <code>cv-void</code>, in which case it converts to <code>cv-Void</code></li>
+<li>The inverse of the above metafunction</li>
+<li>A version of <code>std::invoke</code> that returns <code>Void</code> instead of <code>void</code> when invoking a <code>Callable</code> that returns <code>void</code></li>
+<li>A high-order function that takes a unary or nullary function "F" and
+ a separate function "I" to invoke, then invokes "F" with the result of 
+"I", unless "I" returns <code>void</code> or "F" is only able to be 
+invoked with no arguments, in which case, "I" is invoked followed by "F"
+ being invoked with no arguments.</li>
+<li><i>Other, more obscure high-order functions</i></li>
+</ul>
+</li><li>Write the bulk of the internals of generic code as normal -- do not try to account for <code>void</code>.</li>
+<li>At the interfaces between the generic code and the user, use the 
+aforementioned metafunctions and high-order functions to avoid explicit 
+branching and top-level specialization.</li>
+<li>Continue special-casing in the remaining places where the library-facilities aren't enough.</li>
+</ol>
+
+<p>As was warned, the technique is not pretty, and certainly not helpful
+ to average Joe programmer. While it successfully removes redundancy, 
+most specialization in high-level code, and other types of errors, it 
+makes interfaces of the code pretty much unreadable. It also requires an
+ understanding of advanced techniques in C++. Because we want/need to 
+isolate the user from this helper <code>Void</code> type, the interfaces that we produce are just as difficult to use from other generic code as existing interfaces (such as <code>set_value</code> of <code>std::promise&lt;void&gt;</code>) unless we also provide <code>Void</code>-aware interfaces.</p>
+
+<p>No one wants to write or read code like this and we shouldn't encourage it if there is a proper, language-level solution.</p>
+
+<h3><a id="PartialVoid">Void as <i>Almost</i> an Object</a></h3>
+
+<p>The idea here is that instead of making <code>void</code> an object 
+type, we instead just make it act a little bit like one in certain 
+contexts. The proclaimed rationale for this approach is that we 
+introduce fewer changes to the meaning of <code>void</code> so as to minimize breakages and to not make <code>void</code> do more than is necessary. For instance, it was suggested that we make it possible to create an instance of <code>void</code> on the stack, but not be able to pass it to a function as an argument, or make an array or tuple that contains a <code>void</code> element. While the intention here is in the right place, the rationale is flawed in several ways:
+</p><ul>
+  <li>By just making <code>void</code> <i>almost</i> an object, we'd only be trading some special-casing in generic code for other special-casing.</li>
+  <li>The changes to the standard that would make <code>void</code> an object are simpler to specify than trying to make <code>void</code> <i>almost</i> an object type with special rules.</li>
+  <li>All of the functionality of a <code>Regular</code> type really is 
+beneficial, since function result types are often worked with in ways 
+that have such constraints in generic code.</li>
+  <li>No real world examples have been provided where such a 
+specification would at all reduce breakage to existing code when 
+compared to making the full change that is proposed in this paper. 
+Making void <i>almost</i> an object could, however, scatter the complete
+ changes across multiple standards, leaving the language with 
+unnecessarily subtle differences between iterations with no discernible 
+benefit.</li>
+</ul>
+
+<h3><a id="NewVoid">An Entirely New Void Type</a></h3>
+
+<p>Also suggested was the possibility of introducing a new type to the language, separate from <code>void</code>, that behaves in the way that this proposal specifies the existing <code>void</code>
+ type should behave. The idea of this solution is that people who want 
+such a monostate type can opt-in for it, leaving the existing <code>void</code>
+ type unchanged. This initially may seem like a reasonable solution, but
+ it fails to actually solve the generic programming problem since <i>users</i>
+ of the generic code would be the ones who would be required to now take
+ advantage of that new type. Library developers would still need to 
+special-case for <code>void</code> in practice because of this.</p>
+
+<h3><a id="ExplicitVoid">Explicit Void</a></h3>
+<p>As described earlier, this proposal recommends using <i>cv</i>-<code>void</code> or a named <code>void</code> parameter for representing a unary function with a <code>void</code> parameter when <code>void</code> is not dependent. One alternative to using <i>cv-void</i> or a named <code>void</code> parameter for representing a unary function having a <code>void</code>
+ parameter is to instead propose an entirely new syntax for that case. 
+For instance, one possiblity is to allow a declaration such as:
+</p><pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">void</span> foo<span style="color:#808030; ">(</span><span style="color:#800000; font-weight:bold; ">explicit</span> <span style="color:#800000; font-weight:bold; ">void</span><span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span><span style="color:#800080; ">}</span>
+</pre>
+
+<p>At first this may seem like a good idea since it makes the difference between it and the current meaning of a <code>void</code> parameter list more drastic, however it has a few drawbacks:
+</p><ul>
+  <li>It introduces a syntax that would only work for <code>void</code> (unless it were also proposed to work for other types for the sake of consistency).</li>
+  <li>It is a more complex change as it requires altering the language grammar.</li>
+  <li>It introduces a syntax that may be deprecated in the future.</li>
+</ul>
+
+<p>The last point is a bit subtle, though it may be the most important. 
+Ultimately, in a future standard it would be a simplification to the 
+langauge to make a parameter-list consisting of a single, unnamed, 
+cv-unqualified <code>void</code> parameter behave no different from most
+ other object types. That is to say, that syntax would eventually be 
+used to declare a unary function taking a parameter of type <code>void</code>.
+ It is not recommended that we update the meaning of that syntax 
+immediately as a part of this proposal because that would change the 
+meaning of a large body of existing code in a way that would cause 
+breakages, including sometimes in ways that only change behavior of 
+existing programs at runtime. If, in the meantime, we were to introduce 
+an entirely new syntax and alter the language grammar solely to allow 
+the declaration of a parameter of type <code>void</code>, we'd likely want to eventually deprecate and remove <i>that</i> syntax once the desired syntax is ripe to be used. On the other hand, if in the time being we only use cv-qualified <code>void</code> or a named <code>void</code> parameter to represent an actual <code>void</code> parameter, then if/when the current meaning of <code>void</code> is to finally be replaced, any code that declared a single parameter of type <code>void</code>
+ in the currently proposed manner would not need to be updated, since 
+even then it would remain as a valid way to declare such a parameter 
+(just as it is a valid way in the language right now to declare 
+parameters of non-<code>void</code> type).</p>
+
+<p>So, at the cost of being a little bit subtle in newly-written code, 
+we avoid cluttering the language with new syntax and also avoid having 
+to remove a special syntax at some point in the future. It is a simpler 
+change in the language to make right now, in addition to being better in
+ the long term.</p>
+
+<h3><a id="PartialAlias">Partial-Alias of Void</a></h3>
+
+<p>Similar to the idea of creating a separate <code>void</code> type is the idea of introducing a "partial alias" for <code>void</code> that behaves in the manner suggested by this proposal, but is otherwise treated as an alias of <code>void</code> in all or most other ways (<code>template</code> specializations on <code>void</code> and the new alias would be the same, for example). The rationale given for this is that it avoids changing the meaning of <code>void</code>,
+ but may provide a route toward solving some problems that have been 
+presented. This would be a very unique addition to the language that 
+makes the standard more complicated and difficult to learn. It also has 
+odd implications and raises some questions. Most importantly, if 
+dependent <code>void</code> does not behave in the manner proposed by 
+this paper, then the motivating cases of this proposal are not actually 
+covered. If dependent <code>void</code> <i>does</i> behave in a manner consistent with this paper, there will still be a change in meaning for <code>void</code>
+ when the type is dependent, which is what the "partial alias" 
+suggestion is trying to avoid. At that point, the "partial alias" option
+ is in many ways equivalent to the "explicit void" option, but with a 
+new special kind of type/alias and the complexity that comes with it.</p>
+
+<h3><a id="ParameterCollapsing">Parameter Collapsing</a></h3>
+
+<p>In discussions, it has been suggested by multiple parties independently to consider "collapsing" <code>void</code> parameters in a function type in a way that makes a function type specified as <code>void (int, void)</code> equivalent to the function type <code>void (int)</code>. Similarly, when invoking a function and passing a <code>void</code>
+ expression as an argument, that argument would instead be ignored and 
+the invocation would actually be passing one less argument than it would
+ appear. Though intially this might not look problematic, not only does 
+it keep <code>void</code> as a special type with special rules that can 
+really make it difficult to write certain generic code, but it also 
+introduces subtle ambiguities or other errors. For example:</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">enum</span> <span style="color:#800000; font-weight:bold; ">class</span> log_option <span style="color:#800080; ">{</span> simple<span style="color:#808030; ">,</span> verbose <span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
+
+<span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> T<span style="color:#800080; ">&gt;</span>
+<span style="color:#800000; font-weight:bold; ">void</span> <span style="color:#603000; ">log</span><span style="color:#808030; ">(</span>T what_to_log<span style="color:#808030; ">,</span> log_option option <span style="color:#808030; ">=</span> log_option<span style="color:#800080; ">::</span>simple<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+<span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> Fun<span style="color:#800080; ">&gt;</span>
+<span style="color:#800000; font-weight:bold; ">void</span> log_result<span style="color:#808030; ">(</span>Fun fun<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  <span style="color:#603000; ">log</span><span style="color:#808030; ">(</span>fun<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">,</span> log_option<span style="color:#800080; ">::</span>verbose<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+
+<span style="color:#800000; font-weight:bold; ">int</span> <span style="color:#400000; ">main</span><span style="color:#808030; ">(</span><span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  <span style="color:#696969; ">// logs an int using the verbose option</span>
+  log_result<span style="color:#808030; ">(</span><span style="color:#808030; ">[</span><span style="color:#808030; ">]{</span> <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#008c00; ">0</span><span style="color:#800080; ">; }</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+  <span style="color:#696969; ">// If internally the first argument "collapses" because the function returns void,</span>
+  <span style="color:#696969; ">// then we are no longer logging "void" with the "verbose" option, but instead,</span>
+  <span style="color:#696969; ">// we are logging an instance of "log_option" with the "simple" option.</span>
+  log_result<span style="color:#808030; ">(</span><span style="color:#808030; ">[</span><span style="color:#808030; ">]{}</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+</pre>
+
+<p>As shown in the example, this feature is not logically sound even though it initially might seem to solve certain problems.</p>
+
+<h2><a id="FAQ">Frequently Asked Questions</a></h2>
+
+<h3><a id="SpecialCasing">Doesn't This Proposal Introduce <i>More</i> Special-Casing for <code>void</code>?</a></h3>
+
+No. This is most easily seen by examining the <a href="#BasicChanges">tables of changes</a> or the <a href="#Proposal">specification</a>.
+ What should be noticed is that while the changes that this proposal 
+introduces provide more consistency with existing types, they do not 
+introduce any new inconsistencies that didn't already exist. Not only is
+ the type system more consistent because of this, but that fact is 
+reflected in the wording in the standard, where the vast majority of the
+ changes are simply removals of existing special cases.
+
+<h3><a id="SizeZero">Why Isn't <code>sizeof(void)</code> Equal to <code>0</code>?</a></h3>
+
+<p>One suggestion that has repeatedly come up is to have <code>sizeof(void)</code> report <code>0</code>
+ and to allow multiple instances to share the same address. This would 
+prevent users from having to use tricks akin to the empty base 
+optimization in order to make more optimal usage of memory. Ideally, 
+this would be the case, however such a change to the language is both 
+vast and out of scope of the proposal. Allowing a type to have a <code>0</code>
+ size and to allow separate instances to share an address implies 
+drastic and subtle breaking changes to existing code. For instance, if 
+you were to make an array of such a <code>void</code> type, a pointer, 
+at least in the traditional sense, would no longer be able to be used as
+ an iterator into that array (notably meaning that generic code which 
+relies on this would now fail for such a size <code>0</code> type). As well, any code that relies on an object's type and address as unique would fail for <code>void</code> types, even though it is otherwise perfectly acceptable. Finally, if such a size were permitted for <code>void</code>, it should really be allowed for <i>any</i> type, including user-defined types. Having a special rule for <code>void</code> would make one more thing to have to think about and deal with differently for <code>void</code> types. Instead, this proposal opts to leave the size of <code>void</code> unspecified and thereby governed by existing language rules. In practice, it is expected that <code>void</code> will likely be size <code>1</code> in most implementations, though this is not required. If an eventual change were made to the language to allow for size <code>0</code> types, then <code>void</code> would be able to implicitly take advantage of that.</p>
+
+<h3><a id="EnableIf">Does This Break <code>std::enable_if</code>?</a></h3>
+
+<p>No. The uses of <code>std::enable_if</code> do not depend on the uniqueness of the <code>void</code> type. As described <a href="#SFINAE">earlier</a>, while there are contrived, hypothetical SFINAE exploitations separate from <code>std::enable_if</code>
+ that can break, they are not ones endorsed by the standard library nor 
+are they encouraged by Boost. If such exploits turn out to be used, 
+there are trivial replacements in the form of alternative SFINAE 
+exploits.</p>
+
+<p></p><h4><a id="ABI">In Practice, Would This Break ABI Compatibility?</a></h4>
+
+<p>No. Because we are changing the <code>void</code> type, it might 
+initially seem as though we'd be breaking compatibility with existing, 
+prebuilt libraries, including C libraries. This is untrue. Our 
+alterations do not change the meaning of existing, valid function 
+declarations, nor do they add any state to the <code>void</code> type that needs to be communicated. The fact that functions with the return type <code>void</code> now return objects from the point of view of those who use C++ does not affect this.</p>
+
+<h3><a id="ConstexprIf">Doesn't <code>constexpr_if</code> Make Branching for <code>void</code> Easier?</a></h3>
+
+<p>With the acceptance of <code>constexpr_if</code><sup><a href="#References_ConstexprIf">[9]</a></sup>,
+ some have voiced that the problems this paper solves may already have 
+an upcoming solution. The idea is that because programmers can now more 
+easily branch off in a function template definition explicitly via <code>constexpr_if</code> based on whether or not a type is <i>cv</i> <code>void</code>, the changes to <code>void</code> proposed in this paper would not be necessary. Unfortunately, while <code>constpexpr_if</code> does aid in turning specializations into more imperative branching, the goal of making <code>void</code> a <code>Regular</code> type is to make specializations and branching entirely <i>unnecessary</i>, having templates work correctly with <code>void</code> without any effort taken by the developer of that template.</p>
+
+
+<h3><a id="NoSense">Isn't It Illogical to Support <i>some-operation</i> for <code>void</code>?</a></h3>
+
+<p>In several instances, people have asked whether or not certain operations or compound types make sense for <code>void</code>
+ and wonder why they are allowed. These concerns usually come down to a 
+belief that because a particular operation would effectively be a no-op,
+ it would be illogical for such an operation to appear in code, since it
+ would likely be a user-error. The issues with such a belief are 
+immediately evident for those who write generic code, as it is unable to
+ be known whether or not a logical operation actually <i>does</i> 
+anything, and so this paper will not go into too much detail on that 
+aspect. Some examples of functionality that people have questioned the 
+need for with respect to <code>void</code> are as follows (not a complete list):</p>
+
+<ul>
+  <li>Making an instance of <code>void</code>.</li>
+  <li>Making an array of <code>void</code>.</li>
+  <li>Making a tuple that contains a <code>void</code> element.</li>
+  <li>Copying a <code>void</code> object.</li>
+  <li>Passing a <code>void</code> object as a function argument.</li>
+  <li>Forming a reference to <code>void</code>.</li>
+  <li>Using pointer arithmetic on a pointer to <code>void</code>.</li>
+  <li>Comparing instances of <code>void</code>.</li>
+</ul>
+
+<p>Some of these points are already covered in the motivation section, 
+though perhaps deserving of more explicit mention are the array, tuple, 
+reference, and pointer arithmetic cases. These can all be rather 
+concisely explained with a simple code example that invokes <i>N</i> Callables in generic code, aggregating the results into an array:</p>
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#696969; ">// Execute N functions with the same return type, </span>
+<span style="color:#800000; font-weight:bold; ">template</span><span style="color:#800080; ">&lt;</span><span style="color:#800000; font-weight:bold; ">class</span> ReturnType<span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">class</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span>Callables<span style="color:#800080; ">&gt;</span>
+<span style="color:#666616; ">std</span><span style="color:#800080; ">::</span><span style="color:#603000; ">array</span><span style="color:#808030; ">&lt;</span>ReturnType<span style="color:#808030; ">,</span> <span style="color:#800000; font-weight:bold; ">sizeof</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">(</span>Callables<span style="color:#808030; ">)</span><span style="color:#808030; ">&gt;</span>
+invoke_functions<span style="color:#808030; ">(</span>Callables<span style="color:#808030; ">&amp;</span><span style="color:#808030; ">&amp;</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span> callables<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+  <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800080; ">{</span><span style="color:#800080; ">{</span><span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>invoke<span style="color:#808030; ">(</span><span style="color:#666616; ">std</span><span style="color:#800080; ">::</span>forward<span style="color:#800080; ">&lt;</span>Callables<span style="color:#800080; ">&gt;</span><span style="color:#808030; ">(</span>callables<span style="color:#808030; ">)</span><span style="color:#808030; ">)</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#808030; ">.</span><span style="color:#800080; ">}</span><span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
+<span style="color:#800080; ">}</span>
+</pre>
+
+<p>In generic code, <code>void</code> can very easily show up as a 
+dependent result type. Here, it should be clear that there is nothing 
+illogical about producing an aggregate of function results given that 
+there is nothing illogical about dealing with a single result. 
+Similarly, just as with any other array in C++, one would expect a 
+pointer to an element of an array of <code>void</code> to act as a valid iterator into the array (and this also implies pointer arithmetic), otherwise <code>void</code> would fail to work for a large body of generic code.</p>
+
+<p>The above example applies to <code>std::tuple</code>, just the same, 
+if you remove the restriction of the functions all having the same 
+return type. Now consider the signature of the functions involved when 
+creating an instance of that tuple type, and the function types that 
+arise when accessing that tuple — you will find that references to <code>void</code> and <code>void</code> parameters may naturally pop up, and there is no problem with this. As specified in this proposal, <code>void</code>
+ is simply an object type like any other object type. This type just 
+happens to only be able to represent a unit set of values (it would be a
+ monostate type). This would not even be the first of such types to 
+exist in the language (see <code>std::nullptr_t</code> as one such example, with multiple others exist in various proposals).</p>
+
+<h3><a id="MultipleReturnValues">Doesn't This Remove the Notion of "No Result?"</a></h3>
+
+<p>No.</p>
+
+<p>One concern that has been brought up is that by making <code>void</code>
+ an object type, we'd be removing the ability in the language to 
+represent a function with no result and be left with a language that can
+ only represent functions with exactly one result. Further, it has been 
+suggested that we should go in the other direction, and instead of 
+removing the current meaning of <code>void</code>, we should directly support the notion of a function with multiple results, including no results, and to have <code>void</code>
+ represent such a lack of result. Though this may sound sensible at 
+first, it actually ends up being an entirely orthogonal concern that is 
+not in conflict with the changes to <code>void</code> that are proposed here.</p>
+
+<p>Before going further into the details, it should first be stressed 
+that functions in C++ can already represent any number of results, 
+including what many refer to as "none," by way of containers, tuples, 
+and ranges, just as functions in mathematics have the ability to 
+represent such results even though, strictly speaking, the application 
+of a function in mathematics maps to one result. A language-level 
+multiple return value facility would only alter the way in which users 
+can opt to <i>convey</i> multiple results and how such results are 
+operated on syntactically. Such a facility may prove to be valuable for 
+the language, as it might allow for more opportunities to elide copies 
+and moves of objects that are currently unable to be elided, it may make
+ it easier to expand out results as separate arguments to function calls
+ in a single expression, and it may be able to reduce compile times when
+ compared to existing alternatives. Again, though, these benefits are 
+not at all in conflict with the contents of this proposal.</p>
+
+<p>Though this is all hypothetical as there is no current proposal for 
+actually providing the language with a multiple return value facility, 
+we can reason about the desirable properties of such a facility if one 
+were formally proposed. As one quickly sees, with such a facility, there
+ are still very compelling reasons to allow a representation of multiple
+ results as a single object that can be passed around and manipulated as
+ a whole, much like one does with a <code>std::tuple</code>, and just as is proposed in this paper regarding <code>void</code> (note, too, that in C++, a <code>std::tuple&lt;&gt;</code> with no template arguments is a <code>Regular</code> type, and this is extremely important for generic code). For example, imagine that you wish to create a <code>std::future</code> that corresponds to the result of some nullary function <code>func</code>. In current C++, this type may be specified as <code>std::future&lt;decltype(func())&gt;</code>. Notably, this works in current C++ even for a <code>void</code> return type. If the language had a way to directly represent a function with <i>N</i> different return values, what would a user expect from such a <code>std::future</code> instantiation? If the result of the function call is not implicitly dealt with as a single entity, regardless of the value of <i>N</i>,
+ but instead is dealt with as something more akin to a variadic list of 
+return types, that bit of code either wouldn't compile, or, if expanded,
+ would pass <i>N</i> different type arguments to <code>std::future</code> (and the 0, or <code>void</code> case, would now fail, unless we were to maintain an inconsistency for such a return type).</p>
+
+<p>If the result type were not treated as a single entity, in order to make such a <code>std::future</code> instantiation work for all <i>N</i> in this case the user would likely just always manually bind the results together into a tuple before forming the <code>std::future</code>
+ template argument. A generic high-order function that needs to create 
+such a facility would likely now always bind the result of the call to a
+ tuple. Unfortunately, this also affects usage of the result when 
+retrieved from the <code>std::future</code>. In other words, while 
+retrieving the results from the function directly, the user would get 
+some kind of multiple-return-value construct, retrieving the results 
+from the <code>std::future</code> would yield a tuple type. The 
+developer would now have to expand out that tuple in order to use it in 
+places that the result of the original function would be usable.</p>
+
+<p>Perhaps, alternatively, this hypothetical multiple return value 
+proposal that doesn't represent the multiple results as a single entity 
+would also introduce changes to templates, such as <code>std::future</code>, to make the template parameter list variadic. Then, users could expand their result type as <i>N</i> template arguments and the return value of <code>get()</code>
+ could directly result in the language-level multiple return value 
+facility. Not only would this make things much more complicated at the 
+library level, but <code>std::future</code> is not at all special here. 
+Any time you instantiate a template with the result type of a function, 
+this issue would show up, and the set of templates that you may 
+instantiate in this manner is potentially any template that has a 
+type-template-parameter.</p>
+
+<p>On the other hand, if you directly represent the multiple return 
+value facility as a single object, dealing with such an entity is 
+consistent with existing return types and has no negative implications 
+regarding generic code. What you'd actually have, in this case, is a 
+language-level tuple type, and just like with <code>std::tuple</code>, a tuple that contains no elements is still, itself a <code>Regular</code> type, which is important for generic code.</p>
+
+<p>So, briefly, even if we were to have direct support for multiple 
+return values in the language, it would be beneficial for such a feature
+ to be synonymous with direct, language-level tuple support in that the 
+return value itself could be directly used as a single object. <i>Not</i>
+ treating such a facility in this manner would actually make generic 
+code more difficult to write correctly as opposed to less difficult. 
+Further, just as is the case with <code>std::tuple&lt;&gt;</code>, such an "empty" set of results should be able to be dealt with like any other case and should be a <code>Regular</code> type. In the presence of such a mutliple return value facility using some intrinsic tuple type, the <code>void</code> type could even hypothetically be specified to be an alias of such an empty tuple, and so an assertion that the <code>void</code> type of this proposal would be inconsistent with the <code>void</code>
+ type in the presence of a hypothetical multiple return value facility 
+is incorrect (in fact, this is exactly what the Swift programming 
+language does). In either case, having a <code>Regular</code> <code>void</code> type is just as compelling.</p>
+
+<h3><a id="Ideologies">Isn't This a Change to the <i>Meaning</i> of <code>void</code>?</a></h3>
+
+<p>No? Yes? It depends on how you personally choose to think about <code>void</code> in current C++</p>.
+ This ideological concern is both subjective and irrelevant to how code 
+is written and to what values can be represented in a C++ program. While
+ it is true that the mental model some developers have may change, this 
+would not at all adversely affect their code, and on the contrary, this 
+would make it easier to correctly write high-order functions that 
+encounter <code>void</code> as a dependent type. While a particularly programmer can maintain a world view where <code>void</code>
+ is a totally different "kind" of type, as the current standard 
+represents it, this is a more complicated world view than the 
+alternative. It is analogous in mathematics to treating <code>0</code> 
+as something other than a number. You can have a world view such as 
+that, as people did for many years, but it certainly does not make 
+anything easier to reason about.<p></p>
+
+<p>Taking a step back, we should not let raw intuitions guide our view 
+of language design or of abstraction in general, whether in programming 
+or in other disciplines. Rather, we should lift our abstractions from 
+introspection of the world and of the solutions that we discover. At 
+that point, if there is inconsistency between reality and our 
+intuitions, then our <i>intuitions</i> are what are in error. It only hinders progress to deny that.</p> 
+
+<h2><a id="Proposal">Proposed Solution</a></h2>
+<p>The <code>void</code> type is updated to be an object type with care 
+taken to minimize breaking changes to existing code. This implies a 
+considerable number of changes to the standard, although most of those 
+changes are simplifications due to the removal of redundant statements 
+mentioning <code>void</code>, which are now implicitly covered by the fact that <code>void</code> is a complete object type that is considered a scalar. Additional updates are planned for the LEWG<sup><a href="#References_VoidFuture">[2]</a><a href="#References_VoidStdLib">[3]</a></sup>, but they are outside of the scope of this proposal and are predicated on the viability of the language changes presented here.</p>
+
+<p>The following differences are with respect to the working draft N4567<sup><a href="#References_N4567">[10]</a></sup>, which is the most recent working draft for C++ at the time of writing this revision.</p>
+
+<p>Change in <b>§3.9 Types [basic.types]</b> paragraph 5 (<code>void</code> is now a complete type):
+</p><blockquote class="std">
+<pre>A class that has been declared but not defined, an enumeration type in certain contexts (7.2), or an array
+of unknown size or of incomplete element type, is an <i>incompletely-defined object type</i>. Incompletely-
+defined object types <del>and <i>cv</i> void</del> are <i>incomplete types</i> (3.9.1). Objects shall not be defined to have
+an incomplete type.</pre>
+</blockquote>
+
+<p>Change in <b>§3.9 Types [basic.types]</b> paragraph 8 (<code>void</code> is now an object type):
+</p><blockquote class="std">
+<pre>An <i>object type</i> is a (possibly cv-qualified) type that is not a function type<del>,</del> <ins>and</ins> not a reference type<del>, and not <i>cv</i>
+<b>void</b></del>.</pre>
+</blockquote>
+
+<p>Change in the first part of <b>§3.9 Types [basic.types]</b> paragraph 9 (<code>void</code> is now a scalar type):
+</p><blockquote class="std">
+<pre>Arithmetic types (3.9.1), enumeration types, <ins><b>void</b>,</ins> pointer types, pointer to member types (3.9.2), <b>std::nullptr-
+_t</b>, and cv-qualified versions of these types (3.9.3) are collectively called <i>scalar types</i>. …</pre>
+</blockquote>
+
+<p>Remove <b>§3.9 Types [basic.types]</b> paragraph 10 (remove redundancy now that <code>void</code> is a scalar type):
+</p><blockquote class="std">
+<pre>A type is a literal type if it is:
+<del>— possibly cv-qualified <b>void</b>; or</del>
+ — a scalar type; or
+ — a reference type; or
+ — an array of literal type; or
+ — a possibly cv-qualified class type (Clause 9) that has all of the following properties:
+   — it has a trivial destructor,
+   — it is an aggregate type (8.5.1) or has at least one <b>constexpr</b> constructor or constructor template
+     (possibly inherited (7.3.3) from a base class) that is not a copy or move constructor, and
+   — all of its non-static data members and base classes are of non-volatile literal types.</pre>
+</blockquote>
+
+<p>Change in <b>§3.9.1 Fundamental types [basic.fundamental]</b> paragraph 9 (redefine <code>void</code> to be a monostate type):
+</p><blockquote class="std">
+<pre>A type <i>cv</i> <b>void</b> <del>is an incomplete type that cannot be completed; such a type has an empty set of values</del> <ins>has only one value</ins>.
+<del>It is used as the return type for functions that do not return a value.</del> Any expression can be explicitly converted
+to type <i>cv</i> <b>void</b> (5.4). <del>An expression of type <i>cv</i> <b>void</b> shall be used only as an expression statement (6.2),
+as an operand of a comma expression (5.19), as a second or third operand of <b>?:</b> (5.16), as the operand
+of <b>typeid</b>, <b>noexcept</b>, or <b>decltype</b>, as the expression in a return statement (6.6.3) for a function with the
+return type <i>cv</i> <b>void</b>, or as the operand of an explicit conversion to type <i>cv</i> <b>void</b>.</del></pre>
+</blockquote>
+
+<p>Change in <b>§3.9.2 Compound types [basic.compound]</b> paragraph 1 (remove redundancy now that <code>void</code> is an object type):
+</p><blockquote class="std">
+<pre>Compound types can be constructed in the following ways:
+ — <i>arrays</i> of objects of a given type, 8.3.4;
+
+ — <i>functions</i>, which have parameters of given types and return <del>void or</del> references or objects of a given
+   type, 8.3.5;
+
+ — <i>pointers</i> to <del><i>cv</i> <b>void</b> or</del> objects or functions (including static members of classes) of a given type, 8.3.1;
+
+ — <i>references</i> to objects or functions of a given type, 8.3.2. There are two types of references:
+
+    — <i>lvalue reference</i>
+
+    — <i>rvalue reference</i>
+
+ — <i>classes</i> containing a sequence of objects of various types (Clause 9), a set of types, enumerations and
+   functions for manipulating these objects (9.3), and a set of restrictions on the access to these entities
+   (Clause 11);
+
+ — <i>unions</i>, which are classes capable of containing objects of different types at different times, 9.5;
+
+ — <i>enumerations</i>, which comprise a set of named constant values. Each distinct enumeration constitutes
+   a different <i>enumerated type</i>, 7.2;
+
+ — <i>pointers to non-static</i> <sup>52</sup> <i>class members</i>, which identify members of a given type within objects of a
+   given class, 8.3.3.</pre>
+</blockquote>
+
+<p>Change in the first part of <b>§3.9.2 Compound types [basic.compound]</b> paragraph 3 (a pointer to <code>void</code> is now a pointer to object type):
+</p><blockquote class="std">
+<pre>The type of <del>a pointer to <i>cv</i> <b>void</b> or</del> a pointer to an object type is called an <i>object pointer type</i>. <del>[ <i>Note:</i> A pointer
+to <b>void</b> does not have a pointer-to-object type, however, because <b>void</b> is not an object type. — <i>end note</i> ]</del> …</pre>
+</blockquote>
+
+<p>Change in <b>§3.9.3 CV-qualifiers [basic.type.qualifier]</b> paragraph 1 (remove redundancy now that <code>void</code> is an object type):
+</p><blockquote class="std">
+<pre>A type mentioned in 3.9.1 and 3.9.2 is a <i>cv-unqualified type</i>. Each type which is a cv-unqualified complete
+or incomplete object type <del>or is <b>void</b> (3.9)</del> has three corresponding cv-qualified versions of its type: a <i>const-qualified</i>
+version, a <i>volatile-qualified</i> version, and a <i>const-volatile-qualified</i> version. The term <i>object type</i> (1.8)
+includes the cv-qualifiers specified in the <i>decl-specifier-seq</i> (7.1), <i>declarator</i> (Clause 8), <i>type-id</i> (8.1), or <i>newtype-id</i>
+(5.3.4) when the object is created.
+  — A <i>const object</i> is an object of type <b>const T</b> or a non-mutable subobject of such an object.
+
+  — A <i>volatile object</i> is an object of type <b>volatile T</b>, a subobject of such an object, or a mutable subobject
+of a const volatile object.
+
+  — A <i>const volatile</i> object is an object of type <b>const volatile T</b>, a non-mutable subobject of such an
+object, a const subobject of a volatile object, or a non-mutable volatile subobject of a const object.
+
+   The cv-qualified or cv-unqualified versions of a type are distinct types; however, they shall have the same
+representation and alignment requirements (3.11).<sup>53</sup></pre>
+</blockquote>
+
+<p>Change in <b>§3.10 Lvalues and rvalues [basic.lval]</b> paragraph 4 (remove redundancy now that <code>void</code> is complete type):
+</p><blockquote class="std">
+<pre>Unless otherwise indicated (5.2.2), prvalues shall always have complete types <del>or the <b>void</b> type</del>; in addition to
+these types, glvalues can also have incomplete types. [ <i>Note:</i> class and array prvalues can have cv-qualified
+types; other prvalues always have cv-unqualified types. See Clause 5. — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Change in <b>§5.2.2 Function call [expr.call]</b> paragraph 3 (remove redundancy now that <code>void</code> is an object type):
+</p><blockquote class="std">
+<pre>If the <i>postfix-expression</i> designates a destructor (12.4), the type of the function call expression is <b>void</b>;
+otherwise, the type of the function call expression is the return type of the statically chosen function (i.e.,
+ignoring the <b>virtual</b> keyword), even if the type of the function actually called is different. This return type
+shall be an object type<del>,</del> <ins>or</ins> a reference type <del>or <i>cv</i> <b>void</b></del>.</pre>
+</blockquote>
+
+<p>Change in <b>§5.2.3  Explicit type conversion (functional notation) [expr.type.conv]</b> paragraph 2 (initialization now covered by value-initializing since <code>void</code> is an object type):
+</p><blockquote class="std">
+<pre>The expression <b>T()</b>, where <b>T</b> is a <i>simple-type-specifier</i> or <i>typename-specifier</i> for a non-array complete object
+type <del>or the (possibly cv-qualified) void type</del>, creates a prvalue of the specified type, whose value is that
+produced by value-initializing (8.5) an object of type <b>T</b><del>; no initialization is done for the <b>void()</b> case</del>. [ <i>Note:</i>
+if <b>T</b> is a non-class type that is cv-qualified, the <i>cv-qualifiers</i> are discarded when determining the type of the
+resulting prvalue (Clause 5). — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Change in <b>§5.3.1 Unary operators [expr.unary.op]</b> paragraph 1 (remove redundancy now that <code>void</code> is a complete type):
+</p><blockquote class="std">
+<pre>The unary <b>*</b> operator performs <i>indirection</i>: the expression to which it is applied shall be a pointer to an
+object type, or a pointer to a function type and the result is an lvalue referring to the object or function
+to which the expression points. If the type of the expression is “pointer to <b>T</b>”, the type of the result is
+“<b>T</b>”. [ <i>Note:</i> indirection through a pointer to an incomplete type <del>(other than <i>cv</i> <b>void</b>)</del> is valid. The lvalue
+thus obtained can be used in limited ways (to initialize a reference, for example); this lvalue must not be
+converted to a prvalue, see 4.1. — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Change in <b>§5.3.3 Sizeof [expr.sizeof]</b> paragraph 1 (include <code>void</code> in explicitly mentioned types with implementation-defined size):
+</p><blockquote class="std">
+<pre>The <b>sizeof</b> operator yields the number of bytes in the object representation of its operand. The operand is
+either an expression, which is an unevaluated operand (Clause 5), or a parenthesized <i>type-id</i>. The <b>sizeof</b>
+operator shall not be applied to an expression that has function or incomplete type, to the parenthesized
+name of such types, or to a glvalue that designates a bit-field. <b>sizeof(char)</b>, <b>sizeof(signed char)</b> and
+<b>sizeof(unsigned char)</b> are 1. The result of <b>sizeof</b> applied to any other fundamental type (3.9.1) is
+implementation-defined. [ <i>Note:</i> in particular, <ins><b>sizeof(void)</b>,</ins> <b>sizeof(bool)</b>, <b>sizeof(char16_t)</b>, <b>sizeof(char32_t)</b>, and
+<b>sizeof(wchar_t)</b> are implementation-defined.<sup>75</sup> — <i>end note</i> ] [ <i>Note:</i> See 1.7 for the definition of <i>byte</i>
+and 3.9 for the definition of <i>object representation</i>. — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Remove <b>§5.3.5 Delete [expr.delete]</b> footnote 80 (<code>void</code> is now an object type and can be deleted):
+</p><blockquote class="stddel">
+<pre>This implies that an object cannot be deleted using a pointer of type <b>void*</b> because <b>void</b> is not an object type.</pre>
+</blockquote>
+
+<p>Change in <b>§5.9 Relational operators [expr.rel]</b> paragraph 1 (<code>void</code> objects can be used with relational operators):
+</p><blockquote class="std">
+<pre>The relational operators group left-to-right. [ <i>Example:</i> <b>a&lt;b&lt;c</b> means <b>(a&lt;b)&lt;c</b> and not <b>(a&lt;b)&amp;&amp;(b&lt;c)</b>.
+— <i>end example</i> ]
+
+<i>        relational-expression:
+               shift-expression
+               relational-expression &lt; shift-expression
+               relational-expression &gt; shift-expression
+               relational-expression &lt;= shift-expression
+               relational-expression &gt;= shift-expression</i>
+
+   The operands shall have arithmetic, enumeration, <ins><b>void</b>,</ins> or pointer type. The operators <b>&lt;</b> (less than), <b>&gt;</b> (greater
+than), <b>&lt;=</b> (less than or equal to), and <b>&gt;=</b> (greater than or equal to) all yield <b>false</b> or <b>true</b>. The type of the
+result is <b>bool</b>.</pre>
+</blockquote>
+
+<p>Change in <b>§5.10 Equality operators [expr.eq]</b> paragraph 1 (<code>void</code> objects can be used with equality operators):
+</p><blockquote class="std">
+<pre>The <b>==</b> (equal to) and the <b>!=</b> (not equal to) operators group left-to-right. The operands shall have arithmetic,
+enumeration, <ins><b>void</b>,</ins> pointer, or pointer to member type, or type <b>std::nullptr_t</b>. The operators <b>==</b> and <b>!=</b> both
+yield <b>true</b> or <b>false</b>, i.e., a result of type <b>bool</b>. In each case below, the operands shall have the same type
+after the specified conversions have been applied.
+</pre></blockquote>
+
+<p>Add a new paragraph to <b>§5.10 Equality operators [expr.eq]</b> (specify equality for all instances of <code>void</code>):</p>
+<blockquote class="stdins">
+<pre>Two operands of type <b>void</b> compare equal.</pre>
+</blockquote>
+
+<p><a id="ConditionalChanges">Change in <b>§5.16 Conditional operator [expr.cond]</b> paragraph 2 (regarding the result of the conditional operator):</a></p>
+<blockquote class="std">
+<pre>      If either the second or the third operand <del>has type <b>void</b></del> <ins>is a (possibly parenthesized) <i>throw-
+      expression</i> (5.17)</ins>, one of the following shall hold:<br>
+(2.1)    — The second or the third operand (but not both) is a (possibly parenthesized) <i>throw-expression</i> <del>(5.17)</del>;
+           the result is of the type and value category of the other. The <i>conditional-expression</i> is a bit-field if
+           that operand is a bit-field.<br>
+(2.2)    — Both the second and the third operands <del>have type <b>void</b></del> <ins>are (possibly parenthesized) throw-
+           expressions</ins>; the result is of type <b>void</b> and is a prvalue. <del>[ <i>Note:</i> This includes the case where both
+           operands are throw-expressions. — <i>end note</i> ]</del></pre>
+</blockquote>
+
+<p>Change in <b>§6.6.3 The return statement [stmt.return]</b> paragraph 2 (allow <code>void</code>
+ expressions to be used in return statements in the same manner as other
+ object types, and update wording in order to retain well-defined 
+behavior when flowing off the end of a function with a <code>void</code> return type):
+</p><blockquote class="std">
+<pre>The <i>expr-or-braced-init-list</i> of a return statement is called its operand. A return statement with no operand
+shall be used only in a function whose return type is <i>cv</i> <b>void</b>, a constructor (12.1), or a destructor (12.4).
+<del>A return statement with an operand of type void shall be used only in a function whose return type is <i>cv</i>
+<b>void</b>. A return statement with any other operand shall be used only in a function whose return type is not
+<i>cv</i> <b>void</b>; the</del><ins>A</ins> return statement initializes the object or reference to be returned by copy-initialization (8.5)
+from the operand.  [ <i>Note:</i> A return statement can involve the construction and copy or move of a temporary
+object (12.2). A copy or move operation associated with a return statement may be elided or considered as an
+rvalue for the purpose of overload resolution in selecting a constructor (12.8). — <i>end note</i> ] [<i>Example:</i>
+
+<b>  std::pair&lt;std::string,int&gt; f(const char* p, int x) {
+    return {p,x};
+  }</b>
+
+— end example ] Flowing off the end of a function <ins>that does not have the return type <i>cv</i> <b>void</b></ins> is equivalent to
+a <b>return</b> with no value; this results in undefined behavior<del> in a value-returning function</del>.<ins> Flowing off the
+end of a function with the return type <i>cv</i> <b>void</b> is equivalent to that function returning a value-initialized
+<b>void</b>.</ins></pre>
+</blockquote>
+
+<p>Change in <b>§8.3.2 References [dcl.ref]</b> paragraph 1 (allow references to <code>void</code> types).<br>
+Remove the final statement starting after the end of the last note:
+</p><blockquote class="std">
+<pre>… <del>A declarator that specifies the type “reference to <i>cv</i> <b>void</b>” is ill-formed.</del></pre>
+</blockquote>
+
+<p>Change in <b>§8.3.3 Pointers to members [dcl.mptr]</b> paragraph 3 (allow pointer to <code>void</code> member types):
+</p><blockquote class="std">
+<pre>A pointer to member shall not point to a static member of a class (9.4)<del>,</del> <ins>or</ins> a member with reference type<del>, or
+“<i>cv</i> <b>void</b>”</del>.
+
+[ <i>Note:</i> See also 5.3 and 5.5. The type “pointer to member” is distinct from the type “pointer”, that is, a
+pointer to member is declared only by the pointer to member declarator syntax, and never by the pointer
+declarator syntax. There is no “reference-to-member” type in C++. — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Change in the middle of <b>§8.3.4 Arrays [dcl.array]</b> paragraph 1 (allow arrays of <code>void</code>):
+</p><blockquote class="std">
+<pre>… T is called the array <i>element type</i>; this type shall not be a reference type, <del>the (possibly <i>cv</i>-qualified)
+type <b>void</b>,</del> a function type or an abstract class type. …</pre>
+</blockquote>
+
+<p>Change in <b>§8.3.4 Arrays [dcl.array]</b> paragraph 2 (allow arrays of <code>void</code>):
+</p><blockquote class="std">
+<pre>An array can be constructed from one of the fundamental types <del>(except <b>void</b>)</del>, from a pointer, from a pointer
+to member, from a class, from an enumeration type, or from another array.</pre>
+</blockquote>
+
+<p>Change in <b>§8.3.5 Functions [dcl.fct]</b> paragraph 4 (allow <code>void</code> to be used as a function parameter type):
+</p><blockquote class="std">
+<pre>The <i>parameter-declaration-clause</i> determines the arguments that can be specified, and their processing, when
+the function is called. [ <i>Note:</i> the <i>parameter-declaration-clause</i> is used to convert the arguments specified
+on the function call; see 5.2.2. — <i>end note</i> ] If the <i>parameter-declaration-clause</i> is empty, the function takes
+no arguments. A parameter list consisting of a single unnamed parameter of non-dependent type <b>void</b> is
+equivalent to an empty parameter list. <del>Except for this special case, a parameter shall not have type <i>cv</i> <b>void</b>.</del>
+<ins>This is the only case for which a parameter of type <i>cv</i> <b>void</b> has special meaning.</ins>
+If the <i>parameter-declaration-clause</i> terminates with an ellipsis or a function parameter pack (14.5.3), the
+number of arguments shall be equal to or greater than the number of parameters that do not have a default
+argument and are not function parameter packs. Where syntactically correct and where “...” is not part
+of an <i>abstract-declarator</i>, “, ...” is synonymous with “...”. [<i>Example</i>: the declaration
+
+<b>  int printf(const char*, ...);</b>
+
+declares a function that can be called with varying numbers and types of arguments.
+
+<b>  printf("hello world");
+  printf("a=%d b=%d", a, b);</b>
+
+However, the first argument must be of a type that can be converted to a <b>const char*</b> — <i>end example</i> ]
+[ <i>Note:</i> The standard header <b>&lt;cstdarg&gt;</b> contains a mechanism for accessing arguments passed using the
+ellipsis (see 5.2.2 and 18.10). — <i>end note</i> ]</pre>
+</blockquote>
+
+<p>Change in the first part of <b>§9.4.2 Static data members [class.static.data]</b> paragraph 2 (<code>void</code> is no longer incomplete and may be a static data member):
+</p><blockquote class="std">
+<pre>The declaration of a <b>static</b> data member in its class definition is not a definition and may be of an incomplete
+type<del> other than cv-qualified <b>void</b></del>.…</pre>
+</blockquote>
+
+<p>Change in <b>§13.6 Built-in operators [over.built]</b> paragraph 15 (built-in relational operator declarations are now provided for <code>void</code>):
+</p><blockquote class="std">
+<pre>For every <b><i>T</i></b>, where <b><i>T</i></b> is an enumeration type<ins>, <b>void</b></ins> or a pointer type, there exist candidate operator functions of
+the form
+
+<b>  bool operator&lt;(T, T );
+  bool operator&gt;(T, T );
+  bool operator&lt;=(T, T );
+  bool operator&gt;=(T, T );
+  bool operator==(T, T );
+  bool operator!=(T, T );</b>
+</pre>
+</blockquote>
+
+<p>Change in <b>§14.1 Template parameters [temp.param]</b> paragraph 7 (allow <code>void</code> as a non-type template parameter type):
+</p><blockquote class="std">
+<pre>A non-type <i>template-parameter</i> shall not be declared to have floating point<del>,</del> <ins>or</ins> class<del>, or <b>void</b></del> type. [ <i>Example:</i>
+
+  <b>template&lt;double d&gt; class X;      <i>// error</i>
+  template&lt;double* pd&gt; class Y;    <i>// OK</i>
+  template&lt;double&amp; rd&gt; class Z;    <i>// OK</i></b>
+
+— <i>end example</i> ]</pre>
+</blockquote>
+
+<p>Change in <b>§14.8.2 Template argument deduction [temp.deduct]</b> paragraph 8.2 (details regarding when type deduction can fail):
+</p><blockquote class="std">
+<pre>— Attempting to create an array with an element type that is <del><b>void</b>,</del> a function type, a reference type, or
+an abstract class type, or attempting to create an array with a size that is zero or negative. [ <i>Example:</i>
+
+  <b>template &lt;class T&gt; int f(T[5]);
+  int I = f&lt;int&gt;(0);
+  <del>int j = f&lt;void&gt;(0);  <i>// invalid array</i></del>
+  <ins>int j = f&lt;int&amp;&gt;(0);  <i>// invalid array</i></ins></b>
+
+— <i>end example</i> ]</pre>
+</blockquote>
+
+<p>Remove <b>§14.8.2 Template argument deduction [temp.deduct]</b> paragraph 8.6 (details regarding when type deduction can fail):
+</p><blockquote class="stddel">
+<pre>— Attempting to create a reference to <b>void</b>.</pre>
+</blockquote>
+
+<p>Change in <b>§14.8.2 Template argument deduction [temp.deduct]</b> paragraph 8.10 (details regarding when type deduction can fail):
+</p><blockquote class="std">
+<pre>— Attempting to create a function type in which <del>a parameter has a type of <b>void</b>, or in which</del> the return
+  type is a function type or array type.</pre>
+</blockquote>
+
+<p>Change in <b>§15.1 Throwing an exception [except.throw]</b> paragraph 3 (<code>void</code> is no longer incomplete and can be thrown):
+</p><blockquote class="std">
+<pre>Throwing an exception copy-initializes (8.5, 12.8) a temporary object, called the <i>exception object</i>. The
+temporary is an lvalue and is used to initialize the variable declared in the matching <i>handler</i> (15.3). If the
+type of the exception object would be an incomplete type or a pointer to an incomplete type <del>other than
+(possibly cv-qualified) <b>void</b></del> the program is ill-formed.</pre>
+</blockquote>
+
+<p>Change in <b>§15.3 Handling an exception [except.handle]</b> paragraph 1 (<code>void</code> is no longer incomplete):
+</p><blockquote class="std">
+<pre>The <i>exception-declaration</i> in a <i>handler</i> describes the type(s) of exceptions that can cause that <i>handler</i> to
+be entered. The <i>exception-declaration</i> shall not denote an incomplete type, an abstract class type, or an
+rvalue reference type. The <i>exception-declaration</i> shall not denote a pointer or reference to an incomplete
+type<del>, other than <b>void*</b>, <b>const void*</b>, <b>volatile void*</b>, or <b>const volatile void*</b></del>.</pre>
+</blockquote>
+
+<p>Change in <b>§15.4 Exception specifications [except.handle]</b> paragraph 2 (<code>void</code> is no longer incomplete):
+</p><blockquote class="std">
+<pre>A type denoted in a <i>dynamic-exception-specification</i> shall not denote an incomplete type or an rvalue refer-
+ence type. A type denoted in a <i>dynamic-exception-specification</i> shall not denote a pointer or reference to an
+incomplete type<del>, other than “pointer to <i>cv</i> <b>void</b>”</del>. A type <i>cv</i> <b>T</b> denoted in a <i>dynamic-exception-specification</i>
+is adjusted to type <b>T</b>. A type “array of <b>T</b>”, or function type <b>T</b> denoted in a <i>dynamic-exception-specification</i>
+is adjusted to type “pointer to <b>T</b>”. A <i>dynamic-exception-specification</i> denotes an exception specification that
+is the set of adjusted types specified thereby.
+</pre></blockquote>
+
+<p>Change in <b>§20.10.4.3 Type properties [meta.unary.prop]</b> (remove explicit mentions of <code>void</code> other than in <code>is_void</code>):<br>
+<i>Simple, but too verbose to list explicitly in this paper, with changes spanning across multiple tables</i>
+</p>
+
+<p>Change in <b>C.4 C++ and ISO C++ 2014 [diff.cpp14]</b> (add a paragraph regarding changes made to the <code>void</code> type):<br>
+</p><blockquote class="stdins">
+<pre><b>Change:</b> <b>void</b> is a complete object type.
+<b>Rationale:</b> Makes the type system more consistent, and makes <b>void</b> easier to work with in generic code.
+<b>Effect on original feature:</b> Certain types and expressions involving <b>void</b> during substitution of template
+arguments may cause substitution to fail in C++ 2014 where substitution would succeed for object types, such as
+if a dependent <b>void</b> type appears as the operand of <b>sizeof</b> or is used as function parameter type. These uses of
+<b>void</b> will no longer cause substitution to fail.
+<b>Difficulty of converting:</b> When using a dependent <b>void</b> type as a means to exploit substitution failure for the
+purpose of ruling out specializations, alternative means to cause substitution to fail should be employed.</pre>
+</blockquote>
+
+<h2><a id="ChangeHistory">Change History</a></h2>
+
+<p>This proposal is a revision of P0146r0<sup><a href="#References_R0">[11]</a></sup>,
+ which was a part of the September 2015 mailing. Changes that this 
+proposal adds include a high-level overview section, more rationale, 
+references to existing langauges that offer an instantiable <code>void</code> type, more analysis of alternatives, and a compatibility section to <b>[diff.cpp14]</b>. It also no longer suggests deprecating the existing usage of <code>T(void)</code>
+ as a means to specify a nullary function, due to concerns that we'd 
+never actually be able to remove that meaning in a future standard, 
+particularly due to C compatibility. This update also fixes the 
+oversight of not fully specifying initialization of <code>void</code> 
+now that it is an object type, and it also fixes the oversight of not 
+explicitly defining the behavior when flowing off of the end of a 
+function that returns a <code>void</code> type without an explicit return statement (it is now explicitly defined to be valid and produces a value-initialized <code>void</code>).</p>
+
+<p>Changes to the standard have now also been updated to be relative to N4567<sup><a href="#References_N4567">[10]</a></sup>.</p>
+
+<h2><a id="Acknowledgments">Acknowledgments</a></h2>
+<p>Though a change to the language such as this has been discussed 
+informally by several in the past, particularly by Sean Parent, the 
+direct motivation for this proposal was a discussion<sup><a href="#References_AVoV">[12]</a></sup>
+ in the std-proposals group (a thread that the author of this proposal 
+did not start). Many suggestions and alternatives mentioned in this 
+proposal come from those who took part in that discussion.</p>
+<p>In addition to those mentioned above, Richard Smith provided support 
+and early feedback during the writing of this proposal and its revision,
+ and provides continued aid in the specification of wording. I also 
+hijacked his formatting for use in this document. Also thanks to Sean 
+Parent and David Sankel, who provided feedback on drafts of this 
+revision.</p>
+
+<h2><a id="References">References</a></h2>
+<p>[<a id="References_Expected">1</a>] Vicente J. Botet Escriba and Pierre Talbot: "A proposal to add a utility class to represent expected monad" N4109 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4109.pdf" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4109.pdf</a></p>
+<p>[<a id="References_VoidFuture">2</a>] Matt Calabrese: "Remove Future-Related Explicit Specializations for Void" <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0241r0.html" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0241r0.html</a></p>
+<p>[<a id="References_VoidStdLib">3</a>] Matt Calabrese: "Standard Library Support for Void" <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0242r0.html" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0242r0.html</a></p>
+<p>[<a id="References_FoGP">4</a>] James C. Dehnert and Alexander Stepanov: "Fundamentals of Generic Programming" <a href="http://www.stepanovpapers.com/DeSt98.pdf" target="_blank">http://www.stepanovpapers.com/DeSt98.pdf</a></p>
+<p>[<a id="References_Swift">5</a>] Apple Inc.: "The Swift Programming Language" <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/" target="_blank">https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/</a></p>
+<p>[<a id="References_Rust">6</a>] The Rust Project Developers: "The Rust Reference" <a href="https://doc.rust-lang.org/reference.html" target="_blank">https://doc.rust-lang.org/reference.html</a></p>
+<p>[<a id="References_Haskell">7</a>] <i>Various Authors (wiki):</i> "Haskell Language and Library Specification" <a href="https://wiki.haskell.org/Language_and_library_specification" target="_blank">https://wiki.haskell.org/Language_and_library_specification</a></p>
+<p>[<a id="References_Python">8</a>] Python Software Foundation: "The Python Language Reference" <a href="https://docs.python.org/3/reference/index.html" target="_blank">https://docs.python.org/3/reference/index.html</a></p>
+<p>[<a id="References_ConstexprIf">9</a>] Ville Voutilainen: "constexpr_if" <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0128r0.html" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0128r0.html</a></p>
+<p>[<a id="References_N4567">10</a>] "Working Draft, Standard for Programming
+Language C++" N4567 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4567.pdf" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4567.pdf</a></p>
+<p>[<a id="References_R0">11</a>] Matt Calabrese: "Regular Void" <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0146r0.html" target="_blank">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0146r0.html</a></p>
+<p>[<a id="References_AVoV">12</a>] <i>Various Participants:</i> "Allow values of void" Discussion <a href="https://groups.google.com/a/isocpp.org/forum/#%21topic/std-proposals/05prNzycvYU" target="_blank">https://groups.google.com/a/isocpp.org/forum/#!topic/std-proposals/05prNzycvYU</a></p>
+
+</body></html>

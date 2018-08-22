@@ -17,15 +17,15 @@
 	},
 	"priority": 50,
 	"inRepository": false,
-	"lastUpdated": "2018-08-11 16:09:56"
+	"lastUpdated": "2018-08-17 18:37:20"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.183",
+  version: "5.0.189",
   BetterBibLaTeX: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-11 16:09:56"},
+  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-17 18:37:20"},
   preferences: {"debug":false,"rawLaTag":"#LaTeX","testing":false,"DOIandURL":"both","asciiBibLaTeX":false,"asciiBibTeX":true,"autoExport":"immediate","quickCopyMode":"latex","citeCommand":"cite","quickCopyPandocBrackets":false,"citekeyFormat":"​[auth:lower][shorttitle3_3][year]","citekeyFold":true,"keyConflictPolicy":"keep","keyScope":"library","preserveBibTeXVariables":false,"bibtexParticleNoOp":false,"skipFields":"","bibtexURL":"off","warnBulkModify":10,"postscript":"","strings":"","autoAbbrev":false,"autoAbbrevStyle":"","autoExportIdleWait":10,"cacheFlushInterval":5,"csquotes":"","skipWords":"a,ab,aboard,about,above,across,after,against,al,along,amid,among,an,and,anti,around,as,at,before,behind,below,beneath,beside,besides,between,beyond,but,by,d,da,das,de,del,dell,dello,dei,degli,della,dell,delle,dem,den,der,des,despite,die,do,down,du,during,ein,eine,einem,einen,einer,eines,el,en,et,except,for,from,gli,i,il,in,inside,into,is,l,la,las,le,les,like,lo,los,near,nor,of,off,on,onto,or,over,past,per,plus,round,save,since,so,some,sur,than,the,through,to,toward,towards,un,una,unas,under,underneath,une,unlike,uno,unos,until,up,upon,versus,via,von,while,with,within,without,yet,zu,zum","jabrefFormat":0,"jurismPreferredLanguage":"","qualityReport":false,"biblatexExtendedDateFormat":true,"biblatexExtendedNameFormat":false,"suppressTitleCase":false,"itemObserverDelay":100,"parseParticles":true,"citeprocNoteCitekey":false,"scrubDatabase":false,"lockedInit":false,"autoPin":false,"kuroshiro":false,"sorted":false,"debugLog":"","ajv":true},
   options: {"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},
 
@@ -1029,6 +1029,7 @@ class Reference {
         this.startsWithLowercase = new Zotero.Utilities.XRegExp('^[\\p{Ll}]');
         this.hasLowercaseWord = new Zotero.Utilities.XRegExp('\\s[\\p{Ll}]');
         this.whitespace = new Zotero.Utilities.XRegExp('\\p{Zs}');
+        this.inPostscript = false;
         this._enc_creators_initials_marker = '\u0097'; // end of guarded area
         this._enc_creators_relax_marker = '\u200C'; // zero-width non-joiner
         this.isBibVarRE = /^[a-z][a-z0-9_]*$/i;
@@ -1113,7 +1114,7 @@ class Reference {
         if (typeof postscript !== 'string' || postscript.trim() === '')
             return;
         try {
-            Reference.prototype.postscript = new Function('reference', 'item', postscript);
+            Reference.prototype.postscript = new Function('reference', 'item', `this.inPostscript = true; ${postscript}; this.inPostscript = false;`);
             Zotero.debug(`Installed postscript: ${JSON.stringify(postscript)}`);
         }
         catch (err) {
@@ -1178,7 +1179,7 @@ class Reference {
                 return;
         }
         if (this.has[field.name]) {
-            if (Translator.preferences.testing && !field.replace)
+            if (!this.inPostscript && !field.replace)
                 throw new Error(`duplicate field '${field.name}' for ${this.item.citekey}`);
             this.remove(field.name);
         }
@@ -2027,11 +2028,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug_1 = __webpack_require__(/*! ../lib/debug */ 0);
 const HE = __webpack_require__(/*! he */ 6);
 const unicodeMapping = __webpack_require__(/*! ./unicode_translator_mapping.js */ 9);
-function repeat(s, n) {
-    if (!n)
-        return '';
-    return ''.padStart(n * s.length, s);
-}
 const htmlConverter = new class HTMLConverter {
     convert(html, options) {
         this.embraced = false;
@@ -2095,7 +2091,7 @@ const htmlConverter = new class HTMLConverter {
             case 'h2':
             case 'h3':
             case 'h4':
-                latex = `\n\n\\${repeat(parseInt(tag.nodeName[1]) - 1, 'sub')}section{...}\n\n`;
+                latex = `\n\n\\${'sub'.repeat(parseInt(tag.nodeName[1]) - 1)}section{...}\n\n`;
                 break;
             case 'ol':
                 latex = '\n\n\\begin{enumerate}\n...\n\n\\end{enumerate}\n';
@@ -2194,7 +2190,7 @@ const htmlConverter = new class HTMLConverter {
                 latex += '\\vphantom\\}';
                 break;
             default:
-                latex += `\\vphantom{${repeat(braced, '\\}')}}`;
+                latex += `\\vphantom{${'\\}'.repeat(braced)}}`;
                 break;
         }
         // might still be in math mode at the end

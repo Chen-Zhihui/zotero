@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html style="background-image: url(&quot;data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==&quot;);" data-high-contrast="true" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,requiresActiveX=false">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	
+	<title>CMake Support in Visual Studio: Customizing your Environment | Visual C++ Team Blog</title>
+
+	<meta name="description" content="C++ tutorials, C and C++ news, and information about the C++ IDE Visual Studio from the Microsoft C++ team.">
+
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://blogs.msdn.microsoft.com/vcblog/xmlrpc.php">
+	<!-- Move Favicons To Child Theme Functions -->
+	<!--<link rel="shortcut icon" href="https://blogs.msdn.microsoft.com/vcblog/wp-content/themes/cloud-platform/images/favicon.ico" />-->
+	<meta name="msvalidate.01" content="01EEB8C34FE4A6AA047F3FA8A590C583">
+	<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Visual C++ Team Blog » Feed" href="https://blogs.msdn.microsoft.com/vcblog/feed/">
+<link rel="alternate" type="application/rss+xml" title="Visual C++ Team Blog » Comments Feed" href="https://blogs.msdn.microsoft.com/vcblog/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Visual C++ Team Blog » CMake Support in Visual Studio: Customizing your Environment Comments Feed" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/feed/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMake Support in Visual Studio: Customizing your Environment">
+<meta property="og:url" content="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CMake Support in Visual Studio: Customizing your Environment">
+<meta name="twitter:url" content="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/">
+<meta name="twitter:description" content="">
+		<script id="facebook-jssdk" src="//connect.facebook.net/en_GB/sdk.js#xfbml=1&amp;version=v2.8"></script><script async="" src="gtm.js"></script><script async="" src="analytics.js"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blogs.msdn.microsoft.com\/vcblog\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.7"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wds_msdn-parent-style-css" href="style.css" type="text/css" media="all">
+<link rel="stylesheet" id="wds_cloud_platform-child-style-css" href="style_002.css" type="text/css" media="all">
+<script type="text/javascript" src="jquery_002.js"></script>
+<script type="text/javascript" src="jquery-migrate.js"></script>
+<link rel="https://api.w.org/" href="https://blogs.msdn.microsoft.com/vcblog/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blogs.msdn.microsoft.com/vcblog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://blogs.msdn.microsoft.com/vcblog/wp-includes/wlwmanifest.xml"> 
+
+<link rel="canonical" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/">
+<link rel="shortlink" href="https://blogs.msdn.microsoft.com/vcblog/?p=16565">
+<link rel="alternate" type="application/json+oembed" href="https://blogs.msdn.microsoft.com/vcblog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblogs.msdn.microsoft.com%2Fvcblog%2F2017%2F08%2F14%2Fcmake-support-in-visual-studio-customizing-your-environment%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://blogs.msdn.microsoft.com/vcblog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblogs.msdn.microsoft.com%2Fvcblog%2F2017%2F08%2F14%2Fcmake-support-in-visual-studio-customizing-your-environment%2F&amp;format=xml">
+	<script>
+		if(window.document.referrer.indexOf('login.live.com') !== -1) {
+			// redefine ga function to prevent referrer data collected by google analytics
+			window.ga = function(){};
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="shCore.css"><link rel="stylesheet" type="text/css" href="shThemeDefault.css"><script type="text/javascript" src="jsll-4.js"></script><link href="style_003.css" rel="stylesheet" type="text/css"><link href="icons.css" rel="stylesheet" type="text/css"><link href="UnifiedBaseballCard.css" rel="stylesheet" type="text/css"><link href="usercard.css" rel="stylesheet" type="text/css"><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.PageView%27&amp;time=%272018-08-22T08%3A47%3A42.884Z%27&amp;os=%27Windows%27&amp;appId=%27JS%3Ablogsmsdn%27&amp;-ver=%271.0%27&amp;-impressionGuid=%27ae757a9f-f457-4e49-9018-686f9f633e8f%27&amp;-pageName=%272017%27&amp;-uri=%27https%3A%2F%2Fblogs.msdn.microsoft.com%2Fvcblog%2F2017%2F08%2F14%2Fcmake-support-in-visual-studio-customizing-your-environment%2F%27&amp;-resHeight=1080&amp;-resWidth=1920&amp;-pageTags=%27%7B%22metaTags%22%3A%7B%7D%7D%27&amp;-behavior=0&amp;*baseType=%27Ms.Content.PageView%27&amp;*cookieEnabled=true&amp;*isJs=true&amp;*title=%27CMake%20Support%20in%20Visual%20Studio%3A%20Customizing%20your%20Environment%20%7C%20Visual%20C%2B%2B%20Team%20Blog%27&amp;*isLoggedIn=false&amp;*flashInstalled=false&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.1%27&amp;ext-javascript-domain=%27blogs.msdn.microsoft.com%27&amp;ext-javascript-userConsent=false&amp;$mscomCookies=false"></script><style type="text/css" media="print">.usabilla_live_button_container { display: none; }</style></head><body class="post-template-default single single-post postid-16565 single-format-standard msdn-46413 group-blog"><div style="display: none;" id="lightningjs-usabilla_live"><div><iframe id="lightningjs-frame-usabilla_live" frameborder="0"></iframe></div></div><div id="msccBanner" dir="ltr" data-site-name="uhf-MSDNBlogs" data-mscc-version="0.4.0" data-nver="aspnet-3.1.3" data-sver="0.1.2" class="cc-banner active" role="alert"><div class="cc-container"><svg class="cc-icon cc-v-center" x="0px" y="0px" viewBox="0 0 44 44" height="30px" fill="none" stroke="currentColor"><circle cx="22" cy="22" r="20" stroke-width="2"></circle><line x1="22" x2="22" y1="18" y2="33" stroke-width="3"></line><line x1="22" x2="22" y1="12" y2="15" stroke-width="3"></line></svg> <span class="cc-v-center cc-text">This site uses cookies for analytics, personalized content and ads. By continuing to browse this site, you agree to this use.</span> <a href="https://go.microsoft.com/fwlink/?linkid=845480" aria-label="Learn more about Microsoft's Cookie Policy" id="msccLearnMore" class="cc-link cc-v-center cc-float-right" data-mscc-ic="false">Learn more</a></div></div><script type="text/javascript">
+jQuery( window ).load( function() {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    if (typeof mscc === 'undefined' || (!mscc || mscc.hasConsent())) {
+                ga('require', 'linkid');
+                ga('create', 'UA-65691138-1', 'auto');
+                ga('send', 'pageview');
+                ga('set', 'anonymizeIp', true);
+                ga('create', 'UA-62780441-3', {'siteSpeedSampleRate': 100}, 'b');
+                ga('b.send', 'pageview');
+            }
+} );
+</script>
+			<!-- Begin Custom CSS --><style type="text/css" id="wds-custom-css">
+			.home .blog-title {
+  margin: 10px 0 20px;
+  font-size: 29px;
+}
+
+.network-home-highlights-wrapper {
+	font-size: 14px;
+	font-family: WOL_Reg, 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+.network-home-highlights-wrapper .entry-title {
+  font-size: 16px;
+}
+.network-home-highlights-wrapper .blog-source {
+	font-size: 12px;
+}
+
+.widget .widget-title {
+  color: #2a2a2a;
+  font-size: 16px;
+}
+
+.widget-link-list {
+  list-style-type: none;
+  margin: 0 0 30px 0;
+  padding: 0;
+}
+.widget-link-list li {
+  margin: 0 0 7px 0;
+  padding: 0;
+}
+
+.widget-link-list img {
+	margin: 0; 
+	padding: 0;
+}
+
+.widget .widget-rss-link {
+  position: relative;
+}
+.widget .widget-rss-link a {
+  display: block;
+  position: absolute;
+  top: -39px;
+  right: 0;
+  width: 14px;
+  height: 14px;
+}
+.widget .widget-rss-link a img {
+  padding: 0;
+}
+
+/*Main Navigation*/
+.main-navigation {
+	font-size: 13px;
+}
+.main-navigation ul {
+	/* subnav adjacent item gap - allows subnav to not appear connected to adjacent menu items */
+	display: block;
+	table-layout: auto;
+}
+
+.main-navigation ul li {
+	display: block; /* subnav adjacent item gap */
+}
+
+.main-navigation ul,
+.main-navigation li {
+	background: #68217a;
+	margin: 0;
+}
+.main-navigation ul li {
+	padding: 0;
+}
+.main-navigation li a {
+	height: 60px;
+	padding: 5px 30px 6px 10px;
+}
+
+.main-navigation .menu > .menu-item {
+	border-bottom: 1px solid #fff; /* subnav adjacent item gap */
+}
+.main-navigation .menu > .menu-item.active {
+	background: #442059;
+	border-bottom-color: #442059;
+}
+
+.main-navigation li:hover {
+  background: #442059;
+}
+
+.main-navigation ul .sub-menu {
+	margin-top: 1px; /* subnav adjacent item gap */
+}
+
+.main-navigation li .sub-menu li a {
+	line-height: 1.3em;
+}
+
+.sub-menu.active li {
+	background: #442059;
+}
+
+.sub-menu.active li:hover{
+  background: #68217a;
+}
+/*End Main Navigation*/
+
+.child-level-below-nav .blog-title a {
+  color: #68217a;
+}
+
+a:visited,
+h2.entry-title a:visited {
+  color: #969696;
+}
+
+a:hover,
+h2.entry-title a:hover {
+  color: #004185;
+}
+
+.child-level-below-nav .blog-title {
+  font-size: 3.9rem;
+}
+
+h1.entry-title {
+  font-size: 2.6rem;
+  margin-bottom: 8px;
+}
+h2.entry-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+h2.entry-title a {
+  color: #0072c6;
+}
+
+.entry-meta {
+  margin-bottom: 8px;
+}
+
+.post-info {
+  margin-bottom: 0;
+}
+
+.entry-summary {
+  margin-top: 0;
+}
+
+.social-icons-wrap ul {
+  margin-top: 12px;
+}
+
+.wds-ratings-stars.current-rating,
+.wds-ratings-stars.current-rating.wds-ratings-active,
+.wds-ratings-stars.wds-ratings-active {
+  color: #f4b93f;
+}
+
+/* Begin tabs and container for sxp */
+	.sxp-title {font-size: 1.333em/*16px*/;}
+	.sxp-feed p.sxp-time-author-comments {margin: 4px 0 -8px;}
+	.sxp-feed {margin-top: 30px;}
+  .right-sidebar .sxp-feed {margin: 0 0 15px 0;}
+	.sxp-feed:first-child {margin-top: 0;}
+	.sxp-feed p {margin: 12px 0 0;}
+  .right-sidebar .sxp-feed p {margin: 0;}
+	.sxp-feed .sxp-time {color: #707070;}
+	.sxp-feed .sxp-comments {margin-left: 21px; padding-left: 16px; background: url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/7282.icon-comments.png') 0 4px no-repeat;}
+	.sxp-container {padding: 0 20px;}
+  .right-sidebar .sxp-container {padding: 0;}
+	#sxp-feed-container-all {}
+	#sxp-feed-container-news {display: none;}  
+	#sxp-feed-container ul {padding: 0 0 0 15px;}
+	#sxp-feed-container-parent {position: relative; border: solid 1px #ccc; border-width: 0 1px 1px; padding: 0 0 20px;}
+	#sxp-tabs {margin: 0 0 30px; width: 100%; background: #68217a; height: 32px; padding: 0 !important; border-bottom: solid 1px #ccc; font-size: 14px;}
+	#sxp-tabs li {list-style-type: none; height: 32px; position: relative; float: left; border: solid #CCC; border-width: 0 1px 1px 0;}
+	#sxp-tabs a {color: #fff; background: #68217a; height: 100%; line-height: 34px; padding: 0 20px; display: block; margin-left: 0;}
+	#sxp-tabs a:hover {text-decoration: none;}
+	#sxp-tabs a:first-child + a {left: -3px;}
+	#sxp-tabs a:hover {background: #442059;}
+	#sxp-tabs .selected {margin-top: -4px; height: 36px;}
+	#sxp-tabs .selected a, #sxp-tabs .selected a:hover {background: #442059;}
+	#sxp-tabs .selected span {z-index: 805; position: absolute; bottom: -7px; width: 100%; height: 7px; background: transparent url('https://msdnshared.blob.core.windows.net/media/2015/11/jj157208.developer-selected-tail(en-us,MSDN.10).png') no-repeat 50% 0;}
+	#all-rss-link {float: right; margin: 0 15px 0 0; padding: 0 15px 0 0; position: relative; top: -21px; }
+	#all-rss-link span {margin: 0 0 0 4px; display: inline-block; background: url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/2110.metroRSS.png') 0 0; height: 14px; width: 14px;}
+	#all-rss-link a { font-size: 13px; color: #00749e; }
+	#all-rss-link a:hover { text-decoration: underline; }
+	#all-rss-link a:visited { color: #707070; }
+	.feedPager {border-top: solid 1px #ccc; margin: 30px 0 20px; padding: 12px 0;}
+	.feedPager a.pagerLink.currentPage {font-weight: bold; color: #000;}
+	.feedPager a.pagerLink.currentPage:hover {cursor: default;}
+	.feedPager a.pagerLink {margin-left: 15px;}
+	.feedPager a.pagerLink:first-child {margin-left: 0;}
+	.content-fragment.raw-html:first-child .user-defined-markup {overflow: visible;}
+/* End tabs and container for sxp */	
+
+/*Social Tile links*/
+.sidebar-tiles {
+	clear: both;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0
+}
+.sidebar-tiles li {
+	float: left;
+	margin: 0 5px 5px 0;
+	padding: 0;
+}
+.sidebar-tiles li:focus {
+  outline: dotted thin;
+}
+.sidebar-tiles li.last {
+   margin-right: 0;
+}
+.sidebar-tiles a {
+    background: #424242;
+    color: #fff;
+    display: block;
+    font-size: 11px;
+    margin: 0;
+    padding: 54px 10px 0 5px;
+    width: 70px;
+    height: 70px;
+    text-decoration: none;
+    line-height: 13px;
+    width: 65px;
+}
+.sidebar-tiles a.sidebar-tile-subscribe {
+	background: #ea700d url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/0045.icon-tile-rss.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-twitter {
+	background: #55acee url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/twitter-tile.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-facebook {
+	background: #3b5998 url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/2055.facebook.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-youtube {
+	background: #cc181e url('https://msdnshared.blob.core.windows.net/media/2016/11/youtube1.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-comments {
+	background: #006bc2 url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/5415.icon-comments-large.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-contact {
+	background: #68217a url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/5340.icon-email-large.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a.sidebar-tile-home {
+	background: #68217a url('https://msdnshared.blob.core.windows.net/media/TNBlogsFS/prod.evol.blogs.technet.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/94/25/5417.home.png') 50% 50% no-repeat;
+}
+.sidebar-tiles a:hover {
+	color: #fff;
+	background-color: #442059;
+}
+
+@media (min-width:37.5em){ /*medium*/
+  .home .blog-title {
+    margin: -10px 0 20px;
+    font-size: 39px;
+  }
+  .main-navigation ul {
+  	height: 121px;
+  }
+}
+@media (min-width:60em){ /*large*/
+  .main-navigation ul {
+  	height: 58px;
+  }
+}
+
+/*Child specific styles*/
+
+.child-level-below-nav h2.blog-title {
+  margin: 10px 0 8px;
+  padding: 0;
+  font-size: 29px;
+}
+
+.child-level-below-nav .child-below-nav-right img {
+  float: none;
+  top: auto;
+  margin: 23px 0 0;
+}
+.site-content {
+  margin: 2rem auto 0; /* need space after site logo */
+}
+
+.sidebar-btn {
+  margin: 0 0 13px 0;
+  color: #fff;
+}
+.sidebar-btn-purple {
+	background-color: #68217a;
+}
+.sidebar-btn-green {
+	background-color: #009E49;
+}
+.sidebar-btn-cyan {
+	background-color: #0072C6;
+}
+.sidebar-btn a {
+	line-height: 34px; 
+	font-family: 'Segoe UI Semibold','Segoe UI',Tahoma,Helvetica,Sans-Serif;
+	padding: 0 30px 0 35px;
+	display: table-cell;
+	vertical-align: middle;
+	background: url('https://cdn3.visualstudio.com/Areas/VisualStudio/Themes/VStudio/Content/Images/arrowWhite.png') no-repeat right center;
+	border-right: 10px solid transparent; 
+	color: #fff;
+}
+.sidebar-btn a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+
+@media (min-width:37.5em){ 
+  .child-level-below-nav h2.blog-title {
+    margin: 10px 0 8px;
+    padding: 0;
+    font-size: 39px;
+  }
+}
+@media (min-width:48.125em){
+  .child-level-below-nav .child-below-nav-right img {
+    float: none;
+    top: auto;
+    margin: 23px 0 0;
+  }
+  #secondary {
+      float: right;
+      width: 23.5492%;
+  }
+  #tag-wrap,
+  .comments-area {
+      clear: left;
+      width: 74.5164%;
+  }
+  .comments-area .comment-list {
+      clear: left;
+  }
+}
+@media (min-width:60em){ 
+
+}			</style><!-- End Custom CSS -->
+						<link rel="shortcut icon" href="https://blogs.msdn.microsoft.com/vcblog/wp-content/themes/cloud-platform/images/favicon-msdn.png">
+		<meta property="Search.Network" name="Search.Network" content="ceblognetwork">
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+
+
+
+	<div id="top-link"></div>
+
+	
+<div class="site-header-wrap">
+	<header id="masthead" class="site-header" role="banner">
+		<div class="top-breadcrumb-wrap-child">
+
+			<div class="top-breadcrumbs"><a href="https://blogs.technet.microsoft.com/serverandtools">Server &amp; Tools Blogs</a> &gt; <a href="https://blogs.msdn.microsoft.com/developer-tools">Developer Tools Blogs</a> &gt; Visual C++ Team Blog</div>
+			<div class="utility-breadcrumbs">
+				<nav id="site-utility-navigation" class="utility-navigation" role="navigation">
+					<div class="menu-utility-nav-container">
+						<ul id="menu-utility-nav" class="menu">
+															<li class="menu-item"><a href="https://blogs.msdn.microsoft.com/wp-login.php?aadsso_action=login">Sign in</a></li>
+													</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<a href="#togglemenu" class="header-mobile-dropdown-toggle-child">Menu</a>
+		<div class="header-mobile-dropdown-child-level">
+			<nav id="site-navigation" class="main-navigation" role="navigation">
+				<a class="skip-link screen-reader-text" href="#content">
+					Skip to content				</a>
+								<div class="menu-developer-tools-blogs-main-menu-container"><ul id="menu-developer-tools-blogs-main-menu-1" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-43"><a href="#" role="button" aria-expanded="false">Executive Bloggers</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-103"><a href="http://weblogs.asp.net/scottgu/">Scott Guthrie</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-123"><a href="http://blogs.msdn.microsoft.com/bharry/">Brian Harry</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-133"><a href="http://blogs.msdn.microsoft.com/stevengu/">Steve Guggenheimer</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-53"><a href="#" role="button" aria-expanded="false">Visual Studio Products</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-143"><a href="https://blogs.msdn.microsoft.com/visualstudio/tag/visual-studio/">Visual Studio</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1385"><a href="https://blogs.msdn.microsoft.com/visualstudio/tag/visual-studio-for-mac/">Visual Studio for Mac</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153"><a href="https://code.visualstudio.com/blogs">Visual Studio Code</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1375"><a href="https://blogs.msdn.microsoft.com/devops/">Visual Studio Team Services</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1335"><a href="https://blogs.msdn.microsoft.com/vsappcenter/">Visual Studio App Center</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-63"><a href="#" role="button" aria-expanded="false">DevOps</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-393"><a href="https://blogs.msdn.microsoft.com/devops/?tag=CI,CD,Release%20Management">Continuous Integration and Deployment</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1225"><a href="https://blogs.msdn.microsoft.com/devops/?tag=Git,Version%20Control">Git and Version Control</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-243"><a href="https://blogs.msdn.microsoft.com/devops/tag/agile/">Agile</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-412"><a href="https://blogs.msdn.microsoft.com/devops/?tag=Azure,Cloud">Azure and Cloud</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-413"><a href="https://blogs.msdn.microsoft.com/devops/tag/testing/">Test</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-423"><a href="https://blogs.msdn.microsoft.com/devops/tag/tfs/">Team Foundation Server</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1235"><a href="https://blogs.msdn.microsoft.com/devops/">Visual Studio Team Services</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-73"><a href="#" role="button" aria-expanded="false">Languages</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1195"><a href="https://blogs.msdn.microsoft.com/dotnet/tag/c/">Visual C#</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1205"><a href="https://blogs.msdn.microsoft.com/vbteam/">Visual Basic</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-453"><a href="http://blogs.msdn.microsoft.com/vcblog/">Visual C++</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-463"><a href="https://blogs.msdn.microsoft.com/dotnet/tag/visual-f/">Visual F#</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-473"><a href="https://blogs.msdn.microsoft.com/visualstudio/tag/javascript/">JavaScript</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1425"><a href="https://blogs.msdn.microsoft.com/visualstudio/tag/java/">Java</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-483"><a href="http://blogs.msdn.microsoft.com/typescript/">TypeScript</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1075"><a href="https://blogs.msdn.microsoft.com/pythonengineering/">Python</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1365"><a href="#" role="button" aria-expanded="false">Features</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-383"><a href="http://blogs.msdn.microsoft.com/heaths/">Setup &amp; Install by Heath Stewart</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-723"><a href="https://blogs.msdn.microsoft.com/visualstudio/tag/debugging-and-diagnostics/">Diagnostics</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-83"><a href="#" role="button" aria-expanded="false">.NET</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-263"><a href="http://blogs.msdn.microsoft.com/dotnet/">.NET</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-513"><a href="http://www.hanselman.com/blog/CategoryView.aspx?category=ASP.NET">ASP.NET by Scott Hanselman</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-533"><a href="http://blogs.msdn.microsoft.com/wpf/">WPF</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-93"><a href="#" role="button" aria-expanded="false">Platform Development</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-273"><a href="http://blogs.windows.com/buildingapps/">Apps for Windows</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1032"><a href="https://blogs.msdn.microsoft.com/bingdevcenter/">Bing</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1063"><a href="http://blogs.windows.com/msedgedev/">Edge</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-553"><a href="http://azure.microsoft.com/blog/">Microsoft Azure</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-573"><a href="http://blogs.office.com/dev?filter=true&amp;filter-product=sharepoint">Office 365 Development</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-583"><a href="http://blogs.msdn.microsoft.com/webdev/">Web</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1085"><a href="#" role="button" aria-expanded="false">Data Development</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1095"><a href="https://blogs.technet.microsoft.com/dataplatforminsider/">SQL Server</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1105"><a href="https://blogs.msdn.microsoft.com/ssdt/">SQL Server Data Tools</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1115"><a href="https://azure.microsoft.com/en-us/blog/tag/documentdb/">Cosmos DB</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1125"><a href="http://blog.revolutionanalytics.com/">Revolutions R</a></li>
+</ul>
+</li>
+</ul></div>			</nav> <!-- #site-navigation -->
+		</div>
+
+		<div class="child-level-below-nav">
+
+			<div class="child-below-nav-wrapper">
+
+				<div class="child-below-nav-left">
+
+						<div class="blog-name">
+		<div class="inner-name-wrapper">
+			<h2 class="blog-title"><a href="https://blogs.msdn.microsoft.com/vcblog">Visual C++ Team Blog</a></h2>
+					</div>
+	</div>
+
+					<p class="blog-description">C++ tutorials, C and C++ news, and information about the C++ IDE Visual Studio from the Microsoft C++ team. </p>
+
+				</div>
+
+				<div class="child-below-nav-right">
+					<a href="https://blogs.msdn.microsoft.com/vcblog/" title="Visual C++ Team Blog" rel="home"><img src="8814.png" alt="Visual C++ Team Blog"></a>				</div>
+
+			</div>
+
+			
+		</div>
+	</header>
+	<!-- #masthead -->
+</div>
+
+<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+			
+				
+				<article id="post-16565" class="post-16565 post type-post status-publish format-standard hentry category-announcement category-cmake tag-announcement tag-c tag-cmake tag-cross-platform tag-existing-code tag-ide tag-import tag-openfolder-edit">
+	<header class="entry-header">
+		<h1 class="entry-title">CMake Support in Visual Studio: Customizing your Environment</h1>
+		<div class="rating-wrap">
+		<div id="star-rating-16565" class="wds-ratings" data-rating="0" data-userrating="0" data-postid="16565" data-container="body" data-toggle="tooltip" title="0 user(s) rated">
+			<div class="wds-ratings-inner-wrap">
+				<div>
+					<div aria-label="Select 5 star, this article is 0 star rated" tabindex="0" class="wds-ratings-stars wds-ratings-stars-enable-editing" data-stars="5"><span aria-hidden="true" class="star-1"><span>★</span></span><span aria-hidden="true" class="star-2"><span>★</span></span><span aria-hidden="true" class="star-3"><span>★</span></span><span aria-hidden="true" class="star-4"><span>★</span></span><span aria-hidden="true" class="star-5"><span>★</span></span></div><div aria-label="Select 4 star, this article is 0 star rated" tabindex="0" class="wds-ratings-stars wds-ratings-stars-enable-editing" data-stars="4"><span aria-hidden="true" class="star-1"><span>★</span></span><span aria-hidden="true" class="star-2"><span>★</span></span><span aria-hidden="true" class="star-3"><span>★</span></span><span aria-hidden="true" class="star-4"><span>★</span></span></div><div aria-label="Select 3 star, this article is 0 star rated" tabindex="0" class="wds-ratings-stars wds-ratings-stars-enable-editing" data-stars="3"><span aria-hidden="true" class="star-1"><span>★</span></span><span aria-hidden="true" class="star-2"><span>★</span></span><span aria-hidden="true" class="star-3"><span>★</span></span></div><div aria-label="Select 2 star, this article is 0 star rated" tabindex="0" class="wds-ratings-stars wds-ratings-stars-enable-editing" data-stars="2"><span aria-hidden="true" class="star-1"><span>★</span></span><span aria-hidden="true" class="star-2"><span>★</span></span></div><div aria-label="Select 1 star, this article is 0 star rated" tabindex="0" class="wds-ratings-stars wds-ratings-stars-enable-editing" data-stars="1"><span aria-hidden="true" class="star-1"><span>★</span></span></div>
+				</div>
+			</div>
+		</div>
+		</div>	</header><!-- .entry-header -->
+
+	<div class="entry-meta row">
+		<div class="post-info">
+			<span class="posted-on"><time class="entry-date published" datetime="2017-08-14T18:22:00+00:00">August 14, 2017</time><time class="updated" datetime="2017-08-15T18:14:45+00:00">August 15, 2017</time></span> <span class="byline">by <span class="author vcard profile-usercard-hover" data-profile-userid="3cf51b8371694488948fbf4620ccf07b" data-profile-rendered="true"><a class="url fn n profile-usercard-a" href="https://social.msdn.microsoft.com/profile/Will+Buik+%5BMSFT%5D">Will Buik [MSFT]</a><div class="profile-usercard">            <div class="profile-header">                <span class="profile-userimage">                                            <img src="https://i1.social.s-msft.com:443/profile/u/avatar.jpg?displayname=will+buik+%5bmsft%5d&amp;size=large&amp;version=fa9adaf6-ec08-454a-91e4-0566c2de4f29" alt="Avatar of Will Buik [MSFT]">                                    </span>                <div>                    <p title="Will Buik [MSFT]" class="profile-display-name" aria-label="Will Buik [MSFT]" tabindex="0">Will Buik [MSFT]</p>                                }                    <p class="profile-affiliations" aria-label="MSFT" tabindex="0">MSFT</p>                                </div>            </div>            <div class="profile-points-bar">                <span class="profile-points" aria-label="5,313 points" tabindex="0">5,313<span class="points-label"> Points</span></span>                <span class="profile-count profile-bronze-points"><span class="profile-bronze-img" title="Achievements Earned" aria-label="4 bronze medal" tabindex="0"></span><span>4</span></span>                <span class="profile-count profile-silver-points"><span class="profile-silver-img" title="Achievements Earned" aria-label="1 silver medal" tabindex="0"></span><span>1</span></span>                <span class="profile-count profile-gold-points"><span class="profile-gold-img" title="Achievements Earned" aria-label="1 gold medal" tabindex="0"></span><span>1</span></span>                        </div>            <div class="profile-achievements-header">                <span class="profile-achievements-title">Recent Achievements</span>            </div>            <div class="profile-achievements-recent">                <div class="profile-achievements-centering">                                                                <span class="profile-achievement profile-achievement-Gold" aria-label="Blog Party Starter" tabindex="0"><span>Blog Party Starter</span></span>                                            <span class="profile-achievement profile-achievement-Silver" aria-label="Blog Conversation Starter" tabindex="0"><span>Blog Conversation Starter</span></span>                                            <span class="profile-achievement profile-achievement-Bronze" aria-label="New Blogger" tabindex="0"><span>New Blogger</span></span>                                                            </div>            </div>            <div class="profile-footer">                                <a href="https://social.msdn.microsoft.com/profile/will%20buik%20%5Bmsft%5D/?ws=usercard-hover" class="profile-usercard-profileLink" target="_blank">View Profile</a>            </div>        </div></span></span> <span class="slashes comment-slashes">//</span> <a class="num-comments" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/#comments">24 Comments</a>		</div>
+
+		<div class="row">
+			<div class="social-icons-wrap">
+		<ul class="social-icons">
+			<li><div class="fb-share-button" data-href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/&amp;src=sdkpreparse">Share</a></div></li>
+			<div id="fb-root" style="display:none"></div>
+			
+			<li class="social-icon twitter"><a data-social="{&quot;type&quot;:&quot;twitter&quot;, &quot;url&quot;:&quot;https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/&quot;, &quot;text&quot;: &quot;CMake Support in Visual Studio: Customizing your Environment&quot;}" href="#" id="post_tweet_count">0</a></li>
+			<li class="social-icon linkedin"><a data-social="{&quot;type&quot;:&quot;linkedin&quot;, &quot;url&quot;:&quot;https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/&quot;, &quot;text&quot;: &quot;CMake Support in Visual Studio: Customizing your Environment&quot;}" href="#" id="get_post_linkedin_count">0</a></li>
+		</ul>
+	</div><!-- .social-icons-wrap -->
+	<script type="text/javascript">
+		// Get social counts
+		jQuery( window ).load(function () {
+			jQuery.getScript('https://blogs.msdn.microsoft.com/vcblog/wp-content/themes/msdn-network-parent/js/social-counts.min.js?ver=12272016')
+				.done(function(script,textStatus) {
+					window.msdnsocial.ajax('https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/');
+				});
+		});
+	</script>
+		</div>
+	</div><!-- .entry-meta -->
+
+	
+	<div class="entry-content">
+		<p>In <a href="https://www.visualstudio.com/downloads/">Visual Studio 15.3</a>, there are new ways for you to apply advanced configuration to your CMake environments.</p>
+<p>Please&nbsp;<a href="https://www.visualstudio.com/downloads/">download the latest</a>&nbsp;and try out the latest CMake features.&nbsp; If you are just getting started with CMake, follow the link to&nbsp;<a href="https://aka.ms/cmake">learn more about CMake support in Visual Studio</a>.&nbsp; We are looking forward to your feedback.</p>
+<h3>What’s new in CMakeSettings.json</h3>
+<p>The heart of this new flexibility is inside your project’s CMakeSettings.json file and it stems from two new concepts:</p>
+<ol>
+<li>The ability to inherit a set of default environment variables globally or per configuration.</li>
+<li>The ability to define custom environment variables and their values globally or per configuration.</li>
+</ol>
+<p>Let’s start with a quick example of how using this feature might look:</p>
+<div><div id="highlighter_157260" class="syntaxhighlighter  jscript"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript plain">{</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// The "environments" property is an array of key value pairs of the form</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// { "EnvVar1": "Value1", "EnvVar2": "Value2" }</code></div><div class="line number4 index3 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"environments"</code><code class="jscript plain">: [</code></div><div class="line number5 index4 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number6 index5 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"BuildDir"</code><code class="jscript plain">: </code><code class="jscript string">"${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build"</code><code class="jscript plain">,</code></div><div class="line number7 index6 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number8 index7 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">],</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"configurations"</code><code class="jscript plain">: [</code></div><div class="line number11 index10 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number12 index11 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x86-Debug"</code><code class="jscript plain">,</code></div><div class="line number13 index12 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number14 index13 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number15 index14 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x86 compiler.</code></div><div class="line number16 index15 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x86"</code> <code class="jscript plain">],</code></div><div class="line number17 index16 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${name}"</code></div><div class="line number18 index17 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">},</code></div><div class="line number19 index18 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number20 index19 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x64-Debug"</code><code class="jscript plain">,</code></div><div class="line number21 index20 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number22 index21 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number23 index22 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x64 compiler.</code></div><div class="line number24 index23 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x64"</code> <code class="jscript plain">],</code></div><div class="line number25 index24 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${name}"</code></div><div class="line number26 index25 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number27 index26 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">]</code></div><div class="line number28 index27 alt1"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>To unpack this a bit, this example defines two configurations that 
+use Ninja to build this CMake project.&nbsp; The first builds x86 debug 
+while the other builds x64 debug.&nbsp; It also defines an environment 
+variable “BuildDir” that it makes use of in both configurations.</p>
+<p>Keep in mind, both the “environments” (line 4) and 
+“inheritEnvironments” (lines 16 and 24) properties can be defined 
+globally for all configurations, per configuration, or both.&nbsp; In 
+the example above, the “BuildDir” variable will be global and the 
+“inheritEnvironment” property will only apply to each individual 
+configuration.</p>
+<p>Configuration-specific environment variables are evaluated last, so 
+they override global ones.&nbsp; The example below explains the override
+ behavior in the comments:</p>
+<div><div id="highlighter_674866" class="syntaxhighlighter  jscript"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div><div class="line number41 index40 alt2">41</div><div class="line number42 index41 alt1">42</div><div class="line number43 index42 alt2">43</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript plain">{</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// The "environments" property is an array of key value pairs of the form</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// { "EnvVar1": "Value1", "EnvVar2": "Value2" }</code></div><div class="line number4 index3 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"environments"</code><code class="jscript plain">: [</code></div><div class="line number5 index4 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number6 index5 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"BuildDir"</code><code class="jscript plain">: </code><code class="jscript string">"${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}"</code><code class="jscript plain">,</code></div><div class="line number7 index6 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number8 index7 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">],</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"configurations"</code><code class="jscript plain">: [</code></div><div class="line number11 index10 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number12 index11 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x86-Debug"</code><code class="jscript plain">,</code></div><div class="line number13 index12 alt2">&nbsp;</div><div class="line number14 index13 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// The syntax for this property is the same as the global one above.</code></div><div class="line number15 index14 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"environments"</code><code class="jscript plain">: [</code></div><div class="line number16 index15 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number17 index16 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Replace the global property entirely.</code></div><div class="line number18 index17 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"BuildDir"</code><code class="jscript plain">: </code><code class="jscript string">"D:\\custom-builddir"</code><code class="jscript plain">,</code></div><div class="line number19 index18 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number20 index19 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">],</code></div><div class="line number21 index20 alt2">&nbsp;</div><div class="line number22 index21 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number23 index22 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number24 index23 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x86 compiler.</code></div><div class="line number25 index24 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x86"</code> <code class="jscript plain">],</code></div><div class="line number26 index25 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// This will evaluate to "D:\custom-builddir\x86-Debug" due to the</code></div><div class="line number27 index26 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// configuration-specific override.</code></div><div class="line number28 index27 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${name}"</code></div><div class="line number29 index28 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">},</code></div><div class="line number30 index29 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number31 index30 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x64-Debug"</code><code class="jscript plain">,</code></div><div class="line number32 index31 alt1">&nbsp;</div><div class="line number33 index32 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number34 index33 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number35 index34 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x64 compiler.</code></div><div class="line number36 index35 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x64"</code> <code class="jscript plain">],</code></div><div class="line number37 index36 alt2">&nbsp;</div><div class="line number38 index37 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Since this configuration doesn’t modify BuildDir, it inherits</code></div><div class="line number39 index38 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// from the one defined globally.</code></div><div class="line number40 index39 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${name}"</code></div><div class="line number41 index40 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number42 index41 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">]</code></div><div class="line number43 index42 alt2"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>If you need to declare a lot of variables for your build environment 
+and then make only minor modifications to them for each configuration, 
+this override behavior can condense your project’s CMakeSettings.json 
+file considerably.</p>
+<h3>What about Launch.vs.json and Tasks.vs.json</h3>
+<p>In case you are wondering if you can use these variables outside of 
+the CMakeSettings.json file, the answer is yes!&nbsp; All the 
+environment variables you declare in your CMakeSettings.json file are 
+available to Tasks and Launch configuration using the same syntax.&nbsp;
+ Just embed the “${env.VarName}” syntax into any property’s value in a 
+task or launch configuration.&nbsp; The macro syntax will be expanded 
+into its actual value, as it is on line 12 in the example below.</p>
+<div><div id="highlighter_628202" class="syntaxhighlighter  jscript"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript plain">{</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"version"</code><code class="jscript plain">: </code><code class="jscript string">"0.2.1"</code><code class="jscript plain">,</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"defaults"</code><code class="jscript plain">: {},</code></div><div class="line number4 index3 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"configurations"</code><code class="jscript plain">: [</code></div><div class="line number5 index4 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number6 index5 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"type"</code><code class="jscript plain">: </code><code class="jscript string">"cppdbg"</code><code class="jscript plain">,</code></div><div class="line number7 index6 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"helloworld.exe"</code><code class="jscript plain">,</code></div><div class="line number8 index7 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"project"</code><code class="jscript plain">: </code><code class="jscript string">"bin\\helloworld.exe"</code><code class="jscript plain">,</code></div><div class="line number9 index8 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"cwd"</code><code class="jscript plain">: </code><code class="jscript string">"${workspaceRoot}"</code><code class="jscript plain">,</code></div><div class="line number10 index9 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"program"</code><code class="jscript plain">: </code><code class="jscript string">"${debugInfo.target}"</code><code class="jscript plain">,</code></div><div class="line number11 index10 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"MIMode"</code><code class="jscript plain">: </code><code class="jscript string">"gdb"</code><code class="jscript plain">,</code></div><div class="line number12 index11 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"miDebuggerPath"</code><code class="jscript plain">: </code><code class="jscript string">"${env.MINGW_PREFIX}\\bin\\gdb.exe"</code><code class="jscript plain">,</code></div><div class="line number13 index12 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"externalConsole"</code><code class="jscript plain">: </code><code class="jscript keyword">true</code></div><div class="line number14 index13 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number15 index14 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">]</code></div><div class="line number16 index15 alt1"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>If the value of an environment variable is configuration-specific, 
+the value for the currently selected configuration when you try to run a
+ task or debug your program will be used.<br>
+The environment variables you declare will also be inherited by the 
+processes launched by tasks. Programs being debugged, on the other hand,
+ will not inherit the build environment.</p>
+<div><div id="highlighter_728415" class="syntaxhighlighter  jscript"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript plain">{</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"version"</code><code class="jscript plain">: </code><code class="jscript string">"0.2.1"</code><code class="jscript plain">,</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"defaults"</code><code class="jscript plain">: {},</code></div><div class="line number4 index3 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"configurations"</code><code class="jscript plain">: [</code></div><div class="line number5 index4 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number6 index5 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"type"</code><code class="jscript plain">: </code><code class="jscript string">"default"</code><code class="jscript plain">,</code></div><div class="line number7 index6 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"project"</code><code class="jscript plain">: </code><code class="jscript string">"ConsoleApp2\\PrintEnv.csproj"</code><code class="jscript plain">,</code></div><div class="line number8 index7 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"PrintEnv.csproj"</code><code class="jscript plain">,</code></div><div class="line number9 index8 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"env"</code><code class="jscript plain">: </code><code class="jscript string">"var1=${env.var1}\u0000var2=hardcodedvalue"</code></div><div class="line number10 index9 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number11 index10 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">]</code></div><div class="line number12 index11 alt1"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>You can see on line 0 that it is possible to reference variables 
+defined in your CMakeSettings.json file. The “\u0000” is a null 
+character used to separate variables.</p>
+<h3>Advanced Features</h3>
+<p>Those of you with a keen eye might have noticed that “environments” 
+and “inheritEnvironments” are arrays in the CMakeSettings.json 
+syntax.&nbsp; It is possible to declare and inherit from multiple 
+environments.&nbsp; For typical usage in CMake scenarios it is unlikely 
+that you would want to inherit from more than one environment but there 
+are some cases where you might want to declare more than one environment
+ block.&nbsp; The prime use case for this, for CMake, would be to 
+declare a few variables that you can reference in 
+CMakeSettings/launch.vs/tasks.vs JSON but don’t want added to the build 
+environment itself – e.g. not inherited by spawned build processes.</p>
+<p>The following example shows how you accomplish this:</p>
+<div><div id="highlighter_537228" class="syntaxhighlighter  jscript"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// The "environments" property is an array of key value pairs of the form</code></div><div class="line number2 index1 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript comments">// { "EnvVar1": "Value1", "EnvVar2": "Value2" }</code></div><div class="line number3 index2 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"environments"</code><code class="jscript plain">: [</code></div><div class="line number4 index3 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number5 index4 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"BuildDir"</code><code class="jscript plain">: </code><code class="jscript string">"${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build"</code><code class="jscript plain">,</code></div><div class="line number6 index5 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">},</code></div><div class="line number7 index6 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number8 index7 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// “namespace” is a reserved key that lets you put variables</code></div><div class="line number9 index8 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// in namespaces other than $env.</code></div><div class="line number10 index9 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"namespace"</code><code class="jscript plain">: </code><code class="jscript string">"special"</code><code class="jscript plain">,</code></div><div class="line number11 index10 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// SpecialVar will not be added to the environment.</code></div><div class="line number12 index11 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"SpecialVar"</code><code class="jscript plain">: </code><code class="jscript string">"special"</code><code class="jscript plain">,</code></div><div class="line number13 index12 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number14 index13 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">],</code></div><div class="line number15 index14 alt2">&nbsp;</div><div class="line number16 index15 alt1"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript string">"configurations"</code><code class="jscript plain">: [</code></div><div class="line number17 index16 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number18 index17 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x86-Debug"</code><code class="jscript plain">,</code></div><div class="line number19 index18 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number20 index19 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number21 index20 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x86 compiler.</code></div><div class="line number22 index21 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x86"</code> <code class="jscript plain">],</code></div><div class="line number23 index22 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// You can use alternative namespaces (such as special defined above)</code></div><div class="line number24 index23 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// just like "$env."</code></div><div class="line number25 index24 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${special.SpecialVar}\\${name}"</code></div><div class="line number26 index25 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">},</code></div><div class="line number27 index26 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">{</code></div><div class="line number28 index27 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"name"</code><code class="jscript plain">: </code><code class="jscript string">"x64-Debug"</code><code class="jscript plain">,</code></div><div class="line number29 index28 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"generator"</code><code class="jscript plain">: </code><code class="jscript string">"Ninja"</code><code class="jscript plain">,</code></div><div class="line number30 index29 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"configurationType"</code><code class="jscript plain">: </code><code class="jscript string">"Debug"</code><code class="jscript plain">,</code></div><div class="line number31 index30 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript comments">// Inherit the defaults for using the MSVC x64 compiler.</code></div><div class="line number32 index31 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"inheritEnvironments"</code><code class="jscript plain">: [ </code><code class="jscript string">"msvc_x64"</code> <code class="jscript plain">],</code></div><div class="line number33 index32 alt2"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript string">"buildRoot"</code><code class="jscript plain">: </code><code class="jscript string">"${env.BuildDir}\\${name}"</code></div><div class="line number34 index33 alt1"><code class="jscript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="jscript plain">}</code></div><div class="line number35 index34 alt2"><code class="jscript spaces">&nbsp;&nbsp;</code><code class="jscript plain">]</code></div><div class="line number36 index35 alt1"><code class="jscript plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>You can access “SpecialVar” in any CMakeSettings, Launch, or Tasks 
+JSON file with the syntax “${special.SpecialVar}”, as seen on line 25.</p>
+<h3>Send Us Feedback</h3>
+<p>To try out the latest and greatest CMake features and give us some early feedback, please download and install the latest&nbsp;<a href="https://www.visualstudio.com/vs/preview/">Visual Studio 2017 Preview</a>.&nbsp; As always, we welcome your feedback.&nbsp; Feel free to send any comments through e-mail at&nbsp;<a href="mailto:cmake@microsoft.com">cmake@microsoft.com</a>, through&nbsp;<a href="https://twitter.com/visualc">Twitter @visualc</a>, or Facebook at&nbsp;<a href="https://www.facebook.com/Microsoft-Visual-Cpp-222043184527264/">Microsoft Visual Cpp</a>.</p>
+<p>If you encounter other problems with Visual Studio 2017 please let us know via&nbsp;<a href="https://docs.microsoft.com/en-us/visualstudio/ide/how-to-report-a-problem-with-visual-studio-2017">Report a Problem</a>, which is available in both the installer and the IDE itself. &nbsp;For suggestions, let us know through&nbsp;<a href="https://visualstudio.uservoice.com/forums/121579-visual-studio-2015/category/30937-languages-c">UserVoice</a>. We look forward to your feedback!</p>
+				<div class="back-to-top-wrap"><a href="#top-link" class="back-to-top">Back to<br>top</a></div>
+	</div><!-- .entry-content -->
+
+	
+</article><!-- #post-## -->
+
+				
+			
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+		
+		<aside id="text-7" class="widget widget_text">			<div class="textwidget"><div class="sidebar-btn sidebar-btn-purple">
+    <a href="https://aka.ms/cppvsdownload" title="Visual Studio" onclick="window.appInsights &amp;&amp; window.appInsights.logEvent('leave_to/download_visual_studio'); return true;">Download Visual Studio</a>
+</div></div>
+		</aside><aside id="text-12" class="widget widget_text"><h2 class="widget-title color-highlight-bg">Start Here</h2>			<div class="textwidget"><ul>
+<li><a href="https://aka.ms/getting-started-visual-studio-for-c-and-cpp-dev/">Getting Started with C++ in VS</a></li>
+<li><a href="https://aka.ms/bring-your-cpp-code-to-visual-studio">Bring Your Existing C++ Code to VS</a></li>
+<li><a href="https://aka.ms/c-code-editing-and-navigation-in-visual-studio">C++ Code Editing &amp; Navigation</a></li>
+<li><a href="https://aka.ms/cpp-testing-in-visual-studio">C++ Unit Testing</a></li>
+<li><a href="https://aka.ms/c-debugging-and-diagnostics">C++ Debugging &amp; Diagnosics</a></li>
+<li><a href="https://aka.ms/visual-studio-for-teams-of-cpp-developers">Collaborating with Your Team in VS</a></li>
+<li><a href="https://aka.ms/windows-desktop-development-with-c-visual-studio">C++ Windows Development</a></li>
+<li><a href="https://aka.ms/linux-development-with-c-in-visual-studio">C++ Linux Development</a></li>
+<li><a href="https://aka.ms/android-ios-development-with-c-in-visual-studio">C++ Android &amp; iOS Development</a></li>
+<li><a href="https://aka.ms/directx-game-development-with-c-in-visual-studio">C++ Game Development</a></li>
+</ul></div>
+		</aside><aside id="blog_subscription-5" class="widget msdn_subscription_widget">        <div>
+            <p>
+                <input id="_msdn_subscribe_nonce" name="_msdn_subscribe_nonce" value="117b3c4bff" type="hidden">                    <input name="email" class="msdn-subscribe-email" placeholder="Email Address" type="email">
+                    <button type="button" class="msdn-subscribe-button unregistered-user">
+                        Subscribe!
+                    </button>
+                    <button type="button" class="msdn-unsubscribe-button unregistered-user">
+                        Unsubscribe
+                    </button>
+                
+                <label class="msdn-subscribe-message" style="display: none;"></label>
+            </p>
+
+        </div>
+        
+</aside><aside id="msdn_bing_social_search-5" class="widget msdn_bing_social_search">		<div class="-widget-msdn-blogs-social-search msdn-blogs-social-search">
+			<div class="field-item search">
+								<form id="-widget-search-allblogs-container" style="display: none;">
+					<span class="field-item-input"><p role="alert" style="height: 1px;width: 1px;overflow: hidden;position: absolute;"></p>
+						<input id="-widget-search-textbox-allblogs" name="search-textbox-allblogs" class="search-field" maxlength="64" size="45" autocomplete="off" title="Search MSDN with Bing" data-searchtype="searchbox" role="combobox" aria-label="Search Input Box" aria-autocomplete="both" aria-owns="MSDNSearchAutoCompleteList" aria-live="polite" placeholder="Search MSDN with Bing" type="search">
+						<input id="-widget-search-button-allblogs" name="search-button-allblogs" class="search-submit" title="Search MSDN with Bing" data-searchtype="icon" type="submit">
+					<div id="SearchFlyoutContainer" style="display: none; text-align: left; border: 1px solid buttonshadow; position: absolute; z-index: 1000; padding: 2px; background-color: rgb(255, 255, 255); color: rgb(102, 102, 102); font-family: WOL_Reg,&quot;Segoe UI&quot;,Tahoma,Arial,sans-serif; font-size: 14px;"><div id="SuggestionContainer"><ul style="list-style: outside none none; padding: 4px 2px 0px 1px; cursor: pointer; margin: 1px; white-space: nowrap;" data-searchtype="search dropdown" id="MSDNSearchAutoCompleteList" role="listbox" aria-controls="-widget-search-textbox-allblogs"></ul></div></div></span>
+				</form>
+													<form id="-widget-search-thisblog-container">
+					<span class="field-item-input"><p role="alert" style="height: 1px;width: 1px;overflow: hidden;position: absolute;"></p>
+						<input id="-widget-search-textbox-thisblog" name="search-textbox-thisblog" class="search-field" maxlength="64" size="45" autocomplete="off" title="Search MSDN with Bing" data-searchtype="searchbox" role="combobox" aria-label="Search Input Box" aria-autocomplete="both" aria-owns="MSDNSearchAutoCompleteList" aria-live="polite" placeholder="Search MSDN with Bing" type="search">
+						<button id="-widget-search-button-thisblog" name="search-button-thisblog" type="submit" class="search-submit search-icon" title="Search MSDN with Bing" data-searchtype="icon"></button>
+					<div id="SearchFlyoutContainer" style="display: none; text-align: left; border: 1px solid buttonshadow; position: absolute; z-index: 1000; padding: 2px; background-color: rgb(255, 255, 255); color: rgb(102, 102, 102); font-family: WOL_Reg,&quot;Segoe UI&quot;,Tahoma,Arial,sans-serif; font-size: 14px;"><div id="SuggestionContainer"><ul style="list-style: outside none none; padding: 4px 2px 0px 1px; cursor: pointer; margin: 1px; white-space: nowrap;" data-searchtype="search dropdown" id="MSDNSearchAutoCompleteList" role="listbox" aria-controls="-widget-search-textbox-thisblog"></ul></div></div></span>
+				</form>
+							</div>
+						<div class="bing-social-search-option">
+				<span class="bing-social-search-thisblog">
+				<input name="SearchTypeRadio" value="thisblog" id="-widget-thisblog" type="radio"><label for="-widget-thisblog" id="-widget-thisblog-text">Search this blog</label></span>
+				<span class="bing-social-search-allblogs">
+				<input name="SearchTypeRadio" value="allblogs" id="-widget-allblogs" checked="checked" type="radio"><label for="-widget-allblogs" id="-widget-allblogs-text">Search all blogs</label></span>
+			</div>
+			<script type="text/javascript">
+			jQuery(document).ready(function( $ ) {
+				var $elmSearchAll = $('#-widget-search-allblogs-container').hide();
+				var $elmSearchThis = $('#-widget-search-thisblog-container');
+
+				// try to get the blog id, if we fail, then we aren't on a blog and just use the regular search approach
+
+					$('#-widget-thisblog').click(function () {
+						var self = $(this);
+						if (self.is(':checked')) {
+							$elmSearchAll.hide();
+							$elmSearchThis.show();
+						}
+					});
+
+					$('#-widget-allblogs').click(function () {
+						var self = $(this);
+						if (self.is(':checked')) {
+							$elmSearchThis.hide();
+							$elmSearchAll.show();
+						}
+					});
+			});
+			</script>
+			
+			<script type="text/javascript">window.$ = window.jQuery;</script>
+							<script src="SearchBox_002.js" type="text/javascript" language="javascript"></script>
+										<script src="SearchBox.js" type="text/javascript" language="javascript"></script>
+				
+		</div>
+		</aside>
+	</div><!-- #secondary -->
+
+	<div id="tag-wrap"><h2 class="color-highlight-bg">Tags</h2><ul class="tag-list"><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/announcement/">Announcement</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/c/">C++</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/cmake/">CMake</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/cross-platform/">cross platform</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/existing-code/">existing code</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/ide/">IDE</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/import/">import</a></li><li><a href="https://blogs.msdn.microsoft.com/vcblog/tag/openfolder-edit/">OpenFolder Edit</a></li></ul></div>
+	
+<div id="comments" class="comments-area">
+
+		<div class="comments-head">
+					<h3 class="comments-title color-highlight-bg">
+				Join the conversation			</h3>
+			<a href="#" class="add-comment-button button">Add Comment</a>
+			</div>
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title"> <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/#respond" style="display:none;">Cancel</a></small></h3>			<form action="https://blogs.msdn.microsoft.com/vcblog/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" aria-describedby="email-notes" required="required" type="text"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" maxlength="200" type="text"></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" value="yes" type="checkbox"><label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit btn btn-default" value="Post Comment" type="submit"> <input name="comment_post_ID" value="16565" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="ecd0920cbf" type="hidden"></p><p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1534927661710" type="hidden"></form>
+			</div><!-- #respond -->
+	
+		
+			
+			<ol class="comment-list">
+				
+			<li id="comment-391045" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-391045" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-14T22:08:07+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=391045#respond" onclick='return addComment.moveForm( "div-comment-391045", "391045", "respond", "16565" )' aria-label="Reply to HGH">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="c8ceaf522aae8cf6c3777968107c5810.jpg" srcset="https://secure.gravatar.com/avatar/c8ceaf522aae8cf6c3777968107c5810?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">HGH</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Isn’t 15.3 final already out?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-392886" class="comment byuser comment-author-msftwibu bypostauthor odd alt depth-2">
+			<article id="div-comment-392886" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-15T17:48:10+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=392886#respond" onclick='return addComment.moveForm( "div-comment-392886", "392886", "respond", "16565" )' aria-label="Reply to Will Buik [MSFT]">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_005.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Will+Buik+%5BMSFT%5D" rel="external nofollow" class="url">Will Buik [MSFT]</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Yes, as of this morning. I’ll add a link to it in the post.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-391215" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-391215" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-14T22:54:17+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=391215#respond" onclick='return addComment.moveForm( "div-comment-391215", "391215", "respond", "16565" )' aria-label="Reply to SasaharaSenpai">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="e02274214aa1c4d5968e02cd7d8b58da.jpg" srcset="https://secure.gravatar.com/avatar/e02274214aa1c4d5968e02cd7d8b58da?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">SasaharaSenpai</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Why don’t you simply add Cmake GUI for setting up all cmake settings. Why making users learn a new config format?<br>
+Best option for me, would be launching familiar cmake-gui for a source directory, configuring it there and building.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-392896" class="comment byuser comment-author-msftwibu bypostauthor odd alt depth-2 parent">
+			<article id="div-comment-392896" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-15T18:12:03+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=392896#respond" onclick='return addComment.moveForm( "div-comment-392896", "392896", "respond", "16565" )' aria-label="Reply to Will Buik [MSFT]">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_005.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Will+Buik+%5BMSFT%5D" rel="external nofollow" class="url">Will Buik [MSFT]</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks for this feedback, this is something we are considering.  What do you typically use CMake GUI for with your own projects?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-393025" class="comment even depth-3">
+			<article id="div-comment-393025" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-15T22:40:35+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=393025#respond" onclick='return addComment.moveForm( "div-comment-393025", "393025", "respond", "16565" )' aria-label="Reply to SasaharaSenpai">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="e02274214aa1c4d5968e02cd7d8b58da.jpg" srcset="https://secure.gravatar.com/avatar/e02274214aa1c4d5968e02cd7d8b58da?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">SasaharaSenpai</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Sorry, I didn’t understand your question perfectly. </p>
+<p>Usually for development I configure my projects through CMake GUI, so
+ it would be perfect to have additional CMake window in Studio for 
+displaying all settings. In the same way like in the original GUI: with 
+grouping and advanced options.</p>
+<p>I would say, one important thing would be adjusng ability to add new 
+files to the solution. For now in CMake projects I have to create file 
+in Windows explorer and then re-run CMake configure in order to get the 
+new file in the solution (CMake uses file(GLOB…) ). Would be really 
+handy if I could add files in Studio and in correct directories. 
+(Because by default it always offers creating new files in build 
+directory, not in source one!).</p>
+<p>For testing I build projects from command like via CMake commands, 
+but there is everythiong is cross platform and is not specific for 
+Studio.</p>
+<p>As I know you have already ability to open source directory with 
+CMakeLists.txt and build it without creating solution manualy. But as I 
+noticed Studio creates all bulid files in the AppData folder what is 
+really inconvinient. I would consider showing CMake GUI in that case, 
+allowing user to choose build directory, toolchain, configuration 
+ortions, etc. I believe it would be very nice feature.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+
+			<li id="comment-399565" class="comment odd alt depth-3">
+			<article id="div-comment-399565" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-22T19:42:28+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=399565#respond" onclick='return addComment.moveForm( "div-comment-399565", "399565", "respond", "16565" )' aria-label="Reply to R">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="1490083c2c5ef846eaf5c582d138eb00.jpg" srcset="https://secure.gravatar.com/avatar/1490083c2c5ef846eaf5c582d138eb00?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">R</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>The ideal would be to use the NCurses CMake GUI, which works on terminal. Usually the bin is name ccmake.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-392587" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-392587" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-15T07:48:08+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=392587#respond" onclick='return addComment.moveForm( "div-comment-392587", "392587", "respond", "16565" )' aria-label="Reply to C">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="6e868bffb027ee25142124109f670f83.jpg" srcset="https://secure.gravatar.com/avatar/6e868bffb027ee25142124109f670f83?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">C</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Is there a convenient way to prevent certain targets from being 
+displayed in the GUI, either through CMakeSettings.json or custom target
+ properties? I still want to *build* them as part of normal dependency 
+resolution, but I don’t want to see them in the top-level list of things
+ to build.</p>
+<p>My projects have a large number of “copy generated file”-type targets
+ created through add_custom_command that are meaningless to the average 
+developer but critical for install()-like functionality. I’d love to 
+restrict the project view to just the “significant” targets and not 
+clutter things up with the housekeeping targets.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-392906" class="comment byuser comment-author-msftwibu bypostauthor odd alt depth-2">
+			<article id="div-comment-392906" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-15T18:13:32+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=392906#respond" onclick='return addComment.moveForm( "div-comment-392906", "392906", "respond", "16565" )' aria-label="Reply to Will Buik [MSFT]">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_005.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Will+Buik+%5BMSFT%5D" rel="external nofollow" class="url">Will Buik [MSFT]</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>There isn’t a way to do this today, unfortunately.  This is valuable feedback, thank you for bringing this to our attention.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-394797" class="comment byuser comment-author-chris_guzak even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-394797" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-17T17:28:06+00:00">
+							1 year ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=394797#respond" onclick='return addComment.moveForm( "div-comment-394797", "394797", "respond", "16565" )' aria-label="Reply to Chris Guzak">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_003.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Chris+Guzak" rel="external nofollow" class="url">Chris Guzak</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I see that Update 3 has extended the tasks.vs.json schema. 
+please produce comprehensive documentation for it! I want to use this to
+ invoke a custom build, deploy and debug command (that launches the VS 
+debugger in the current IDE instance).</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-402105" class="comment byuser comment-author-paul-michalik odd alt depth-2 parent">
+			<article id="div-comment-402105" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-26T05:29:49+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=402105#respond" onclick='return addComment.moveForm( "div-comment-402105", "402105", "respond", "16565" )' aria-label="Reply to Paul Michalik">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_004.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Paul+Michalik" rel="external nofollow" class="url">Paul Michalik</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Agree! @Visual Studio team: Please do not continue the tradition
+ of MSBuild for which the usage of public (aka “well known”) properties 
+always remained a mystery…</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-407615" class="comment even depth-3 parent">
+			<article id="div-comment-407615" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-01T22:04:08+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=407615#respond" onclick='return addComment.moveForm( "div-comment-407615", "407615", "respond", "16565" )' aria-label="Reply to HGH">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="c8ceaf522aae8cf6c3777968107c5810.jpg" srcset="https://secure.gravatar.com/avatar/c8ceaf522aae8cf6c3777968107c5810?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">HGH</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>+1</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-419216" class="comment odd alt depth-4">
+			<article id="div-comment-419216" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-14T01:23:35+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=419216#respond" onclick='return addComment.moveForm( "div-comment-419216", "419216", "respond", "16565" )' aria-label="Reply to Roman Z">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="86e29060167f79b40a59eacf1310f401.jpg" srcset="https://secure.gravatar.com/avatar/86e29060167f79b40a59eacf1310f401?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">Roman Z</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>+1<br>
+It’s almost impossible to use without documentation.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-400276" class="comment even thread-even depth-1">
+			<article id="div-comment-400276" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-23T23:05:10+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=400276#respond" onclick='return addComment.moveForm( "div-comment-400276", "400276", "respond", "16565" )' aria-label="Reply to Alexey">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="f5e0592790e5826221fcec22b9851722.jpg" srcset="https://secure.gravatar.com/avatar/f5e0592790e5826221fcec22b9851722?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">Alexey</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>My project has testing capabilities – it defines functional 
+tests in cmake, but also it has several unit tests written with 
+googletest environment.<br>
+In usual workflow – when I generate projects with cmake gui, and then 
+open/use them with Visual Studio, I have generated target ‘tests’ which 
+runs all the test together. But when developing a new feature I like to 
+use internally ‘test’ capability of VS, which takes the unit tests with 
+googletest adapter. However when using cmake directly (without first 
+generating projects) ‘test’ menu in VS became totally useless. It 
+neither find any tests in solution, neither, of course, run them.<br>
+How to look at this thing? Is it a bug, misfeature, or I just missed something important about using cmake directly in VS?<br>
+For now the docs about configuring looks quite simple, however I’ve found nothing about it there.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+
+			<li id="comment-401345" class="comment odd alt thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-401345" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-08-25T10:26:24+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=401345#respond" onclick='return addComment.moveForm( "div-comment-401345", "401345", "respond", "16565" )' aria-label="Reply to solvingj">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="801e5e2a7b6e032c3ce07b9a9f7e7f8c.jpg" srcset="https://secure.gravatar.com/avatar/801e5e2a7b6e032c3ce07b9a9f7e7f8c?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">solvingj</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Will, I really like the continued progress on CMake in VS, and 
+was excited to see release notes about improving intellisense 
+experience.  But to be clear, after the update, it’s still very buggy.  
+I’ve opened multiple tickets and support has tried to help but they 
+can’t and it’s not their fault.  The nature of the problem is that it’s 
+EXTREMELY hard to reproduce the bugs on-demand, and the problems 
+manifest at seemingly random times.  When issues have arisen, I’ve spent
+ whole days trying to isolate exactly what’s happening for my own sanity
+ and failed.  It’s extremely frustrating because of the number of hidden
+ factors that make intellisense work.  Please advise the support team to
+ stop expecting/asking for examples of these particular issues. So, how 
+can your team troubleshoot then?  To be honest, the problems are so 
+fundamental and “consistently inconsistent”, that if you have any number
+ of testers actually using the integration internally, they should be 
+hitting the same issues and not need us to report it.  Again, I love the
+ integration, but my intellisense stops and starts working throughout 
+the day and I have no idea why.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-407625" class="comment even depth-2">
+			<article id="div-comment-407625" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-01T22:04:28+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=407625#respond" onclick='return addComment.moveForm( "div-comment-407625", "407625", "respond", "16565" )' aria-label="Reply to HGH">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="c8ceaf522aae8cf6c3777968107c5810.jpg" srcset="https://secure.gravatar.com/avatar/c8ceaf522aae8cf6c3777968107c5810?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">HGH</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>+1</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+
+			<li id="comment-407635" class="comment odd alt depth-2 parent">
+			<article id="div-comment-407635" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-01T22:07:56+00:00">
+							12 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=407635#respond" onclick='return addComment.moveForm( "div-comment-407635", "407635", "respond", "16565" )' aria-label="Reply to HGH">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="c8ceaf522aae8cf6c3777968107c5810.jpg" srcset="https://secure.gravatar.com/avatar/c8ceaf522aae8cf6c3777968107c5810?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">HGH</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I’ve reported various bugs that are random and very hard to reproduce. The CMake integration needs more rigorous testing.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-430465" class="comment byuser comment-author-rchiodohotmail-com even depth-3 parent">
+			<article id="div-comment-430465" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-28T19:23:49+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=430465#respond" onclick='return addComment.moveForm( "div-comment-430465", "430465", "respond", "16565" )' aria-label="Reply to rchiodo - MSFT">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/rchiodo+-+MSFT" rel="external nofollow" class="url">rchiodo - MSFT</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Do you have the bugs you reported? I can take a guess at HGH 
+(I’ve seen some issues with somebody with those initials) but solving I 
+can’t find anything from you.</p>
+<p>Do you have any example projects that you’ve been having problems with? </p>
+<p>We have internal teams at Microsoft using CMake and AFAIK there 
+aren’t any outstanding intellisense issues with CMake. We still have 
+some missing features (like adding classes and anything else that would 
+have to auto update the CMakeLists.txt) but everything else should be 
+working. </p>
+<p>Also your version numbers would be helpful. </p>
+<p>Thanks</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-430975" class="comment byuser comment-author-rchiodohotmail-com odd alt depth-4">
+			<article id="div-comment-430975" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-29T08:35:29+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=430975#respond" onclick='return addComment.moveForm( "div-comment-430975", "430975", "respond", "16565" )' aria-label="Reply to rchiodo - MSFT">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/rchiodo+-+MSFT" rel="external nofollow" class="url">rchiodo - MSFT</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>HGH, I’m guessing these are some of yours?<br>
+<a href="https://developercommunity.visualstudio.com/content/problem/62742/intellisense-is-not-working-for-libraries.html" rel="nofollow">https://developercommunity.visualstudio.com/content/problem/62742/intellisense-is-not-working-for-libraries.html</a><br>
+<a href="https://developercommunity.visualstudio.com/content/problem/62743/cmake-if-the-source-is-changed-running-the-applica.html" rel="nofollow">https://developercommunity.visualstudio.com/content/problem/62743/cmake-if-the-source-is-changed-running-the-applica.html</a><br>
+<a href="https://developercommunity.visualstudio.com/content/problem/67207/cmake-intellisense-is-not-working-for-c17-synthax.html" rel="nofollow">https://developercommunity.visualstudio.com/content/problem/67207/cmake-intellisense-is-not-working-for-c17-synthax.html</a></p>
+<p>These should all be fixed. </p>
+<p>Are you hitting other issues?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-425705" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-425705" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-22T12:27:14+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=425705#respond" onclick='return addComment.moveForm( "div-comment-425705", "425705", "respond", "16565" )' aria-label="Reply to Bill">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="b0fe9abc84f89091d2858d4a4eec4ca5.jpg" srcset="https://secure.gravatar.com/avatar/b0fe9abc84f89091d2858d4a4eec4ca5?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">Bill</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>The comment “Inherit the defaults for using the MSVC x64 
+compiler.” is misleading.  In my environment, using “msvc_x64” will 
+specify a 64 bit target, but the 32 bit toolset will still be used.</p>
+<p>How do we specify the use of the 64-bit toolset?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-430475" class="comment byuser comment-author-rchiodohotmail-com odd alt depth-2">
+			<article id="div-comment-430475" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-09-28T19:24:52+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=430475#respond" onclick='return addComment.moveForm( "div-comment-430475", "430475", "respond", "16565" )' aria-label="Reply to rchiodo - MSFT">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/rchiodo+-+MSFT" rel="external nofollow" class="url">rchiodo - MSFT</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>msvc_x64_x64. We need to have it tell what’s allowed in the 
+intellisense for the CMakeSettings.json. I’ll add a bug to that effect.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+			<li id="comment-437386" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-437386" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-10-09T01:19:57+00:00">
+							11 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=437386#respond" onclick='return addComment.moveForm( "div-comment-437386", "437386", "respond", "16565" )' aria-label="Reply to jalf">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="89d9e0f965ff5b9cd1dec022eff46d8e.jpg" srcset="https://secure.gravatar.com/avatar/89d9e0f965ff5b9cd1dec022eff46d8e?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">jalf</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This explains how I can define an ‘environments’ block, but it never really explained the ‘inheritEnvironments’ variable.</p>
+<p>How do I use that? I assume it would let me define a named 
+environment block… *somewhere*, and inherit that? How/where would I 
+define that?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+
+			<li id="comment-441746" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-441746" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-10-14T05:58:28+00:00">
+							10 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=441746#respond" onclick='return addComment.moveForm( "div-comment-441746", "441746", "respond", "16565" )' aria-label="Reply to Florian Tischler">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="e47c30f1cf79e03aae74bffea731e524.jpg" srcset="https://secure.gravatar.com/avatar/e47c30f1cf79e03aae74bffea731e524?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">Florian Tischler</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Are there any defaults to inherit for Clang/C2 and Clang/LLVM?</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+
+			<li id="comment-446645" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-446645" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-10-20T15:42:24+00:00">
+							10 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=446645#respond" onclick='return addComment.moveForm( "div-comment-446645", "446645", "respond", "16565" )' aria-label="Reply to Laramore">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="a97f70bdf4a0b959e99b4ea13e5fcdcc.jpg" srcset="https://secure.gravatar.com/avatar/a97f70bdf4a0b959e99b4ea13e5fcdcc?s=80&amp;d=mm&amp;r=g 2x" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name">Laramore</span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I’d like to set additional environment variables to be visible 
+to remote build processes (cmake/make/ninja) in “linux-x64” 
+configuration. How can I do this? Our CMakeLists.txt files refer to 
+various environment variables that are reported as not set when project 
+is run from Visual Studio.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		<ul class="children">
+
+			<li id="comment-450085" class="comment byuser comment-author-iontodirelgmail-com odd alt depth-2">
+			<article id="div-comment-450085" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-right">
+						<time class="comment-time" datetime="2017-10-24T18:30:08+00:00">
+							10 months ago						</time>
+						<div class="comment-actions">
+							<a rel="nofollow" class="comment-reply-link" href="https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/?replytocom=450085#respond" onclick='return addComment.moveForm( "div-comment-450085", "450085", "respond", "16565" )' aria-label="Reply to Ion Todirel">Reply</a>						</div>
+					</div>
+					<div class="comment-author vcard">
+						<img alt="" src="avatar_002.jpg" class="avatar avatar-40 photo" width="40" height="40">						<div class="author-wrap">
+							<span class="author-name"><a href="https://social.msdn.microsoft.com/profile/Ion+Todirel" rel="external nofollow" class="url">Ion Todirel</a></span>						</div>
+					</div><!-- .comment-author -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi, we don’t support this capability yet. The current options 
+are to do it directly from your cmake scripts, or to put your 
+environment in .bashrc.</p>
+				</div><!-- .comment-content -->
+
+				<div class="comment-metadata">
+									</div><!-- .comment-metadata -->
+
+			</article><!-- .comment-body -->
+
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+			</ol><!-- .comment-list -->
+
+			
+		
+		
+</div><!-- #comments -->
+
+
+	
+
+
+	</div><!-- #content -->
+
+	<div class="footer-wrap">
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			<div class="site-info">
+
+				<div class="footer-copyright">
+					<p>© 2018 Microsoft Corporation.</p>
+				</div>
+
+				<div class="bottom-footer-menu">
+					<div class="menu-c-team-footer-menu-container"><ul id="menu-c-team-footer-menu" class="footer-menu"><li id="menu-item-7181" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7181"><a href="http://go.microsoft.com/fwlink/?LinkId=248681">Privacy &amp; Cookies</a></li>
+</ul></div>				</div>
+
+				<div class="footer-logo">
+					<!--<div class="copyright-logo" role="img" aria-label="Microsoft logo"></div>-->
+				</div><!-- .footer-logo -->
+
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- .footer-wrap -->
+
+<!-- #page -->
+
+
+	<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$login_link = $( 'a[href*="wp-login.php?"]' );
+				$login_link.on( 'click', function( evt ) {
+			// evt.preventDefault();
+						// console.log( 'cookie-set', '/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/' );
+			$.cookie( 'aadsso-redirect', '/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/', { expires: 1, path: '/' });
+		});
+	});
+	</script>
+		<script>
+		jQuery(window).load(function () {
+			// Fix Bug #644092:MAS36: Page number
+			jQuery('div.nav-links>a.page-numbers').each(function(){
+				jQuery(this).attr('aria-label', 'Page ' + jQuery(this).html());
+			});
+
+			// Fix Bug #633981:MAS20B:  Talkback: Talkback announces link for Number of Comments as 'Number link'
+			jQuery('span.comments-link>a').each(function () {
+				var num = parseInt(jQuery(this).html());
+				if (isNaN(num)) {
+					return false;
+				}
+				var content = num + (num === 1 ? ' comment' : ' comments');
+				jQuery(this).attr({
+					'aria-label': content,
+					'title': content
+				});
+			});
+
+
+			jQuery('#search-option>div').each(function () {
+				jQuery(this).attr('aria-label',jQuery('span.search-text',this).html());
+			});
+
+			// Fix Bug #671896:MAS40B :Inspect: Header: "Name" property is not descriptive for  "Microsoft | TechNet" link (logo).
+			var currentHost = location.hostname;
+			if (currentHost.indexOf('msdn') !== -1) {
+				jQuery('#home-link').attr('aria-label','Microsoft Developer');
+			} else if (currentHost.indexOf('technet') !== -1) {
+				jQuery('#home-link').attr('aria-label','Microsoft Technet');
+			}
+
+			// Detect High Contrast Mode in non IE/Edge Browsers
+			jQuery('html').css('background-image', 'url("data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==")');
+			if (jQuery('html').css('background-image') === 'none') {
+				jQuery('html').attr('data-high-contrast', 'true');
+			}
+
+			// Fix Bug #670327:MAS40B: Inspect: Header: "Localized control type" property is incorrect for the header elements.
+			// Fix Bug #683788:MAS40B: TalkBack: Header: For menu items in technet link menu bar, expand/collapse pattern available, is not announced by TalkBack 
+			jQuery('#site-navigation>div>ul>li>a').attr('role', 'button').attr('aria-expanded', 'false').click(function () {
+				if (jQuery(this).attr('aria-expanded') === 'true') {
+					jQuery(this).attr('aria-expanded', 'false');
+				} else {
+					jQuery(this).attr('aria-expanded', 'true');
+				}
+			});
+
+		});
+	</script>
+		<!--ADD WEDCS SCRIPT-->
+	<div id="_WEDCSInsertedData" style="display: none;"></div>
+	<script type="text/javascript">
+		jQuery( window ).load(
+			function() {
+				window.varSegmentation = 0;
+				window.varClickTracking = 1;
+				window.varCustomerTracking = 1;
+				window.varAutoFirePV = 1;
+				window.Route = ""; // was 23470 in the windows theme framework
+				window.Ctrl = "";
+
+								var blogPost = {};
+
+								blogPost.permalink = 'https://blogs.msdn.microsoft.com/vcblog/2017/08/14/cmake-support-in-visual-studio-customizing-your-environment/';
+				blogPost.title = 'CMake Support in Visual Studio: Customizing your Environment';
+				blogPost.author = 'Will Buik [MSFT]';
+				blogPost.post_date = '2017-08-14 18:22:00';
+				blogPost.category = 'Announcement,CMake';
+				blogPost.tag = 'Announcement,C++,CMake,cross platform,existing code,IDE,import,OpenFolder Edit';
+				blogPost.comment_number = '24';
+								window.blogPost = blogPost;
+
+				var wedcs_script = document.createElement('script');
+				wedcs_script.type = 'text/javascript';
+				wedcs_script.async = true;
+				wedcs_script.src = 'https://blogs.msdn.microsoft.com/vcblog/wp-content/mu-plugins/wedcs-script/ms2_blogs.js';
+				if (typeof mscc === 'undefined' || (!mscc || mscc.hasConsent())) {
+					document.getElementsByTagName('body')[0].appendChild(wedcs_script);
+				}
+
+				var script_jsll = document.createElement("script");
+				script_jsll.type = "text/javascript";
+				script_jsll.src = "//az725175.vo.msecnd.net/scripts/jsll-4.2.1.js";
+				script_jsll.onload = function () {
+					var domainAppIdDic = {
+						"blogs.msdn.microsoft.com": "blogsmsdn",
+						"blogs.technet.microsoft.com": "blogstechnet"
+					};
+					var domain = document.domain;
+					var appId = "blogsmsdn";
+					if (domainAppIdDic[domain]) {
+						appId = domainAppIdDic[domain];
+					}
+					var config = {
+						coreData: {
+							appId: appId
+						}
+					};
+					awa.init(config);
+				};
+				if (document.getElementsByTagName("head") && document.getElementsByTagName("head").length > 0) {
+					document.getElementsByTagName("head")[0].appendChild(script_jsll);
+				}
+			});
+	</script>
+	<!--
+	<script src="//c.microsoft.com/ms.js" type="text/javascript"></script>
+	<noscript><img alt="" width="1" height="1" src="http://c.microsoft.com/trans_pixel.aspx"/></noscript>
+	-->
+<script type="text/javascript">/*{literal}<![CDATA[*/window.lightningjs||function(c){function g(b,d){d&&(d+=(/\?/.test(d)?"&":"?")+"lv=1");c[b]||function(){var i=window,h=document,j=b,g=h.location.protocol,l="load",k=0;(function(){function b(){a.P(l);a.w=1;c[j]("_load")}c[j]=function(){function m(){m.id=e;return c[j].apply(m,arguments)}var b,e=++k;b=this&&this!=i?this.id||0:0;(a.s=a.s||[]).push([e,b,arguments]);m.then=function(b,c,h){var d=a.fh[e]=a.fh[e]||[],j=a.eh[e]=a.eh[e]||[],f=a.ph[e]=a.ph[e]||[];b&&d.push(b);c&&j.push(c);h&&f.push(h);return m};return m};var a=c[j]._={};a.fh={};a.eh={};a.ph={};a.l=d?d.replace(/^\/\//,(g=="https:"?g:"http:")+"//"):d;a.p={0:+new Date};a.P=function(b){a.p[b]=new Date-a.p[0]};a.w&&b();i.addEventListener?i.addEventListener(l,b,!1):i.attachEvent("on"+l,b);var q=function(){function b(){return["<head></head><",c,' onload="var d=',n,";d.getElementsByTagName('head')[0].",d,"(d.",g,"('script')).",i,"='",a.l,"'\"></",c,">"].join("")}var c="body",e=h[c];if(!e)return setTimeout(q,100);a.P(1);var d="appendChild",g="createElement",i="src",k=h[g]("div"),l=k[d](h[g]("div")),f=h[g]("iframe"),n="document",p;k.style.display="none";e.insertBefore(k,e.firstChild).id=o+"-"+j;f.frameBorder="0";f.id=o+"-frame-"+j;/MSIE[ ]+6/.test(navigator.userAgent)&&(f[i]="javascript:false");f.allowTransparency="true";l[d](f);try{f.contentWindow[n].open()}catch(s){a.domain=h.domain,p="javascript:var d="+n+".open();d.domain='"+h.domain+"';",f[i]=p+"void(0);"}try{var r=f.contentWindow[n];r.write(b());r.close()}catch(t){f[i]=p+'d.write("'+b().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};a.l&&setTimeout(q,0)})()}();c[b].lv="1";return c[b]}var o="lightningjs",k=window[o]=g(o);k.require=g;k.modules=c}({});
+    if(!navigator.userAgent.match(/Android|BlackBerry|BB10|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {window.usabilla_live = lightningjs.require("usabilla_live", "//w.usabilla.com/2a41eea4c9e1.js"); } else {window.usabilla_live = lightningjs.require("usabilla_live", "//w.usabilla.com/29d0684d6043.js"); }/*]]>{/literal}*/</script>		<script type="text/javascript">
+			jQuery( window ).load(
+				function () {
+					var stylesheet = document.createElement('link');
+					stylesheet.href = 'https://blogs.msdn.microsoft.com/vcblog/wp-content/plugins/simple-follow-me-social-buttons-widget/assets/css/style.css?ver=3.3.3';
+					stylesheet.rel = 'stylesheet';
+					stylesheet.type = 'text/css';
+					document.getElementsByTagName('head')[0].appendChild(stylesheet);
+				});
+		</script>
+				<script type="text/javascript">
+			jQuery( window ).load(
+				function () {
+					var stylesheet = document.createElement('link');
+					stylesheet.href = 'https://blogs.msdn.microsoft.com/vcblog/wp-content/plugins/simple-follow-me-social-buttons-widget/assets/css/icons.css?ver=3.3.3';
+					stylesheet.rel = 'stylesheet';
+					stylesheet.type = 'text/css';
+					document.getElementsByTagName('head')[0].appendChild(stylesheet);
+				});
+		</script>
+				<script type="text/javascript">
+			jQuery( window ).load(
+				function () {
+					var script = document.createElement('script');
+					script.src = 'https://blogs.msdn.microsoft.com/vcblog/wp-content/plugins/simple-follow-me-social-buttons-widget/assets/js/front-widget.js?ver=3.3.3';
+					script.type = 'text/javascript';
+					script.async = true;
+					document.getElementsByTagName('body')[0].appendChild(script);
+				});
+		</script>
+		
+		<span id="page-view-tracking-info" blog-id="46413" post-id="16565"></span>
+		<script type="text/javascript">
+			// Check for compatibility before IE8
+			if (!Date.now) {
+ 				 Date.now = function() { return new Date().getTime(); };
+			}
+			jQuery( window ).load( function() {
+				jQuery.ajax({
+					url: 'https://blogs.msdn.microsoft.com/vcblog/wp-admin/admin-ajax.php',
+					type: 'get',
+					data: {
+						action: 'track_page_view',
+						track_page_view_post_id: jQuery('#page-view-tracking-info').attr('post-id'),
+						track_page_view_blog_id: jQuery('#page-view-tracking-info').attr('blog-id'),
+						track_page_view_post_url: window.location.href.split('?')[0],
+						timestamp: Date.now()
+						}
+				});
+			});
+		</script>	<script type="text/javascript">
+		var addthis_config =
+		    {
+				data_track_addressbar: false,
+	        	ui_use_css: false,
+	        	ui_508_compliant: true
+	    	}
+	</script>
+
+<script>
+dataLayer = [[]];
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PLR87W" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>jQuery(window).load(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PLR87W')});
+</script>
+<!-- End Google Tag Manager -->
+	<script type="text/javascript">
+		jQuery( window ).load(
+			function(i) {
+				var n = window,
+					t = document,
+					e = n.console,
+					f, u, r, o;
+				typeof e == "undefined" && (f = function() {}, e = {
+					log: f,
+					warn: f,
+					assert: f,
+					clear: f,
+					dir: f,
+					error: f,
+					info: f,
+					profile: f,
+					profileEnd: f
+				}), u = {
+					appendToHead: function(n) {
+						if (t.getElementsByTagName("head").length > 0) t.getElementsByTagName("head")[0].appendChild(n);
+						else throw "bootstrapper: no head element found.";
+					},
+					appendToBody: function(n) {
+						if (t.getElementsByTagName("body").length > 0) t.getElementsByTagName("body")[0].appendChild(n);
+						else throw "bootstrapper: no body element found.";
+					},
+					addStyleElement: function(n) {
+						var i = t.createElement("link");
+						i.setAttribute("href", n), i.setAttribute("rel", "stylesheet"), i.setAttribute("type", "text/css"), u.appendToHead(i)
+					},
+					loadFiles: function(n, t) {
+						if (t !== i && u.recursiveScriptLoad(0, t), n !== i)
+							for (var r = 0, r = 0; r < n.length; r++) u.addStyleElement(n[r])
+					},
+					recursiveScriptLoad: function(n, t) {
+						t[n] && u.addScriptElement(t[n], function() {
+							u.recursiveScriptLoad(n + 1, t)
+						})
+					},
+					isCompatible: function(n, t) {
+						var r, u, i;
+						return (r = n.split("."), u = t.split("."), i = function(n) {
+							return isNaN(n) ? 0 : n
+						}, i(r[0]) > i(u[0]) || i(r[0]) === i(u[0]) && i(r[1]) > i(u[1]) || i(r[0]) === i(u[0]) && i(r[1]) === i(u[1]) && i(r[2]) >= i(u[2])) ? !0 : !1
+					},
+					addScriptElement: function(i, r) {
+						var f, e;
+						f = t.createElement("script"), f.setAttribute("type", "text/javascript"), f.async = true, f.setAttribute("src", i), f.attachEvent ? (e = function() {
+							setTimeout(function() {
+								typeof n.jQuery != "undefined" && r ? r() : e()
+							}, 10)
+						}, e()) : f.onload = r, u.appendToBody(f)
+					},
+					load: function(n, t) {
+						setTimeout(function() {
+							if (typeof n == "undefined") try {
+								u.addScriptElement(t.defaultPath, function() {
+									u.loadFiles(t.cssFiles, t.jsFiles)
+								});
+								return
+							} catch (i) {
+								e.warn("bootstrapper: failed to load default jQuery")
+							} else if (!u.isCompatible(n.fn.jquery, t.minimumVersion)) {
+								e.warn("bootstrapper: jQuery version is too old to load UserCard. Use v1.4.2 or later.");
+								return
+							}
+							u.loadFiles(t.cssFiles, t.jsFiles)
+						}, 0)
+					}
+				}, r = {
+					host: n.location.host,
+					search: "",
+					protocol: "https"
+				}, r.host = "widgets.services.microsoft.com", r.search = "?brand=msdn&lang=en&ver=4.9.0.0", r.protocol = "https:", o = {
+					minimumVersion: "1.1.2",
+					defaultPath: "https://code.jquery.com/jquery-1.4.2.min.js",
+					cssFiles: [r.protocol + "//" + r.host + "/v1/UnifiedBaseballCard.css" + r.search, r.protocol + "//" + r.host + "/v1/usercard.css" + r.search],
+					jsFiles: ["https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js", r.protocol + "//" + r.host + "/v1/jquery.timeago.js" + r.search, r.protocol + "//" + r.host + "/v1/jquery.textfill.js" + r.search, r.protocol + "//" + r.host + "/v1/widgets.js" + r.search]
+				}, typeof n.jQuery == "undefined" ? u.load(i, o) : u.load(n.jQuery, o)
+			}
+		);
+	</script>
+<script type="text/javascript" src="form.js"></script>
+<script type="text/javascript" src="shCore.js"></script>
+<script type="text/javascript" src="shBrushJScript.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://blogs.msdn.microsoft.com/vcblog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.head.appendChild(corecss);
+		var themecssurl = "https://blogs.msdn.microsoft.com/vcblog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.head.appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<link rel="stylesheet" id="eucookielaw-css-css" href="mscc-0.css" type="text/css" media="all">
+<link rel="stylesheet" id="msdn-subscription-css-css" href="msdn-subscription.css" type="text/css" media="all">
+<link rel="stylesheet" id="msdn-comment-notification-comment-form-css" href="msdn-comment-notification-comment-form.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var wds_ratings_config = {"ajaxurl":"https:\/\/blogs.msdn.microsoft.com\/vcblog\/wp-admin\/admin-ajax.php","user_id":"0","nonce":"5c143c5acc","debug":"","no_auth_alert":"You must be logged in to rate this article.","repeatedly_vote_alert":"You can not vote repeatedly in a short time","allow_anonymous_rating":"","blog_id":"46413","rating_limit_login_user":"1","rating_limit_anonymous":"1","hide_rating_post_ids":""};
+var wds_ratings_config = {"ajaxurl":"https:\/\/blogs.msdn.microsoft.com\/vcblog\/wp-admin\/admin-ajax.php","user_id":"0","nonce":"5c143c5acc","debug":"","no_auth_alert":"You must be logged in to rate this article.","repeatedly_vote_alert":"You can not vote repeatedly in a short time","allow_anonymous_rating":"","blog_id":"46413","rating_limit_login_user":"1","rating_limit_anonymous":"1","hide_rating_post_ids":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="wds-ratings.js"></script>
+<script type="text/javascript" src="onclick-menu-cloud.js"></script>
+<script type="text/javascript" src="comment-reply.js"></script>
+<script type="text/javascript" src="comments.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var msdnparent = {"is_search":"","is_singular":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="project.js"></script>
+<script type="text/javascript" src="wp-embed.js"></script>
+<script type="text/javascript" src="mscc-0.js"></script>
+<script type="text/javascript" src="eucookielaw-searchbox-script.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var ajax_object = {"ajax_url":"https:\/\/blogs.msdn.microsoft.com\/vcblog\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="msdn-subscription.js"></script>
+<script type="text/javascript" src="msdn-comment-notification-comment-form.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+
+
+
+
+<script src="front-widget.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="jquery_003.js"></script><script type="text/javascript" async="" src="https://widgets.services.microsoft.com/v1/jquery.timeago.js?brand=msdn&amp;lang=en&amp;ver=4.9.0.0"></script><script type="text/javascript" async="" src="https://widgets.services.microsoft.com/v1/jquery.textfill.js?brand=msdn&amp;lang=en&amp;ver=4.9.0.0"></script><script type="text/javascript" async="" src="https://widgets.services.microsoft.com/v1/widgets.js?brand=msdn&amp;lang=en&amp;ver=4.9.0.0"></script><div class="usabilla_live_button_container" tabindex="0" style="top:auto !important;margin-top:-65px;bottom:10%;width:40px;height:130px;position:fixed;z-index:999999;right:0" aria-label="Usabilla Feedback Button"><iframe src="" style="width: 40px; height: 130px; margin: 0px; padding: 0px; border: 0px none; overflow: hidden; z-index: 9998; position: absolute; left: 0px; top: 0px; box-shadow: 0px 0px 0px; background-color: transparent;" marginwidth="0" marginheight="0" scrolling="no" data-tags="right" title="Usabilla Feedback Button" frameborder="0"></iframe></div></body></html>

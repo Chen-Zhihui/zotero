@@ -1,0 +1,352 @@
+Notiﬁcations & Events
+Notifying someone that something happened.
+
+Overview
+> Notiﬁcations and the NotiﬁcationCenter > Sending notiﬁcations to other threads using a NotiﬁcationQueue > Events
+
+Notifications vs. Events
+> Notiﬁcations and events are two mechanisms supported by
+POCO to tell a class (the target) that something happened in another class (the source).
+> Notiﬁcations are used if an observer does not know or does not
+care about the source of an event. A Poco::NotiﬁcationCenter or Poco::NotiﬁcationQueue sits between, and decouples sources and targets. Notiﬁcations can be sent across thread boundaries.
+> Events are used if an observer does care about the source of an
+event, or wants to receive events only from a particular source. Events also support asynchronous notiﬁcation and other features, that notiﬁcations do not support.
+
+Notifications vs. Events (cont'd)
+
+targets know sources synchronous notiﬁcation asynchronous notiﬁcation works across thread boundaries different notiﬁcation strategies
+automatic expirations notiﬁcation polymorphism
+
+Notiﬁcations – ✔ – ✔ – – ✔
+
+Events ✔ ✔ ✔ – ✔ ✔ –
+
+Dispatching Notifications
+
+Source
+
+NotificationCenter Observer1 Observer2
+
+Target1
+
+Target2
+
+postNotification()
+
+notify() notify()
+
+callback() callback()
+
+Dispatching Events
+
+Source
+
+Event
+
+Strategy Delegate1 Delegate2
+
+Target1
+
+Target2
+
+notify()
+
+notify()
+
+notify()
+
+notify()
+
+callback() callback()
+
+Notification Classes
+> Notiﬁcation classes are derived from Poco::Notiﬁcation and
+support reference counting (compatible with Poco::AutoPtr).
+> A notiﬁcation object can hold arbitrary data and can provide
+arbitrary operations.
+> Notiﬁcation classes do not support value semantics (no copy
+constructor, no assignment) and are always created on the heap.
+
+The NotificationCenter Class
+> Poco::NotiﬁcationCenter is a dispatcher for notiﬁcation objects. > #include "Poco/NotiﬁcationCenter.h" > Poco::NotiﬁcationCenter uses observer objects (subclasses of
+Poco::AbstractObserver) to talk to its targets.
+> An observer object stores a pointer to the target object, and a
+pointer to the target object's callback member function, and knows which notiﬁcations the target is interested in.
+
+Subscribing to Notifications
+> Targets can subscribe to notiﬁcations by registering themselves
+with a NotiﬁcationCenter using the addObserver() member function.
+> void addObserver(const AbstractObserver& observer)
+registers a notiﬁcation target with the NotiﬁcationCenter
+> A subscription can be cancelled by calling removeObserver().
+> void removeObserver(const AbstractObserver& observer)
+unregisters a notiﬁcation target
+
+Observers
+> An Observer stores a pointer to the target object, and a pointer
+to the target object's callback member function, and knows which notiﬁcations the target is interested in.
+> Observers are deﬁned using either the Observer or the
+NObserver class template.
+> Observer works with plain pointers to Notiﬁcation objects. > NObserver works with AutoPtr<Notiﬁcation>. > Observer and NObserver are instantiated for a Notiﬁcation class
+and a target class.
+
+Observers and Callback Functions
+> For Observer, the target member function receiving the callback
+must be deﬁned as: void someCallback(SomeNotiﬁcation* pNf ) where someCallback can be any name and SomeNotiﬁcation is the notiﬁcation to be registered for. The callback gets shared ownership of the notiﬁcation object, and must release it when it's no longer needed.
+> For NObserver, the target member function is:
+void someCallback(const AutoPtr<SomeNotiﬁcation>& pNf )
+
+Observers and Callback Functions (cont'd)
+> During a callback, the callback function may unregister itself (or
+other callbacks) from the NotiﬁcationCenter, or register new callbacks with the NotiﬁcationCenter.
+> Observers that have been added during a notiﬁcation will be
+called the ﬁrst time with the next notiﬁcation.
+> Observers that have been removed during a notiﬁcation will not
+receive the current notiﬁcation (unless they have already received it).
+
+Posting Notifications
+> Notiﬁcations are posted for dispatching by a NotiﬁcationCenter
+using the postNotiﬁcation() method.
+> void postNotiﬁcation(Notiﬁcation::Ptr pNotiﬁcation)
+delivers the notiﬁcation to all targets subscribed for the notiﬁcation class (or a superclass of it)
+> The notiﬁcation is delivered to all registered targets. If a target
+throws an exception while handling the notiﬁcation, dispatching stops and the exception is propagated to the caller.
+> The NotiﬁcationCenter assumes ownership of the notiﬁcation.
+
+Notification Polymorphism
+> Targets subscribed for a particular notiﬁcation class also receive
+notiﬁcations that are subclasses of that class.
+> If a target subscribes for Poco::Notiﬁcation, it will thus receive all
+notiﬁcations posted to the NotiﬁcationCenter it has registered with.
+
+#include "Poco/NotificationCenter.h" #include "Poco/Notification.h" #include "Poco/Observer.h" #include "Poco/NObserver.h" #include "Poco/AutoPtr.h" #include <iostream>
+using Poco::NotificationCenter; using Poco::Notification; using Poco::Observer; using Poco::NObserver; using Poco::AutoPtr;
+class BaseNotification: public Notification { };
+class SubNotification: public BaseNotification { };
+
+class Target { public:
+void handleBase(BaseNotification* pNf) {
+std::cout << "handleBase: " << pNf->name() << std::endl; pNf->release(); // we got ownership, so we must release }
+void handleSub(const AutoPtr<SubNotification>& pNf) {
+std::cout << "handleSub: " << pNf->name() << std::endl; } };
+
+int main(int argc, char** argv) {
+NotificationCenter nc; Target target;
+nc.addObserver( Observer<Target, BaseNotification>(target, &Target::handleBase)
+); nc.addObserver(
+NObserver<Target, SubNotification>(target, &Target::handleSub) );
+nc.postNotification(new BaseNotification); nc.postNotification(new SubNotification);
+nc.removeObserver( Observer<Target, BaseNotification>(target, &Target::handleBase)
+); nc.removeObserver(
+NObserver<Target, SubNotification>(target, &Target::handleSub) );
+return 0; }
+
+The NotificationQueue Class
+> A Poco::NotiﬁcationQueue can be used to send notiﬁcations
+asynchronously from one thread to another.
+> #include "Poco/NotiﬁcationQueue.h" > More than one thread can read from a NotiﬁcationQueue. > Use a NotiﬁcationQueue to
+> send notiﬁcations from background processing threads to the
+user interface thread, or
+> send notiﬁcations from a controlling thread to one or more
+worker threads.
+
+Background Thread ➔ UI Thread
+Bkgnd Thread 1 enqueueNotiﬁcation()
+
+Bkgnd
+
+enqueueNotiﬁcation()
+
+Thread 2
+
+dequeueNotiﬁcation()
+
+UI Thread
+
+Controller Thread ➔ Worker Thread
+
+Ctrl Thread
+
+enqueueNotiﬁcation()
+
+Worker waitDequeueNotiﬁcation() Thread 1
+Worker
+waitDequeueNotiﬁcation()
+Thread 2
+
+Enqueueing Notifications
+> void enqueueNotiﬁcation(Notiﬁcation::Ptr pNotiﬁcation)
+enqueues the given notiﬁcation by adding it to the end of the queue (FIFO principle). The queue takes ownership of the notiﬁcation.
+> void enqueueUrgentNotiﬁcation(Notiﬁcation::Ptr pNotiﬁcation)
+enqueues the given notiﬁcation by adding it to the beginning of the queue (LIFO principle). The queue takes ownership of the notiﬁcation.
+
+Dequeueing Notifications
+> Notiﬁcation* dequeueNotiﬁcation()
+dequeues the next pending notiﬁcation from the beginning of the queue, or null if no notiﬁcation is available. The caller gains ownership of the notiﬁcation.
+> Notiﬁcation* waitDequeueNotiﬁcation()
+Notiﬁcation* waitDequeueNotiﬁcation(long timeout) dequeues the next pending notiﬁcation. If no notiﬁcation is available, waits (at most timeout milliseconds) for a notiﬁcation to be posted. Returns the notiﬁcation, or null if none is available.
+
+Shutting Down a Queue
+> How to tell worker threads they are done? > Three strategies:
+1. Post a special QuitNotiﬁcation for every worker thread;
+2. Set a (global) stop ﬂag and use waitDequeueNotiﬁcation() with a timeout;
+3. Use wakeUpAll(): every call to waitDequeueNotiﬁcation() will immediately return null.
+
+Shutting Down a Queue: QuitNotification
+> One QuitNotiﬁcation must be posted for every worker thread. > Worker threads must test for and handle QuitNotiﬁcation (using
+dynamic_cast or something similar), and immediately stop dequeueing more notiﬁcations.
+> Controller must know the exact number of worker threads. > Worker threads can use waitDequeueNotiﬁcation() without a
+timeout.
+
+Shutting Down a Queue: Stop Flag
+> A (global) stop ﬂag is set to notify workers of pending shutdown. > Worker threads must use waitDequeueNotiﬁcation() with a
+timeout, and periodically check the stop ﬂag.
+> Worker threads can only react to shutdown after timeout expires.
+
+Shutting Down a Queue: wakeUpAll()
+> void wakeUpAll()
+wakes up all threads waiting for a notiﬁcation using waitDequeueNotiﬁcation(). Every call to waitDequeueNotiﬁcation() will immediately return null.
+> wakeUpAll() only works if all worker threads are idle and waiting
+for notiﬁcations.
+> Additionally, a stop ﬂag must be maintained if worker threads
+use waitDequeueNotiﬁcation() with a timeout.
+
+#include "Poco/Notification.h" #include "Poco/NotificationQueue.h" #include "Poco/ThreadPool.h" #include "Poco/Runnable.h" #include "Poco/AutoPtr.h"
+using Poco::Notification; using Poco::NotificationQueue; using Poco::ThreadPool; using Poco::Runnable; using Poco::AutoPtr;
+class WorkNotification: public Notification { public:
+WorkNotification(int data): _data(data) {}
+int data() const {
+return _data; } private: int _data; };
+
+class Worker: public Runnable { public:
+Worker(NotificationQueue& queue): _queue(queue) {}
+void run() {
+AutoPtr<Notification> pNf(_queue.waitDequeueNotification()); while (pNf) {
+WorkNotification* pWorkNf = dynamic_cast<WorkNotification*>(pNf.get());
+if (pWorkNf) {
+// do some work } pNf = _queue.waitDequeueNotification(); } }
+private: NotificationQueue& _queue;
+};
+
+int main(int argc, char** argv) {
+NotificationQueue queue;
+Worker worker1(queue); // create worker threads Worker worker2(queue);
+ThreadPool::defaultPool().start(worker1); // start workers ThreadPool::defaultPool().start(worker2);
+// create some work for (int i = 0; i < 100; ++i) {
+queue.enqueueNotification(new WorkNotification(i)); }
+while (!queue.empty()) // wait until all work is done Poco::Thread::sleep(100);
+queue.wakeUpAll(); // tell workers they're done ThreadPool::defaultPool().joinAll();
+return 0; }
+
+Special Queues
+> PriorityNotiﬁcationQueue
+notiﬁcations are tagged with a priority and dequeued in order of their priority (lower numerical value means higher priority)
+> TimedNotiﬁcationQueue
+notiﬁcations are tagged with a timestamp and dequeued in order of their timestamps
+
+Events
+> Events in POCO are modeled after C# events, but implemented in
+a true C++ way.
+> In contrast to notiﬁcations, events are part of a class interface.
+Events are deﬁned as public data members.
+> Events support asynchronous notiﬁcations, diﬀerent notiﬁcation
+strategies and automatic expirations.
+> Events are deﬁned using the Poco::BasicEvent class template. > #include "Poco/BasicEvent.h"
+
+Events (cont'd)
+> A target subscribes to an event by registering a delegate, using
+the Poco::Delegate class template.
+> #include "Poco/Delegate.h" > An event has exactly one argument, which can be a subclass of
+Poco::EventArgs.
+> #include "Poco/EventArgs.h"
+
+Defining an Event
+> An event is deﬁned using the Poco::BasicEvent class template. > Poco::BasicEvent is instantiated with the type of the event
+argument.
+> Usually, an event is added as a public data member to a class.
+
+Delegates
+> A target uses Poco::Delegate to register a callback member
+function with the event.
+> Poco::Delegate is instantiated with the target class and the event
+argument type.
+> A delegate is registered with an event using the += operator of
+the event.
+> Similarly, a delegate is unregistered using the -= operator.
+
+Delegates and Callback Functions
+> The callback function used with a delegate must be a function
+with one of the following signatures: void handler(const void* pSender, EventArg& arg)
+> The ﬁrst argument points to the object that ﬁred the event. > The second is a reference to the argument passed to the event. > The callback function may modify the event argument (unless it
+has been declared const) to pass data back to the sender.
+
+Firing Events
+> An event can be ﬁred synchronously by invoking its notify()
+member function (or its function call operator).
+> An event can be ﬁred asynchronously by invoking its
+notifyAsync() member function.
+> If any event handler throws an exception, event dispatching
+stops immediately and the exception is propagated to the caller.
+
+#include "Poco/BasicEvent.h" #include "Poco/Delegate.h" #include <iostream>
+
+using Poco::BasicEvent; using Poco::Delegate;
+
+class Source { public:
+BasicEvent<int> theEvent;
+
+void fireEvent(int n)
+
+{
+
+theEvent(this, n);
+
+//
+
+theEvent.notify(this, n); // alternative syntax
+
+}
+
+};
+
+class Target { public:
+void onEvent(const void* pSender, int& arg) {
+std::cout << "onEvent: " << arg << std::endl; } };
+int main(int argc, char** argv) {
+Source source; Target target;
+source.theEvent += Poco::delegate(&target, &Target::onEvent);
+source.fireEvent(42);
+source.theEvent -= Poco::delegate(&target, &Target::onEvent);
+return 0; }
+
+Synchronous vs. Asynchronous Events
+> Use notify when your handler code is small and the expected
+number of delegates is low.
+> Use notify when you require synchronization. > Be careful with notify() (and also notifyAsync()) when your
+handler code can trigger other events, i.e. other notiﬁes. In combination with mutexes dead-locks are possible.
+
+Event Considerations
+> Never forget to unregister delegates! Otherwise dangling
+pointers will cause undeﬁned behavior (crash) in a later notify.
+> Each target can only register one single delegate at one event. If
+a target registers two callback functions with a single event, the latter will replace the ﬁrst.
+> Unregistering a delegate that was never registered or has already
+expired is okay.
+> Events are thread safe, i.e. you can modify the delegate set while
+a notify is in progress. The new delegate set will not inﬂuence the current notify but will take eﬀect with the next notify.
+
+Advanced Events
+> Poco::FIFOEvent can be used instead of Poco::BasicEvent to
+ensure delegates are called in the same order in which they have been added.
+> Poco::PriorityEvent can be used instead of Poco::BasicEvent to
+add priorities to delegates. Delegates must be added using the Poco::PriorityDelegate class template. Delegates are called in order of their priority, with lower priorities coming ﬁrst.
+
+Advanced Events (cont'd)
+> Automatically expiring delegates can be deﬁned using the
+Poco::Expire class template as a wrapper around Poco::Delegate.
+> Poco::Expire only works with Poco::Delegate. For
+Poco::PriorityDelegate, use Poco::PriorityExpire.
+
+Copyright © 2006-2010 by Applied Informatics Software Engineering GmbH. Some rights reserved.
+www.appinf.com | info@appinf.com T +43 4253 32596 | F +43 4253 32096
+

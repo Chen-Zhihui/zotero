@@ -1,0 +1,278 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8"><link rel="stylesheet" type="text/css" href="style.css"><link rel="icon" type="image/x-icon" href="http://vividict.com/favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="http://vividict.com/favicon.ico"><title>
+	象形字典，字形演变，字形解析，字义引申，词汇分类，在线字典，在线说文，白话说文，汉字简化方案说明
+</title>
+<meta name="keywords" content="象形|字典|白话说文|字形|造字|本义|引申义|词汇|词组|汉字|象形字|指事字|会义字|甲骨文|金文|篆文|隶书|楷书|行书|草书|汉字简化方案">
+<meta name="description" content="让你耳目一新、豁然开朗的在线汉语字典：象形依据，理性解说；古老汉字，深度激活。">
+<meta name="searchtitle" content="让你耳目一新、豁然开朗的在线汉语字典：象形依据，理性解说；古老汉字，深度激活。">
+
+
+    <script>
+      //字符转换为UTF-8编码
+      function EncodeUtf8(s1)
+      {
+        var s = escape(s1);
+        var sa = s.split("%");
+        var retV ="";
+        if(sa[0] != "")
+        {
+           retV = sa[0];
+        }
+        for(var i = 1; i < sa.length; i ++)
+        {
+             if(sa[i].substring(0,1) == "u")
+             {
+                 retV += Hex2Utf8(Str2Hex(sa[i].substring(1,5)));
+             }
+             else retV += "%" + sa[i];
+        }
+        return retV;
+      }
+
+      function Str2Hex(s)
+      {
+            var c = "";
+            var n;
+            var ss = "0123456789ABCDEF";
+            var digS = "";
+            for(var i = 0; i < s.length; i ++)
+            {
+               c = s.charAt(i);
+               n = ss.indexOf(c);
+               digS += Dec2Dig(eval(n));
+
+            }
+            //return value;
+            return digS;
+      }
+
+      function Dec2Dig(n1)
+      {
+            var s = "";
+            var n2 = 0;
+            for(var i = 0; i < 4; i++)
+            {
+               n2 = Math.pow(2,3 - i);
+               if(n1 >= n2)
+               {
+                  s += '1';
+                  n1 = n1 - n2;
+                }
+               else
+                s += '0';
+
+            }
+            return s;
+
+      }
+      function Dig2Dec(s)
+      {
+            var retV = 0;
+            if(s.length == 4)
+            {
+                for(var i = 0; i < 4; i ++)
+                {
+                    retV += eval(s.charAt(i)) * Math.pow(2, 3 - i);
+                }
+                return retV;
+            }
+            return -1;
+      }
+      function Hex2Utf8(s)
+      {
+           var retS = "";
+           var tempS = "";
+           var ss = "";
+           if(s.length == 16)
+           {
+               tempS = "1110" + s.substring(0, 4);
+               tempS += "10" + s.substring(4, 10);
+               tempS += "10" + s.substring(10,16);
+               var sss = "0123456789ABCDEF";
+               for(var i = 0; i < 3; i ++)
+               {
+                  retS += "%";
+                  ss = tempS.substring(i * 8, (eval(i)+1)*8);
+
+
+
+                  retS += sss.charAt(Dig2Dec(ss.substring(0,4)));
+                  retS += sss.charAt(Dig2Dec(ss.substring(4,8)));
+               }
+               return retS;
+           }
+           return "";
+      }
+      </script>
+
+    <script type="text/javascript" language="javascript">
+    function tochange(i)
+    {
+      if(i==0)
+        {
+         document.getElementById("xiangxin").checked=true;
+         document.getElementById("google").checked=false;
+         document.getElementById("baidu").checked=false;
+
+        }
+      if(i==1)
+        {
+         document.getElementById("xiangxin").checked=false;
+         document.getElementById("google").checked=true;
+         document.getElementById("baidu").checked=false;
+        }
+        if(i==2)
+        {
+         document.getElementById("xiangxin").checked=false;
+         document.getElementById("google").checked=false;
+         document.getElementById("baidu").checked=true;
+        }
+    }
+
+   function search()
+   {
+    if(document.getElementById("google").checked==true)
+   {
+   if(document.getElementById("put").value!=""){
+        window.open("http://www.google.com.hk/search?ie=utf8&hl=zh-CN&source=hp&q=" + EncodeUtf8(document.getElementById("put").value) + "&btnG=Google+%E6%90%9C%E7%B4%A2&meta=&aq=f&aqi=g10&aql=&oq=&gs_rfai=");
+    }else{
+        alert("搜索内容不能为空");
+        document.getElementById("put").focus();
+        return false;
+    }
+    }
+
+     if(document.getElementById("baidu").checked==true)
+   {
+   if(document.getElementById("put").value!=""){
+        window.open("http://www.baidu.com/s?ie=utf8&wd="+EncodeUtf8(document.getElementById("put").value));
+    }else{
+        alert("搜索内容不能为空");
+        document.getElementById("put").focus();
+        return false;
+    }
+    }
+
+   if(document.getElementById("xiangxin").checked==true)
+   {
+   if(document.getElementById("put").value!="")
+   {
+     // window.open("../Word.aspx?ie=utf8&wd=" + EncodeUtf8(document.getElementById("put").value) + "");
+      window.location.href="Word.aspx?ie=utf8&wd=" + EncodeUtf8(document.getElementById("put").value) + "";
+
+
+    }else{
+        alert("搜索内容不能为空");
+        document.getElementById("put").focus();
+        return false;
+    }
+    }
+
+}
+    </script>
+
+<script language="javascript" type="text/javascript">
+
+document.onkeydown = function ()
+{
+   var e=event.srcElement;
+   if(event.keyCode==13)
+   {
+    document.all.Image1.click();
+   }
+}
+
+</script>
+
+</head>
+
+<body>
+<iframe id="notice" src="/notice.aspx?classid=366" scrolling="no" style="float:left;position:absolute;left:0;width:100%;height:100px;" allowtransparency="true" frameborder="0" lang="zh-cn"></iframe>
+    <form name="form1" method="post" action="Default.aspx" id="form1">
+<div>
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMjQxMTc0NTc5ZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAwUIeGlhbmd4aW4FBmdvb2dsZQUFYmFpZHUKcTv8YturXZj7h1zkNnxUFsqviA==" type="hidden">
+</div>
+
+    <div id="header">
+  <div class="menu">
+    <ul>
+     
+      <li style="display:none;"><a target="_top" href="javascript:window.external.addFavorite('http://www.vividict.com','%E8%B1%A1%E5%BD%A2%E5%AD%97%E5%85%B8')"><font>加为收藏</font></a></li>
+      <li style="display:none;"><a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.vividict.com');" href="http://www.vividict.com/"><font>设为首页</font></a></li>
+    </ul>
+  </div>
+  <div class="clear"></div>
+  <div class="banner"><img src="banner.gif"></div>
+</div>
+<div id="contant">
+  <div class="search">
+    <ul>
+      <li>
+        <input name="put" id="put" class="text" placeholder="请输入要搜索的单字" type="text">
+      </li>
+      <li>
+         
+           <input class="bt" id="Image1" value="" onclick="return search();" type="button">
+             </li>
+      <div class="clear"></div>
+    </ul>
+    <div class="clear"></div>
+  </div>
+
+  <script type="text/javascript" language="javascript">
+document.onkeydown = function()
+{ if ((event.keyCode == 13) && (event.srcElement == document.getElementById("put")))
+{ var btn = document.getElementById("Image1");
+btn.focus();
+btn.click();
+}
+}
+</script>
+
+  <div class="kong"></div>
+  <div class="search_way">
+    <div class="search_left">
+         <ul>
+           <li class="li1"><input value="xiangxin" name="" id="xiangxin" onclick="tochange(0)" checked="checked" type="radio"><span>象形</span></li>
+           <li class="li1"><input value="google" name="" id="google" onclick="tochange(1)" type="radio"><span>谷歌</span></li>
+           <li class="li1"><input value="baidu" name="" id="baidu" onclick="tochange(2)" type="radio"><span>百度</span></li>
+         </ul>
+         <div class="clear"></div>
+        </div>
+        <div class="search_right">
+         <ul>
+           <li class="li2"><a href="http://vividict.com/PinyingList.html" target="_blank">拼音检索</a></li>
+           <li class="li3"><a href="http://vividict.com/WordList.html" target="_blank">分部检索</a></li>
+         </ul>
+         <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    <div class="clear"></div>
+  </div>
+</div>
+<div id="footer">
+   <div class="footer_menu">
+       <ul>
+          <li><a href="http://vividict.com/News.aspx?classid=165" target="_blank">关于我们</a></li>
+          <li><a href="http://vividict.com/News.aspx?classid=168" target="_blank">字典介绍</a></li>
+		  <li><a href="http://vividict.com/news.aspx?classid=324" target="_blank">版权声明</a></li> 
+          <li><a href="http://vividict.com/Survey.aspx" target="_blank">网站调查</a><img src="icon.jpeg"></li>
+          <li><a href="http://vividict.com/MessageReply.aspx" target="_blank">反馈留言</a></li>
+          <li><a href="http://vividict.com/News.aspx?classid=173" target="_blank">联系我们</a></li>
+       </ul>
+       <div class="clear"></div>
+   </div>
+   <div class="footer_bottom">
+   <small>All CopyRight © 2010 Vividict.com&nbsp;&nbsp;<span>闽ICP证10200108号 </span></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <script src="stat.php" language="JavaScript"></script><script src="core.php" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=2779672" target="_blank" title="站长统计"><img src="pic.gif" border="0" vspace="0" hspace="0"></a><script src="core.php" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=2779672" target="_blank" title="站长统计"><img src="pic.gif" border="0" vspace="0" hspace="0"></a><a href="http://www.cnzz.com/stat/website.php?web_id=2779672" target="_blank" title="站长统计"><img src="pic.gif" border="0" vspace="0" hspace="0"></a>&nbsp;&nbsp;
+<!--    <script type="text/javascript"> -->
+<!-- var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://"); -->
+<!-- document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc50dc8493de08eb410e6ba3d2e5f5d2d' type='text/javascript'%3E%3C/script%3E")); -->
+<!-- </script> -->
+   </div>
+</div>
+    </form>
+
+
+
+</body></html>
