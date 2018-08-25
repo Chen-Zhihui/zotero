@@ -17,16 +17,16 @@
 	},
 	"priority": 50,
 	"inRepository": false,
-	"lastUpdated": "2018-08-17 18:37:20"
+	"lastUpdated": "2018-08-22 21:41:28"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.189",
+  version: "5.0.190",
   BetterBibLaTeX: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-17 18:37:20"},
-  preferences: {"debug":false,"rawLaTag":"#LaTeX","testing":false,"DOIandURL":"both","asciiBibLaTeX":false,"asciiBibTeX":true,"autoExport":"immediate","quickCopyMode":"latex","citeCommand":"cite","quickCopyPandocBrackets":false,"citekeyFormat":"​[auth:lower][shorttitle3_3][year]","citekeyFold":true,"keyConflictPolicy":"keep","keyScope":"library","preserveBibTeXVariables":false,"bibtexParticleNoOp":false,"skipFields":"","bibtexURL":"off","warnBulkModify":10,"postscript":"","strings":"","autoAbbrev":false,"autoAbbrevStyle":"","autoExportIdleWait":10,"cacheFlushInterval":5,"csquotes":"","skipWords":"a,ab,aboard,about,above,across,after,against,al,along,amid,among,an,and,anti,around,as,at,before,behind,below,beneath,beside,besides,between,beyond,but,by,d,da,das,de,del,dell,dello,dei,degli,della,dell,delle,dem,den,der,des,despite,die,do,down,du,during,ein,eine,einem,einen,einer,eines,el,en,et,except,for,from,gli,i,il,in,inside,into,is,l,la,las,le,les,like,lo,los,near,nor,of,off,on,onto,or,over,past,per,plus,round,save,since,so,some,sur,than,the,through,to,toward,towards,un,una,unas,under,underneath,une,unlike,uno,unos,until,up,upon,versus,via,von,while,with,within,without,yet,zu,zum","jabrefFormat":0,"jurismPreferredLanguage":"","qualityReport":false,"biblatexExtendedDateFormat":true,"biblatexExtendedNameFormat":false,"suppressTitleCase":false,"itemObserverDelay":100,"parseParticles":true,"citeprocNoteCitekey":false,"scrubDatabase":false,"lockedInit":false,"autoPin":false,"kuroshiro":false,"sorted":false,"debugLog":"","ajv":true},
+  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-22 21:41:28"},
+  override: {"DOIandURL":true,"ajv":false,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -54,13 +54,26 @@ var Translator = {
       this.options.exportFilename = Zotero.getOption('exportFilename')
     }
 
-    for (key in this.preferences) {
-      this.preferences[key] = Zotero.getHiddenPref('better-bibtex.' + key)
+    this.preferences = {}
+    for (const [pref, override] of Object.entries(this.override)) {
+      let value = undefined
+
+      if (override) {
+        try {
+          value = Zotero.getOption(`preference_${pref}`)
+        } catch (err) {
+          value = undefined
+        }
+      }
+
+      if (typeof value === 'undefined') value = Zotero.getHiddenPref('better-bibtex.' + pref)
+      this.preferences[pref] = value
     }
     // special handling
     this.preferences.skipWords = this.preferences.skipWords.toLowerCase().trim().split(/\s*,\s*/).filter(function(s) { return s })
     this.preferences.skipFields = this.preferences.skipFields.toLowerCase().trim().split(/\s*,\s*/).filter(function(s) { return s })
     if (!this.preferences.rawLaTag) this.preferences.rawLaTag = '#LaTeX'
+    Zotero.debug('prefs loaded: ' + JSON.stringify(this.preferences, null, 2))
 
     this.collections = {}
     if (stage == 'doExport' && this.header.configOptions && this.header.configOptions.getCollections && Zotero.nextCollection) {
@@ -251,7 +264,7 @@ exports.Exporter = new class {
                 throw new Error(`No citation key in ${JSON.stringify(item)}`);
             }
             this.jabref.citekeys.set(item.itemID, item.citekey);
-            const cached = Zotero.BetterBibTeX.cacheFetch(item.itemID, Translator.options);
+            const cached = Zotero.BetterBibTeX.cacheFetch(item.itemID, Translator.options, Translator.preferences);
             if (cached) {
                 if (Translator.preferences.sorted && (Translator.BetterBibTeX || Translator.BetterBibLaTeX)) {
                     Translator.references.push({ citekey: item.citekey, reference: cached.reference });
@@ -1446,7 +1459,7 @@ class Reference {
             Zotero.write(ref);
         }
         this.data.DeclarePrefChars = exporter_1.Exporter.unique_chars(this.data.DeclarePrefChars);
-        Zotero.BetterBibTeX.cacheStore(this.item.itemID, Translator.options, ref, this.data);
+        Zotero.BetterBibTeX.cacheStore(this.item.itemID, Translator.options, Translator.preferences, ref, this.data);
         if (this.data.DeclarePrefChars)
             exporter_1.Exporter.preamble.DeclarePrefChars += this.data.DeclarePrefChars;
     }
