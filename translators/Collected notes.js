@@ -12,16 +12,16 @@
 		"getCollections": true
 	},
 	"priority": 100,
-	"lastUpdated": "2018-08-22 21:41:24"
+	"lastUpdated": "2018-08-27 16:43:55"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.190",
+  version: "5.0.195",
   Collectednotes: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"e7859c61-54d4-466a-b236-aadcf1f7e83b","label":"Collected notes","description":"exports your notes","creator":"Emiliano heyns","target":"html","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"configOptions":{"getCollections":true},"priority":100,"lastUpdated":"2018-08-22 21:41:24"},
-  override: {"DOIandURL":true,"ajv":false,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"e7859c61-54d4-466a-b236-aadcf1f7e83b","label":"Collected notes","description":"exports your notes","creator":"Emiliano heyns","target":"html","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"configOptions":{"getCollections":true},"priority":100,"lastUpdated":"2018-08-27 16:43:55"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -42,7 +42,11 @@ var Translator = {
       this.references = []
 
       for (var key in this.options) {
-        this.options[key] = Zotero.getOption(key)
+        if (typeof this.options[key] === 'boolean') {
+          this.options[key] = !!Zotero.getOption(key)
+        } else {
+          this.options[key] = Zotero.getOption(key)
+        }
       }
       // special handling
       this.options.exportPath = Zotero.getOption('exportPath')

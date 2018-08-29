@@ -19,16 +19,16 @@
 	"browserSupport": "gcsv",
 	"priority": 199,
 	"inRepository": false,
-	"lastUpdated": "2018-08-22 21:41:29"
+	"lastUpdated": "2018-08-27 16:44:00"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.190",
+  version: "5.0.195",
   BetterBibTeX: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"ca65189f-8815-4afe-8c8b-8c7c15f0edca","label":"Better BibTeX","description":"exports references in BibTeX format","creator":"Simon Kornblith, Richard Karnesky and Emiliano heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"translatorType":3,"browserSupport":"gcsv","priority":199,"inRepository":false,"lastUpdated":"2018-08-22 21:41:29"},
-  override: {"DOIandURL":true,"ajv":false,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"ca65189f-8815-4afe-8c8b-8c7c15f0edca","label":"Better BibTeX","description":"exports references in BibTeX format","creator":"Simon Kornblith, Richard Karnesky and Emiliano heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"translatorType":3,"browserSupport":"gcsv","priority":199,"inRepository":false,"lastUpdated":"2018-08-27 16:44:00"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -49,7 +49,11 @@ var Translator = {
       this.references = []
 
       for (var key in this.options) {
-        this.options[key] = Zotero.getOption(key)
+        if (typeof this.options[key] === 'boolean') {
+          this.options[key] = !!Zotero.getOption(key)
+        } else {
+          this.options[key] = Zotero.getOption(key)
+        }
       }
       // special handling
       this.options.exportPath = Zotero.getOption('exportPath')
@@ -7205,6 +7209,7 @@ reference_1.Reference.prototype.fieldEncoding = {
     // school: 'literal'
     institution: 'literal',
     publisher: 'literal',
+    organization: 'literal',
 };
 reference_1.Reference.prototype.lint = function (explanation) {
     const required = {
@@ -7403,7 +7408,12 @@ Translator.doExport = () => {
             case 'report':
                 ref.add({ name: 'institution', value: item.publisher });
                 break;
-            default: ref.add({ name: 'publisher', value: item.publisher });
+            case 'computerProgram':
+                ref.add({ name: 'organization', value: item.publisher });
+                break;
+            default:
+                ref.add({ name: 'publisher', value: item.publisher });
+                break;
         }
         if (item.referenceType === 'thesis' && ['mastersthesis', 'phdthesis'].includes(item.type)) {
             ref.referencetype = item.type;
@@ -7954,6 +7964,8 @@ class ZoteroItem {
             return text.map(t => this.unparse(t)).join(' and ');
         if (['string', 'number'].includes(typeof text))
             return text;
+        if (!Array.isArray(text))
+            text = [text];
         // split out sup/sub text that can be unicodified
         const chunks = [];
         for (const node of text) {
@@ -9073,14 +9085,23 @@ class Reference {
             const att = {
                 title: attachment.title,
                 mimetype: attachment.contentType || '',
-                path: attachment.defaultPath || attachment.localPath,
+                path: '',
             };
+            if (Translator.options.exportFileData) {
+                att.path = attachment.saveFile ? attachment.defaultPath : '';
+            }
+            else if (attachment.localPath) {
+                att.path = attachment.localPath;
+            }
             if (!att.path)
                 continue; // amazon/googlebooks etc links show up as atachments without a path
             // att.path = att.path.replace(/^storage:/, '')
             att.path = att.path.replace(/(?:\s*[{}]+)+\s*/g, ' ');
-            if (Translator.options.exportFileData && attachment.saveFile && attachment.defaultPath)
+            debug_1.debug('attachment::', Translator.options, att);
+            if (Translator.options.exportFileData) {
+                debug_1.debug('saving attachment::', Translator.options, att);
                 attachment.saveFile(att.path, true);
+            }
             if (!att.title)
                 att.title = att.path.replace(/.*[\\\/]/, '') || 'attachment';
             if (!att.mimetype && (att.path.slice(-4).toLowerCase() === '.pdf'))
@@ -9088,6 +9109,10 @@ class Reference {
             if (Translator.preferences.testing) {
                 exporter_1.Exporter.attachmentCounter += 1;
                 att.path = `files/${exporter_1.Exporter.attachmentCounter}/${att.path.replace(/.*[\/\\]/, '')}`;
+            }
+            else if (Translator.options.exportPath && att.path.startsWith(Translator.options.exportPath)) {
+                att.path = att.path.slice(Translator.options.exportPath.length);
+                debug_1.debug('clipped attachment::', Translator.options, att);
             }
             attachments.push(att);
         }

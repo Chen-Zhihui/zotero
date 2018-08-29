@@ -1,0 +1,552 @@
+Optimization problems for fast AAM ﬁtting in-the-wild
+
+Georgios Tzimiropoulos 1. School of Computer Science
+University of Lincoln, U.K. 2. Department of Computing Imperial College London, U.K.
+gtzimiropoulos@lincoln.ac.uk
+
+Maja Pantic 1. Department of Computing Imperial College London, U.K.
+2. University of Twente The Netherlands
+m.pantic@imperial.ac.uk
+
+Abstract
+We describe a very simple framework for deriving the most-well known optimization problems in Active Appearance Models (AAMs), and most importantly for providing efﬁcient solutions. Our formulation results in two optimization problems for fast and exact AAM ﬁtting, and one new algorithm which has the important advantage of being applicable to 3D. We show that the dominant cost for both forward and inverse algorithms is a few times mN which is the cost of projecting an image onto the appearance subspace. This makes both algorithms not only computationally realizable but also very attractive speed-wise for most current systems. Because exact AAM ﬁtting is no longer computationally prohibitive, we trained AAMs in-the-wild with the goal of investigating whether AAMs beneﬁt from such a training process. Our results show that although we did not use sophisticated shape priors, robust features or robust norms for improving performance, AAMs perform notably well and in some cases comparably with current state-ofthe-art methods. We provide Matlab source code for training, ﬁtting and reproducing the results presented in this paper at http://ibug.doc.ic.ac.uk/resources.
+1. Introduction
+Active Appearance Models (AAMs) have been around in computer vision research for more than 15 years [5]. They are statistical models of shape and appearance that can generate instances of a speciﬁc object class (e.g. faces) given a small number of model parameters which control shape and appearance variation. Fitting an AAM to a new image entails estimating the model parameters so that the model instance and the given image are ”close enough” typically in a least-squares sense. Recovering the shape parameters is important because it implies that the location of a set of landmarks (or ﬁducial points) has been detected in the
+
+Figure 1. An example of a face in-the-wild taken from the LFPW database [3]. Landmarks were detected by ﬁtting an AAM. The appearance model of the AAM was built using raw un-normalized pixel intensities as features. Neither sophisticated shape priors or robust norms were used during ﬁtting nor robust image features were employed to build the AAM. Even without such sophisticated enhancements, AAM ﬁtting produced satisfactory accuracy in landmark localization. To obtain these results, we simply trained the AAM in-the-wild (on the same database) and additionally for ﬁtting and we used Fast-Forward algorithm, an exact but fast simultaneous algorithm.
+new image. Landmark localization is of fundamental signiﬁcance in many computer vision problems like face and medical image analysis. Hence, ﬁtting AAMs robustly to new images has been the focus of extensive research over the past years.
+AAM ﬁtting is an iterative process at each iteration of which an update of the current model parameters is estimated. Typically, the update is a function of the error between the image and the model measured in the canonical reference frame of the model. There are two main lines of research for modeling this function. The ﬁrst is to learn it via regression which was also the approach proposed in the original AAM paper [5]. Regression-based approaches are fast but approximate. For example in [5], the relationship between the error image and the update is assumed lin-
+
+1
+
+ear and independent of the current model parameters. A notable departure from [5] is the work of [21] in which a nonlinear regressor is learned via boosting. Other discriminative methods for ﬁtting AAMs have been proposed in [11, 22, 20].
+The second line of research for ﬁtting AAMs is through non-linear least-squares [16]. AAM ﬁtting is formulated as a Lukas-Kanade (LK) problem which can be solved iteratively using Gauss-Newton optimization. However, standard gradient descend algorithms when applied to AAMs are inefﬁcient. This problem is addressed in the seminal work of Matthews and Baker [16] which extends the classical Lukas-Kanade algorithm [13] and the appearance-based tracking framework of Hager and Belhumeur [9] for the case of AAMs and deformable models. One of the major contributions of [16] is the so-called project-out inverse compositional algorithm (POIC). The algorithm is coined project-out because it decouples shape from appearance by projecting out appearance variation and inverse compositional because the warp update is estimated in the model coordinate frame and then composed to the current warp estimate (this is in contrast to the standard LK algorithm in which the warp parameters are updated in a forward additive fashion). This combination results in an algorithm which is as efﬁcient as regression-based approaches and is now considered the standard choice for ﬁtting personspeciﬁc AAMs (i.e. AAMs trained for ﬁtting face images of a speciﬁc subject which is known in advanced). Its main disadvantage is its limited capability of generalizing well to unseen variations, the most notable example of which is the case of generic AAMs (i.e. AAMs trained for ﬁtting face images of various subjects not known in advance).
+In contrast to POIC, the simultaneous inverse compositional (SIC) algorithm, proposed in [1], has been shown to perform robustly for the case of generic ﬁtting [7]. However, the computational cost of the algorithm is almost prohibitive for most applications. Let n and m denote the number of the shape and appearance parameters of the AAM. Then, the dominant cost per iteration of SIC is on the order of (n + m)2N , where N is the number of pixels in the reference frame. Note that the cost of POIC is only O(nN ). For generic ﬁtting m n and hence the huge difference in computational cost has either ruled out SIC from most papers/studies that depart from the person-speciﬁc case or made the authors resort in approximate solutions (please see [20] for an example).
+Some attempts to reduce the cost of SIC have been occasionally reported in AAM literature. A notable example is the normalization algorithm [1]. However, the performance of the normalization algorithm has been reported to be closer to that of POIC rather than that of SIC. Finally, other techniques for reducing the cost to some extend via pre-computations have been reported in [2, 17].
+
+Main results. We show that the cost for solving the exact AAM non-linear least squares problem with no approximations for both forward and inverse is signiﬁcantly less than O((n + m)2N ). Let f be a function that is no necessarily convex. Then a standard result from optimization theory is [4]
+
+min f (x, y) = min[min f (x, y)].
+
+(1)
+
+x,y
+
+xy
+
+As we show later on, using (1) reduces the dominant cost for both forward and inverse algorithms to nmN . Especially for m n, which is the case for generic face alignment, the cost is reduced to a few times mN which is the cost of projecting an image onto the appearance subspace. Hager and Belhumeur made use of the above result in [9], however without explicitly referring to (1). To the best of our knowledge, the only AAM paper that acknowledges the optimization strategy described in [9] is [18]. Here, we provide an alternative derivation based on (1) which has the advantage of producing the exact form of the optimization problem that SIC solves. Hence, our derivations shed further light on the different optimization problems that POIC and SIC solve. Additionally, the authors of [18] investigated only the inverse case. As it is well known, the inverse compositional approach cannot be applied to 3D AAMs [23]. One of our main contributions is to show that (1) can be used to derive a forward additive update scheme and hence can be readily applied to 3D. Finally, we believe that the proposed framework is readily applicable to recently published papers on AAMs [14, 15].
+Our second main contribution is to train AAMs in-thewild using the well-known LFPW database [3] and then ﬁt using the proposed fast forward and inverse simultaneous algorithms, with the goal of investigating whether AAMs beneﬁt from such a training process. Indeed, it turns out that this is the case: the obtained ﬁttings are in many cases as good as the ones produced by current state-of-the art methods (please see Fig. 1 for a ﬁtting example). These results are notable given that no shape prior was used, the employed appearance model was built using raw pixel intensities and no attempt to use more sophisticated image features (like Gabor ﬁlter responses as in [14] or SIFT features [12] as in [3]) was made.
+
+2. AAMs
+An AAM is deﬁned by the shape, appearance and motion models. Learning the shape model requires consistently annotating a set of u landmarks [x1, y1, . . . xu, yu] across D training images Ii(x) ∈ RN (e.g. faces). These points are said to deﬁne the shape of each object. Next, Procrustes Analysis is applied to remove similarity transformations from the original shapes and obtain D similarity-free shapes. Finally, PCA is applied on these shapes to obtain a
+
+shape model deﬁned by the mean shape and n shape eigenvectors {s0, S ∈ R{2u,n}}. The model typically captures shape variation due to identity, pose and expression. Assume that we are given a new similarity-free shape s. Then, the model can be used to represent s as
+
+ˆs = s0 + Sp, p = ST (s − s0).
+
+(2)
+
+Finally, in this work, to model similarity transforms the
+
+shape matrix S is appended with 4 similarity eigenvectors
+
+[16], all eigenvectors are re-orthonormalized, and then (2)
+
+is applied.
+
+Learning the appearance model requires removing shape
+
+variation from the texture. This can be achieved by ﬁrst
+
+warping each Ii to the reference frame deﬁned by the mean shape s0 using motion model W. Finally, PCA is applied on the shape-free textures, to obtain the appearance model
+
+deﬁned by the mean appearance and m appearance eigenvectors {A0, A ∈ R{N,m}}. The model captures appear-
+ance variation for example due to identity and illumination.
+
+The model can be used to represent a shape-free test texture
+
+I as
+
+ˆI = A0 + Ac, c = AT (I − A0).
+
+(3)
+
+We used piecewise afﬁne warps W(x; p) as the motion model in this work. Brieﬂy, to deﬁne a piecewise afﬁne warp, one ﬁrst needs to triangulate the set of vertices of the given shapes. Then, each triangle in s and the corresponding triangle in s0 can deﬁne an afﬁne warp. The collection of all afﬁne warps deﬁnes a piecewise afﬁne warp which is parameterized with respect to p.
+Finally, a model instance is synthesized to represent a test object by warping ˆI from the mean shape s0 to ˆs using the piecewise afﬁne warp deﬁne by s0 and ˆs. Please see [16, 5] for a detailed coverage of AAMs.
+
+3. Fitting AAMs
+
+Our approach to ﬁtting AAMs is based on non-linear least-squares [16]. Assume that we are given a test image I. Fitting an AAM to the image entails estimating the model parameters so that the 2 norm of the error between the model instance and the given image is minimized
+
+arg
+
+min
+p,c
+
+||I(W(x;
+
+p))
+
+−
+
+A0
+
+−
+
+Ac||2.
+
+(4)
+
+Because (4) is a non-linear function of p, the standard approach to proceed is to linearize with respect to the shape parameters p and then optimize iteratively in a GaussNewton fashion. Linearization of (4) with respect to p can be performed in two coordinate frames. In the forward case, the test image I is linearized around the current estimate p, a solution for a ∆p is sought using least-squares, and p is updated in an additive fashion p ← p + ∆p. In the inverse
+
+case, the model {A0, A} is linearized around p = 0, a solution for a ∆p is sought using least-squares, and p is updated in a compositional fashion p ← p ◦ ∆p−1, where ◦ denotes the composition of two warps. Note that applying the inverse compositional approach for piecewise afﬁne warps is by no means straightforward. Please see [16] for a principled way of applying the inverse composition to AAMs.
+Following the seminal work of [16], inverse algorithms have gained increased popularity. The two most popular inverse algorithms are SIC and POIC. At each iteration SIC linearizes with respect to both c and p = 0, and hence (4) becomes
+
+m
+arg min ||I−A0+J0∆p− (ci+∆ci)(Ai+Ji∆p)||2,
+∆p,∆c i=1
+(5)
+
+where Ji is the N × n Jacobian built as follows: Its k−th
+
+row corresponds to pixel xk and contains the 1 × n vector
+
+[Ai,x(k)
+
+Ai,y
+
+(k
+
+)]
+
+∂
+
+W(xk ∂p
+
+;p)
+
+.
+
+Ai,x(k)
+
+and
+
+Ai,y (k)
+
+are
+
+the
+
+x
+
+and
+
+y
+
+gradients
+
+of
+
+Ai
+
+for
+
+the
+
+k−th
+
+pixel
+
+and
+
+∂ W(xk ;p) ∂p
+
+∈
+
+R2×n is the Jacobian of the piecewise afﬁne warp. Please
+
+see
+
+[16]
+
+for
+
+calculating
+
+and
+
+implementing
+
+∂W ∂p
+
+.
+
+All
+
+of
+
+these
+
+are deﬁned in the model coordinate frame for p = 0 and can
+
+be pre-computed. Finally, with some abuse of notation we
+
+denote by Ji = [Ai,x
+
+Ai,y
+
+]
+
+∂W ∂p
+
+the
+
+process
+
+of
+
+constructing
+
+Ji for all N rows.
+
+An update for ∆c and ∆p can be obtained only after
+
+second order terms are omitted as follows
+
+arg min ||I − A0 − Ac − A∆c − J∆p)||2, (6)
+∆p,∆c
+
+where J = J0 +
+
+m i=1
+
+ciJi.
+
+In
+
+[1],
+
+the
+
+update
+
+for
+
+SIC
+
+was
+
+derived as
+
+[∆p; ∆c] = Hs−i1cJsTic(I − A0 − Ac),
+
+(7)
+
+where Jsic = [A; J] ∈ RN×(m+n) and Hsic = JsTicJsic are the SIC Jacobian and Hessian respectively. SIC is slow because the cost for calculating Hsic is O((n + m)2N ) [1].
+POIC reduces this cost dramatically by decoupling shape
+and appearance by solving (6) in the subspace orthogonal to A. Let us deﬁne the projection operator P = E − AAT , where E is the identity matrix. Then, ||I − A0 − Ac||2P = ||I − A0||P2 , and hence an update for ∆p can be computed by optimizing
+
+arg
+
+min
+∆p
+
+||I
+
+−
+
+A0
+
+−
+
+J0∆p)||2P,
+
+(8)
+
+the solution of which is given by
+
+∆p = H−po1icJpToic(I − A0),
+
+(9)
+
+where the projected-out Jacobian Jpoic = PJ0 and Hessian Hpoic = JpToicJpoic can be pre-computed. This reduces the cost to O(nN ), only [16].
+
+4. Fast algorithms for ﬁtting AAMs
+
+Solving the exact problem in a simultaneous fashion as described above is not the only way for ﬁtting AAMs. Below we describe two algorithms, Fast-SIC and Fast-Forward for achieving the same result by applying (1). The solution of the inverse problem was originally proposed in [18]. Here we provide an alternative derivation based on (1), which has the advantage of producing the exact form of the optimization problem that Fast-SIC solves. Hence, our derivations shed further light on the different optimization problems that POIC and SIC solve. Finally, to the best of our knowledge, Fast-Forward is described for the ﬁrst time in AAM literature in this work.
+
+4.1. Fast-SIC
+
+Using (1), we can optimize (6) with respect ∆c, and then plug in the solution (which will be a function of ∆p) back to (6). Then, we can optimize (1), with respect to ∆p. Setting the derivative of (6) with respect to ∆c equal to 0 gives the update of ∆c
+
+∆c = AT (I − A0 − Ac − J∆p)
+
+(10)
+
+Plugging the above into (6), we get the following optimization problem
+
+arg
+
+min
+∆p
+
+||I
+
+−
+
+A0
+
+−
+
+J∆p)||2P.
+
+(11)
+
+As we may see, the difference between POIC and Fast-SIC is that POIC uses J0 while Fast-SIC uses J. This difference simply comes from the point at which we choose to linearize. Matthews and Baker [16] chose to project out ﬁrst and then linearize. Fast-SIC ﬁrst linearizes (the appearance model), and then projects out. Another way to interpret Fast-SIC is to solve the original SIC problem of (6) in the subspace deﬁned by P. This has the effect that the appearance terms Ac and A∆c immediately vanish. However, the Jacobian J does not vanish as assumed by POIC. Hence, POIC is only an approximation to Fast-SIC (and hence to SIC).
+The solution of Fast-SIC is readily given by
+
+∆p = Hf−s1icJTfsic(I − A0),
+
+(12)
+
+where the projected-out Jacobian and Hessian are given by Jfsic = PJ and Hfsic = JfTsicJfsic, respectively. Because J is a function of c, it needs to be re-computed per
+iteration.
+Calculating Jfsic has dominant cost nmN . To see this we ﬁrst note that for a matrix X ∈ RN×l, we can calculate PX = X − A(AT X) with cost lmN . Let us also denote by Ax = [A0,x . . . Am,x] ∈ RN×(m+1), the matrix
+the columns of which are the gradients of the model along
+the x-axis and Ay the matrix the columns of which are the
+
+gradients along the y-axis. Hence Jfsic can be computed in nmN from
+
+∂W
+
+Jfsic = P[Axc Ayc ] ∂p ,
+
+(13)
+
+where c
+
+= [1; c] ∈ Rm+1.
+
+Note
+
+that
+
+∂W ∂p
+
+above
+
+is
+
+eval-
+
+uated at p = 0 and can be pre-computed. Finally, the cost
+
+for calculating Hfsic is n2N . Hence, the complexity of
+
+Fast-SIC per iteration is mainly due to the computation of
+
+Jf sic .
+
+4.2. Fast-Forward
+
+The coordinate frame of the model is not the only frame that (4) can be solved. Rather than linearizing the model, we can linearize the test image in a standard Lukas-Kanade fashion [13]
+
+arg min ||I + JI ∆p − A0 − Ac||2, (14)
+{∆p,c}
+
+where JI is the Jacobian of I and needs to be re-computed per iteration. Note that error above is already linear with respect to c. Also there are no second terms that need to be omitted. Hence, we can directly optimize using (1). At each iteration, the optimal c is given by
+
+c = AT (I + JI ∆p − A0).
+
+(15)
+
+Plugging the above into (14), we end up with the following optimization problem
+
+arg
+
+min
+∆p
+
+||I
+
++
+
+JI
+
+∆p
+
+−
+
+A0
+
+||P2
+
+,
+
+(16)
+
+the solution of which is readily given by
+
+∆p = −H−ff1wJfTfw(I − A0),
+
+(17)
+
+where the projected-out Jacobian and Hessian are given by Jffw = PJI and Hffw = JfTfwJffw, respectively. Notice that in order to compute ∆p, the value of the optimal c
+is not required. Hence, the Fast-Forward iteratively applies
+(17), only.
+Calculating Jffw has dominant cost nmN . To readily see this notice that to calculate JI the cost is nN , and hence the cost for calculating PJI is nmN . Alternatively, one could avoid calculating PJI directly because JfTsic(I − A0) = JTI P(I − A0), and P(I − A0) has a cost of mN . However, the cost for calculating
+
+AT JI = AT [Ix
+
+∂W Iy] ∂p
+
+(18)
+
+is
+
+nmN
+
+(Ix
+
+and
+
+Iy
+
+are
+
+the
+
+gradients
+
+of
+
+I
+
+evaluated
+
+at
+
+∂W ∂p
+
+)
+
+and calculating AT JI is necessary if we wish to efﬁciently
+
+calculate Hffw from
+
+Hffw = JIT JI − (AT JI )T (AT JI ).
+
+(19)
+
+Note that the cost for calculating Hffw as above is n2N and comes from the ﬁrst term (this is because AT JI ∈ Rm×n).
+
+An additional cost for the forward additive formulation is
+
+that
+
+∂W ∂p
+
+is
+
+evaluated
+
+at
+
+p
+
+and
+
+not
+
+at
+
+p
+
+=
+
+0,
+
+but
+
+the
+
+cost
+
+for
+
+doing this can be negligible.
+
+An interesting observation following the above analysis
+
+is that, for both forward and inverse algorithms, the domi-
+
+nant computational cost comes from projecting out the ap-
+
+pearance subspace when calculating the Hessian. If we
+
+choose not to do this, then the total cost is further reduced to (n2 + m)N . Note however that, in this case, the result-
+
+ing algorithms are approximate and not exact. We leave the
+
+evaluation of these approximate algorithms as interesting
+
+future work.
+
+5. Fitting AAMs in-the-wild
+Simultaneous AAM ﬁtting algorithms are known to perform well but their performance has not been previously assessed on recently collected in-the-wild data sets. In this section and in the one that follows, we aim to address this gap in literature. In particular, we show that AAMs perform almost comparably to some state-of-the-art face alignment algorithms, even without using any priors (the ﬁtting algorithms described above are used as is) and using raw pixel intensities as features.
+One reason for not evaluating AAMs in-the-wild is that SIC as proposed in [16] is too slow to be employed, especially for m n, which is the case for generic face alignment. However, as we showed above, the cost per iteration for Fast-SIC and Fast-Forward is on the order of a few times mN . This cost can be easily handled by current systems possibly allowing a close to real-time implementation.
+Another reason for ruling out AAMs from unconstrained face alignment experiments is the fact that AAMs are not considered robust. All optimization problems considered in the previous sections are least-squares problems, and as it is well-known in computer vision least-squares combined with pixel intensities as features typically results in poor performance for data corrupted by outliers (e.g. sunglasses, occlusions, difﬁcult illumination). Standard ways of dealing with outliers are robust features and robust norms. The problem with feature extraction is that it might slow down the speed of the ﬁtting algorithm signiﬁcantly especially when the dimensionality of the featured-based appearance model is large. The problem with robust norms is that scale parameters must be estimated (or percentage of outlier pixels must be predeﬁned) and this task is not trivial.
+We propose a third orthogonal direction for ﬁtting AAMs in unconstrained conditions which is via training AAMs inthe-wild. In fact, this paper is one of the few that propose the combination of generative models plus training in-thewild (plus robust optimization for model ﬁtting). It turns out that this combination is very beneﬁcial for unconstrained
+
+(a)
+
+(b)
+
+Figure 2. (a) A face image from the test set of LFPW [3]. The image was not seen during training. Landmarks were detected by ﬁtting the AAM using the Fast-SIC algorithm. (b) Reconstruction of the image from the appearance subspace. The appearance subspace is powerful because the AAM was built in the wild.
+
+AAM ﬁtting. Consider for example the image shown in Fig. 2 (a). This is a test image from the LFPW data set. This image was not seen during training, but similar images of unconstrained nature were used to train the shape and appearance model of an AAM. Fig. 2 (b) shows the reconstruction of the image from the appearance subspace. As we may see the appearance model is powerful enough to reconstruct the texture almost perfectly. Fitting with a robust algorithm (Fast-SIC in this case) gives the ﬁtting result of Fig. 2 (a). This example illustrates why the results of the next section should not be considered too surprising.
+6. Results
+The main target of our experiments was not to prove that AAM ﬁtting is state-of-the-art in face alignment but to show that robust ﬁtting plus training in-the-wild improves AAM ﬁtting performance dramatically. For this reason, we did not attempt to use sophisticated shape priors for regularization, nor we employed robust features/appearance models or robust norms for improving performance. In all experiments, we used simple pixel intensities as features. Additionally, we note that we did not attempt to reproduce the results of any of current state-of-the-art methods because their implementation is not trivial and in most cases the code is not publicly available. Instead, we report the performance of AAMs using two very popular error measures and we refer the readers to these papers and the references therein for drawing comparisons with the algorithms described in this paper.
+To facilitate ﬁtting, we used a multi-resolution ﬁtting approach with m = 50, n = 3 at the lowest level and m = 200, n = 10 at the highest. We found experimentally, that for robust ﬁtting, m should be at least one order of magnitude greater than n. Note that in most AAM papers, m and n are chosen so that a ﬁxed percentage of variance is ﬁxed (most cases 95%). This may result in relatively large model sizes that are more difﬁcult to optimize. Instead we chose the model parameters by running the al-
+
+(a)
+(b) Figure 3. Fitting performance on LFPW. (a) mean point-to-point error (Euclidean) normalized by the face size vs percentage of test images. (b) me17 vs percentage of test images.
+Figure 4. Fitting performance on Helen. The normalized mean point-to-point error (Euclidean) is plotted. gorithms on a small validation set. For our experiments, we used the training set of LFPW to train the shape and appearance model of the AAM. The database consists of images from the web containing variations in pose, illu-
+
+mination, expression and occlusion. Because some URLs are no longer valid, about 800 out of 1.100 and 224 out of 300 images were available for training and testing, respectively. Because, the landmarks provided by LFPW are sparse, we annotated both training and test sets based on the point conﬁguration of Multi-pie [8, 19]. In all cases, ﬁtting was initialized by the face detector recently proposed in [24]. The ﬁrst error measure that we used is the pointto-point error normalized by the face size as proposed in [24]. Similarly to [24], for this error measure, we produced the cumulative curve corresponding to the percentage of test images for which the error was less than a speciﬁc value. The second performance measure is the popular me17 [6]. Please see our publicly available implementation at http://ibug.doc.ic.ac.uk/resources for more details on our experimental setting (we provide source Matlab code for training, ﬁtting and reproducing the results presented in this paper).
+Fig. 3 (a) shows the obtained results. As we may observe Fast-SIC appears to perform better than Fast-Forward. One reason for this might be that in Fast-SIC the linearization is performed on the model which is smoother and less noisy than the test image. Both Fast-SIC and Fast-Forward largely outperform POIC. Finally, we note that in terms of landmark localization, Fast-SIC and Fast-Forward also outperform [24] but we did not include these results because [24] was trained on a different data set. Additionally, by comparing our results in Fig. 3 (b) with those in [3] (please note that we did not use exactly the same landmarks), we may observe that although at error 0.05 [3] performs better, at error 0.1 performance is similar although [3] used SIFT features [12] and more than twice as many training images as we did. Overall, although fair comparison is impossible, we believe that the proposed AAMs perform notably well and almost comparably with current systems. Finally, we performed a very challenging cross-database experiment: we annotated the test set of Helen [10] and ﬁtted our AAMs that were trained on LFPW. Although both databases are inthe-wild, the faces of Helen seem to be much more natural, with more shape and appearance variation, and hence are more challenging to ﬁt. Fig. 4 shows the obtained results. As expected, performance drops but still the ﬁttings are satisfactory for the majority of images. Examples of ﬁttings for both LFPW and Helen can be seen in 5.
+7. Conclusions
+We described a very simple framework based on (1) for deriving the optimization problems and solutions for fast AAM ﬁtting in both inverse (Fast-SIC) and forward (Fast-Forward) coordinate frames. Based on the proposed framework, exact AAM ﬁtting is no longer computationally prohibitive. Then, we proposed a new direction for employing AAMs in unconstrained conditions by means of
+
+Figure 5. Examples of ﬁttings from LFPW and Helen. Odd rows: Fast-SIC. Even rows: Fast-Forward.
+
+training AAMs in-the-wild, and ﬁtting using the proposed fast and exact algorithms. Our results show that although we did not use sophisticated shape priors, robust features or robust norms for improving performance, AAMs perform almost comparably with current state-of-the-art methods. We believe that our results are notable given that it is widely believed that (especially pixel-based) AAMs generalize poorly to unseen variations let alone images in-thewild.
+8. Acknowledgements
+This work has been funded by the European Community 7th Framework Programme [FP7/2007-2013] under grant agreement no. 288235 (FROG). The work of Maja Pantic was originally funded by the European Research Council under the ERC Starting Grant agreement no. ERC-2007StG-203143 (MAHNOB). The authors would also like to thank Epameinondas Antonakos for the many fruitful discussions on AAMs.
+References
+[1] S. Baker, R. Gross, and I. Matthews. Lucas-kanade 20 years on: Part 3. Robotics Institute, Carnegie Mellon University, Tech. Rep. CMU-RI-TR-03-35, 2003.
+[2] A. U. Batur and M. H. Hayes. Adaptive active appearance models. IEEE TIP, 14(11):1707–1721, 2005.
+[3] P. Belhumeur, D. Jacobs, D. Kriegman, and N. Kumar. Localizing parts of faces using a consensus of exemplars. In CVPR, 2011.
+[4] S. Boyd and L. Vandenberghe. Convex optimization. Cambridge university press, 2004.
+[5] T. Cootes, G. Edwards, and C. Taylor. Active appearance models. IEEE TPAMI, 23(6):681–685, 2001.
+[6] D. Cristinacce and T. Cootes. Feature detection and tracking with constrained local models. In BMVC, 2006.
+[7] R. Gross, I. Matthews, and S. Baker. Generic vs. person speciﬁc active appearance models. Image and Vision Computing, 23(12):1080–1093, 2005.
+[8] R. Gross, I. Matthews, J. Cohn, T. Kanade, and S. Baker. Multi-pie. Image and Vision Computing, 28(5):807–813, 2010.
+[9] G. D. Hager and P. N. Belhumeur. Efﬁcient region tracking with parametric models of geometry and illumination. IEEE TPAMI, 20(10):1025–1039, 1998.
+[10] V. Le, J. Brandt, Z. Lin, L. Bourdev, and T. S. Huang. Interactive facial feature localization. In ECCV. 2012.
+[11] X. Liu. Generic face alignment using boosted appearance model. In CVPR, 2007.
+[12] D. G. Lowe. Distinctive image features from scale-invariant keypoints. IJCV, 60(2):91–110, 2004.
+[13] B. D. Lucas, T. Kanade, et al. An iterative image registration technique with an application to stereo vision. In 7th International Joint Conference on Artiﬁcial Intelligence, 1981.
+
+[14] S. Lucey, R. Navarathna, A. Ashraf, and S. Sridharan. Fourier lucas-kanade algorithm. IEEE TPAMI, 35(6):1383– 1396, 2013.
+[15] P. Martins, R. Caseiro, and J. Batista. Generative face alignment through 2.5 d active appearance models. CVIU, 2012.
+[16] I. Matthews and S. Baker. Active appearance models revisited. IJCV, 60(2):135–164, 2004.
+[17] K. Netzell and J. E. Solem. Efﬁcient image inner products applied to active appearance models. In ICPR, 2008.
+[18] G. Papandreou and P. Maragos. Adaptive and constrained algorithms for inverse compositional active appearance model ﬁtting. In CVPR, 2008.
+[19] C. Sagonas, G. Tzimiropoulos, S. Zafeiriou, and M. Pantic. A semi-automatic methodology for facial landmark annotation. In CVPR Workshops, 2013.
+[20] J. Saragih and R. Gocke. Learning aam ﬁtting through simulation. Pattern Recognition, 42(11):2628–2636, 2009.
+[21] J. Saragih and R. Goecke. A nonlinear discriminative approach to aam ﬁtting. In ICCV, 2007.
+[22] H. Wu, X. Liu, and G. Doretto. Face alignment via boosted ranking model. In CVPR, 2008.
+[23] J. Xiao, S. Baker, I. Matthews, and T. Kanade. Real-time combined 2d+3d active appearance models. In CVPR, 2004.
+[24] X. Zhu and D. Ramanan. Face detection, pose estimation, and landmark estimation in the wild. In CVPR, 2012.
+

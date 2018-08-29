@@ -12,16 +12,16 @@
 	"browserSupport": "gcsv",
 	"priority": 100,
 	"inRepository": false,
-	"lastUpdated": "2018-08-22 21:41:32"
+	"lastUpdated": "2018-08-27 16:44:03"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.190",
+  version: "5.0.195",
   BetterCSLYAML: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"0f238e69-043e-4882-93bf-342de007de19","label":"Better CSL YAML","description":"exports references in pandoc-compatible CSL-YAML format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"yaml","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-08-22 21:41:32"},
-  override: {"DOIandURL":true,"ajv":false,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"0f238e69-043e-4882-93bf-342de007de19","label":"Better CSL YAML","description":"exports references in pandoc-compatible CSL-YAML format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"yaml","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-08-27 16:44:03"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"keepUpdated":false},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -42,7 +42,11 @@ var Translator = {
       this.references = []
 
       for (var key in this.options) {
-        this.options[key] = Zotero.getOption(key)
+        if (typeof this.options[key] === 'boolean') {
+          this.options[key] = !!Zotero.getOption(key)
+        } else {
+          this.options[key] = Zotero.getOption(key)
+        }
       }
       // special handling
       this.options.exportPath = Zotero.getOption('exportPath')

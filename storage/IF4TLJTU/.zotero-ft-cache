@@ -1,0 +1,916 @@
+
+Covariance matrix
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 2001:16a2:87ef:4900:782c:159b:2b2d:753b ( talk ) at 14:51, 22 May 2018 ( → ‎ Which matrices are covariance matrices? ) . The present address (URL) is a permanent link to this version.
+Revision as of 14:51, 22 May 2018 by 2001:16a2:87ef:4900:782c:159b:2b2d:753b ( talk ) ( → ‎ Which matrices are covariance matrices? )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+Not to be confused with Cross-covariance matrix .
+A bivariate Gaussian probability density function centered at (0, 0), with covariance matrix [1.00, 0.50; 0.50, 1.00]
+Sample points from a bivariate Gaussian distribution with a standard deviation of 3 in roughly the lower left-upper right direction and of 1 in the orthogonal direction. Because the x and y components co-vary, the variances of x and y do not fully describe the distribution. A 2×2 covariance matrix is needed; the directions of the arrows correspond to the eigenvectors of this covariance matrix and their lengths to the square roots of the eigenvalues .
+
+In probability theory and statistics , a covariance matrix (also known as dispersion matrix or variance–covariance matrix ) is a matrix whose element in the i , j position is the covariance between the i -th and j -th elements of a random vector . A random vector is a random variable with multiple dimensions. Each element of the vector is a scalar random variable. Each element has either a finite number of observed empirical values or a finite or infinite number of potential values. The potential values are specified by a theoretical joint probability distribution .
+
+Intuitively, the covariance matrix generalizes the notion of variance to multiple dimensions. As an example, the variation in a collection of random points in two-dimensional space cannot be characterized fully by a single number, nor would the variances in the x and y directions contain all of the necessary information; a 2×2 matrix would be necessary to fully characterize the two-dimensional variation.
+
+Because the covariance of the i -th random variable with itself is simply that random variable's variance, each element on the principal diagonal of the covariance matrix is the variance of one of the random variables. Because the covariance of the i -th random variable with the j -th one is the same thing as the covariance of the j -th random variable with the i -th one, every covariance matrix is symmetric . In addition, every covariance matrix is positive semi-definite .
+Contents
+
+    1 Definition
+        1.1 Generalization of the variance
+        1.2 Correlation matrix
+        1.3 Conflicting nomenclatures and notations
+    2 Properties
+        2.1 Basic properties
+        2.2 Block matrices
+    3 Covariance matrix as a parameter of a distribution
+    4 Covariance matrix as a linear operator
+    5 Which matrices are covariance matrices?
+    6 Complex random vectors
+    7 Estimation
+    8 Applications
+    9 See also
+    10 References
+    11 Further reading
+
+Definition [ edit ]
+
+Throughout this article, boldfaced unsubscripted X and Y are used to refer to random vectors, and unboldfaced subscripted X i and Y i are used to refer to random scalars.
+
+If the entries in the column vector
+
+    X = [ X 1 ⋮ X n ] {\displaystyle \mathbf {X} ={\begin{bmatrix}X_{1}\\\vdots \\X_{n}\end{bmatrix}}} {\displaystyle \mathbf {X} ={\begin{bmatrix}X_{1}\\\vdots \\X_{n}\end{bmatrix}}} 
+
+are random variables , each with finite variance , then the covariance matrix Σ is the matrix whose ( i ,  j ) entry is the covariance
+
+    Σ i j = cov ⁡ ( X i , X j ) = E ⁡ [ ( X i − μ i ) ( X j − μ j ) ] = E ⁡ [ X i X j ] − μ i μ j , {\displaystyle \Sigma _{ij}=\operatorname {cov} (X_{i},X_{j})=\operatorname {E} [(X_{i}-\mu _{i})(X_{j}-\mu _{j})]=\operatorname {E} [X_{i}X_{j}]-\mu _{i}\mu _{j},} {\displaystyle \Sigma _{ij}=\operatorname {cov} (X_{i},X_{j})=\operatorname {E} [(X_{i}-\mu _{i})(X_{j}-\mu _{j})]=\operatorname {E} [X_{i}X_{j}]-\mu _{i}\mu _{j},} 
+
+where the operator E denotes the expected (mean) value of its argument, and
+
+    μ i = E ⁡ ( X i ) {\displaystyle \mu _{i}=\operatorname {E} (X_{i})} {\displaystyle \mu _{i}=\operatorname {E} (X_{i})} 
+
+is the expected value of the i -th entry in the vector X . In other words,
+
+    Σ = [ E ⁡ [ ( X 1 − μ 1 ) ( X 1 − μ 1 ) ] E ⁡ [ ( X 1 − μ 1 ) ( X 2 − μ 2 ) ] ⋯ E ⁡ [ ( X 1 − μ 1 ) ( X n − μ n ) ] E ⁡ [ ( X 2 − μ 2 ) ( X 1 − μ 1 ) ] E ⁡ [ ( X 2 − μ 2 ) ( X 2 − μ 2 ) ] ⋯ E ⁡ [ ( X 2 − μ 2 ) ( X n − μ n ) ] ⋮ ⋮ ⋱ ⋮ E ⁡ [ ( X n − μ n ) ( X 1 − μ 1 ) ] E ⁡ [ ( X n − μ n ) ( X 2 − μ 2 ) ] ⋯ E ⁡ [ ( X n − μ n ) ( X n − μ n ) ] ] . {\displaystyle \Sigma ={\begin{bmatrix}\operatorname {E} [(X_{1}-\mu _{1})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{1}-\mu _{1})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{1}-\mu _{1})(X_{n}-\mu _{n})]\\\\\operatorname {E} [(X_{2}-\mu _{2})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{2}-\mu _{2})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{2}-\mu _{2})(X_{n}-\mu _{n})]\\\\\vdots &\vdots &\ddots &\vdots \\\\\operatorname {E} [(X_{n}-\mu _{n})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{n}-\mu _{n})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{n}-\mu _{n})(X_{n}-\mu _{n})]\end{bmatrix}}.} {\displaystyle \Sigma ={\begin{bmatrix}\operatorname {E} [(X_{1}-\mu _{1})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{1}-\mu _{1})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{1}-\mu _{1})(X_{n}-\mu _{n})]\\\\\operatorname {E} [(X_{2}-\mu _{2})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{2}-\mu _{2})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{2}-\mu _{2})(X_{n}-\mu _{n})]\\\\\vdots &\vdots &\ddots &\vdots \\\\\operatorname {E} [(X_{n}-\mu _{n})(X_{1}-\mu _{1})]&\operatorname {E} [(X_{n}-\mu _{n})(X_{2}-\mu _{2})]&\cdots &\operatorname {E} [(X_{n}-\mu _{n})(X_{n}-\mu _{n})]\end{bmatrix}}.} 
+
+The inverse of this matrix, Σ − 1 , {\displaystyle \Sigma ^{-1},} {\displaystyle \Sigma ^{-1},} if it exists, is the inverse covariance matrix, also known as the concentration matrix or precision matrix. [1]
+Generalization of the variance [ edit ]
+
+The definition above is equivalent to the matrix equality
+
+    Σ = E ⁡ [ ( X − E ⁡ [ X ] ) ( X − E ⁡ [ X ] ) T ] . {\displaystyle \Sigma =\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right].} {\displaystyle \Sigma =\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right].} 
+
+This form can be seen as a generalization of the scalar-valued variance to higher dimensions. Recall that for a scalar-valued random variable X
+
+    σ 2 = var ⁡ ( X ) = E ⁡ [ ( X − E ⁡ ( X ) ) 2 ] = E ⁡ [ ( X − E ⁡ ( X ) ) ⋅ ( X − E ⁡ ( X ) ) ] . {\displaystyle \sigma ^{2}=\operatorname {var} (X)=\operatorname {E} [(X-\operatorname {E} (X))^{2}]=\operatorname {E} [(X-\operatorname {E} (X))\cdot (X-\operatorname {E} (X))].} {\displaystyle \sigma ^{2}=\operatorname {var} (X)=\operatorname {E} [(X-\operatorname {E} (X))^{2}]=\operatorname {E} [(X-\operatorname {E} (X))\cdot (X-\operatorname {E} (X))].} 
+
+Indeed, the entries on the diagonal of the covariance matrix Σ {\displaystyle \Sigma } \Sigma are the variances of each element of the vector X {\displaystyle \mathbf {X} } \mathbf {X} .
+Correlation matrix [ edit ]
+
+A quantity closely related to the covariance matrix is the correlation matrix , the matrix of Pearson product-moment correlation coefficients between each of the random variables in the random vector X {\displaystyle \mathbf {X} } \mathbf {X} , which can be written as
+
+    corr ⁡ ( X ) = ( diag ⁡ ( Σ ) ) − 1 2 Σ ( diag ⁡ ( Σ ) ) − 1 2 , {\displaystyle \operatorname {corr} (\mathbf {X} )={\big (}\operatorname {diag} (\Sigma ){\big )}^{-{\frac {1}{2}}}\,\Sigma \,{\big (}\operatorname {diag} (\Sigma ){\big )}^{-{\frac {1}{2}}},} {\displaystyle \operatorname {corr} (\mathbf {X} )={\big (}\operatorname {diag} (\Sigma ){\big )}^{-{\frac {1}{2}}}\,\Sigma \,{\big (}\operatorname {diag} (\Sigma ){\big )}^{-{\frac {1}{2}}},} 
+
+where diag ⁡ ( Σ ) {\displaystyle \operatorname {diag} (\Sigma )} {\displaystyle \operatorname {diag} (\Sigma )} is the matrix of the diagonal elements of Σ {\displaystyle \Sigma } \Sigma (i.e., a diagonal matrix of the variances of X i {\displaystyle X_{i}} X_{i} for i = 1 , … , n {\displaystyle i=1,\dots ,n} i=1,\dots ,n ).
+
+Equivalently, the correlation matrix can be seen as the covariance matrix of the standardized random variables X i / σ ( X i ) {\displaystyle X_{i}/\sigma (X_{i})} X_{i}/\sigma (X_{i}) for i = 1 , … , n {\displaystyle i=1,\dots ,n} i=1,\dots ,n .
+
+Each element on the principal diagonal of a correlation matrix is the correlation of a random variable with itself, which always equals 1. Each off-diagonal element is between −1 and +1 inclusive.
+Conflicting nomenclatures and notations [ edit ]
+
+Nomenclatures differ. Some statisticians, following the probabilist William Feller in his two-volume book An Introduction to Probability Theory and Its Applications , [2] call the matrix Σ {\displaystyle \Sigma } \Sigma the variance of the random vector X {\displaystyle X} X , because it is the natural generalization to higher dimensions of the 1-dimensional variance. Others call it the covariance matrix , because it is the matrix of covariances between the scalar components of the vector X {\displaystyle X} X .
+
+    var ⁡ ( X ) = cov ⁡ ( X ) = E ⁡ [ ( X − E ⁡ [ X ] ) ( X − E ⁡ [ X ] ) T ] . {\displaystyle \operatorname {var} (\mathbf {X} )=\operatorname {cov} (\mathbf {X} )=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right].} {\displaystyle \operatorname {var} (\mathbf {X} )=\operatorname {cov} (\mathbf {X} )=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right].} 
+
+Both forms are quite standard, and there is no ambiguity between them. The matrix Σ {\displaystyle \Sigma } \Sigma is also often called the variance-covariance matrix , since the diagonal terms are in fact variances.
+
+By comparison, the notation for the cross-covariance between two vectors is
+
+    cov ⁡ ( X , Y ) = C X , Y = E ⁡ [ ( X − E ⁡ [ X ] ) ( Y − E ⁡ [ Y ] ) T ] . {\displaystyle \operatorname {cov} (\mathbf {X} ,\mathbf {Y} )=C_{\mathbf {X} ,\mathbf {Y} }=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {Y} -\operatorname {E} [\mathbf {Y} ])^{\rm {T}}\right].} {\displaystyle \operatorname {cov} (\mathbf {X} ,\mathbf {Y} )=C_{\mathbf {X} ,\mathbf {Y} }=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {Y} -\operatorname {E} [\mathbf {Y} ])^{\rm {T}}\right].} 
+
+Properties [ edit ]
+Basic properties [ edit ]
+
+For Σ = var ⁡ ( X ) = E ⁡ [ ( X − E ⁡ [ X ] ) ( X − E ⁡ [ X ] ) T ] {\displaystyle \Sigma =\operatorname {var} (\mathbf {X} )=\operatorname {E} \left[\left(\mathbf {X} -\operatorname {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\operatorname {E} [\mathbf {X} ]\right)^{\rm {T}}\right]} {\displaystyle \Sigma =\operatorname {var} (\mathbf {X} )=\operatorname {E} \left[\left(\mathbf {X} -\operatorname {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\operatorname {E} [\mathbf {X} ]\right)^{\rm {T}}\right]} and μ = E ⁡ ( X ) {\displaystyle {\boldsymbol {\mu }}=\operatorname {E} ({\textbf {X}})} {\displaystyle {\boldsymbol {\mu }}=\operatorname {E} ({\textbf {X}})} , where X is a p -dimensional random variable, the following basic properties apply: [3]
+
+    Σ = E ⁡ ( X X T ) − μ μ T {\displaystyle \Sigma =\operatorname {E} (\mathbf {XX^{\rm {T}}} )-{\boldsymbol {\mu }}{\boldsymbol {\mu }}^{\rm {T}}} {\displaystyle \Sigma =\operatorname {E} (\mathbf {XX^{\rm {T}}} )-{\boldsymbol {\mu }}{\boldsymbol {\mu }}^{\rm {T}}}
+    Σ {\displaystyle \Sigma \,} \Sigma \, is positive-semidefinite and symmetric
+    var ⁡ ( A X + a ) = A var ⁡ ( X ) A T {\displaystyle \operatorname {var} (\mathbf {AX} +\mathbf {a} )=\mathbf {A} \,\operatorname {var} (\mathbf {X} )\,\mathbf {A^{\rm {T}}} } {\displaystyle \operatorname {var} (\mathbf {AX} +\mathbf {a} )=\mathbf {A} \,\operatorname {var} (\mathbf {X} )\,\mathbf {A^{\rm {T}}} }
+    If Y is another random vector with the same dimension as X , then var ⁡ ( X + Y ) = var ⁡ ( X ) + cov ⁡ ( X , Y ) + cov ⁡ ( Y , X ) + var ⁡ ( Y ) {\displaystyle \operatorname {var} (\mathbf {X} +\mathbf {Y} )=\operatorname {var} (\mathbf {X} )+\operatorname {cov} (\mathbf {X} ,\mathbf {Y} )+\operatorname {cov} (\mathbf {Y} ,\mathbf {X} )+\operatorname {var} (\mathbf {Y} )} {\displaystyle \operatorname {var} (\mathbf {X} +\mathbf {Y} )=\operatorname {var} (\mathbf {X} )+\operatorname {cov} (\mathbf {X} ,\mathbf {Y} )+\operatorname {cov} (\mathbf {Y} ,\mathbf {X} )+\operatorname {var} (\mathbf {Y} )}
+
+where a {\displaystyle \mathbf {a} } \mathbf {a} is a p ×1 constant vector, A {\displaystyle \mathbf {A} } \mathbf {A} is a p × p matrix of constants, and cov ⁡ ( X , Y ) {\displaystyle \operatorname {cov} (\mathbf {X} ,\mathbf {Y} )} {\displaystyle \operatorname {cov} (\mathbf {X} ,\mathbf {Y} )} is a cross-covariance matrix .
+Block matrices [ edit ]
+
+The joint mean μ X , Y {\displaystyle {\boldsymbol {\mu }}_{X,Y}} {\boldsymbol {\mu }}_{X,Y} and joint covariance matrix Σ X , Y {\displaystyle {\boldsymbol {\Sigma }}_{X,Y}} {\boldsymbol {\Sigma }}_{X,Y} of X {\displaystyle {\boldsymbol {X}}} {\boldsymbol {X}} and Y {\displaystyle {\boldsymbol {Y}}} {\boldsymbol {Y}} can be written in block form
+
+    μ X , Y = [ μ X μ Y ] , Σ X , Y = [ Σ X X Σ X Y Σ Y X Σ Y Y ] {\displaystyle {\boldsymbol {\mu }}_{X,Y}={\begin{bmatrix}{\boldsymbol {\mu }}_{X}\\{\boldsymbol {\mu }}_{Y}\end{bmatrix}},\qquad {\boldsymbol {\Sigma }}_{X,Y}={\begin{bmatrix}{\boldsymbol {\Sigma }}_{\mathit {XX}}&{\boldsymbol {\Sigma }}_{\mathit {XY}}\\{\boldsymbol {\Sigma }}_{\mathit {YX}}&{\boldsymbol {\Sigma }}_{\mathit {YY}}\end{bmatrix}}} {\boldsymbol {\mu }}_{X,Y}={\begin{bmatrix}{\boldsymbol {\mu }}_{X}\\{\boldsymbol {\mu }}_{Y}\end{bmatrix}},\qquad {\boldsymbol {\Sigma }}_{X,Y}={\begin{bmatrix}{\boldsymbol {\Sigma }}_{\mathit {XX}}&{\boldsymbol {\Sigma }}_{\mathit {XY}}\\{\boldsymbol {\Sigma }}_{\mathit {YX}}&{\boldsymbol {\Sigma }}_{\mathit {YY}}\end{bmatrix}} 
+
+where Σ X X = var ⁡ ( X ) , Σ Y Y = var ⁡ ( Y ) , {\displaystyle {\boldsymbol {\Sigma }}_{XX}=\operatorname {var} ({\boldsymbol {X}}),{\boldsymbol {\Sigma }}_{YY}=\operatorname {var} ({\boldsymbol {Y}}),} {\displaystyle {\boldsymbol {\Sigma }}_{XX}=\operatorname {var} ({\boldsymbol {X}}),{\boldsymbol {\Sigma }}_{YY}=\operatorname {var} ({\boldsymbol {Y}}),} and Σ X Y = Σ Y X T = cov ⁡ ( X , Y ) {\displaystyle {\boldsymbol {\Sigma }}_{XY}={\boldsymbol {\Sigma }}_{\mathit {YX}}^{T}=\operatorname {cov} ({\boldsymbol {X}},{\boldsymbol {Y}})} {\displaystyle {\boldsymbol {\Sigma }}_{XY}={\boldsymbol {\Sigma }}_{\mathit {YX}}^{T}=\operatorname {cov} ({\boldsymbol {X}},{\boldsymbol {Y}})} .
+
+Σ X X {\displaystyle {\boldsymbol {\Sigma }}_{XX}} {\boldsymbol {\Sigma }}_{XX} and Σ Y Y {\displaystyle {\boldsymbol {\Sigma }}_{YY}} {\boldsymbol {\Sigma }}_{YY} can be identified as the variance matrices of the marginal distributions for X {\displaystyle {\boldsymbol {X}}} {\boldsymbol {X}} and Y {\displaystyle {\boldsymbol {Y}}} {\boldsymbol {Y}} respectively.
+
+If X {\displaystyle {\boldsymbol {X}}} {\boldsymbol {X}} and Y {\displaystyle {\boldsymbol {Y}}} {\boldsymbol {Y}} are jointly normally distributed ,
+
+    X , Y ∼   N ( μ X , Y , Σ X , Y ) {\displaystyle {\boldsymbol {X}},{\boldsymbol {Y}}\sim \ {\mathcal {N}}({\boldsymbol {\mu }}_{X,Y},{\boldsymbol {\Sigma }}_{X,Y})} {\displaystyle {\boldsymbol {X}},{\boldsymbol {Y}}\sim \ {\mathcal {N}}({\boldsymbol {\mu }}_{X,Y},{\boldsymbol {\Sigma }}_{X,Y})} ,
+
+then the conditional distribution for Y {\displaystyle {\boldsymbol {Y}}} {\boldsymbol {Y}} given X {\displaystyle {\boldsymbol {X}}} {\boldsymbol {X}} is given by
+
+    Y | X ∼   N ( μ Y | X , Σ Y | X ) {\displaystyle {\boldsymbol {Y}}|{\boldsymbol {X}}\sim \ {\mathcal {N}}({\boldsymbol {\mu }}_{Y|X},{\boldsymbol {\Sigma }}_{Y|X})} {\displaystyle {\boldsymbol {Y}}|{\boldsymbol {X}}\sim \ {\mathcal {N}}({\boldsymbol {\mu }}_{Y|X},{\boldsymbol {\Sigma }}_{Y|X})} , [4] 
+
+defined by conditional mean
+
+    μ Y | X = μ Y + Σ Y X Σ X X − 1 ( x − μ X ) {\displaystyle {\boldsymbol {\mu }}_{Y|X}={\boldsymbol {\mu }}_{Y}+{\boldsymbol {\Sigma }}_{YX}{\boldsymbol {\Sigma }}_{XX}^{-1}\left(\mathbf {x} -{\boldsymbol {\mu }}_{X}\right)} {\boldsymbol {\mu }}_{Y|X}={\boldsymbol {\mu }}_{Y}+{\boldsymbol {\Sigma }}_{YX}{\boldsymbol {\Sigma }}_{XX}^{-1}\left(\mathbf {x} -{\boldsymbol {\mu }}_{X}\right) 
+
+and conditional variance
+
+    Σ Y | X = Σ Y Y − Σ Y X Σ X X − 1 Σ X Y . {\displaystyle {\boldsymbol {\Sigma }}_{Y|X}={\boldsymbol {\Sigma }}_{YY}-{\boldsymbol {\Sigma }}_{\mathit {YX}}{\boldsymbol {\Sigma }}_{\mathit {XX}}^{-1}{\boldsymbol {\Sigma }}_{\mathit {XY}}.} {\boldsymbol {\Sigma }}_{Y|X}={\boldsymbol {\Sigma }}_{YY}-{\boldsymbol {\Sigma }}_{\mathit {YX}}{\boldsymbol {\Sigma }}_{\mathit {XX}}^{-1}{\boldsymbol {\Sigma }}_{\mathit {XY}}. 
+
+The matrix Σ YX Σ XX −1 is known as the matrix of regression coefficients, while in linear algebra Σ Y|X is the Schur complement of Σ XX in Σ X,Y
+
+The matrix of regression coefficients may often be given in transpose form, Σ XX −1 Σ XY , suitable for post-multiplying a row vector of explanatory variables x T rather than pre-multiplying a column vector x . In this form they correspond to the coefficients obtained by inverting the matrix of the normal equations of ordinary least squares (OLS).
+Covariance matrix as a parameter of a distribution [ edit ]
+
+If a vector of n possibly correlated random variables is jointly normally distributed , or more generally elliptically distributed , then its probability density function can be expressed in terms of the covariance matrix. [5]
+Covariance matrix as a linear operator [ edit ]
+Main article: Covariance operator
+
+Applied to one vector, the covariance matrix maps a linear combination c of the random variables X onto a vector of covariances with those variables: c T Σ = cov ⁡ ( c T X , X ) {\displaystyle \mathbf {c} ^{\rm {T}}\Sigma =\operatorname {cov} (\mathbf {c} ^{\rm {T}}\mathbf {X} ,\mathbf {X} )} {\displaystyle \mathbf {c} ^{\rm {T}}\Sigma =\operatorname {cov} (\mathbf {c} ^{\rm {T}}\mathbf {X} ,\mathbf {X} )} . Treated as a bilinear form , it yields the covariance between the two linear combinations: d T Σ c = cov ⁡ ( d T X , c T X ) {\displaystyle \mathbf {d} ^{\rm {T}}\Sigma \mathbf {c} =\operatorname {cov} (\mathbf {d} ^{\rm {T}}\mathbf {X} ,\mathbf {c} ^{\rm {T}}\mathbf {X} )} {\displaystyle \mathbf {d} ^{\rm {T}}\Sigma \mathbf {c} =\operatorname {cov} (\mathbf {d} ^{\rm {T}}\mathbf {X} ,\mathbf {c} ^{\rm {T}}\mathbf {X} )} . The variance of a linear combination is then c T Σ c {\displaystyle \mathbf {c} ^{\rm {T}}\Sigma \mathbf {c} } {\displaystyle \mathbf {c} ^{\rm {T}}\Sigma \mathbf {c} } , its covariance with itself.
+
+Similarly, the (pseudo-)inverse covariance matrix provides an inner product ⟨ c − μ | Σ + | c − μ ⟩ {\displaystyle \langle c-\mu |\Sigma ^{+}|c-\mu \rangle } {\displaystyle \langle c-\mu |\Sigma ^{+}|c-\mu \rangle } , which induces the Mahalanobis distance , a measure of the "unlikelihood" of c . [ citation needed ]
+Which matrices are covariance matrices? [ edit ]
+
+From the identity just above, let b {\displaystyle \mathbf {b} } \mathbf {b} be a ( p × 1 ) {\displaystyle (p\times 1)} (p\times 1) real-valued vector, then
+
+    var ⁡ ( b T X ) = b T var ⁡ ( X ) b , {\displaystyle \operatorname {var} (\mathbf {b} ^{\rm {T}}\mathbf {X} )=\mathbf {b} ^{\rm {T}}\operatorname {var} (\mathbf {X} )\mathbf {b} ,\,} \operatorname {var} (\mathbf {b} ^{\rm {T}}\mathbf {X} )=\mathbf {b} ^{\rm {T}}\operatorname {var} (\mathbf {X} )\mathbf {b} ,\, 
+
+which must always be nonnegative, since it is the variance of a real-valued random variable. A covariance matrix is always a positive-semidefinite matrix , since
+
+    w T E ⁡ [ ( X − E ⁡ [ X ] ) ( X − E ⁡ [ X ] ) T ] w = E ⁡ [ w T ( X − E ⁡ [ X ] ) ( X − E ⁡ [ X ] ) T w ] = E ⁡ [ ( w T ( X − E ⁡ [ X ] ) ) 2 ] ≥ 0 {\displaystyle w^{\rm {T}}\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right]w=\operatorname {E} \left[w^{\rm {T}}(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}w\right]=\operatorname {E} \left[(w^{\rm {T}}(\mathbf {X} -\operatorname {E} [\mathbf {X} ]))^{2}\right]\geq 0} {\displaystyle w^{\rm {T}}\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}\right]w=\operatorname {E} \left[w^{\rm {T}}(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {X} -\operatorname {E} [\mathbf {X} ])^{\rm {T}}w\right]=\operatorname {E} \left[(w^{\rm {T}}(\mathbf {X} -\operatorname {E} [\mathbf {X} ]))^{2}\right]\geq 0} .
+
+Conversely, every symmetric positive semi-definite matrix is a covariance matrix. To see this, suppose M is a p × p positive-semidefinite matrix. From the finite-dimensional case of the spectral theorem , it follows that M has a nonnegative symmetric square root , which can be denoted by M 1/2 . Let X {\displaystyle \mathbf {X} } \mathbf {X} be any p ×1 column vector-valued random variable whose covariance matrix is the p × p identity matrix. Then
+
+    var ⁡ ( M 1 / 2 X ) = M 1 / 2 var ⁡ ( X ) M 1 / 2 = M . {\displaystyle \operatorname {var} (\mathbf {M} ^{1/2}\mathbf {X} )=\mathbf {M} ^{1/2}\,\operatorname {var} (\mathbf {X} )\,\mathbf {M} ^{1/2}=\mathbf {M} .} {\displaystyle \operatorname {var} (\mathbf {M} ^{1/2}\mathbf {X} )=\mathbf {M} ^{1/2}\,\operatorname {var} (\mathbf {X} )\,\mathbf {M} ^{1/2}=\mathbf {M} .} 
+
+Complex random vectors [ edit ]
+
+The variance of a complex scalar-valued random variable with expected value μ is conventionally defined using complex conjugation :
+
+    var ⁡ ( Z ) = E ⁡ [ ( Z − μ ) ( Z − μ ) ∗ ] , {\displaystyle \operatorname {var} (\mathbf {Z} )=\operatorname {E} [(\mathbf {Z} -\mathbf {\mu } )(\mathbf {Z} -\mathbf {\mu } )^{*}],} {\displaystyle \operatorname {var} (\mathbf {Z} )=\operatorname {E} [(\mathbf {Z} -\mathbf {\mu } )(\mathbf {Z} -\mathbf {\mu } )^{*}],} 
+
+where the complex conjugate of a complex number z {\displaystyle z} z is denoted z ∗ {\displaystyle z^{*}} z^{*} ; thus the variance of a complex number is a real number.
+
+If Z {\displaystyle \mathbf {Z} } \mathbf {Z} is a column vector of complex-valued random variables, then the conjugate transpose is formed by both transposing and conjugating. In the following expression, the product of a vector with its conjugate transpose results in a square matrix, as its expectation:
+
+    E ⁡ [ ( Z − μ ) ( Z − μ ) † ] , {\displaystyle \operatorname {E} \left[(\mathbf {Z} -\mathbf {\mu } )(\mathbf {Z} -\mathbf {\mu } )^{\dagger }\right],} {\displaystyle \operatorname {E} \left[(\mathbf {Z} -\mathbf {\mu } )(\mathbf {Z} -\mathbf {\mu } )^{\dagger }\right],} 
+
+where Z † {\displaystyle \mathbf {Z} ^{\dagger }} {\displaystyle \mathbf {Z} ^{\dagger }} denotes the conjugate transpose, which is applicable to the scalar case, since the transpose of a scalar is still a scalar. The matrix so obtained will be Hermitian positive-semidefinite , [6] with real numbers in the main diagonal and complex numbers off-diagonal.
+Estimation [ edit ]
+Main article: Estimation of covariance matrices
+
+If M X {\displaystyle \mathbf {M} _{\mathbf {X} }} \mathbf {M} _{\mathbf {X} } and M Y {\displaystyle \mathbf {M} _{\mathbf {Y} }} \mathbf {M} _{\mathbf {Y} } are centred data matrices of dimension n × p and n × q respectively, i.e. with n rows of observations of p and q columns of variables, from which the column means have been subtracted, then, if the column means were estimated from the data, sample correlation matrices Q X {\displaystyle \mathbf {Q} _{\mathbf {X} }} \mathbf {Q} _{\mathbf {X} } and Q X Y {\displaystyle \mathbf {Q} _{\mathbf {XY} }} \mathbf {Q} _{\mathbf {XY} } can be defined to be
+
+    Q X = 1 n − 1 M X T M X , Q X Y = 1 n − 1 M X T M Y {\displaystyle \mathbf {Q} _{\mathbf {X} }={\frac {1}{n-1}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {X} },\qquad \mathbf {Q} _{\mathbf {XY} }={\frac {1}{n-1}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {Y} }} {\displaystyle \mathbf {Q} _{\mathbf {X} }={\frac {1}{n-1}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {X} },\qquad \mathbf {Q} _{\mathbf {XY} }={\frac {1}{n-1}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {Y} }} 
+
+or, if the column means were known a priori,
+
+    Q X = 1 n M X T M X , Q X Y = 1 n M X T M Y . {\displaystyle \mathbf {Q} _{\mathbf {X} }={\frac {1}{n}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {X} },\qquad \mathbf {Q} _{\mathbf {XY} }={\frac {1}{n}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {Y} }.} {\displaystyle \mathbf {Q} _{\mathbf {X} }={\frac {1}{n}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {X} },\qquad \mathbf {Q} _{\mathbf {XY} }={\frac {1}{n}}\mathbf {M} _{\mathbf {X} }^{\rm {T}}\mathbf {M} _{\mathbf {Y} }.} 
+
+These empirical sample correlation matrices are the most straightforward and most often used estimators for the correlation matrices, but other estimators also exist, including regularised or shrinkage estimators, which may have better properties.
+Applications [ edit ]
+
+The covariance matrix is a useful tool in many different areas. From it a transformation matrix can be derived, called a whitening transformation , that allows one to completely decorrelate the data [ citation needed ] or, from a different point of view, to find an optimal basis for representing the data in a compact way [ citation needed ] (see Rayleigh quotient for a formal proof and additional properties of covariance matrices). This is called principal component analysis (PCA) and the Karhunen-Loève transform (KL-transform).
+
+The covariance matrix plays a key role in financial economics , especially in portfolio theory and its mutual fund separation theorem and in the capital asset pricing model . The matrix of covariances among various assets' returns is used to determine, under certain assumptions, the relative amounts of different assets that investors should (in a normative analysis ) or are predicted to (in a positive analysis ) choose to hold in a context of diversification .
+See also [ edit ]
+
+    Covariance mapping
+    Multivariate statistics
+    Gramian matrix
+    Eigenvalue decomposition
+    Quadratic form (statistics)
+    Principal components
+
+References [ edit ]
+
+    Jump up ^ Wasserman, Larry (2004). All of Statistics: A Concise Course in Statistical Inference . ISBN   0-387-40272-1 .  
+    Jump up ^ William Feller (1971). An introduction to probability theory and its applications . Wiley. ISBN   978-0-471-25709-7 . Retrieved 10 August 2012 .  
+    Jump up ^ Taboga, Marco (2010). "Lectures on probability theory and mathematical statistics" .  
+    Jump up ^ Eaton, Morris L. (1983). Multivariate Statistics: a Vector Space Approach . John Wiley and Sons. pp. 116–117. ISBN   0-471-02776-6 .  
+    Jump up ^ Frahm, G.; Junker, M.; Szimayer, A. (2003). "Elliptical copulas: Applicability and limitations". Statistics & Probability Letters . 63 (3): 275–286. doi : 10.1016/S0167-7152(03)00092-0 .  
+    Jump up ^ Brookes, Mike. "The Matrix Reference Manual" .  
+
+Further reading [ edit ]
+
+    Hazewinkel, Michiel , ed. (2001) [1994], "Covariance matrix" , Encyclopedia of Mathematics , Springer Science+Business Media B.V. / Kluwer Academic Publishers, ISBN   978-1-55608-010-4  
+    Weisstein, Eric W. "Covariance Matrix" . MathWorld .  
+    van Kampen, N. G. (1981). Stochastic processes in physics and chemistry . New York: North-Holland. ISBN   0-444-86200-5 .  
+
+    v
+    t
+    e
+
+Statistics
+
+    Outline
+    Index
+
+Descriptive statistics
+Continuous data 	
+Center 	
+
+    Mean
+        arithmetic
+        geometric
+        harmonic
+    Median
+    Mode
+
+Dispersion 	
+
+    Variance
+    Standard deviation
+    Coefficient of variation
+    Percentile
+    Range
+    Interquartile range
+
+Shape 	
+
+    Central limit theorem
+    Moments
+        Skewness
+        Kurtosis
+        L-moments
+
+Count data 	
+
+    Index of dispersion
+
+Summary tables 	
+
+    Grouped data
+    Frequency distribution
+    Contingency table
+
+Dependence 	
+
+    Pearson product-moment correlation
+    Rank correlation
+        Spearman's rho
+        Kendall's tau
+    Partial correlation
+    Scatter plot
+
+Graphics 	
+
+    Bar chart
+    Biplot
+    Box plot
+    Control chart
+    Correlogram
+    Fan chart
+    Forest plot
+    Histogram
+    Pie chart
+    Q–Q plot
+    Run chart
+    Scatter plot
+    Stem-and-leaf display
+    Radar chart
+
+Data collection
+Study design 	
+
+    Population
+    Statistic
+    Effect size
+    Statistical power
+    Sample size determination
+    Missing data
+
+Survey methodology 	
+
+    Sampling
+        stratified
+        cluster
+    Standard error
+    Opinion poll
+    Questionnaire
+
+Controlled experiments 	
+
+    Design
+        control
+        optimal
+    Controlled trial
+    Randomized
+    Random assignment
+    Replication
+    Blocking
+    Interaction
+    Factorial experiment
+
+Uncontrolled studies 	
+
+    Observational study
+    Natural experiment
+    Quasi-experiment
+
+Statistical inference
+Statistical theory 	
+
+    Population
+    Statistic
+    Probability distribution
+    Sampling distribution
+        Order statistic
+    Empirical distribution
+        Density estimation
+    Statistical model
+        L p space
+    Parameter
+        location
+        scale
+        shape
+    Parametric family
+        Likelihood   (monotone)
+        Location–scale family
+        Exponential family
+    Completeness
+    Sufficiency
+    Statistical functional
+        Bootstrap
+        U
+        V
+    Optimal decision
+        loss function
+    Efficiency
+    Statistical distance
+        divergence
+    Asymptotics
+    Robustness
+
+Frequentist inference 	
+Point estimation 	
+
+    Estimating equations
+        Maximum likelihood
+        Method of moments
+        M-estimator
+        Minimum distance
+    Unbiased estimators
+        Mean-unbiased minimum-variance
+            Rao–Blackwellization
+            Lehmann–Scheffé theorem
+        Median unbiased
+    Plug-in
+
+Interval estimation 	
+
+    Confidence interval
+    Pivot
+    Likelihood interval
+    Prediction interval
+    Tolerance interval
+    Resampling
+        Bootstrap
+        Jackknife
+
+Testing hypotheses 	
+
+    1- & 2-tails
+    Power
+        Uniformly most powerful test
+    Permutation test
+        Randomization test
+    Multiple comparisons
+
+Parametric tests 	
+
+    Likelihood-ratio
+    Wald
+    Score
+
+Specific tests 	
+
+    Z -test (normal)
+    Student's t -test
+    F -test
+
+Goodness of fit 	
+
+    Chi-squared
+    G -test
+    Kolmogorov–Smirnov
+    Anderson–Darling
+    Lilliefors
+    Jarque–Bera
+    Normality (Shapiro–Wilk)
+    Likelihood-ratio test
+    Model selection
+        Cross validation
+        AIC
+        BIC
+
+Rank statistics 	
+
+    Sign
+        Sample median
+    Signed rank (Wilcoxon)
+        Hodges–Lehmann estimator
+    Rank sum (Mann–Whitney)
+    Nonparametric anova
+        1-way (Kruskal–Wallis)
+        2-way (Friedman)
+        Ordered alternative (Jonckheere–Terpstra)
+
+Bayesian inference 	
+
+    Bayesian probability
+        prior
+        posterior
+    Credible interval
+    Bayes factor
+    Bayesian estimator
+        Maximum posterior estimator
+
+    Correlation
+    Regression analysis
+
+Correlation 	
+
+    Pearson product-moment
+    Partial correlation
+    Confounding variable
+    Coefficient of determination
+
+Regression analysis 	
+
+    Errors and residuals
+    Regression model validation
+    Mixed effects models
+    Simultaneous equations models
+    Multivariate adaptive regression splines (MARS)
+
+Linear regression 	
+
+    Simple linear regression
+    Ordinary least squares
+    General linear model
+    Bayesian regression
+
+Non-standard predictors 	
+
+    Nonlinear regression
+    Nonparametric
+    Semiparametric
+    Isotonic
+    Robust
+    Heteroscedasticity
+    Homoscedasticity
+
+Generalized linear model 	
+
+    Exponential families
+    Logistic (Bernoulli)  / Binomial  / Poisson regressions
+
+Partition of variance 	
+
+    Analysis of variance (ANOVA, anova)
+    Analysis of covariance
+    Multivariate ANOVA
+    Degrees of freedom
+
+Categorical  / Multivariate  / Time-series  / Survival analysis
+Categorical 	
+
+    Cohen's kappa
+    Contingency table
+    Graphical model
+    Log-linear model
+    McNemar's test
+
+Multivariate 	
+
+    Regression
+    Manova
+    Principal components
+    Canonical correlation
+    Discriminant analysis
+    Cluster analysis
+    Classification
+    Structural equation model
+        Factor analysis
+    Multivariate distributions
+        Elliptical distributions
+            Normal
+
+Time-series 	
+General 	
+
+    Decomposition
+    Trend
+    Stationarity
+    Seasonal adjustment
+    Exponential smoothing
+    Cointegration
+    Structural break
+    Granger causality
+
+Specific tests 	
+
+    Dickey–Fuller
+    Johansen
+    Q-statistic (Ljung–Box)
+    Durbin–Watson
+    Breusch–Godfrey
+
+Time domain 	
+
+    Autocorrelation (ACF)
+        partial (PACF)
+    Cross-correlation (XCF)
+    ARMA model
+    ARIMA model (Box–Jenkins)
+    Autoregressive conditional heteroskedasticity (ARCH)
+    Vector autoregression (VAR)
+
+Frequency domain 	
+
+    Spectral density estimation
+    Fourier analysis
+    Wavelet
+    Whittle likelihood
+
+Survival 	
+Survival function 	
+
+    Kaplan–Meier estimator (product limit)
+    Proportional hazards models
+    Accelerated failure time (AFT) model
+    First hitting time
+
+Hazard function 	
+
+    Nelson–Aalen estimator
+
+Test 	
+
+    Log-rank test
+
+Applications
+Biostatistics 	
+
+    Bioinformatics
+    Clinical trials  / studies
+    Epidemiology
+    Medical statistics
+
+Engineering statistics 	
+
+    Chemometrics
+    Methods engineering
+    Probabilistic design
+    Process  / quality control
+    Reliability
+    System identification
+
+Social statistics 	
+
+    Actuarial science
+    Census
+    Crime statistics
+    Demography
+    Econometrics
+    National accounts
+    Official statistics
+    Population statistics
+    Psychometrics
+
+Spatial statistics 	
+
+    Cartography
+    Environmental statistics
+    Geographic information system
+    Geostatistics
+    Kriging
+
+    Category Category
+    Portal Portal
+    Commons page Commons
+    WikiProject WikiProject
+
+    v
+    t
+    e
+
+Matrix classes
+Explicitly constrained entries 	
+
+    (0,1)
+    Alternant
+    Anti-diagonal
+    Anti-Hermitian
+    Anti-symmetric
+    Arrowhead
+    Band
+    Bidiagonal
+    Binary
+    Bisymmetric
+    Block-diagonal
+    Block
+    Block tridiagonal
+    Boolean
+    Cauchy
+    Centrosymmetric
+    Conference
+    Complex Hadamard
+    Copositive
+    Diagonally dominant
+    Diagonal
+    Discrete Fourier Transform
+    Elementary
+    Equivalent
+    Frobenius
+    Generalized permutation
+    Hadamard
+    Hankel
+    Hermitian
+    Hessenberg
+    Hollow
+    Integer
+    Logical
+    Markov
+    Metzler
+    Monomial
+    Moore
+    Nonnegative
+    Partitioned
+    Parisi
+    Pentadiagonal
+    Permutation
+    Persymmetric
+    Polynomial
+    Positive
+    Quaternionic
+    Sign
+    Signature
+    Skew-Hermitian
+    Skew-symmetric
+    Skyline
+    Sparse
+    Sylvester
+    Symmetric
+    Toeplitz
+    Triangular
+    Tridiagonal
+    Unitary
+    Vandermonde
+    Walsh
+    Z
+
+Constant 	
+
+    Exchange
+    Hilbert
+    Identity
+    Lehmer
+    Of ones
+    Pascal
+    Pauli
+    Redheffer
+    Shift
+    Zero
+
+Conditions on eigenvalues or eigenvectors 	
+
+    Companion
+    Convergent
+    Defective
+    Diagonalizable
+    Hurwitz
+    Positive-definite
+    Stability
+    Stieltjes
+
+Satisfying conditions on products or inverses 	
+
+    Congruent
+    Idempotent or Projection
+    Invertible
+    Involutory
+    Nilpotent
+    Normal
+    Orthogonal
+    Orthonormal
+    Singular
+    Unimodular
+    Unipotent
+    Totally unimodular
+    Weighing
+
+With specific applications 	
+
+    Adjugate
+    Alternating sign
+    Augmented
+    Bézout
+    Carleman
+    Cartan
+    Circulant
+    Cofactor
+    Commutation
+    Coxeter
+    Derogatory
+    Distance
+    Duplication
+    Elimination
+    Euclidean distance
+    Fundamental (linear differential equation)
+    Generator
+    Gramian
+    Hessian
+    Householder
+    Jacobian
+    Moment
+    Payoff
+    Pick
+    Random
+    Rotation
+    Seifert
+    Shear
+    Similarity
+    Symplectic
+    Totally positive
+    Transformation
+    Wedderburn
+    X–Y–Z
+
+Used in statistics 	
+
+    Bernoulli
+    Centering
+    Correlation
+    Covariance
+    Design
+    Dispersion
+    Doubly stochastic
+    Fisher information
+    Hat
+    Precision
+    Stochastic
+    Transition
+
+Used in graph theory 	
+
+    Adjacency
+    Biadjacency
+    Degree
+    Edmonds
+    Incidence
+    Laplacian
+    Seidel adjacency
+    Skew-adjacency
+    Tutte
+
+Used in science and engineering 	
+
+    Cabibbo–Kobayashi–Maskawa
+    Density
+    Fundamental (computer vision)
+    Fuzzy associative
+    Gamma
+    Gell-Mann
+    Hamiltonian
+    Irregular
+    Overlap
+    S
+    State transition
+    Substitution
+    Z (chemistry)
+
+Related terms 	
+
+    Jordan canonical form
+    Linear independence
+    Matrix exponential
+    Matrix representation of conic sections
+    Perfect matrix
+    Pseudoinverse
+    Quaternionic matrix
+    Row echelon form
+    Wronskian
+
+    List of matrices
+    Category:Matrices
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Covariance_matrix&oldid=842449341 "
+Categories :
+
+    Covariance and correlation
+    Matrices
+    Summary statistics
+
+Hidden categories:
+
+    All articles with unsourced statements
+    Articles with unsourced statements from February 2012
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    العربية
+    Català
+    Deutsch
+    Español
+    فارسی
+    Français
+    Italiano
+    Nederlands
+    日本語
+    Polski
+    Português
+    Русский
+    Slovenčina
+    Slovenščina
+    Basa Sunda
+    Türkçe
+    Українська
+    Tiếng Việt
+    中文
+
+Edit links
+
+    This page was last edited on 22 May 2018, at 14:51  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

@@ -1,0 +1,581 @@
+
+LU decomposition
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Joaowiciuk ( talk  | contribs ) at 16:42, 27 July 2018 ( → ‎ Inverting a matrix ) . The present address (URL) is a permanent link to this version.
+Revision as of 16:42, 27 July 2018 by Joaowiciuk ( talk  | contribs ) ( → ‎ Inverting a matrix )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+In numerical analysis and linear algebra , LU decomposition (where "LU" stands for "lower–upper", and also called LU factorization ) factors a matrix as the product of a lower triangular matrix and an upper triangular matrix. The product sometimes includes a permutation matrix as well. The LU decomposition can be viewed as the matrix form of Gaussian elimination . Computers usually solve square systems of linear equations using the LU decomposition, and it is also a key step when inverting a matrix or computing the determinant of a matrix. The LU decomposition was introduced by mathematician Tadeusz Banachiewicz in 1938. [1]
+Contents
+
+    1 Definitions
+        1.1 LU factorization with partial pivoting
+        1.2 LU factorization with full pivoting
+        1.3 LDU decomposition
+    2 Example
+    3 Existence and uniqueness
+        3.1 Square matrices
+        3.2 Symmetric positive definite matrices
+        3.3 General matrices
+    4 Algorithms
+        4.1 Closed formula
+        4.2 Doolittle algorithm
+        4.3 Crout and LUP algorithms
+        4.4 Randomized algorithm
+        4.5 Theoretical complexity
+        4.6 Sparse-matrix decomposition
+    5 Applications
+        5.1 Solving linear equations
+        5.2 Inverting a matrix
+        5.3 Computing the determinant
+        5.4 C code examples
+        5.5 C# code examples
+    6 See also
+    7 Notes
+    8 References
+    9 External links
+
+Definitions [ edit ]
+LDU decomposition of a Walsh matrix
+
+Let A be a square matrix. An LU factorization refers to the factorization of A , with proper row and/or column orderings or permutations, into two factors – a lower triangular matrix L and an upper triangular matrix U :
+
+    A = L U . {\displaystyle A=LU.} {\displaystyle A=LU.} 
+
+In the lower triangular matrix all elements above the diagonal are zero, in the upper triangular matrix, all the elements below the diagonal are zero. For example, for a 3 × 3 matrix A , its LU decomposition looks like this:
+
+    [ a 11 a 12 a 13 a 21 a 22 a 23 a 31 a 32 a 33 ] = [ l 11 0 0 l 21 l 22 0 l 31 l 32 l 33 ] [ u 11 u 12 u 13 0 u 22 u 23 0 0 u 33 ] . {\displaystyle {\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}}={\begin{bmatrix}l_{11}&0&0\\l_{21}&l_{22}&0\\l_{31}&l_{32}&l_{33}\end{bmatrix}}{\begin{bmatrix}u_{11}&u_{12}&u_{13}\\0&u_{22}&u_{23}\\0&0&u_{33}\end{bmatrix}}.} {\displaystyle {\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}}={\begin{bmatrix}l_{11}&0&0\\l_{21}&l_{22}&0\\l_{31}&l_{32}&l_{33}\end{bmatrix}}{\begin{bmatrix}u_{11}&u_{12}&u_{13}\\0&u_{22}&u_{23}\\0&0&u_{33}\end{bmatrix}}.} 
+
+Without a proper ordering or permutations in the matrix, the factorization may fail to materialize. For example, it is easy to verify (by expanding the matrix multiplication) that a 11 = l 11 u 11 {\displaystyle a_{11}=l_{11}u_{11}} a_{11} = l_{11} u_{11} . If a 11 = 0 {\displaystyle a_{11}=0} a_{11} = 0 , then at least one of l 11 {\displaystyle l_{11}} l_{11} and u 11 {\displaystyle u_{11}} u_{11} has to be zero, which implies that either L or U is singular . This is impossible if A is nonsingular (invertible). This is a procedural problem. It can be removed by simply reordering the rows of A so that the first element of the permuted matrix is nonzero. The same problem in subsequent factorization steps can be removed the same way; see the basic procedure below.
+LU factorization with partial pivoting [ edit ]
+
+It turns out that a proper permutation in rows (or columns) is sufficient for the LU factorization. The LU factorization with partial pivoting (LUP) refers often to the LU factorization with row permutations only:
+
+    P A = L U , {\displaystyle PA=LU,} {\displaystyle PA=LU,} 
+
+where L and U are again lower and upper triangular matrices, and P is a permutation matrix , which, when left-multiplied to A , reorders the rows of A . It turns out that all square matrices can be factorized in this form, [2] and the factorization is numerically stable in practice. [3] This makes LUP decomposition a useful technique in practice.
+LU factorization with full pivoting [ edit ]
+
+An LU factorization with full pivoting involves both row and column permutations:
+
+    P A Q = L U , {\displaystyle PAQ=LU,} {\displaystyle PAQ=LU,} 
+
+where L , U and P are defined as before, and Q is a permutation matrix that reorders the columns of A . [4]
+LDU decomposition [ edit ]
+
+An LDU decomposition is a decomposition of the form
+
+    A = L D U , {\displaystyle A=LDU,} {\displaystyle A=LDU,} 
+
+where D is a diagonal matrix , and L and U are unit triangular matrices, meaning that all the entries on the diagonals of L and U are one.
+
+Above we required that A be a square matrix, but these decompositions can all be generalized to rectangular matrices as well. In that case, L and D are square matrices both of which have the same number of rows as A , and U has exactly the same dimensions as A . Upper triangular should be interpreted as having only zero entries below the main diagonal, which starts at the upper left corner.
+Example [ edit ]
+
+We factorize the following 2-by-2 matrix:
+
+    [ 4 3 6 3 ] = [ l 11 0 l 21 l 22 ] [ u 11 u 12 0 u 22 ] . {\displaystyle {\begin{bmatrix}4&3\\6&3\end{bmatrix}}={\begin{bmatrix}l_{11}&0\\l_{21}&l_{22}\end{bmatrix}}{\begin{bmatrix}u_{11}&u_{12}\\0&u_{22}\end{bmatrix}}.} {\begin{bmatrix}4&3\\6&3\end{bmatrix}}={\begin{bmatrix}l_{{11}}&0\\l_{{21}}&l_{{22}}\end{bmatrix}}{\begin{bmatrix}u_{{11}}&u_{{12}}\\0&u_{{22}}\end{bmatrix}}. 
+
+One way to find the LU decomposition of this simple matrix would be to simply solve the linear equations by inspection. Expanding the matrix multiplication gives
+
+    l 11 ⋅ u 11 + 0 ⋅ 0 = 4 {\displaystyle l_{11}\cdot u_{11}+0\cdot 0=4} l_{11} \cdot u_{11} + 0 \cdot 0 = 4 
+    l 11 ⋅ u 12 + 0 ⋅ u 22 = 3 {\displaystyle l_{11}\cdot u_{12}+0\cdot u_{22}=3} l_{11} \cdot u_{12} + 0 \cdot u_{22} = 3 
+    l 21 ⋅ u 11 + l 22 ⋅ 0 = 6 {\displaystyle l_{21}\cdot u_{11}+l_{22}\cdot 0=6} l_{21}\cdot u_{11} + l_{22} \cdot 0 = 6 
+    l 21 ⋅ u 12 + l 22 ⋅ u 22 = 3. {\displaystyle l_{21}\cdot u_{12}+l_{22}\cdot u_{22}=3.} l_{21}\cdot u_{12} + l_{22} \cdot u_{22} = 3. 
+
+This system of equations is underdetermined . In this case any two non-zero elements of L and U matrices are parameters of the solution and can be set arbitrarily to any non-zero value. Therefore, to find the unique LU decomposition, it is necessary to put some restriction on L and U matrices. For example, we can conveniently require the lower triangular matrix L to be a unit triangular matrix (i.e. set all the entries of its main diagonal to ones). Then the system of equations has the following solution:
+
+    l 21 = 1.5 {\displaystyle l_{21}=1.5} l_{21} = 1.5 
+    u 11 = 4 {\displaystyle u_{11}=4} u_{11} = 4 
+    u 12 = 3 {\displaystyle u_{12}=3} u_{12} = 3 
+    u 22 = − 1.5 {\displaystyle u_{22}=-1.5} {\displaystyle u_{22}=-1.5} 
+
+Substituting these values into the LU decomposition above yields
+
+    [ 4 3 6 3 ] = [ 1 0 1.5 1 ] [ 4 3 0 − 1.5 ] . {\displaystyle {\begin{bmatrix}4&3\\6&3\end{bmatrix}}={\begin{bmatrix}1&0\\1.5&1\end{bmatrix}}{\begin{bmatrix}4&3\\0&-1.5\end{bmatrix}}.} {\begin{bmatrix}4&3\\6&3\end{bmatrix}}={\begin{bmatrix}1&0\\1.5&1\end{bmatrix}}{\begin{bmatrix}4&3\\0&-1.5\end{bmatrix}}. 
+
+Existence and uniqueness [ edit ]
+Square matrices [ edit ]
+
+Any square matrix A {\displaystyle A} A admits an LUP factorization. [2] If A {\displaystyle A} A is invertible , then it admits an LU (or LDU ) factorization if and only if all its leading principal minors are nonzero. [5] If A {\displaystyle A} A is a singular matrix of rank k {\displaystyle k} k , then it admits an LU factorization if the first k {\displaystyle k} k leading principal minors are nonzero, although the converse is not true. [6]
+
+If a square, invertible matrix has an LDU factorization with all diagonal entries of L and U equal to 1, then the factorization is unique. [5] In that case, the LU factorization is also unique if we require that the diagonal of L {\displaystyle L} L (or U {\displaystyle U} U ) consists of ones.
+Symmetric positive definite matrices [ edit ]
+
+If A is a symmetric (or Hermitian , if A is complex) positive definite matrix, we can arrange matters so that U is the conjugate transpose of L . That is, we can write A as
+
+    A = L L ∗ . {\displaystyle A=LL^{*}.\,} A = L L^{*}. \, 
+
+This decomposition is called the Cholesky decomposition . The Cholesky decomposition always exists and is unique — provided the matrix is positive definite. Furthermore, computing the Cholesky decomposition is more efficient and numerically more stable than computing some other LU decompositions.
+General matrices [ edit ]
+
+For a (not necessarily invertible) matrix over any field, the exact necessary and sufficient conditions under which it has an LU factorization are known. The conditions are expressed in terms of the ranks of certain submatrices. The Gaussian elimination algorithm for obtaining LU decomposition has also been extended to this most general case. [7]
+Algorithms [ edit ]
+
+The LU decomposition is basically a modified form of Gaussian elimination . We transform the matrix A into an upper triangular matrix U by eliminating the entries below the main diagonal. The Doolittle algorithm does the elimination column-by-column, starting from the left, by multiplying A to the left with atomic lower triangular matrices. It results in a unit lower triangular matrix and an upper triangular matrix. The Crout algorithm is slightly different and constructs a lower triangular matrix and a unit upper triangular matrix.
+
+Computing the LU decomposition using either of these algorithms requires 2 n 3 /3 floating-point operations, ignoring lower-order terms. Partial pivoting adds only a quadratic term; this is not the case for full pivoting. [8]
+Closed formula [ edit ]
+
+When an LDU factorization exists and is unique, there is a closed (explicit) formula for the elements of L , D , and U in terms of ratios of determinants of certain submatrices of the original matrix A . [9] In particular, D 1 = A 1 , 1 {\displaystyle D_{1}=A_{1,1}} D_1 = A_{1,1} , and for i = 2 , … , n {\displaystyle i=2,\ldots ,n} i = 2, \ldots, n , D i {\displaystyle D_{i}} D_{i} is the ratio of the i {\displaystyle i} i -th principal submatrix to the ( i − 1 ) {\displaystyle (i-1)} (i-1) -th principal submatrix. Computation of the determinants is computationally expensive , so this explicit formula is not used in practice.
+Doolittle algorithm [ edit ]
+
+Given an N × N matrix
+
+    A = ( a i , j ) 1 ≤ i , j ≤ N , {\displaystyle A=(a_{i,j})_{1\leq i,j\leq N},} {\displaystyle A=(a_{i,j})_{1\leq i,j\leq N},} 
+
+we define
+
+    A ( 0 ) := A . {\displaystyle A^{(0)}:=A.} {\displaystyle A^{(0)}:=A.} 
+
+We eliminate the matrix elements below the main diagonal in the n -th column of A ( n  − 1) by adding to the i -th row of this matrix the n -th row multiplied by
+
+    − l i , n := − a i , n ( n − 1 ) a n , n ( n − 1 ) {\displaystyle -l_{i,n}:=-{\frac {a_{i,n}^{(n-1)}}{a_{n,n}^{(n-1)}}}} {\displaystyle -l_{i,n}:=-{\frac {a_{i,n}^{(n-1)}}{a_{n,n}^{(n-1)}}}} 
+
+for i = n + 1 , … , N {\displaystyle i=n+1,\ldots ,N} {\displaystyle i=n+1,\ldots ,N} . This can be done by multiplying A ( n  − 1) to the left with the lower triangular matrix
+
+    L n = ( 1 0 … 0 0 ⋱ ⋱ 1 ⋮ − l n + 1 , n ⋮ ⋮ ⋱ 0 0 − l N , n 1 ) . {\displaystyle L_{n}={\begin{pmatrix}1&0&&\dots &&0\\0&\ddots &\ddots &&&\\&&1&&&\\\vdots &&-l_{n+1,n}&&&\vdots \\&&\vdots &&\ddots &0\\0&&-l_{N,n}&&&1\end{pmatrix}}.} {\displaystyle L_{n}={\begin{pmatrix}1&0&&\dots &&0\\0&\ddots &\ddots &&&\\&&1&&&\\\vdots &&-l_{n+1,n}&&&\vdots \\&&\vdots &&\ddots &0\\0&&-l_{N,n}&&&1\end{pmatrix}}.} 
+
+We set
+
+    A ( n ) := L n A ( n − 1 ) . {\displaystyle A^{(n)}:=L_{n}A^{(n-1)}.} A^{(n)} := L_n A^{(n-1)}. 
+
+After N  − 1 steps, we eliminated all the matrix elements below the main diagonal, so we obtain an upper triangular matrix A ( N  − 1) . We find the decomposition
+
+    A = L 1 − 1 L 1 A ( 0 ) = L 1 − 1 A ( 1 ) = L 1 − 1 L 2 − 1 L 2 A ( 1 ) = L 1 − 1 L 2 − 1 A ( 2 ) = ⋯ = L 1 − 1 … L N − 1 − 1 A ( N − 1 ) . {\displaystyle A=L_{1}^{-1}L_{1}A^{(0)}=L_{1}^{-1}A^{(1)}=L_{1}^{-1}L_{2}^{-1}L_{2}A^{(1)}=L_{1}^{-1}L_{2}^{-1}A^{(2)}=\dotsb =L_{1}^{-1}\ldots L_{N-1}^{-1}A^{(N-1)}.} {\displaystyle A=L_{1}^{-1}L_{1}A^{(0)}=L_{1}^{-1}A^{(1)}=L_{1}^{-1}L_{2}^{-1}L_{2}A^{(1)}=L_{1}^{-1}L_{2}^{-1}A^{(2)}=\dotsb =L_{1}^{-1}\ldots L_{N-1}^{-1}A^{(N-1)}.} 
+
+Denote the upper triangular matrix A ( N  − 1) by U , and L = L 1 − 1 … L N − 1 − 1 {\displaystyle L=L_{1}^{-1}\ldots L_{N-1}^{-1}} {\displaystyle L=L_{1}^{-1}\ldots L_{N-1}^{-1}} . Because the inverse of a lower triangular matrix L n is again a lower triangular matrix, and the multiplication of two lower triangular matrices is again a lower triangular matrix, it follows that L is a lower triangular matrix. Moreover, it can be seen that
+
+    L = ( 1 0 … 0 l 2 , 1 ⋱ ⋱ 1 ⋮ l n + 1 , n ⋱ ⋮ ⋮ 1 0 l N , 1 l N , n l N , N − 1 1 ) . {\displaystyle L={\begin{pmatrix}1&0&\dots &&&0\\l_{2,1}&\ddots &\ddots &&&\\&&1&&&\\\vdots &&l_{n+1,n}&\ddots &&\vdots \\&&\vdots &&1&0\\l_{N,1}&&l_{N,n}&&l_{N,N-1}&1\end{pmatrix}}.} {\displaystyle L={\begin{pmatrix}1&0&\dots &&&0\\l_{2,1}&\ddots &\ddots &&&\\&&1&&&\\\vdots &&l_{n+1,n}&\ddots &&\vdots \\&&\vdots &&1&0\\l_{N,1}&&l_{N,n}&&l_{N,N-1}&1\end{pmatrix}}.} 
+
+We obtain A = L U {\displaystyle A=LU} A=LU .
+
+It is clear that in order for this algorithm to work, one needs to have a n , n ( n − 1 ) ≠ 0 {\displaystyle a_{n,n}^{(n-1)}\neq 0} {\displaystyle a_{n,n}^{(n-1)}\neq 0} at each step (see the definition of l i , n {\displaystyle l_{i,n}} l_{i,n} ). If this assumption fails at some point, one needs to interchange n -th row with another row below it before continuing. This is why the LU decomposition in general looks like P − 1 A = L U {\displaystyle P^{-1}A=LU} P^{-1}A = L U .
+Crout and LUP algorithms [ edit ]
+
+The LUP decomposition algorithm by Cormen et al. generalizes Crout matrix decomposition . It can be described as follows.
+
+    If A {\displaystyle A} A has a nonzero entry in its first row, then take a permutation matrix P 1 {\displaystyle P_{1}} P_{1} such that A P 1 {\displaystyle AP_{1}} A P_1 has a nonzero entry in its upper left corner. Otherwise, take for P 1 {\displaystyle P_{1}} P_{1} the identity matrix. Let A 1 = A P 1 {\displaystyle A_{1}=AP_{1}} A_1 = A P_1 .
+    Let A 2 {\displaystyle A_{2}} A_{2} be the matrix that one gets from A 1 {\displaystyle A_{1}} A_{1} by deleting both the first row and the first column. Decompose A 2 = L 2 U 2 P 2 {\displaystyle A_{2}=L_{2}U_{2}P_{2}} A_2 = L_2 U_2 P_2 recursively. Make L {\displaystyle L} L from L 2 {\displaystyle L_{2}} L_{2} by first adding a zero row above and then adding the first column of A 1 {\displaystyle A_{1}} A_{1} at the left.
+    Make U 3 {\displaystyle U_{3}} U_3 from U 2 {\displaystyle U_{2}} U_{2} by first adding a zero row above and a zero column at the left and then replacing the upper left entry (which is 0 at this point) by 1. Make P 3 {\displaystyle P_{3}} P_{3} from P 2 {\displaystyle P_{2}} P_{2} in a similar manner and define A 3 = A 1 / P 3 = A P 1 / P 3 {\displaystyle A_{3}=A_{1}/P_{3}=AP_{1}/P_{3}} A_3 = A_1 / P_3 = A P_1 / P_3 . Let P {\displaystyle P} P be the inverse of P 1 / P 3 {\displaystyle P_{1}/P_{3}} P_1 / P_3 .
+    At this point, A 3 {\displaystyle A_{3}} A_{3} is the same as L U 3 {\displaystyle LU_{3}} L U_3 , except (possibly) at the first row. If the first row of A {\displaystyle A} A is zero, then A 3 = L U 3 {\displaystyle A_{3}=LU_{3}} A_3 = L U_3 , since both have first row zero, and A = L U 3 P {\displaystyle A=LU_{3}P} A = L U_3 P follows, as desired. Otherwise, A 3 {\displaystyle A_{3}} A_{3} and L U 3 {\displaystyle LU_{3}} L U_3 have the same nonzero entry in the upper left corner, and A 3 = L U 3 U 1 {\displaystyle A_{3}=LU_{3}U_{1}} A_3 = L U_3 U_1 for some upper triangular square matrix U 1 {\displaystyle U_{1}} U_{1} with ones on the diagonal ( U 1 {\displaystyle U_{1}} U_{1} clears entries of L U 3 {\displaystyle LU_{3}} L U_3 and adds entries of A 3 {\displaystyle A_{3}} A_{3} by way of the upper left corner). Now A = L U 3 U 1 P {\displaystyle A=LU_{3}U_{1}P} A = L U_3 U_1 P is a decomposition of the desired form.
+
+Randomized algorithm [ edit ]
+
+It is possible to find a low rank approximation to the LU decomposition using a randomized algorithm. Given an input matrix A {\displaystyle A} A and a desired low rank k {\displaystyle k} k , the randomized LU returns permutation matrices P , Q {\displaystyle P,Q} P, Q and lower/upper trapezoidal matrices L , U {\displaystyle L,U} {\displaystyle L,U} of size m × k {\displaystyle m\times k} {\displaystyle m\times k} and k × n {\displaystyle k\times n} k\times n respectively, such that with high probability ‖ P A Q − L U ‖ 2 ≤ C σ k + 1 {\displaystyle \Vert PAQ-LU\Vert _{2}\leq C\sigma _{k+1}} {\displaystyle \Vert PAQ-LU\Vert _{2}\leq C\sigma _{k+1}} , where C {\displaystyle C} C is a constant that depends on the parameters of the algorithm and σ k + 1 {\displaystyle \sigma _{k+1}} {\displaystyle \sigma _{k+1}} is the ( k + 1 ) {\displaystyle (k+1)} (k+1) th singular value of the input matrix A {\displaystyle A} A . [10]
+Theoretical complexity [ edit ]
+
+If two matrices of order n can be multiplied in time M ( n ), where M ( n ) ≥ n a for some a > 2, then the LU decomposition can be computed in time O( M ( n )). [11] This means, for example, that an O( n 2.376 ) algorithm exists based on the Coppersmith–Winograd algorithm .
+Sparse-matrix decomposition [ edit ]
+
+Special algorithms have been developed for factorizing large sparse matrices . These algorithms attempt to find sparse factors L and U . Ideally, the cost of computation is determined by the number of nonzero entries, rather than by the size of the matrix.
+
+These algorithms use the freedom to exchange rows and columns to minimize fill-in (entries that change from an initial zero to a non-zero value during the execution of an algorithm).
+
+General treatment of orderings that minimize fill-in can be addressed using graph theory .
+Applications [ edit ]
+Solving linear equations [ edit ]
+
+Given a system of linear equations in matrix form
+
+    A x = b , {\displaystyle Ax=b,} {\displaystyle Ax=b,} 
+
+we want to solve the equation for x , given A and b . Suppose we have already obtained the LUP decomposition of A such that P A = L U {\displaystyle PA=LU} PA = LU , so L U x = P b {\displaystyle LUx=Pb} L U x = P b .
+
+In this case the solution is done in two logical steps:
+
+    First, we solve the equation L y = P b {\displaystyle Ly=Pb} {\displaystyle Ly=Pb} for y .
+    Second, we solve the equation U x = y {\displaystyle Ux=y} {\displaystyle Ux=y} for x .
+
+Note that in both cases we are dealing with triangular matrices ( L and U ), which can be solved directly by forward and backward substitution without using the Gaussian elimination process (however we do need this process or equivalent to compute the LU decomposition itself).
+
+The above procedure can be repeatedly applied to solve the equation multiple times for different b . In this case it is faster (and more convenient) to do an LU decomposition of the matrix A once and then solve the triangular matrices for the different b , rather than using Gaussian elimination each time. The matrices L and U could be thought to have "encoded" the Gaussian elimination process.
+
+The cost of solving a system of linear equations is approximately 2 3 n 3 {\displaystyle {\tfrac {2}{3}}n^{3}} {\displaystyle {\tfrac {2}{3}}n^{3}} floating-point operations if the matrix A {\displaystyle A} A has size n {\displaystyle n} n . This makes it twice as fast as algorithms based on the QR decomposition , which costs about 4 3 n 3 {\displaystyle {\tfrac {4}{3}}n^{3}} {\displaystyle {\tfrac {4}{3}}n^{3}} floating-point operations when Householder reflections are used. For this reason, the LU decomposition is usually preferred. [12]
+Inverting a matrix [ edit ]
+
+When solving systems of equations, b is usually treated as a vector with a length equal to the height of matrix A . In matrix inversion however, instead of vector b , we have matrix B , where B is an n -by- p matrix, so that we are trying to find a matrix X (also a n -by- p matrix):
+
+    A X = L U X = B . {\displaystyle AX=LUX=B.} A X = L U X = B. 
+
+We can use the same algorithm presented earlier to solve for each column of matrix X . Now suppose that B is the identity matrix of size n . It would follow that the result X must be the inverse of A . [13] An implementation of this methodology in the C programming language can be found here .
+Computing the determinant [ edit ]
+
+Given the LUP decomposition A = P − 1 L U {\displaystyle A=P^{-1}LU} A = P^{-1} L U of a square matrix A , the determinant of A can be computed straightforwardly as
+
+    det ( A ) = det ( P − 1 ) det ( L ) det ( U ) = ( − 1 ) S ( ∏ i = 1 n l i i ) ( ∏ i = 1 n u i i ) . {\displaystyle \det(A)=\det(P^{-1})\det(L)\det(U)=(-1)^{S}\left(\prod _{i=1}^{n}l_{ii}\right)\left(\prod _{i=1}^{n}u_{ii}\right).} \det(A) = \det(P^{-1}) \det(L) \det(U) = (-1)^S \left( \prod_{i=1}^n l_{ii} \right) \left( \prod_{i=1}^n u_{ii} \right) . 
+
+The second equation follows from the fact that the determinant of a triangular matrix is simply the product of its diagonal entries, and that the determinant of a permutation matrix is equal to (−1) S where S is the number of row exchanges in the decomposition.
+
+In the case of LU decomposition with full pivoting, det ( A ) {\displaystyle \det(A)} \det(A) also equals the right-hand side of the above equation, if we let S be the total number of row and column exchanges.
+
+The same method readily applies to LU decomposition by setting P equal to the identity matrix.
+C code examples [ edit ]
+
+  /* INPUT: A - array of pointers to rows of a square matrix having dimension N 
+* Tol - small tolerance number to detect failure when the matrix is near degenerate 
+* OUTPUT: Matrix A is changed, it contains both matrices L-E and U as A=(L-E)+U such that P*A=L*U. 
+* The permutation matrix is not stored as a matrix, but in an integer vector P of size N+1  
+* containing column indexes where the permutation matrix has "1". The last element P[N]=S+N,  
+* where S is the number of row exchanges needed for determinant computation, det(P)=(-1)^S  
+*/ 
+int  LUPDecompose ( double  ** A ,  int  N ,  double  Tol ,  int  * P )  { 
+
+    int  i ,  j ,  k ,  imax ;  
+    double  maxA ,  * ptr ,  absA ; 
+
+    for  ( i  =  0 ;  i  <=  N ;  i ++ ) 
+        P [ i ]  =  i ;  //Unit permutation matrix, P[N] initialized with N 
+
+    for  ( i  =  0 ;  i  <  N ;  i ++ )  { 
+        maxA  =  0.0 ; 
+        imax  =  i ; 
+
+        for  ( k  =  i ;  k  <  N ;  k ++ ) 
+            if  (( absA  =  fabs ( A [ k ][ i ]))  >  maxA )  {  
+                maxA  =  absA ; 
+                imax  =  k ; 
+            } 
+
+        if  ( maxA  <  Tol )  return  0 ;  //failure, matrix is degenerate 
+
+        if  ( imax  !=  i )  { 
+            //pivoting P 
+            j  =  P [ i ]; 
+            P [ i ]  =  P [ imax ]; 
+            P [ imax ]  =  j ; 
+
+            //pivoting rows of A 
+            ptr  =  A [ i ]; 
+            A [ i ]  =  A [ imax ]; 
+            A [ imax ]  =  ptr ; 
+
+            //counting pivots starting from N (for determinant) 
+            P [ N ] ++ ; 
+        } 
+
+        for  ( j  =  i  +  1 ;  j  <  N ;  j ++ )  { 
+            A [ j ][ i ]  /=  A [ i ][ i ]; 
+
+            for  ( k  =  i  +  1 ;  k  <  N ;  k ++ ) 
+                A [ j ][ k ]  -=  A [ j ][ i ]  *  A [ i ][ k ]; 
+        } 
+    } 
+
+    return  1 ;   //decomposition done  
+} 
+
+/* INPUT: A,P filled in LUPDecompose; b - rhs vector; N - dimension 
+* OUTPUT: x - solution vector of A*x=b 
+*/ 
+void  LUPSolve ( double  ** A ,  int  * P ,  double  * b ,  int  N ,  double  * x )  { 
+
+    for  ( int  i  =  0 ;  i  <  N ;  i ++ )  { 
+        x [ i ]  =  b [ P [ i ]]; 
+
+        for  ( int  k  =  0 ;  k  <  i ;  k ++ ) 
+            x [ i ]  -=  A [ i ][ k ]  *  x [ k ]; 
+    } 
+
+    for  ( int  i  =  N  -  1 ;  i  >=  0 ;  i -- )  { 
+        for  ( int  k  =  i  +  1 ;  k  <  N ;  k ++ ) 
+            x [ i ]  -=  A [ i ][ k ]  *  x [ k ]; 
+
+        x [ i ]  =  x [ i ]  /  A [ i ][ i ]; 
+    } 
+} 
+
+/* INPUT: A,P filled in LUPDecompose; N - dimension 
+* OUTPUT: IA is the inverse of the initial matrix 
+*/ 
+void  LUPInvert ( double  ** A ,  int  * P ,  int  N ,  double  ** IA )  { 
+  
+    for  ( int  j  =  0 ;  j  <  N ;  j ++ )  { 
+        for  ( int  i  =  0 ;  i  <  N ;  i ++ )  { 
+            if  ( P [ i ]  ==  j )  
+                IA [ i ][ j ]  =  1.0 ; 
+            else 
+                IA [ i ][ j ]  =  0.0 ; 
+
+            for  ( int  k  =  0 ;  k  <  i ;  k ++ ) 
+                IA [ i ][ j ]  -=  A [ i ][ k ]  *  IA [ k ][ j ]; 
+        } 
+
+        for  ( int  i  =  N  -  1 ;  i  >=  0 ;  i -- )  { 
+            for  ( int  k  =  i  +  1 ;  k  <  N ;  k ++ ) 
+                IA [ i ][ j ]  -=  A [ i ][ k ]  *  IA [ k ][ j ]; 
+
+            IA [ i ][ j ]  =  IA [ i ][ j ]  /  A [ i ][ i ]; 
+        } 
+    } 
+} 
+
+/* INPUT: A,P filled in LUPDecompose; N - dimension.  
+* OUTPUT: Function returns the determinant of the initial matrix 
+*/ 
+double  LUPDeterminant ( double  ** A ,  int  * P ,  int  N )  { 
+
+    double  det  =  A [ 0 ][ 0 ]; 
+
+    for  ( int  i  =  1 ;  i  <  N ;  i ++ ) 
+        det  *=  A [ i ][ i ]; 
+
+    if  (( P [ N ]  -  N )  %  2  ==  0 ) 
+        return  det ;  
+    else 
+        return  - det ; 
+} 
+
+C# code examples [ edit ]
+
+  public  class  SystemOfLinearEquations 
+    { 
+        public  double []  SolveUsingLU ( double [,]  matrix ,  double []  rightPart ,  int  n ) 
+        { 
+            // decomposition of matrix 
+            double [,]  lu  =  new  double [ n ,  n ]; 
+            double  sum  =  0 ; 
+            for  ( int  i  =  0 ;  i  <  n ;  i ++) 
+            { 
+                for  ( int  j  =  i ;  j  <  n ;  j ++) 
+                { 
+                    sum  =  0 ; 
+                    for  ( int  k  =  0 ;  k  <  i ;  k ++) 
+                        sum  +=  lu [ i ,  k ]  *  lu [ k ,  j ]; 
+                    lu [ i ,  j ]  =  matrix [ i ,  j ]  -  sum ; 
+                } 
+                for  ( int  j  =  i  +  1 ;  j  <  n ;  j ++) 
+                { 
+                    sum  =  0 ; 
+                    for  ( int  k  =  0 ;  k  <  i ;  k ++) 
+                        sum  +=  lu [ j ,  k ]  *  lu [ k ,  i ]; 
+                    lu [ j ,  i ]  =  ( 1  /  lu [ i ,  i ])  *  ( matrix [ j ,  i ]  -  sum ); 
+                } 
+            } 
+            
+            // find solution of Ly = b 
+            double []  y  =  new  double [ n ]; 
+            for  ( int  i  =  0 ;  i  <  n ;  i ++) 
+            { 
+                sum  =  0 ; 
+                for  ( int  k  =  0 ;  k  <  i ;  k ++) 
+                    sum  +=  lu [ i ,  k ]  *  y [ k ]; 
+                y [ i ]  =  rightPart [ i ]  -  sum ; 
+            } 
+            // find solution of Ux = y 
+            double []  x  =  new  double [ n ]; 
+            for  ( int  i  =  n  -  1 ;  i  >=  0 ;  i --) 
+            { 
+                sum  =  0 ; 
+                for  ( int  k  =  i  +  1 ;  k  <  n ;  k ++) 
+                    sum  +=  lu [ i ,  k ]  *  x [ k ]; 
+                x [ i ]  =  ( 1  /  lu [ i ,  i ])  *  ( y [ i ]  -  sum ); 
+            } 
+            return  x ; 
+        } 
+} 
+
+See also [ edit ]
+
+    Block LU decomposition
+    Bruhat decomposition
+    Cholesky decomposition
+    Incomplete LU factorization
+    LU Reduction
+    Matrix decomposition
+    QR decomposition
+
+Notes [ edit ]
+
+    Jump up ^ Schwarzenberg-Czerny, A. (1995). "On matrix factorization and efficient least squares solution". Astronomy and Astrophysics Supplement . 110 : 405. Bibcode : 1995A&AS..110..405S .  
+    ^ Jump up to: a b Okunev & Johnson (1997) , Corollary 3.
+    Jump up ^ Trefethen & Bau (1997) , p. 166.
+    Jump up ^ Trefethen & Bau (1997) , p. 161.
+    ^ Jump up to: a b Horn & Johnson (1985) , Corollary 3.5.5
+    Jump up ^ Horn & Johnson (1985) , Theorem 3.5.2
+    Jump up ^ Okunev & Johnson (1997)
+    Jump up ^ Golub & Van Loan (1996) , p. 112, 119.
+    Jump up ^ Householder (1975)
+    Jump up ^ Shabat, Gil; Shmueli, Yaniv; Aizenbud, Yariv; Averbuch, Amir (2016). "Randomized LU Decomposition" . Applied and Computational Harmonic Analysis . arXiv : 1310.7202  Freely accessible . doi : 10.1016/j.acha.2016.04.006 .  
+    Jump up ^ Bunch & Hopcroft (1974)
+    Jump up ^ Trefethen & Bau (1997) , p. 152.
+    Jump up ^ Golub & Van Loan (1996) , p. 121
+
+References [ edit ]
+
+    Bunch, James R.; Hopcroft, John (1974), "Triangular factorization and inversion by fast matrix multiplication", Mathematics of Computation , 28 (125): 231–236, doi : 10.2307/2005828 , ISSN   0025-5718 , JSTOR   2005828   .
+    Cormen, Thomas H. ; Leiserson, Charles E. ; Rivest, Ronald L. ; Stein, Clifford (2001), Introduction to Algorithms , MIT Press and McGraw-Hill, ISBN   978-0-262-03293-3   .
+    Golub, Gene H. ; Van Loan, Charles F. (1996), Matrix Computations (3rd ed.), Baltimore: Johns Hopkins, ISBN   978-0-8018-5414-9   .
+    Horn, Roger A.; Johnson, Charles R. (1985), Matrix Analysis , Cambridge University Press, ISBN   0-521-38632-2   . See Section 3.5. N  − 1
+    Householder, Alston S. (1975), The Theory of Matrices in Numerical Analysis , New York: Dover Publications , MR   0378371   .
+    Okunev, Pavel; Johnson, Charles R. (1997), Necessary And Sufficient Conditions For Existence of the LU Factorization of an Arbitrary Matrix , arXiv : math.NA/0506382  Freely accessible   .
+    Poole, David (2006), Linear Algebra: A Modern Introduction (2nd ed.), Canada: Thomson Brooks/Cole, ISBN   0-534-99845-3   .
+    Press, WH; Teukolsky, SA; Vetterling, WT; Flannery, BP (2007), "Section 2.3" , Numerical Recipes: The Art of Scientific Computing (3rd ed.), New York: Cambridge University Press, ISBN   978-0-521-88068-8   .
+    Trefethen, Lloyd N. ; Bau, David (1997), Numerical linear algebra , Philadelphia: Society for Industrial and Applied Mathematics, ISBN   978-0-89871-361-9   .
+
+External links [ edit ]
+
+References
+
+    LU decomposition on MathWorld .
+    LU decomposition on Math-Linux .
+    LU decomposition at Holistic Numerical Methods Institute
+    LU matrix factorization . MATLAB reference.
+
+Computer code
+
+    LAPACK is a collection of FORTRAN subroutines for solving dense linear algebra problems
+    ALGLIB includes a partial port of the LAPACK to C++, C#, Delphi, etc.
+    C++ code , Prof. J. Loomis, University of Dayton
+    C code , Mathematics Source Library
+    LU in X10
+    [1] Lu in C++ Anil Pedgaonkar
+    Randomized LU MATLAB Code
+
+Online resources
+
+    WebApp descriptively solving systems of linear equations with LU Decomposition
+    Matrix Calculator , bluebit.gr
+    LU Decomposition Tool , uni-bonn.de
+    LU Decomposition by Ed Pegg, Jr. , The Wolfram Demonstrations Project , 2007.
+
+    v
+    t
+    e
+
+Numerical linear algebra
+Key concepts 	
+
+    Floating point
+    Numerical stability
+
+Problems 	
+
+    Matrix multiplication ( algorithms )
+    Matrix decompositions
+    Linear equations
+    Sparse problems
+
+Hardware 	
+
+    CPU cache
+    TLB
+    Cache-oblivious algorithm
+    SIMD
+    Multiprocessing
+
+Software 	
+
+    BLAS
+    Specialized libraries
+    General purpose software
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=LU_decomposition&oldid=852252739 "
+Categories :
+
+    Matrix decompositions
+    Numerical linear algebra
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Català
+    Čeština
+    Deutsch
+    Español
+    Esperanto
+    فارسی
+    Français
+    한국어
+    Íslenska
+    Italiano
+    עברית
+    Magyar
+    Nederlands
+    日本語
+    Polski
+    Português
+    Русский
+    Српски / srpski
+    Suomi
+    Svenska
+    Українська
+    Tiếng Việt
+    中文
+
+Edit links
+
+    This page was last edited on 27 July 2018, at 16:42  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

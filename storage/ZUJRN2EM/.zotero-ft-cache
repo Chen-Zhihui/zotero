@@ -1,0 +1,202 @@
+
+Mahalanobis distance
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 62.119.248.38 ( talk ) at 08:25, 28 August 2018 ( → ‎ Intuitive explanation ) . The present address (URL) is a permanent link to this version.
+Revision as of 08:25, 28 August 2018 by 62.119.248.38 ( talk ) ( → ‎ Intuitive explanation )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+
+The Mahalanobis distance is a measure of the distance between a point P and a distribution D, introduced by P. C. Mahalanobis in 1936. [1] It is a multi-dimensional generalization of the idea of measuring how many standard deviations away P is from the mean of D. This distance is zero if P is at the mean of D, and grows as P moves away from the mean along each principal component axis, the Mahalanobis distance measures the number of standard deviations from P to the mean of D. If each of these axes is re-scaled to have unit variance, then the Mahalanobis distance corresponds to standard Euclidean distance in the transformed space. The Mahalanobis distance is thus unitless and scale-invariant , and takes into account the correlations of the data set .
+Contents
+
+    1 Definition and properties
+    2 Intuitive explanation
+    3 Normal distributions
+    4 Relationship to normal random variables
+    5 Relationship to leverage
+    6 Applications
+    7 See also
+    8 References
+    9 External links
+
+Definition and properties [ edit ]
+
+The Mahalanobis distance of an observation x → = ( x 1 , x 2 , x 3 , … , x N ) T {\displaystyle {\vec {x}}=(x_{1},x_{2},x_{3},\dots ,x_{N})^{T}} {\displaystyle {\vec {x}}=(x_{1},x_{2},x_{3},\dots ,x_{N})^{T}} from a set of observations with mean μ → = ( μ 1 , μ 2 , μ 3 , … , μ N ) T {\displaystyle {\vec {\mu }}=(\mu _{1},\mu _{2},\mu _{3},\dots ,\mu _{N})^{T}} {\displaystyle {\vec {\mu }}=(\mu _{1},\mu _{2},\mu _{3},\dots ,\mu _{N})^{T}} and covariance matrix S is defined as:
+
+    D M ( x → ) = ( x → − μ → ) T S − 1 ( x → − μ → ) . {\displaystyle D_{M}({\vec {x}})={\sqrt {({\vec {x}}-{\vec {\mu }})^{T}S^{-1}({\vec {x}}-{\vec {\mu }})}}.\,} {\displaystyle D_{M}({\vec {x}})={\sqrt {({\vec {x}}-{\vec {\mu }})^{T}S^{-1}({\vec {x}}-{\vec {\mu }})}}.\,} [2] 
+
+Mahalanobis distance (or "generalized squared interpoint distance" for its squared value [3] ) can also be defined as a dissimilarity measure between two random vectors x _ {\displaystyle {\underline {x}}} {\underline {x}} and y _ {\displaystyle {\underline {y}}} \underline{y} of the same distribution with the covariance matrix S :
+
+    d ( x → , y → ) = ( x → − y → ) T S − 1 ( x → − y → ) . {\displaystyle d({\vec {x}},{\vec {y}})={\sqrt {({\vec {x}}-{\vec {y}})^{T}S^{-1}({\vec {x}}-{\vec {y}})}}.\,} d(\vec{x},\vec{y})=\sqrt{(\vec{x}-\vec{y})^T S^{-1} (\vec{x}-\vec{y})}.\, 
+
+If the covariance matrix is the identity matrix, the Mahalanobis distance reduces to the Euclidean distance . If the covariance matrix is diagonal , then the resulting distance measure is called a standardized Euclidean distance :
+
+    d ( x → , y → ) = ∑ i = 1 N ( x i − y i ) 2 s i 2 , {\displaystyle d({\vec {x}},{\vec {y}})={\sqrt {\sum _{i=1}^{N}{(x_{i}-y_{i})^{2} \over s_{i}^{2}}}},} d(\vec{x},\vec{y})= \sqrt{\sum_{i=1}^N {(x_i - y_i)^2 \over s_{i}^2}}, 
+
+where s i is the standard deviation of the x i and y i over the sample set.
+
+Mahalanobis distance is preserved under full-rank linear transformations of the space spanned by the data. This means that if the data has a nontrivial nullspace, Mahalanobis distance can be computed after projecting the data (non-degenerately) down onto any space of the appropriate dimension for the data.
+Intuitive explanation [ edit ]
+
+Consider the problem of estimating the probability that a test point in N -dimensional Euclidean space belongs to a set, where we are given sample points that definitely belong to that set. Our first step would be to find the centroid or center of mass of the sample points. Intuitively, the closer the point in question is to this center of mass, the more likely it is to belong to the set.
+
+However, we also need to know if the set is spread out over a large range or a small range, so that we can decide whether a given distance from the center is noteworthy or not. The simplistic approach is to estimate the standard deviation of the distances of the sample points from the center of mass. If the distance between the test point and the center of mass is less than one standard deviation, then we might conclude that it is highly probable that the test point belongs to the set. The further away it is, the more likely that the test point should not be classified as belonging to the set.
+
+This intuitive approach can be made quantitative by defining the normalized distance between the test point and the set to be x − μ σ {\displaystyle {x-\mu } \over \sigma } {x - \mu} \over \sigma . By plugging this into the normal distribution we can derive the probability of the test point belonging to the set.
+
+The drawback of the above approach was that we assumed that the sample points are distributed about the center of mass in a spherical manner. Were the distribution to be decidedly non-spherical, for instance ellipsoidal, then we would expect the probability of the test point belonging to the set to depend not only on the distance from the center of mass, but also on the direction. In those directions where the ellipsoid has a short axis the test point must be closer, while in those where the axis is long the test point can be further away from the center.
+
+Putting this on a mathematical basis, the ellipsoid that best represents the set's probability distribution can be estimated by building the covariance matrix of the samples. The Mahalanobis distance is the distance of the test point from the center of mass divided by the width of the ellipsoid in the direction of the test point.
+Normal distributions [ edit ]
+
+For a normal distribution in any number of dimensions, the probability density of an observation is uniquely determined by the Mahalanobis distance d. Specifically, d 2 {\displaystyle d^{2}} d^{2} is chi-squared distributed . If the number of dimensions is 2, for example, the probability of a particular calculated d {\displaystyle d} d being less than some threshold t {\displaystyle t} t is 1 − e − t 2 / 2 {\displaystyle 1-e^{-t^{2}/2}} {\displaystyle 1-e^{-t^{2}/2}} . To determine a threshold to achieve a particular probability, p, use t = − 2 ln ⁡ ( 1 − p ) {\displaystyle t={\sqrt {-2\ln(1-p)}}} {\displaystyle t={\sqrt {-2\ln(1-p)}}} , for 2 dimensions. For number of dimensions other than 2, the cumulative chi-squared distribution should be consulted.
+
+In a normal distribution, the region where the Mahalanobis distance is less than one (i.e. the region inside the ellipsoid at distance one) is exactly the region where the probability distribution is concave .
+
+Mahalanobis distance is proportional, for a normal distribution, to the square root of the negative log likelihood (after adding a constant so the minimum is at zero).
+Relationship to normal random variables [ edit ]
+
+In general, given a normal ( Gaussian ) random variable X {\displaystyle X} X with variance S = 1 {\displaystyle S=1} S=1 and mean μ = 0 {\displaystyle \mu =0} \mu =0 , any other normal random variable R {\displaystyle R} R (with mean μ 1 {\displaystyle \mu _{1}} \mu _{1} and variance S 1 {\displaystyle S_{1}} S_{1} ) can be defined in terms of X {\displaystyle X} X by the equation R = μ 1 + S 1 X . {\displaystyle R=\mu _{1}+{\sqrt {S_{1}}}X.} R = \mu_1 + \sqrt{S_1}X. Conversely, to recover a normalized random variable from any normal random variable, one can typically solve for X = ( R − μ 1 ) / S 1 {\displaystyle X=(R-\mu _{1})/{\sqrt {S_{1}}}} X = (R - \mu_1)/\sqrt{S_1} . If we square both sides, and take the square-root, we will get an equation for a metric that looks a lot like the Mahalanobis distance:
+
+    D = X 2 = ( R − μ 1 ) 2 / S 1 = ( R − μ 1 ) S 1 − 1 ( R − μ 1 ) . {\displaystyle D={\sqrt {X^{2}}}={\sqrt {(R-\mu _{1})^{2}/S_{1}}}={\sqrt {(R-\mu _{1})S_{1}^{-1}(R-\mu _{1})}}.} D = \sqrt{X^2} = \sqrt{(R - \mu_1)^2/S_1} = \sqrt{(R - \mu_1) S_1^{-1} (R - \mu_1) }. 
+
+The resulting magnitude is always non-negative and varies with the distance of the data from the mean, attributes that are convenient when trying to define a model for the data.
+Relationship to leverage [ edit ]
+
+Mahalanobis distance is closely related to the leverage statistic , h {\displaystyle h} h , but has a different scale: [4]
+
+    D 2 = ( N − 1 ) ( h − 1 N ) . {\displaystyle D^{2}=(N-1)(h-{\tfrac {1}{N}}).} {\displaystyle D^{2}=(N-1)(h-{\tfrac {1}{N}}).} 
+
+Applications [ edit ]
+
+Mahalanobis's definition was prompted by the problem of identifying the similarities of skulls based on measurements in 1927. [5]
+
+Mahalanobis distance is widely used in cluster analysis and classification techniques. It is closely related to Hotelling's T-square distribution used for multivariate statistical testing and Fisher's Linear Discriminant Analysis that is used for supervised classification . [6]
+
+In order to use the Mahalanobis distance to classify a test point as belonging to one of N classes, one first estimates the covariance matrix of each class, usually based on samples known to belong to each class. Then, given a test sample, one computes the Mahalanobis distance to each class, and classifies the test point as belonging to that class for which the Mahalanobis distance is minimal.
+
+Mahalanobis distance and leverage are often used to detect outliers , especially in the development of linear regression models. A point that has a greater Mahalanobis distance from the rest of the sample population of points is said to have higher leverage since it has a greater influence on the slope or coefficients of the regression equation. Mahalanobis distance is also used to determine multivariate outliers. Regression techniques can be used to determine if a specific case within a sample population is an outlier via the combination of two or more variable scores. Even for normal distributions, a point can be a multivariate outlier even if it is not a univariate outlier for any variable (consider a probability density concentrated along the line x 1 = x 2 {\displaystyle x_{1}=x_{2}} x_{1}=x_{2} , for example), making Mahalanobis distance a more sensitive measure than checking dimensions individually.
+See also [ edit ]
+
+    Bregman divergence (the Mahalanobis distance is an example of a Bregman divergence)
+    Bhattacharyya distance related, for measuring similarity between data sets (and not between a point and a data set)
+    Hamming distance identifies the difference bit by bit of two strings
+    Hellinger distance , also a measure of distance between data sets
+    Similarity learning , for other approaches to learn a distance metric from examples.
+
+References [ edit ]
+
+    Jump up ^ Mahalanobis, Prasanta Chandra (1936). "On the generalised distance in statistics" (PDF) . Proceedings of the National Institute of Sciences of India . 2 (1): 49–55 . Retrieved 2016-09-27 .  
+    Jump up ^ De Maesschalck, R.; Jouan-Rimbaud, D.; Massart, D.L. "The Mahalanobis distance" . Chemometrics and Intelligent Laboratory Systems . 50 (1): 1–18. doi : 10.1016/s0169-7439(99)00047-7 .  
+    Jump up ^ Gnanadesikan, R.; Kettenring, J. R. (1972). "Robust Estimates, Residuals, and Outlier Detection with Multiresponse Data". Biometrics . 28 (1): 81–124. doi : 10.2307/2528963 . JSTOR   2528963 .  
+    Jump up ^ Weiner, Irving B.; Schinka, John A.; Velicer, Wayne F. (23 October 2012). Handbook of Psychology, Research Methods in Psychology . John Wiley & Sons. ISBN   978-1-118-28203-8 .  
+    Jump up ^ Mahalanobis, Prasanta Chandra (1927); Analysis of race mixture in Bengal , Journal and Proceedings of the Asiatic Society of Bengal, 23:301–333
+    Jump up ^ McLachlan, Geoffrey (4 August 2004). Discriminant Analysis and Statistical Pattern Recognition . John Wiley & Sons. pp. 13–. ISBN   978-0-471-69115-0 .  
+
+External links [ edit ]
+
+    Hazewinkel, Michiel , ed. (2001) [1994], "Mahalanobis distance" , Encyclopedia of Mathematics , Springer Science+Business Media B.V. / Kluwer Academic Publishers, ISBN   978-1-55608-010-4  
+    Mahalanobis distance tutorial – interactive online program and spreadsheet computation
+    Mahalanobis distance (Nov-17-2006) – overview of Mahalanobis distance, including MATLAB code
+    What is Mahalanobis distance? – intuitive, illustrated explanation, from Rick Wicklin on blogs.sas.com
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Mahalanobis_distance&oldid=856903701 "
+Categories :
+
+    Statistical distance
+    Multivariate statistics
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Català
+    Deutsch
+    Español
+    Euskara
+    Français
+    Italiano
+    Nederlands
+    日本語
+    Polski
+    Português
+    Русский
+    Svenska
+    Українська
+    Tiếng Việt
+    中文
+
+Edit links
+
+    This page was last edited on 28 August 2018, at 08:25  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

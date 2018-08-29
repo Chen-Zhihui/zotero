@@ -17,16 +17,16 @@
 	},
 	"priority": 50,
 	"inRepository": false,
-	"lastUpdated": "2018-08-22 21:41:28"
+	"lastUpdated": "2018-08-27 16:44:00"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.190",
+  version: "5.0.195",
   BetterBibLaTeX: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-22 21:41:28"},
-  override: {"DOIandURL":true,"ajv":false,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"f895aa0d-f28e-47fe-b247-2ea77c6ed583","translatorType":2,"label":"Better BibLaTeX","description":"exports references in BibLaTeX format","creator":"Simon Kornblith, Richard Karnesky, Anders Johansson and Emiliano Heyns","target":"bib","minVersion":"4.0.27","maxVersion":"","configOptions":{"getCollections":true},"displayOptions":{"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},"priority":50,"inRepository":false,"lastUpdated":"2018-08-27 16:44:00"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"exportNotes":false,"exportFileData":false,"useJournalAbbreviation":false,"keepUpdated":false},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -47,7 +47,11 @@ var Translator = {
       this.references = []
 
       for (var key in this.options) {
-        this.options[key] = Zotero.getOption(key)
+        if (typeof this.options[key] === 'boolean') {
+          this.options[key] = !!Zotero.getOption(key)
+        } else {
+          this.options[key] = Zotero.getOption(key)
+        }
       }
       // special handling
       this.options.exportPath = Zotero.getOption('exportPath')
@@ -336,6 +340,7 @@ reference_1.Reference.prototype.fieldEncoding = {
     verbc: 'verbatim',
     institution: 'literal',
     publisher: 'literal',
+    organization: 'literal',
     location: 'literal',
 };
 reference_1.Reference.prototype.caseConversion = {
@@ -679,6 +684,9 @@ Translator.doExport = () => {
             case 'hearing':
             case 'legal_case':
                 ref.add({ name: 'institution', value: item.court });
+                break;
+            case 'computerProgram':
+                ref.add({ name: 'organization', value: item.publisher });
                 break;
             default:
                 ref.add({ name: 'publisher', value: item.publisher });
@@ -1633,14 +1641,23 @@ class Reference {
             const att = {
                 title: attachment.title,
                 mimetype: attachment.contentType || '',
-                path: attachment.defaultPath || attachment.localPath,
+                path: '',
             };
+            if (Translator.options.exportFileData) {
+                att.path = attachment.saveFile ? attachment.defaultPath : '';
+            }
+            else if (attachment.localPath) {
+                att.path = attachment.localPath;
+            }
             if (!att.path)
                 continue; // amazon/googlebooks etc links show up as atachments without a path
             // att.path = att.path.replace(/^storage:/, '')
             att.path = att.path.replace(/(?:\s*[{}]+)+\s*/g, ' ');
-            if (Translator.options.exportFileData && attachment.saveFile && attachment.defaultPath)
+            debug_1.debug('attachment::', Translator.options, att);
+            if (Translator.options.exportFileData) {
+                debug_1.debug('saving attachment::', Translator.options, att);
                 attachment.saveFile(att.path, true);
+            }
             if (!att.title)
                 att.title = att.path.replace(/.*[\\\/]/, '') || 'attachment';
             if (!att.mimetype && (att.path.slice(-4).toLowerCase() === '.pdf'))
@@ -1648,6 +1665,10 @@ class Reference {
             if (Translator.preferences.testing) {
                 exporter_1.Exporter.attachmentCounter += 1;
                 att.path = `files/${exporter_1.Exporter.attachmentCounter}/${att.path.replace(/.*[\/\\]/, '')}`;
+            }
+            else if (Translator.options.exportPath && att.path.startsWith(Translator.options.exportPath)) {
+                att.path = att.path.slice(Translator.options.exportPath.length);
+                debug_1.debug('clipped attachment::', Translator.options, att);
             }
             attachments.push(att);
         }

@@ -1,0 +1,3912 @@
+A Mathematical Introduction to Robotic Manipulation
+Richard M. Murray
+California Institute of Technology
+Zexiang Li
+Hong Kong University of Science and Technology
+S. Shankar Sastry
+University of California, Berkeley
+c 1994, CRC Press All rights reserved
+This electronic edition is available from http://www.cds.caltech.edu/∼murray/mlswiki. Hardcover editions may be purchased from CRC Press, http://www.crcpress.com/product/isbn/9780849379819. This manuscript is for personal use only and may not be reproduced, in whole or in part, without written consent from the publisher.
+
+ii
+
+To RuthAnne (RMM) To Jianghua (ZXL) In memory of my father (SSS)
+
+vi
+
+Contents
+
+Contents
+
+vii
+
+Preface
+
+xiii
+
+Acknowledgements
+
+xvii
+
+1 Introduction
+
+1
+
+1 Brief History . . . . . . . . . . . . . . . . . . . . . . . . . 1
+
+2 Multiﬁngered Hands and Dextrous Manipulation . . . . . 8
+
+3 Outline of the Book . . . . . . . . . . . . . . . . . . . . . 13
+
+3.1 Manipulation using single robots . . . . . . . . . . 14
+
+3.2 Coordinated manipulation using multiﬁngered robot
+
+hands . . . . . . . . . . . . . . . . . . . . . . . . . 15
+
+3.3 Nonholonomic behavior in robotic systems . . . . . 16
+
+4 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+2 Rigid Body Motion
+
+19
+
+1 Rigid Body Transformations . . . . . . . . . . . . . . . . . 20 2 Rotational Motion in R3 . . . . . . . . . . . . . . . . . . . 22
+
+2.1 Properties of rotation matrices . . . . . . . . . . . 23
+
+2.2 Exponential coordinates for rotation . . . . . . . . 27
+
+2.3 Other representations . . . . . . . . . . . . . . . . 31 3 Rigid Motion in R3 . . . . . . . . . . . . . . . . . . . . . . 34
+
+3.1 Homogeneous representation . . . . . . . . . . . . 36
+
+3.2 Exponential coordinates for rigid motion and twists 39
+
+3.3 Screws: a geometric description of twists . . . . . . 45
+
+4 Velocity of a Rigid Body . . . . . . . . . . . . . . . . . . . 51
+
+4.1 Rotational velocity . . . . . . . . . . . . . . . . . . 51
+
+4.2 Rigid body velocity . . . . . . . . . . . . . . . . . 53
+
+4.3 Velocity of a screw motion . . . . . . . . . . . . . . 57
+
+4.4 Coordinate transformations . . . . . . . . . . . . . 58
+
+5 Wrenches and Reciprocal Screws . . . . . . . . . . . . . . 61
+
+5.1 Wrenches . . . . . . . . . . . . . . . . . . . . . . . 61
+
+vii
+
+5.2 Screw coordinates for a wrench . . . . . . . . . . . 64 5.3 Reciprocal screws . . . . . . . . . . . . . . . . . . . 66 6 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 70 7 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 72 8 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
+
+3 Manipulator Kinematics
+
+81
+
+1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 81
+
+2 Forward Kinematics . . . . . . . . . . . . . . . . . . . . . 83
+
+2.1 Problem statement . . . . . . . . . . . . . . . . . . 83
+
+2.2 The product of exponentials formula . . . . . . . . 85
+
+2.3 Parameterization of manipulators via twists . . . . 91
+
+2.4 Manipulator workspace . . . . . . . . . . . . . . . 95
+
+3 Inverse Kinematics . . . . . . . . . . . . . . . . . . . . . . 97
+
+3.1 A planar example . . . . . . . . . . . . . . . . . . 97
+
+3.2 Paden-Kahan subproblems . . . . . . . . . . . . . 99
+
+3.3 Solving inverse kinematics using subproblems . . . 104
+
+3.4 General solutions to inverse kinematics problems . 108
+
+4 The Manipulator Jacobian . . . . . . . . . . . . . . . . . . 115
+
+4.1 End-eﬀector velocity . . . . . . . . . . . . . . . . . 115
+
+4.2 End-eﬀector forces . . . . . . . . . . . . . . . . . . 121
+
+4.3 Singularities . . . . . . . . . . . . . . . . . . . . . . 123
+
+4.4 Manipulability . . . . . . . . . . . . . . . . . . . . 127
+
+5 Redundant and Parallel Manipulators . . . . . . . . . . . 129
+
+5.1 Redundant manipulators . . . . . . . . . . . . . . . 129
+
+5.2 Parallel manipulators . . . . . . . . . . . . . . . . 132
+
+5.3 Four-bar linkage . . . . . . . . . . . . . . . . . . . 135
+
+5.4 Stewart platform . . . . . . . . . . . . . . . . . . . 138
+
+6 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 143
+
+7 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 144
+
+8 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 146
+
+4 Robot Dynamics and Control
+
+155
+
+1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 155
+
+2 Lagrange’s Equations . . . . . . . . . . . . . . . . . . . . . 156
+
+2.1 Basic formulation . . . . . . . . . . . . . . . . . . . 157
+
+2.2 Inertial properties of rigid bodies . . . . . . . . . . 160
+
+2.3 Example: Dynamics of a two-link planar robot . . 164
+
+2.4 Newton-Euler equations for a rigid body . . . . . . 165
+
+3 Dynamics of Open-Chain Manipulators . . . . . . . . . . 168
+
+3.1 The Lagrangian for an open-chain robot . . . . . . 168
+
+3.2 Equations of motion for an open-chain manipulator 169
+
+3.3 Robot dynamics and the product of exponentials
+
+formula . . . . . . . . . . . . . . . . . . . . . . . . 175
+
+4 Lyapunov Stability Theory . . . . . . . . . . . . . . . . . 179
+
+viii
+
+4.1 Basic deﬁnitions . . . . . . . . . . . . . . . . . . . 179 4.2 The direct method of Lyapunov . . . . . . . . . . . 181 4.3 The indirect method of Lyapunov . . . . . . . . . 184 4.4 Examples . . . . . . . . . . . . . . . . . . . . . . . 185 4.5 Lasalle’s invariance principle . . . . . . . . . . . . 188 5 Position Control and Trajectory Tracking . . . . . . . . . 189 5.1 Problem description . . . . . . . . . . . . . . . . . 190 5.2 Computed torque . . . . . . . . . . . . . . . . . . . 190 5.3 PD control . . . . . . . . . . . . . . . . . . . . . . 193 5.4 Workspace control . . . . . . . . . . . . . . . . . . 195 6 Control of Constrained Manipulators . . . . . . . . . . . . 200 6.1 Dynamics of constrained systems . . . . . . . . . . 200 6.2 Control of constrained manipulators . . . . . . . . 201 6.3 Example: A planar manipulator moving in a slot . 203 7 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 206 8 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 207 9 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 208
+
+5 Multiﬁngered Hand Kinematics
+
+211
+
+1 Introduction to Grasping . . . . . . . . . . . . . . . . . . 211
+
+2 Grasp Statics . . . . . . . . . . . . . . . . . . . . . . . . . 214
+
+2.1 Contact models . . . . . . . . . . . . . . . . . . . . 214
+
+2.2 The grasp map . . . . . . . . . . . . . . . . . . . . 218
+
+3 Force-Closure . . . . . . . . . . . . . . . . . . . . . . . . . 223
+
+3.1 Formal deﬁnition . . . . . . . . . . . . . . . . . . . 223
+
+3.2 Constructive force-closure conditions . . . . . . . . 224
+
+4 Grasp Planning . . . . . . . . . . . . . . . . . . . . . . . . 229
+
+4.1 Bounds on number of required contacts . . . . . . 229
+
+4.2 Constructing force-closure grasps . . . . . . . . . . 232
+
+5 Grasp Constraints . . . . . . . . . . . . . . . . . . . . . . 234
+
+5.1 Finger kinematics . . . . . . . . . . . . . . . . . . 234
+
+5.2 Properties of a multiﬁngered grasp . . . . . . . . . 237
+
+5.3 Example: Two SCARA ﬁngers grasping a box . . 240
+
+6 Rolling Contact Kinematics . . . . . . . . . . . . . . . . . 242
+
+6.1 Surface models . . . . . . . . . . . . . . . . . . . . 243
+
+6.2 Contact kinematics . . . . . . . . . . . . . . . . . . 248
+
+6.3 Grasp kinematics with rolling . . . . . . . . . . . . 253
+
+7 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 256
+
+8 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 257
+
+9 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 259
+
+ix
+
+6 Hand Dynamics and Control
+
+265
+
+1 Lagrange’s Equations with Constraints . . . . . . . . . . . 265
+
+1.1 Pfaﬃan constraints . . . . . . . . . . . . . . . . . . 266
+
+1.2 Lagrange multipliers . . . . . . . . . . . . . . . . . 269
+
+1.3 Lagrange-d’Alembert formulation . . . . . . . . . . 271
+
+1.4 The nature of nonholonomic constraints . . . . . . 274
+
+2 Robot Hand Dynamics . . . . . . . . . . . . . . . . . . . . 276
+
+2.1 Derivation and properties . . . . . . . . . . . . . . 276
+
+2.2 Internal forces . . . . . . . . . . . . . . . . . . . . 279
+
+2.3 Other robot systems . . . . . . . . . . . . . . . . . 281
+
+3 Redundant and Nonmanipulable Robot Systems . . . . . 285
+
+3.1 Dynamics of redundant manipulators . . . . . . . . 286
+
+3.2 Nonmanipulable grasps . . . . . . . . . . . . . . . 290
+
+3.3 Example: Two-ﬁngered SCARA grasp . . . . . . . 291
+
+4 Kinematics and Statics of Tendon Actuation . . . . . . . 293
+
+4.1 Inelastic tendons . . . . . . . . . . . . . . . . . . . 294
+
+4.2 Elastic tendons . . . . . . . . . . . . . . . . . . . . 296
+
+4.3 Analysis and control of tendon-driven ﬁngers . . . 298
+
+5 Control of Robot Hands . . . . . . . . . . . . . . . . . . . 300
+
+5.1 Extending controllers . . . . . . . . . . . . . . . . 300
+
+5.2 Hierarchical control structures . . . . . . . . . . . 302
+
+6 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 311
+
+7 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 313
+
+8 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 314
+
+7 Nonholonomic Behavior in Robotic Systems
+
+317
+
+1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 317
+
+2 Controllability and Frobenius’ Theorem . . . . . . . . . . 321
+
+2.1 Vector ﬁelds and ﬂows . . . . . . . . . . . . . . . . 322
+
+2.2 Lie brackets and Frobenius’ theorem . . . . . . . . 323
+
+2.3 Nonlinear controllability . . . . . . . . . . . . . . . 328
+
+3 Examples of Nonholonomic Systems . . . . . . . . . . . . 332
+
+4 Structure of Nonholonomic Systems . . . . . . . . . . . . 339
+
+4.1 Classiﬁcation of nonholonomic distributions . . . . 340
+
+4.2 Examples of nonholonomic systems, continued . . 341
+
+4.3 Philip Hall basis . . . . . . . . . . . . . . . . . . . 344
+
+5 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 346
+
+6 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 347
+
+7 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 349
+
+8 Nonholonomic Motion Planning
+
+355
+
+1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . 355
+
+2 Steering Model Control Systems Using Sinusoids . . . . . 358
+
+2.1 First-order controllable systems: Brockett’s system 358
+
+2.2 Second-order controllable systems . . . . . . . . . 361
+
+x
+
+2.3 Higher-order systems: chained form systems . . . . 363 3 General Methods for Steering . . . . . . . . . . . . . . . . 366
+3.1 Fourier techniques . . . . . . . . . . . . . . . . . . 367 3.2 Conversion to chained form . . . . . . . . . . . . . 369 3.3 Optimal steering of nonholonomic systems . . . . . 371 3.4 Steering with piecewise constant inputs . . . . . . 375 4 Dynamic Finger Repositioning . . . . . . . . . . . . . . . 382 4.1 Problem description . . . . . . . . . . . . . . . . . 382 4.2 Steering using sinusoids . . . . . . . . . . . . . . . 383 4.3 Geometric phase algorithm . . . . . . . . . . . . . 385 5 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . 389 6 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . 390 7 Exercises . . . . . . . . . . . . . . . . . . . . . . . . . . . 391
+
+9 Future Prospects
+
+395
+
+1 Robots in Hazardous Environments . . . . . . . . . . . . . 396
+
+2 Medical Applications for Multiﬁngered Hands . . . . . . . 398
+
+3 Robots on a Small Scale: Microrobotics . . . . . . . . . . 399
+
+A Lie Groups and Robot Kinematics
+
+403
+
+Lie Groups and Robot Kinematics403
+
+1 Diﬀerentiable Manifolds . . . . . . . . . . . . . . . . . . . 403
+
+1.1 Manifolds and maps . . . . . . . . . . . . . . . . . 403
+
+1.2 Tangent spaces and tangent maps . . . . . . . . . 404
+
+1.3 Cotangent spaces and cotangent maps . . . . . . . 405
+
+1.4 Vector ﬁelds . . . . . . . . . . . . . . . . . . . . . . 406
+
+1.5 Diﬀerential forms . . . . . . . . . . . . . . . . . . . 408
+
+2 Lie Groups . . . . . . . . . . . . . . . . . . . . . . . . . . 408
+
+2.1 Deﬁnition and examples . . . . . . . . . . . . . . . 408
+
+2.2 The Lie algebra associated with a Lie group . . . . 409
+
+2.3 The exponential map . . . . . . . . . . . . . . . . . 412
+
+2.4 Canonical coordinates on a Lie group . . . . . . . 414
+
+2.5 Actions of Lie groups . . . . . . . . . . . . . . . . 415
+
+3 The Geometry of the Euclidean Group . . . . . . . . . . . 416
+
+3.1 Basic properties . . . . . . . . . . . . . . . . . . . 416
+
+3.2 Metric properties of SE(3) . . . . . . . . . . . . . . 422
+
+3.3 Volume forms on SE(3) . . . . . . . . . . . . . . . 430
+
+B A Mathematica Package for Screw Calculus
+
+435
+
+Bibliography
+
+441
+
+Index
+
+449
+
+xi
+
+xii
+
+Preface
+In the last two decades, there has been a tremendous surge of activity in robotics, both at in terms of research and in terms of capturing the imagination of the general public as to its seemingly endless and diverse possibilities. This period has been accompanied by a technological maturation of robots as well, from the simple pick and place and painting and welding robots, to more sophisticated assembly robots for inserting integrated circuit chips onto printed circuit boards, to mobile carts for parts handling and delivery. Several areas of robotic automation have now become “standard” on the factory ﬂoor and, as of the writing of this book, the ﬁeld is on the verge of a new explosion to areas of growth involving hazardous environments, minimally invasive surgery, and micro electro-mechanical mechanisms.
+Concurrent with the growth in robotics in the last two decades has been the development of courses at most major research universities on various aspects of robotics. These courses are taught at both the undergraduate and graduate levels in computer science, electrical and mechanical engineering, and mathematics departments, with diﬀerent emphases depending on the background of the students. A number of excellent textbooks have grown out of these courses, covering various topics in kinematics, dynamics, control, sensing, and planning for robot manipulators.
+Given the state of maturity of the subject and the vast diversity of students who study this material, we felt the need for a book which presents a slightly more abstract (mathematical) formulation of the kinematics, dynamics, and control of robot manipulators. The current book is an attempt to provide this formulation not just for a single robot but also for multiﬁngered robot hands, involving multiple cooperating robots. It grew from our eﬀorts to teach a course to a hybrid audience of electrical engineers who did not know much about mechanisms, computer scientists who did not know about control theory, mechanical engineers who were suspicious of involved explanations of the kinematics and dynamics of garden variety open kinematic chains, and mathematicians who were curious, but did not have the time to build up lengthy prerequisites before
+xiii
+
+beginning a study of robotics. It is our premise that abstraction saves time in the long run, in return
+for an initial investment of eﬀort and patience in learning some mathematics. The selection of topics—from kinematics and dynamics of single robots, to grasping and manipulation of objects by multiﬁngered robot hands, to nonholonomic motion planning—represents an evolution from the more basic concepts to the frontiers of the research in the ﬁeld. It represents what we have used in several versions of the course which have been taught between 1990 and 1993 at the University of California, Berkeley, the Courant Institute of Mathematical Sciences of New York University, the California Institute of Technology, and the Hong Kong University of Science and Technology (HKUST). We have also presented parts of this material in short courses at the Universita` di Roma, the Center for Artiﬁcial Intelligence and Robotics, Bangalore, India, and the National Taiwan University, Taipei, Taiwan.
+The material collected here is suitable for advanced courses in robotics consisting of seniors or ﬁrst- and second-year graduate students. At a senior level, we cover Chapters 1–4 in a twelve week period, augmenting the course with some discussion of technological and planning issues, as well as a laboratory. The laboratory consists of experiments involving on-line path planning and control of a few industrial robots, and the use of a simulation environment for oﬀ-line programming of robots. In courses stressing kinematic issues, we often replace material from Chapter 4 (Robot Dynamics) with selected topics from Chapter 5 (Multiﬁngered Hand Kinematics). We have also covered Chapters 5–8 in a ten week period at the graduate level, in a course augmented with other advanced topics in manipulation or mobile robots.
+The prerequisites that we assume are a good course in linear algebra at the undergraduate level and some familiarity with signals and systems. A course on control at the undergraduate level is helpful, but not strictly necessary for following the material. Some amount of mathematical maturity is also desirable, although the student who can master the concepts in Chapter 2 should have no diﬃculty with the remainder of the book.
+We have provided a fair number of exercises after Chapters 2–8 to help students understand some new material and review their understanding of the chapter. A toolkit of programs written in Mathematica for solving the problems of Chapters 2 and 3 (and to some extent Chapter 5) have been developed and are described in Appendix B. We have studiously avoided numerical exercises in this book: when we have taught the course, we have adapted numerical exercises from measurements of robots or other “real” systems available in the laboratories. These vary from one time to the next and add an element of topicality to the course.
+The one large topic in robotic manipulation that we have not covered in this book is the question of motion planning and collision avoidance
+xiv
+
+for robots. In our classroom presentations we have always covered some aspects of motion planning for robots for the sake of completeness. For graduate classes, we can recommend the recent book of Latombe on motion planning as a supplement in this regard. Another omission from this book is sensing for robotics. In order to do justice to this material in our respective schools, we have always had computer vision, tactile sensing, and other related topics, such as signal processing, covered in separate courses.
+The contents of our book have been chosen from the point of view that they will remain foundational over the next several years in the face of many new technological innovations and new vistas in robotics. We have tried to give a snapshot of some of these vistas in Chapter 9. In reading this book, we hope that the reader will feel the same excitement that we do about the technological and social prospects for the ﬁeld of robotics and the elegance of the underlying theory.
+
+Richard Murray Zexiang Li Shankar Sastry
+
+Berkeley, August 1993
+
+xv
+
+xvi
+
+Acknowledgments
+It is a great pleasure to acknowledge the people who have collaborated with one or more of us in the research contained in this book. A great deal of the material in Chapters 2 and 3 is based on the Ph.D. dissertation of Bradley Paden, now at the University of California, Santa Barbara. The research on multiﬁngered robot hands, on which Chapters 5 and 6 are founded, was done in collaboration with Ping Hsu, now at San Jose State University; Arlene Cole, now at AT&T Bell Laboratories; John Hauser, now at the University of Colorado, Boulder; Curtis Deno, now at Intermedics, Inc. in Houston; and Kristofer Pister, now at the University of California, Los Angeles. In the area of nonholonomic motion planning, we have enjoyed collaborating with Jean-Paul Laumond of LAAS in Toulouse, France; Paul Jacobs, now at Qualcomm, Inc. in San Diego; Greg Walsh, Dawn Tilbury, and Linda Bushnell at the University of California, Berkeley; Richard Montgomery of the University of California, Santa Cruz; Leonid Gurvits of Siemens Research, Princeton; and Chris Fernandez at New York University.
+The heart of the approach in Chapters 2 and 3 of this book is a derivation of robot kinematics using the product of exponentials formalism introduced by Roger Brockett of Harvard University. For this and manifold other contributions by him and his students to the topics in kinematics, rolling contact, and nonholonomic control, it is our pleasure to acknowledge his enthusiasm and encouragement by example. In a broader sense, the stamp of the approach that he has pioneered in nonlinear control theory is present throughout this book.
+We fondly remember the seminar given at Berkeley in 1983 by P. S. Krishnaprasad of the University of Maryland, where he attempted to convince us of the beauty of the product of exponentials formula, and the numerous stimulating conversations with him, Jerry Marsden of Berkeley, and Tony Bloch of Ohio State University on the many beautiful connections between classical mechanics and modern mathematics and control theory. Another such seminar which stimulated our interest was one on multiﬁngered robot hands and cooperating robots given at Berkeley in 1987 by Yoshi Nakamura, now of the University of Tokyo. We have also
+xvii
+
+enjoyed discussing kinematics, optimal control, and redundant mechanisms with John Baillieul of Boston University; Jeﬀ Kerr, now of Zebra Robotics; Mark Cutkosky of Stanford University and Robert Howe, now of Harvard University; Dan Koditscheck, now of the University of Michigan; Mark Spong of the University of Illinois at Urbana-Champaign; and Joel Burdick and Elon Rimon at the California Institute of Technology. Conversations with Hector Sussmann of Rutgers University and Gerardo Laﬀeriere of Portland State University on nonholonomic motion planning have been extremely stimulating as well.
+Our colleagues have provided both emotional and technical support to us at various levels of development of this material: John Canny, Charles Desoer, David Dornfeld, Ronald Fearing, Roberto Horowitz, Jitendra Malik, and “Tomi” Tomizuka at Berkeley; Jaiwei Hong, Bud Mishra, Jack Schwartz, James Demmel, and Paul Wright at New York University; Joel Burdick and Pietro Perona at Caltech; Peter Cheung, Ruey-Wen Liu, and Matthew Yuen at HKUST; Robyn Owens at the University of West Australia; Georges Giralt at LAAS in Toulouse, France; Dorothe`e Normand Cyrot at the LSS in Paris, France; Alberto Isidori, Marica Di Benedetto, Alessandro De Luca, and ‘Nando’ Nicol´o at the Universit`a di Roma; Sanjoy Mitter and Anita Flynn at MIT; Antonio Bicchi at the Universita` di Pisa; M. Vidyasagar at the Center for Artiﬁcial Intelligence and Robotics in Bangalore, India; Li-Chen Fu of the National Taiwan University, Taipei, Taiwan; and T.-J. Tarn of Washington University. Finally, we are grateful to Mark Spong, Kevin Dowling, and Dalila Argez for their help with the photographs.
+Our research has been generously supported by the National Science Foundation under grant numbers DMC 84-51129, IRI 90-14490, and IRI 90-03986, nurtured especially by Howard Moraﬀ, the Army Research Ofﬁce under grant DAAL88-K-0372 monitored by Jagdish Chandra, IBM, the AT&T Foundation, the GE Foundation, and HKUST under grant DAG 92/93 EG23. Our home institutions at UC Berkeley, the California Institute of Technology, and the Hong Kong University of Science and Technology have been exemplarily supportive of our eﬀorts, providing the resources to help us to grow programs where there were none. We owe a special debt of gratitude in this regard to Karl Pister, Dean of Engineering at Berkeley until 1990.
+The manuscript was classroom tested in various versions by James Clark at Harvard, John Canny, Curtis Deno and Matthew Berkemeier at Berkeley, and Joel Burdick at Caltech, in addition to the three of us. Their comments have been invaluable to us in revising the early drafts. We appreciate the detailed and thoughtful reviews by Greg Chirikjian of Johns Hopkins, and Michael McCarthy and Frank Park of the University of California, Irvine.
+In addition, many students suﬀering early versions of this course have
+xviii
+
+contributed to debugging the text. They include L. Bushnell, N. Getz, J.-P. Tennant, D. Tilbury, G. Walsh, and J. Wendlandt at Berkeley; R. Behnken, S. Kelly, A. Lewis, S. Sur, and M. van Nieuwstadt at Caltech; and A. Lee and J. Au of the Hong Kong University of Science and Technology. Sudipto Sur at Caltech helped develop a Mathematica package for screw calculus which forms the heart of the software described in Appendix B. We are ultimately indebted to these and the unnamed others for the inspiration to write this book.
+Finally, on a personal note, we would like to thank our families for their support and encouragement during this endeavor.
+xix
+
+xx
+
+Chapter 1
+Introduction
+In the last twenty years, our conception and use of robots has evolved from the stuﬀ of science ﬁction ﬁlms to the reality of computer-controlled electromechanical devices integrated into a wide variety of industrial environments. It is routine to see robot manipulators being used for welding and painting car bodies on assembly lines, stuﬃng printed circuit boards with IC components, inspecting and repairing structures in nuclear, undersea, and underground environments, and even picking oranges and harvesting grapes in agriculture. Although few of these manipulators are anthropomorphic, our fascination with humanoid machines has not dulled, and people still envision robots as evolving into electromechanical replicas of ourselves. While we are not likely to see this type of robot in the near future, it is fair to say that we have made a great deal of progress in introducing simple robots with crude end-eﬀectors into a wide variety of circumstances. Further, it is important to recognize that our impatience with the pace of robotics research and our expectations of what robots can and cannot do is in large part due to our lack of appreciation of the incredible power and subtlety of our own biological motor control systems.
+1 Brief History
+The word robot was introduced in 1921 by the Czech playwright Karel Capek in his satirical play R. U. R. (Rossum’s Universal Robots), where he depicted robots as machines which resembled people but worked tirelessly. In the play, the robots eventually turn against their creators and annihilate the human race. This play spawned a great deal of further science ﬁction literature and ﬁlm which have contributed to our perceptions of robots as being human-like, endowed with intelligence and even personality. Thus, it is no surprise that present-day robots appear primitive
+1
+
+Figure 1.1: The Stanford manipulator. (Courtesy of the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign)
+when compared with the expectations created by the entertainment industry. To give the reader a ﬂavor of the development of modern robotics, we will give a much abbreviated history of the ﬁeld, derived from the accounts by Fu, Gonzalez, and Lee [35] and Spong and Vidyasagar [110]. We describe this roughly by decade, starting from the ﬁfties and continuing up to the eighties.
+The early work leading up to today’s robots began after World War II in the development of remotely controlled mechanical manipulators, developed at Argonne and Oak Ridge National Laboratories for handling radioactive material. These early mechanisms were of the master-slave type, consisting of a master manipulator guided by the user through a series of moves which were then duplicated by the slave unit. The slave unit was coupled to the master through a series of mechanical linkages. These linkages were eventually replaced by either electric or hydraulic powered coupling in “teleoperators,” as these machines are called, made by General Electric and General Mills. Force feedback to keep the slave manipulator from crushing glass containers was also added to the teleoperators in 1949.
+In parallel with the development of the teleoperators was the devel-
+2
+
+Figure 1.2: The Cincinnati Milacron T 3 (The Tomorrow Tool) robot. (Courtesy of Cincinnati Milacron)
+opment of Computer Numerically Controlled (CNC) machine tools for accurate milling of low-volume, high-performance aircraft parts. The ﬁrst robots, developed by George Devol in 1954, replaced the master manipulator of the teleoperator with the programmability of the CNC machine tool controller. He called the device a “programmed articulated transfer device.” The patent rights were bought by a Columbia University student, Joseph Engelberger, who later founded a company called Unimation in Connecticut in 1956. Unimation installed its ﬁrst robot in a General Motors plant in 1961. The key innovation here was the “programmability” of the machine: it could be retooled and reprogrammed at relatively low cost so as to enable it to perform a wide variety of tasks. The mechanical construction of the Unimation robot arm represented a departure from conventional machine design in that it used an open kinematic chain: that is to say, it had a cantilevered beam structure with many degrees of freedom. This enabled the robot to access a large workspace relative to the space occupied by the robot itself, but it created a number of problems for the design since it is diﬃcult to accurately control the end point of a cantilevered arm and also to regulate its stiﬀness. Moreover, errors at the base of the kinematic chain tended to get ampliﬁed further out in the chain. To alleviate this problem, hydraulic actuators capable of both high power and generally high precision were
+3
+
+Figure 1.3: The Unimation PUMA (Programmable Universal Manipulator for Assembly). (Courtesy of St¨aubli Unimation, Inc.)
+used for the joint actuators. The ﬂexibility of the newly introduced robots was quickly seen to be
+enhanced through sensory feedback. To this end, Ernst in 1962 developed a robot with force sensing which enabled it to stack blocks. To our knowledge, this system was the ﬁrst that involved a robot interacting with an unstructured environment and led to the creation of the Project MAC (Man And Computer) at MIT. Tomovic and Boni developed a pressure sensor for the robot which enabled it to squeeze on a grasped object and then develop one of two diﬀerent grasp patterns. At about the same time, a binary robot vision system which enabled the robot to respond to obstacles in its environment was developed by McCarthy and colleagues in 1963. Many other kinematic models for robot arms, such as the Stanford manipulator, the Boston arm, the AMF (American Machine and Foundry) arm, and the Edinburgh arm, were also introduced around this time. Another novel robot of the period was a walking robot developed by General Electric for the Army in 1969. Robots that responded to voice commands and stacked randomly scattered blocks were developed at Stanford and other places. Robots made their appearance in Japan through Kawasaki’s acquisition of a license from Unimation in 1968.
+4
+
+Figure 1.4: The AdeptOne robot. (Courtesy of Adept Technology, Inc.)
+Figure 1.5: The CMU DD Arm I. (Courtesy of M.J. Dowling) 5
+
+Figure 1.6: The Odex I six-legged walking robot. (Photo courtesy of Odetics, Inc.)
+In 1973, the ﬁrst language for programming robot motion, called WAVE, was developed at Stanford to enable commanding a robot with high-level commands. About the same time, in 1974, the machine tool manufacturer Cincinnati Milacron, Inc. introduced its ﬁrst computercontrolled manipulator, called The Tomorrow Tool (T 3), which could lift a 100 pound load as well as track moving objects on an assembly line. Later in the seventies, Paul and Bolles showed how a Stanford arm could assemble water pumps, and Will and Grossman endowed a robot with touch and force sensors to assemble a twenty part typewriter. At roughly the same time, a group at the Draper Laboratories put together a Remote Center Compliance (RCC) device for part insertion in assembly.
+In 1978, Unimation introduced a robot named the Programmable Universal Machine for Assembly (PUMA), based on a General Motors study. Bejczy at Jet Propulsion Laboratory began a program of teleoperation for space-based manipulators in the mid-seventies. In 1979, the SCARA (Selective Compliant Articulated Robot for Assembly) was introduced in Japan and then in the United States.
+As applications of industrial robots grew, diﬀerent kinds of robots with attendant diﬀerences in their actuation methods were developed.
+6
+
+For light-duty applications, electrically powered robots were used both for reasons of relative inexpensiveness and cleanliness. The diﬃculty with electric motors is that they produce their maximum power at relatively high speeds. Consequently, the motors need to be geared down for use. This gear reduction introduces friction, backlash, and expense to the design of the motors. Consequently, the search was on to ﬁnd a way of driving the robot’s joints directly without the need to gear down its electric motors. In response to this need, a direct drive robot was developed at Carnegie Mellon by Asada in 1981.
+In the 1980s, many eﬀorts were made to improve the performance of industrial robots in ﬁne manipulation tasks: active methods using feedback control to improve positioning accuracy and program compliance, and passive methods involving a mechanical redesign of the arm. It is fair to say, however, that the eighties were not a period of great innovation in terms of building new types of robots. The major part of the research was dedicated to an understanding of algorithms for control, trajectory planning, and sensor aggregation of robots. Among the ﬁrst active control methods developed were eﬃcient recursive Lagrangian and computational schemes for computing the gravity and Coriolis force terms in the dynamics of robots. In parallel with this, there was an eﬀort in exactly linearizing the dynamics of a multi-joint robot by state feedback, using a technique referred to as computed torque. This approach, while computationally demanding, had the advantage of giving precise bounds on the transient performance of the manipulator. It involved exact cancellation, which in practice had to be done either approximately or adaptively. There were may other projects on developing position/force control strategies for robots in contact with the environment, referred to as hybrid or compliant control. In the search for more accurately controllable robot manipulators, robot links were getting to be lighter and to have harmonic drives, rather than gear trains in their joints. This made for ﬂexible joints and arms, which in turn necessitated the development of new control algorithms for ﬂexible link and ﬂexible joint robots.
+The trend in the nineties has been towards robots that are modiﬁable for diﬀerent assembly operations. One such robot is called Robotworld, manufactured by Automatix, which features several four degree of freedom modules suspended on air bearings from the stator of a Sawyer eﬀect motor. By attaching diﬀerent end-eﬀectors to the ends of the modules, the modules can be modiﬁed for the assembly task at hand. In the context of robots working in hazardous environments, great strides have been made in the development of mobile robots for planetary exploration, hazardous waste disposal, and agriculture. In addition to the extensive programs in reconﬁgurable robots and robots for hazardous environments, we feel that the ﬁeld of robotics is primed today for some large technological advances incorporating developments in sensor and
+7
+
+actuator technology at the milli- and micro-scales as well as advances in computing and control. We defer a discussion of these prospects for robotics to Chapter 9.
+2 Multiﬁngered Hands and Dextrous Manipulation
+The vast majority of robots in operation today consist of six joints which are either rotary (articulated) or sliding (prismatic), with a simple “endeﬀector” for interacting with the workpieces. The applications range from pick and place operations, to moving cameras and other inspection equipment, to performing delicate assembly tasks involving mating parts. This is certainly nowhere near as fancy as the stuﬀ of early science ﬁction, but is useful in such diverse arenas such as welding, painting, transportation of materials, assembly of printed circuit boards, and repair and inspection in hazardous environments.
+The term hand or end-eﬀector is used to describe the interface between the manipulator (arm) and the environment, out of anthropomorphic intent. The vast majority of hands are simple: grippers (either two- or three-jaw), pincers, tongs, or in some cases remote compliance devices. Most of these end-eﬀectors are designed on an ad hoc basis to perform speciﬁc tasks with speciﬁc parts. For example, they may have suction cups for lifting glass which are not suitable for machined parts, or jaws operated by compressed air for holding metallic parts but not suitable for handling fragile plastic parts. Further, a diﬃculty that is commonly encountered in applications is the clumsiness of a six degree of freedom robot equipped only with these simple hands. The clumsiness manifests itself in:
+1. A lack of dexterity. Simple grippers enable the robot to hold parts securely but they cannot manipulate the grasped object.
+2. A limited number of possible grasps resulting in the need to change end-eﬀectors frequently for diﬀerent tasks.
+3. Large motions of the arm are sometimes needed for even small motions of the end-eﬀector. Since the motors of the robot arm are progressively larger away from the end-eﬀector, the motion of the earliest motors is slow and ineﬃcient.
+4. A lack of ﬁne force control which limits assembly tasks to the most rudimentary ones.
+A multiﬁngered or articulated hand oﬀers some solutions to the problem of endowing a robot with dexterity and versatility. The ability of a
+8
+
+Trunk Shoulder
+Elbow LiHttlaWernidst
+
+Hip Knee AnkleToes
+
+]
+
+[S [alatiivoVant]oicoanl]ization
+
+FingeErsyeMRlidiidnITndgahdlenuedxmFebyaBNecrboeeawclkl Lips
+SwalloTwoningguJeaw [Mastic
+
+Medial
+
+Lateral
+
+Figure 1.7: Homunculus diagram of the motor cortex. (Reprinted, by permission, from Kandel, Schwartz, and Jessel, Principles of Neural Science, Third Edition [Appleton and Lange, Norwalk, CT, 1991]. Adapted from Penﬁeld and Rasmussen, The Cerebral Cortex of Man: A Clinical Study of Localization of Function [Macmillan, 1950])
+
+multiﬁngered hand to reconﬁgure itself for performing a variety of diﬀerent grasps reduces the need for changing end-eﬀectors. The large number of lightweight actuators associated with the degrees of freedom of the hand allows for fast, precise, and energy-eﬃcient motions of the object held in the hand. Fine motion force-control at a high bandwidth is also facilitated for similar reasons. Indeed, multiﬁngered hands are a truly anthropomorphically motivated concept for dextrous manipulation: we use our arms to position our hands in a given region of space and then use our wrists and ﬁngers to interact in a detailed and intricate way with the environment. We preform our ﬁngers into grasps which pinch, encircle, or immobilize objects, changing grasps as a consequence of these actions. One measure of the intelligence of a member of the mammalian family is the fraction of its motor cortex dedicated to the control of its hands. This fraction is discerned by painstaking mapping of the body on the motor cortex by neurophysiologists, yielding a homunculus of the kind shown in Figure 1.7. For humans, the largest fraction (30–40%) of
+
+9
+
+Figure 1.8: The Utah/MIT hand. (Photo courtesy of Sarcos, Inc.)
+the motor cortex is dedicated to the control of the hands, as compared with 20–30% for most monkeys and under 10% for dogs and cats.
+From a historical point of view, the ﬁrst uses of multiﬁngered hands were in prosthetic devices to replace lost limbs. Childress [18] refers to a device from 1509 made for a knight, von Berlichingen, who had lost his hand in battle at an early age. This spring-loaded device was useful in battle but was unfortunately not handy enough for everyday functions. After the Berlichingen hand, numerous other hand designs have been made from 1509 to the current time. Several of these hands are still available today; some are passive (using springs), others are bodypowered (using arm ﬂexion control or shrug control). Some of the hands had the facility for voluntary closure and others involuntary closure. Childress classiﬁes the hands into the following four types:
+1. Cosmetic. These hands have no real movement and cannot be activated, but they can be used for pushing or as an opposition element for the other hand.
+2. Passive. These hands need the manual manipulation of the other (non-prosthetic) hand to adjust the grasping of the hand. These were the earliest hands, including the Berlichingen hand.
+10
+
+Figure 1.9: The Salisbury Hand, designed by Kenneth Salisbury. (Photo courtesy of David Lampe, MIT)
+3. Body powered. These hands use motions of the body to activate the hand. Two of the most common schemes involve pulling a cable when the arm is moved forward (arm-ﬂexion control) or pulling the cable when the shoulders are rounded (shrug control). Indeed, one frequently observes these hands operated by an amputee using shrugs and other such motions of her upper arm joints.
+4. Externally powered. These hands obtain their energy from a storage source such as a battery or compressed gas. These are yet to displace the body-powered hands in prostheses.
+Powered hand mechanisms came into vogue after 1920, but the greatest usage of these devices has been only since the 1960s. The Belgrade hand, developed by Tomovi´c and Boni [113], was originally developed for Yugoslav veterans who had lost their arms to typhus. Other hands were invented as limb replacements for “thalidomide babies.” There has been a succession of myoelectrically controlled devices for prostheses culminating in some advanced devices at the University of Utah [44], developed mainly for grasping objects. While these devices are quite remarkable mechanisms, it is fair to say that their dexterity arises from the visionguided feedback training of the wearer, rather than any feedback mechanisms inherent in the device per se.
+As in the historical evolution of robots, teleoperation in hazardous or hard to access environments—such as nuclear, underwater, space, mining,
+11
+
+Figure 1.10: Styx, a two-ﬁngered planar hand built at UC Berkeley in 1988.
+and, recently, surgical environments—has provided a large impetus for the development of dextrous multiﬁngered hands. These devices enable the operator to perform simple manipulations with her hands in a remote environment and have the commands be relayed to a remote multiﬁngered manipulator. In the instance of surgery, the remote manipulator is a surgical device located inside the body of the patient.
+There have been many attempts to devise multiﬁngered hands for research use which are somewhere between teleoperation, prosthesis, and dextrous end-eﬀectors. These hands truly represent our dual point of view in terms of jumping back and forth from an anthropomorphic point of view (mimicking our own hands) to the point of view of intelligent end-eﬀectors (for endowing our robots with greater dexterity). Some examples of research on multiﬁngered hands can be found in the work of Skinner [106], Okada [84], and Hanafusa and Asada [39]. The Okada hand was a three-ﬁngered cable-driven hand which accomplished tasks such as attaching a nut to a bolt. Hanafusa and Asada’s hand has three elastic ﬁngers driven by a single motor with three claws for stably grasping several oddly shaped objects.
+Later multiﬁngered hands include the Salisbury Hand (also known as the Stanford/JPL hand) [69], the Utah/MIT hand [44], the NYU hand [24], and the research hand Styx [76]. The Salisbury hand is a three-ﬁngered hand; each ﬁnger has three degrees of freedom and the joints are all cable driven. The placement of the ﬁngers consists of one
+12
+
+ﬁnger (the thumb) opposing the other two. The Utah/MIT hand has four ﬁngers (three ﬁngers and a thumb) in a very anthropomorphic conﬁguration; each ﬁnger has four degrees of freedom and the hand is cable driven. The diﬀerence in actuation between the Salisbury Hand and the Utah/MIT hand is in how the cables (tendons) are driven: the ﬁrst uses electric motors and the second pneumatic pistons. The NYU hand is a non-anthropomorphic planar hand with four ﬁngers moving in a plane, driven by stepper motors. Styx was a two-ﬁngered hand with each ﬁnger having two joints, all direct driven. Like the NYU hand, Styx was used as a test bed for performing control experiments on multiﬁngered hands.
+At the current time, several kinds of multiﬁngered hands at diﬀerent scales—down to millimeters and even micrometers—are either being developed or put in use. Some of them are classiﬁed merely as custom or semi-custom end-eﬀectors. A recent multiﬁngered hand developed in Pisa is used for picking oranges in Sicily, another developed in Japan is used to play a piano! One of the key stumbling blocks to the development of lightweight hands has been lightweight high-torque motors. In this regard, muscle-like actuators, inch-worm motors, and other novel actuator technologies have been proposed and are currently being investigated. One future application of multiﬁngered robot hands which relies on these technologies is in minimally invasive surgery. This application is further discussed in Chapter 9.
+3 Outline of the Book
+This book is organized into eight chapters in addition to this one. Most chapters contain a summary section followed by a set of exercises. We have deliberately not included numerical exercises in this book. In teaching this material, we have chosen numbers for our exercises based on some robot or other physical situation in the laboratory. We feel this adds greater realism to the numbers.
+Chapter 2 is an introduction to rigid body motion. In this chapter, we present a geometric view to understanding translational and rotational motion of a rigid body. While this is one of the most ubiquitous topics encountered in textbooks on mechanics and robotics, it is also perhaps one of the most frequently misunderstood. The simple fact is that the careful description and understanding of rigid body motion is subtle. The point of view in this chapter is classical, but the mathematics modern. After deﬁning rigid body rotation, we introduce the use of the exponential map to represent and coordinatize rotations (Euler’s theorem), and then generalize to general rigid motions. In so doing, we introduce the notion of screws and twists, and describe their relationship with homogeneous transformations. With this background, we begin the study of inﬁnitesimal rigid motions and introduce twists for representing rigid
+13
+
+body velocities. The dual of the theory of twists is covered in a section on wrenches, which represent generalized forces. The chapter concludes with a discussion of reciprocal screws. In classroom teaching, we have found it important to cover the material of Chapter 2 at a leisurely pace to let students get a feel for the subtlety of understanding rigid body motion.
+The theory of screws has been around since the turn of the century, and Chasles’ theorem and its dual, Poinsot’s theorem, are even more classical. However, the treatment of the material in this chapter easily extends to other more abstract formulations which are also useful in thinking about problems of manipulation. These are covered in Appendix A.
+The rest of the material in the book may be subdivided into three parts: an introduction to manipulation for single robots, coordinated manipulation using a multiﬁngered robot hand, and nonholonomic motion planning. We will discuss the outline of each part in some detail.
+3.1 Manipulation using single robots
+Chapter 3 contains the description of manipulator kinematics for a single robot. This is the description of the position and orientation of the endeﬀector or gripper in terms of the angles of the joints of the robot. The form of the manipulator kinematics is a natural outgrowth of the exponential coordinatization for rigid body motion of Chapter 2. We prove that the kinematics of open-link manipulators can be represented as a product of exponentials. This formalism, ﬁrst pointed out by Brockett [12], is elegant and combines within it a great deal of the analytical sophistication of Chapter 2. Our treatment of kinematics is something of a deviation from most other textbooks, which prefer a Denavit-Hartenberg formulation of kinematics. The payoﬀ for the product of exponentials formalism is shown in this chapter in the context of an elegant formulation of a set of canonical problems for solving the inverse kinematics problem: the problem of determining the joint angles given the position and orientation of the end-eﬀector or gripper of the robot. These problems, ﬁrst formulated by Paden and Kahan [85], enable a precise determination of all of the multiple inverse kinematic solutions for a large number of industrial robots. The extension of this approach to the inverse kinematics of more general robots actually needs some recent techniques from classical algebraic geometry, which we discuss brieﬂy.
+Another payoﬀ of using the product of exponentials formula for kinematics is the ease of diﬀerentiating the kinematics to obtain the manipulator Jacobian. The columns of the manipulator Jacobian have the interpretation of being the twist axes of the manipulator. As a consequence, it is easy to geometrically characterize and describe the singularities of the manipulator. The product of exponentials formula is also used for deriv-
+14
+
+ing the kinematics of robots with one or more closed kinematic chains, such as a Stewart platform or a four-bar planar linkage.
+Chapter 4 is a derivation of the dynamics and control of single robots. We start with a review of the Lagrangian equations of motion for a system of rigid bodies. We also specialize these equations to derive the NewtonEuler equations of motion of a rigid body. As in Chapter 2, this material is classical but is covered in a modern mathematical geometric framework. Using once again the product of exponentials formula, we derive the Lagrangian of an open-chain manipulator and show how the geometric structure of the kinematics reﬂects into the form of the Lagrangian of the manipulator.
+Finally, we review the basics of Lyapunov theory to provide some machinery for proving the stability of the control schemes that we will present in this book. We use this to prove the stability of two classes of control laws for single manipulators: the computed torque control law and the so-called PD (for proportional + derivative) control law for single manipulators.
+3.2 Coordinated manipulation using multiﬁngered robot hands
+Chapter 5 is an introduction to the kinematics of grasping. Beginning with a review of models of contact types, we introduce the notion of a grasp map, which expresses the relationship between the forces applied by the ﬁngers contacting the object and their eﬀect at the center of mass of the object. We characterize what are referred to as stable grasps or forceclosure grasps. These are grasps which immobilize an object robustly. Using this characterization, we discuss how to construct force-closure grasps using an appropriate positioning of the ﬁngers on the surface of the object.
+The ﬁrst half of the chapter deals with issues of force exerted on the object by the ﬁngers. The second half deals with the dual issue of how the movements of the grasped object reﬂect the movements of the ﬁngers. This involves the interplay between the qualities of the grasp and the kinematics of the ﬁngers (which are robots in their own right) grasping the object. A deﬁnition dual to that of force-closure, called manipulability, is deﬁned and characterized. Finally, we discuss the rolling of ﬁngertips on the surface of an object. This is an important way of repositioning ﬁngers on the surface of an object so as to improve a grasp and may be necessitated by the task to be performed using the multiﬁngered hand.
+Chapter 6 is a derivation of the dynamics and control for multiﬁngered robot hands. The derivation of the kinematic equations for a multiﬁngered hand is an exercise in writing equations for robotic systems with constraints, namely the constraints imposed by the grasp. We develop the
+15
+
+necessary mathematical machinery for writing the Lagrangian equations for systems with so-called Pfaﬃan constraints. There is a preliminary discussion of why these Pfaﬃan or velocity constraints cannot be simpliﬁed to constraints on the conﬁguration variables of the system alone. Indeed, this is the topic of Chapters 7 and 8. We use our formalism to write the equations of motion for a multiﬁngered hand system. We show connections between the form of these equations and the dynamical equations for a single robot. The dynamical equations are particularly simple when the grasps are nonredundant and manipulable. In the instance that the grasps are either redundant or nonmanipulable, some substantial changes need to be made to their dynamics. Using the form of dynamical equations for the multiﬁngered hand system, we propose two separate sets of control laws which are reminiscent of those of the single robot, namely the computed torque control law and the PD control law, and prove their performance.
+A large number of multiﬁngered hands, including those involved in the study of our own musculo-skeletal system, are driven not by motors but by networks of tendons. In this case, the equations of motion need to be modiﬁed to take into account this mechanism of force generation at the joints of the ﬁngers. This chapter develops the dynamics of tendon-driven robot hands.
+Another important topic to be considered in the control of systems of many degrees of freedom, such as the multiﬁngered robot hand, is the question of the hierarchical organization of the control. The computed torque and PD control law both suﬀer from the drawback of being computationally expensive. One could conceive that a system with hundreds of degrees of freedom, such as the mammalian musculo-skeletal system, has a hierarchical organization with coarse control at the cortical level and progressively ﬁner control at the spinal and muscular level. This hierarchical organization is key to organizing a fan-out of commands from the higher to the lower levels of the hierarchy and is accompanied by a fan-in of sensor data from the muscular to the cortical level. We have tried to answer the question of how one might try to develop an environment of controllers for a multiﬁngered robotic system so as to take into account this sort of hierarchical organization by way of a sample multi-robot control programming paradigm that we have developed here.
+3.3 Nonholonomic behavior in robotic systems
+In Chapter 6, we run into the question of how to deal with the presence of Pfaﬃan constraints when writing the dynamical equations of a multiﬁngered robot hand. In that chapter, we show how to incorporate the constraints into the Lagrangian equations. However, one question that is left unanswered in that chapter is the question of trajectory planning for the system with nonholonomic constraints. In the instance of a mul-
+16
+
+tiﬁngered hand grasping an object, we give control laws for getting the grasped object to follow a speciﬁed position and orientation. However, if the ﬁngertips are free to roll on the surface of the object, it is not explicitly possible for us to control the locations to which they roll using only the tools of Chapter 6. In particular, we are not able to give control strategies for moving the ﬁngers from one contact location to another. Motivated by this observation, we begin a study of nonholonomic behavior in robotic systems in Chapter 7.
+Nonholonomic behavior can arise from two diﬀerent sources: bodies rolling without slipping on top of each other, or conservation of angular momentum during the motion. In this chapter, we expand our horizons beyond multiﬁngered robot hands and give yet other examples of nonholonomic behavior in robotic systems arising from rolling: car parking, mobile robots, space robots, and a hopping robot in the ﬂight phase. We discuss methods for classifying these systems, understanding when they are partially nonholonomic (or nonintegrable) and when they are holonomic (or integrable). These methods are drawn from some rudimentary notions of diﬀerential geometry and nonlinear control theory (controllability) which we develop in this chapter. The connection between nonholonomy of Pfaﬃan systems and controllability is one of duality, as is explained in this chapter.
+Chapter 8 contains an introduction to some methods of motion planning for systems with nonholonomic constraints. This is the study of trajectory planning for nonholonomic systems consistent with the constraints on the system. This is a very rapidly growing area of research in robotics and control. We start with an overview of existing techniques and then we specialize to some methods of trajectory planning. We begin with the role of sinusoids in generating Lie bracket motions in nonholonomic systems. This is motivated by some solutions to optimal control problems for a simple class of model systems. Starting from this class of model systems, we show how one can generalize this class of model systems to a so-called chain form variety. We then discuss more general methods for steering nonholonomic systems using piecewise constant controls and also Ritz basis functions. We apply our methods to the examples presented in the previous chapter. We ﬁnally return to the question of dynamic ﬁnger repositioning on the surface of a grasped object and give a few diﬀerent techniques for rolling ﬁngers on the surface of a grasped object from one grasp to another.
+Chapter 9 contains a description of some of the growth areas in robotics from a technological point of view. From a research and an analytical point of view, we hope that the book in itself will convince the reader of the many unexplored areas of our understanding of robotic manipulation.
+17
+
+4 Bibliography
+It is a tribute to the vitality of the ﬁeld that so many textbooks and books on robotics have been written in the last ﬁfteen years. It is impossible to do justice or indeed to list them all here. We just mention some that we are especially familiar with and apologize to those whom we omit to cite.
+One of the earliest textbooks in robotics is by Paul [90], on the mathematics, programming, and control of robots. It was followed in quick succession by the books of Gorla and Renaud [36], Craig [21], and Fu, Gonzalez and Lee [35]. The ﬁrst two concentrated on the mechanics, dynamics, and control of single robots, while the third also covered topics in vision, sensing, and intelligence in robots. The text by Spong and Vidyasagar [110] gives a leisurely discussion of the dynamics and control of robot manipulators. Also signiﬁcant is the set of books by Coiﬀet [20], Asada and Slotine [2], and Koivo [52]. As this book goes to print, we are aware also of a soon to be completed new textbook by Siciliano and Sciavicco. An excellent perspective of the development of control schemes for robots is provided by the collection of papers edited by Spong, Lewis and Abdallah [109].
+The preceding were books relevant to single robots. The ﬁrst monograph on multiﬁngered robot hands was that of Mason and Salisbury [69], which covered some details of the formulation of grasping and substantial details of the design and control of the Salisbury three-ﬁngered hand. Other books in the area since then have included the monographs by Cutkosky [22] and by Nakamura [79], and the collection of papers edited by Venkataraman and Iberall [116].
+There are a large number of collections of edited papers on robotics. Some recent ones containing several interesting papers are those edited by Brockett [13], based on the contents of a short course of the American Mathematics Society in 1990; and a collection of papers on all aspects of manipulation edited Spong, Lewis, and Abdallah [109]; and a recent collection of papers on nonholonomic motion planning edited by Li and Canny [61], based on the contents of a short course at the 1991 IEEE International Conference on Robotics and Automation.
+Not included in this brief bibliographical survey are books on computer vision or mobile robots which also have witnessed a ﬂourish of activity.
+18
+
+Chapter 2
+Rigid Body Motion
+A rigid motion of an object is a motion which preserves distance between points. The study of robot kinematics, dynamics, and control has at its heart the study of the motion of rigid objects. In this chapter, we provide a description of rigid body motion using the tools of linear algebra and screw theory.
+The elements of screw theory can be traced to the work of Chasles and Poinsot in the early 1800s. Chasles proved that a rigid body can be moved from any one position to any other by a movement consisting of rotation about a straight line followed by translation parallel to that line. This motion is what we refer to in this book as a screw motion. The inﬁnitesimal version of a screw motion is called a twist and it provides a description of the instantaneous velocity of a rigid body in terms of its linear and angular components. Screws and twists play a central role in our formulation of the kinematics of robot mechanisms.
+The second major result upon which screw theory is founded concerns the representation of forces acting on rigid bodies. Poinsot is credited with the discovery that any system of forces acting on a rigid body can be replaced by a single force applied along a line, combined with a torque about that same line. Such a force is referred to as a wrench. Wrenches are dual to twists, so that many of the theorems which apply to twists can be extended to wrenches.
+Using the theorems of Chasles and Poinsot as a starting point, Sir Robert S. Ball developed a complete theory of screws which he published in 1900 [6]. In this chapter, we present a more modern treatment of the theory of screws based on linear algebra and matrix groups. The fundamental tools are the use of homogeneous coordinates to represent rigid motions and the matrix exponential, which maps a twist into the corresponding screw motion. In order to keep the mathematical prerequisites to a minimum, we build up this theory assuming only a good knowledge of basic linear algebra. A more abstract version, using the tools of matrix
+19
+
+Lie groups and Lie algebras, can be found in Appendix A. There are two main advantages to using screws, twists, and wrenches
+for describing rigid body kinematics. The ﬁrst is that they allow a global description of rigid body motion which does not suﬀer from singularities due to the use of local coordinates. Such singularities are inevitable when one chooses to represent rotation via Euler angles, for example. The second advantage is that screw theory provides a very geometric description of rigid motion which greatly simpliﬁes the analysis of mechanisms. We will make extensive use of the geometry of screws throughout the book, and particularly in the next chapter when we study the kinematics and singularities of mechanisms.
+1 Rigid Body Transformations
+The motion of a particle moving in Euclidean space is described by giving the location of the particle at each instant of time, relative to an inertial Cartesian coordinate frame. Speciﬁcally, we choose a set of three orthonormal axes and specify the particle’s location using the triple (x, y, z) ∈ R3, where each coordinate gives the projection of the particle’s location onto the corresponding axis. A trajectory of the particle is represented by the parameterized curve p(t) = (x(t), y(t), z(t)) ∈ R3.
+In robotics, we are frequently interested not in the motion of individual particles, but in the collective motion of a set of particles, such as the link of a robot manipulator. To this end, we loosely deﬁne a perfectly rigid body as a completely “undistortable” body. More formally, a rigid body is a collection of particles such that the distance between any two particles remains ﬁxed, regardless of any motions of the body or forces exerted on the body. Thus, if p and q are any two points on a rigid body then, as the body moves, p and q must satisfy
+p(t) − q(t) = p(0) − q(0) = constant.
+A rigid motion of an object is a continous movement of the particles in the object such that the distance between any two particles remains ﬁxed at all times. The net movement of a rigid body from one location to another via a rigid motion is called a rigid displacement. In general, a rigid displacement may consist of both translation and rotation of the object.
+Given an object described as a subset O of R3, a rigid motion of an object is represented by a continuous family of mappings g(t) : O → R3 which describe how individual points in the body move as a function of time, relative to some ﬁxed Cartesian coordinate frame. That is, if we move an object along a continuous path, g(t) maps the initial coordinates of a point on the body to the coordinates of that same point at time t. A rigid displacement is represented by a single mapping g : O → R3 which
+20
+
+maps the coordinates of points in the rigid body from their initial to ﬁnal
+conﬁgurations. Given two points p, q ∈ O, the vector v ∈ R3 connecting p to q is
+deﬁned to be the directed line segment going from p to q. In coordinates this is given by v = q − p with p, q ∈ R3. Though both points and vec-
+tors are represented by 3-tuples of numbers, they are conceptually quite
+diﬀerent. A vector has a direction and a magnitude. (By the magnitude of a vector, we will mean its Euclidean norm, i.e., v12 + v22 + v32.) It is, however, not attached to the body, since there may be other pairs of points on the body, for instance r and s with q − p = s − r, for which the
+same vector v also connects r to s. A vector is sometimes called a free
+vector to indicate that it can be positioned anywhere in space without
+changing its meaning.
+The action of a rigid transformation on points induces an action on vectors in a natural way. If we let g : O → R3 represent a rigid displace-
+ment, then vectors transform according to
+
+g∗(v) = g(q) − g(p).
+
+Note that the right-hand side is the diﬀerence of two points and is hence also a vector.
+Since distances between points on a rigid body are not altered by rigid motions, a necessary condition for a mapping g : O → R3 to describe a rigid motion is that distances be preserved by the mapping. However, this condition is not suﬃcient since it allows internal reﬂections, which are not physically realizable. That is, a mapping might preserve distance but not preserve orientation. For example, the mapping (x, y, z) → (x, y, −z) preserves distances but reﬂects points in the body about the xy plane. To eliminate this possibility, we require that the cross product between vectors in the body also be preserved. We will collect these requirements to deﬁne a rigid body transformation as a mapping from R3 to R3 which represents a rigid motion:
+
+Deﬁnition 2.1. Rigid body transformation A mapping g : R3 → R3 is a rigid body transformation if it satisﬁes the following properties:
+1. Length is preserved: g(p) − g(q) = p − q for all points p, q ∈ R3.
+
+2. The cross product is preserved: g∗(v × w) = g∗(v) × g∗(w) for all vectors v, w ∈ R3.
+
+There are some interesting consequences of this deﬁnition. The ﬁrst is that the inner product is preserved by rigid body transformations. One way to show this is to use the polarization identity,
+
+v1T v2
+
+=
+
+1 4
+
+(||v1
+
++
+
+v2||2
+
+−
+
+||v1
+
+−
+
+v2||2),
+
+21
+
+and the fact that
+
+v1 + v2 = g∗(v1) + g∗(v2)
+
+v1 − v2 = g∗(v1) − g∗(v2)
+
+to conclude that for any two vectors v1, v2,
+v1T v2 = g∗(v1)T g∗(v2).
+In particular, orthogonal vectors are transformed to orthogonal vectors. Coupled with the fact that rigid body transformations also preserve the cross product (property 2 of the deﬁnition above), we see that rigid body transformations take orthonormal coordinate frames to orthonormal coordinate frames.
+The fact that the distance between points and cross product between vectors is ﬁxed does not mean that it is inadmissible for particles in a rigid body to move relative to each other, but rather that they can rotate but not translate with respect to each other. Thus, to keep track of the motion of a rigid body, we need to keep track of the motion of any one particle on the rigid body and the rotation of the body about this point. In order to do this, we represent the conﬁguration of a rigid body by attaching a Cartesian coordinate frame to some point on the rigid body and keeping track of the motion of this body coordinate frame relative to a ﬁxed frame. The motion of the individual particles in the body can then be retrieved from the motion of the body frame and the motion of the point of attachment of the frame to the body. We shall require that all coordinate frames be right-handed: given three orthonormal vectors x, y, z ∈ R3 which deﬁne a coordinate frame, they must satisfy z = x × y.
+Since a rigid body transformation g : R3 → R3 preserves the cross product, right-handed coordinate frames are transformed to right-handed coordinate frames. The action of a rigid transformation g on the body frame describes how the body frame rotates as a consequence of the rigid motion. More precisely, if we describe the conﬁguration of a rigid body by the right-handed frame given by the vectors v1, v2, v3 attached to a point p, then the conﬁguration of the rigid body after the rigid body transformation g is given by the right-handed frame of vectors g∗(v1), g∗(v2), g∗(v3) attached to the point g(p).
+The remainder of this chapter is devoted to establishing more detailed properties, characterizations, and representations of rigid body transformations and providing the necessary mathematical preliminaries used in the remainder of the book.
+
+2 Rotational Motion in R3
+We begin the study of rigid body motion by considering, at the outset, only the rotational motion of an object. We describe the orientation of
+
+22
+
+q
+
+z zab
+
+xab y
+
+x
+
+yab
+
+Figure 2.1: Rotation of a rigid object about a point. The dotted coordinate frame is attached to the rotating rigid body.
+
+the body by giving the relative orientation between a coordinate frame attached to the body and a ﬁxed or inertial coordinate frame. From now on, all coordinate frames will be right-handed unless stated otherwise. Let A be the inertial frame, B the body frame, and xab, yab, zab ∈ R3 the coordinates of the principal axes of B relative to A (see Figure 2.1). Stacking these coordinate vectors next to each other, we deﬁne a 3 × 3 matrix:
+Rab = xab yab zab .
+We call a matrix constructed in this manner a rotation matrix: every rotation of the object relative to the ground corresponds to a matrix of this form.
+
+2.1 Properties of rotation matrices
+
+A rotation matrix has two key properties that follow from its construc-
+
+tion. Let R ∈ R3×3 be a rotation matrix and r1, r2, r3 ∈ R3 be its columns. Since the columns of R are mutually orthonormal, it follows
+
+that
+
+riT rj =
+
+0, 1,
+
+if i = j if i = j.
+
+As conditions on the matrix R, these properties can be written as
+
+RRT = RT R = I.
+
+(2.1)
+
+From this it follows that
+
+det R = ±1.
+
+To determine the sign of the determinant of R, we recall from linear
+
+algebra that
+
+det R = r1T (r2 × r3).
+
+23
+
+Since the coordinate frame is right-handed, we have that r2 × r3 = r1 so that det R = r1T r1 = 1. Thus, coordinate frames corresponding to righthanded frames are represented by orthogonal matrices with determinant
+
+1. The set of all 3 × 3 matrices which satisfy these two properties is
+
+denoted SO(3). The notation SO abbreviates special orthogonal. Special
+
+refers to the fact that det R = +1 rather than ±1.
+
+More generally, we may deﬁne the space of rotation matrices in Rn×n
+
+by
+
+SO(n) = {R ∈ Rn×n : RRT = I, det R = +1}.
+
+(2.2)
+
+We will be primarily interested in n = 3, although the n = 2 case (planar
+rotations) will also prove useful and is explored in the exercises. SO(3) ⊂ R3×3 is a group under the operation of matrix multiplication.
+A set G together with a binary operation ◦ deﬁned on elements of G is called a group if it satisﬁes the following axioms:
+
+1. Closure: If g1, g2 ∈ G, then g1 ◦ g2 ∈ G.
+
+2. Identity: There exists an identity element, e, such that g ◦ e = e ◦ g = g for every g ∈ G.
+
+3. Inverse: For each g ∈ G, there exists a (unique) inverse, g−1 ∈ G, such that g ◦ g−1 = g−1 ◦ g = e.
+
+4. Associativity: If g1, g2, g3 ∈ G, then (g1 ◦ g2) ◦ g3 = g1 ◦ (g2 ◦ g3).
+
+In the instance of SO(3), note that
+
+1. If R1, R2 ∈ SO(3), then R1R2 ∈ SO(3) since
+
+R1R2(R1R2)T = R1R2R2T R1T = R1R1T = I det(R1R2) = det(R1) det(R2) = +1.
+
+2. The identity matrix is the identity element.
+3. By equation (2.1) it follows that the inverse of R ∈ SO(3) is RT ∈ SO(3).
+4. The associativity of the group operation follows from the associativity of matrix multiplication; that is, (R1R2)R3 = R1(R2R3).
+Thus, SO(3) is a group using the identity matrix I as the identity element and matrix multiplication as the group operation. We refer to SO(3) as the rotation group of R3.
+Every conﬁguration of a rigid body that is free to rotate relative to a ﬁxed frame can be identiﬁed with a unique R ∈ SO(3). Under this identiﬁcation, the rotation group SO(3) is referred to as the conﬁguration space of the system and a trajectory of the system is a curve R(t) ∈ SO(3)
+
+24
+
+for t ∈ [0, T ]. More generally, we shall call a set Q a conﬁguration space for a system if every element x ∈ Q corresponds to a valid conﬁguration of the system and each conﬁguration of the system can be identiﬁed with a unique element of Q.
+A rotation matrix R ∈ SO(3) also serves as a transformation, taking coordinates of a point from one frame to another. Consider the point q shown in Figure 2.1. Let qb = (xb, yb, zb) be the coordinates of q relative to frame B. The coordinates of q relative to frame A can be computed as follows: since xb, yb, zb ∈ R are projections of q onto the coordinate axes of B, which, in turn, have coordinates xab, yab, zab ∈ R3 with respect to A, the coordinates of q relative to frame A are given by
+
+qa = xabxb + yabyb + zabzb.
+This can be rewritten as  xb
+qa = xab yab zab yb  = Rabqb. zb
+In other words, Rab, when considered as a map from R3 to R3, rotates the coordinates of a point from frame B to frame A.
+The action of a rotation matrix on a point can be used to deﬁne the action of the rotation matrix on a vector. Let vb be a vector in the frame B deﬁned as vb = qb − pb. Then,
+Rab(vb) := Rabqb − Rabpb = qa − pa = va.
+Since matrix multiplication is linear, it may be veriﬁed that if vb = qb − pb = sb − rb then we still have that
+Rabsb − Rabrb = Rabqb − Rabpb = va
+
+and hence the action of Rab on a vector is well deﬁned. Rotation matrices can be combined to form new rotation matrices
+using matrix multiplication. If a frame C has orientation Rbc relative to a frame B, and B has orientation Rab relative to another frame A, then the orientation of C relative to A is given by
+
+Rac = RabRbc.
+
+(2.3)
+
+Rac, when considered as a map from R3 to R3, rotates the coordinates of a point from frame C to frame A by ﬁrst rotating from C to B and then from B to A. Equation (2.3) is the composition rule for rotations.
+A rotation matrix represents a rigid body transformation in the sense of the deﬁnition of the previous section. This is to say, it preserves distance and orientation. We prove this using some algebraic properties
+
+25
+
+of the cross product operation between two vectors. Recall that the cross product between two vectors a, b ∈ R3 is deﬁned as
+
+
+
+
+
+a2b3 − a3b2
+
+a × b = a3b1 − a1b3 .
+
+a1b2 − a2b1
+
+Since the cross product by a is a linear operator, b → a × b may be represented using a matrix. Deﬁning
+
+
+
+
+
+0 −a3 a2
+
+(a)∧ =  a3 0 −a1 ,
+
+−a2 a1 0
+
+(2.4)
+
+we can write
+
+a × b = (a)∧b.
+
+We will often use the notation a as a replacement for (a)∧.
+
+(2.5)
+
+Lemma 2.1. Given R ∈ SO(3) and v, w ∈ R3, the following properties hold:
+
+R(v × w) = (Rv) × (Rw) R(w)∧RT = (Rw)∧.
+
+(2.6) (2.7)
+
+The ﬁrst property in the lemma asserts that rotation by the matrix R commutes with the cross product operation; that is, the rotation of the cross product of two vectors is the cross product of the rotation of each of the vectors by R. The second property has an interpretation in terms of rotation of an instantaneous axis of rotation, which will become clear shortly. For now, we will merely use it as an algebraic fact. The proof of the lemma is by calculation.
+Proposition 2.2. Rotations are rigid body transformations A rotation R ∈ SO(3) is a rigid body transformation; that is,
+1. R preserves distance: Rq − Rp = q − p for all q, p ∈ R3.
+2. R preserves orientation: R(v × w) = Rv × Rw for all v, w ∈ R3.
+Proof. Property 1 can be veriﬁed by direct calculation:
+Rq − Rp 2 = (R(q − p))T (R(q − p)) = (q − p)T RT R(q − p) = (q − p)T (q − p) = q − p 2.
+
+Property 2 follows from equation (2.6).
+
+26
+
+ω q(t) q(0)
+
+Figure 2.2: Tip point trajectory generated by rotation about the ω-axis.
+
+2.2 Exponential coordinates for rotation
+A common motion encountered in robotics is the rotation of a body about a given axis by some amount. For example, we might wish to describe the rotation of the link of a robot about a ﬁxed axis, as shown in Figure 2.2. Let ω ∈ R3 be a unit vector which speciﬁes the direction of rotation and let θ ∈ R be the angle of rotation in radians. Since every rotation of the object corresponds to some R ∈ SO(3), we would like to write R as a function of ω and θ.
+To motivate our derivation, consider the velocity of a point q attached to the rotating body. If we rotate the body at constant unit velocity about the axis ω, the velocity of the point, q˙, may be written as
+
+q˙(t) = ω × q(t) = ωq(t).
+
+(2.8)
+
+This is a time-invariant linear diﬀerential equation which may be integrated to give
+q(t) = eωbtq(0),
+
+where q(0) is the initial (t = 0) position of the point and eωbt is the matrix
+
+exponential
+
+eωbt
+
+=
+
+I
+
++
+
+ωt
+
++
+
+(ωt)2 2!
+
++
+
+(ωt)3 3!
+
++
+
+···
+
+It follows that if we rotate about the axis ω at unit velocity for θ units of time, then the net rotation is given by
+
+R(ω, θ) = eωbθ.
+
+(2.9)
+
+From its deﬁnition, it is easy to see that the matrix ω is a skewsymmetric matrix, i.e., it satisﬁes ωT = −ω. The vector space of all 3 × 3
+
+27
+
+skew matrices is denoted so(3) and more generally the space of n × n skew-symmetric matrices is
+
+so(n) = {S ∈ Rn×n : ST = −S}.
+
+(2.10)
+
+(The reason for the notation so(n) will become clear shortly.) As with SO(n), the cases we are interested in are n = 2 and n = 3. We concentrate on n = 3 here and explore n = 2 in the exercises.
+The set so(3) ⊂ R3×3 is a vector space over the reals. Thus, the sum of two elements of so(3) is an element of so(3) and the scalar multiple of any element of so(3) is an element of so(3). Furthermore, we can identify so(3) with R3 using the relationship (2.4) and the fact (v + w)∧ = v + w.
+It will be convenient to represent a skew-symmetric matrix as the product of a unit skew-symmetric matrix and a real number. Given a matrix ω ∈ so(3), ω = 1, and a real number θ ∈ R, we write the exponential of ωθ as
+
+exp(ωθ)
+
+=
+
+eωbθ
+
+=
+
+I
+
++
+
+θω
+
++
+
+θ2 2!
+
+ω2
+
++
+
+θ3 3!
+
+ω3
+
++
+
+.
+
+.
+
+.
+
+(2.11)
+
+Equation (2.11) is an inﬁnite series and, hence, not useful from a computational standpoint. To obtain a closed-form expression for exp(ωθ), we make use of the following formulas for powers of a, which are veriﬁed by direct calculation.
+
+Lemma 2.3. Given a ∈ so(3), the following relations hold:
+
+a2 = aaT − a 2I a3 = − a 2a
+
+(2.12) (2.13)
+
+and higher powers of a can be calculated recursively.
+
+Utilizing this lemma with a = ωθ, ω = 1, equation (2.11) becomes
+
+eωbθ = I +
+
+θ
+
+−
+
+θ3 3!
+
++
+
+θ5 5!
+
+−···
+
+ω+
+
+θ2 2!
+
+−
+
+θ4 4!
+
++
+
+θ6 6!
+
+−
+
+···
+
+ω2
+
+and hence
+
+eωbθ = I + ω sin θ + ω2(1 − cos θ)
+
+(2.14)
+
+This formula, commonly referred to as Rodrigues’ formula, gives an eﬃcient method for computing exp(ωθ). When ω = 1, it may be veriﬁed (see Exercise 12) that
+
+eωbθ = I +
+
+ω ω
+
+sin( ω θ) +
+
+ω2 ω2
+
+1 − cos(
+
+ω
+
+θ)
+
+.
+
+We now verify that exp(ωθ) is indeed a rotation matrix.
+
+28
+
+Proposition 2.4. Exponentials of skew matrices are orthogonal Given a skew-symmetric matrix ω ∈ so(3) and θ ∈ R,
+eωbθ ∈ SO(3).
+
+Proof. Deﬁning R := exp(ωθ), we must verify that RT R = I and det R = +1. To verify the ﬁrst property, we have the following chain of equalities, which can be checked using equation (2.14),
+
+eωbθ −1 = e−ωbθ = eωbT θ =
+
+eωbθ
+
+T
+.
+
+Thus R−1 = RT and consequently RT R = I as desired. From this, it follows that det R = ±1. Using the continuity of the determinant as a function of the entries of a matrix, combined with continuity of the exponential map and the fact that det exp(0) = 1, we conclude that det R = +1.
+
+Proposition 2.4 asserts that the exponential map transforms skewsymmetric matrices into orthogonal matrices. Geometrically, the skewsymmetric matrix corresponds to an axis of rotation (via the mapping ω → ω) and the exponential map generates the rotation corresponding to rotation about the axis by a speciﬁed amount θ. This relationship between skew-symmetric matrices and orthogonal matrices explains, in part, the notation so(3). We will now show that every rotation matrix can be represented as the matrix exponential of some skew-symmetric matrix; that is, the map exp : so(3) → SO(3) is surjective (onto).
+
+Proposition 2.5. The exponential map is surjective onto SO(3) Given R ∈ SO(3), there exists ω ∈ R3, ω = 1 and θ ∈ R such that
+R = exp(ωθ).
+
+Proof. The proof is constructive. We equate terms of R and exp(ωθ) and solve the corresponding equations. By way of notation, we have the rotation matrix R to be
+
+
+
+
+
+r11 r12 r13
+
+R = r21 r22 r23 .
+
+r31 r32 r33
+
+(2.15)
+
+Deﬁning vθ = 1 − cos θ, cθ = cos θ, and sθ = sin θ, write equation (2.14)
+
+29
+
+as
+
+eωbθ = I + ω sin θ + ω2(1 − cos θ)
+
+ 1
+
+−
+
+vθ (ω22
+
++
+
+ω32)
+
+ω1ω2vθ − ω3sθ
+
+ ω1ω3vθ + ω2sθ
+
+=  ω1ω2vθ + ω3sθ 1 − vθ(ω12 + ω32) ω2ω3vθ − ω1sθ 
+
+
+
+ω1ω3vθ − ω2sθ ω12vθ + cθ
+
+ω2ω3vθ + ω1sθ 1 − vθ(ω12 +ω22) ω1ω2vθ − ω3sθ ω1ω3vθ + ω2sθ
+
+= ω1ω2vθ + ω3sθ
+
+ω22vθ + cθ
+
+ω2ω3vθ − ω1sθ .
+
+ω1ω3vθ − ω2sθ ω2ω3vθ + ω1sθ
+
+ω32vθ + cθ
+
+Equating (2.15) with (2.16), we see that
+
+(2.16)
+
+trace(R) = r11 + r22 + r33 = 1 + 2 cos θ.
+
+To verify that this equation has a solution, we recall that the trace of
+
+R is equal to the sum of its eigenvalues. Since R preserves lengths and
+
+det R = +1, its eigenvalues have magnitude 1 and occur in complex
+
+conjugate pairs (see Exercise 3). It follows that −1 ≤ trace(R) ≤ 3 and
+
+hence we can set
+
+θ = cos−1
+
+trace(R) − 1 2
+
+.
+
+(2.17)
+
+Note that there is an ambiguity in the value of θ, in the sense that θ ±2πn or −θ ± 2πn could be chosen as well.
+Now, equating the oﬀ-diagonal terms of R and exp(ωθ), we get
+
+r32 − r23 = 2ω1sθ r13 − r31 = 2ω2sθ r21 − r12 = 2ω3sθ.
+
+If θ = 0, we choose
+
+
+
+
+
+ω
+
+=
+
+1 2sθ
+
+r32 r13
+r21
+
+− − −
+
+r23 r31 . r12
+
+(2.18)
+
+Note that if 2π − θ had been chosen earlier in equation (2.17), the axis of rotation would have been −ω. Indeed, the exponential map is a manyto-one map from R3 onto SO(3). If R = I, then trace(R) = 3 and hence
+θ = 0 and ω can be chosen arbitrarily. If R = I, the above construction shows that there are two distinct ω and θ ∈ [0, 2π) such that R = exp(ωθ).
+
+The components of the vector ωθ ∈ R3 given by equations (2.17) and (2.18) are called the exponential coordinates for R. Considering ω ∈ R3 to be an axis of rotation with unit magnitude and θ ∈ R to be an angle,
+Propositions 2.4 and 2.5 combine to give the following classic theorem.
+
+30
+
+Theorem 2.6 (Euler). Any orientation R ∈ SO(3) is equivalent to a rotation about a ﬁxed axis ω ∈ R3 through an angle θ ∈ [0, 2π).
+This method of representing a rotation is also known as the equivalent axis representation. We note from the preceding proof that this representation is not unique since choosing ω′ = −ω and θ′ = 2π − θ gives the same rotation as ω and θ. Furthermore, if we insist that ω have unit magnitude, then ω is arbitrary for R = I (by choosing θ = 0). The former problem is a consequence of the exponential map being many-to-one and the latter is referred to as a singularity of the equivalent axis representation, alluding to the fact that one may lose smooth dependence of the equivalent axis as a function of the orientation R at R = I.
+
+2.3 Other representations
+The exponential coordinates are called the canonical coordinates of the rotation group. Other coordinates for the rotation group also exist and are brieﬂy described below and in the exercises. We emphasize the connection of these other representations with the exponential coordinates presented above; more classical treatments of these representations can be found in standard kinematics texts.
+
+Euler angles
+
+One method of describing the orientation of a coordinate frame B relative
+
+to another coordinate frame A is as follows: start with frame B coincident
+
+with frame A. First, rotate the B frame about the z-axis of frame B (at
+
+this time coincident with frame A) by an angle α, then rotate about the
+
+(new) y-axis of frame B by an angle β, and then rotate about the (once
+
+again, new) z-axis of frame B by an angle γ. This yields a net orientation
+
+Rab(α, β, γ) and the triple of angles (α, β, γ) is used to represent the
+
+rotation.
+
+The angles (α, β, γ) are called the ZYZ Euler angles. Since all ro-
+
+tations are performed about the principal axes of the moving frame, we
+
+deﬁne the following elementary rotations about the x-, y-, and z-axes:
+
+ 1
+Rx(φ) := exbφ = 0 0
+
+0 cos φ sin φ
+
+ 0 − sin φ ,
+cos φ
+
+
+
+
+
+cos β 0 sin β
+
+Ry(β) := eybβ =  0 1 0  ,
+
+− sin β 0 cos β
+
+and
+
+
+
+
+
+cos α − sin α 0
+
+Rz(α) := ebzα = sin α cos α 0 .
+
+0
+
+01
+
+31
+
+To derive the ﬁnal orientation of frame B, it is easiest to derive the formula by viewing the rotation with B considered as the ﬁxed frame, since then all rotations then occur around ﬁxed axes. The appropriate sequence of rotations for the frame A, considering the B frame as ﬁxed, is
+Rba = Rz(−γ)Ry(−β)Rz(−α).
+Inverting this expression gives the rotation matrix of B relative to A:
+
+Rab = Rz(α)Ry(β)Rz(γ) cαcβcγ − sαsγ −cαcβsγ − sαcγ
+
+= sαcβcγ + cαsγ −sαcβsγ + cαcγ
+
+−sβ cγ
+
+sβ sγ
+
+ cαsβ sαsβ .
+cβ
+
+(2.19)
+
+Here cα, sα are abbreviations for cos α and sin α, respectively, and similarly for the other terms.
+It is clear that any matrix of the form in equation (2.19) is an orthogonal matrix (since it is a composition of elementary rotations). As in the case of the exponential map, the converse question of whether the map from (α, β, γ) → SO(3) is surjective is an important one. The answer to this question is aﬃrmative: given a rotation R ∈ SO(3), the Euler angles can be computed by solving equation (2.19) for α, β, and γ. For example, when sin β = 0, the solutions are
+
+β = atan2( r321 + r322, r33) α = atan2(r23/sβ, r13/sβ) γ = atan2(r32/sβ, −r31/sβ),
+
+(2.20)
+
+where atan2(y, x) computes tan−1(y/x) but uses the sign of both x and y to determine the quadrant in which the resulting angle lies.
+ZYZ Euler angles are an example of a local parameterization of SO(3). As in the case of the equivalent axis representation, singularities in the parameterization (referring to the lack of existence of global, smooth solutions to the inverse problem of determining the Euler angles from the rotation) occur at R = I, the identity rotation. In particular, we note that (α, β, γ) of the form (α, 0, −α) yields Rab(α, 0, −α) = I. Thus, there are inﬁnitely many representations of the identity rotation in the ZYZ Euler angles parameterization.
+Other types of Euler angle parameterizations may be devised by using diﬀerent ordered sets of rotation axes. Common choices include ZYX axes (Fick angles) and YZX axes (Helmholtz angles). The ZYX Euler angles are also referred to as the yaw, pitch, and roll angles, with Rab deﬁned by rotating about the x-axis in the body frame (roll), then the y-axis in the body frame (pitch), and ﬁnally the z-axis in the body frame (yaw). Both the ZYX and YZX Euler angle parameterizations have the advantage of
+
+32
+
+not having a singularity at the identity orientation, R = I, though they do contain singularities at other, diﬀerent, orientations. For example, in the instance of ZYX Euler angles, we have:
+Rab = Rz(ψ)Ry(θ)Rx(φ) = ebzψeybθexbφ,
+which is singular when θ = −π/2. It is a fundamental topological fact that singularities can never be eliminated in any 3-dimensional representation of SO(3). This situation is similar to that of attempting to ﬁnd a global coordinate chart on a sphere, which also fails.
+Quaternions
+Quaternions generalize complex numbers and can be used to represent rotations in much the same way as complex numbers on the unit circle can be used to represent planar rotations. Unlike Euler angles, quaternions give a global parameterization of SO(3), at the cost of using four numbers instead of three to represent a rotation.
+Formally, a quaternion is a vector quantity of the form
+Q = q0 + q1i + q2j + q3k qi ∈ R, i = 0, . . . , 3,
+where q0 is the scalar component of Q and q = (q1, q2, q3) is the vector component. A convenient shorthand notation is Q = (q0, q ) with q0 ∈ R, q ∈ R3. The set of quaternions Q is a 4-dimensional vector space over the reals and forms a group with respect to quaternion multiplication, denoted “·”. Multiplication is distributive and associative, but not commutative; it satisﬁes the relations
+ai = ia aj = ja ak = ka a ∈ R i · i = j · j = k · k = i · j · k = −1
+i · j = −j · i = k j · k = −k · j = i k · i = −i · k = j
+The conjugate of a quaternion Q = (q0, q ) is given by Q∗ = (q0, −q ) and the magnitude of a quaternion satisﬁes
+Q 2 = Q · Q∗ = q02 + q12 + q22 + q32.
+It is straightforward to verify that the inverse of a quaternion is Q−1 = Q∗/ Q 2 and that Q = (1, 0) is the identity element for quaternion multiplication.
+The product between two quaternions has a simple form in terms of the inner and cross products between vectors in R3. Let Q = (q0, q ) and P = (p0, p ) be quaternions, where q0, p0 ∈ R are the scalar parts of Q and P and q, p are the vector parts. It can be shown algebraically that the product of two quaternions satisﬁes:
+Q · P = (q0p0 − q · p, q0p + p0q + q × p ).
+33
+
+In most applications, this formula eliminates the need to make direct use of the multiplicative relations given above.
+The unit quaternions are the subset of all Q ∈ Q such that Q = 1. The unit quaternions also form a group with respect to quaternion multiplication (Exercise 6). Given a rotation matrix R = exp(ωθ), we deﬁne the associated unit quaternion as
+
+Q = cos(θ/2), ω sin(θ/2) ,
+
+where ω ∈ R3 represents the unit axis of rotation and θ ∈ R represents the angle of rotation. A detailed calculation shows that if Qab represents a rotation between frame A and frame B, and Qbc represents a rotation between frames B and C, then the rotation between A and C is given by the quaternion
+Qac = Qab · Qbc.
+Thus, the group operation on unit quaternions directly corresponds to the group operation for rotations. Given a unit quaternion Q = (q0, q ), we can extract the corresponding rotation by setting
+
+θ = 2 cos−1 q0
+
+ω=
+
+q sin(θ/2)
+
+if θ = 0,
+
+0
+
+otherwise,
+
+and R = exp(ωθ). Since the group structure for quaternions directly corresponds to that
+of rotations, quaternions provide an eﬃcient representation for rotations which do not suﬀer from singularities. Their properties are explored more fully in the exercises.
+
+3 Rigid Motion in R3
+Recall from Section 1 that a rigid motion is one that preserves the distance between points and the angle between vectors. We represent rigid motions by using rigid body transformations to describe the instantaneous position and orientation of a body coordinate frame relative to an inertial frame. This representation relies on the fact that rigid body transformations map right-handed, orthonormal frames to right-handed, orthonormal frames, thus preserving distance and angles. In this book we refer to all transformations between coordinate frames as rigid body transformations (or just rigid transformations), whether or not a rigid body is explicitly present.
+In general, rigid motions consist of rotation and translation. In the preceding section, we discussed representations of pure rotational motion. The procedure for representing pure translational motion is very simple: choose a (any) point in the body and keep track of the coordinates of the
+
+34
+
+z q
+
+y
+
+z
+
+B
+
+pab
+
+x
+
+y A
+
+x
+
+gab
+
+Figure 2.3: Coordinate frames for specifying rigid motions.
+
+point relative to some known frame. This gives a curve p(t) ∈ R3, t ∈ [0, T ], for a trajectory of the entire rigid body.
+The representation of general rigid body motion, involving both translation and rotation, is more involved. We describe the position and orientation of a coordinate frame B attached to the body relative to an inertial frame A (see Figure 2.3). Let pab ∈ R3 be the position vector of the origin of frame B from the origin of frame A, and Rab ∈ SO(3) the orientation of frame B, relative to frame A. A conﬁguration of the system consists of the pair (pab, Rab), and the conﬁguration space of the system is the product space of R3 with SO(3), which shall be denoted as SE(3) (for special Euclidean group):
+
+SE(3) = {(p, R) : p ∈ R3, R ∈ SO(3)} = R3 × SO(3).
+
+(2.21)
+
+We defer the proof of the fact that SE(3) is a group to the next subsection. As in the case of SO(3), there is a generalization to n dimensions,
+
+SE(n) := Rn × SO(n).
+
+Analogous to the rotational case, an element (p, R) ∈ SE(3) serves as
+
+both a speciﬁcation of the conﬁguration of a rigid body and a transforma-
+
+tion taking the coordinates of a point from one frame to another. More
+
+precisely, let qa, qb ∈ R3 be the coordinates of a point q relative to frames
+
+A and B, respectively. Given qb, we can ﬁnd qa by a transformation of
+
+coordinates:
+
+qa = pab + Rabqb
+
+(2.22)
+
+where gab = (pab, Rab) ∈ SE(3) is the speciﬁcation of the conﬁguration of the B frame relative to the A frame. By an abuse of notation, we write g(q) to denote the action of a rigid transformation on a point,
+
+g(q) = p + Rq,
+
+35
+
+so that qa = gab(qb). The action of a rigid transformation g = (p, R) on a vector v = s − r
+is deﬁned by the following formula:
+g∗(v) := g(s) − g(r) = R(s − r) = Rv.
+Thus, a vector is transformed by rotation.
+
+3.1 Homogeneous representation
+
+The transformation of points and vectors by rigid transformations has a simple representation in terms of matrices and vectors in R4. We begin
+
+by adopting some notation. We append 1 to the coordinates of a point to yield a vector in R4,
+q¯ = qqq132 .
+1
+
+These are called the homogeneous coordinates of the point q. Thus, the
+
+origin has the form
+
+O¯ =
+
+0 0 0
+
+.
+
+1
+
+Vectors, which are the diﬀerence of points, then have the form
+
+v¯ = vvv132 .
+0
+
+Note that the form of the vector is diﬀerent from that of a point. The 0 and 1 in the fourth component of vectors and points, respectively, will remind us of the diﬀerence between points and vectors and enforce a few rules of syntax:
+
+1. Sums and diﬀerences of vectors are vectors.
+
+2. The sum of a vector and a point is a point.
+
+3. The diﬀerence between two points is a vector.
+
+4. The sum of two points is meaningless.
+
+The transformation qa = gab(qb) given in equation (2.22) is an aﬃne transformation. Using the preceding notation for points, we may represent it in linear form by writing it as
+
+q¯a =
+
+qa 1
+
+=
+
+Rab 0
+
+pab 1
+
+qb 1
+
+=: g¯abq¯b.
+
+The 4 × 4 matrix g¯ab is called the homogeneous representation of gab ∈ SE(3). In general, if g = (p, R) ∈ SE(3), then
+
+g¯ =
+
+R 0
+
+p 1
+
+.
+
+(2.23)
+
+36
+
+The price to be paid for the convenience of having a homogeneous or linear representation of the rigid body motion is the increase in the dimension of the quantities involved from 3 to 4.
+The last row of the matrix of equation (2.23) appears to be “extra baggage” as well. However, in the graphics literature, the number 1 is frequently replaced by a scalar constant which is either greater than 1 to represent dilation or less than 1 to represent contraction. Also, the row vector of zeros in the last row may be replaced by some other row vector to provide “perspective transformations.” In both these instances, of course, the transformation represented by the augmented matrix no longer corresponds to a rigid displacement.
+Rigid body transformations can be composed to form new rigid body transformations. Let gbc ∈ SE(3) be the conﬁguration of a frame C relative to a frame B, and gab the conﬁguration of frame B relative to another frame A. Then, using equation (2.23), the conﬁguration of C relative to frame A is given by
+
+g¯ac = g¯ab g¯bc =
+
+RabRbc 0
+
+Rabpbc + pab 1
+
+.
+
+(2.24)
+
+Equation (2.24) deﬁnes the composition rule for rigid body transformations to be the standard matrix multiplication. Using the homogeneous representation, it may be veriﬁed that the set of rigid transformations is a group; that is:
+1. If g1, g2 ∈ SE(3), then g1g2 ∈ SE(3).
+2. The 4 × 4 identity element, I, is in SE(3).
+
+3. If g ∈ SE(3), then the inverse of g¯ is determined by straightforward matrix inversion to be:
+
+g¯−1 =
+
+RT 0
+
+−RT p 1
+
+∈ SE(3)
+
+so that g−1 = (−RT p, RT ).
+
+4. The composition rule for rigid body transformations is associative.
+
+Using the homogeneous representation for a vector v = s−r, we obtain
+
+the representation for a rigid body transformation of v by multiplying the
+
+homogeneous representations of v by the homogeneous representation of
+
+g,
+
+g¯∗v¯ = g¯(s¯) − g¯(r¯) =
+
+R 0
+
+p 1
+
+. vvv213
+0
+
+Note that by deﬁning the homogeneous representation of a vector to have
+
+a zero in the bottom row, we are able to once again use matrix multi-
+
+plication to represent the action of a rigid transformation, this time on
+
+37
+
+θ z
+
+Ay
+
+B
+
+x
+
+l1
+Figure 2.4: Rigid body motion generated by rotation about a ﬁxed axis.
+a vector instead of a point. For notational simplicity, in what follows we will confuse homogeneous representations and the abstract representation of points, vectors, and rigid body transformations. Thus, we will write gq and gv instead of g¯q¯ and g¯∗v¯.
+The next proposition establishes that elements of SE(3) are indeed rigid body transformations; namely, that they preserve angles between vectors and distances between points. Proposition 2.7. Elements of SE(3) represent rigid motions Any g ∈ SE(3) is a rigid body transformation:
+1. g preserves distance between points: gq − gp = q − p for all points q, p ∈ R3.
+2. g preserves orientation between vectors: g∗(v × w) = g∗v × g∗w for all vectors v, w ∈ R3.
+Proof. The proofs follow directly from the corresponding proofs for rotation matrices:
+gq1 − gq2 = Rq1 − Rq2 = q1 − q2 g∗v × g∗w = Rv × Rw = R(v × w).
+Example 2.1. Rotation about a line Consider the motion of a rigid body rotated about a line in the z direction, through the point (0, l1, 0) ∈ R3, as shown in Figure 2.4. If we let θ denote
+38
+
+the amount of rotation, then the orientation of coordinate frame B with
+
+respect to A is
+
+
+
+
+
+cos θ − sin θ 0
+
+Rab = sin θ cos θ 0 .
+
+0
+
+01
+
+The coordinates for the origin of frame B are
+ 0
+pab = l1 , 0
+
+again relative to frame A. The homogeneous representation of the con-
+
+ﬁguration of the rigid body is given by
+
+
+
+
+
+cos θ − sin θ 0 0
+
+gab(θ) = sin0 θ
+
+cos θ 0
+
+0 1
+
+l1 0
+
+
+
+.
+
+0
+
+0 01
+
+Note that when the angle θ = 0, gab(0) gives that the relative displacement between the two frames is a pure translation along the y-axis.
+
+3.2 Exponential coordinates for rigid motion and twists
+
+The notion of the exponential mapping introduced in Section 2 for SO(3) can be generalized to the Euclidean group, SE(3). We will make extensive use of this representation in the sequel since it allows an elegant, rigorous, and geometric treatment of spatial rigid body motion. We begin by presenting a pair of motivational examples and then present a formal set of deﬁnitions.
+Consider the simple example of a one-link robot as shown in Figure 2.5a, where the axis of rotation is ω ∈ R3, ω = 1, and q ∈ R3 is a point on the axis. Assuming that the link rotates with unit velocity, then the velocity of the tip point, p(t), is
+
+p˙(t) = ω × (p(t) − q).
+
+(2.25)
+
+This equation can be conveniently converted into homogeneous coordinates by deﬁning the 4 × 4 matrix ξ to be
+
+ξ=
+
+ω 0
+
+v 0
+
+,
+
+(2.26)
+
+with v = −ω × q. Equation (2.25) can then be rewritten with an extra row appended to it as
+
+p˙ 0
+
+=
+
+ω 0
+
+−ω × q 0
+
+p 1
+
+=ξ
+
+p 1
+
+=⇒ p¯˙ = ξp¯.
+
+39
+
+ω
+
+p(t)
+
+q
+
+p
+
+v p(t)
+p
+
+(a)
+
+(b)
+
+Figure 2.5: (a) A revolute joint and (b) a prismatic joint.
+
+The solution of the diﬀerential equation is given by
+
+p¯(t) = eξbtp¯(0),
+
+where eξbt is the matrix exponential of the 4 × 4 matrix ξt, deﬁned (as
+
+usual) by
+
+eξbt
+
+=
+
+I
+
++
+
+ξt
+
++
+
+(ξt)2 2!
+
++
+
+(ξt)3 3!
+
++
+
+···
+
+The scalar t is the total amount of rotation (since we are rotating with
+
+unit velocity). exp(ξt) is a mapping from the initial location of a point
+
+to its location after rotating t radians.
+
+In a similar manner, we can represent the transformation due to trans-
+
+lational motion as the exponential of a 4 × 4 matrix. The velocity of a
+
+point attached to a prismatic joint moving with unit velocity (see Fig-
+
+ure 2.5b) is
+
+p˙(t) = v.
+
+(2.27)
+
+Again, the solution of equation (2.27) can be written as exp(ξt)p¯(0), where t is the total amount of translation and
+
+ξ=
+
+0 0
+
+v 0
+
+.
+
+(2.28)
+
+The 4 × 4 matrix ξ given in equations (2.26) and (2.28) is the generalization of the skew-symmetric matrix ω ∈ so(3). Analogous to the deﬁnition of so(3), we deﬁne
+
+se(3) := {(v, ω) : v ∈ R3, ω ∈ so(3)}.
+
+(2.29)
+
+In homogeneous coordinates, we write an element ξ ∈ se(3) as
+
+ξ=
+
+ω 0
+
+v 0
+
+∈ R4×4.
+
+40
+
+An element of se(3) is referred to as a twist, or a (inﬁnitesimal) generator of the Euclidean group. We deﬁne the ∨ (vee) operator to extract the 6-dimensional vector which parameterizes a twist,
+
+ω 0
+
+v 0
+
+∨
+
+=
+
+v ω
+
+,
+
+(2.30)
+
+and call ξ := (v, w) the twist coordinates of ξ. The inverse operator, ∧ (wedge), forms a matrix in se(3) out of a given vector in R6:
+
+v ω
+
+∧
+=
+
+ω 0
+
+v 0
+
+.
+
+(2.31)
+
+Thus, ξ ∈ R6 represents the twist coordinates for the twist ξ ∈ se(3); this parallels our notation for skew-symmetric matrices.
+
+Proposition 2.8. Exponential map from se(3) to SE(3) Given ξ ∈ se(3) and θ ∈ R, the exponential of ξθ is an element of SE(3), i.e.,
+eξbθ ∈ SE(3).
+Proof. The proof is by explicit calculation. In the course of the proof, we will obtain a formula for exp(ξθ). Write ξ as
+
+ξ=
+
+ω 0
+
+v 0
+
+.
+
+Case 1 (ω = 0). If ω = 0, then a straightforward calculation shows that
+
+ξ2 = ξ3 = ξ4 = · · · = 0
+
+so that exp(ξθ) = I + ξθ and hence
+
+eξbθ =
+
+I 0
+
+vθ 1
+
+ω=0
+
+(2.32)
+
+which is in SE(3) as desired.
+
+Case 2 (ω = 0). Assume ω = 1, by appropriate scaling of θ if necessary, and deﬁne a rigid transformation g by
+
+g=
+
+I 0
+
+ω×v 1
+
+.
+
+(2.33)
+
+Now, using the calculation of Lemma 2.3, with ω = 1, we have
+
+ξ′ = g−1ξg
+
+=
+
+I 0
+
+−ω × v 1
+
+ωv 00
+
+I ω×v 01
+
+=
+
+ω 0
+
+ωωT v 0
+
+=
+
+ω 0
+
+hω 0
+
+,
+
+(2.34)
+
+41
+
+where h := ωT v. Using the following identity (see Exercise 8),
+
+eξbθ = eg(ξb′θ)g−1 = geξb′θg−1,
+
+(2.35)
+
+it suﬃces to calculate exp(ξ′θ). This simpliﬁes the calculation since it may be veriﬁed (using ωω = ω × ω = 0) that
+
+(ξ′)2 =
+
+ω2 0
+
+0 0
+
+,
+
+(ξ′)3 =
+
+ω3 0
+
+0 0
+
+,
+
+···
+
+Hence,
+
+eξb′θ =
+
+eωbθ 0
+
+hωθ 1
+
+,
+
+and using equation (2.35) it follows that
+
+eξbθ =
+
+eωbθ 0
+
+(I − eωbθ)(ω × v) + ωωT vθ 1
+
+ω=0
+
+(2.36)
+
+which is an element of SE(3).
+
+The transformation g = exp(ξθ) is slightly diﬀerent than the rigid transformations that we have encountered previously. We interpret it not as mapping points from one coordinate frame to another, but rather as mapping points from their initial coordinates, p(0) ∈ R3, to their coordinates after the rigid motion is applied:
+p(θ) = eξbθp(0).
+
+In this equation, both p(0) and p(θ) are speciﬁed with respect to a single reference frame. Similarly, if we let gab(0) represent the initial conﬁguration of a rigid body relative to a frame A, then the ﬁnal conﬁguration, still with respect to A, is given by
+
+gab(θ) = eξbθgab(0).
+
+(2.37)
+
+Thus, the exponential map for a twist gives the relative motion of a rigid body. This interpretation of the exponential of a twist as a mapping from initial to ﬁnal conﬁgurations will be especially important as we study the kinematics of robot mechanisms in the next chapter.
+Our primary interest is to use the exponential map as a representation for rigid motion, and hence we must show that every rigid transformation can be written as the exponential of some twist. The following proposition asserts that this is always possible and gives a constructive procedure for ﬁnding the twist which generates a given rigid transformation.
+
+Proposition 2.9. Surjectivity of the exponential map onto SE(3) Given g ∈ SE(3), there exists ξ ∈ se(3) and θ ∈ R such that g = exp(ξθ).
+
+42
+
+Proof. (Constructive). Let g = (R, p) with R ∈ SO(3), p ∈ R3. We ignore the trivial case (R, p) = (I, 0) which is solved with θ = 0 and
+arbitrary ξ.
+
+Case 1 (R = I). If there is no rotational motion, set
+
+ξ=
+
+0 0
+
+p p
+0
+
+θ= p .
+
+Equation (2.32) veriﬁes that exp(ξθ) = (I, p) = g.
+Case 2 (R = I). To ﬁnd ξ = (v, ω), we equate exp(ξθ) and g and solve for v, ω. Using equation (2.36):
+
+eξbθ =
+
+eωbθ 0
+
+(I − eωbθ)(ω × v) + ωωT vθ 1
+
+.
+
+ω and θ are obtained by solving the rotation equation exp(ωθ) = R, as in Proposition 2.5 of the previous section. This leaves the equation
+
+(I − eωbθ)(ω × v) + ωωT vθ = p,
+
+(2.38)
+
+which must be solved for v. It suﬃces to show that the matrix A = (I − eωbθ)ω + ωωT θ
+
+is nonsingular for all θ ∈ (0, 2π). This follows from the fact that the two matrices which comprise A have mutually orthogonal null spaces when θ = 0 (and R = I). Hence, Av = 0 ⇐⇒ v = 0. See Exercise 9 for more details.
+
+In light of Proposition 2.9, every rigid transformation g can be written as the exponential of some twist ξθ ∈ se(3). We call the vector ξθ ∈ R6 the exponential coordinates for the rigid transformation g. Note that, as in the case of rotations, the mapping exp : se(3) → SE(3) is many-to-one since the choice of ω and θ for solving the rotational component of the motion is not unique. This does not present great diﬃculties since for most applications we are given the twist as part of the problem and we wish to ﬁnd the corresponding rigid motion.
+
+Example 2.2. Twist coordinates for rotation about a line
+
+Consider the rigid displacement generated by rotating about a ﬁxed axis
+
+in space, as shown in Figure 2.6. The conﬁguration of the B frame is
+
+given by
+
+
+
+
+
+cos α − sin α 0 −l2 sin α
+
+gab = sin0 α
+
+cos α 0
+
+0 1
+
+l1
+
++
+
+l2 0
+
+cos
+
+α
+
+.
+
+0
+
+00
+
+1
+
+43
+
+B z
+α Ay
+x
+
+l2
+l1
+Figure 2.6: Rigid body displacement generated by rotation about a ﬁxed axis.
+
+We wish to calculate the twist coordinates corresponding to the conﬁgu-
+ration of the frame B relative to frame A.
+To compute the twist which generates gab, we follow the proof of Proposition 2.9, assuming α = 0 (so that R = I). The axis ω ∈ R3 and angle θ ∈ R which satisfy exp(ωθ) = Rab are
+ 0
+ω = 0 θ = α,
+1
+
+since we are rotating about the z-axis. To ﬁnd v, we must solve I − eωcθ ω + ωωT θ v = pab.
+
+Using the fact that θ = α and expanding the left-hand side, this equation
+
+becomes
+
+
+
+
+
+
+
+sin α cos α − 1 0
+
+−l2 sin α
+
+1 − cos α sin α 0 v = l1 + l2 cos α .
+
+0
+
+0
+
+α
+
+0
+
+The solution is given by
+
+2 sin α
+
+v
+
+=
+
+4
+
+2(1−cos
+
+−
+
+1 2
+
+α)
+
+0
+
+1 2 sin α 2(1−cos α)
+0
+
+0
+0
+1 α
+
+3 5
+
+2
+
+3
+
+−l2 sin α
+
+4l1 + l2 cos α5
+
+0
+
+=
+
+2 46
+
+l1 −l2 2
+(l1+l2) sin α 2(1−cos α)
+0
+
+3 57
+
+.
+
+Thus, the twist coordinates for gab are
+  l1−l2 2 (l1+l2) sin α
+  2(1−cos α) ξ =   0
+0 0 1
+
+θ = α = 0.
+
+44
+
+p θ
+q
+
+ω d
+
+v
+p + θv θ p
+
+(a) general screw
+
+(b) pure translation
+
+Figure 2.7: Screw motions.
+
+This solution may be unexpected, considering that the motion was
+
+generated by a pure rotation about an axis. The reason for the compli-
+
+cated form of the solution is that we took the exponential coordinates
+
+of the absolute transformation between the B and A coordinate frames.
+
+Consider, instead, the exponential coordinates for the relative transfor-
+
+mation
+
+g(α) = gab(α)ga−b1(0),
+
+where gab(0) is the transformation corresponding to α = 0 (a pure translation). It can be veriﬁed that the exponential coordinates for the relative transformation g(α) are
+
+ l1 
+
+ξ
+
+=
+
+
+
+0 0 0
+
+
+
+0
+
+1
+
+θ = α = 0.
+
+3.3 Screws: a geometric description of twists
+In this section, we explore some of the geometric attributes associated with a twist ξ = (v, ω). These attributes give additional insight into the use of twists to parameterize rigid body motions. We begin by deﬁning a speciﬁc class of rigid body motions, called screw motions, and then show that a twist is naturally associated with a screw.
+Consider a rigid body motion which consists of rotation about an axis in space through an angle of θ radians, followed by translation along the same axis by an amount d as shown in Figure 2.7a. We call such a motion a screw motion, since it is reminiscent of the motion of a screw, in so far as a screw rotates and translates about the same axis. To further encourage this analogy, we deﬁne the pitch of the screw to be the ratio of translation to rotation, h := d/θ (assuming θ = 0). Thus, the net translational motion after rotating by θ radians is hθ. We represent the
+
+45
+
+p
+
+ω
+
+p−q θ
+
+q + eωbθ(p − q) + hθω
+
+q q + eωbθ(p − q)
+
+Figure 2.8: Generalized screw motion (with nonzero rotation).
+
+axis as a directed line through a point; choosing q ∈ R3 to be a point on the axis and ω ∈ R3 to be a unit vector specifying the direction, the axis
+
+is the set of points
+
+l = {q + λω : λ ∈ R}.
+
+(2.39)
+
+The above deﬁnitions hold when the screw motion consists of a nonzero rotation followed by translation.
+In the case of zero rotation, the axis of the screw must be deﬁned differently: we take the axis as the line through the origin in the direction v (i.e., v is a vector of magnitude 1), as shown in Figure 2.7b. By convention, the pitch of this screw is ∞ and the magnitude is the amount of translation along the direction v. Collecting these, we have the following deﬁnition of a screw:
+
+Deﬁnition 2.2. Screw motion A screw S consists of an axis l, a pitch h, and a magnitude M . A screw motion represents rotation by an amount θ = M about the axis l followed by translation by an amount hθ parallel to the axis l. If h = ∞ then the corresponding screw motion consists of a pure translation along the axis of the screw by a distance M .
+
+To compute the rigid body transformation associated with a screw, we analyze the motion of a point p ∈ R3, as shown in Figure 2.8. The
+ﬁnal location of the point is given by
+
+gp = q + eωbθ(p − q) + hθω
+
+or, in homogeneous coordinates,
+
+g
+
+p 1
+
+=
+
+eωbθ 0
+
+(I − eωbθ)q + hθω 1
+
+p 1
+
+.
+
+46
+
+Since this relationship must hold for all p ∈ R3, the rigid motion given
+
+by the screw is
+
+g=
+
+eωbθ 0
+
+(I − eωbθ)q + hθω 1
+
+.
+
+(2.40)
+
+As in the last section, this transformation maps points attached to the rigid body from their initial coordinates (θ = 0) to their ﬁnal coordinates, and all points are speciﬁed with respect to the ﬁxed reference frame.
+Note that the rigid body displacement given in equation (2.40) has the same form as the exponential of a twist, given in equation (2.36):
+
+eξbθ =
+
+eωbθ 0
+
+(I − eωbθ)(ω × v) + ωωT vθ 1
+
+.
+
+In fact, if we choose v = −ω × q + hω, then ξ = (v, ω) generates the screw motion in equation (2.40) (assuming ω = 1, θ = 0). In the case of a pure rotation, h = 0 and the twist associated with a screw motion is simply ξ = (−ω × q, ω). In the instance that the screw corresponds to pure translation, we let θ be the amount of translation, and the rigid body motion described by this “screw” is
+
+g=
+
+I 0
+
+θv 1
+
+,
+
+(2.41)
+
+which is precisely the motion generated by exp(ξθ) with ξ = (v, 0). Thus, we see that a screw motion corresponds to motion along a constant twist by an amount equal to the magnitude of the screw.
+In fact, we can go one step further and deﬁne a screw associated with every twist. Let ξ ∈ se(3) be a twist with twist coordinates ξ = (v, ω) ∈ R6. We do not assume that ω = 1, allowing both translation plus rotation as well as pure translation. The following are the screw coordinates of a twist:
+
+1. Pitch:
+
+h=
+
+ωT ω
+
+v
+2
+
+.
+
+(2.42)
+
+The pitch of a twist is the ratio of translational motion to rotational motion. If ω = 0, we say that ξ has inﬁnite pitch.
+
+2. Axis:
+
+l=
+
+{
+
+ω×v ω2
+
++
+
+λω
+
+:
+
+λ
+
+∈
+
+R},
+
+if ω = 0
+
+{0 + λv : λ ∈ R},
+
+if ω = 0.
+
+(2.43)
+
+The axis l is a directed line through a point. For ω = 0, the axis is
+
+a line in the ω
+
+direction going through the point
+
+ω×v ω2
+
+.
+
+For ω = 0,
+
+the axis is a line in the v direction going through the origin.
+
+47
+
+3. Magnitude:
+
+M = ω , if ω = 0 v , if ω = 0.
+
+(2.44)
+
+The magnitude of a screw is the net rotation if the motion contains a rotational component, or the net translation otherwise. If we choose ω = 1 (or v = 1 when ω = 0), then a twist ξθ has magnitude M = θ.
+
+We next show that given a screw, we can deﬁne a twist which realizes the screw motion and has the proper geometric attributes. It suﬃces to prove that we can deﬁne a twist with a given set of attributes, since any twist with those attributes will generate the correct screw motion.
+
+Proposition 2.10. Screw motions correspond to twists Given a screw with axis l, pitch h, and magnitude M , there exists a unit magnitude twist ξ such that the rigid motion associated with the screw is generated by the twist M ξ.
+
+Proof. The proof is by construction. We split the proof into the usual cases: pure translation and translation plus rotation. For consistency, we generate a screw of the form ξθ, where θ = M . We will assume that q is a point on the axis of the screw.
+Case 1 (h = ∞). Let l = {q + λv : v = 1, λ ∈ R}, θ = M , and deﬁne
+
+ξ=
+
+0 0
+
+v 0
+
+.
+
+The rigid body motion exp(ξθ) corresponds to pure translation along the screw axis by an amount θ.
+Case 2 (h ﬁnite). Let l = {q + λω : ω = 1, λ ∈ R}, θ = M , and deﬁne
+
+ξ=
+
+ω 0
+
+−ω × q + hω 0
+
+.
+
+The fact that the rigid body motion exp(ξθ) is the appropriate screw motion is veriﬁed by direct calculation.
+There are several important special cases of screw motion of which we shall make frequent use. A zero pitch screw is a screw motion for which h = 0, corresponding to a pure rotation about an axis. Zero pitch screws are used to model the action of a revolute joint of a manipulator. The axis of the screw corresponds to the axis of rotation of the joint. An inﬁnite pitch screw is a motion for which h = ∞, as previously mentioned. This case corresponds to a pure translation and is the model for the action of a prismatic joint. The axis of the screw is deﬁned to be a line through
+
+48
+
+the origin which points in the direction of translation (a line through any other point could also be used). The magnitude of the screw gives the amount of the displacement. Finally, we deﬁne a unit twist to be a twist such that either ω = 1, or ω = 0 and v = 1; that is, a unit twist has magnitude M = 1. Unit twists are useful since they allow us to express rigid motions due to revolute and prismatic joints as g = exp(ξθ), where θ corresponds to the amount of rotation or translation.
+Some comments about the point q on the axis of the screw in the formulas above are in order. For instance, it is important to note that the formulas do not change for diﬀerent choices of points on the axis of the screw. Thus, if q′ = q + λω is some other point on the axis of the screw, the formula in equation (2.40) would be unchanged. It is also instructive to verify that for points on the axis of the screw, the screw motion is purely translational of magnitude hθ, as may be veriﬁed by applying equation (2.40) to points on the axis.
+The geometric meaning of a screw is expressed succinctly in the following theorem. Its proof follows directly from the deﬁnition of the attributes of a twist.
+
+Theorem 2.11 (Chasles). Every rigid body motion can be realized by a rotation about an axis combined with a translation parallel to that axis.
+
+As mentioned previously, it is important to keep in mind that the exponential of a twist represents the relative motion of a rigid body. As a mapping, exp(ξθ) takes points from their initial coordinates, p(0) ∈ R3, to their coordinates after the rigid motion is applied:
+p(θ) = eξbθp(0).
+
+Both p(0) and p(θ) are speciﬁed with respect to a single reference frame. If a coordinate frame B is attached to a rigid body undergoing a screw motion, the instantaneous conﬁguration of the coordinate frame B, relative to a ﬁxed frame A, is given by
+
+gab(θ) = eξbθgab(0).
+
+(2.45)
+
+This transformation can be interpreted as follows: multiplication by gab(0) maps the coordinates of a point relative to the B frame into A’s coordinates, and the exponential map transforms the point to its ﬁnal location (still in A coordinates).
+
+Example 2.3. Rotation about a line Consider the motion of a rigid body rotating about a ﬁxed axis in space, as shown in Figure 2.9. This motion corresponds to a zero-pitch screw about an axis in the ω = (0, 0, 1) direction passing through the point
+
+49
+
+ω
+
+z
+
+θ
+
+A x
+
+y
+
+B q
+
+l1 Figure 2.9: Rigid body motion generated by rotation about a ﬁxed axis.
+
+q = (0, l1, 0). The corresponding twist is
+
+ l1 
+
+ξ=
+
+−ω × q ω
+
+=
+
+
+
+0 0 0
+
+.
+
+0
+
+1
+
+The exponential of this twist is given by
+
+
+
+
+
+cos θ − sin θ 0 l1 sin θ
+
+eξbθ =
+
+eωbθ 0
+
+(I − eωbθ)(ω × v) 1
+
+= sin0 θ
+
+cos θ 0
+
+0 1
+
+l1(1
+
+− cos 0
+
+θ)
+
+.
+
+0
+
+00
+
+1
+
+When applied to the homogeneous representation of a point, this matrix maps the coordinates of a point on the rigid body, speciﬁed relative to the frame A with θ = 0, to the coordinates of the same point after rotating by θ radians about the axis.
+The rigid transformation which maps points in B coordinates to A coordinates—and hence describes the conﬁguration of the rigid body—is given by gab(θ) = exp(ξθ)gab(0) where
+
+gab(0) =
+
+I 0
+
+0
+
+l1 0
+
+.
+
+1
+
+Taking the exponential and performing the matrix multiplication yields
+
+
+
+
+
+cos θ − sin θ 0 0
+
+gab = sin0 θ
+
+cos θ 0
+
+0 1
+
+l01 ,
+
+0
+
+0 01
+
+which can be veriﬁed by inspection.
+
+50
+
+4 Velocity of a Rigid Body
+
+In this section, we derive a formula for the velocity of a rigid body whose
+
+motion is given by g(t), a curve parameterized by time t in SE(3). This
+
+is not such a naive question as in the case of a single particle following
+
+a
+
+curve
+
+q(t)
+
+∈
+
+R3,
+
+where
+
+the
+
+velocity
+
+of
+
+the
+
+particle
+
+is
+
+vq (t)
+
+=
+
+d dt
+
+q(t),
+
+because this notion of velocity cannot be generalized since SE(3) is not
+
+Euclidean. In particular, the quantity g˙(t) ∈/ SE(3) and g˙(t) ∈/ se(3) and
+
+the question of its connection with rotational and translational velocity
+
+needs to be handled with care. Further, the deﬁnition of velocity needs to
+
+relate to our informal understanding of rotational and translational ve-
+
+locity. We will show that the proper representation of rigid body velocity
+
+is through the use of twists.
+
+4.1 Rotational velocity
+Consider ﬁrst the case of pure rotational motion in R3. Let Rab(t) ∈ SO(3) be a curve representing a trajectory of an object frame B, with origin at the origin of frame A, but rotating relative to the ﬁxed frame A. We call A the spatial coordinate frame and B the body coordinate frame.1 Any point q attached to the rigid body follows a path in spatial coordinates given by
+qa(t) = Rab(t)qb.
+Note that the coordinates qb are ﬁxed in the body frame. The velocity of the point in spatial coordinates is
+
+vqa (t)
+
+=
+
+d dt
+
+qa(t)
+
+=
+
+R˙ ab(t)qb.
+
+(2.46)
+
+Thus R˙ ab maps the body coordinates of a point to the spatial velocity
+
+of that point. This representation of the rotational velocity is somewhat
+
+ineﬃcient, since it requires nine numbers to describe the velocity of a rotating body. One may use the special structure in the matrix R˙ ab to
+
+derive a more compact representation. To this end, we rewrite equa-
+
+tion (2.46) as
+
+vqa (t) = R˙ ab(t)Ra−b1(t)Rab(t)qb.
+
+(2.47)
+
+The following lemma shows that R˙ ab(t)Ra−b1(t) ∈ so(3); i.e., it is skewsymmetric.
+
+Lemma 2.12. Given R(t) ∈ SO(3), the matrices R˙ (t)R−1(t) ∈ R3×3 and R−1(t)R˙ (t) ∈ R3×3 are skew-symmetric.
+
+1The word “spatial” is sometimes used to diﬀerentiate between planar motions in R2 and general (spatial) motions in R3. In this chapter we reserve the word spatial to
+mean “relative to a ﬁxed (inertial) coordinate frame.”
+
+51
+
+Proof. Diﬀerentiating the identity
+
+R(t)R(t)T = I
+
+we have, dropping the dependence of the matrices on t, R˙ RT + RR˙ T = 0,
+
+so that
+
+R˙ RT = −(R˙ RT )T .
+
+Hence, R˙ R−1 = R˙ RT is a skew-symmetric matrix. The proof that R−1R˙ is skew-symmetric follows by diﬀerentiating the identity RT R = I.
+
+Lemma 2.12 allows us to represent the velocity of a rotating body
+
+using a 3-vector. We deﬁne the instantaneous spatial angular velocity,
+
+denoted ωasb ∈ R3, as
+
+ωasb := R˙ abRa−b1.
+
+(2.48)
+
+The vector ωasb corresponds to the instantaneous angular velocity of the object as seen from the spatial (A) coordinate frame. Similarly, we deﬁne the instantaneous body angular velocity, denoted ωabb ∈ R3, as
+
+ωabb := Ra−b1R˙ ab.
+
+(2.49)
+
+The body angular velocity describes the angular velocity as viewed from the instantaneous body (B) coordinate frame. From these two equations, it follows that the relationship between the two angular velocities is
+
+ωabb = Ra−b1ωasbRab
+
+or
+
+ωabb = Ra−b1ωasb.
+
+(2.50)
+
+Thus the body angular velocity can be determined from the spatial angular velocity by rotating the angular velocity vector into the instantaneous body frame.
+Returning now to equation (2.47), we can express the velocity of a point in terms of the instantaneous angular velocity of the rigid body. Substituting equation (2.48) into equation (2.47),
+
+vqa (t) = ωasbRab(t)qb = ωasb(t) × qa(t).
+
+(2.51)
+
+Alternatively, using equation (2.50), the velocity of the point in body frame is given by
+
+vqb (t) := RaTb(t)vqa (t) = ωabb(t) × qb.
+
+(2.52)
+
+Equations (2.51) and (2.52) constitute a compact description of the ve-
+locity of all particles of the body in terms of the body and spatial angular velocities, ωabb and ωasb.
+
+52
+
+θ(t)
+
+Figure 2.10: Rotational motion of a one degree of freedom manipulator.
+
+Example 2.4. Rotational motion of a one degree of freedom manipulator Consider the motion of the one degree of freedom manipulator shown in Figure 2.10. Let θ(t) be the angle of rotation about some reference conﬁguration. The trajectory of the manipulator is given by
+
+
+
+
+
+cos θ(t) − sin θ(t) 0
+
+R(t) = sin θ(t) cos θ(t) 0 .
+
+0
+
+0
+
+1
+
+The spatial velocity is
+
+2−θ˙ sin θ
+
+−θ˙ cos θ
+
+32 0 cos θ
+
+3 sin θ 0
+
+2 0
+
+−θ˙
+
+3 0
+
+ωbs = R˙ RT = 4 θ˙ cos θ −θ˙ sin θ 05 4− sin θ cos θ 05 = 4θ˙ 0 05 ,
+
+0
+
+0
+
+0
+
+0
+
+01
+
+000
+
+hence,
+
+0 ωs = 0 .
+θ˙
+
+The body velocity is
+
+ 0
+
+−θ˙
+
+ 0
+
+ωb = RT R˙ = θ˙ 0 0 or
+
+000
+
+ 0
+ωb = 0 . θ˙
+
+4.2 Rigid body velocity
+Let us now consider the general case where gab(t) ∈ SE(3) is a oneparameter curve (parameterized by time) representing a trajectory of a rigid body: more speciﬁcally, the rigid body motion of the frame B
+53
+
+attached to the body, relative to a ﬁxed or inertial frame A. As in the case of rotation, g˙ab(t) by itself is not particularly useful, but the two terms g˙abga−b1 and ga−b1g˙ab have some special signiﬁcance. With
+
+gab(t) =
+
+Rab(t) 0
+
+pab(t) 1
+
+,
+
+we have that
+
+g˙abga−b1 =
+
+R˙ ab 0
+
+p˙ab 0
+
+RaTb 0
+
+−RaTbpab 1
+
+=
+
+R˙ abRaTb 0
+
+−R˙ abRaTbpab + p˙ab 0
+
+,
+
+which has the form of a twist. By analogy to the rotational velocity, we deﬁne the spatial velocity Vasb ∈ se(3) as
+
+Vasb = g˙abga−b1
+
+Vasb =
+
+vasb ωasb
+
+=
+
+−R˙ abRaTbpab + p˙ab (R˙ abRaTb)∨
+
+.
+
+(2.53)
+
+The spatial velocity Vasb can be used to ﬁnd the velocity of a point in spatial coordinates. The coordinates of a point q attached to the rigid body in spatial coordinates are given by
+
+qa(t) = gab(t)qb.
+
+Diﬀerentiating yields
+
+vqa = q˙a = g˙abqb = g˙abga−b1qa
+
+and thus,
+
+vqa = Vasbqa = ωasb × qa + vasb.
+
+(2.54)
+
+The interpretation of the components of the spatial velocity of a rigid motion is somewhat unintuitive. The angular component, ωasb, is the instantaneous angular velocity of the body as viewed in the spatial frame. The linear component, vasb, is not the velocity of the origin of the body frame, which is apparent from equation (2.53). Rather, vasb(t) is the velocity of a (possibly imaginary) point on the rigid body which is traveling
+through the origin of the spatial frame at time t. That is, if one stands at
+the origin of the spatial frame and measures the instantaneous velocity
+of a point attached to the rigid body and traveling through the origin at that instant, this is vasb(t).
+A somewhat more natural interpretation of the spatial velocity is ob-
+tained by using the relationship between twists and screws described in the previous section. The screw associated with the twist Vasb gives the instantaneous axis, pitch, and magnitude of the rigid motion relative to
+the spatial frame.
+
+54
+
+It is also possible to specify the velocity of a rigid body with respect to the (instantaneous) body frame. We deﬁne
+
+Vabb = ga−b1g˙ab =
+
+RaTbR˙ ab 0
+
+RaTbp˙ab 0
+
+Vabb =
+
+vabb ωabb
+
+=
+
+RaTbp˙ab (RaTbR˙ ab)∨
+
+(2.55)
+
+to be the body velocity of a rigid motion gab(t) ∈ SE(3). The velocity of the point in the body frame is given by
+
+vqb = ga−b1vqa = ga−b1g˙abqb = Vabb(t)qb.
+
+Thus, the action of Vabb is to take the body coordinates of a point, qb, and return the velocity of that point written in body coordinates, vqb :
+
+vqb = Vabbqb = ωabb × qb + vabb.
+
+(2.56)
+
+The interpretation of the body velocity is straightforward: vabb is the velocity of the origin of the body coordinate frame relative to the spatial frame, as viewed in the current body frame. ωabb is the angular velocity of the coordinate frame, also as viewed in the current body frame. Note that the body velocity is not the velocity of the body relative to the body frame; this latter quantity is always zero.
+The spatial and body velocity of a rigid motion are related by a similarity transformation. To calculate this relationship, we note that
+
+Vasb = g˙abga−b1 = gab(ga−b1g˙ab)ga−b1 = gab Vabb ga−b1. Alternatively, we can write
+
+ωasb = Rabωabb vasb = −ωasb × pab + p˙ab = pab × (Rabωabb) + Rabvabb.
+In either case, we may summarize the calculation as
+
+Vasb =
+
+vasb ωasb
+
+=
+
+Rab 0
+
+pabRab Rab
+
+vabb ωabb
+
+.
+
+(2.57)
+
+The 6 × 6 matrix which transforms twists from one coordinate frame to another is referred to as the adjoint transformation associated with g, written Adg. Thus, given g ∈ SE(3) which maps one coordinate system into another, Adg : R6 → R6 is given as
+
+Adg =
+
+R 0
+
+pR R
+
+(2.58)
+
+55
+
+In the calculation that we have just performed, Adg maps body velocity twist coordinates to spatial velocity twist coordinates. Adg is invertible, and its inverse is given by
+
+Ad−g 1 =
+
+RT 0
+
+−(RT p)∧RT RT
+
+=
+
+RT 0
+
+−RT p RT
+
+= Adg−1
+
+(see Exercise 14). We shall make frequent use of the adjoint transformations throughout
+the book. The calculations performed above give the following useful characterization of the adjoint associated with a rigid transformation g ∈ SE(3):
+
+Lemma 2.13. If ξ ∈ se(3) is a twist with twist coordinates ξ ∈ R6, then for any g ∈ SE(3), gξg−1 is a twist with twist coordinates Adg ξ ∈ R6.
+
+It will often be convenient to deﬁne velocity without explicit reference to coordinate frames. For a rigid body with conﬁguration g ∈ SE(3), we deﬁne the spatial velocity as
+
+V s = g˙ g−1
+
+Vs =
+
+vs ωs
+
+=
+
+−R˙ RT p + p˙ (R˙ RT )∨
+
+(2.59)
+
+and the body velocity as
+
+V b = g−1g˙
+
+Vb =
+
+vb ωb
+
+=
+
+RT p˙ (RT R˙ )∨
+
+.
+
+(2.60)
+
+The body and spatial velocities are related by the adjoint transformation,
+
+V s = Adg V b.
+
+(2.61)
+
+Example 2.5. One degree of freedom manipulator
+
+Consider the one degree of freedom manipulator shown in Figure 2.11.
+
+The conﬁguration of the coordinate frame B relative to the ﬁxed frame
+
+A is given by
+
+
+
+
+
+cos θ(t) − sin θ(t) 0 −l2 sin θ(t)
+
+g(t) = sin0θ(t)
+
+cos θ(t) 0
+
+0 1
+
+l1
+
++
+
+l2 cos l0
+
+θ(t)
+
+,
+
+0
+
+0
+
+0
+
+1
+
+where we drop all subscripts for simplicity. The spatial velocity of the rotating rigid body is given by
+
+Vs =
+
+vs ωs
+
+vs = −R˙ RT p + p˙ ωs = (R˙ RT )∨.
+
+56
+
+θ
+
+B
+
+l0
+
+A
+
+l1
+
+l2
+
+Figure 2.11: Rigid body motion generated by rotation about a ﬁxed axis.
+
+Using the calculation of ωs from the previous example, we have
+
+l1θ˙ vs =  0 
+0
+
+ 0
+ωs = 0 . θ˙
+
+Note that vs is precisely the velocity of a point attached to the rigid body as it travels through the origin of the A coordinate frame.
+The body velocity is
+
+Vb =
+
+vb ωb
+
+vb = RT p˙ ωb = (RT R˙ )∨,
+
+which gives
+
+−l2θ˙ vb =  0 
+0
+
+0 ωb = 0 .
+θ˙
+
+The body velocity can be interpreted by imagining the velocity of the origin of the B coordinate frame, as seen in the B coordinates. Thus, the linear velocity is always in the −x direction and the angular velocity is always in the z direction. The magnitude of the linear component of the velocity is dependent on the length of the link connecting the B frame to the joint.
+
+4.3 Velocity of a screw motion
+In the previous example, we calculated the spatial velocity of a rigid motion generated by a screw action, exp(ξθ). Referring back to Example 2.3
+
+57
+
+in the previous section, we see that the spatial velocity V s in the example above is identical to ξ when θ˙ = 1. Consider the more general case where
+
+gab(θ) = eξbθgab(0)
+
+represents the conﬁguration of coordinate frame B relative to frame A. Using the fact that for a constant twist ξ,
+
+d dt
+
+eξbθ
+
+= ξθ˙eξbθ
+
+(see Exercise 8), the spatial velocity for this rigid body motion is
+
+Vasb = g˙ab(θ)ga−b1(θ) = ξθ˙eξbθgab(0)
+= ξθ˙.
+
+ga−b1(0)e−ξbθ
+
+Thus, the spatial velocity corresponding to this motion is precisely the
+
+velocity generated by the screw.
+
+The body velocity of a screw motion can be calculated in a similar
+
+manner:
+
+Vabb = ga−b1(θ)g˙ab(θ)
+
+= ga−b1(0)e−ξbθ ξθ˙eξbθgab(0)
+
+= ga−b1(0)ξgab(0) θ˙ = Adga−b1(0) ξ ∧ θ˙.
+
+For θ˙ = 1, Vabb is a constant vector in the moving body frame. The direction of the body velocity twist is given by the adjoint transformation generated by the initial conﬁguration of the rigid body, ga−b1(0). In particular, if gab(0) = I, i.e., the body frame and spatial frame coincide at θ = 0, then Vasb = Vabb = ξθ˙, where ξ is the constant twist which generates the screw motion.
+
+4.4 Coordinate transformations
+Just as we can compose rigid body transformations to ﬁnd gac ∈ SE(3) given gab, gbc ∈ SE(3), it is possible to determine the velocity of one coordinate frame relative to a third given the relative velocities between the ﬁrst and second and second and third coordinate frames. We state the main results as a set of propositions.
+Proposition 2.14. Transformation of spatial velocities Consider the motion of three coordinate frames, A, B, and C. The following relation exists between their spatial velocities:
+Vasc = Vasb + Adgab Vbsc.
+
+58
+
+Proof. The conﬁguration of frame C relative to A is given by
+gac = gabgbc.
+By deﬁnition and the chain rule,
+Vasc = g˙acga−c1 = (g˙abgbc + gabg˙bc)(gb−c1ga−b1) = g˙abga−b1 + gab(g˙bcgb−c1)ga−b1 = Vasb + gabVbscga−b1,
+and converting to twist coordinates,
+Vasc = Vasb + Adgab Vbsc.
+
+Proposition 2.15. Transformation of body velocities Consider motion of three coordinate frames, A, B, and C. The following relation exists between their relative body velocities:
+
+Vabc = Adgb−c1 Vabb + Vbbc. Proof. Application of the chain rule, as above.
+
+Propositions 2.14 and 2.15 are used to transform the velocity of a rigid
+
+body between diﬀerent coordinate frames. Often, two of the coordinate
+
+frames are stationary with respect to each other and the velocity rela-
+
+tionships can be simpliﬁed. As an example, if A and B are two inertial
+
+frames which are ﬁxed relative to each other, then the spatial velocity of
+
+a frame C satisﬁes
+
+Vasc = Adgab Vbsc.
+
+(2.62)
+
+The corresponding relationship for body velocities is
+
+Vabc = Vbbc,
+
+(2.63)
+
+since the body velocity is independent of the inertial frame with respect to which it is measured.
+The transformation rules given by Propositions 2.14 and 2.15 can also be applied to constant twists, such as those used to model revolute and prismatic joints. If ξ is a twist which represents the motion of a screw and we move the screw by applying a rigid body motion g ∈ SE(3), the new twist can be obtained using equation (2.62). We interpret g as a ﬁxed rigid motion and equate ξ with a spatial velocity vector. In this case, g˙ = 0 and hence
+
+ξ′ = Adg ξ or ξ′ = gξg−1.
+
+(2.64)
+
+59
+
+θ2 θ1
+C
+B l0
+l1
+A
+
+Figure 2.12: Two degree of freedom manipulator.
+
+This formula is of tremendous importance in the chapters to come, where we will need to keep track of the diﬀerent twist axes corresponding to the joints of a robot when they are moved.
+
+Example 2.6. Velocity of a two-link mechanism
+
+Consider the two degree of freedom manipulator shown in Figure 2.12.
+
+We wish to ﬁnd the velocity of frame C relative to A, given the joint velocities θ˙1, θ˙2 ∈ R. Since each motion is a screw motion, we write
+
+Vasb =
+
+vab ωab
+
+θ˙1
+
+Vbsc =
+
+vbc ωbc
+
+θ˙2
+
+ 0
+vab = 0 0
+ l1
+vbc =  0  0
+
+ 0
+ωab = 0 ,
+1 
+0 ωbc = 0 .
+1
+
+We also calculate Adgab :
+
+Adgab =
+
+Rab 0
+
+0 0 l0
+
+∧
+Rab .
+
+Rab
+
+Using Proposition 2.14,
+
+0
+
+ l1 cos θ1 
+
+Vasc
+
+=
+
+Vasb
+
++
+
+Adgab
+
+Vbsc
+
+=
+
+
+
+0 0 0 0 1
+
+
+
+θ˙1
+
++
+
+
+
+l1
+
+sin θ1 0 0 0 1
+
+ θ˙2.
+
+Note that the velocity consists of two components, one from each of the joints, and that they add together linearly.
+
+60
+
+A few other identities between body and spatial velocities will prove useful in subsequent chapters. We give them here in the form of a lemma. Their proof is left as an exercise.
+Lemma 2.16. Rigid body velocity identities Using the notation given above for the velocity of one coordinate frame relative to another, the following relationships hold:
+Vabb = −Vbsa Vabb = − Adgba Vbba.
+
+5 Wrenches and Reciprocal Screws
+In this section we consider forces and moments acting on rigid bodies and use this to introduce the notion of screw systems and reciprocal screws.
+
+5.1 Wrenches
+
+A generalized force acting on a rigid body consists of a linear component
+(pure force) and an angular component (pure moment) acting at a point. We can represent this generalized force as a vector in R6:
+
+F=
+
+f τ
+
+f ∈ R3 linear component τ ∈ R3 rotational component
+
+We will refer to a force/moment pair as a wrench. The values of the wrench vector F ∈ R6 depend on the coordinate
+frame in which the force and moment are represented. If B is a coordinate
+frame attached to a rigid body, then we write Fb = (fb, τb) for a wrench applied at the origin of B, with fb and τb speciﬁed with respect to the B coordinate frame.
+Wrenches combine naturally with twists to deﬁne instantaneous work.
+Consider the motion of a rigid body parameterized by gab(t), where A is an inertial frame and B is a frame attached to the rigid body. Let Vabb ∈ R6 represent the instantaneous body velocity of the rigid body and let Fb represent an applied wrench. Both of these quantities are represented relative to the B coordinate frame and their dot product is
+the inﬁnitesimal work:
+
+δW = Vabb · Fb = (v · f + ω · τ ).
+
+The net work generated by applying the wrench Fb through a twist Vabb over a time interval [t1, t2] is given by
+
+t2
+
+W=
+
+Vabb · Fb dt.
+
+t1
+
+61
+
+x
+
+z
+
+F
+
+B zy
+
+y C x
+A
+Figure 2.13: Transformation of wrenches between coordinate frames.
+
+Two wrenches are said to be equivalent if they generate the same work for every possible rigid body motion. Equivalent wrenches can be used to rewrite a given wrench in terms of a wrench applied at a diﬀerent point (and with respect to a diﬀerent coordinate frame). An example of this is shown in Figure 2.13: given the wrench Fb applied at the origin of contact coordinate frame B, we wish to determine the equivalent wrench applied at the origin of the object coordinate frame C. In order to compute the equivalent wrench, we use the instantaneous work performed by the wrench as the body undergoes an arbitrary rigid motion. Let gbc = (pbc, Rbc) be the conﬁguration of frame C relative to B. By equating the instantaneous work done by the wrench Fb and the wrench Fc over an arbitrary interval of time, we have that
+
+Vabc · Fc = Vabb · Fb = Adgbc Vabc T Fb = Vabc · AdgTbc Fb,
+
+and since Vabc is free,
+
+Fc = AdgTbc Fb.
+
+(2.65)
+
+Equation (2.65) transforms a wrench applied at the origin of the B frame
+
+into an equivalent wrench applied at the origin of the C frame. The com-
+
+ponents of Fc are speciﬁed relative to the C coordinate frame. Expanding equation (2.65),
+
+fc τc
+
+=
+
+RbTc −RbTcpbc
+
+0 RbTc
+
+fb τb
+
+,
+
+(2.66)
+
+we see that the adjoint transformation rotates the force and torque vectors from the B frame into the C frame and includes an additional torque of the form −pbc × fb, which is the torque generated by applying a force fb at a distance −pbc.
+It is also possible to represent a wrench with respect to a coordinate frame which is not inside the rigid body. Consider for example the co-
+
+62
+
+ordinate frame A shown in Figure 2.13. The wrench F written in A’s coordinate frame is given by
+
+Fa = AdgTba Fb.
+This wrench represents the equivalent force/moment pair applied as if the coordinate frame A were rigidly attached to the object. This is not the same as simply rewriting the components of Fb in A’s coordinates, since the point of application for Fa is the origin of the A frame and not the origin of the B frame.
+If several wrenches are all applied to a single rigid body, then the net wrench acting on the rigid body can be constructed by adding the wrench vectors. In order for this addition to make sense, all of the wrenches must be represented with respect to the same frame. Thus, given a set of wrenches Fi, each wrench is ﬁrst written as an equivalent wrench relative to a single coordinate frame and then the equivalent wrenches are added to determine the net wrench acting on the rigid body. This helps explain why equivalent wrenches include a shift of origin: one can only add wrenches if they represent forces and torques applied at a single point (such as the center of mass or a ﬁxed spatial frame).
+A net wrench F acting on a rigid body with conﬁguration gab ∈ SE(3) has two natural representations. The body representation of the wrench is written as Fb and represents the equivalent force and moment applied at the origin of the B frame (and written in B’s coordinates). The spatial representation of the wrench is the equivalent wrench written in A’s coordinate frame. These representations are analogous to the spatial and body representations of the velocity of a rigid body.
+As with velocities, it will be convenient to deﬁne the spatial and body representations of a wrench without explicit reference to a given set of coordinate frames. If g ∈ SE(3) is the conﬁguration of a rigid body, then we write F b for the body wrench and F s for the spatial wrench. These wrenches are related by the transpose of the adjoint matrix:
+
+F b = AdTg F s.
+
+(2.67)
+
+This notation mirrors that used for body and spatial velocities of a rigid body allowing the instantaneous work performed by a wrench F moving through a rigid motion with instantaneous velocity V to be written as
+
+δW = V b · F b = V s · F s.
+
+We leave the proof of this statement as an exercise.
+
+Example 2.7. Preview of multiﬁngered grasping
+Consider the multiﬁngered grasp shown in Figure 2.14. Let Fci be the wrench exerted by the ith ﬁnger on the grasped object, represented in
+
+63
+
+C1
+
+O
+
+C2
+
+S1
+
+P
+
+S2
+
+Figure 2.14: Coordinate frames for a simple grasping example.
+
+the frame Ci. The net wrench on the body, in the body coordinate frame O, is given by
+
+Fo =
+
+AdT
+go−c1i
+
+Fci .
+
+This is the basic calculation which is used in grasping to determine the
+
+net eﬀect of forces applied at the contact points between the ﬁngers and
+
+the object.
+
+5.2 Screw coordinates for a wrench
+
+As with twists, it is possible to generate a wrench by applying a force along an axis in space and simultaneously applying a torque about the same axis. The dual of Chasles’ theorem, which showed that every twist could be generated by a screw, is called Poinsot’s theorem. It asserts that every wrench is equivalent to a force and torque applied along the same axis. We begin by deﬁning the notion of a wrench acting along a screw.
+With respect to some ﬁxed spatial coordinate frame A, let S be a screw with axis l = {q + λω : λ ∈ R}, ω = 1, pitch h, and magnitude M . We construct a wrench from this screw by applying a force of magnitude M along the directed line l and a torque of magnitude hM about the line. If h = ∞, we generate a wrench by applying a pure torque about l. The resulting wrench, in A’s coordinates, is given by
+
+F =M
+
+ω −ω × q + hω
+
+F =M
+
+0 ω
+
+h ﬁnite h = ∞,
+
+(2.68)
+
+64
+
+where the term −ω × q accounts for the oﬀset between the axis of the screw and the origin of A. We call F the wrench along the screw S. Note that F (and q and ω) are all speciﬁed with respect to the ﬁxed coordinate frame A and hence F represents the spatial wrench applied to the rigid body. (We omit the use of subscripts in this section since all quantities are speciﬁed with respect to a single coordinate frame.)
+To ﬁnd the screw coordinates for a wrench, we solve equation (2.68) for ω, q, h, and M given F = (f, τ ). This leads to the following theorem:
+
+Theorem 2.17 (Poinsot). Every collection of wrenches applied to a rigid body is equivalent to a force applied along a ﬁxed axis plus a torque about the same axis.
+
+Proof. The proof is constructive. Let F = (f, τ ) be the net wrench applied to the object. We ignore the trivial case, F = 0.
+Case 1: (f = 0, pure torque). Set M = τ , ω = τ /M , and h = ∞. Equation (2.68) veriﬁes that these are the appropriate screw coordinates.
+Case 2: (f = 0). Set M = f , and ω = f /M . It remains to solve
+
+M (q × ω + hω) = τ
+
+for q and h. One solution is given by
+
+h=
+
+fTτ f2
+
+q
+
+=
+
+f ×τ f2
+
+.
+
+This solution is not unique since any q′ = q + λω will also satisfy equation (2.68).
+
+Using Poinsot’s theorem, we can deﬁne the screw coordinates of a wrench, F = (f, τ ):
+
+1. Pitch:
+
+h=
+
+fTτ f2
+
+(2.69)
+
+The pitch of a wrench is the ratio of angular torque to linear force. If f = 0, we say that F has inﬁnite pitch.
+
+2. Axis:
+
+l=
+
+{
+
+f ×τ f2
+
++
+
+λf
+
+:
+
+λ
+
+∈
+
+R},
+
+if f = 0
+
+{0 + λτ : λ ∈ R}, if f = 0
+
+(2.70)
+
+The axis l is a directed line through a point. For f = 0, the axis
+
+is a line in the f
+
+direction going through the point q
+
+=
+
+f ×τ f2
+
+.
+
+For
+
+f = 0, the axis is a line in the τ direction going through the origin.
+
+65
+
+3. Magnitude:
+
+M = f , if f = 0 τ , if f = 0
+
+(2.71)
+
+The magnitude of a screw is the net linear force, if the motion contains a linear component, or the net torque, otherwise.
+
+The dual nature of twists and wrenches is evident in the screw coordinates for twists and wrenches. For example, a zero pitch twist corresponds to pure rotation, while a zero pitch wrench corresponds to a pure force (no angular component).
+
+5.3 Reciprocal screws
+
+The dot product between twists and wrenches gives the instantaneous power associated with moving a rigid body through an applied force. As in the previous subsection, we carry out all calculations relative to a single coordinate frame and omit the use of subscripts. A wrench F is said to be reciprocal to a twist V if the instantaneous power is zero: F · V = 0. Since both twists and wrenches can be represented by screws, we can use this to deﬁne the notion of reciprocal screws:
+
+Deﬁnition 2.3. Reciprocal screws Two screws S1 and S2 are reciprocal if the twist V about S1 and the wrench F along S2 are reciprocal.
+
+Classically, reciprocal screws are deﬁned by using the reciprocal prod-
+uct between screws. Let Si be a screw with axis li = {qi + λωi : λ ∈ R}, pitch hi, and magnitude Mi. Given two screws S1 and S2, we deﬁne the distance d between the screws as the minimum distance between l1 and l2; this distance will be achieved along a line perpendicular to both l1 and l2. We denote this line as dn where n is a unit vector and d > 0. The angle α between S1 and S2 is the angle between the vectors ω1 and ω2,
+α = atan2(ω1 × ω2 · n, ω1 · ω2)
+
+(see Figure 2.15). The reciprocal product between two screws is deﬁned
+
+as
+
+S1 ⊙ S2 = M1M2 (h1 + h2) cos α − d sin α .
+
+(2.72)
+
+Proposition 2.18. Characterization of reciprocal screws Two screws S1 and S2 are reciprocal if and only if
+
+S1 ⊙ S2 = 0.
+
+Proof. We consider only the case where h1 and h2 are ﬁnite. The other cases are left as exercises. Let V be the twist about the screw S1 and F
+
+66
+
+q1 S1
+
+α
+ω1 ω2
+d
+
+q2 S2
+Figure 2.15: Notation for reciprocal screws.
+
+be the wrench along the screw S2:
+
+V = M1
+
+q1 × ω1 + h1ω1 ω1
+
+F = M2
+
+ω2 q2 × ω2 + h2ω2
+
+.
+
+Without loss of generality we can assume that q1 and q2 are the points at which the axes are closest and hence q2 can be rewritten as q2 = q1 + dn where n is the unit normal vector connecting the two axes. The instantaneous work between V and F is
+
+V · F = M1M2 ω2 · (q1 × ω1 + h1ω1) + ω1 · (q2 × ω2 + h2ω2) = M1M2 ω2 · q1 ×ω1 + h1ω1 · ω2 + ω1 · (q1 + dn)×ω2 + h2ω1 · ω2 = M1M2 (h1 + h2) cos α − d sin α ,
+
+which is precisely the reciprocal product. Hence, by deﬁnition, the screws are reciprocal if and only if the reciprocal product is zero.
+
+If we represent screws using twist coordinates, then we can deﬁne
+the reciprocal product directly in terms of the components of the twists. Let V1, V2 ∈ R6 be two arbitrary twists. Then we deﬁne the reciprocal product between V1 and V2 as
+
+V1 ⊙ V2 = v1T ω2 + v2T ω1.
+
+A similar relationship holds if we associate screws with wrenches. Reciprocal screws play an important role in analyzing the kinematic
+properties of mechanisms. For example, in a grasping context we can view the wrenches applied to an object as a set of constraining screws and ask if there are any instantaneous rigid motions (twists) that do not violate the constraints. Such twists, if they exist, correspond to motions
+
+67
+
+F3
+F2 F1
+Figure 2.16: A set of pure forces acting on a rigid body.
+of the grasped object which cannot be restricted by the ﬁngers. This speciﬁc situation is considered in detail in Chapter 5, but we can give some preliminary indications of how the analysis might proceed using the concept of a system of screws.
+As a motivating example, consider the grasping situation depicted in Figure 2.16. Suppose we constrain the motion of a rigid body by applying normal forces at several points around the rigid body. We would like to ascertain if there are any motions of the rigid body which cannot be resisted by these forces. Let {S1, . . . , Sk} represent the screws corresponding to the wrenches. Suppose that there exists another screw Sf such that Sf ⊙ Si = 0. Then, interpreting Sf as a twist and each Si as a wrench, we see that motion along Sf causes no work to be performed against any of the wrenches. Hence, the wrenches cannot resist this type of motion and the object is free to move (instantaneously) along Sf .
+If we interpret a set of screws {S1, . . . , Sk} as twists, then the twists form a linear space over the reals and hence we can talk about scaling and adding screws by interpreting this in terms of regular addition and multiplication on twists. We call the set of screws {S1, . . . , Sk} a system of screws and we deﬁne addition and scaling of screws by associating each screw with a unique twist.
+It follows immediately from the deﬁnition of the reciprocal product that if S is reciprocal to S1 and S2, then it is reciprocal to any linear combination of S1 and S2 (with the linear combination performed in twist coordinates). Using this linearity property, we can deﬁne the set of all screws which are reciprocal to a given system of screws as the recipro-
+68
+
+cal screw system. A reciprocal screw system deﬁnes a linear subspace of twists. If we interpret a screw system as a set of wrenches (or constrained directions), then the reciprocal screw system describes the instantaneous motions which are possible under the constraints. Conversely, if we interpret the screw system as a set of twists, then the reciprocal screw system is the set of wrenches which cause no net motion of the object. Both of these interpretations follow directly from the deﬁnition of the reciprocal product between a twist and a wrench.
+In addition to applications in grasping, screw systems and reciprocal screw systems can be also used to analyze the mobility of mechanisms, as we shall see in detail in the next chapter. The following proposition is one of the main tools in this type of analysis. Its proof follows directly from the fact that the space of twists is a 6-dimensional linear space and that screws can be naturally associated with this linear space. Proposition 2.19. Dimensionality of reciprocal screw systems Let r be the dimension of system of screws {S1, . . . , Sk} (determined by converting the screws into either twists or wrenches) and let n be the dimension of the corresponding reciprocal system. Then,
+r + n = 6. Applying this proposition to the example in Figure 2.16, we see that the subspace of twists which cannot be resisted is at least 3-dimensional. It may have greater dimension if the applied normal forces do not generate independent wrenches.
+69
+
+6 Summary
+
+The following are the key concepts covered in this chapter:
+1. The conﬁguration of a rigid body is represented as an element g ∈ SE(3). An element g ∈ SE(3) may also be viewed as a mapping g : R3 → R3 which preserves distances and angles between points. In homogeneous coordinates, we write
+
+g=
+
+R 0
+
+p 1
+
+R ∈ SO(3) p ∈ R3.
+
+The same representation can also be used for a rigid body transformation between two coordinate frames.
+
+2. Rigid body transformations can be represented as the exponentials of twists:
+
+g = exp(ξθ)
+
+ξ=
+
+ω 0
+
+v 0
+
+,
+
+ω ∈ so(3), v ∈ R3, θ ∈ R.
+
+The twist coordinates of ξ are ξ = (v, ω) ∈ R6.
+
+3. A twist ξ = (v, ω) is associated with a screw motion having attributes
+
+pitch: axis:
+
+h=
+
+ωT ω
+
+v
+2
+
+;
+
+l=
+
+{
+
+ω×v ω2
+
++
+
+λω
+
+:
+
+λ
+
+∈
+
+R},
+
+{0 + λv : λ ∈ R},
+
+if ω = 0 if ω = 0;
+
+magnitude:
+
+M = ω , if ω = 0 v , if ω = 0.
+
+Conversely, given a screw we can write the associated twist. Two special cases are pure rotation about an axis l = {q + λω} by an amount θ and pure translation along an axis l = {0 + λv}:
+
+ξ=
+
+−ω × q ω
+
+θ
+
+(pure rotation)
+
+ξ=
+
+v 0
+
+θ
+
+(pure translation).
+
+4. The velocity of a rigid motion g(t) ∈ SE(3) can be speciﬁed in two ways. The spatial velocity,
+V s = g˙g−1,
+
+70
+
+is a twist which gives the velocity of the rigid body as measured by an observer at the origin of the reference frame. The body velocity,
+
+V b = g−1g˙,
+
+is the velocity of the object in the instantaneous body frame. These velocities are related by the adjoint transformation
+
+V s = Adg V b
+
+Adg =
+
+R 0
+
+pR R
+
+,
+
+which maps R6 → R6. To transform velocities between coordinate frames, we use the relations
+Vasc = Vasb + Adgab Vbsc Vabc = Adgb−c1 Vabb + Vbbc, where Vasb is the spatial velocity of coordinate frame B relative to frame A and Vabb is the body velocity. 5. Wrenches are represented as a force, moment pair
+F = (f, τ ) ∈ R6.
+
+If B is a coordinate frame attached to a rigid body, then we write Fb = (fb, τb) for a wrench applied at the origin of B, with fb and τb speciﬁed with respect to the B coordinate frame. If C is a second coordinate frame, then we can write Fb as an equivalent wrench applied at C:
+Fc = AdTgbc Fb.
+For a rigid body with conﬁguration gab, F s := Fa is called the spatial wrench and F b := Fb is called the body wrench.
+6. A wrench F = (f, τ ) is associated with a screw having attributes
+
+pitch: axis: magnitude:
+
+h=
+
+fT f
+
+τ
+2
+
+;
+
+l=
+
+{
+
+f ×τ f2
+
++
+
+λf
+
+:
+
+λ
+
+∈
+
+R},
+
+{0 + λτ : λ ∈ R},
+
+if f = 0 if f = 0;
+
+M = f , if f = 0 τ , if f = 0.
+
+7. A wrench F and a twist V are reciprocal if F · V = 0. Two screws S1 and S2 are reciprocal if the twist V1 about S1 and the wrench F2
+
+71
+
+along S2 are reciprocal. The reciprocal product between two screws is given by
+S1 ⊙ S2 = V1 · F2 = V1 ⊙ V2 = v1 · ω2 + v2T ω1 where Vi = (vi, ωi) represents the twist associated with the screw Si. Two screws are reciprocal if the reciprocal product between the screws is zero. 8. A system of screws {S1, . . . , Sk} describes the vector space of all linear combinations of the screws {S1, . . . , Sk}. A reciprocal screw system is the set of all screws which are reciprocal to Si. The dimensions of a screw system and its reciprocal system sum to 6 (in SE(3)). All of the concepts presented in this chapter can also be applied to planar rigid body motions (see Exercises 10 and 11).
+7 Bibliography
+The treatment of rigid motion described here, particularly the geometry of twists, was inspired by the work of Paden [85]. The use of exponential coordinates for representing robotic motion was introduced by Brockett [12]. Brockett’s derivation also forms the basis of the next chapter. Related treatments can be found in the classical work by Ball [6] and the more recent texts by Hunt [42], Bottema and Roth [10], Duﬀy [28], Angeles [1], and McCarthy [70]. A more abstract version of the developments of this chapter can be made in the framework of matrix Lie groups and is presented in Appendix A.
+72
+
+8 Exercises
+
+1. Let a, b, c ∈ R3 be 3-vectors and let · and × denote the dot product and cross product in R3. Verify the following identities:
+
+(a) a · (b × c) = (a × b) · c (b) a × (b × c) = (a · c)b − (a · b)c
+
+2. Using the homogeneous representation, show that SE(3) satisﬁes the axioms of a group, with the group multiplication given by the usual matrix multiplication.
+
+3. Properties of rotation matrices Let R ∈ SO(3) be a rotation matrix generated by rotating about a unit vector ω by θ radians. That is, R satisﬁes R = exp(ωθ).
+
+(a) √Show that the eigenvalues of ω are 0, i, and −i, where i = −1. What are the corresponding eigenvectors?
+(b) Show that the eigenvalues of R are 1, eiθ, and e−iθ. What is the eigenvector whose eigenvalue is 1?
+(c) Let R = r1 r2 r3 be a rotation matrix. Show that det R = r1T (r2 × r3).
+4. Properties of skew-symmetric matrices Show that the following properties of skew-symmetric matrices are true:
+
+(a) If R ∈ SO(3) and ω ∈ R3, then RωRT = (Rω)∧. (b) If R ∈ SO(3) and v, w ∈ R3, then R(v × w) = (Rv) × (Rw).
+(c) Show that so(3) is a vector space. Determine its dimension and give a basis for so(3).
+
+5. Cayley parameters
+Another parameterization of SO(3), which does not involve tran-
+scendental functions, is Cayley’s parameterization. Let a be a vector in R3 and let a be the associated 3 × 3 skew-symmetric matrix.
+
+(a) Show that Ra = (I − a)−1(I + a) ∈ SO(3).
+
+(b) Verify that
+
+Ra
+
+=
+
+1 1+ a
+
+2
+
+2 1
+
++
+
+a12
+
+−a22
+
+−
+
+a23
+
+4 2(a1a2 + a3)
+
+2(a1a3 − a2)
+
+2(a1a2 − a3) 1−a12 +a22 − a32
+2(a2a3 + a1)
+
+3 2(a1a3 + a2) 2(a2a3 − a1) 5 1−a12 −a22 +a32
+
+(c) Given a rotation matrix R, compute the Cayley parameters a.
+
+73
+
+6. Unit quaternions Let Q = (q0, q ) and P = (p0, p ) be quaternions, where q0, p0 ∈ R are the scalar parts of Q and P and q, p are the vector parts.
+
+(a) Show that the set of unit quaternions satisﬁes the axioms of a group.
+(b) Let x be a point and let X be a quaternion whose scalar part is zero and whose vector part is equal to x (such a quaternion is called a pure quaternion). Show that if Q is a unit quaternion, the product QXQ∗ is a pure quaternion and the vector part of QXQ∗ satisﬁes
+
+(q02 − q · q )x + 2 q0(q × x ) + (x · q )q .
+
+Verify that the vector part describes the point to which x is rotated under the rotation associated with Q.
+
+(c) Show that the set of unit quaternions is a two-to-one covering of SO(3). That is, for each R ∈ SO(3), there exist two distinct unit quaternions which can be used to represent this rotation.
+
+(d) Compare the number of additions and multiplications needed to perform the following operations:
+
+i. Compose two rotation matrices.
+
+ii. Compose two quaternions.
+
+iii. Apply a rotation matrix to a vector.
+
+iv. Apply a quaternion to a vector [as in part (b)].
+
+Count a subtraction as an addition, and a division as a multiplication.
+
+(e) Show that a rigid body rotating at unit velocity about a unit
+
+vector in ω ∈ R3 can be represented by the quaternion diﬀer-
+
+ential equations
+
+Q˙ · Q∗ = (0, ω/2),
+
+where · represents quaternion multiplication.
+
+7. A rigid body moving in R2 has three degrees of freedom (two com-
+
+ponents of translation and one of rotation), a rigid body moving in
+
+R3 has six degrees of freedom (three each of translation and rota-
+
+tion).
+
+Show that a rigid body moving in Rn will have
+
+1 2
+
+(n
+
++
+
+n2)
+
+degrees of freedom. How many are translational and how many are
+
+rotational?
+
+8. Properties of the matrix exponential Let Λ be a matrix in Rn×n. The exponential of Λ is deﬁned as
+
+eΛ
+
+=
+
+I
+
++
+
+Λ
+
++
+
+Λ2 2!
+
++
+
+Λ3 3!
+
++
+
+···
+
+74
+
+(a) Choose a matrix norm and show that the above series con-
+
+verges.
+
+(b) Let g ∈ Rn×n be an invertible matrix. Show the following
+
+equality:
+
+geΛg−1 = egΛg−1 .
+
+(c) Verify that
+
+d dt
+
+eΛθ
+
+=
+
+(Λθ˙)eΛθ
+
+=
+
+eΛθ (Λθ˙).
+
+9. Projection maps and proof of Proposition 2.9
+
+This problem completes the proof of Proposition 2.9 using the prop-
+
+erties of projection maps on linear spaces. Assume ω ∈ so(3) and
+
+ω = 1.
+
+(a) Given a vector ω ∈ R3, let Nω denote the subspace spanned by ω and Nω⊥ denote the orthogonal complement. Show that
+
+image ω = Nω⊥ and kernel ω = Nω.
+
+(b) Let V ⊂ Rn be a linear subspace. A projection map is a linear mapping PV : Rn → V which satisﬁes image (PV ) = V and PV (x) = x for all x ∈ V . Show that
+
+PNω = ωωT
+
+and
+
+PNω⊥ = (I − ωωT )
+
+are both projection maps.
+(c) Calculate the null space of I −eωbθ for ω ∈ so(3) and θ ∈ (0, 2π) and show that (I − eωbθ) : Nω⊥ → Nω⊥ is bijective.
+(d) Let A = (I − eωbθ)ω + ωωT θ, where θ ∈ (0, 2π). Show that A : R3 → R3 is invertible.
+
+10. Planar rotational motion Let SO(2) be the set of all 2 × 2 orthogonal matrices with determinant equal to +1.
+
+(a) Show that SO(2) can be identiﬁed with the S1, the unit circle in R2.
+(b) Let ω ∈ R be a real number and deﬁne ω ∈ so(2) as the skew-symmetric matrix
+
+ω=
+
+0 ω
+
+−ω 0
+
+.
+
+Show that
+
+eωbθ =
+
+cos ωθ sin ωθ
+
+− sin ωθ cos ωθ
+
+.
+
+Is the exponential map exp : so(2) → SO(2) surjective? injective?
+
+75
+
+(c) Show that for R ∈ SO(2) and ω ∈ so(2), RωRT = ω.
+
+11. Planar rigid body transformations
+A transformation g = (p, R) ∈ SE(2) consists of a translation p ∈ R2 and a 2×2 rotation matrix R. We represent this in homogeneous
+coordinates as a 3 × 3 matrix:
+
+g=
+
+R 0
+
+p 1
+
+.
+
+A twist ξ ∈ se(2) can be represented by a 3 × 3 matrix of the form:
+
+ξ=
+
+ω 0
+
+v 0
+
+ω=
+
+0 ω
+
+−ω 0
+
+ω ∈ R, v ∈ R2.
+
+The twist coordinates for ξ ∈ se(2) have the form ξ = (v, ω) ∈ R3. Note that v is a vector in the plane and ω is a scalar.
+
+(a) Show that the exponential of a twist in se(2) gives a rigid body transformation in SE(2). Consider both the pure translation case, ξ = (v, 0), and the general case, ξ = (v, ω), ω = 0.
+
+(b) Show that the planar twists which correspond to pure rotation
+
+about a point q and pure translation in a direction v are given
+
+by
+
+ qy
+ξ = −qx (pure rotation) 1
+
+ vx
+ξ = vy (pure translation). 0
+
+(c) Show that every planar rigid body motion can be described as either pure rotation about a point (called the pole of the motion) or pure translation.
+
+(d) Show that the matrices V s = g˙g−1 and V b = g−1g˙ are both twists. Deﬁne and interpret the spatial velocity V s ∈ R3 and the body velocity V b ∈ R3.
+
+(e) The adjoint transformation is used to map body velocities V b ∈ R3 into spatial velocities V s ∈ R3. Show that the adjoint
+transformation for planar rigid motions is given by
+
+Adg =
+
+R 0
+
+py
+
+−px
+1
+
+.
+
+12. Verify that for ω ∈ R3, ω = 1
+
+eωbθ = I +
+
+ω ω
+
+sin( ω θ) +
+
+ω2 ω2
+
+1 − cos( ω θ) .
+
+76
+
+C2
+
+C3
+
+C1
+
+l0
+
+l1
+
+l2
+
+C0
+
+Figure 2.17: A two degree of freedom manipulator.
+
+13. Let ξa = (−ωa × qa + hωa, ωa) be the twist associated with a screw having pitch h and axis l = {qa + λωa : λ ∈ R}, where all quantities are speciﬁed relative to a coordinate frame A.
+
+(a) Let B be a second coordinate frame with conﬁguration gab ∈ SE(3). Show that the representation of the twist relative to B
+
+is given by
+
+ξb = Adg−a1b ξa = Adgba ξa.
+
+(b) Suppose instead that we move the screw via a rigid body transformation g ∈ SE(3). Show that the transformed screw can be
+
+represented by the twist
+
+ξa′ = Adg ξa, still relative to the A coordinate frame.
+
+14. Use homogeneous representations to show that the following identities hold:
+
+(a) (Adg)−1 = Adg−1 for all g ∈ SE(3). (b) Adg1g2 = Adg1 Adg2 for all g1, g2 ∈ SE(3).
+15. Prove Proposition 2.15: Vabc = Adgb−c1 Vabb + Vbbc.
+16. Figure 2.17 shows a two degree of freedom manipulator. Let l0, l1, l2 be the link length parameters and θ1, θ2 the joint angle variables of link 1 and link 2, respectively.
+
+(a) Express the position and orientation of frame C3 relative to frame C0 in terms of the joint angle variables and the link parameters.
+
+77
+
+(b) Compute the spatial velocity of C3 relative to C0 as functions of the joint angles and the joint rates.
+(c) Compute the body velocity of C3 relative to C0 as functions of the joint angles and the joint rates.
+(d) Optional: Find the spatial velocity of the origin of C3 and use this to check your answer for parts (b) and (c).
+
+You may want to use a symbolic math package, such as the one described in Appendix B, to carry out the computations in this exercise.
+
+17. Frame invariance and reciprocal screw systems An operator is said to be frame invariant if it does not depend on the choice of coordinate frame used to carry out the calculations. Operations which are frame invariant can be computed relative to any coordinate frame, which can simplify calculations.
+
+(a) Show that the reciprocal product between two screws is frame invariant.
+(b) Show that the inner product between two twists is not frame invariant.
+(c) Calculate a basis for the system of screws reciprocal to a zeropitch screw through a point q. Give a geometric interpretation for the screws which form your basis. (Hint: perform your calculations relative to a specially chosen frame.)
+(d) Calculate a basis for the system of screws reciprocal to an inﬁnite pitch screw. Give a geometric interpretation for the screws which form your basis.
+(e) Using reciprocal screws, show that three parallel, coplanar, zero-pitch screws are dependent. That is, exhibit a system of four independent screws which are reciprocal to each of the coplanar screws.
+
+18. Hybrid representation of velocity
+A seemingly natural way of representing the velocity of a rigid body is to use p˙ to represent the linear velocity and ωs to represent the angular velocity. We call Vahb = (p˙, ωs) the hybrid velocity of a rigid body.
+
+(a) Show that the hybrid velocity is related to the body velocity by the relationship
+
+Vh =
+
+R 0
+
+0 R
+
+Vb
+
+78
+
+and hence represents the velocity of the rigid body relative to a frame attached to the origin of the rigid body, but whose orientation remains ﬁxed relative to the inertial frame. (b) Consider the motion of three coordinates frames, A, B, and C. Show that the following relationship holds between their hybrid velocities:
+Vahc = Ad(−Rabpbc) Vahb + AdRab Vbhc. where Adp denotes the adjoint map corresponding to a pure translation by p and AdR denotes the adjoint map corresponding to pure rotation. (c) Show that the hybrid velocity of a rigid body is independent of the position of the spatial frame, but not its orientation. (d) Show that the hybrid velocity of a rigid body is independent of the orientation of the body frame, but not its position. (e) Interpret a wrench in hybrid coordinates and calculate the change of basis formulas for a change in spatial and/or body frames.
+79
+
+80
+
+Chapter 3
+Manipulator Kinematics
+The kinematics of a robot manipulator describes the relationship between the motion of the joints of the manipulator and the resulting motion of the rigid bodies which form the robot. This chapter gives a description of the kinematics for a general n degree of freedom, open-chain robot manipulator using the tools presented in Chapter 2. We also present a brief treatment of redundant and parallel manipulators using this same framework.
+1 Introduction
+Most modern manipulators consist of a set of rigid links connected together by a set of joints. Motors are attached to the joints so that the overall motion of the mechanism can be controlled to perform a given task. A tool, typically a gripper of some sort, is attached to the end of the robot to interact with the environment.
+Although any type of joint mechanism can be used to connect the links of a robot, traditionally the joints are chosen from a set of six mechanisms called lower pairs. These special types of joint mechanisms correspond to subgroups of the special Euclidean group SE(3). They represent revolute, prismatic, helical, cylindrical, spherical, and planar joints.
+The revolute, prismatic, and helical joints each correspond to screw motions, with the helical joint corresponding to a general screw with ﬁnite, nonzero pitch. A cylindrical joint has two independent degrees of freedom and is typically constructed by combining a revolute and a prismatic joint such that their axes are coincident. Revolute and prismatic joints are by far the most common type of joint encountered in robotics.
+A spherical joint is a mechanism which is capable of arbitrary rotations. Passive spherical joints often consist of a ball inserted into a socket, and are therefore referred to as ball and socket joints. Unfortunately, this
+81
+
+type of mechanism does not work well if the joint is to exert forces and torques, and hence actuated spherical joints are most often constructed by combining three revolute joints (with motors) such that their axes all intersect at a point. The orientation of the joint is then given by
+R = eωb1θ1 eωb2θ2 eωb3θ3 ,
+where ω1, ω2, ω3 ∈ R3 represent the directions of the three axes. This is very similar to an Euler angle parameterization of orientation and has the same limitations in terms of singularities of the mechanism. Spherical mechanisms are often used as wrists in robot manipulators to allow arbitrary orientation of the gripper or tool at the end of the robot.
+Planar joints allow for arbitrary translation and rotation in the plane. Along with helical joints, they are the least commonly used of the lowerpair mechanisms. A planar joint can be built from a revolute joint attached to two independent prismatic joints. The motion of a planar joint is restricted to SE(2), regarded as a 3-dimensional subgroup of SE(3).
+Modern robot manipulators, and kinematic mechanisms in general, are typically constructed by connecting diﬀerent lower-pair joints together using rigid links. Since each of the joints restricts the motion of adjacent links to a subgroup of SE(3), the tools developed in the last chapter provide a natural starting point for the analysis of such mechanisms. In this chapter and the next, we concentrate on the kinematics, dynamics, and control of open-chain robot manipulators, in which a number of links are attached serially by a set of actuated joints. By controlling the forces and torques on each of the links, we seek to move the robot in a speciﬁed way.
+The heart of the formulation which we present here is the product of exponentials formula, which represents the kinematics of an open-chain mechanism as the product of exponentials of twists. This setting works whenever the joints of the robot consist of either revolute, prismatic, or helical joints, which is the case for practically all commercially available robot manipulators. It provides a global, geometric representation of the kinematics of a manipulator which greatly simpliﬁes the analysis of the mechanism and provides a very structured parameterization for openchain robots.
+This chapter is organized as follows: Section 2 contains a derivation of the product of exponentials formula for the forward kinematics of an arbitrary open-chain manipulator. We concentrate on the most general case, where the end-eﬀector conﬁguration lies in SE(3). Section 3 discusses the inverse problem of ﬁnding a set of joint angles which causes the end-eﬀector to have a desired conﬁguration. We make extensive use of a set of subproblems originally proposed by Paden and Kahan which are very closely related to the exponential representation of rigid body motion. Section 4 derives the velocity and force relationships between
+82
+

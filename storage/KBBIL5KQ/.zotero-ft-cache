@@ -1,0 +1,758 @@
+
+Canonical correlation
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by 89.205.128.228 ( talk ) at 10:54, 7 August 2018 ( → ‎ Implementation ) . The present address (URL) is a permanent link to this version.
+Revision as of 10:54, 7 August 2018 by 89.205.128.228 ( talk ) ( → ‎ Implementation )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+Machine learning and
+data mining
+Kernel Machine.svg
+Problems [show]
+
+    Classification
+    Clustering
+    Regression
+    Anomaly detection
+    AutoML
+    Association rules
+    Reinforcement learning
+    Structured prediction
+    Feature engineering
+    Feature learning
+    Online learning
+    Semi-supervised learning
+    Unsupervised learning
+    Learning to rank
+    Grammar induction
+
+Supervised learning
+( classification  • regression )
+[show]
+
+    Decision trees
+    Ensembles ( Bagging , Boosting , Random forest )
+    k -NN
+    Linear regression
+    Naive Bayes
+    Neural networks
+    Logistic regression
+    Perceptron
+    Relevance vector machine (RVM)
+    Support vector machine (SVM)
+
+Clustering [show]
+
+    BIRCH
+    CURE
+    Hierarchical
+    k -means
+    Expectation–maximization (EM)
+
+    DBSCAN
+    OPTICS
+    Mean-shift
+
+Dimensionality reduction [show]
+
+    Factor analysis
+    CCA
+    ICA
+    LDA
+    NMF
+    PCA
+    t-SNE
+
+Structured prediction [show]
+
+    Graphical models ( Bayes net , CRF , HMM )
+
+Anomaly detection [show]
+
+    k -NN
+    Local outlier factor
+
+Neural nets [show]
+
+    Autoencoder
+    Deep learning
+    Multilayer perceptron
+    RNN ( LSTM , GRU )
+    Restricted Boltzmann machine
+    SOM
+    Convolutional neural network ( U-Net )
+
+Reinforcement learning [show]
+
+    Q-learning
+    SARSA
+    Temporal difference (TD)
+
+Theory [show]
+
+    Bias-variance dilemma
+    Computational learning theory
+    Empirical risk minimization
+    Occam learning
+    PAC learning
+    Statistical learning
+    VC theory
+
+Machine-learning venues [show]
+
+    NIPS
+    ICML
+    ML
+    JMLR
+    ArXiv:cs.LG
+
+Glossary of artificial intelligence [show]
+
+    Glossary of artificial intelligence
+
+Related articles [show]
+
+    List of datasets for machine-learning research
+    Outline of machine learning
+
+    Portal-puzzle.svg Machine learning portal
+
+    v
+    t
+    e
+
+In statistics , canonical-correlation analysis ( CCA ) is a way of inferring information from cross-covariance matrices . If we have two vectors X = ( X 1 , ..., X n ) and Y = ( Y 1 , ..., Y m ) of random variables , and there are correlations among the variables, then canonical-correlation analysis will find linear combinations of X and Y which have maximum correlation with each other. [1] T. R. Knapp notes that "virtually all of the commonly encountered parametric tests of significance can be treated as special cases of canonical-correlation analysis, which is the general procedure for investigating the relationships between two sets of variables." [2] The method was first introduced by Harold Hotelling in 1936. [3]
+Contents
+
+    1 Definition
+    2 Computation
+        2.1 Derivation
+        2.2 Solution
+        2.3 Implementation
+    3 Hypothesis testing
+    4 Practical uses
+    5 Examples
+    6 Connection to principal angles
+    7 Whitening and probabilistic canonical correlation analysis
+    8 See also
+    9 References
+    10 External links
+
+Definition [ edit ]
+
+Given two column vectors X = ( x 1 , … , x n ) ′ {\displaystyle X=(x_{1},\dots ,x_{n})'} X=(x_{1},\dots ,x_{n})' and Y = ( y 1 , … , y m ) ′ {\displaystyle Y=(y_{1},\dots ,y_{m})'} Y=(y_{1},\dots ,y_{m})' of random variables with finite second moments , one may define the cross-covariance Σ X Y = cov ⁡ ( X , Y ) {\displaystyle \Sigma _{XY}=\operatorname {cov} (X,Y)} \Sigma _{XY}=\operatorname {cov} (X,Y) to be the n × m {\displaystyle n\times m} n\times m matrix whose ( i , j ) {\displaystyle (i,j)} (i,j) entry is the covariance cov ⁡ ( x i , y j ) {\displaystyle \operatorname {cov} (x_{i},y_{j})} \operatorname {cov} (x_{i},y_{j}) . In practice, we would estimate the covariance matrix based on sampled data from X {\displaystyle X} X and Y {\displaystyle Y} Y (i.e. from a pair of data matrices).
+
+Canonical-correlation analysis seeks vectors a {\displaystyle a} a ( a {\displaystyle a} a ∈ R n {\displaystyle \in R^{n}} {\displaystyle \in R^{n}} ) and b {\displaystyle b} b ( b ∈ R m {\displaystyle b\in R^{m}} {\displaystyle b\in R^{m}} ) such that the random variables a ′ T X {\displaystyle a'^{T}X} {\displaystyle a'^{T}X} and b ′ T Y {\displaystyle b'^{T}Y} {\displaystyle b'^{T}Y} maximize the correlation ρ = corr ⁡ ( a ′ T X , b ′ T Y ) {\displaystyle \rho =\operatorname {corr} (a'^{T}X,b'^{T}Y)} {\displaystyle \rho =\operatorname {corr} (a'^{T}X,b'^{T}Y)} . The random variables U = a ′ T X {\displaystyle U=a'^{T}X} {\displaystyle U=a'^{T}X} and V = b ′ T Y {\displaystyle V=b'^{T}Y} {\displaystyle V=b'^{T}Y} are the first pair of canonical variables . Then one seeks vectors maximizing the same correlation subject to the constraint that they are to be uncorrelated with the first pair of canonical variables; this gives the second pair of canonical variables . This procedure may be continued up to min { m , n } {\displaystyle \min\{m,n\}} \min\{m,n\} times.
+
+a ′ , b ′ = argmax a , b corr ⁡ ( a T X , b T Y ) {\displaystyle \mathbf {a'} ,\mathbf {b'} ={\mbox{argmax}}_{\mathbf {a} ,\mathbf {b} }\operatorname {corr} (a^{T}X,b^{T}Y)}
+{\displaystyle \mathbf {a'} ,\mathbf {b'} ={\mbox{argmax}}_{\mathbf {a} ,\mathbf {b} }\operatorname {corr} (a^{T}X,b^{T}Y)}
+
+Computation [ edit ]
+Derivation [ edit ]
+
+Let Σ X X = cov ⁡ ( X , X ) {\displaystyle \Sigma _{XX}=\operatorname {cov} (X,X)} \Sigma _{XX}=\operatorname {cov} (X,X) and Σ Y Y = cov ⁡ ( Y , Y ) {\displaystyle \Sigma _{YY}=\operatorname {cov} (Y,Y)} \Sigma _{YY}=\operatorname {cov} (Y,Y) . The parameter to maximize is
+
+    ρ = a T Σ X Y b a T Σ X X a b T Σ Y Y b . {\displaystyle \rho ={\frac {a^{T}\Sigma _{XY}b}{{\sqrt {a^{T}\Sigma _{XX}a}}{\sqrt {b^{T}\Sigma _{YY}b}}}}.} {\displaystyle \rho ={\frac {a^{T}\Sigma _{XY}b}{{\sqrt {a^{T}\Sigma _{XX}a}}{\sqrt {b^{T}\Sigma _{YY}b}}}}.} 
+
+The first step is to define a change of basis and define
+
+    c = Σ X X 1 / 2 a , {\displaystyle c=\Sigma _{XX}^{1/2}a,} c=\Sigma _{XX}^{1/2}a, 
+
+    d = Σ Y Y 1 / 2 b . {\displaystyle d=\Sigma _{YY}^{1/2}b.} d=\Sigma _{YY}^{1/2}b. 
+
+And thus we have
+
+    ρ = c T Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 / 2 d c T c d T d . {\displaystyle \rho ={\frac {c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}d}{{\sqrt {c^{T}c}}{\sqrt {d^{T}d}}}}.} {\displaystyle \rho ={\frac {c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}d}{{\sqrt {c^{T}c}}{\sqrt {d^{T}d}}}}.} 
+
+By the Cauchy–Schwarz inequality , we have
+
+    ( c T Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 / 2 ) ( d ) ≤ ( c T Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 / 2 Σ Y Y − 1 / 2 Σ Y X Σ X X − 1 / 2 c ) 1 / 2 ( d T d ) 1 / 2 , {\displaystyle \left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}\right)(d)\leq \left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}\Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c\right)^{1/2}\left(d^{T}d\right)^{1/2},} {\displaystyle \left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}\right)(d)\leq \left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}\Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c\right)^{1/2}\left(d^{T}d\right)^{1/2},} 
+
+    ρ ≤ ( c T Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 Σ Y X Σ X X − 1 / 2 c ) 1 / 2 ( c T c ) 1 / 2 . {\displaystyle \rho \leq {\frac {\left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2}c\right)^{1/2}}{\left(c^{T}c\right)^{1/2}}}.} {\displaystyle \rho \leq {\frac {\left(c^{T}\Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2}c\right)^{1/2}}{\left(c^{T}c\right)^{1/2}}}.} 
+
+There is equality if the vectors d {\displaystyle d} d and Σ Y Y − 1 / 2 Σ Y X Σ X X − 1 / 2 c {\displaystyle \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c} \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c are collinear. In addition, the maximum of correlation is attained if c {\displaystyle c} c is the eigenvector with the maximum eigenvalue for the matrix Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 Σ Y X Σ X X − 1 / 2 {\displaystyle \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2}} \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2} (see Rayleigh quotient ). The subsequent pairs are found by using eigenvalues of decreasing magnitudes. Orthogonality is guaranteed by the symmetry of the correlation matrices.
+Solution [ edit ]
+
+The solution is therefore:
+
+    c {\displaystyle c} c is an eigenvector of Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 Σ Y X Σ X X − 1 / 2 {\displaystyle \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2}} \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1/2}
+    d {\displaystyle d} d is proportional to Σ Y Y − 1 / 2 Σ Y X Σ X X − 1 / 2 c {\displaystyle \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c} \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1/2}c
+
+Reciprocally, there is also:
+
+    d {\displaystyle d} d is an eigenvector of Σ Y Y − 1 / 2 Σ Y X Σ X X − 1 Σ X Y Σ Y Y − 1 / 2 {\displaystyle \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1}\Sigma _{XY}\Sigma _{YY}^{-1/2}} \Sigma _{YY}^{-1/2}\Sigma _{YX}\Sigma _{XX}^{-1}\Sigma _{XY}\Sigma _{YY}^{-1/2}
+    c {\displaystyle c} c is proportional to Σ X X − 1 / 2 Σ X Y Σ Y Y − 1 / 2 d {\displaystyle \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}d} \Sigma _{XX}^{-1/2}\Sigma _{XY}\Sigma _{YY}^{-1/2}d
+
+Reversing the change of coordinates, we have that
+
+    a {\displaystyle a} a is an eigenvector of Σ X X − 1 Σ X Y Σ Y Y − 1 Σ Y X {\displaystyle \Sigma _{XX}^{-1}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX}} \Sigma _{XX}^{-1}\Sigma _{XY}\Sigma _{YY}^{-1}\Sigma _{YX} ,
+    b {\displaystyle b} b is proportional to Σ Y Y − 1 Σ Y X a {\displaystyle \Sigma _{YY}^{-1}\Sigma _{YX}a} \Sigma _{YY}^{-1}\Sigma _{YX}a ;
+    b {\displaystyle b} b is an eigenvector of Σ Y Y − 1 Σ Y X Σ X X − 1 Σ X Y {\displaystyle \Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1}\Sigma _{XY}} \Sigma _{YY}^{-1}\Sigma _{YX}\Sigma _{XX}^{-1}\Sigma _{XY} ,
+    a {\displaystyle a} a is proportional to Σ X X − 1 Σ X Y b {\displaystyle \Sigma _{XX}^{-1}\Sigma _{XY}b} \Sigma _{XX}^{-1}\Sigma _{XY}b .
+
+The canonical variables are defined by:
+
+    U = c ′ Σ X X − 1 / 2 X = a ′ X {\displaystyle U=c'\Sigma _{XX}^{-1/2}X=a'X} U=c'\Sigma _{XX}^{-1/2}X=a'X 
+
+    V = d ′ Σ Y Y − 1 / 2 Y = b ′ Y {\displaystyle V=d'\Sigma _{YY}^{-1/2}Y=b'Y} V=d'\Sigma _{YY}^{-1/2}Y=b'Y 
+
+Implementation [ edit ]
+
+CCA can be computed using singular value decomposition on a correlation matrix. [4] It is available as a function in [5]
+
+    MATLAB as canoncorr ( also in Octave )
+    R as the standard function cancor and several other packages. CCP for statistical hypothesis testing in canonical correlation analysis.
+    SAS as proc cancorr
+    scikit-learn , Python as Cross decomposition
+    SPSS as macro CanCorr shipped with the main software
+
+Hypothesis testing [ edit ]
+
+Each row can be tested for significance with the following method. Since the correlations are sorted, saying that row i {\displaystyle i} i is zero implies all further correlations are also zero. If we have p {\displaystyle p} p independent observations in a sample and ρ ^ i {\displaystyle {\widehat {\rho }}_{i}} {\widehat {\rho }}_{i} is the estimated correlation for i = 1 , … , min { m , n } {\displaystyle i=1,\dots ,\min\{m,n\}} i=1,\dots ,\min\{m,n\} . For the i {\displaystyle i} i th row, the test statistic is:
+
+    χ 2 = − ( p − 1 − 1 2 ( m + n + 1 ) ) ln ⁡ ∏ j = i min { m , n } ( 1 − ρ ^ j 2 ) , {\displaystyle \chi ^{2}=-\left(p-1-{\frac {1}{2}}(m+n+1)\right)\ln \prod _{j=i}^{\min\{m,n\}}(1-{\widehat {\rho }}_{j}^{2}),} \chi ^{2}=-\left(p-1-{\frac {1}{2}}(m+n+1)\right)\ln \prod _{j=i}^{\min\{m,n\}}(1-{\widehat {\rho }}_{j}^{2}), 
+
+which is asymptotically distributed as a chi-squared with ( m − i + 1 ) ( n − i + 1 ) {\displaystyle (m-i+1)(n-i+1)} (m-i+1)(n-i+1) degrees of freedom for large p {\displaystyle p} p . [6] Since all the correlations from min { m , n } {\displaystyle \min\{m,n\}} \min\{m,n\} to p {\displaystyle p} p are logically zero (and estimated that way also) the product for the terms after this point is irrelevant.
+Practical uses [ edit ]
+
+A typical use for canonical correlation in the experimental context is to take two sets of variables and see what is common amongst the two sets [7] . For example, in psychological testing, one could take two well established multidimensional personality tests such as the Minnesota Multiphasic Personality Inventory (MMPI-2) and the NEO . By seeing how the MMPI-2 factors relate to the NEO factors, one could gain insight into what dimensions were common between the tests and how much variance was shared. For example, one might find that an extraversion or neuroticism dimension accounted for a substantial amount of shared variance between the two tests.
+
+One can also use canonical-correlation analysis to produce a model equation which relates two sets of variables, for example a set of performance measures and a set of explanatory variables, or a set of outputs and set of inputs. Constraint restrictions can be imposed on such a model to ensure it reflects theoretical requirements or intuitively obvious conditions. This type of model is known as a maximum correlation model. [8]
+
+Visualization of the results of canonical correlation is usually through bar plots of the coefficients of the two sets of variables for the pairs of canonical variates showing significant correlation. Some authors suggest that they are best visualized by plotting them as heliographs, a circular format with ray like bars, with each half representing the two sets of variables. [9]
+Examples [ edit ]
+
+Let X = x 1 {\displaystyle X=x_{1}} X=x_{1} with zero expected value , i.e., E ⁡ ( X ) = 0 {\displaystyle \operatorname {E} (X)=0} \operatorname {E} (X)=0 . If Y = X {\displaystyle Y=X} Y=X , i.e., X {\displaystyle X} X and Y {\displaystyle Y} Y are perfectly correlated, then, e.g., a = 1 {\displaystyle a=1} a=1 and b = 1 {\displaystyle b=1} b=1 , so that the first (and only in this example) pair of canonical variables is U = X {\displaystyle U=X} U=X and V = Y = X {\displaystyle V=Y=X} V=Y=X . If Y = − X {\displaystyle Y=-X} Y=-X , i.e., X {\displaystyle X} X and Y {\displaystyle Y} Y are perfectly anticorrelated, then, e.g., a = 1 {\displaystyle a=1} a=1 and b = − 1 {\displaystyle b=-1} b=-1 , so that the first (and only in this example) pair of canonical variables is U = X {\displaystyle U=X} U=X and V = − Y = X {\displaystyle V=-Y=X} V=-Y=X . We notice that in both cases U = V {\displaystyle U=V} U=V , which illustrates that the canonical-correlation analysis treats correlated and anticorrelated variables similarly.
+Connection to principal angles [ edit ]
+
+Assuming that X = ( x 1 , … , x n ) ′ {\displaystyle X=(x_{1},\dots ,x_{n})'} X=(x_{1},\dots ,x_{n})' and Y = ( y 1 , … , y m ) ′ {\displaystyle Y=(y_{1},\dots ,y_{m})'} Y=(y_{1},\dots ,y_{m})' have zero expected values , i.e., E ⁡ ( X ) = E ⁡ ( Y ) = 0 {\displaystyle \operatorname {E} (X)=\operatorname {E} (Y)=0} \operatorname {E} (X)=\operatorname {E} (Y)=0 , their covariance matrices Σ X X = Cov ⁡ ( X , X ) = E ⁡ [ X X ′ ] {\displaystyle \Sigma _{XX}=\operatorname {Cov} (X,X)=\operatorname {E} [XX']} \Sigma _{XX}=\operatorname {Cov} (X,X)=\operatorname {E} [XX'] and Σ Y Y = Cov ⁡ ( Y , Y ) = E ⁡ [ Y Y ′ ] {\displaystyle \Sigma _{YY}=\operatorname {Cov} (Y,Y)=\operatorname {E} [YY']} \Sigma _{YY}=\operatorname {Cov} (Y,Y)=\operatorname {E} [YY'] can be viewed as Gram matrices in an inner product for the entries of X {\displaystyle X} X and Y {\displaystyle Y} Y , correspondingly. In this interpretation, the random variables, entries x i {\displaystyle x_{i}} x_{i} of X {\displaystyle X} X and y j {\displaystyle y_{j}} y_{j} of Y {\displaystyle Y} Y are treated as elements of a vector space with an inner product given by the covariance cov ⁡ ( x i , y j ) {\displaystyle \operatorname {cov} (x_{i},y_{j})} \operatorname {cov} (x_{i},y_{j}) ; see Covariance#Relationship to inner products .
+
+The definition of the canonical variables U {\displaystyle U} U and V {\displaystyle V} V is then equivalent to the definition of principal vectors for the pair of subspaces spanned by the entries of X {\displaystyle X} X and Y {\displaystyle Y} Y with respect to this inner product . The canonical correlations corr ⁡ ( U , V ) {\displaystyle \operatorname {corr} (U,V)} \operatorname {corr} (U,V) is equal to the cosine of principal angles .
+Whitening and probabilistic canonical correlation analysis [ edit ]
+
+CCA can also be viewed as special whitening transformation where random vectors X {\displaystyle X} X and Y {\displaystyle Y} Y are simultaneously transformed in such a way that the cross-correlation between the whitened vectors X C C A {\displaystyle X^{CCA}} {\displaystyle X^{CCA}} and Y C C A {\displaystyle Y^{CCA}} {\displaystyle Y^{CCA}} is diagonal. [10] The canonical correlations are then interpreted as regression coefficients linking X C C A {\displaystyle X^{CCA}} {\displaystyle X^{CCA}} and Y C C A {\displaystyle Y^{CCA}} {\displaystyle Y^{CCA}} and may also be negative. The regression view of CCA also provides a way to construct a latent variable probabilistic generative model for CCA, with uncorrelated hidden variables representing shared and non-shared variability.
+See also [ edit ]
+
+    Generalized canonical correlation
+    Multilinear subspace learning
+    RV coefficient
+    Angles between flats
+    Principal component analysis
+    Linear discriminant analysis
+    Regularized canonical correlation analysis
+    Singular-value decomposition
+    Partial least squares regression
+
+References [ edit ]
+
+    Jump up ^ Härdle, Wolfgang; Simar, Léopold (2007). "Canonical Correlation Analysis". Applied Multivariate Statistical Analysis . pp. 321–330. doi : 10.1007/978-3-540-72244-1_14 . ISBN   978-3-540-72243-4 .  
+    Jump up ^ Knapp, T. R. (1978). "Canonical correlation analysis: A general parametric significance-testing system". Psychological Bulletin . 85 (2): 410–416. doi : 10.1037/0033-2909.85.2.410 .  
+    Jump up ^ Hotelling, H. (1936). "Relations Between Two Sets of Variates". Biometrika . 28 (3–4): 321–377. doi : 10.1093/biomet/28.3-4.321 . JSTOR   2333955 .  
+    Jump up ^ Hsu, D.; Kakade, S. M.; Zhang, T. (2012). "A spectral algorithm for learning Hidden Markov Models" (PDF) . Journal of Computer and System Sciences . 78 (5): 1460. arXiv : 0811.4413  Freely accessible . doi : 10.1016/j.jcss.2011.12.025 .  
+    Jump up ^ Huang, S. Y.; Lee, M. H.; Hsiao, C. K. (2009). "Nonlinear measures of association with kernel canonical correlation analysis and applications" (PDF) . Journal of Statistical Planning and Inference . 139 (7): 2162. doi : 10.1016/j.jspi.2008.10.011 .  
+    Jump up ^ Kanti V. Mardia , J. T. Kent and J. M. Bibby (1979). Multivariate Analysis . Academic Press .  
+    Jump up ^ Sieranoja, S.; Sahidullah, Md; Kinnunen, T.; Komulainen, J.; Hadid, A. (July 2018). "Audiovisual Synchrony Detection with Optimized Audio Features" (PDF) . IEEE 3rd Int. Conference on Signal and Image Processing (ICSIP 2018) .  
+    Jump up ^ Tofallis, C. (1999). "Model Building with Multiple Dependent Variables and Constraints". Journal of the Royal Statistical Society, Series D . 48 (3): 371–378. arXiv : 1109.0725  Freely accessible . doi : 10.1111/1467-9884.00195 .  
+    Jump up ^ Degani, A.; Shafto, M.; Olson, L. (2006). "Canonical Correlation Analysis: Use of Composite Heliographs for Representing Multiple Patterns". Diagrammatic Representation and Inference (PDF) . Lecture Notes in Computer Science. 4045 . p. 93. doi : 10.1007/11783183_11 . ISBN   978-3-540-35623-3 .  
+    Jump up ^ Jendoubi, T.; Strimmer, K. (2018). "A whitening approach to probabilistic canonical correlation analysis for omics data integration". arXiv : 1802.03490  Freely accessible [ stat.ME ].  
+
+External links [ edit ]
+
+    Discriminant Correlation Analysis (DCA) [1] ( MATLAB )
+    Hardoon, D. R.; Szedmak, S.; Shawe-Taylor, J. (2004). "Canonical Correlation Analysis: An Overview with Application to Learning Methods". Neural Computation . 16 (12): 2639–2664. doi : 10.1162/0899766042321814 . PMID   15516276 .  
+    A note on the ordinal canonical-correlation analysis of two sets of ranking scores (Also provides a FORTRAN program)- in Journal of Quantitative Economics 7(2), 2009, pp. 173–199
+    Representation-Constrained Canonical Correlation Analysis: A Hybridization of Canonical Correlation and Principal Component Analyses (Also provides a FORTRAN program)- in Journal of Applied Economic Sciences 4(1), 2009, pp. 115–124
+
+
+    v
+    t
+    e
+
+Statistics
+
+    Outline
+    Index
+
+Descriptive statistics
+Continuous data 	
+Center 	
+
+    Mean
+        arithmetic
+        geometric
+        harmonic
+    Median
+    Mode
+
+Dispersion 	
+
+    Variance
+    Standard deviation
+    Coefficient of variation
+    Percentile
+    Range
+    Interquartile range
+
+Shape 	
+
+    Central limit theorem
+    Moments
+        Skewness
+        Kurtosis
+        L-moments
+
+Count data 	
+
+    Index of dispersion
+
+Summary tables 	
+
+    Grouped data
+    Frequency distribution
+    Contingency table
+
+Dependence 	
+
+    Pearson product-moment correlation
+    Rank correlation
+        Spearman's rho
+        Kendall's tau
+    Partial correlation
+    Scatter plot
+
+Graphics 	
+
+    Bar chart
+    Biplot
+    Box plot
+    Control chart
+    Correlogram
+    Fan chart
+    Forest plot
+    Histogram
+    Pie chart
+    Q–Q plot
+    Run chart
+    Scatter plot
+    Stem-and-leaf display
+    Radar chart
+
+Data collection
+Study design 	
+
+    Population
+    Statistic
+    Effect size
+    Statistical power
+    Sample size determination
+    Missing data
+
+Survey methodology 	
+
+    Sampling
+        stratified
+        cluster
+    Standard error
+    Opinion poll
+    Questionnaire
+
+Controlled experiments 	
+
+    Design
+        control
+        optimal
+    Controlled trial
+    Randomized
+    Random assignment
+    Replication
+    Blocking
+    Interaction
+    Factorial experiment
+
+Uncontrolled studies 	
+
+    Observational study
+    Natural experiment
+    Quasi-experiment
+
+Statistical inference
+Statistical theory 	
+
+    Population
+    Statistic
+    Probability distribution
+    Sampling distribution
+        Order statistic
+    Empirical distribution
+        Density estimation
+    Statistical model
+        L p space
+    Parameter
+        location
+        scale
+        shape
+    Parametric family
+        Likelihood   (monotone)
+        Location–scale family
+        Exponential family
+    Completeness
+    Sufficiency
+    Statistical functional
+        Bootstrap
+        U
+        V
+    Optimal decision
+        loss function
+    Efficiency
+    Statistical distance
+        divergence
+    Asymptotics
+    Robustness
+
+Frequentist inference 	
+Point estimation 	
+
+    Estimating equations
+        Maximum likelihood
+        Method of moments
+        M-estimator
+        Minimum distance
+    Unbiased estimators
+        Mean-unbiased minimum-variance
+            Rao–Blackwellization
+            Lehmann–Scheffé theorem
+        Median unbiased
+    Plug-in
+
+Interval estimation 	
+
+    Confidence interval
+    Pivot
+    Likelihood interval
+    Prediction interval
+    Tolerance interval
+    Resampling
+        Bootstrap
+        Jackknife
+
+Testing hypotheses 	
+
+    1- & 2-tails
+    Power
+        Uniformly most powerful test
+    Permutation test
+        Randomization test
+    Multiple comparisons
+
+Parametric tests 	
+
+    Likelihood-ratio
+    Wald
+    Score
+
+Specific tests 	
+
+    Z -test (normal)
+    Student's t -test
+    F -test
+
+Goodness of fit 	
+
+    Chi-squared
+    G -test
+    Kolmogorov–Smirnov
+    Anderson–Darling
+    Lilliefors
+    Jarque–Bera
+    Normality (Shapiro–Wilk)
+    Likelihood-ratio test
+    Model selection
+        Cross validation
+        AIC
+        BIC
+
+Rank statistics 	
+
+    Sign
+        Sample median
+    Signed rank (Wilcoxon)
+        Hodges–Lehmann estimator
+    Rank sum (Mann–Whitney)
+    Nonparametric anova
+        1-way (Kruskal–Wallis)
+        2-way (Friedman)
+        Ordered alternative (Jonckheere–Terpstra)
+
+Bayesian inference 	
+
+    Bayesian probability
+        prior
+        posterior
+    Credible interval
+    Bayes factor
+    Bayesian estimator
+        Maximum posterior estimator
+
+    Correlation
+    Regression analysis
+
+Correlation 	
+
+    Pearson product-moment
+    Partial correlation
+    Confounding variable
+    Coefficient of determination
+
+Regression analysis 	
+
+    Errors and residuals
+    Regression model validation
+    Mixed effects models
+    Simultaneous equations models
+    Multivariate adaptive regression splines (MARS)
+
+Linear regression 	
+
+    Simple linear regression
+    Ordinary least squares
+    General linear model
+    Bayesian regression
+
+Non-standard predictors 	
+
+    Nonlinear regression
+    Nonparametric
+    Semiparametric
+    Isotonic
+    Robust
+    Heteroscedasticity
+    Homoscedasticity
+
+Generalized linear model 	
+
+    Exponential families
+    Logistic (Bernoulli)  / Binomial  / Poisson regressions
+
+Partition of variance 	
+
+    Analysis of variance (ANOVA, anova)
+    Analysis of covariance
+    Multivariate ANOVA
+    Degrees of freedom
+
+Categorical  / Multivariate  / Time-series  / Survival analysis
+Categorical 	
+
+    Cohen's kappa
+    Contingency table
+    Graphical model
+    Log-linear model
+    McNemar's test
+
+Multivariate 	
+
+    Regression
+    Manova
+    Principal components
+    Canonical correlation
+    Discriminant analysis
+    Cluster analysis
+    Classification
+    Structural equation model
+        Factor analysis
+    Multivariate distributions
+        Elliptical distributions
+            Normal
+
+Time-series 	
+General 	
+
+    Decomposition
+    Trend
+    Stationarity
+    Seasonal adjustment
+    Exponential smoothing
+    Cointegration
+    Structural break
+    Granger causality
+
+Specific tests 	
+
+    Dickey–Fuller
+    Johansen
+    Q-statistic (Ljung–Box)
+    Durbin–Watson
+    Breusch–Godfrey
+
+Time domain 	
+
+    Autocorrelation (ACF)
+        partial (PACF)
+    Cross-correlation (XCF)
+    ARMA model
+    ARIMA model (Box–Jenkins)
+    Autoregressive conditional heteroskedasticity (ARCH)
+    Vector autoregression (VAR)
+
+Frequency domain 	
+
+    Spectral density estimation
+    Fourier analysis
+    Wavelet
+    Whittle likelihood
+
+Survival 	
+Survival function 	
+
+    Kaplan–Meier estimator (product limit)
+    Proportional hazards models
+    Accelerated failure time (AFT) model
+    First hitting time
+
+Hazard function 	
+
+    Nelson–Aalen estimator
+
+Test 	
+
+    Log-rank test
+
+Applications
+Biostatistics 	
+
+    Bioinformatics
+    Clinical trials  / studies
+    Epidemiology
+    Medical statistics
+
+Engineering statistics 	
+
+    Chemometrics
+    Methods engineering
+    Probabilistic design
+    Process  / quality control
+    Reliability
+    System identification
+
+Social statistics 	
+
+    Actuarial science
+    Census
+    Crime statistics
+    Demography
+    Econometrics
+    National accounts
+    Official statistics
+    Population statistics
+    Psychometrics
+
+Spatial statistics 	
+
+    Cartography
+    Environmental statistics
+    Geographic information system
+    Geostatistics
+    Kriging
+
+    Category Category
+    Portal Portal
+    Commons page Commons
+    WikiProject WikiProject
+
+    Jump up ^ M. Haghighat, M. Abdel-Mottaleb, & W. Alhalabi (2016). Discriminant Correlation Analysis: Real-Time Feature Level Fusion for Multimodal Biometric Recognition . IEEE Transactions on Information Forensics and Security, 11(9), 1984-1996.
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Canonical_correlation&oldid=853853279 "
+Categories :
+
+    Covariance and correlation
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Català
+    Deutsch
+    Español
+    Euskara
+    Français
+    日本語
+    Polski
+    Basa Sunda
+    Svenska
+    Українська
+    中文
+
+Edit links
+
+    This page was last edited on 7 August 2018, at 10:54  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

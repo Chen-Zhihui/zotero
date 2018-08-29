@@ -1,0 +1,747 @@
+
+Covariance
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by MathKnight-at-TAU ( talk  | contribs ) at 13:39, 26 August 2018 ( → ‎ Discrete variables ) . The present address (URL) is a permanent link to this version.
+Revision as of 13:39, 26 August 2018 by MathKnight-at-TAU ( talk  | contribs ) ( → ‎ Discrete variables )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+This article is about the measure of linear relation between random variables. For other uses, see Covariance (disambiguation) .
+
+In probability theory and statistics , covariance is a measure of the joint variability of two random variables . [1] If the greater values of one variable mainly correspond with the greater values of the other variable, and the same holds for the lesser values, (i.e., the variables tend to show similar behavior), the covariance is positive. [2] In the opposite case, when the greater values of one variable mainly correspond to the lesser values of the other, (i.e., the variables tend to show opposite behavior), the covariance is negative. The sign of the covariance therefore shows the tendency in the linear relationship between the variables. The magnitude of the covariance is not easy to interpret because it is not normalized and hence depends on the magnitudes of the variables. The normalized version of the covariance , the correlation coefficient , however, shows by its magnitude the strength of the linear relation.
+
+A distinction must be made between (1) the covariance of two random variables, which is a population parameter that can be seen as a property of the joint probability distribution , and (2) the sample covariance, which in addition to serving as a descriptor of the sample, also serves as an estimated value of the population parameter.
+Contents
+
+    1 Definition
+        1.1 Discrete variables
+            1.1.1 Discrete random variable example
+    2 Properties
+        2.1 A more general identity for covariance matrices
+        2.2 Uncorrelatedness and independence
+        2.3 Relationship to inner products
+    3 Calculating the sample covariance
+    4 Comments
+    5 Applications
+        5.1 In genetics and molecular biology
+        5.2 In financial economics
+        5.3 In meteorological and oceanographic data assimilation
+        5.4 In micrometeorology
+        5.5 In feature extraction
+    6 See also
+    7 References
+    8 External links
+
+Definition [ edit ]
+
+The covariance between two jointly distributed real -valued random variables X and Y with finite second moments is defined as the expected product of their deviations from their individual expected values: [3]
+
+    cov ⁡ ( X , Y ) = E ⁡ [ ( X − E ⁡ [ X ] ) ( Y − E ⁡ [ Y ] ) ] , {\displaystyle \operatorname {cov} (X,Y)=\operatorname {E} {{\big [}(X-\operatorname {E} [X])(Y-\operatorname {E} [Y]){\big ]}},} \operatorname {cov} (X,Y)=\operatorname {E} {{\big [}(X-\operatorname {E} [X])(Y-\operatorname {E} [Y]){\big ]}}, 
+
+where E[ X ] is the expected value of X , also known as the mean of X . The covariance is also sometimes denoted σ XY or σ ( X,Y ) , in analogy to variance . By using the linearity property of expectations, this can be simplified to the expected value of their product minus the product of their expected values:
+
+    cov ⁡ ( X , Y ) = E ⁡ [ ( X − E ⁡ [ X ] ) ( Y − E ⁡ [ Y ] ) ] = E ⁡ [ X Y − X E ⁡ [ Y ] − E ⁡ [ X ] Y + E ⁡ [ X ] E ⁡ [ Y ] ] = E ⁡ [ X Y ] − E ⁡ [ X ] E ⁡ [ Y ] − E ⁡ [ X ] E ⁡ [ Y ] + E ⁡ [ X ] E ⁡ [ Y ] = E ⁡ [ X Y ] − E ⁡ [ X ] E ⁡ [ Y ] . {\displaystyle {\begin{aligned}\operatorname {cov} (X,Y)&=\operatorname {E} \left[\left(X-\operatorname {E} \left[X\right]\right)\left(Y-\operatorname {E} \left[Y\right]\right)\right]\\&=\operatorname {E} \left[XY-X\operatorname {E} \left[Y\right]-\operatorname {E} \left[X\right]Y+\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]\right]\\&=\operatorname {E} \left[XY\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]+\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]\\&=\operatorname {E} \left[XY\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right].\end{aligned}}} {\displaystyle {\begin{aligned}\operatorname {cov} (X,Y)&=\operatorname {E} \left[\left(X-\operatorname {E} \left[X\right]\right)\left(Y-\operatorname {E} \left[Y\right]\right)\right]\\&=\operatorname {E} \left[XY-X\operatorname {E} \left[Y\right]-\operatorname {E} \left[X\right]Y+\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]\right]\\&=\operatorname {E} \left[XY\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]+\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right]\\&=\operatorname {E} \left[XY\right]-\operatorname {E} \left[X\right]\operatorname {E} \left[Y\right].\end{aligned}}} 
+
+However, when E ⁡ [ X Y ] ≈ E ⁡ [ X ] E ⁡ [ Y ] {\displaystyle \operatorname {E} [XY]\approx \operatorname {E} [X]\operatorname {E} [Y]} \operatorname {E} [XY]\approx \operatorname {E} [X]\operatorname {E} [Y] , this last equation is prone to catastrophic cancellation when computed with floating point arithmetic and thus should be avoided in computer programs when the data has not been centered before. [4] Numerically stable algorithms should be preferred in this case.
+
+For random vectors X ∈ R m {\displaystyle \mathbf {X} \in \mathbb {R} ^{m}} \mathbf {X} \in \mathbb {R} ^{m} and Y ∈ R n {\displaystyle \mathbf {Y} \in \mathbb {R} ^{n}} \mathbf {Y} \in \mathbb {R} ^{n} , the m × n cross covariance matrix is equal to
+
+    cov ⁡ ( X , Y ) = E ⁡ [ ( X − E ⁡ [ X ] ) ( Y − E ⁡ [ Y ] ) T ] = E ⁡ [ X Y T ] − E ⁡ [ X ] E ⁡ [ Y ] T , {\displaystyle {\begin{aligned}\operatorname {cov} (\mathbf {X} ,\mathbf {Y} )&=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {Y} -\operatorname {E} [\mathbf {Y} ])^{\mathrm {T} }\right]\\&=\operatorname {E} \left[\mathbf {X} \mathbf {Y} ^{\mathrm {T} }\right]-\operatorname {E} [\mathbf {X} ]\operatorname {E} [\mathbf {Y} ]^{\mathrm {T} },\end{aligned}}} {\begin{aligned}\operatorname {cov} (\mathbf {X} ,\mathbf {Y} )&=\operatorname {E} \left[(\mathbf {X} -\operatorname {E} [\mathbf {X} ])(\mathbf {Y} -\operatorname {E} [\mathbf {Y} ])^{\mathrm {T} }\right]\\&=\operatorname {E} \left[\mathbf {X} \mathbf {Y} ^{\mathrm {T} }\right]-\operatorname {E} [\mathbf {X} ]\operatorname {E} [\mathbf {Y} ]^{\mathrm {T} },\end{aligned}} 
+
+where m T is the transpose of the vector (or matrix) m .
+
+The ( i , j ) -th element of this matrix is equal to the covariance cov( X i , Y j ) between the i -th scalar component of X and the j -th scalar component of Y . In particular, cov( Y , X ) is the transpose of cov( X , Y ) .
+
+For a vector X = [ X 1 X 2 … X m ] T {\displaystyle \mathbf {X} ={\begin{bmatrix}X_{1}&X_{2}&\dots &X_{m}\end{bmatrix}}^{\mathrm {T} }} {\displaystyle \mathbf {X} ={\begin{bmatrix}X_{1}&X_{2}&\dots &X_{m}\end{bmatrix}}^{\mathrm {T} }} of m jointly distributed random variables with finite second moments, its covariance matrix (also known as the variance–covariance matrix ) is defined as
+
+    Σ ( X ) = cov ⁡ ( X , X ) . {\displaystyle \Sigma (\mathbf {X} )=\operatorname {cov} (\mathbf {X} ,\mathbf {X} ).} {\displaystyle \Sigma (\mathbf {X} )=\operatorname {cov} (\mathbf {X} ,\mathbf {X} ).} 
+
+Random variables whose covariance is zero are called uncorrelated . Similarly, the components of random vectors whose covariance matrix is zero in every entry outside the main diagonal are also called uncorrelated.
+
+The units of measurement of the covariance cov( X , Y ) are those of X times those of Y . By contrast, correlation coefficients , which depend on the covariance, are a dimensionless measure of linear dependence. (In fact, correlation coefficients can simply be understood as a normalized version of covariance.)
+Discrete variables [ edit ]
+
+If the random variable pair ( X , Y ) can take on the values ( x i , y i ) for i = 1, ... , n , with equal probabilities 1/ n , then the covariance can be equivalently written in terms of the means E ( X ) {\displaystyle E(X)} E(X) and E ( Y ) {\displaystyle E(Y)} {\displaystyle E(Y)} as
+
+    cov ⁡ ( X , Y ) = 1 n ∑ i = 1 n ( x i − E ( X ) ) ( y i − E ( Y ) ) . {\displaystyle \operatorname {cov} (X,Y)={\frac {1}{n}}\sum _{i=1}^{n}(x_{i}-E(X))(y_{i}-E(Y)).} {\displaystyle \operatorname {cov} (X,Y)={\frac {1}{n}}\sum _{i=1}^{n}(x_{i}-E(X))(y_{i}-E(Y)).} 
+
+It can also be equivalently expressed, without directly referring to the means, as [5]
+
+    cov ⁡ ( X , Y ) = 1 n 2 ∑ i = 1 n ∑ j = 1 n 1 2 ( x i − x j ) ⋅ ( y i − y j ) = 1 n 2 ∑ i ∑ j > i ( x i − x j ) ⋅ ( y i − y j ) . {\displaystyle \operatorname {cov} (X,Y)={\frac {1}{n^{2}}}\sum _{i=1}^{n}\sum _{j=1}^{n}{\frac {1}{2}}(x_{i}-x_{j})\cdot (y_{i}-y_{j})={\frac {1}{n^{2}}}\sum _{i}\sum _{j>i}(x_{i}-x_{j})\cdot (y_{i}-y_{j}).} {\displaystyle \operatorname {cov} (X,Y)={\frac {1}{n^{2}}}\sum _{i=1}^{n}\sum _{j=1}^{n}{\frac {1}{2}}(x_{i}-x_{j})\cdot (y_{i}-y_{j})={\frac {1}{n^{2}}}\sum _{i}\sum _{j>i}(x_{i}-x_{j})\cdot (y_{i}-y_{j}).} 
+
+More generally, if there are n possible realizations of ( X , Y ), namely ( x i , y i ) for i = 1, ... , n , but with possibly unequal probabilities p i , then the covariance is
+
+    cov ⁡ ( X , Y ) = ∑ i = 1 n p i ⋅ ( x i − E ( X ) ) ⋅ ( y i − E ( Y ) ) . {\displaystyle \operatorname {cov} (X,Y)=\sum _{i=1}^{n}p_{i}\cdot (x_{i}-E(X))\cdot (y_{i}-E(Y)).} {\displaystyle \operatorname {cov} (X,Y)=\sum _{i=1}^{n}p_{i}\cdot (x_{i}-E(X))\cdot (y_{i}-E(Y)).} 
+
+Discrete random variable example [ edit ]
+
+Suppose that X and Y have the following joint probability mass function , [6] in which the six central cells give the probabilities f ( x , y ) of the six hypothetical realizations ( x , y ) = (1, 1), (1, 2), (1, 3), (2, 1), (2,2), and (2, 3):
+			y 		
+	f ( x , y ) 	1 	2 	3 	f X ( x )
+	1 	1/4 	1/4 	0 	1/2
+x 	2 	0 	1/4 	1/4 	1/2
+	f Y ( y ) 	1/4 	1/2 	1/4 	1
+
+X can take on two values (1 and 2) while Y can take on three (1, 2, and 3). Their means are μ X = 3 / 2 {\displaystyle \mu _{X}=3/2} {\displaystyle \mu _{X}=3/2} and μ Y = 2. {\displaystyle \mu _{Y}=2.} {\displaystyle \mu _{Y}=2.} The population standard deviations of X and Y are σ X = 1 / 2 {\displaystyle \sigma _{X}=1/2} {\displaystyle \sigma _{X}=1/2} and σ Y = 1 / 2 . {\displaystyle \sigma _{Y}={\sqrt {1/2}}.} {\displaystyle \sigma _{Y}={\sqrt {1/2}}.} Then:
+
+    cov ⁡ ( X , Y ) = σ X Y = ∑ ( x , y ) ∈ S f ( x , y ) ( x − μ X ) ( y − μ Y ) = ( 1 4 ) ( 1 − 3 2 ) ( 1 − 2 ) + ( 1 4 ) ( 1 − 3 2 ) ( 2 − 2 ) + ( 0 ) ( 1 − 3 2 ) ( 3 − 2 ) + ( 0 ) ( 2 − 3 2 ) ( 1 − 2 ) + ( 1 4 ) ( 2 − 3 2 ) ( 2 − 2 ) + ( 1 4 ) ( 2 − 3 2 ) ( 3 − 2 ) = 1 4 . {\displaystyle {\begin{aligned}&\operatorname {cov} (X,Y)=\sigma _{XY}=\sum _{(x,y)\in S}f(x,y)(x-\mu _{X})(y-\mu _{Y})\\={}&\left({\frac {1}{4}}\right)\left(1-{\frac {3}{2}}\right)(1-2)+\left({\frac {1}{4}}\right)\left(1-{\frac {3}{2}}\right)(2-2)\\&{}+(0)\left(1-{\frac {3}{2}}\right)(3-2)+(0)\left(2-{\frac {3}{2}}\right)(1-2)\\&{}+\left({\frac {1}{4}}\right)\left(2-{\frac {3}{2}}\right)(2-2)+\left({\frac {1}{4}}\right)\left(2-{\frac {3}{2}}\right)(3-2)\\={}&{\frac {1}{4}}.\end{aligned}}} {\displaystyle {\begin{aligned}&\operatorname {cov} (X,Y)=\sigma _{XY}=\sum _{(x,y)\in S}f(x,y)(x-\mu _{X})(y-\mu _{Y})\\={}&\left({\frac {1}{4}}\right)\left(1-{\frac {3}{2}}\right)(1-2)+\left({\frac {1}{4}}\right)\left(1-{\frac {3}{2}}\right)(2-2)\\&{}+(0)\left(1-{\frac {3}{2}}\right)(3-2)+(0)\left(2-{\frac {3}{2}}\right)(1-2)\\&{}+\left({\frac {1}{4}}\right)\left(2-{\frac {3}{2}}\right)(2-2)+\left({\frac {1}{4}}\right)\left(2-{\frac {3}{2}}\right)(3-2)\\={}&{\frac {1}{4}}.\end{aligned}}} 
+
+Properties [ edit ]
+
+    The variance is a special case of the covariance in which the two variables are identical (that is, in which one variable always takes the same value as the other):
+
+        cov ⁡ ( X , X ) = var ⁡ ( X ) ≡ σ 2 ( X ) ≡ σ X 2 . {\displaystyle \operatorname {cov} (X,X)=\operatorname {var} (X)\equiv \sigma ^{2}(X)\equiv \sigma _{X}^{2}.} {\displaystyle \operatorname {cov} (X,X)=\operatorname {var} (X)\equiv \sigma ^{2}(X)\equiv \sigma _{X}^{2}.} 
+
+    If X , Y , W , and V are real-valued random variables and a , b , c , d are constant ("constant" in this context means non-random), then the following facts are a consequence of the definition of covariance:
+
+        cov ⁡ ( X , a ) = 0 cov ⁡ ( X , X ) = var ⁡ ( X ) cov ⁡ ( X , Y ) = cov ⁡ ( Y , X ) cov ⁡ ( a X , b Y ) = a b cov ⁡ ( X , Y ) cov ⁡ ( X + a , Y + b ) = cov ⁡ ( X , Y ) cov ⁡ ( a X + b Y , c W + d V ) = a c cov ⁡ ( X , W ) + a d cov ⁡ ( X , V ) + b c cov ⁡ ( Y , W ) + b d cov ⁡ ( Y , V ) {\displaystyle {\begin{aligned}\operatorname {cov} (X,a)&=0\\\operatorname {cov} (X,X)&=\operatorname {var} (X)\\\operatorname {cov} (X,Y)&=\operatorname {cov} (Y,X)\\\operatorname {cov} (aX,bY)&=ab\,\operatorname {cov} (X,Y)\\\operatorname {cov} (X+a,Y+b)&=\operatorname {cov} (X,Y)\\\operatorname {cov} (aX+bY,cW+dV)&=ac\,\operatorname {cov} (X,W)+ad\,\operatorname {cov} (X,V)+bc\,\operatorname {cov} (Y,W)+bd\,\operatorname {cov} (Y,V)\end{aligned}}} {\displaystyle {\begin{aligned}\operatorname {cov} (X,a)&=0\\\operatorname {cov} (X,X)&=\operatorname {var} (X)\\\operatorname {cov} (X,Y)&=\operatorname {cov} (Y,X)\\\operatorname {cov} (aX,bY)&=ab\,\operatorname {cov} (X,Y)\\\operatorname {cov} (X+a,Y+b)&=\operatorname {cov} (X,Y)\\\operatorname {cov} (aX+bY,cW+dV)&=ac\,\operatorname {cov} (X,W)+ad\,\operatorname {cov} (X,V)+bc\,\operatorname {cov} (Y,W)+bd\,\operatorname {cov} (Y,V)\end{aligned}}} 
+
+    For a sequence X 1 , ..., X n of random variables, and constants a 1 , ..., a n , we have
+
+        σ 2 ( ∑ i = 1 n a i X i ) = ∑ i = 1 n a i 2 σ 2 ( X i ) + 2 ∑ i , j : i < j a i a j cov ⁡ ( X i , X j ) = ∑ i , j a i a j cov ⁡ ( X i , X j ) {\displaystyle \sigma ^{2}\left(\sum _{i=1}^{n}a_{i}X_{i}\right)=\sum _{i=1}^{n}a_{i}^{2}\sigma ^{2}(X_{i})+2\sum _{i,j\,:\,i<j}a_{i}a_{j}\operatorname {cov} (X_{i},X_{j})=\sum _{i,j}{a_{i}a_{j}\operatorname {cov} (X_{i},X_{j})}} {\displaystyle \sigma ^{2}\left(\sum _{i=1}^{n}a_{i}X_{i}\right)=\sum _{i=1}^{n}a_{i}^{2}\sigma ^{2}(X_{i})+2\sum _{i,j\,:\,i<j}a_{i}a_{j}\operatorname {cov} (X_{i},X_{j})=\sum _{i,j}{a_{i}a_{j}\operatorname {cov} (X_{i},X_{j})}} 
+
+    A useful identity to compute the covariance between two random variables X , Y {\displaystyle X,Y} {\displaystyle X,Y} is the Hoeffding's Covariance Identity: [7]
+
+        cov ⁡ ( X , Y ) = ∫ R ∫ R F ( X , Y ) ( x , y ) − F X ( x ) F Y ( y ) d x d y {\displaystyle \operatorname {cov} (X,Y)=\int _{\mathbb {R} }\int _{\mathbb {R} }F_{(X,Y)}(x,y)-F_{X}(x)F_{Y}(y)\,dx\,dy} {\displaystyle \operatorname {cov} (X,Y)=\int _{\mathbb {R} }\int _{\mathbb {R} }F_{(X,Y)}(x,y)-F_{X}(x)F_{Y}(y)\,dx\,dy} 
+
+    where F ( X , Y ) ( x , y ) {\displaystyle F_{(X,Y)}(x,y)} {\displaystyle F_{(X,Y)}(x,y)} is the joint distribution function of the random vector ( X , Y ) {\displaystyle (X,Y)} {\displaystyle (X,Y)} and F X ( x ) , F Y ( y ) {\displaystyle F_{X}(x),F_{Y}(y)} {\displaystyle F_{X}(x),F_{Y}(y)} are the marginals .
+
+A more general identity for covariance matrices [ edit ]
+
+Let X be a random vector with covariance matrix Σ( X ) , and let A be a matrix that can act on X . The covariance matrix of the matrix-vector product A X is:
+
+    Σ ( A X ) = E ⁡ [ A X X T A T ] − E ⁡ [ A X ] E ⁡ [ X T A T ] = A Σ ( X ) A T . {\displaystyle \Sigma (\mathbf {A} \mathbf {X} )=\operatorname {E} [\mathbf {A} \mathbf {X} \mathbf {X} ^{\mathrm {T} }\mathbf {A} ^{\mathrm {T} }]-\operatorname {E} [\mathbf {A} \mathbf {X} ]\operatorname {E} [\mathbf {X} ^{\mathrm {T} }\mathbf {A} ^{\mathrm {T} }]=\mathbf {A} \Sigma (\mathbf {X} )\mathbf {A} ^{\mathrm {T} }.} {\displaystyle \Sigma (\mathbf {A} \mathbf {X} )=\operatorname {E} [\mathbf {A} \mathbf {X} \mathbf {X} ^{\mathrm {T} }\mathbf {A} ^{\mathrm {T} }]-\operatorname {E} [\mathbf {A} \mathbf {X} ]\operatorname {E} [\mathbf {X} ^{\mathrm {T} }\mathbf {A} ^{\mathrm {T} }]=\mathbf {A} \Sigma (\mathbf {X} )\mathbf {A} ^{\mathrm {T} }.} 
+
+This is a direct result of the linearity of expectation and is useful when applying a linear transformation , such as a whitening transformation , to a vector.
+Uncorrelatedness and independence [ edit ]
+
+If X and Y are independent , then their covariance is zero. [8] This follows because under independence,
+
+    E ⁡ [ X Y ] = E ⁡ [ X ] ⋅ E ⁡ [ Y ] . {\displaystyle \operatorname {E} [XY]=\operatorname {E} [X]\cdot \operatorname {E} [Y].} {\displaystyle \operatorname {E} [XY]=\operatorname {E} [X]\cdot \operatorname {E} [Y].} 
+
+The converse, however, is not generally true. For example, let X be uniformly distributed in [−1, 1] and let Y  = X 2 . Clearly, X and Y are dependent, but
+
+    cov ⁡ ( X , Y ) = cov ⁡ ( X , X 2 ) = E ⁡ [ X ⋅ X 2 ] − E ⁡ [ X ] ⋅ E ⁡ [ X 2 ] = E ⁡ [ X 3 ] − E ⁡ [ X ] E ⁡ [ X 2 ] = 0 − 0 ⋅ E ⁡ [ X 2 ] = 0. {\displaystyle {\begin{aligned}\operatorname {cov} (X,Y)&=\operatorname {cov} (X,X^{2})\\&=\operatorname {E} [X\cdot X^{2}]-\operatorname {E} [X]\cdot \operatorname {E} [X^{2}]\\&=\operatorname {E} \left[X^{3}\right]-\operatorname {E} [X]\operatorname {E} [X^{2}]\\&=0-0\cdot \operatorname {E} [X^{2}]\\&=0.\end{aligned}}} {\displaystyle {\begin{aligned}\operatorname {cov} (X,Y)&=\operatorname {cov} (X,X^{2})\\&=\operatorname {E} [X\cdot X^{2}]-\operatorname {E} [X]\cdot \operatorname {E} [X^{2}]\\&=\operatorname {E} \left[X^{3}\right]-\operatorname {E} [X]\operatorname {E} [X^{2}]\\&=0-0\cdot \operatorname {E} [X^{2}]\\&=0.\end{aligned}}} 
+
+In this case, the relationship between Y and X is non-linear, while correlation and covariance are measures of linear dependence between two variables. This example shows that if two variables are uncorrelated, that does not in general imply that they are independent. However, if two variables are jointly normally distributed (but not if they are merely individually normally distributed ), uncorrelatedness does imply independence.
+Relationship to inner products [ edit ]
+
+Many of the properties of covariance can be extracted elegantly by observing that it satisfies similar properties to those of an inner product :
+
+    bilinear : for constants a and b and random variables X , Y , Z , cov( aX  +  bY ,  Z ) =  a  cov( X ,  Z ) +  b  cov( Y ,  Z );
+    symmetric: cov( X ,  Y ) = cov( Y ,  X );
+    positive semi-definite : σ 2 ( X ) = cov( X ,  X ) ≥ 0 for all random variables X , and cov( X ,  X ) = 0 implies that X is a constant random variable ( K ).
+
+In fact these properties imply that the covariance defines an inner product over the quotient vector space obtained by taking the subspace of random variables with finite second moment and identifying any two that differ by a constant. (This identification turns the positive semi-definiteness above into positive definiteness.) That quotient vector space is isomorphic to the subspace of random variables with finite second moment and mean zero; on that subspace, the covariance is exactly the L 2 inner product of real-valued functions on the sample space.
+
+As a result, for random variables with finite variance, the inequality
+
+    | cov ⁡ ( X , Y ) | ≤ σ 2 ( X ) σ 2 ( Y ) {\displaystyle |\operatorname {cov} (X,Y)|\leq {\sqrt {\sigma ^{2}(X)\sigma ^{2}(Y)}}} {\displaystyle |\operatorname {cov} (X,Y)|\leq {\sqrt {\sigma ^{2}(X)\sigma ^{2}(Y)}}} 
+
+holds via the Cauchy–Schwarz inequality .
+
+Proof: If σ 2 ( Y ) = 0, then it holds trivially. Otherwise, let random variable
+
+    Z = X − cov ⁡ ( X , Y ) σ 2 ( Y ) Y . {\displaystyle Z=X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y.} {\displaystyle Z=X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y.} 
+
+Then we have
+
+    0 ≤ σ 2 ( Z ) = cov ⁡ ( X − cov ⁡ ( X , Y ) σ 2 ( Y ) Y , X − cov ⁡ ( X , Y ) σ 2 ( Y ) Y ) = σ 2 ( X ) − ( cov ⁡ ( X , Y ) ) 2 σ 2 ( Y ) . {\displaystyle {\begin{aligned}0\leq \sigma ^{2}(Z)&=\operatorname {cov} \left(X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y,X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y\right)\\[12pt]&=\sigma ^{2}(X)-{\frac {(\operatorname {cov} (X,Y))^{2}}{\sigma ^{2}(Y)}}.\end{aligned}}} {\displaystyle {\begin{aligned}0\leq \sigma ^{2}(Z)&=\operatorname {cov} \left(X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y,X-{\frac {\operatorname {cov} (X,Y)}{\sigma ^{2}(Y)}}Y\right)\\[12pt]&=\sigma ^{2}(X)-{\frac {(\operatorname {cov} (X,Y))^{2}}{\sigma ^{2}(Y)}}.\end{aligned}}} 
+
+Calculating the sample covariance [ edit ]
+Main article: Sample mean and sample covariance
+
+The sample covariances among K variables based on N observations of each, drawn from an otherwise unobserved population, are given by the K -by- K matrix q ¯ = [ q j k ] {\displaystyle \textstyle {\overline {\mathbf {q} }}=\left[q_{jk}\right]} {\displaystyle \textstyle {\overline {\mathbf {q} }}=\left[q_{jk}\right]} with the entries
+
+    q j k = 1 N − 1 ∑ i = 1 N ( X i j − X ¯ j ) ( X i k − X ¯ k ) , {\displaystyle q_{jk}={\frac {1}{N-1}}\sum _{i=1}^{N}\left(X_{ij}-{\bar {X}}_{j}\right)\left(X_{ik}-{\bar {X}}_{k}\right),} {\displaystyle q_{jk}={\frac {1}{N-1}}\sum _{i=1}^{N}\left(X_{ij}-{\bar {X}}_{j}\right)\left(X_{ik}-{\bar {X}}_{k}\right),} 
+
+which is an estimate of the covariance between variable j and variable k .
+
+The sample mean and the sample covariance matrix are unbiased estimates of the mean and the covariance matrix of the random vector X {\displaystyle \textstyle \mathbf {X} } \textstyle \mathbf {X} , a vector whose j th element ( j = 1, ..., K ) is one of the random variables. The reason the sample covariance matrix has N − 1 {\displaystyle \textstyle N-1} \textstyle N-1 in the denominator rather than N {\displaystyle \textstyle N} \textstyle N is essentially that the population mean E ⁡ ( X ) {\displaystyle \operatorname {E} (X)} \operatorname {E}(X) is not known and is replaced by the sample mean X ¯ {\displaystyle \mathbf {\bar {X}} } \mathbf {\bar {X}} . If the population mean E ⁡ ( X ) {\displaystyle \operatorname {E} (X)} \operatorname {E}(X) is known, the analogous unbiased estimate is given by
+
+    q j k = 1 N ∑ i = 1 N ( X i j − E ⁡ ( X j ) ) ( X i k − E ⁡ ( X k ) ) . {\displaystyle q_{jk}={\frac {1}{N}}\sum _{i=1}^{N}\left(X_{ij}-\operatorname {E} (X_{j})\right)\left(X_{ik}-\operatorname {E} (X_{k})\right).} {\displaystyle q_{jk}={\frac {1}{N}}\sum _{i=1}^{N}\left(X_{ij}-\operatorname {E} (X_{j})\right)\left(X_{ik}-\operatorname {E} (X_{k})\right).} 
+
+Comments [ edit ]
+
+The covariance is sometimes called a measure of "linear dependence" between the two random variables. That does not mean the same thing as in the context of linear algebra (see linear dependence ). When the covariance is normalized, one obtains the Pearson correlation coefficient , which gives the goodness of the fit for the best possible linear function describing the relation between the variables. In this sense covariance is a linear gauge of dependence.
+Applications [ edit ]
+In genetics and molecular biology [ edit ]
+
+Covariance is an important measure in biology . Certain sequences of DNA are conserved more than others among species, and thus to study secondary and tertiary structures of proteins , or of RNA structures, sequences are compared in closely related species. If sequence changes are found or no changes at all are found in noncoding RNA (such as microRNA ), sequences are found to be necessary for common structural motifs, such as an RNA loop. In genetics, covariance serves a basis for computation of Genetic Relationship Matrix (GRM) (aka kinship matrix), enabling inference on population structure from sample with no known close relatives as well as inference on estimation of heritability of complex traits.
+In financial economics [ edit ]
+
+Covariances play a key role in financial economics , especially in portfolio theory and in the capital asset pricing model . Covariances among various assets' returns are used to determine, under certain assumptions, the relative amounts of different assets that investors should (in a normative analysis ) or are predicted to (in a positive analysis ) choose to hold in a context of diversification .
+In meteorological and oceanographic data assimilation [ edit ]
+
+The covariance matrix is important in estimating the initial conditions required for running weather forecast models. The 'forecast error covariance matrix' is typically constructed between perturbations around a mean state (either a climatological or ensemble mean). The 'observation error covariance matrix' is constructed to represent the magnitude of combined observational errors (on the diagonal) and the correlated errors between measurements (off the diagonal). This is an example of its widespread application to Kalman filtering and more general state estimation for time-varying systems.
+In micrometeorology [ edit ]
+
+The eddy covariance technique is a key atmospherics measurement technique where the covariance between instantaneous deviation in vertical wind speed from the mean value and instantaneous deviation in gas concentration is the basis for calculating the vertical turbulent fluxes.
+In feature extraction [ edit ]
+
+The covariance matrix is used to capture the spectral variability of a signal. [9]
+See also [ edit ]
+
+    Algorithms for calculating covariance
+    Analysis of covariance
+    Autocovariance
+    Correlation and dependence
+    Covariance function
+    Covariance mapping
+    Covariance matrix
+    Covariance operator
+    Distance covariance , or Brownian covariance.
+    Eddy covariance
+    Law of total covariance
+    Propagation of uncertainty
+
+References [ edit ]
+	
+This article needs additional citations for verification . Please help improve this article by adding citations to reliable sources . Unsourced material may be challenged and removed. (December 2010) ( Learn how and when to remove this template message )
+	
+This article includes a list of references , but its sources remain unclear because it has insufficient inline citations . Please help to improve this article by introducing more precise citations. (December 2010) ( Learn how and when to remove this template message )
+
+    Jump up ^ Rice, John (2007). Mathematical Statistics and Data Analysis . Belmont, CA: Brooks/Cole Cengage Learning. p. 138. ISBN   978-0534-39942-9 .  
+    Jump up ^ Weisstein, Eric W. "Covariance" . MathWorld .  
+    Jump up ^ Oxford Dictionary of Statistics, Oxford University Press, 2002, p. 104.
+    Jump up ^ Donald E. Knuth (1998). The Art of Computer Programming , volume 2: Seminumerical Algorithms , 3rd edn., p. 232. Boston: Addison-Wesley.
+    Jump up ^ Yuli Zhang,Huaiyu Wu,Lei Cheng (June 2012). Some new deformation formulas about variance and covariance . Proceedings of 4th International Conference on Modelling, Identification and Control(ICMIC2012). pp. 987–992.   CS1 maint: Uses authors parameter ( link )
+    Jump up ^ "Covariance of X and Y | STAT 414/415" . The Pennsylvania State University. 12/9/2016 . Retrieved 12/9/2016 .   Check date values in: |access-date=, |date= ( help )
+    Jump up ^ Papoulis (1991). Probability, Random Variables and Stochastic Processes . McGraw-Hill.  
+    Jump up ^ Siegrist, Kyle. "Covariance and Correlation" . University of Alabama in Huntsville . Retrieved 12/9/2016 .   Check date values in: |access-date= ( help )
+    Jump up ^ Sahidullah, Md.; Kinnunen, Tomi (March 2016). "Local spectral variability features for speaker verification" . Digital Signal Processing . 50 : 1–11. doi : 10.1016/j.dsp.2015.10.011 .  
+
+External links [ edit ]
+	Look up covariance in Wiktionary, the free dictionary.
+
+    Hazewinkel, Michiel , ed. (2001) [1994], "Covariance" , Encyclopedia of Mathematics , Springer Science+Business Media B.V. / Kluwer Academic Publishers, ISBN   978-1-55608-010-4  
+    MathWorld page on calculating the sample covariance
+    Covariance Tutorial using R
+    Covariance and Correlation
+
+    v
+    t
+    e
+
+Statistics
+
+    Outline
+    Index
+
+Descriptive statistics
+Continuous data 	
+Center 	
+
+    Mean
+        arithmetic
+        geometric
+        harmonic
+    Median
+    Mode
+
+Dispersion 	
+
+    Variance
+    Standard deviation
+    Coefficient of variation
+    Percentile
+    Range
+    Interquartile range
+
+Shape 	
+
+    Central limit theorem
+    Moments
+        Skewness
+        Kurtosis
+        L-moments
+
+Count data 	
+
+    Index of dispersion
+
+Summary tables 	
+
+    Grouped data
+    Frequency distribution
+    Contingency table
+
+Dependence 	
+
+    Pearson product-moment correlation
+    Rank correlation
+        Spearman's rho
+        Kendall's tau
+    Partial correlation
+    Scatter plot
+
+Graphics 	
+
+    Bar chart
+    Biplot
+    Box plot
+    Control chart
+    Correlogram
+    Fan chart
+    Forest plot
+    Histogram
+    Pie chart
+    Q–Q plot
+    Run chart
+    Scatter plot
+    Stem-and-leaf display
+    Radar chart
+
+Data collection
+Study design 	
+
+    Population
+    Statistic
+    Effect size
+    Statistical power
+    Sample size determination
+    Missing data
+
+Survey methodology 	
+
+    Sampling
+        stratified
+        cluster
+    Standard error
+    Opinion poll
+    Questionnaire
+
+Controlled experiments 	
+
+    Design
+        control
+        optimal
+    Controlled trial
+    Randomized
+    Random assignment
+    Replication
+    Blocking
+    Interaction
+    Factorial experiment
+
+Uncontrolled studies 	
+
+    Observational study
+    Natural experiment
+    Quasi-experiment
+
+Statistical inference
+Statistical theory 	
+
+    Population
+    Statistic
+    Probability distribution
+    Sampling distribution
+        Order statistic
+    Empirical distribution
+        Density estimation
+    Statistical model
+        L p space
+    Parameter
+        location
+        scale
+        shape
+    Parametric family
+        Likelihood   (monotone)
+        Location–scale family
+        Exponential family
+    Completeness
+    Sufficiency
+    Statistical functional
+        Bootstrap
+        U
+        V
+    Optimal decision
+        loss function
+    Efficiency
+    Statistical distance
+        divergence
+    Asymptotics
+    Robustness
+
+Frequentist inference 	
+Point estimation 	
+
+    Estimating equations
+        Maximum likelihood
+        Method of moments
+        M-estimator
+        Minimum distance
+    Unbiased estimators
+        Mean-unbiased minimum-variance
+            Rao–Blackwellization
+            Lehmann–Scheffé theorem
+        Median unbiased
+    Plug-in
+
+Interval estimation 	
+
+    Confidence interval
+    Pivot
+    Likelihood interval
+    Prediction interval
+    Tolerance interval
+    Resampling
+        Bootstrap
+        Jackknife
+
+Testing hypotheses 	
+
+    1- & 2-tails
+    Power
+        Uniformly most powerful test
+    Permutation test
+        Randomization test
+    Multiple comparisons
+
+Parametric tests 	
+
+    Likelihood-ratio
+    Wald
+    Score
+
+Specific tests 	
+
+    Z -test (normal)
+    Student's t -test
+    F -test
+
+Goodness of fit 	
+
+    Chi-squared
+    G -test
+    Kolmogorov–Smirnov
+    Anderson–Darling
+    Lilliefors
+    Jarque–Bera
+    Normality (Shapiro–Wilk)
+    Likelihood-ratio test
+    Model selection
+        Cross validation
+        AIC
+        BIC
+
+Rank statistics 	
+
+    Sign
+        Sample median
+    Signed rank (Wilcoxon)
+        Hodges–Lehmann estimator
+    Rank sum (Mann–Whitney)
+    Nonparametric anova
+        1-way (Kruskal–Wallis)
+        2-way (Friedman)
+        Ordered alternative (Jonckheere–Terpstra)
+
+Bayesian inference 	
+
+    Bayesian probability
+        prior
+        posterior
+    Credible interval
+    Bayes factor
+    Bayesian estimator
+        Maximum posterior estimator
+
+    Correlation
+    Regression analysis
+
+Correlation 	
+
+    Pearson product-moment
+    Partial correlation
+    Confounding variable
+    Coefficient of determination
+
+Regression analysis 	
+
+    Errors and residuals
+    Regression model validation
+    Mixed effects models
+    Simultaneous equations models
+    Multivariate adaptive regression splines (MARS)
+
+Linear regression 	
+
+    Simple linear regression
+    Ordinary least squares
+    General linear model
+    Bayesian regression
+
+Non-standard predictors 	
+
+    Nonlinear regression
+    Nonparametric
+    Semiparametric
+    Isotonic
+    Robust
+    Heteroscedasticity
+    Homoscedasticity
+
+Generalized linear model 	
+
+    Exponential families
+    Logistic (Bernoulli)  / Binomial  / Poisson regressions
+
+Partition of variance 	
+
+    Analysis of variance (ANOVA, anova)
+    Analysis of covariance
+    Multivariate ANOVA
+    Degrees of freedom
+
+Categorical  / Multivariate  / Time-series  / Survival analysis
+Categorical 	
+
+    Cohen's kappa
+    Contingency table
+    Graphical model
+    Log-linear model
+    McNemar's test
+
+Multivariate 	
+
+    Regression
+    Manova
+    Principal components
+    Canonical correlation
+    Discriminant analysis
+    Cluster analysis
+    Classification
+    Structural equation model
+        Factor analysis
+    Multivariate distributions
+        Elliptical distributions
+            Normal
+
+Time-series 	
+General 	
+
+    Decomposition
+    Trend
+    Stationarity
+    Seasonal adjustment
+    Exponential smoothing
+    Cointegration
+    Structural break
+    Granger causality
+
+Specific tests 	
+
+    Dickey–Fuller
+    Johansen
+    Q-statistic (Ljung–Box)
+    Durbin–Watson
+    Breusch–Godfrey
+
+Time domain 	
+
+    Autocorrelation (ACF)
+        partial (PACF)
+    Cross-correlation (XCF)
+    ARMA model
+    ARIMA model (Box–Jenkins)
+    Autoregressive conditional heteroskedasticity (ARCH)
+    Vector autoregression (VAR)
+
+Frequency domain 	
+
+    Spectral density estimation
+    Fourier analysis
+    Wavelet
+    Whittle likelihood
+
+Survival 	
+Survival function 	
+
+    Kaplan–Meier estimator (product limit)
+    Proportional hazards models
+    Accelerated failure time (AFT) model
+    First hitting time
+
+Hazard function 	
+
+    Nelson–Aalen estimator
+
+Test 	
+
+    Log-rank test
+
+Applications
+Biostatistics 	
+
+    Bioinformatics
+    Clinical trials  / studies
+    Epidemiology
+    Medical statistics
+
+Engineering statistics 	
+
+    Chemometrics
+    Methods engineering
+    Probabilistic design
+    Process  / quality control
+    Reliability
+    System identification
+
+Social statistics 	
+
+    Actuarial science
+    Census
+    Crime statistics
+    Demography
+    Econometrics
+    National accounts
+    Official statistics
+    Population statistics
+    Psychometrics
+
+Spatial statistics 	
+
+    Cartography
+    Environmental statistics
+    Geographic information system
+    Geostatistics
+    Kriging
+
+    Category Category
+    Portal Portal
+    Commons page Commons
+    WikiProject WikiProject
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Covariance&oldid=856615492 "
+Categories :
+
+    Covariance and correlation
+    Algebra of random variables
+
+Hidden categories:
+
+    CS1 maint: Uses authors parameter
+    CS1 errors: dates
+    Articles needing additional references from December 2010
+    All articles needing additional references
+    Articles lacking in-text citations from December 2010
+    All articles lacking in-text citations
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    العربية
+    বাংলা
+    Català
+    Čeština
+    Dansk
+    Deutsch
+    Español
+    Esperanto
+    Euskara
+    فارسی
+    Français
+    Gaeilge
+    한국어
+    हिन्दी
+    Hrvatski
+    Italiano
+    עברית
+    Magyar
+    Nederlands
+    日本語
+    Norsk
+    Norsk nynorsk
+    Polski
+    Português
+    Русский
+    Slovenčina
+    Slovenščina
+    Српски / srpski
+    Srpskohrvatski / српскохрватски
+    Basa Sunda
+    Suomi
+    Svenska
+    ไทย
+    Türkçe
+    Українська
+    Tiếng Việt
+    中文
+    28 more 
+
+Edit links
+
+    This page was last edited on 26 August 2018, at 13:39  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

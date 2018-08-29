@@ -1,0 +1,111 @@
+<html><head>
+    <title>Face Alignment</title>
+    <meta name="description" content="Vahid Kazemi's academic homepage. PhD Student of Computer Science at KTH Royal Institute of Technology.">
+    <meta name="keywords" content="Big Data, Machine Learning, Computer Vision, Deep Learning, Ensemble Learning, Pose Estimation, Face Alignment, Face Recognition, Random Forest, Boosting, SVM, Part Based Models">
+    <meta name="author" content="Vahid Kazemi">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <link rel="stylesheet" href="style.css">
+    <script async="" src="analytics"></script><script async="" src="analytics"></script><script src="jquery.js"></script>
+    <script src="bootstrap.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://www.csc.kth.se/%7Evahidk/index.html">Vahid Kazemi</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>One Millisecond Face Alignment with an Ensemble of Regression Trees</h1>
+        <div class="right">
+            <img src="facereg.jpg" height="290">
+        </div>
+        In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR 2014) [<a href="http://www.csc.kth.se/%7Evahidk/papers/KazemiCVPR14.pdf"><b>Paper</b></a>]<br><br>
+        <p>
+            <b>Abstract</b>
+            This paper addresses the problem of Face Alignment for
+            a single image. We show how an ensemble of regression
+            trees can be used to estimate the face’s landmark positions
+            directly from a sparse subset of pixel intensities, achieving
+            super-realtime performance with high quality predictions.
+            We present a general framework based on gradient boosting
+            for learning an ensemble of regression trees that optimizes
+            the sum of square error loss and naturally handles missing
+            or partially labelled data. We show how using appropriate
+            priors exploiting the structure of image data helps with efficient
+            feature selection. Different regularization strategies
+            and its importance to combat overfitting are also investigated.
+            In addition, we analyse the effect of the quantity of
+            training data on the accuracy of the predictions and explore
+            the effect of data augmentation using synthesized data.
+        </p>
+        <br>
+        <p>
+            </p><h3>Code</h3>
+            An implementation of the algorithm is available in <a href="http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html">dlib C++ library</a>.<br>
+            Alternatively <a href="https://github.com/cheind/dest">DEST</a> includes an implementation with some additional tracking features.
+        <p></p>
+        <p>
+            </p><h3>Benchmark*</h3>
+            <table class="result_table">
+                <tbody><tr><td></td><td>STASM</td><td>CompASM</td><td>EXEM</td><td>RCPR</td><td>SDM</td><td>ESR</td><td>ERT (Ours)</td></tr>
+                <tr><td><a href="http://homes.cs.washington.edu/%7Eneeraj/databases/lfpw/">LFPW</a></td><td>-</td><td>-</td><td>0.040</td><td>0.035</td><td>0.035</td><td><b>0.034**</b></td><td>0.038</td></tr>
+                <tr><td><a href="http://www.ifp.illinois.edu/%7Evuongle2/helen/">HELEN</a></td><td>0.111</td><td>0.091</td><td>-</td><td>0.065</td><td>0.059</td><td>0.059</td><td><b>0.049</b></td></tr>
+                <tr><td><a href="http://ibug.doc.ic.ac.uk/resources/300-W/">IBUG</a>***</td><td>-</td><td>-</td><td>-</td><td>-</td><td>0.075</td><td>0.075</td><td><b>0.064</b></td></tr>
+            </tbody></table>
+        <p></p>
+        * The reported results are the average landmark distance from 
+the ground-truth landmarks normalized by the inter-ocular distance. In 
+all the experiments its is assumed that the bounding box of the face is 
+given. In practice we used OpenCV for detecting the faces. For the cases
+ that the face detector failed, we generated a bounding box with at 
+least 80% overlap with the ground truth bounding box.<br><br>
+        ** Our reimplementation of ESR performed significantly worse 
+than the result reported in their original paper (~0.043 as opposed to 
+0.034).<br><br>
+        *** We only used the AFW subset in addition to the training set 
+of LFPW, and HELEN for training. For test we used IBUG set with test of 
+LFPW and HELEN.<br><br>
+        <b>STASM, CompASM</b>: <a href="http://www.ifp.illinois.edu/%7Evuongle2/helen/eccv2012_helen_final.pdf">Interactive Facial Feature Localization</a>.<br>
+        <b>EXEM</b>: <a href="http://homes.cs.washington.edu/%7Eneeraj/papers/nk_cvpr2011_faceparts.pdf">Localizing Parts of Faces Using a Consensus of Exemplars</a>.<br>
+        <b>RCPR</b>: <a href="http://vision.caltech.edu/%7Expburgos/papers/ICCV13%20Burgos-Artizzu.pdf">Robust Face Landmark Estimation Under Occlusion</a><br>
+        <b>SDM</b>: <a href="http://www.ri.cmu.edu/pub_files/2013/5/main.pdf">Supervised Descent Method and its Applications to Face Alignment</a>.<br>
+        <b>ESR</b>: <a href="http://research.microsoft.com/en-us/people/yichenw/cvpr12_facealignment.pdf">Face Alignment by Explicit Shape Regression</a>.<br>
+        <br>
+        <h3>Demo</h3>
+        <p>
+            </p><table>
+                <tbody><tr>
+                    <td>
+                        <iframe src="//www.youtube.com/embed/RkBLbYDiJ6c" allowfullscreen="" width="420" frameborder="0" height="315"></iframe>
+                    </td>
+                    <td>
+                        <iframe src="//www.youtube.com/embed/EMbltC5FXCM" allowfullscreen="" width="420" frameborder="0" height="315"></iframe>
+                    </td>
+                </tr>
+            </tbody></table>
+        <p></p>
+        <br>
+        <p>
+            </p><h3>Bibtex</h3>
+            <iframe src="bibtex/cvpr14.txt" style="width:750px; height:140px"></iframe>
+        <p></p>
+        <br><br>
+        <hr>
+    </div>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-608030-4', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+</body></html>

@@ -1,0 +1,241 @@
+    Skip to primary navigation
+    Skip to content
+    Skip to primary sidebar
+
+Learn OpenCV
+
+OpenCV examples and tutorials ( C++ / Python )
+
+    Home
+    About
+    Resources
+    AI Consulting
+    Courses
+
+Facemark : Facial Landmark Detection using OpenCV
+
+March 19, 2018 By Satya Mallick 1 Comment
+
+OpenCV Facemark : Facial Landmark Detection
+
+In this tutorial, we will learn about facial landmark detection using OpenCV with no external dependencies.
+
+I have written several posts about Facial Landmark Detection and its applications. You can use landmark detection for face morphing , face averaging and face swapping . Until now, we had used the landmark detection that comes with Dlib. It works great, but wouldn’t it be nice if we did not have to depend on any external library.
+
+Well, the wait is over. Almost!
+
+OpenCV now supports several algorithms for landmark detection natively. However, the implementation needs some more work before it is ready for two reasons
+
+    Python support : It appears that there is still no python support yet as of OpenCV 3.4
+    Lack of trained models : Out of the three algorithms implemented for landmark detection, I could find only one trained model that works. This is not very hard to fix. In the worst case, we will try our own model and make it available for people to use.
+
+Because of the two limitations above, this post will be updated a few times in the next few months.
+Facemark API
+
+OpenCV’s facial landmark API is called Facemark . It has three different implementations of landmark detection based on three different papers
+
+    FacemarkKazemi : This implementation is based on a paper titled “One Millisecond Face Alignment with an Ensemble of Regression Trees” by V.Kazemi and J. Sullivan published in CVPR 2014. An alternative implementation of this algorithm can be found in DLIB
+    FacemarkAAM : This implementation uses an Active Appearance Model (AAM) and is based on an the paper titled “Optimization problems for fast AAM fitting in-the-wild” by G. Tzimiropoulos and M. Pantic, published in ICCV 2013.
+    FacemarkLBF : This implementation is based a paper titled “Face alignment at 3000 fps via regressing local binary features” by S. Ren published in CVPR 2014.
+
+The three implementations follow similar patterns even though, at the time of writing this post, the FacemarkKazemi class does not seem to be derived from the base Facemark class, while the other two are.
+Facemark trained models
+
+Even though the Facemark API consists of three different implementations, a trained model is available for only FacemarkLBF. This post will be updated in future after we train our own model based on public datasets.
+
+You can download the trained model from
+
+    lbfmodel.yaml .
+    lbfmodel.yaml (Forked Repo) ( in case the above link is taken down ).
+
+Real-time facial landmark detection using OpenCV code
+
+In this section, we will share the code for real-time facial landmark detection. This post will be updated when Python bindings are supported for the Facemark API.
+
+The code is shared here . You can also download the code using the link below.
+Download Code
+To easily follow along this tutorial, please download code by clicking on the button below. It’s FREE!
+
+Download Code
+
+The steps involved in calling the Facemark API for real-time landmark detection are listed with references to the code below.
+
+    Load face detector : All facial landmark detection algorithms take as input a cropped facial image. Therefore, our first step is to detect all faces in the image, and pass those face rectangles to the landmark detector. We load OpenCV’s HAAR face detector (haarcascade_frontalface_alt2.xml) in line 14 .
+    Create Facemark Instance : In line 17 we create an instance of the Facemark class. It is wrapped inside OpenCV smart pointer (PTR) so you do not have to worry about memory management.
+    Load landmark detector : Next, we load the landmark detector (lbfmodel.yaml) in line 20 . This landmark detector was trained on a few thousand images of facial images and corresponding landmarks. Public datasets of facial images with annotated landmarks can be found here .
+    Capture frames from webcam : The next step is to grab a video frame and process it. Line 23 sets up the video capture from the webcam connected to your machine. You can change it to read a video file instead by replacing line 23 with the code below.
+
+    1
+    	
+    VideoCapture cap( "myvideo.mp4" );
+
+    We then continuously grab frames from the video ( line 29 ) until ESC is pressed ( line 62 ).
+    Detect faces : We run the face detector on every frame of the video in lines 33-39 . The output of a face detector is a vector of rectangles that contain one or more faces in the image.
+    Run facial landmark detector : We pass the original image and the detected face rectangles to the facial landmark detector in line 48 . For every face, we get 68 landmarks which are stored in a vector of points. Because there can be multiple faces in a frame, we have to pass a vector of vector of points to store the landmarks ( see line 45 ).
+    Draw landmarks : Once we have obtained the landmarks, we can draw them on the frame for display. The code for drawing is inside drawLandmarks.hpp and is not shared here to keep things clean.
+
+C++ code for OpenCV Facemark
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+	
+#include <opencv2/opencv.hpp>
+#include <opencv2/face.hpp>
+#include "drawLandmarks.hpp"
+ 
+ 
+using namespace std;
+using namespace cv;
+using namespace cv::face;
+ 
+ 
+int main( int argc, char ** argv)
+{
+     // Load Face Detector
+     CascadeClassifier faceDetector( "haarcascade_frontalface_alt2.xml" );
+ 
+     // Create an instance of Facemark
+     Ptr<Facemark> facemark = FacemarkLBF::create();
+ 
+     // Load landmark detector
+     facemark->loadModel( "lbfmodel.yaml" );
+ 
+     // Set up webcam for video capture
+     VideoCapture cam(0);
+      
+     // Variable to store a video frame and its grayscale
+     Mat frame, gray;
+      
+     // Read a frame
+     while (cam.read(frame))
+     {
+        
+       // Find face
+       vector<Rect> faces;
+       // Convert frame to grayscale because
+       // faceDetector requires grayscale image.
+       cvtColor(frame, gray, COLOR_BGR2GRAY);
+ 
+       // Detect faces
+       faceDetector.detectMultiScale(gray, faces);
+        
+       // Variable for landmarks.
+       // Landmarks for one face is a vector of points
+       // There can be more than one face in the image. Hence, we
+       // use a vector of vector of points.
+       vector< vector<Point2f> > landmarks;
+        
+       // Run landmark detector
+       bool success = facemark->fit(frame,faces,landmarks);
+        
+       if (success)
+       {
+         // If successful, render the landmarks on the face
+         for ( int i = 0; i < landmarks.size(); i++)
+         {
+           drawLandmarks(frame, landmarks[i]);
+         }
+       }
+ 
+       // Display results
+       imshow( "Facial Landmark Detection" , frame);
+       // Exit loop if ESC is pressed
+       if (waitKey(1) == 27) break ;
+        
+     }
+     return 0;
+}
+Facemark Demo
+
+Here is a video demo of the above code.
+Subscribe & Download Code
+
+If you liked this article and would like to download code (C++ and Python) and example images used in this post, please subscribe to our newsletter. You will also receive a free Computer Vision Resource Guide. In our newsletter, we share OpenCV tutorials and examples written in C++/Python, and Computer Vision and Machine Learning algorithms and news.
+
+Subscribe Now
+
+Filed Under: Face , how-to , Tutorial Tagged With: face alignment , facemark , FacemarkAAM , FacemarkKazemi , FacemarkLBF , facial landmark detection
+Search this website
+Join Course
+Computer Vision for Faces
+Resources
+Download Code (C++ / Python)
+Disclaimer
+
+This site is not affiliated with OpenCV.org
+
+I am an entrepreneur with a love for Computer Vision and Machine Learning with a dozen years of experience (and a Ph.D.) in the field.
+
+In 2007, right after finishing my Ph.D., I co-founded TAAZ Inc. with my advisor Dr. David Kriegman and Kevin Barnes. The scalability, and robustness of our computer vision and machine learning algorithms have been put to rigorous test by more than 100M users who have tried our products. Read More…
+Recent Posts
+
+    Deep Learning based Object Detection using YOLOv3 with OpenCV ( Python / C++ )
+    Convex Hull using OpenCV in Python and C++
+    MultiTracker : Multiple Object Tracking using OpenCV (C++/Python)
+    Convolutional Neural Network based Image Colorization using OpenCV
+    SVM using Scikit-Learn in Python
+
+Copyright © 2018 · Big Vision LLC
