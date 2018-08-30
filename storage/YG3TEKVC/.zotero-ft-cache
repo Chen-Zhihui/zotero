@@ -1,0 +1,358 @@
+
+Video compression picture types
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by J. M. ( talk  | contribs ) at 18:23, 7 May 2018 ( → ‎ Macroblocks ) . The present address (URL) is a permanent link to this version.
+Revision as of 18:23, 7 May 2018 by J. M. ( talk  | contribs ) ( → ‎ Macroblocks )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+	
+This article does not cite any sources . Please help improve this article by adding citations to reliable sources . Unsourced material may be challenged and removed . (October 2008) ( Learn how and when to remove this template message )
+
+In the field of video compression a video frame is compressed using different algorithms with different advantages and disadvantages, centered mainly around amount of data compression . These different algorithms for video frames are called picture types or frame types . The three major picture types used in the different video algorithms are I , P and B . They are different in the following characteristics:
+
+    I ‑frames are the least compressible but don't require other video frames to decode.
+    P ‑frames can use data from previous frames to decompress and are more compressible than I‑frames.
+    B ‑frames can use both previous and forward frames for data reference to get the highest amount of data compression.
+
+Contents
+
+    1 Summary
+    2 Pictures/frames
+    3 Slices
+    4 Macroblocks
+    5 Intra-coded (I) frames/slices (key frames)
+    6 Predicted (P) frames/slices
+    7 Bi-directional predicted (B) frames/slices (macroblocks)
+    8 See also
+    9 References
+    10 External links
+
+Summary [ edit ]
+A sequence of video frames, consisting of two keyframes (I), one forward-predicted frame (P) and one bi-directionally predicted frame (B).
+
+Three types of pictures (or frames) are used in video compression : I, P, and B frames.
+
+An I‑frame (Intra-coded picture), a complete image, like a JPG or BMP image file. P and B frames hold only part of the image information (the part that changes between frames), so they need less space in the output file than an I‑frame.
+
+A P‑frame (Predicted picture) holds only the changes in the image from the previous frame. For example, in a scene where a car moves across a stationary background, only the car's movements need to be encoded. The encoder does not need to store the unchanging background pixels in the P‑frame, thus saving space. P‑frames are also known as delta‑frames .
+
+A B‑frame (Bidirectional predicted picture) saves even more space by using differences between the current frame and both the preceding and following frames to specify its content.
+Pictures/frames [ edit ]
+
+While the terms "frame" and "picture" are often used interchangeably, the term picture is a more general notion, as a picture can be either a frame or a field . A frame is a complete image, and a field is the set of odd-numbered or even-numbered scan lines composing a partial image. For example, an HD 1080 picture has 1080 lines (rows) of pixels. An odd field consists of pixel information for lines 1, 3, 5...1079. An even field has pixel information for lines 2, 4, 6...1080. When video is sent in interlaced-scan format, each frame is sent in two fields, the field of odd-numbered lines followed by the field of even-numbered lines.
+
+A frame used as a reference for predicting other frames is called a reference frame.
+
+Frames encoded without information from other frames are called I-frames. Frames that use prediction from a single preceding reference frame (or a single frame for prediction of each region) are called P-frames. B-frames use prediction from a (possibly weighted) average of two reference frames, one preceding and one succeeding.
+Slices [ edit ]
+
+In the H.264/MPEG-4 AVC standard, the granularity of prediction types is brought down to the "slice level." A slice is a spatially distinct region of a frame that is encoded separately from any other region in the same frame. I-slices, P-slices, and B-slices take the place of I, P, and B frames.
+Macroblocks [ edit ]
+
+Typically, pictures (frames) are segmented into macroblocks , and individual prediction types can be selected on a macroblock basis rather than being the same for the entire picture, as follows:
+
+    I-frames can contain only intra macroblocks
+    P-frames can contain either intra macroblocks or predicted macroblocks
+    B-frames can contain intra, predicted, or bi-predicted macroblocks
+
+Furthermore, in the H.264 video coding standard, the frame can be segmented into sequences of macroblocks called slices , and instead of using I, B and P-frame type selections, the encoder can choose the prediction style distinctly on each individual slice. Also in H.264 are found several additional types of frames/slices:
+
+    SI‑frames/slices (Switching I): Facilitates switching between coded streams; contains SI-macroblocks (a special type of intra coded macroblock).
+    SP‑frames/slices (Switching P): Facilitates switching between coded streams; contains P and/or I-macroblocks
+    Multi‑frame motion estimation (up to 16 reference frames or 32 reference fields)
+
+Multi‑frame motion estimation increases the quality of the video, while allowing the same compression ratio. SI and SP frames (defined for the Extended Profile) improve error correction . When such frames are used along with a smart decoder, it is possible to recover the broadcast streams of damaged DVDs.
+Intra-coded (I) frames/slices (key frames) [ edit ]
+See also: Key frame (animation) and Intra-frame
+
+    I-frames contain an entire image. They are coded without reference to any other frame except (parts of) themselves.
+    May be generated by an encoder to create a random access point (to allow a decoder to start decoding properly from scratch at that picture location).
+    May also be generated when differentiating image details prohibit generation of effective P or B-frames.
+    Typically require more bits to encode than other frame types.
+
+Often, I‑frames are used for random access and are used as references for the decoding of other pictures. Intra refresh periods of a half-second are common on such applications as digital television broadcast and DVD storage. Longer refresh periods may be used in some environments. For example, in videoconferencing systems it is common to send I-frames very infrequently.
+Predicted (P) frames/slices [ edit ]
+
+    Require the prior decoding of some other picture(s) in order to be decoded.
+    May contain both image data and motion vector displacements and combinations of the two.
+    Can reference previous pictures in decoding order.
+    Older standard designs (such as MPEG-2 ) use only one previously decoded picture as a reference during decoding, and require that picture to also precede the P picture in display order.
+    In H.264, can use multiple previously decoded pictures as references during decoding, and can have any arbitrary display-order relationship relative to the picture(s) used for its prediction.
+    Typically require fewer bits for encoding than I pictures do.
+
+Bi-directional predicted (B) frames/slices (macroblocks) [ edit ]
+
+    Require the prior decoding of subsequent frame(s) to be decoded.
+    May contain image data and/or motion vector displacements. Older standards allow only a single global motion compensation vector for the entire frame or a single motion compensation vector per macroblock.
+    Include some prediction modes that form a prediction of a motion region (e.g., a macroblock or a smaller area) by averaging the predictions obtained using two different previously decoded reference regions. Some standards allow two motion compensation vectors per macroblock (biprediction).
+    In older standards (such as MPEG-2), B-frames are never used as references for the prediction of other pictures. As a result, a lower quality encoding (requiring less space) can be used for such B-frames because the loss of detail will not harm the prediction quality for subsequent pictures.
+    In H.264, B-frames may or may not be used as references for the decoding of other frames (at the discretion of the encoder).
+    Older standards (such as MPEG-2), use exactly two previously decoded pictures as references during decoding, and require one of those pictures to precede the B-frame in display order and the other one to follow it.
+    In H.264, can use one, two, or more than two previously decoded pictures as references during decoding, and can have any arbitrary display-order relationship relative to the picture(s) used for its prediction.
+    Typically require fewer bits for encoding than either I or P-frames.
+
+See also [ edit ]
+
+    Key frame term in animation
+    Video compression
+    Intra frame
+    Inter frame
+    Group of pictures application of frame types
+    Datamosh
+    Video
+
+References [ edit ]
+External links [ edit ]
+
+    Video streaming with SP and SI frames
+
+    v
+    t
+    e
+
+Data compression methods
+Lossless 	
+Entropy type 	
+
+    Unary
+    Arithmetic
+    Asymmetric numeral systems
+    Golomb
+    Huffman
+        Adaptive
+        Canonical
+        Modified
+    Range
+    Shannon
+    Shannon–Fano
+    Shannon–Fano–Elias
+    Tunstall
+    Universal
+        Exp-Golomb
+        Fibonacci
+        Gamma
+        Levenshtein
+
+Dictionary type 	
+
+    Byte pair encoding
+    DEFLATE
+    Snappy
+    Lempel–Ziv
+        LZ77 / LZ78 (LZ1 / LZ2)
+        LZFSE
+        LZJB
+        LZMA
+        LZO
+        LZRW
+        LZS
+        LZSS
+        LZW
+        LZWL
+        LZX
+        LZ4
+        Brotli
+        Zstandard
+
+Other types 	
+
+    BWT
+    CTW
+    Delta
+    DMC
+    MTF
+    PAQ
+    PPM
+    RLE
+    Statistical Lempel-Ziv
+
+Audio 	
+Concepts 	
+
+    Bit rate
+        average (ABR)
+        constant (CBR)
+        variable (VBR)
+    Companding
+    Convolution
+    Dynamic range
+    Latency
+    Nyquist–Shannon theorem
+    Sampling
+    Sound quality
+    Speech coding
+    Sub-band coding
+
+Codec parts 	
+
+    A-law
+    μ-law
+    ACELP
+    ADPCM
+    CELP
+    DPCM
+    Fourier transform
+    LPC
+        LAR
+        LSP
+    MDCT
+    Psychoacoustic model
+    WLPC
+
+Image 	
+Concepts 	
+
+    Chroma subsampling
+    Coding tree unit
+    Color space
+    Compression artifact
+    Image resolution
+    Macroblock
+    Pixel
+    PSNR
+    Quantization
+    Standard test image
+
+Methods 	
+
+    Chain code
+    DCT
+    EZW
+    Fractal
+    KLT
+    LP
+    RLE
+    SPIHT
+    Wavelet
+
+Video 	
+Concepts 	
+
+    Bit rate
+        average (ABR)
+        constant (CBR)
+        variable (VBR)
+    Display resolution
+    Frame
+    Frame rate
+    Frame types
+    Interlace
+    Video characteristics
+    Video quality
+
+Codec parts 	
+
+    Lapped transform
+    DCT
+    Deblocking filter
+    Motion compensation
+
+Theory 	
+
+    Entropy
+    Kolmogorov complexity
+    Lossy
+    Quantization
+    Rate–distortion
+    Redundancy
+    Timeline of information theory
+
+    Template Compression formats
+    Template Compression software (codecs)
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Video_compression_picture_types&oldid=840098332 "
+Categories :
+
+    Video compression
+
+Hidden categories:
+
+    Articles lacking sources from October 2008
+    All articles lacking sources
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Čeština
+    Deutsch
+    Italiano
+    Русский
+    Suomi
+    Українська
+    中文
+
+Edit links
+
+    This page was last edited on 7 May 2018, at 18:23  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

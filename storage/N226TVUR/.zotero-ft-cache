@@ -1,0 +1,510 @@
+
+
+ 
+
+Image Watch HELP
+
+Contents
+
+Installation . 1
+
+Basic Operation . 1
+
+Image List . 3
+
+Image Viewer . 5
+
+Image Types . 6
+
+Pixel Formats . 6
+
+Color Mapping . 7
+
+Image Operators . 7
+
+Extensibility . 9
+
+Known Issues . 13
+Installation
+
+Visual Studio 2012 + Update 1 are required. Update 3 is recommended since it fixes a number of issues that affect Image Watch. Update 3 is available here .
+
+To enable mixed-mode debugging , make sure to uncheck Tools -> Options -> Debugging -> General -> Managed C++ Compatibility Mode .
+Basic Operation
+
+To bring up Image Watch for the first time : break in the debugger and select View -> Other Windows -> Image Watch . Note that you only need to do this once: just like Visual Studio’s built-in Watch window, Image Watch will disappear when you stop debugging, and automatically reopen next time you start debugging.
+
+Image Watch acts as both Locals and Watch window together . A radio button at the top left (Figure 1, A) switches between the two modes, which work just like Visual Studio’s built-in Locals and Watch windows: in Locals mode, the Image List (B) gets automatically populated with all image-valued variables that are on the current stack frame. In Watch mode, image items are added manually by the user, e.g. by typing in image-valued expressions.
+
+Every listed image (C) has a square icon denoting whether the image expression is valid (blue) or invalid (gray). For valid expressions, additional information is shown: a thumbnail , the image size (width x height in pixels), the pixel format (“number of channels x channel data type [optional format string]”), and the expression’s C++ type . Image Watch supports these C/C++ Types and these Pixel Formats .
+
+One image at a time can be selected (D) for viewing in the Image Viewer to the right (E). The Image Viewer supports panning (mouse drag) and zooming (mouse wheel). The current magnification factor is shown on the upper right (F). Pixel coordinates at the current mouse position (G) and the corresponding pixel value are displayed at the top (H). In addition, pixels values are displayed directly on the pixels at sufficiently high zoom levels.
+
+Image Watch introduces a magnifying glass symbol next to image-valued expressions in Visual Studio’s built-in Autos, Locals, and Watch window (I), and also in the code editor’s debugger tooltip (J). Clicking on the magnifying glass adds the expression to Image Watch’s Watch list.
+
+Figure 1:
+
+screenshot1
+
+Image List
+
+The Image List (Figure 1, B) was designed to work like Visual Studio’s built-in Autos, Locals, or Watch list: In Locals mode, the list is read-only and gets populated automatically. In Watch mode, expressions can be added/edited by either double-clicking on the expression text, by pressing F2, or by simply starting to type in a new expression. Expressions can be cut ( Ctrl+X , Ctrl+Delete ), copied ( Ctrl+C , Ctrl+Insert ), and pasted ( Ctrl+V , Shift+Insert ), as well.
+
+Up/Down arrow keys, Tab/ Ctrl+Tab , and Home/End navigate the image list.
+
+List items can be collapsed by clicking on the +/- expand symbol at the top left of the each item. Collapsed list items only display the expression name, which greatly decreases the refresh time (note that all displayed information, including thumbnails, needs to be reloaded after every breakpoint or single step). This can be useful when refresh times become noticeable, e.g. when the list has many entries, images are very large, or the debugged process is running on a remote machine.
+
+The Image List has a context menu (right click to activate) shown in Figure 2. The menu items are:
+
+·          Expand/Collapse All : expand/collapse all items that are currently in the list
+
+·          Expand New Items : controls if new list items are initially expanded or collapsed
+
+·          Large Thumbnails : toggles between two thumbnail sizes
+
+·          Auto Maximize Contrast : if not checked , pixel values are mapped to display colors using the standard color mapping rules . If checked , the value range of the current pixel data is mapped to the full range of display colors (like Matlab’s imagesc ). Note: this setting applies to all images.
+
+·          1-Channel Pseudo Color : if not checked , single channel images are shown as grayscale. If checked , a pseudo color map is used (like Matlab’s colormap jet ). Note: this setting applies to all images.
+
+·          4-Channel Ignore Alpha : if not checked , the last channel in four channel images is interpreted as alpha. If checked , last channel is ignored.
+
+·          Add to Watch : adds the selected item to the Watch list
+
+·          Add Address to Watch : adds the address of the selected item to the Watch list. This is useful for watching an image across different stack frames.
+
+·          Dump to File : dumps the selected image to a file. Supported formats are PNG, JPG, and BIN (Image Watch internal lossless file format). BIN files are meant to be used with Image Watch only; they can be loaded into the Watch list using the @file operator .
+
+Figure 2:
+
+Image Viewer
+
+The Image Viewer (Figure 1, E) shows a larger version of the currently selected image. It allows you to zoom in (mouse wheel) and inspect individual pixel values (Figure 1, H).
+
+For quick A/B comparisons Ctrl+LeftClick on the viewer switches to the most recently viewed image.
+
+The pixel value display format is: x y | c0 c1 … cN . Channel values ci are displayed in the order they appear in memory.
+
+Right-click to bring up the Viewer’s context menu (Figure 3):
+
+·          Zoom to Fit : set zoom factor to fit view window
+
+·          Zoom to Original Size : set zoom factor to 1.0, i.e. one image pixel occupies one pixel on the screen
+
+·          Link Views : if checked, all images of the same size share a single view (like Matlab’s linkaxes ). For example, if you zoom in on a region in a 1024x768 image and then select another 1024x768 image in the Image List, the viewer will show that same region in the second image. In contrast, if you then select a 640x480 image, you will see a different region, namely the one that is shared among all 640x480 images.
+
+·          Auto Maximize Contrast/1-Channel Pseudo Color/4-Channel Use Alpha : these are mirrors of the menu items in the Image List ’s context menu. Note that while shown in the Viewer menu here, these settings apply to all images .
+
+·          Hexadecimal Display : this toggles the Visual Studio wide “Hexadecimal Display” setting, which is also used by the built-in Watch window. In Image Watch, it determines how pixel values are displayed (Figure 1, H).
+
+·          Copy Pixel Address : copies the current pixel’s memory address to the clipboard. This can be useful for taking notes, for pasting the address to Visual Studio Debugger’s Memory View window, or for creating a data breakpoint.
+
+ 
+
+Figure 3:
+
+Image Types
+
+Image Watch has built-in support for the following C/C++ image types:
+
+OpenCV :
+
+·            cv::Mat_ <>
+
+·            cv::Mat
+
+·            CvMat
+
+·            _ IplImage
+
+User-defined image types may be added using the extensibility interface described below.
+Pixel Formats
+
+A pixel format in Image Watch consists of a channel type and a channel format .
+
+Image Watch supports these channel types :
+
+·          INT8, UINT8
+
+·          INT16, UINT16
+
+·          INT32
+
+·          FLOAT16
+
+·          FLOAT32
+
+·          FLOAT64
+
+The channel format denotes number of channels (maximal 512).
+
+Optionally, a format string may be associated with the pixel format. It specifies the semantics of each channel for rendering:
+
+·           RG, UV
+
+·           RGB, BGR, YUV
+
+·           RGBA, BGRA
+
+If the format string is absent (as with all OpenCV types, for example), Image Watch’s default color mapping rules are used for rendering.
+
+A number of special YUV formats are supported as well. In this case, the format string also defines the data layout . A detailed description of YUV formats can be found here .
+
+·           NV12 (two planes: one Y plane, one packed UV plane, subsampled by 2 in both dimensions)
+
+·           YV12 (three planes: one Y plane, one packed U and V plane each, both subsampled by 2 in both dimensions)
+
+·           IYUV (same as YV12 but with U and V planes switched)
+
+·           YUY2 (single plane, interleaved two-channel format: Y in the first channel; U and V subsampled by 2 horizontally and stored alternating in the second channel)
+Color Mapping
+
+Image Watch uses the following two rules to map pixel values to display colors:
+
+First, determine the color space . If no format string is present, use the default color space for the given number of channels:
+
+·          1 channel image: grayscale or pseudo color depending on the current viewer setting .
+
+·          2 channel image: red/green
+
+·          3 channel image: B, G, R
+
+·          4 channel image: B, G, R, Alpha, or ignore Alpha depending on current viewer setting .
+
+·          5 or more channels: map first three channels to B, G, R, and ignore remaining channels
+
+Second, map channel values to color intensity (0% … 100%) depending on the channel type:
+
+·          INT8: -128 … 127
+
+·          UINT8: 0 … 255
+
+·          INT16: -32,768 … 32,767
+
+·          UINT16: 0 … 65,535
+
+·          INT32: 0 … 1 (Note: the range of meaningful INT32 pixel values varies a lot between applications, hence the arbitrary 0…1 choice here. Please enable automatic contrast maximization to adjust the display to your data when working with INT32 images)
+
+·          FLOAT16: 0 … 1
+
+·          FLOAT32: 0 … 1
+
+·          FLOAT64: 0 … 1
+Image Operators
+
+Image Watch provides a number of simple operators to help visualize pixel data. To distinguish them from C++ expressions, operators have names that begin with a “@” .
+
+All operators evaluate to images . For example, the @band operator extracts a single channel from an image. It takes two arguments: an image and a zero-based band number. Figure 4 (K) illustrates how to extract the green channel from an example image img0 .
+
+Operators can be nested : image inputs to operators can be any image-valued expressions, including output from other operators. For example, the @ thresh operator takes an image and a threshold, and returns a binary image (0 if < threshold, 1 if >= threshold). Figure 4 (L) shows how to threshold the green channel of img0 at the value 120.
+
+NOTE: Unless otherwise noted, Image Watch operators internally work with 32bit float arithmetic and return FLOAT32 images . This means that INT32 images can lose precision, and FLOAT64 can lose precision and range (values are clipped to FLOAT32 range).
+
+NOTE: By default , FLOAT32 values are mapped to display colors as follows: 0.0f maps to 0% intensity, 1.0f maps to 100% intensity. Out of range values are clipped. For example, if you @clamp a UINT8 image to the range [10, 20], the resulting image will be displayed as all white , since all pixel values are in [10, 20] and get clipped to 1.0f during default color mapping. We therefore recommend enabling automatic contrast maximization when working with operators . Alternatively, the @norm8 and @norm16 operators below provide a quick way to manually scale an operator result by 1/255 or 1/65535, respectively.
+
+List of operators :
+
+·          @band( img , number) : extract channel number   (UINT32) from img . Note: this operator preserves the input channel type.
+
+·          @thresh( img , threshold) : threshold pixels in img : return 1 if >= threshold (FLOAT32) and 0 otherwise
+
+·          @clamp( img , min, max) : clamp pixel values in img to lie between min (FLOAT32) and max (FLOAT32).
+
+·          @abs( img ) : take absolute value of pixels in img
+
+·          @scale( img , factor) : scale pixel values in img by factor (FLOAT32)
+
+·          @norm8( img ): scale pixels values in img by 1/255
+
+·          @norm16( img ): scale pixels values in img by 1/65535
+
+·          @ fliph ( img ), @ flipv ( img ), @ flipd ( img ): flip img horizontally, vertically, and diagonally (matrix transpose), respectively. Note: this operator preserves the input channel type.
+
+·          @rot90( img ), @rot180( img ), @rot270( img ): rotate img by 90, 180, 270 degrees clockwise, respectively. Note: this operator preserves the input channel type.
+
+·          @diff(img0, img1): return pixel-wise difference : img0 – img1
+
+·          @file( path): load image from path (string). Example: @file(“d:\temp\debug.png”)  
+
+·          @ mem ( address, type, channels, width, height, stride): interpret raw memory as pixels, starting at address (UINT64), with channel type (see Pixel Formats ), number of channels (UINT32), width (UINT32), height (UINT32), and stride (UINT32). Example: @ mem ( myimg.data , UINT8, 1, 320, 240, 320)
+
+Figure 4:
+
+screenshot2
+Extensibility
+
+Image Watch can be extended to display user-defined C/C++ image types . A suitable user-defined type must have a supported pixel format .
+
+Image Watch builds on Visual Studio’s natvis framework to support user-defined types. A . natvis file is a debugger-friendly XML description of a C++ type: it contains the name of the type and a set of rules for how to display the type’s properties. Here is a good . natvis tutorial . In Image Watch, a . natvis file describes how to read the image width, height, pixel address, etc. from an image object.
+
+Image Watch’s built-in OpenCV types, cv::Mat , CvMat , and _ IplImage , are specified in a . natvis file called ImageWatchOpenCV.natvis which can be used as a reference when writing Image Watch extensions. ImageWatchOpenCV.natvis is part of the ImageWatch.vsix installer, which is just a .zip archive. You can simply rename it to ImageWatch.zip and extract the contents using your favorite zip tool.
+
+Example 1: A simple 8bit RGB image
+
+struct My8BitRGBImage
+
+{
+
+    unsigned int ncols ;
+
+    unsigned int nrows ;
+
+    unsigned char * data;
+
+};
+
+and its . natvis description
+
+<? xml version = " 1.0 " encoding = " utf-8 " ?>
+
+< AutoVisualizer xmlns = " http://schemas.microsoft.com/vstudio/debugger/natvis/2010 " >
+
+ 
+
+  < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 "
+
+                MenuName = " Add to Image Watch " />
+
+ 
+
+  < Type Name = " My8BitRGBImage " >
+
+    < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 " />
+
+  </ Type >
+
+ 
+
+  < Type Name = " My8BitRGBImage " >
+
+    < Expand >
+
+      < Synthe tic Name = " [type] " >
+
+        < DisplayString > UINT8 </ DisplayString >
+
+      </ Synthetic >
+
+      < Synthetic Name = " [channels] " >
+
+        < DisplayString > RGB </ DisplayString >
+
+      </ Synthetic >
+      < Item Name = " [width] " > ncols </ Item >
+
+      < Item Name = " [height] " > nrows </ Item >
+
+      < Item Name = " [data] " > data </ Item >
+
+      < Item Name = " [stride] " > ncols *3 </ Item >
+
+    </ Expand >
+
+  </ Type >  
+
+</ AutoVisualizer >
+
+Image Watch requires one < UIVisualizer > declaration per . natvis file, and two <Type> declarations per type. The first <Type> node has only a < UIVisualizer > child; the second one has an <Expand> child. Note that the <Expand> section is the only part that needs to be customized to support your image type. The <Expand> node must contain <Item> or <Synthetic> child elements with the following Name properties:
+
+·           [ type ] : a channel type .
+
+·           [ channels ] : the channel format. This can be either a number (= number of channels) or one of the supported format strings (which implies the number of channels).
+
+·           [width] : the image width, in pixels
+
+·           [height] : the image height, in pixels
+
+·           [ planes ] : the number of planes. If omitted, a single plane is assumed (default for packed pixel layouts). Note that special YUV formats may require a specific number of planes (e.g. 2 for NV12, 3 for IYUV and YV12).
+
+·           [ data ] : pointer to the beginning of the pixel data. For packed images, this is a single address. For planar images, a semicolon-delimited list with individual plane addresses may be specified (see Example 2 below). Otherwise, the address denotes the start of first plane, and planes are assumed to be consecutive in memory.
+
+·           [ stride ] : number of bytes per pixel row. For planar images, this can be a semicolon-delimited list of strides for each plane. Otherwise, the same stride is used for all planes.
+
+·           [ range ] : custom pixel value range for color mapping (optional). Two floating point values (min; max), separated by a semicolon. For example, “0; 4095” for 12bit images. If this parameter is omitted Image Watch assumes that pixels values lie within the default value range (for example, 0 … 65535 for UINT16).
+
+ 
+
+The [type] and [channels] properties in Example 1 are <Synthetic> , since their values ( UINT8, RGB ) are not results of C++ expressions, but arbitrary text. In contrast, in Example 3 (below), [channels] is an <Item> element, since its value is a C++ debugger expression.
+
+ 
+
+Every time the debugger is launched, Image Watch looks for . natvis files in %USERPROFILE%\My Documents\Visual Studio 2012\Visualizers and parses them . Diagnostic information about this process is logged in ... \ Visualizers\ImageWatch.log . Image Watch also logs errors during debugging if it cannot parse one of the above properties. To indicate that a property has a value that is not supported by Image Watch (e.g. channel type is 64bit integer), simply leave out the property completely (e.g. using <Synthetic> ’s Conditional attribute). Images with missing properties are displayed as [invalid] , but no error is logged. Likewise, images with complete but inconsistent properties (e.g. stride too small given width and pixel type) are shown as [invalid]. To indicate that your image is in a valid, but uninitialized state, set [width] , [height] and [data] to zero. Image Watch displays these images as [ noinit ] .
+
+ 
+
+Example 2: A planar YUV image:
+
+ 
+
+struct MyPlanarYUVImage
+
+{
+
+    unsigned int ncols ;
+
+    unsigned int nrows ;
+
+    unsigned char * ydata ;
+
+    unsigned char * udata ;
+
+    unsigned char * vdata ;
+
+};
+
+and its . natvis description
+
+<? xml version = " 1.0 " encoding = " utf-8 " ?>
+
+< AutoVisualizer xmlns = " http://schemas.microsoft.com/vstudio/debugger/natvis/2010 " >
+
+ 
+
+  < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 "
+
+                MenuName = " Add to Image Watch " />
+
+ 
+
+  < Type Name = " MyPlanarYUVImage " >
+
+    < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 " />
+
+  </ Type >
+
+ 
+
+  < Type Name = " MyPlanarYUVImage " >
+
+    < Expand >
+
+      < Synthe tic Name = " [type] " >
+
+        < DisplayString > UINT8 </ DisplayString >
+
+      </ Synthetic >
+
+      < Synthetic Name = " [channels] " >
+
+        < DisplayString > YUV </ DisplayString >
+
+      </ Synthetic >
+      < Item Name = " [width] " > ncols </ Item >
+
+      < Item Name = " [height] " > nrows </ Item >
+
+      < Item Name = " [planes] " > 3 </ Item >
+
+      < Synthetic Name = " [data] " >
+
+        < DisplayString > {(void*) ydata }; {(void*) udata }; {(void*) vdata } </ DisplayString >
+
+      </ Synthetic >
+      < Item Name = " [stride] " > ncols </ Item >
+
+    </ Expand >
+
+  </ Type >  
+
+</ AutoVisualizer >
+
+ 
+
+Note the [planes] property is set to 3 in this example. Since our planes are not consecutive in memory, the [data] property has three semicolon-delimited addresses. [ data ] is a <Synthetic> item, since its value is a custom formatted string, not a C++ expression. Also note the (void*) cast: it is required to force the Visual Studio debugger to print an address only, not a string of characters (since the data pointers are of type unsigned char ). This example assumes no row padding and all strides equal, therefore [stride] is simply ncols . Similarly to [data] , [stride] can be either a single value, or delimited list of strides for each plane.
+
+ 
+
+Example 3: C++ templates are supported as well. Here is a more general image template:
+
+ 
+
+template < typename T >
+
+struct MyGenericImage
+
+{      
+
+    unsigned int ncols ;
+
+    unsigned int nrows ;
+
+    unsigned int nchannels ;
+
+    T * data;
+
+};
+
+ 
+
+and the corresponding . natvis definition:
+
+ 
+
+<? xml version = " 1.0 " encoding = " utf-8 " ?>
+
+< AutoVisualizer xmlns = " http://schemas.microsoft.com/vstudio/debugger/natvis/2010 " >
+
+ 
+
+  < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 "
+
+                MenuName = " Add to Image Watch " />
+
+
+  < Type Name = " MyGenericImage &lt ; * & gt ; " >
+
+    < UIVisualizer ServiceId = " {A452AFEA-3DF6-46BB-9177-C0B08F318025} " Id = " 1 " />
+
+  </ Type >
+
+ 
+
+  < Type Name = " MyGenericImage &lt ; * & gt ; " >
+
+    < Expand >
+
+      < Synthetic Name = " [type] " Condition = ' strcmp ("unsigned char", "$T1") == 0 ' >
+
+        < DisplayString > UINT8 </ DisplayString >
+
+      </ Synthetic >
+
+      < Synthetic Name = " [type] " Condition = ' strcmp ("float", "$T1") == 0 ' >
+
+        < DisplayString > FLOAT32 </ DisplayString >
+
+      </ Synthetic >
+
+      < Item Name = " [channels] " > nchannels </ Item >
+
+      < Item Name = " [width] " > ncols </ Item >
+
+      < Item Name = " [height] " > nrows </ Item >
+
+      < Item Name = " [data] " > data </ Item >
+
+      < Item Name = " [stride] " > ncols * nchannels * sizeof ($T1) </ Item >
+
+    </ Expand >
+
+  </ Type >
+
+</ AutoVisualizer >
+
+ 
+
+This . natvis definition supports MyGenericImage images with unsigned char or float pixels. Note the “*” wildcard syntax, the Condition attribute, and the $T1 reference to the template argument. Also, this example shows how to use Visual Studio’s debugger intrinsics strcmp ( ) and sizeof () for processing C++ type names. For general information on templates in . natvis files, please refer to Visual Studio’s . natvis documentation .
+
+ 
+Known Issues
+
+You may experience one or more of the following issues when using Image Watch (or other Visual Studio UI Visualizers):
+
+·           (Fixed in Visual Studio 2013) The magnifying glass symbol is not shown for const pointer/reference types
+
+·           (Fixed in Update 3) Visual Studio crashes if you break or step in the debugger and Visual Studio’s Autos window is about to display a function return value which is an image that can be viewed with Image Watch.
+
+·           (Fixed in Update 3) When using natvis intrinsics like strcmp ( ) you may see a linker error related to . pdb files.
+
+ 
+
+ 

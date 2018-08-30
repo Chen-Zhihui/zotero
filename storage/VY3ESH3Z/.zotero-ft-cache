@@ -1,0 +1,133 @@
+
+Group of pictures
+From Wikipedia, the free encyclopedia
+This is the current revision of this page, as edited by Mezzaluna ( talk  | contribs ) at 20:34, 24 July 2017 (seems that the "clean random access point" terminology calls for a fuller description of how I frames are used → ‎ Description ) . The present address (URL) is a permanent link to this version.
+Revision as of 20:34, 24 July 2017 by Mezzaluna ( talk  | contribs ) (seems that the "clean random access point" terminology calls for a fuller description of how I frames are used → ‎ Description )
+( diff ) ← Previous revision  | Latest revision (diff) | Newer revision → (diff)
+Jump to navigation Jump to search
+	
+This article needs additional citations for verification . Please help improve this article by adding citations to reliable sources . Unsourced material may be challenged and removed. (July 2013) ( Learn how and when to remove this template message )
+
+In video coding , a group of pictures , or GOP structure , specifies the order in which intra- and inter-frames are arranged. The GOP is a collection of successive pictures within a coded video stream. Each coded video stream consists of successive GOPs, from which the visible frames are generated. Encountering a new GOP in a compressed video stream means that the decoder doesn't need any previous frames in order to decode the next ones, and allows fast seeking through the video.
+Description [ edit ]
+
+A GOP can contain the following picture types:
+
+    I picture or I frame (intra coded picture) – a picture that is coded independently of all other pictures. Each GOP begins (in decoding order) with this type of picture.
+    P picture or P frame (predictive coded picture) – contains motion-compensated difference information relative to previously decoded pictures. In older designs such as MPEG-1 , H.262 / MPEG-2 and H.263 , each P picture can only reference one picture, and that picture must precede the P picture in display order as well as in decoding order and must be an I or P picture. These constraints do not apply in the newer standards H.264/MPEG-4 AVC and HEVC .
+    B picture or B frame (bipredictive coded picture) – contains motion-compensated difference information relative to previously decoded pictures. In older designs such as MPEG-1 and H.262/MPEG-2, each B picture can only reference two pictures, the one which precedes the B picture in display order and the one which follows, and all referenced pictures must be I or P pictures. These constraints do not apply in newer standards H.264/MPEG-4 AVC and HEVC .
+    D picture or D frame (DC direct coded picture) – serves as a fast-access representation of a picture for loss robustness or fast-forward. D pictures are only used in MPEG-1 video.
+
+An I frame indicates the beginning of a GOP. Afterwards several P and B frames follow. In older designs, the allowed ordering and referencing structure is relatively constrained. [1]
+
+The I frames contain the full image and do not require any additional information to reconstruct it. Typically, encoders use GOP structures that cause each I frame to be a "clean random access point," such that decoding can start cleanly on an I frame and any errors within the GOP structure are corrected after processing a correct I frame.
+
+In the newer designs found in H.264/MPEG-4 AVC and HEVC , encoders have much more flexibility about referencing structures. They can use the same referencing structures as were previously used in older designs, or they can use more pictures as references and they can use more flexible ordering of the coding order relative to the display order. They are also allowed to use B pictures as references when coding other (B or P) pictures. This extra flexibility can improve compression efficiency, but it can cause propagation of errors if some data becomes lost or corrupted. One popular structure for use with the newer designs is the use of a hierarchy of B pictures. Hierarchical B pictures can provide very good compression efficiency and can also limit the propagation of errors, since the hierarchy can ensure that the number of pictures affected by any data corruption problem is strictly limited.
+
+Generally, the more I frames the video stream has, the more editable it is. However, having more I frames substantially increases bit rate needed to code the video.
+GOP Structure [ edit ]
+
+The GOP structure is often referred by two numbers, for example, M=3, N=12. The first number tells the distance between two anchor frames (I or P). The second one tells the distance between two full images (I-frames): it is the GOP size. [2] For the example M=3, N=12, the GOP structure is IBBPBBPBBPBBI. Instead of the M parameter the maximal count of B-frames between two consecutive anchor frames can be used.
+
+For example, in a sequence with pattern IBBBBPBBBBPBBBBI, the GOP size is equal to 15 (length between two I frames) and distance between two anchor frames ( M value ) is 5 (length between I and P frames or length between two consecutive P Frames).
+References [ edit ]
+
+    Jump up ^ http://www.cs.cf.ac.uk/Dave/Multimedia/node258.html
+    Jump up ^ http://documentation.apple.com/en/compressor/usermanual/index.html#chapter=18%26section=5%26tasks=true
+
+Retrieved from " https://en.wikipedia.org/w/index.php?title=Group_of_pictures&oldid=792156968 "
+Categories :
+
+    MPEG
+    Video compression
+
+Hidden categories:
+
+    Articles needing additional references from July 2013
+    All articles needing additional references
+
+Navigation menu
+Personal tools
+
+    Not logged in
+    Talk
+    Contributions
+    Create account
+    Log in
+
+Namespaces
+
+    Article
+    Talk
+
+Variants
+
+Views
+
+    Read
+    Edit
+    View history
+
+More
+
+Search
+Navigation
+
+    Main page
+    Contents
+    Featured content
+    Current events
+    Random article
+    Donate to Wikipedia
+    Wikipedia store
+
+Interaction
+
+    Help
+    About Wikipedia
+    Community portal
+    Recent changes
+    Contact page
+
+Tools
+
+    What links here
+    Related changes
+    Upload file
+    Special pages
+    Permanent link
+    Page information
+    Wikidata item
+    Cite this page
+
+Print/export
+
+    Create a book
+    Download as PDF
+    Printable version
+
+Languages
+
+    Català
+    Deutsch
+    Español
+    Français
+    日本語
+    中文
+
+Edit links
+
+    This page was last edited on 24 July 2017, at 20:34  (UTC) .
+    Text is available under the Creative Commons Attribution-ShareAlike License ; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy . Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc. , a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Developers
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+
