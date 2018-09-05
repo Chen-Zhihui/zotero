@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html class="client-js" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Hungarian algorithm - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Hungarian_algorithm","wgTitle":"Hungarian algorithm","wgCurRevisionId":857375568,"wgRevisionId":857375568,"wgArticleId":2609001,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["All articles with unsourced statements","Articles with unsourced statements from November 2017","Use dmy dates from September 2010","Matching","Combinatorial optimization"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Hungarian_algorithm","wgRelevantArticleId":2609001,"wgRequestId":"W4zOCwpAMFYAALrXRQkAAAAB","wgCSPNonce":false,"wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgWikibaseItemId":"Q281922","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":true,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.cite.styles":"ready","ext.math.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","jquery.makeCollapsible.styles":"ready","mediawiki.toc.styles":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.cite.a11y","ext.math.scripts","site","mediawiki.page.startup","mediawiki.user","mediawiki.page.ready","jquery.makeCollapsible","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="load_002.css">
+<script async="" src="load.php"></script>
+<style>
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.mw-collapsible-toggle-default:before{content:'['}.mw-collapsible-toggle-default:after{content:']'}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none}
+.mw-spinner{background-color:transparent;background-position:center center;background-repeat:no-repeat}.mw-spinner-small{background-image:url(data:image/gif;base64,R0lGODlhFAAUAIQQAAYJBRkbGCYnJTI0MT9APk5QTVhZV2ZoZXR2c4SGg5CSj52fnKyuq7m7uMfJxtPV0v///////////////////////////////////////////////////////////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJCgABACwAAAAAFAAUAAAFc2AgjuNQkCipHCMAiI6TjoWAiG7gNM08CgTca+cbGWyBXEMm6okMJxGBNWLuGo8ngWBY+HgxlIFwm4VnimKKkWgn1Dzwwv0uxpfqfJWZ2p1hV0VXTA9gMCRETXxOOj08jXxfMo+NcHiUgT5nlAFZejqRKCEAIfkECQoADAAsAAAAABQAFAAABXYgI45jcZAouSSjIIjDkI4HwTJBIALvLBIFUY4xAPhoA1ZAcAjIRI2RQlFCkIIMR6PxEC0UiYXDt3WMSdOFz0w+prTb6DHeMNPd9LN7n9WjtGwjdnIzcGeGIn5aI3WMglFbWY14kHKLR4AMkZKEb2ebDF18fUchACH5BAkKAAEALAAAAAAUABQAAAV6YCCO44GQKOkw40CIxZuKi9KIwyAK8hwkCpyOIPCNFglWTjEojAgJkeMmUixIhiABADhIGw3HwycACLyqsI+ATo2NqCmY6puH5WC43QHvjxx8M3KBUnJGgyIPYIGEAVMjaiJ0j3lTjTN5eQGadWqainQpgJJ0b36jPiEAIfkECQoAAQAsAAAAABQAFAAABXVgII7jwpAo+TxjkoiGkY5OwwauSBTz2DSinIHQozUcuISCIIMpRDUfcoRYBAwCwQH6c9xSBAEBgapNUwfy7Fs0/oBFgBwwqL3bcwCvzYeey10qdkV2Uw+BAX9RIkc+RgE/iY1tkZGSlI2Wgz0OU5YBbG2dRSEAIfkECQoACAAsAAAAABQAFAAABXcgIo4j05Ao+TjjsohuOjoNi8RIoshjDb+KBG/mczUUL9EhSevZYKwDgSBE0GoPXmFgqBKfqIMXlR2iro3TMCBgF9BqXpt9MKPGJAeYRAhw81dDAwAAAyIPaTZgTSIChiJxTWlWPmaTk5SWPpiBPHqQcWV2VnskIQAh+QQJCgABACwAAAAAFAAUAAAFemAgjqPjkCj5nGLTiAyTlg3rios8t/bLLDvayeXIjRYsx4tHcjwCi0RCp6w9Z4qEQifcxXbXYNN1Cw7Og0O1vEMTEGKUYmfaGQaEQ7O6WxQEAwUiD0QiLCIEAiMEBCNLAUoBNwcAA3E3ZQIAYoVllI10PSMHCXGGhykhACH5BAkKAAEALAAAAAAUABQAAAV3YCCOo+OQKPmcYtOIZlo2T/sGDSvjrBs4t90vh6MRYbXh6Igc0mAuRzIV1UGtpJhsKpy5grKEOLEAfrvjBKOLUuy0KQTBkMiadwsDYS56RGEkBwQjBQZLMwEAAAEIAoZdPooiBAKQRJKMAgVCWpgBB25sAQUDQiEAIfkECQoAEAAsAAAAABQAFAAABXsgJI6j45Ao+Zxi04hmWjZP+0INK+OsCzm33S+HoxFhteHoiBzSYC5HMhXVQa2kmGwqnLmCsm8O+O2KseadNrVQKBhZsnqRSChEj6iIQEIURm5LIwMBCAIBEAkDB10QAAIQAYgQBnxChyKYiQSMOwKQEJ8jCQuNIgd/OyEAIfkECQoAHwAsAAAAABQAFAAABXzgJ46j45Ao+Zxi04hmWjZP+34NK+Os+zm33S+HoxFhteHoiBzSYC5HMhXVQa2kmGwqnLmCsm8O+O2KsV0u6UDYAbWigwAg2K2iIgMAMPgsDCQMCkssCW0iBQMKA30MCQtdHwNtjCILCV0EfZKbDY9CBAUimiMMaDIIgDshACH5BAkKAB8ALAAAAAAUABQAAAV44CeOo+OQKPmcYtOIZlo2T/t+DSvjrPs5t90vh6MRYbXh6Igc0mAuRzIV1UGtpJhsKhwVAGBA1xUdhMVCMrMr4pIQhx1QK0IQBITdKio6CAQFHwsIWUFHCoEiBgQKCQlDWCkEgY5QXQV5H5WQQgWJmx8PbjsMC0IhACH5BAkKAB8ALAAAAAAUABQAAAV14CeOo+OQKPmcYtO0bwo/cC3b7pffotOcrsevRPsMBKMh8eNrFAcBwEBxczlRUMLNdEvwUgWAGPC1/gZjMs9c/I7aqMRh62KJEoZB4bay3gkEcw4LJD5JMQtzIgsKfj52XVQ7OzcKVDoxQjEyCoSYb3A8XDchACH5BAEKAB8ALAAAAAAUABQAAAV64CeOo+OQKJkcY9OIZjoSAPu5Ii6LgJC/jtdONKjdGo/GCfYQEQYjAYHkaAaVosJgUFjsXDHS07ALpxTDFOK5TbvAh217+MamSU0Zg1FWLkUMCgloMg9XSwwJCV6GVEI3Sw5eMEg4QX9fJzo6X0I6SZgoYZwPeXdmKSEAOw==);background-image:url(/w/resources/src/jquery.spinner/images/spinner.gif?ca65b)!ie;height:20px;width:20px; min-width:20px}.mw-spinner-large{background-image:url(data:image/gif;base64,R0lGODlhIAAgAOMAAP///wAAAMbGxoSEhLa2tpqamjY2NlZWVtjY2OTk5Ly8vB4eHgQEBP///////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAPACwAAAAAIAAgAAAE5/DJSWlhperN52JLhSSdRgwVo1ICQZRUsiwHpTJT4iowNS8vyW2icCF6k8HMMBk+EDskxTBDPZwuAkkqIfxIQyhBQBFvHwSDITM5VDW6XNE4KagNh6Bgwe60smQUB3d4Rz1ZBApnFASDd0hihh12BkE9kjAJVlycXIg7CQIFA6SlnJ87paqbSKiKoqusnbMdmDC2tXQlkUhziYtyWTxIfy6BE8WJt5YJvpJivxNaGmLHT0VnOgSYf0dZXS7APdpB309RnHOG5g/qXGLDaC457D1zZ/V/nmOM82XiHRLYKhKP1oZmADdEAAAh+QQFCgAPACwAAAAAGAAXAAAEcvDJSesiNetplqlDsYnUYlIGw2jGV55SoS5sq0wmLS3qoBWtAw42mG0ehxYp90CoGKRNy8U8qFzNweCGwlJkgolCq0VIEAbMkUIghxLrDcLti2/Gg7D9qN774wkKBIOEfw+ChIV/gYmDho+QkZKTR3p7EQAh+QQFCgAPACwBAAAAHQAOAAAEcvDJSScxNev9jjkZwU2IUhkodSzLKA2DOKGYRLD1CA/InEoGlkui2PlyuKGkADM9aI8EayGbJDYI4zM1YIEmAwajkCAoehNmTNNaLsQMHmGuuEYHgpHAAGfUBHNzeUp9VBQJCoFOLmFxWHNoQweRWEocEQAh+QQFCgAPACwHAAAAGQARAAAEavDJ+cQQNOtdRsnf9iRINpyZYYgEgU3nQKnr1hIJjEqHGmqIlkInexRUB5FE0So9YhKaUpK4SaAPlWaxIFAETQ3B4BxzF2Kn8nBeJKebdm3SgksKXDt8kNP7/xoMgoMLP36DiAyAD4kMhREAIfkEBQoADwAsDgAAABIAGAAABGUQFfSqvZiUghXF1cZZxTCA4WYh5omKVqugD/woLV2rT/u9KoJpFDIYaIJBwnIwGogoivOoq0wPs6r1qe16v5WFeEzVjc+LKnphIIC9g193wGC4uvX6Aoo05BllVQULeXdadAxuEQAh+QQFCgAPACwOAAAAEgAeAAAEgDCp9Kq9WBGFBb5ECBbFV4XERaYmahGk14qPQJbm4z53foq2AquiGAwQJsQQYTRyfIlCc4DzTY8+i8CZxQy74KxhTD58P+S0Qaw+hN8WyruwWMDrdcM5ecAv3CYDDDIEBngmBwwMaxeGJgmKDFVdggx2bwuKA28EkXAGinJhVCYRACH5BAUKAA8ALA8AAQARAB8AAAR88Mn5UKIYC0KyT5ziZQqHjBQSohRHXGzFCSkHU/eTlCa7uTSUi6DIeVSEU0yiXDo9g6i0EIRKr6hrlPrsOgkGQ8EZDh+eZcOosKAcymPKYLE4TwphCWMvoS86HnsME3RqgXwSBnQjghR+h4MTB4sZjRiAGAsMbU4FDHFLEQAh+QQFCgAPACwIAA4AGAASAAAEbPDJSesjOKtk+8yg4nkgto1oihIqKgyD2FpwjcxUUtRDMROG2wPBkz0EjEHHYKgoYMKHgcE4PBZYCbM5KlAZHOxCUmBaPQuq8pqVHJg+GnUsEVO2nTQjzqZPmB1UXHVtE3wVOxUGC4M4H34qEQAh+QQFCgAPACwCABIAHQAOAAAEePDJSat96FJ0tEUEkV0DwwwepYSEklDEYpopJbCEIBkzY+geweD1SKxCiJJpUZAgmBbCYNCcIFaJggk1OSwWKINYMh2MLMRJ7LsbPxTl2sTAbhsmhalC/vje7VZxNXQLBHNuEnlcKV8dh38TCmcehhUHBo58cpA1EQAh+QQFCgAPACwAAA8AGQARAAAEZ7AsRuu7OOtbO9tgJnlfaJ7omQwpuixFCxrvK2dHvRwoQmw1w+8i3PgIggzBpjEYLoPohUBNoJzPR5T1OCpOB2dMK70oqIhQwcmDlh8J6nCDzWwzAmrIqblnEFZqGgUDYzcaAgNJGxEAIfkEBQoADwAsAQAIABEAGAAABFyQMDaevfiOyVbJ4GNwjCGEWLGQaLZRbYZUcW3feK7vaGEYNsXh96sRgYiW73e4JAYn0O9zKQwGhAdhi5pdLdts6DpQgLkgBfkSHl+TZ7ELi2mDEHKLgmC+JRQJEQAh+QQFCgAPACwAAAIADgAdAAAEcvDJ+cqgeDJmMt4M4U3DtozTsl1oASJpRxnbkS6LIT4Cw0oHHO4A8xAMwhPqgSssH4nnknAwWK+Zq1ZGoW650vAOpRgMBCOEee2xrAtRTNlcQEsI8Yd6oKAICARFHgmAYx4KgIIZCIB9ZIB5RgR2KAmKEQA7);background-image:url(/w/resources/src/jquery.spinner/images/spinner-large.gif?57f34)!ie;height:32px;width:32px; min-width:32px}.mw-spinner-block{display:block; width:100%}.mw-spinner-inline{display:inline-block;vertical-align:middle}
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:0;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:#fff;cursor:pointer;border:1px solid #a2a9b1;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:#fff;cursor:pointer;border:1px solid #a2a9b1;padding:0;margin:0}.suggestions-result{color:#000;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#2a4b8d;color:#fff}.suggestions-special .special-label{color:#72777d;text-align:left}.suggestions-special .special-query{color:#000;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:#c8ccd1}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:#fff}.highlight{font-weight:bold}
+@media screen {
+	.tochidden,.toctoggle{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.toctoggle{font-size:94%}}
+@media print {
+	.toc.tochidden,.toctoggle{display:none}}
+.mw-editfont-monospace{font-family:monospace,monospace}.mw-editfont-sans-serif{font-family:sans-serif}.mw-editfont-serif{font-family:serif} .mw-editfont-monospace,.mw-editfont-sans-serif,.mw-editfont-serif{font-size:13px; }.mw-editfont-monospace.oo-ui-textInputWidget,.mw-editfont-sans-serif.oo-ui-textInputWidget,.mw-editfont-serif.oo-ui-textInputWidget{font-size:inherit}.mw-editfont-monospace > .oo-ui-inputWidget-input,.mw-editfont-sans-serif > .oo-ui-inputWidget-input,.mw-editfont-serif > .oo-ui-inputWidget-input{font-size:13px}
+.mw-ui-button{font-family:inherit;font-size:1em;display:inline-block;min-width:4em;max-width:28.75em;padding:0.546875em 1em;line-height:1.286;margin:0;border-radius:2px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:none;*display:inline; zoom:1;vertical-align:middle;background-color:#f8f9fa;color:#222222;border:1px solid #a2a9b1;text-align:center;font-weight:bold;cursor:pointer}.mw-ui-button:visited{color:#222222}.mw-ui-button:hover{background-color:#ffffff;color:#444444;border-color:#a2a9b1}.mw-ui-button:focus{background-color:#ffffff;color:#222222;border-color:#3366cc;box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button:active,.mw-ui-button.is-on,.mw-ui-button.mw-ui-checked{background-color:#d9d9d9;color:#000000;border-color:#72777d;box-shadow:none}.mw-ui-button:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button:disabled:hover,.mw-ui-button:disabled:active{background-color:#c8ccd1;color:#fff;box-shadow:none;border-color:#c8ccd1}.mw-ui-button:focus{outline-width:0}.mw-ui-button:focus::-moz-focus-inner{border-color:transparent;padding:0}.mw-ui-button:not(:disabled){-webkit-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;-moz-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms}.mw-ui-button:disabled{text-shadow:none;cursor:default}.mw-ui-button.mw-ui-big{font-size:1.3em}.mw-ui-button.mw-ui-block{display:block;width:100%;margin-left:auto;margin-right:auto}.mw-ui-button.mw-ui-progressive{background-color:#3366cc;color:#fff;border:1px solid #3366cc}.mw-ui-button.mw-ui-progressive:hover{background-color:#447ff5;border-color:#447ff5}.mw-ui-button.mw-ui-progressive:focus{box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-progressive:active,.mw-ui-button.mw-ui-progressive.is-on,.mw-ui-button.mw-ui-progressive.mw-ui-checked{background-color:#2a4b8d;border-color:#2a4b8d;box-shadow:none}.mw-ui-button.mw-ui-progressive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-progressive:disabled:hover,.mw-ui-button.mw-ui-progressive:disabled:active,.mw-ui-button.mw-ui-progressive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-progressive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:hover{background-color:transparent;color:#447ff5}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:active,.mw-ui-button.mw-ui-progressive.mw-ui-quiet.mw-ui-checked{color:#2a4b8d}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:focus{background-color:transparent;color:#3366cc}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-destructive{background-color:#dd3333;color:#fff;border:1px solid #dd3333}.mw-ui-button.mw-ui-destructive:hover{background-color:#ff4242;border-color:#ff4242}.mw-ui-button.mw-ui-destructive:focus{box-shadow:inset 0 0 0 1px #dd3333,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-destructive:active,.mw-ui-button.mw-ui-destructive.is-on,.mw-ui-button.mw-ui-destructive.mw-ui-checked{background-color:#b32424;border-color:#b32424;box-shadow:none}.mw-ui-button.mw-ui-destructive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-destructive:disabled:hover,.mw-ui-button.mw-ui-destructive:disabled:active,.mw-ui-button.mw-ui-destructive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-destructive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:hover{background-color:transparent;color:#ff4242}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:active,.mw-ui-button.mw-ui-destructive.mw-ui-quiet.mw-ui-checked{color:#b32424}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:focus{background-color:transparent;color:#dd3333}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet{background:transparent;border:0;text-shadow:none;color:#222222}.mw-ui-button.mw-ui-quiet:hover{background-color:transparent;color:#444444}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet.mw-ui-checked{color:#000000}.mw-ui-button.mw-ui-quiet:focus{background-color:transparent;color:#222222}.mw-ui-button.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet:hover,.mw-ui-button.mw-ui-quiet:focus{box-shadow:none}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet:disabled{background:transparent}input.mw-ui-button::-moz-focus-inner,button.mw-ui-button::-moz-focus-inner{margin-top:-1px;margin-bottom:-1px}a.mw-ui-button{text-decoration:none}a.mw-ui-button:hover,a.mw-ui-button:focus{text-decoration:none}.mw-ui-button-group > *{min-width:48px;border-radius:0;float:left}.mw-ui-button-group > *:first-child{border-top-left-radius:2px;border-bottom-left-radius:2px}.mw-ui-button-group > *:not(:first-child){border-left:0}.mw-ui-button-group > *:last-child{border-top-right-radius:2px;border-bottom-right-radius:2px}.mw-ui-button-group .is-on .button{cursor:default}
+.cite-accessibility-label{ top:-99999px;clip:rect(1px 1px 1px 1px); clip:rect(1px,1px,1px,1px); position:absolute !important;padding:0 !important;border:0 !important;height:1px !important;width:1px !important; overflow:hidden}
+@-webkit-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-webkit-transform:translateY(-20px)}100%{opacity:1;-webkit-transform:translateY(0)}}@-moz-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-moz-transform:translateY(-20px)}100%{opacity:1;-moz-transform:translateY(0)}}@-o-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-o-transform:translateY(-20px)}100%{opacity:1;-o-transform:translateY(0)}}@keyframes centralAuthPPersonalAnimation{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}.centralAuthPPersonalAnimation{-webkit-animation-duration:1s;-moz-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:centralAuthPPersonalAnimation;-moz-animation-name:centralAuthPPersonalAnimation;-o-animation-name:centralAuthPPersonalAnimation;animation-name:centralAuthPPersonalAnimation}
+@media print{#centralNotice{display:none}}.cn-closeButton{display:inline-block;zoom:1;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAElBMVEUAAAAQEBDPz88AAABAQEDv7+9oe1vvAAAABnRSTlMA3rLe3rJS22KzAAAARElEQVQI12PAAUIUQCSTK5BwFgIxFU1AhKECUFAYKAAioXwwBeZChMGCEGGQIFQYJohgIhQgtCEMQ7ECYTHCOciOxA4AADgJTXIb9s8AAAAASUVORK5CYII=) no-repeat;background:url(/w/extensions/CentralNotice/resources/subscribing/close.png?8e3d8) no-repeat!ie;width:20px;height:20px;text-indent:20px;white-space:nowrap;overflow:hidden}
+.uls-menu{border-radius:2px; font-size:medium}.uls-search,.uls-language-settings-close-block{border-top-right-radius:2px;border-top-left-radius:2px}.uls-language-list{border-bottom-right-radius:2px;border-bottom-left-radius:2px}.uls-menu.callout:before,.uls-menu.callout:after{border-top:10px solid transparent;border-bottom:10px solid transparent;display:inline-block; top:17px;position:absolute;content:''}.uls-menu.callout.selector-right:before{ border-left:10px solid #c8ccd1; right:-11px}.uls-menu.callout.selector-right:after{ border-left:10px solid #f8f9fa; right:-10px}.uls-menu.callout.selector-left:before{ border-right:10px solid #c8ccd1; left:-11px}.uls-menu.callout.selector-left:after{ border-right:10px solid #f8f9fa; left:-10px}.uls-ui-languages button{margin:5px 15px 5px 0;white-space:nowrap;overflow:hidden}.uls-search-wrapper-wrapper{position:relative;padding-left:40px;margin-top:5px;margin-bottom:5px}.uls-icon-back{background:transparent url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.png?90e9b) no-repeat scroll center center;background-image:-webkit-linear-gradient(transparent,transparent),url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.svg?e226b);background-image:linear-gradient(transparent,transparent),url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E %3Cpath fill=%22%2354595d%22 d=%22M7 13.1l8.9 8.9c.8-.8.8-2 0-2.8l-6.1-6.1 6-6.1c.8-.8.8-2 0-2.8L7 13.1z%22/%3E %3C/svg%3E");background-size:28px;background-position:center center;height:32px;width:40px;display:block;position:absolute;left:0;border-right:1px solid #c8ccd1;opacity:0.8}.uls-icon-back:hover{opacity:1;cursor:pointer}.uls-menu .uls-no-results-view .uls-no-found-more{background-color:#fff}.uls-menu .uls-no-results-view h3{padding:0 28px;margin:0;color:#54595d;font-size:1em;font-weight:normal}  .skin-vector .uls-menu{border-color:#c8ccd1;-webkit-box-shadow:0 2px 2px 0 rgba(0,0,0,0.25);box-shadow:0 2px 2px 0 rgba(0,0,0,0.25);font-size:0.875em}.skin-vector .uls-search{border-bottom-color:#c8ccd1}.skin-vector .uls-filtersuggestion{color:#72777d}.skin-vector .uls-lcd-region-title{color:#54595d}
+.wp-teahouse-question-form{position:absolute;margin-left:auto;margin-right:auto;background-color:#f4f3f0;border:1px solid #a7d7f9;padding:1em}#wp-th-question-ask{float:right}.wp-teahouse-ask a.external{background-image:none !important}.wp-teahouse-respond-form{position:absolute;margin-left:auto;margin-right:auto;background-color:#f4f3f0;border:1px solid #a7d7f9;padding:1em}.wp-th-respond{float:right}.wp-teahouse-respond a.external{background-image:none !important}
+.referencetooltip{position:absolute;list-style:none;list-style-image:none;opacity:0;font-size:12px;margin:0;z-index:5;padding:0}.referencetooltip > li{background:#fff;border:1px solid #bbb;-webkit-box-shadow:0 0 10px rgba(0,0,0,0.2);-moz-box-shadow:0 0 10px rgba(0,0,0,0.2);box-shadow:0 0 10px rgba(0,0,0,0.2);margin:0;padding:8px 10px;line-height:18px;max-width:300px}.referencetooltip > li + li{box-sizing:border-box;margin-left:7px;margin-top:-1px;border:0;padding:0;height:3px;width:0;background-color:transparent;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;border-top:12px #bbb solid;border-right:7px transparent solid;border-left:7px transparent solid}.referencetooltip > li + li::after{z-index:111;content:'';border:6px solid transparent;border-bottom:0;border-top:8px solid #fff;height:0;width:0;display:block;margin-left:-6px;margin-top:-12px}.RTflipped{padding-top:13px}.referencetooltip.RTflipped > li + li{position:absolute;top:0;border-top:0;border-bottom:12px #bbb solid}.referencetooltip.RTflipped > li + li::after{border-top:0;border-bottom:8px #fff solid;position:absolute;margin-top:7px}.RTsettings{ background-image:linear-gradient(transparent,transparent),url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%0D%0A%20%20%20%20%3Cpath%20fill%3D%22%23555%22%20d%3D%22M20%2014.5v-2.9l-1.8-.3c-.1-.4-.3-.8-.6-1.4l1.1-1.5-2.1-2.1-1.5%201.1c-.5-.3-1-.5-1.4-.6L13.5%205h-2.9l-.3%201.8c-.5.1-.9.3-1.4.6L7.4%206.3%205.3%208.4l1%201.5c-.3.5-.4.9-.6%201.4l-1.7.2v2.9l1.8.3c.1.5.3.9.6%201.4l-1%201.5%202.1%202.1%201.5-1c.4.2.9.4%201.4.6l.3%201.8h3l.3-1.8c.5-.1.9-.3%201.4-.6l1.5%201.1%202.1-2.1-1.1-1.5c.3-.5.5-1%20.6-1.4l1.5-.3zM12%2016c-1.7%200-3-1.3-3-3s1.3-3%203-3%203%201.3%203%203-1.3%203-3%203z%22%2F%3E%0D%0A%3C%2Fsvg%3E);  display:block;float:right;cursor:pointer;margin:0;margin-top:-4px;height:24px;width:24px;border-radius:2px;box-sizing:border-box;background-position:center center;background-repeat:no-repeat;background-size:24px 24px;margin-left:8px}.RTsettings:hover{background-color:#eee}.RTTarget{background-color:#def}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="load_003.css">
+<link rel="stylesheet" href="load.css">
+<meta name="generator" content="MediaWiki 1.32.0-wmf.19">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-crossorigin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit">
+<link rel="edit" title="Edit this page" href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit">
+<link rel="apple-touch-icon" href="https://en.wikipedia.org/static/apple-touch/wikipedia.png">
+<link rel="shortcut icon" href="https://en.wikipedia.org/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikipedia.org/w/api.php?action=rsd">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="https://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Hungarian_algorithm">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+<script src="//login.wikimedia.org/wiki/Special:CentralAutoLogin/checkLoggedIn?type=script&amp;wikiid=enwiki&amp;proto=https"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hungarian_algorithm rootpage-Hungarian_algorithm skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">Hungarian algorithm</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"><div class="mw-revision"><div id="mw-revision-info-current"><table id="revision-info-current" class="plainlinks fmbox fmbox-system" role="presentation"><tbody><tr><td class="mbox-text"><b>This is the <a href="https://en.wikipedia.org/wiki/Help:Page_history" title="Help:Page history">current revision</a> of this page, as edited by <span id="mw-revision-name"><a href="https://en.wikipedia.org/wiki/Special:Contributions/141.2.6.100" class="mw-userlink mw-anonuserlink" title="Special:Contributions/141.2.6.100"><bdi>141.2.6.100</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/w/index.php?title=User_talk:141.2.6.100&amp;action=edit&amp;redlink=1" class="new mw-usertoollinks-talk" title="User talk:141.2.6.100 (page does not exist)">talk</a>)</span></span> at <span id="mw-revision-date">08:26, 31 August 2018</span><span id="mw-revision-summary"> <span class="comment">(<a href="#The_algorithm_in_terms_of_bipartite_graphs">→</a>‎<span dir="auto"><span class="autocomment">The algorithm in terms of bipartite graphs</span></span>)</span></span>. The present address (URL) is a <a href="https://en.wikipedia.org/wiki/Help:Permanent_link" title="Help:Permanent link">permanent link</a> to this version.</b></td></tr></tbody></table><div id="revision-info-current-plain" style="display: none;">Revision as of 08:26, 31 August 2018 by <a href="https://en.wikipedia.org/wiki/Special:Contributions/141.2.6.100" class="mw-userlink mw-anonuserlink" title="Special:Contributions/141.2.6.100"><bdi>141.2.6.100</bdi></a> <span class="mw-usertoollinks">(<a href="https://en.wikipedia.org/w/index.php?title=User_talk:141.2.6.100&amp;action=edit&amp;redlink=1" class="new mw-usertoollinks-talk" title="User talk:141.2.6.100 (page does not exist)">talk</a>)</span> <span class="comment">(<a href="#The_algorithm_in_terms_of_bipartite_graphs">→</a>‎<span dir="auto"><span class="autocomment">The algorithm in terms of bipartite graphs</span></span>)</span></div>
+</div><div id="mw-revision-nav">(<a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;diff=prev&amp;oldid=857375568" title="Hungarian algorithm">diff</a>) <a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;direction=prev&amp;oldid=857375568" title="Hungarian algorithm">← Previous revision</a>&nbsp;| Latest revision (diff)&nbsp;| Newer revision → (diff)</div></div></div>
+				<div id="jump-to-nav"></div>				<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+				<a class="mw-jump-link" href="#p-search">Jump to search</a>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div class="mw-parser-output"><p>The <b>Hungarian method</b> is a <a href="https://en.wikipedia.org/wiki/Combinatorial_optimization" title="Combinatorial optimization">combinatorial optimization</a> <a href="https://en.wikipedia.org/wiki/Algorithm" title="Algorithm">algorithm</a> that solves the <a href="https://en.wikipedia.org/wiki/Assignment_problem" title="Assignment problem">assignment problem</a> in <a href="https://en.wikipedia.org/wiki/Polynomial_time" class="mw-redirect" title="Polynomial time">polynomial time</a> and which anticipated later <a href="https://en.wikipedia.org/wiki/Duality_%28optimization%29" title="Duality (optimization)">primal-dual methods</a>. It  was developed and published in 1955 by <a href="https://en.wikipedia.org/wiki/Harold_Kuhn" class="mw-redirect" title="Harold Kuhn">Harold Kuhn</a>, who gave the name "Hungarian method" because the algorithm was largely based on the earlier works of two <a href="https://en.wikipedia.org/wiki/Hungary" title="Hungary">Hungarian</a> mathematicians: <a href="https://en.wikipedia.org/wiki/D%C3%A9nes_K%C5%91nig" title="Dénes Kőnig">Dénes Kőnig</a> and <a href="https://en.wikipedia.org/wiki/Jen%C5%91_Egerv%C3%A1ry" title="Jenő Egerváry">Jenő Egerváry</a>.<sup id="cite_ref-kuhn1955_1-0" class="reference"><a href="#cite_note-kuhn1955-1">[1]</a></sup><sup id="cite_ref-kuhn1956_2-0" class="reference"><a href="#cite_note-kuhn1956-2">[2]</a></sup>
+</p><p><a href="https://en.wikipedia.org/wiki/James_Munkres" title="James Munkres">James Munkres</a> reviewed the algorithm in 1957 and observed that it is <a href="https://en.wikipedia.org/wiki/Time_complexity#Strongly_and_weakly_polynomial_time" title="Time complexity">(strongly) polynomial</a>.<sup id="cite_ref-munkres_3-0" class="reference"><a href="#cite_note-munkres-3">[3]</a></sup> Since then the algorithm has been known also as the <b>Kuhn–Munkres algorithm</b> or <b>Munkres assignment algorithm</b>. The <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory#Time_and_space_complexity" title="Computational complexity theory">time complexity</a> of the original algorithm was <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{4})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>4</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{4})}</annotation>
+  </semantics>
+</math></span><img src="ae98b94e039c8eafabf6fe6a0128d232ed7d21f6.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{4})"></span>, however <a href="https://en.wikipedia.org/wiki/Jack_Edmonds" title="Jack Edmonds">Edmonds</a> and <a href="https://en.wikipedia.org/wiki/Richard_Karp" class="mw-redirect" title="Richard Karp">Karp</a>, and independently Tomizawa noticed that it can be modified to achieve an <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> running time. <a href="https://en.wikipedia.org/wiki/L._R._Ford,_Jr." class="mw-redirect" title="L. R. Ford, Jr.">Ford</a> and <a href="https://en.wikipedia.org/wiki/D._R._Fulkerson" title="D. R. Fulkerson">Fulkerson</a> extended the method to general transportation problems.<sup class="noprint Inline-Template Template-Fact" style="white-space:nowrap;">[<i><a href="https://en.wikipedia.org/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources. (November 2017)">citation needed</span></a></i>]</sup> In 2006, it was discovered that <a href="https://en.wikipedia.org/wiki/Carl_Gustav_Jacobi" class="mw-redirect" title="Carl Gustav Jacobi">Carl Gustav Jacobi</a> had solved the assignment problem in the 19th century, and the solution had been published posthumously in 1890 in Latin.<sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[4]</a></sup>
+</p>
+<div id="toc" class="toc"><input role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" type="checkbox"><div class="toctitle" dir="ltr" lang="en"><h2>Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Simple_explanation_of_the_assignment_problem"><span class="tocnumber">1</span> <span class="toctext">Simple explanation of the assignment problem</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Setting"><span class="tocnumber">2</span> <span class="toctext">Setting</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#The_algorithm_in_terms_of_bipartite_graphs"><span class="tocnumber">3</span> <span class="toctext">The algorithm in terms of bipartite graphs</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Matrix_interpretation"><span class="tocnumber">4</span> <span class="toctext">Matrix interpretation</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Bibliography"><span class="tocnumber">5</span> <span class="toctext">Bibliography</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#References"><span class="tocnumber">6</span> <span class="toctext">References</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#External_links"><span class="tocnumber">7</span> <span class="toctext">External links</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Simple_explanation_of_the_assignment_problem">Simple explanation of the assignment problem</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=1" title="Edit section: Simple explanation of the assignment problem">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>In this simple example there are three workers: Armond, Francine, and
+ Herbert.
+One of them has to clean the bathroom, another sweep the floors and the 
+third washes the windows, but they each demand different pay for the 
+various tasks.
+The problem is to find the lowest-cost way to assign the jobs.
+The problem can be represented in a <a href="https://en.wikipedia.org/wiki/Matrix_%28mathematics%29" title="Matrix (mathematics)">matrix</a> of the costs of the workers doing the jobs. For example:
+</p>
+<table class="wikitable" border="1">
+
+<tbody><tr>
+<th>
+</th>
+<th>Clean bathroom
+</th>
+<th>Sweep floors
+</th>
+<th>Wash windows
+</th></tr>
+<tr>
+<th>Armond
+</th>
+<td>$2
+</td>
+<td>$3
+</td>
+<td>$3
+</td></tr>
+<tr>
+<th>Francine
+</th>
+<td>$3
+</td>
+<td>$2
+</td>
+<td>$3
+</td></tr>
+<tr>
+<th>Herbert
+</th>
+<td>$3
+</td>
+<td>$3
+</td>
+<td>$2
+</td></tr></tbody></table>
+<p>The Hungarian method, when applied to the above table, would give the
+ minimum cost: this is $6, achieved by having Armond clean the bathroom,
+ Francine sweep the floors, and Herbert wash the windows.
+</p>
+<h2><span class="mw-headline" id="Setting">Setting</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=2" title="Edit section: Setting">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>We are given a nonnegative <i>n</i>×<i>n</i> <a href="https://en.wikipedia.org/wiki/Matrix_%28mathematics%29" title="Matrix (mathematics)">matrix</a>, where the element in the <i>i</i>-th row and <i>j</i>-th column represents the cost of assigning the <i>j</i>-th job to the <i>i</i>-th
+ worker. We have to find an assignment of the jobs to the workers that 
+has minimum cost. If the goal is to find the assignment that yields the 
+maximum cost, the problem can be altered to fit the setting by replacing
+ each cost with the maximum cost subtracted by the cost.
+</p><p>The algorithm is easier to describe if we formulate the problem using a bipartite graph. We have a <a href="https://en.wikipedia.org/wiki/Complete_bipartite_graph" title="Complete bipartite graph">complete bipartite graph</a> <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G=(S,T;E)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>G</mi>
+        <mo>=</mo>
+        <mo stretchy="false">(</mo>
+        <mi>S</mi>
+        <mo>,</mo>
+        <mi>T</mi>
+        <mo>;</mo>
+        <mi>E</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G=(S,T;E)}</annotation>
+  </semantics>
+</math></span><img src="19279c22d75f6b0a371cfdf17df3d8c62f6a8219.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:13.713ex; height:2.843ex;" alt="G=(S, T; E)"></span> with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n}</annotation>
+  </semantics>
+</math></span><img src="a601995d55609f2d9f5e233e36fbe9ea26011b3b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.395ex; height:1.676ex;" alt="n"></span> worker vertices (<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle S}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>S</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle S}</annotation>
+  </semantics>
+</math></span><img src="4611d85173cd3b508e67077d4a1252c9c05abca2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.499ex; height:2.176ex;" alt="S"></span>) and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n}</annotation>
+  </semantics>
+</math></span><img src="a601995d55609f2d9f5e233e36fbe9ea26011b3b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.395ex; height:1.676ex;" alt="n"></span> job vertices (<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T}</annotation>
+  </semantics>
+</math></span><img src="ec7200acd984a1d3a3d7dc455e262fbe54f7f6e0.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.636ex; height:2.176ex;" alt="T"></span>), and each edge has a nonnegative cost <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle c(i,j)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>c</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle c(i,j)}</annotation>
+  </semantics>
+</math></span><img src="6daa352058a7ba2cf2b4d1faee57c37669bc89fe.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:5.611ex; height:2.843ex;" alt="c(i,j)"></span>. We want to find a <a href="https://en.wikipedia.org/wiki/Perfect_matching" class="mw-redirect" title="Perfect matching">perfect matching</a> with minimum cost.
+</p><p>Let us call a function <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y:(S\cup T)\to \mathbb {R} }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+        <mo>:</mo>
+        <mo stretchy="false">(</mo>
+        <mi>S</mi>
+        <mo>∪<!-- ∪ --></mo>
+        <mi>T</mi>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">→<!-- → --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="double-struck">R</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y:(S\cup T)\to \mathbb {R} }</annotation>
+  </semantics>
+</math></span><img src="4d1b0dc6f1768cde09d95d780d20032225b95f0c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:15.912ex; height:2.843ex;" alt="{\displaystyle y:(S\cup T)\to \mathbb {R} }"></span> a <b>potential</b> if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y(i)+y(j)\leq c(i,j)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo stretchy="false">)</mo>
+        <mo>+</mo>
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+        <mo>≤<!-- ≤ --></mo>
+        <mi>c</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y(i)+y(j)\leq c(i,j)}</annotation>
+  </semantics>
+</math></span><img src="adf07322592c8f0b4f04512478b24c4351e8b072.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:19.24ex; height:2.843ex;" alt="y(i)+y(j) \leq c(i, j)"></span> for each <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle i\in S,j\in T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>i</mi>
+        <mo>∈<!-- ∈ --></mo>
+        <mi>S</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo>∈<!-- ∈ --></mo>
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle i\in S,j\in T}</annotation>
+  </semantics>
+</math></span><img src="fcd07db8ddd7ca161fd0a4a1ecfc26dbef961b69.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:11.611ex; height:2.509ex;" alt="i \in S, j \in T"></span>. The value of potential <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y}</annotation>
+  </semantics>
+</math></span><img src="b8a6208ec717213d4317e666f1ae872e00620a0d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.155ex; height:2.009ex;" alt="y"></span> is <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \sum _{v\in S\cup T}y(v)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <munder>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>v</mi>
+            <mo>∈<!-- ∈ --></mo>
+            <mi>S</mi>
+            <mo>∪<!-- ∪ --></mo>
+            <mi>T</mi>
+          </mrow>
+        </munder>
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>v</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \sum _{v\in S\cup T}y(v)}</annotation>
+  </semantics>
+</math></span><img src="2860bc12144fb8083b455f424d09ee01400a802b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.171ex; width:9.686ex; height:5.676ex;" alt="\sum_{v\in S\cup T} y(v)"></span>.
+ It can be seen that the cost of each perfect matching is at least the 
+value of each potential. The Hungarian method finds a perfect matching 
+and a potential with equal cost/value which proves the optimality of 
+both. In fact it finds a perfect matching of <b>tight edges</b>: an edge <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle ij}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>i</mi>
+        <mi>j</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle ij}</annotation>
+  </semantics>
+</math></span><img src="53fcc7b57da64979c370eb150eb5a61a625a08e8.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.761ex; height:2.509ex;" alt="ij"></span> is called tight for a potential <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y}</annotation>
+  </semantics>
+</math></span><img src="b8a6208ec717213d4317e666f1ae872e00620a0d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.155ex; height:2.009ex;" alt="y"></span> if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y(i)+y(j)=c(i,j)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo stretchy="false">)</mo>
+        <mo>+</mo>
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mi>c</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y(i)+y(j)=c(i,j)}</annotation>
+  </semantics>
+</math></span><img src="bb0ebc7f369036d7d53f98a091b17049c8d678d2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:19.24ex; height:2.843ex;" alt="y(i)+y(j) = c(i, j)"></span>. Let us denote the <a href="https://en.wikipedia.org/wiki/Glossary_of_graph_theory#Subgraphs" class="mw-redirect" title="Glossary of graph theory">subgraph</a> of tight edges by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G_{y}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>G</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>y</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G_{y}}</annotation>
+  </semantics>
+</math></span><img src="9edc1535536d90898dcc0aea79aa3b1919c54b2d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:2.876ex; height:2.843ex;" alt="G_y"></span>. The cost of a perfect matching in <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G_{y}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>G</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>y</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G_{y}}</annotation>
+  </semantics>
+</math></span><img src="9edc1535536d90898dcc0aea79aa3b1919c54b2d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:2.876ex; height:2.843ex;" alt="G_y"></span> (if there is one) equals the value of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle y}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>y</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle y}</annotation>
+  </semantics>
+</math></span><img src="b8a6208ec717213d4317e666f1ae872e00620a0d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.155ex; height:2.009ex;" alt="y"></span>.
+</p>
+<h2><span class="mw-headline" id="The_algorithm_in_terms_of_bipartite_graphs">The algorithm in terms of bipartite graphs</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=3" title="Edit section: The algorithm in terms of bipartite graphs">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>During the algorithm we maintain a potential <i>y</i> and an <a href="https://en.wikipedia.org/wiki/Glossary_of_graph_theory#orientation" class="mw-redirect" title="Glossary of graph theory">orientation</a> of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G_{y}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>G</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>y</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G_{y}}</annotation>
+  </semantics>
+</math></span><img src="9edc1535536d90898dcc0aea79aa3b1919c54b2d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:2.876ex; height:2.843ex;" alt="G_y"></span> (denoted by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\overrightarrow {G_{y}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mover>
+            <msub>
+              <mi>G</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>y</mi>
+              </mrow>
+            </msub>
+            <mo>→<!-- → --></mo>
+          </mover>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\overrightarrow {G_{y}}}}</annotation>
+  </semantics>
+</math></span><img src="494c7745f5b60faa2c5c741eb5dea0d4fe7342eb.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; margin-top: -0.398ex; width:3.006ex; height:4.509ex;" alt="\overrightarrow{G_y}"></span>) which has the property that the edges oriented from <i>T</i> to <i>S</i> form a matching <i>M</i>. Initially, <i>y</i> is 0 everywhere, and all edges are oriented from <i>S</i> to <i>T</i> (so <i>M</i> is empty). In each step, either we modify <i>y</i>
+ so that its value increases, or modify the orientation to obtain a 
+matching with more edges. We maintain the invariant that all the edges 
+of <i>M</i> are tight.  We are done if <i>M</i> is a perfect matching.
+</p><p>In a general step, let <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{S}\subseteq S}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>S</mi>
+          </mrow>
+        </msub>
+        <mo>⊆<!-- ⊆ --></mo>
+        <mi>S</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{S}\subseteq S}</annotation>
+  </semantics>
+</math></span><img src="7e84a3e87343472d38b88d4206813eecf85c2d3c.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:7.654ex; height:2.509ex;" alt="R_S \subseteq S"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{T}\subseteq T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+        <mo>⊆<!-- ⊆ --></mo>
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{T}\subseteq T}</annotation>
+  </semantics>
+</math></span><img src="0dff9fe111d2b4fa70593e264ea7f17a2fba1279.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:7.888ex; height:2.509ex;" alt="R_T \subseteq T"></span> be the vertices not covered by <i>M</i> (so
+<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{S}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>S</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{S}}</annotation>
+  </semantics>
+</math></span><img src="e5aad493910032da9a1e9ebd853fb6f5b6dceffd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.056ex; height:2.509ex;" alt="R_{S}"></span> consists of the vertices in <i>S</i> with no incoming edge and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{T}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{T}}</annotation>
+  </semantics>
+</math></span><img src="9eb988dc610b1c617907dbb02121ac853d79ebd1.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.153ex; height:2.509ex;" alt="R_T"></span> consists of the vertices in <i>T</i> with no outgoing edge). Let <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Z}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Z</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Z}</annotation>
+  </semantics>
+</math></span><img src="1cc6b75e09a8aa3f04d8584b11db534f88fb56bd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.68ex; height:2.176ex;" alt="Z"></span> be the set of vertices reachable in <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\overrightarrow {G_{y}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mover>
+            <msub>
+              <mi>G</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>y</mi>
+              </mrow>
+            </msub>
+            <mo>→<!-- → --></mo>
+          </mover>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\overrightarrow {G_{y}}}}</annotation>
+  </semantics>
+</math></span><img src="494c7745f5b60faa2c5c741eb5dea0d4fe7342eb.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; margin-top: -0.398ex; width:3.006ex; height:4.509ex;" alt="\overrightarrow{G_y}"></span> from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{S}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>S</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{S}}</annotation>
+  </semantics>
+</math></span><img src="e5aad493910032da9a1e9ebd853fb6f5b6dceffd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.056ex; height:2.509ex;" alt="R_{S}"></span> by a directed path only following edges that are tight. This can be computed by <a href="https://en.wikipedia.org/wiki/Breadth-first_search" title="Breadth-first search">breadth-first search</a>.
+</p><p>If <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{T}\cap Z}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>Z</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{T}\cap Z}</annotation>
+  </semantics>
+</math></span><img src="125c5b85c5caee0d2c87e75ef711066326f4e221.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:7.416ex; height:2.509ex;" alt="R_T \cap Z"></span> is nonempty, then reverse the orientation of a directed path in <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle {\overrightarrow {G_{y}}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mover>
+            <msub>
+              <mi>G</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi>y</mi>
+              </mrow>
+            </msub>
+            <mo>→<!-- → --></mo>
+          </mover>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\overrightarrow {G_{y}}}}</annotation>
+  </semantics>
+</math></span><img src="494c7745f5b60faa2c5c741eb5dea0d4fe7342eb.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; margin-top: -0.398ex; width:3.006ex; height:4.509ex;" alt="\overrightarrow{G_y}"></span> from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{S}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>S</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{S}}</annotation>
+  </semantics>
+</math></span><img src="e5aad493910032da9a1e9ebd853fb6f5b6dceffd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.056ex; height:2.509ex;" alt="R_{S}"></span> to <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{T}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{T}}</annotation>
+  </semantics>
+</math></span><img src="9eb988dc610b1c617907dbb02121ac853d79ebd1.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.153ex; height:2.509ex;" alt="R_T"></span>. Thus the size of the corresponding matching increases by 1.
+</p><p>If <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{T}\cap Z}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>Z</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{T}\cap Z}</annotation>
+  </semantics>
+</math></span><img src="125c5b85c5caee0d2c87e75ef711066326f4e221.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:7.416ex; height:2.509ex;" alt="R_T \cap Z"></span> is empty, then let <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Delta :=\min\{c(i,j)-y(i)-y(j):i\in Z\cap S,j\in T\setminus Z\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Δ<!-- Δ --></mi>
+        <mo>:=</mo>
+        <mo movablelimits="true" form="prefix">min</mo>
+        <mo fence="false" stretchy="false">{</mo>
+        <mi>c</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+        <mo>−<!-- − --></mo>
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>i</mi>
+        <mo stretchy="false">)</mo>
+        <mo>−<!-- − --></mo>
+        <mi>y</mi>
+        <mo stretchy="false">(</mo>
+        <mi>j</mi>
+        <mo stretchy="false">)</mo>
+        <mo>:</mo>
+        <mi>i</mi>
+        <mo>∈<!-- ∈ --></mo>
+        <mi>Z</mi>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>S</mi>
+        <mo>,</mo>
+        <mi>j</mi>
+        <mo>∈<!-- ∈ --></mo>
+        <mi>T</mi>
+        <mo class="MJX-variant">∖<!-- ∖ --></mo>
+        <mi>Z</mi>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta :=\min\{c(i,j)-y(i)-y(j):i\in Z\cap S,j\in T\setminus Z\}}</annotation>
+  </semantics>
+</math></span><img src="d8fcf801ee209cb410ad3caf29459d8d879af5a7.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:52.549ex; height:2.843ex;" alt="\Delta := \min \{c(i,j)-y(i)-y(j): i \in Z \cap S, j \in T \setminus Z\}"></span>. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Δ<!-- Δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta }</annotation>
+  </semantics>
+</math></span><img src="32769037c408874e1890f77554c65f39c523ebe2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.936ex; height:2.176ex;" alt="\Delta "></span> is positive because there are no tight edges between <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Z\cap S}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Z</mi>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>S</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Z\cap S}</annotation>
+  </semantics>
+</math></span><img src="2fc25d84714cf124ab31bcf47b1b154c6e056234.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.762ex; height:2.176ex;" alt="Z \cap S"></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle T\setminus Z}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>T</mi>
+        <mo class="MJX-variant">∖<!-- ∖ --></mo>
+        <mi>Z</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T\setminus Z}</annotation>
+  </semantics>
+</math></span><img src="5cdea6b7ee22a9815856bbcacc1d78d0b5b8b9ce.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:5.511ex; height:2.843ex;" alt="T \setminus Z"></span>. Increase <i>y</i> by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Δ<!-- Δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta }</annotation>
+  </semantics>
+</math></span><img src="32769037c408874e1890f77554c65f39c523ebe2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.936ex; height:2.176ex;" alt="\Delta "></span> on the vertices of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Z\cap S}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Z</mi>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>S</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Z\cap S}</annotation>
+  </semantics>
+</math></span><img src="2fc25d84714cf124ab31bcf47b1b154c6e056234.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.762ex; height:2.176ex;" alt="Z \cap S"></span> and decrease <i>y</i> by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Δ<!-- Δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta }</annotation>
+  </semantics>
+</math></span><img src="32769037c408874e1890f77554c65f39c523ebe2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.936ex; height:2.176ex;" alt="\Delta "></span> on the vertices of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle Z\cap T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>Z</mi>
+        <mo>∩<!-- ∩ --></mo>
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle Z\cap T}</annotation>
+  </semantics>
+</math></span><img src="df2e5aa7a71bbe86aa28b1bb8bbdc61fe5218f23.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.899ex; height:2.176ex;" alt="Z \cap T"></span>. The resulting <i>y</i> is still a potential. The graph <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle G_{y}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>G</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>y</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle G_{y}}</annotation>
+  </semantics>
+</math></span><img src="9edc1535536d90898dcc0aea79aa3b1919c54b2d.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -1.005ex; width:2.876ex; height:2.843ex;" alt="G_y"></span> changes, but it still contains <i>M</i>. We orient the new edges from <i>S</i> to <i>T</i>. By the definition of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle \Delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">Δ<!-- Δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta }</annotation>
+  </semantics>
+</math></span><img src="32769037c408874e1890f77554c65f39c523ebe2.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.936ex; height:2.176ex;" alt="\Delta "></span> the set <i>Z</i> of vertices reachable from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle R_{S}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>R</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>S</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R_{S}}</annotation>
+  </semantics>
+</math></span><img src="e5aad493910032da9a1e9ebd853fb6f5b6dceffd.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:3.056ex; height:2.509ex;" alt="R_{S}"></span> increases (note that the number of tight edges does not necessarily increase).
+</p><p>We repeat these steps until <i>M</i> is a perfect matching, in which case it gives a minimum cost assignment. The running time of this version of the method is <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{4})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>4</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{4})}</annotation>
+  </semantics>
+</math></span><img src="ae98b94e039c8eafabf6fe6a0128d232ed7d21f6.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{4})"></span>: <i>M</i> is augmented <i>n</i> times, and in a phase where <i>M</i> is unchanged, there are at most <i>n</i> potential changes (since <i>Z</i> increases every time). The time sufficient for a potential change is <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{2})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{2})}</annotation>
+  </semantics>
+</math></span><img src="6cd9594a16cb898b8f2a2dff9227a385ec183392.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{2})"></span>.
+</p>
+<h2><span class="mw-headline" id="Matrix_interpretation">Matrix interpretation</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=4" title="Edit section: Matrix interpretation">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Given <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle n}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>n</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle n}</annotation>
+  </semantics>
+</math></span><img src="a601995d55609f2d9f5e233e36fbe9ea26011b3b.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.395ex; height:1.676ex;" alt="n"></span> workers and tasks, and an <i>n</i>×<i>n</i>  matrix containing the cost of assigning each worker to a task, find the cost minimizing assignment.
+</p><p>First the problem is written in the form of a matrix as given below
+</p>
+<dl><dd><table class="wikitable"><tbody><tr style="vertical-align:top"><td>a1</td><td> a2</td><td> a3</td><td> a4</td></tr><tr style="vertical-align:top"><td>b1</td><td> b2</td><td> b3</td><td> b4</td></tr><tr style="vertical-align:top"><td>c1</td><td> c2</td><td> c3</td><td> c4</td></tr><tr style="vertical-align:top"><td>d1</td><td> d2</td><td> d3</td><td> d4</td></tr></tbody></table></dd></dl>
+<p>where a, b, c and d are the workers who have to perform tasks 1, 2, 3
+ and 4. a1, a2, a3, a4 denote the penalties incurred when worker "a" 
+does task 1, 2, 3, 4 respectively. The same holds true for the other 
+symbols as well. The matrix is square, so each worker can perform only 
+one task.
+</p><p><b>Step 1</b>
+</p><p>Then we perform row operations on the matrix. To do this, the lowest of all <i>a<sub>i</sub></i>
+ (i belonging to 1-4) is taken and is subtracted from each element in 
+that row. This will lead to at least one zero in that row (We get 
+multiple zeros when there are two equal elements which also happen to be
+ the lowest in that row). This procedure is repeated for all rows. We 
+now have a matrix with at least one zero per row. Now we try to assign 
+tasks to agents such that each agent is doing only one task and the 
+penalty incurred in each case is zero. This is illustrated below.
+</p>
+<dl><dd><table class="wikitable" style="text-align:center">
+
+<tbody><tr>
+<td>0</td>
+<td>a2'</td>
+<td>a3'</td>
+<td>a4'
+</td></tr>
+<tr>
+<td>b1'</td>
+<td>b2'</td>
+<td>b3'</td>
+<td>0
+</td></tr>
+<tr>
+<td>c1'</td>
+<td>0</td>
+<td>c3'</td>
+<td>c4'
+</td></tr>
+<tr>
+<td>d1'</td>
+<td>d2'</td>
+<td>0</td>
+<td>d4'
+</td></tr></tbody></table></dd></dl>
+<p>The zeros that are indicated as 0 are the assigned tasks.
+</p><p><b>Step 2</b>
+</p><p>Sometimes it may turn out that the matrix at this stage cannot be used for assigning, as is the case for the matrix below.
+</p>
+<dl><dd><table class="wikitable" style="text-align:center">
+
+<tbody><tr>
+<td>0</td>
+<td>a2'</td>
+<td>a3'</td>
+<td>a4'
+</td></tr>
+<tr>
+<td>b1'</td>
+<td>b2'</td>
+<td>b3'</td>
+<td>0
+</td></tr>
+<tr>
+<td>0</td>
+<td>c2'</td>
+<td>c3'</td>
+<td>c4'
+</td></tr>
+<tr>
+<td>d1'</td>
+<td>0</td>
+<td>d3'</td>
+<td>d4'
+</td></tr></tbody></table></dd></dl>
+<p>In the above case, no assignment can be made. Note that task 1 is 
+done efficiently by both agent a and c. Both can't be assigned the same 
+task. Also note that no one does task 3 efficiently.
+To overcome this, we repeat the above procedure for all columns (i.e. 
+the minimum element in each column is subtracted from all the elements 
+in that column) and then check if an assignment is possible.
+</p><p>In most situations this will give the result, but if it is still not possible then we need to keep going.
+</p><p><b>Step 3</b>
+</p><p>All zeros in the matrix must be covered by marking as few rows 
+and/or columns as possible. The following procedure is one way to 
+accomplish this:
+</p><p>First, assign as many tasks as possible.
+</p>
+<ul><li>Row 1 has one zero, so it is assigned.  The 0 in row 3 is crossed out because it is in the same column.</li>
+<li>Row 2 has one zero, so it is assigned.</li>
+<li>Row 3's only zero has been crossed out, so nothing is assigned.</li>
+<li>Row 4 has two uncrossed zeros.  Either one can be assigned (both are optimum), and the other zero would be crossed out.</li></ul>
+<p>Alternatively, the 0 in row 3 may be assigned, causing the 0 in row 1 to be crossed instead.
+</p>
+<dl><dd><table class="wikitable" style="text-align:center">
+
+<tbody><tr>
+<td>0'</td>
+<td>a2'</td>
+<td>a3'</td>
+<td>a4'
+</td></tr>
+<tr>
+<td>b1'</td>
+<td>b2'</td>
+<td>b3'</td>
+<td>0'
+</td></tr>
+<tr>
+<td>0</td>
+<td>c2'</td>
+<td>c3'</td>
+<td>c4'
+</td></tr>
+<tr>
+<td>d1'</td>
+<td>0'</td>
+<td>0</td>
+<td>d4'
+</td></tr></tbody></table></dd></dl>
+<p>Now to the drawing part.
+</p>
+<ul><li>Mark all rows having no assignments (row 3).</li>
+<li>Mark all (unmarked) columns having zeros in newly marked row(s) (column 1).</li>
+<li>Mark all rows having assignments in newly marked columns (row 1).</li>
+<li>Repeat for all non-assigned rows.</li></ul>
+<dl><dd><table class="wikitable" style="text-align:center">
+
+<tbody><tr style="background: white">
+<td>×</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>0'</td>
+<td>a2'</td>
+<td>a3'</td>
+<td>a4'
+</td>
+<td style="background: white">×
+</td></tr>
+<tr>
+<td>b1'</td>
+<td>b2'</td>
+<td>b3'</td>
+<td>0'
+</td>
+<td style="background: white">
+</td></tr>
+<tr>
+<td>0</td>
+<td>c2'</td>
+<td>c3'</td>
+<td>c4'
+</td>
+<td style="background: white">×
+</td></tr>
+<tr>
+<td>d1'</td>
+<td>0'</td>
+<td>0</td>
+<td>d4'
+</td>
+<td style="background: white">
+</td></tr></tbody></table></dd></dl>
+<p>Now draw lines through all marked columns and <b>unmarked</b> rows.
+</p>
+<dl><dd><table class="wikitable" style="text-align:center">
+
+<tbody><tr style="background: white">
+<td>×</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td style="background:lightgrey">0'</td>
+<td>a2'</td>
+<td>a3'</td>
+<td>a4'
+</td>
+<td style="background: white">×
+</td></tr>
+<tr style="background:lightgrey">
+<td>b1'</td>
+<td>b2'</td>
+<td>b3'</td>
+<td>0'
+</td></tr>
+<tr>
+<td style="background:lightgrey">0</td>
+<td>c2'</td>
+<td>c3'</td>
+<td>c4'
+</td>
+<td style="background: white">×
+</td></tr>
+<tr style="background:lightgrey">
+<td>d1'</td>
+<td>0'</td>
+<td>0</td>
+<td>d4'
+</td></tr></tbody></table></dd></dl>
+<p>The aforementioned detailed description is just one way to draw the 
+minimum number of lines to cover all the 0s. Other methods work as well.
+</p><p><b>Step 4</b>
+</p><p>From the elements that are left, find the lowest value. Subtract 
+this from every unmarked element and add it to every element covered by 
+two lines.
+</p><p>Repeat steps 3–4 until an assignment is possible; this is when 
+the minimum number of lines used to cover all the 0s is equal to 
+max(number of people, number of assignments), assuming dummy variables 
+(usually the max cost) are used to fill in when the number of people is 
+greater than the number of assignments.
+</p><p>Basically you find the second minimum cost among the remaining 
+choices.  The procedure is repeated until you are able to distinguish 
+among the workers in terms of least cost.
+</p>
+<h2><span class="mw-headline" id="Bibliography">Bibliography</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=5" title="Edit section: Bibliography">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul><li>R.E. Burkard, M. Dell'Amico, S. Martello: <i>Assignment Problems</i> (Revised reprint). SIAM, Philadelphia (PA.) 2012. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&nbsp;<a href="https://en.wikipedia.org/wiki/Special:BookSources/978-1-61197-222-1" title="Special:BookSources/978-1-61197-222-1">978-1-61197-222-1</a></li>
+<li>M. Fischetti, "Lezioni di Ricerca Operativa", Edizioni Libreria Progetto Padova, Italia, 1995.</li>
+<li><a href="https://en.wikipedia.org/wiki/Ravindra_K._Ahuja" title="Ravindra K. Ahuja">R. Ahuja</a>, <a href="https://en.wikipedia.org/wiki/Thomas_L._Magnanti" title="Thomas L. Magnanti">T. Magnanti</a>, <a href="https://en.wikipedia.org/wiki/James_B._Orlin" title="James B. Orlin">J. Orlin</a>, "Network Flows", Prentice Hall, 1993.</li>
+<li>S. Martello, "Jeno Egerváry: from the origins of the Hungarian 
+algorithm to satellite communication". Central European Journal of 
+Operations Research 18, 47–58, 2010</li></ul>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=6" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="reflist" style="list-style-type: decimal;">
+<div class="mw-references-wrap"><ol class="references">
+<li id="cite_note-kuhn1955-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-kuhn1955_1-0"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Harold W. Kuhn, "The Hungarian Method for the assignment problem", <i><a href="https://en.wikipedia.org/wiki/Naval_Research_Logistics_Quarterly" class="mw-redirect" title="Naval Research Logistics Quarterly">Naval Research Logistics Quarterly</a></i>, <b>2</b>: 83–97, 1955.  Kuhn's original publication.</span>
+</li>
+<li id="cite_note-kuhn1956-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-kuhn1956_2-0"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">Harold W. Kuhn, "Variants of the Hungarian method for assignment problems", <i>Naval Research Logistics Quarterly</i>, <b>3</b>: 253–258, 1956.</span>
+</li>
+<li id="cite_note-munkres-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-munkres_3-0"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text">J. Munkres, "Algorithms for the Assignment and Transportation Problems", <i><a href="https://en.wikipedia.org/wiki/Journal_of_the_Society_for_Industrial_and_Applied_Mathematics" class="mw-redirect" title="Journal of the Society for Industrial and Applied Mathematics">Journal of the Society for Industrial and Applied Mathematics</a></i>, <b>5</b>(1):32–38, 1957 March.</span>
+</li>
+<li id="cite_note-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-4"><span class="cite-accessibility-label">Jump up </span>^</a></b></span> <span class="reference-text"><a rel="nofollow" class="external free" href="http://www.lix.polytechnique.fr/%7Eollivier/JACOBI/jacobiEngl.htm">http://www.lix.polytechnique.fr/~ollivier/JACOBI/jacobiEngl.htm</a></span>
+</li>
+</ol></div></div>
+<h2><span class="mw-headline" id="External_links">External links</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit&amp;section=7" title="Edit section: External links">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul><li>Bruff, Derek, "The Assignment Problem and the Hungarian Method", <a rel="nofollow" class="external autonumber" href="http://www.math.harvard.edu/archive/20_spring_05/handouts/assignment_overheads.pdf">[1]</a></li>
+<li>Mordecai J. Golin, <a rel="nofollow" class="external text" href="http://www.cse.ust.hk/%7Egolin/COMP572/Notes/Matching.pdf">Bipartite Matching and the Hungarian Method</a>, Course Notes, <a href="https://en.wikipedia.org/wiki/Hong_Kong_University_of_Science_and_Technology" title="Hong Kong University of Science and Technology">Hong Kong University of Science and Technology</a>.</li>
+<li><a href="https://en.wikipedia.org/w/index.php?title=R._A._Pilgrim&amp;action=edit&amp;redlink=1" class="new" title="R. A. Pilgrim (page does not exist)">R. A. Pilgrim</a>, <i><a rel="nofollow" class="external text" href="http://csclab.murraystate.edu/bob.pilgrim/445/munkres.html">Munkres' Assignment Algorithm. Modified for Rectangular Matrices</a></i>, Course notes, <a href="https://en.wikipedia.org/wiki/Murray_State_University" title="Murray State University">Murray State University</a>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Mike_Dawes" title="Mike Dawes">Mike Dawes</a>, <i><a rel="nofollow" class="external text" href="https://web.archive.org/web/20060812030313/http://www.math.uwo.ca/%7Emdawes/courses/344/kuhn-munkres.pdf">The Optimal Assignment Problem</a></i>, Course notes, <a href="https://en.wikipedia.org/wiki/University_of_Western_Ontario" title="University of Western Ontario">University of Western Ontario</a>.</li>
+<li><a rel="nofollow" class="external text" href="http://www.cs.elte.hu/egres/tr/egres-04-14.pdf">On Kuhn's Hungarian Method – A tribute from Hungary</a>, <a href="https://en.wikipedia.org/wiki/Andr%C3%A1s_Frank" title="András Frank">András Frank</a>, Egervary Research Group, Pazmany P. setany 1/C, H1117, Budapest, Hungary.</li>
+<li>Lecture: <a rel="nofollow" class="external text" href="https://www.youtube.com/watch?v=BUGIhEecipE">Fundamentals of Operations Research - Assignment Problem - Hungarian Algorithm</a>, Prof. G. Srinivasan, Department of Management Studies, IIT Madras.</li>
+<li>Extension: <a rel="nofollow" class="external text" href="http://www.roboticsproceedings.org/rss06/p16.html">Assignment sensitivity analysis (with O(n^4) time complexity)</a>, Liu, Shell.</li>
+<li><a rel="nofollow" class="external text" href="http://www.hungarianalgorithm.com/solve.php">Solve any Assignment Problem online</a>, provides a step by step explanation of the Hungarian Algorithm.</li></ul>
+<dl><dd><table class="mw-collapsible mw-collapsed mw-made-collapsible">
+<caption><b>Implementations</b><br><span class="nowrap">Note that not all of these satisfy the <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> time constraint.</span>
+<span class="mw-collapsible-toggle mw-collapsible-toggle-default mw-collapsible-toggle-collapsed" role="button" tabindex="0"><a class="mw-collapsible-text">show</a></span></caption>
+<tbody><tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/maandree/hungarian-algorithm-n3/blob/master/hungarian.c">C implementation with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> time complexity</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/KevinStern/software-and-algorithms/blob/master/src/main/java/blogspot/software_and_algorithms/stern_library/optimization/HungarianAlgorithm.java">Java implementation of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> time variant</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://shawntoneil.com/index.php/items/code/java@Hungarian@Hungarian.java">Java implementation of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> time variant by Shawn T. O'Neil</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://software.clapper.org/munkres/">Python implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/evansenter/gene/blob/f515fd73cb9d6a22b4d4b146d70b6c2ec6a5125b/objects/extensions/hungarian.rb">Ruby implementation with unit tests</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/antifriz/hungarian-algorithm-n3">C# implementation with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> time complexity</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://www.fantascienza.net/leonardo/so/hungarian.d">D implementation with unit tests (port of the Java <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> version)</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://www.ifors.ms.unimelb.edu.au/tutorial/hungarian/welcome_frame.html">Online interactive implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://web.axelero.hu/szilardandras/gaps.html">Graphical implementation with options</a> (<a href="https://en.wikipedia.org/wiki/Java_applet" title="Java applet">Java applet</a>)</td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://www.netlib.org/utk/lsi/pcwLSI/text/node220.html">Serial and parallel implementations.</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=6543">Matlab and C</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://metacpan.org/module/Algorithm::Munkres">Perl implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://robotics.usc.edu/%7Elantao/code.html">C++ (STL) implementation (multi-functional bipartite graph version)</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/saebyn/munkres-cpp">C++ implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://dlib.net/optimization.html#max_cost_assignment">C++ implementation of the <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> algorithm</a> (BSD style open source licensed)</td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://timefinder.svn.sourceforge.net/viewvc/timefinder/trunk/timefinder-algo/src/main/java/de/timefinder/algo/roomassignment/">Java implementation with JUnit tests (Apache 2.0)</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="http://www.mathworks.com/matlabcentral/fileexchange/20652-hungarian-algorithm-for-linear-assignment-problems--v2-3-">MATLAB implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://launchpad.net/lib-bipartite-match">C implementation</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/Gerjo/esoteric/blob/master/Hungarian.js">JavaScript implementation with unit tests (port of the Java <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="{\displaystyle O(n^{3})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>n</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>3</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(n^{3})}</annotation>
+  </semantics>
+</math></span><img src="6b04f5c5cfea38f43406d9442387ad28555e2609.svg" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.032ex; height:3.176ex;" alt="O(n^{3})"></span> version)</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://cran.r-project.org/web/packages/clue/clue.pdf">Clue R package proposes an implementation, solve_LSAP</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://github.com/addaleax/munkres-js">Node.js implementation on GitHub</a></td>
+<td>
+</td></tr>
+<tr style="display: none;">
+<td><a rel="nofollow" class="external text" href="https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.optimize.linear_sum_assignment.html">Python implementation in scipy package</a></td>
+<td>
+</td></tr>
+</tbody></table></dd></dl>
+<p class="mw-empty-elt">
+</p>
+<!-- 
+NewPP limit report
+Parsed by mw1279
+Cached time: 20180831082647
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.208 seconds
+Real time usage: 0.480 seconds
+Preprocessor visited node count: 886/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 4732/2097152 bytes
+Template argument size: 1235/2097152 bytes
+Highest expansion depth: 15/40
+Expensive parser function count: 2/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 3644/5000000 bytes
+Number of Wikibase entities loaded: 0/400
+Lua time usage: 0.036/10.000 seconds
+Lua memory usage: 1.26 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  143.974      1 -total
+ 50.61%   72.866      1 Template:Citation_needed
+ 34.64%   49.869      1 Template:Fix
+ 23.88%   34.378      2 Template:Category_handler
+ 21.86%   31.470      1 Template:ISBN
+ 10.23%   14.726      1 Template:Use_dmy_dates
+  8.76%   12.615      1 Template:Catalog_lookup_link
+  8.26%   11.898      1 Template:Delink
+  8.26%   11.896      1 Template:DMCA
+  6.80%    9.791      1 Template:Dated_maintenance_category
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:2609001-0!canonical!math=5 and timestamp 20180831082648 and revision id 857375568
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;oldid=857375568">https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;oldid=857375568</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikipedia.org/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="https://en.wikipedia.org/wiki/Category:Matching" title="Category:Matching">Matching</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Combinatorial_optimization" title="Category:Combinatorial optimization">Combinatorial optimization</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="https://en.wikipedia.org/wiki/Category:All_articles_with_unsourced_statements" title="Category:All articles with unsourced statements">All articles with unsourced statements</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Articles_with_unsourced_statements_from_November_2017" title="Category:Articles with unsourced statements from November 2017">Articles with unsourced statements from November 2017</a></li><li><a href="https://en.wikipedia.org/wiki/Category:Use_dmy_dates_from_September_2010" title="Category:Use dmy dates from September 2010">Use dmy dates from September 2010</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikipedia.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="https://en.wikipedia.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikipedia.org/w/index.php?title=Special:CreateAccount&amp;returnto=Hungarian+algorithm&amp;returntoquery=oldid%3D857375568" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Hungarian+algorithm&amp;returntoquery=oldid%3D857375568" title="You're encouraged to log in; however, it's not mandatory. [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikipedia.org/wiki/Hungarian_algorithm" title="View the content page [Alt+Shift+c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="https://en.wikipedia.org/wiki/Talk:Hungarian_algorithm" rel="discussion" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input class="vectorMenuCheckbox" aria-labelledby="p-variants-label" type="checkbox">
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="https://en.wikipedia.org/wiki/Hungarian_algorithm">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label" style="">
+						<input class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" type="checkbox">
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input name="search" placeholder="Search Wikipedia" title="Search Wikipedia [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" type="search"><input value="Special:Search" name="title" type="hidden"><input name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="https://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="https://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="https://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="https://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="https://en.wikipedia.org/wiki/Special:Random" title="Load a random article [Alt+Shift+x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="https://shop.wikimedia.org/" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="https://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="https://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="https://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="https://en.wikipedia.org/wiki/Special:WhatLinksHere/Hungarian_algorithm" title="List of all English Wikipedia pages containing links to this page [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Hungarian_algorithm" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;oldid=857375568" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q281922" title="Link to connected data repository item [Alt+Shift+g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="https://en.wikipedia.org/w/index.php?title=Special:CiteThisPage&amp;page=Hungarian_algorithm&amp;id=857375568" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="https://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Hungarian+algorithm">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikipedia.org/w/index.php?title=Special:ElectronPdf&amp;page=Hungarian+algorithm&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="https://en.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+					<li class="interlanguage-link interwiki-ca"><a href="https://ca.wikipedia.org/wiki/Algorisme_hongar%C3%A8s" title="Algorisme hongarès – Catalan" hreflang="ca" class="interlanguage-link-target" lang="ca">Català</a></li><li class="interlanguage-link interwiki-de"><a href="https://de.wikipedia.org/wiki/Ungarische_Methode" title="Ungarische Methode – German" hreflang="de" class="interlanguage-link-target" lang="de">Deutsch</a></li><li class="interlanguage-link interwiki-es"><a href="https://es.wikipedia.org/wiki/Algoritmo_h%C3%BAngaro" title="Algoritmo húngaro – Spanish" hreflang="es" class="interlanguage-link-target" lang="es">Español</a></li><li class="interlanguage-link interwiki-fa"><a href="https://fa.wikipedia.org/wiki/%D8%A7%D9%84%DA%AF%D9%88%D8%B1%DB%8C%D8%AA%D9%85_%D9%85%D8%AC%D8%A7%D8%B1%D8%B3%D8%AA%D8%A7%D9%86%DB%8C" title="الگوریتم مجارستانی – Persian" hreflang="fa" class="interlanguage-link-target" lang="fa">فارسی</a></li><li class="interlanguage-link interwiki-fr"><a href="https://fr.wikipedia.org/wiki/Algorithme_hongrois" title="Algorithme hongrois – French" hreflang="fr" class="interlanguage-link-target" lang="fr">Français</a></li><li class="interlanguage-link interwiki-hy"><a href="https://hy.wikipedia.org/wiki/%D5%80%D5%B8%D6%82%D5%B6%D5%A3%D5%A1%D6%80%D5%A1%D5%AF%D5%A1%D5%B6_%D5%A1%D5%AC%D5%A3%D5%B8%D6%80%D5%AB%D5%A9%D5%B4" title="Հունգարական ալգորիթմ – Armenian" hreflang="hy" class="interlanguage-link-target" lang="hy">Հայերեն</a></li><li class="interlanguage-link interwiki-id"><a href="https://id.wikipedia.org/wiki/Algoritme_Hungaria" title="Algoritme Hungaria – Indonesian" hreflang="id" class="interlanguage-link-target" lang="id">Bahasa Indonesia</a></li><li class="interlanguage-link interwiki-it"><a href="https://it.wikipedia.org/wiki/Algoritmo_ungherese" title="Algoritmo ungherese – Italian" hreflang="it" class="interlanguage-link-target" lang="it">Italiano</a></li><li class="interlanguage-link interwiki-hu"><a href="https://hu.wikipedia.org/wiki/Magyar_m%C3%B3dszer" title="Magyar módszer – Hungarian" hreflang="hu" class="interlanguage-link-target" lang="hu">Magyar</a></li><li class="interlanguage-link interwiki-nl"><a href="https://nl.wikipedia.org/wiki/Hongaars_algoritme" title="Hongaars algoritme – Dutch" hreflang="nl" class="interlanguage-link-target" lang="nl">Nederlands</a></li><li class="interlanguage-link interwiki-pl"><a href="https://pl.wikipedia.org/wiki/Metoda_w%C4%99gierska" title="Metoda węgierska – Polish" hreflang="pl" class="interlanguage-link-target" lang="pl">Polski</a></li><li class="interlanguage-link interwiki-ru"><a href="https://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BD%D0%B3%D0%B5%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC" title="Венгерский алгоритм – Russian" hreflang="ru" class="interlanguage-link-target" lang="ru">Русский</a></li><li class="interlanguage-link interwiki-sr"><a href="https://sr.wikipedia.org/wiki/%D0%9C%D0%B0%D1%92%D0%B0%D1%80%D1%81%D0%BA%D0%B8_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%B0%D0%BC" title="Мађарски алгоритам – Serbian" hreflang="sr" class="interlanguage-link-target" lang="sr">Српски / srpski</a></li><li class="interlanguage-link interwiki-th"><a href="https://th.wikipedia.org/wiki/%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%95%E0%B8%AD%E0%B8%99%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B8%AE%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99" title="ขั้นตอนวิธีฮังกาเรียน – Thai" hreflang="th" class="interlanguage-link-target" lang="th">ไทย</a></li><li class="interlanguage-link interwiki-uk"><a href="https://uk.wikipedia.org/wiki/%D0%A3%D0%B3%D0%BE%D1%80%D1%81%D1%8C%D0%BA%D0%B8%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC" title="Угорський алгоритм – Ukrainian" hreflang="uk" class="interlanguage-link-target" lang="uk">Українська</a></li><li class="interlanguage-link interwiki-zh"><a href="https://zh.wikipedia.org/wiki/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95" title="匈牙利算法 – Chinese" hreflang="zh" class="interlanguage-link-target" lang="zh">中文</a></li>				</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q281922#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 31 August 2018, at 08:26<span class="anonymous-show">&nbsp;(UTC)</span>.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="https://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="https://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="https://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="https://en.m.wikipedia.org/w/index.php?title=Hungarian_algorithm&amp;oldid=857375568&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://wikimediafoundation.org/"><img src="wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="https://www.mediawiki.org/"><img src="poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.208","walltime":"0.480","ppvisitednodes":{"value":886,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":4732,"limit":2097152},"templateargumentsize":{"value":1235,"limit":2097152},"expansiondepth":{"value":15,"limit":40},"expensivefunctioncount":{"value":2,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":3644,"limit":5000000},"entityaccesscount":{"value":0,"limit":400},"timingprofile":["100.00%  143.974      1 -total"," 50.61%   72.866      1 Template:Citation_needed"," 34.64%   49.869      1 Template:Fix"," 23.88%   34.378      2 Template:Category_handler"," 21.86%   31.470      1 Template:ISBN"," 10.23%   14.726      1 Template:Use_dmy_dates","  8.76%   12.615      1 Template:Catalog_lookup_link","  8.26%   11.898      1 Template:Delink","  8.26%   11.896      1 Template:DMCA","  6.80%    9.791      1 Template:Dated_maintenance_category"]},"scribunto":{"limitreport-timeusage":{"value":"0.036","limit":"10.000"},"limitreport-memusage":{"value":1319476,"limit":52428800}},"cachereport":{"origin":"mw1279","timestamp":"20180831082647","ttl":1900800,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":121,"wgHostname":"mw1251"});});</script>
+	
+
+</body></html>
