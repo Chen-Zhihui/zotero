@@ -1,15 +1,15 @@
 {
 	"translatorID": "8efcb7cb-4180-4555-969a-08e8b34066c4",
+	"translatorType": 4,
 	"label": "Trove",
 	"creator": "Tim Sherratt",
 	"target": "^https?://trove\\.nla\\.gov\\.au/(?:newspaper|gazette|work|book|article|picture|music|map|collection)/",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2017-02-04 19:41:04"
+	"lastUpdated": "2018-09-05 14:10:00"
 }
 
 /*
@@ -113,7 +113,7 @@ function scrapeNewspaper(doc, url) {
 				// Add tags
 				var tags = ZU.xpath(doc, "//ul[contains(@class,'nlaTagContainer')]/li");
 				for (var i = 0; i < tags.length; i++) {
-					tag = ZU.xpathText(tags[i], "a");
+					tag = ZU.xpathText(tags[i], "a[not(contains(@class,'anno-remove'))]");
 					item.tags.push(tag);
 				}
 			}
