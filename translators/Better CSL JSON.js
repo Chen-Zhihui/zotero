@@ -12,15 +12,15 @@
 	"browserSupport": "gcsv",
 	"inRepository": false,
 	"priority": 100,
-	"lastUpdated": "2018-08-27 16:43:57"
+	"lastUpdated": "2018-09-07 18:14:21"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.195",
+  version: "5.0.201",
   BetterCSLJSON: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"f4b52ab0-f878-4556-85a0-c7aeedd09dfc","label":"Better CSL JSON","description":"exports references in pandoc-compatible CSL-JSON format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"json","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","inRepository":false,"priority":100,"lastUpdated":"2018-08-27 16:43:57"},
+  header: {"translatorID":"f4b52ab0-f878-4556-85a0-c7aeedd09dfc","label":"Better CSL JSON","description":"exports references in pandoc-compatible CSL-JSON format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"json","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","inRepository":false,"priority":100,"lastUpdated":"2018-09-07 18:14:21"},
   override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"keepUpdated":false},
 
@@ -39,6 +39,8 @@ var Translator = {
     if (stage == 'detectImport') {
       this.options = {}
     } else {
+      if (stage == 'doImport') this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
+
       this.references = []
 
       for (var key in this.options) {
@@ -110,9 +112,11 @@ var Translator = {
 
 
   function doExport() {
+    const start = Date.now()
     Translator.configure('doExport')
     Translator.initialize()
     Translator.doExport()
+    Zotero.debug("Better CSL JSON" + ' export took ' + (Date.now() - start))
   }
 
 
@@ -200,11 +204,12 @@ var Translator = {
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Better CSL JSON.ts");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./Better CSL JSON.ts":
 /*!****************************!*\
   !*** ./Better CSL JSON.ts ***!
   \****************************/
@@ -214,7 +219,7 @@ var Translator = {
 
 Zotero.debug('BBT: loading translators/Better CSL JSON.ts'); try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const csl_1 = __webpack_require__(/*! ./csl/csl */ 1);
+const csl_1 = __webpack_require__(/*! ./csl/csl */ "./csl/csl.ts");
 function date2csl(date) {
     switch (date.type) {
         case 'open':
@@ -266,7 +271,8 @@ Translator.doExport = () => csl_1.CSLExporter.doExport();
 ; Zotero.debug('BBT: loaded translators/Better CSL JSON.ts'); } catch ($wrap_loader_catcher_translators_Better_CSL_JSON_ts) { Zotero.logError('Error: BBT: load of translators/Better CSL JSON.ts failed:' + $wrap_loader_catcher_translators_Better_CSL_JSON_ts + '::' + $wrap_loader_catcher_translators_Better_CSL_JSON_ts.stack) };
 
 /***/ }),
-/* 1 */
+
+/***/ "./csl/csl.ts":
 /*!********************!*\
   !*** ./csl/csl.ts ***!
   \********************/
@@ -276,7 +282,7 @@ Translator.doExport = () => csl_1.CSLExporter.doExport();
 
 Zotero.debug('BBT: loading translators/csl/csl.ts'); try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __webpack_require__(/*! ../lib/debug */ 2);
+const debug_1 = __webpack_require__(/*! ../lib/debug */ "./lib/debug.ts");
 const validCSLTypes = [
     'article',
     'article-magazine',
@@ -362,7 +368,8 @@ exports.CSLExporter = new class {
                 csl.type = 'motion_picture';
             if (item.date) {
                 const parsed = Zotero.BetterBibTeX.parseDate(item.date);
-                csl.issued = this.date2CSL(parsed);
+                if (parsed.type)
+                    csl.issued = this.date2CSL(parsed); // possible for there to be an orig-date only
                 if (parsed.orig)
                     csl['original-date'] = this.date2CSL(parsed.orig);
             }
@@ -432,7 +439,8 @@ exports.CSLExporter = new class {
 ; Zotero.debug('BBT: loaded translators/csl/csl.ts'); } catch ($wrap_loader_catcher_translators_csl_csl_ts) { Zotero.logError('Error: BBT: load of translators/csl/csl.ts failed:' + $wrap_loader_catcher_translators_csl_csl_ts + '::' + $wrap_loader_catcher_translators_csl_csl_ts.stack) };
 
 /***/ }),
-/* 2 */
+
+/***/ "./lib/debug.ts":
 /*!**********************!*\
   !*** ./lib/debug.ts ***!
   \**********************/
@@ -452,4 +460,5 @@ exports.debug = debug;
 ; Zotero.debug('BBT: loaded translators/lib/debug.ts'); } catch ($wrap_loader_catcher_translators_lib_debug_ts) { Zotero.logError('Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack) };
 
 /***/ })
-/******/ ]);
+
+/******/ });

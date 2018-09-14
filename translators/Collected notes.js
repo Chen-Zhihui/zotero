@@ -12,15 +12,15 @@
 		"getCollections": true
 	},
 	"priority": 100,
-	"lastUpdated": "2018-08-27 16:43:55"
+	"lastUpdated": "2018-09-07 18:14:19"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.195",
+  version: "5.0.201",
   Collectednotes: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"e7859c61-54d4-466a-b236-aadcf1f7e83b","label":"Collected notes","description":"exports your notes","creator":"Emiliano heyns","target":"html","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"configOptions":{"getCollections":true},"priority":100,"lastUpdated":"2018-08-27 16:43:55"},
+  header: {"translatorID":"e7859c61-54d4-466a-b236-aadcf1f7e83b","label":"Collected notes","description":"exports your notes","creator":"Emiliano heyns","target":"html","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"configOptions":{"getCollections":true},"priority":100,"lastUpdated":"2018-09-07 18:14:19"},
   override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {},
 
@@ -39,6 +39,8 @@ var Translator = {
     if (stage == 'detectImport') {
       this.options = {}
     } else {
+      if (stage == 'doImport') this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
+
       this.references = []
 
       for (var key in this.options) {
@@ -110,9 +112,11 @@ var Translator = {
 
 
   function doExport() {
+    const start = Date.now()
     Translator.configure('doExport')
     Translator.initialize()
     Translator.doExport()
+    Zotero.debug("Collected notes" + ' export took ' + (Date.now() - start))
   }
 
 
@@ -200,11 +204,12 @@ var Translator = {
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./Collected notes.ts");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./Collected notes.ts":
 /*!****************************!*\
   !*** ./Collected notes.ts ***!
   \****************************/
@@ -214,7 +219,7 @@ var Translator = {
 
 Zotero.debug('BBT: loading translators/Collected notes.ts'); try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const html_escape_1 = __webpack_require__(/*! ./lib/html-escape */ 1);
+const html_escape_1 = __webpack_require__(/*! ./lib/html-escape */ "./lib/html-escape.ts");
 const html = {
     levels: 0,
     body: '',
@@ -372,7 +377,8 @@ Translator.doExport = () => {
 ; Zotero.debug('BBT: loaded translators/Collected notes.ts'); } catch ($wrap_loader_catcher_translators_Collected_notes_ts) { Zotero.logError('Error: BBT: load of translators/Collected notes.ts failed:' + $wrap_loader_catcher_translators_Collected_notes_ts + '::' + $wrap_loader_catcher_translators_Collected_notes_ts.stack) };
 
 /***/ }),
-/* 1 */
+
+/***/ "./lib/html-escape.ts":
 /*!****************************!*\
   !*** ./lib/html-escape.ts ***!
   \****************************/
@@ -387,4 +393,5 @@ exports.htmlEscape = htmlEscape;
 ; Zotero.debug('BBT: loaded translators/lib/html-escape.ts'); } catch ($wrap_loader_catcher_translators_lib_html_escape_ts) { Zotero.logError('Error: BBT: load of translators/lib/html-escape.ts failed:' + $wrap_loader_catcher_translators_lib_html_escape_ts + '::' + $wrap_loader_catcher_translators_lib_html_escape_ts.stack) };
 
 /***/ })
-/******/ ]);
+
+/******/ });

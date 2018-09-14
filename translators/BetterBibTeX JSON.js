@@ -17,15 +17,15 @@
 	"browserSupport": "gcsv",
 	"priority": 100,
 	"inRepository": false,
-	"lastUpdated": "2018-08-27 16:43:53"
+	"lastUpdated": "2018-09-07 18:14:17"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.195",
+  version: "5.0.201",
   BetterBibTeXJSON: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"36a3b0b5-bad0-4a04-b79b-441c7cef77db","label":"BetterBibTeX JSON","description":"exports and imports references in BetterBibTeX debug format. Mostly for BBT-internal use","creator":"Emiliano Heyns","target":"json","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":true,"exportFileData":false},"translatorType":3,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-08-27 16:43:53"},
+  header: {"translatorID":"36a3b0b5-bad0-4a04-b79b-441c7cef77db","label":"BetterBibTeX JSON","description":"exports and imports references in BetterBibTeX debug format. Mostly for BBT-internal use","creator":"Emiliano Heyns","target":"json","minVersion":"4.0.27","maxVersion":"","configOptions":{"async":true,"getCollections":true},"displayOptions":{"exportNotes":true,"exportFileData":false},"translatorType":3,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-09-07 18:14:17"},
   override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"exportNotes":true,"exportFileData":false},
 
@@ -44,6 +44,8 @@ var Translator = {
     if (stage == 'detectImport') {
       this.options = {}
     } else {
+      if (stage == 'doImport') this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
+
       this.references = []
 
       for (var key in this.options) {
@@ -115,9 +117,11 @@ var Translator = {
 
 
   function doExport() {
+    const start = Date.now()
     Translator.configure('doExport')
     Translator.initialize()
     Translator.doExport()
+    Zotero.debug("BetterBibTeX JSON" + ' export took ' + (Date.now() - start))
   }
 
 
@@ -215,11 +219,12 @@ var Translator = {
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./BetterBibTeX JSON.ts");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./BetterBibTeX JSON.ts":
 /*!******************************!*\
   !*** ./BetterBibTeX JSON.ts ***!
   \******************************/
@@ -229,7 +234,7 @@ var Translator = {
 
 Zotero.debug('BBT: loading translators/BetterBibTeX JSON.ts'); try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __webpack_require__(/*! ./lib/debug */ 1);
+const debug_1 = __webpack_require__(/*! ./lib/debug */ "./lib/debug.ts");
 const chunkSize = 0x100000;
 Translator.detectImport = () => {
     let str;
@@ -334,6 +339,8 @@ Translator.doExport = () => {
     ]);
     const validAttachmentFields = new Set(['relations', 'uri', 'itemType', 'title', 'path', 'tags', 'dateAdded', 'dateModified', 'seeAlso', 'mimeType']);
     while ((item = Zotero.nextItem())) {
+        if (item.itemType === 'attachment')
+            continue;
         Zotero.BetterBibTeX.simplifyFields(item);
         item.relations = item.relations ? (item.relations['dc:relation'] || []) : [];
         for (const field of Object.keys(item)) {
@@ -363,7 +370,8 @@ Translator.doExport = () => {
 ; Zotero.debug('BBT: loaded translators/BetterBibTeX JSON.ts'); } catch ($wrap_loader_catcher_translators_BetterBibTeX_JSON_ts) { Zotero.logError('Error: BBT: load of translators/BetterBibTeX JSON.ts failed:' + $wrap_loader_catcher_translators_BetterBibTeX_JSON_ts + '::' + $wrap_loader_catcher_translators_BetterBibTeX_JSON_ts.stack) };
 
 /***/ }),
-/* 1 */
+
+/***/ "./lib/debug.ts":
 /*!**********************!*\
   !*** ./lib/debug.ts ***!
   \**********************/
@@ -383,4 +391,5 @@ exports.debug = debug;
 ; Zotero.debug('BBT: loaded translators/lib/debug.ts'); } catch ($wrap_loader_catcher_translators_lib_debug_ts) { Zotero.logError('Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack) };
 
 /***/ })
-/******/ ]);
+
+/******/ });

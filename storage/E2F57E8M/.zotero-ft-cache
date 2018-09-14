@@ -1,0 +1,296 @@
+
+Skip to content
+
+    In this repository All GitHub ↵
+    Jump to ↵
+
+    No suggested jump to results
+
+    spmallick/learnopencv
+    In this repository All GitHub ↵
+    Jump to ↵
+    peterjc123/pytorch-scripts
+    In this repository All GitHub ↵
+    Jump to ↵
+    pytorch/pytorch
+    In this repository All GitHub ↵
+    Jump to ↵
+    herumi/xbyak
+    In this repository All GitHub ↵
+    Jump to ↵
+    intel/mkl-dnn
+    In this repository All GitHub ↵
+    Jump to ↵
+    Microsoft/vscode-cpptools
+    In this repository All GitHub ↵
+    Jump to ↵
+    willsALMANJ/Zutilo
+    In this repository All GitHub ↵
+    Jump to ↵
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+    New repository Import repository New gist New organization
+    This repository
+    New issue
+    @Chen-Zhihui
+        Signed in as Chen-Zhihui
+        Your profile
+        Your repositories
+        Your stars
+        Your gists
+        Help
+        Settings
+        Sign out
+
+Sign out
+
+    Watch 26
+    Notifications
+    Not watching Be notified when participating or @mentioned. Watch
+    Watching Be notified of all conversations. Unwatch
+    Ignoring Never be notified. Stop ignoring
+    Unstar 180
+    Star 180
+    Fork
+    Where should we fork this repository?
+
+    If this dialog fails to load, you can visit the fork page directly.
+    17
+
+pfnet-research / menoh
+Code Issues 13 Pull requests 8 Projects 0 Wiki Insights
+Menoh: fast DNN inference library with multiple programming language support
+mkl-dnn deep-learning neural-network
+
+    198 commits
+    11 branches
+    4 releases
+    9 contributors
+    MIT
+
+    C++ 95.4%
+    Python 2.0%
+    C 1.5%
+    CMake 1.1%
+
+C++ Python C CMake
+Branch: master
+Switch branches/tags
+
+    Branches
+    Tags
+
+add_int32_and_int64_dtypes armnn change_add_input_profile_api coverity_scan cxx11support develop feature/gh-release fix_version_string gh-pages master remove_undetermistic_operation
+Nothing to show
+v1.0.3 v1.0.2 v1.0.1 untagged-3aa294f64531bcbd766c
+Nothing to show
+New pull request
+Create new file
+Upload files Find file
+Clone or download
+Use SSH
+Clone with HTTPS
+
+Use Git or checkout with SVN using the web URL.
+Use HTTPS
+Clone with SSH
+
+Use an SSH key and passphrase from account.
+Open in Desktop Open in Visual Studio Download ZIP
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching GitHub Desktop ...
+
+If nothing happens, download GitHub Desktop and try again.
+
+Go back
+Launching Xcode ...
+
+If nothing happens, download Xcode and try again.
+
+Go back
+Launching Visual Studio ...
+
+If nothing happens, download the GitHub extension for Visual Studio and try again.
+
+Go back
+@okdshin
+okdshin Merge pull request #92 from gwtnb/data-dir …
+
+ Create data directory when needed
+
+Latest commit f1bf602 23 hours ago
+Permalink
+	Failed to load latest commit information.
+	.travis 	travis/appveyor: update to use mkl-dnn 0.15 	a month ago
+	appveyor 	appveyor: use binary packages of MKL-DNN 	2 months ago
+	benchmark 	made a fix based on the review comments 	8 days ago
+	cmake 	enable LINK_STATIC_LIBPROTOBUF on MINGW 	5 days ago
+	docs 	Merge pull request #74 from pfnet-research/fix_issue_53 	2 days ago
+	example 	Merge pull request #74 from pfnet-research/fix_issue_53 	2 days ago
+	external 	add onnx as a submodule 	3 months ago
+	include 	add document 	2 days ago
+	menoh 	remove useless line 	2 days ago
+	test 	modify test code to indicate usage 	2 days ago
+	.clang-format 	add .gitignore and .clang-format 	3 months ago
+	.gitignore 	Revert "Make data directory" 	a day ago
+	.gitmodules 	add googletest as a submodule 	3 months ago
+	.travis.yml 	travis: print shared object dependencies using ldd or otool -L 	5 days ago
+	BUILDING.md 	write build instruction for macOS 	3 days ago
+	CMakeLists.txt 	update version 1.0.3 -> 1.1.0 	2 days ago
+	LICENSE 	fix typo and fix LICENCE 	3 months ago
+	README.md 	Merge pull request #74 from pfnet-research/fix_issue_53 	2 days ago
+	appveyor.yml 	appveyor: add a job for building libmenoh that statically link depend… 	5 days ago
+	gen_benchmark_data.py 	use sys.executable as python interpreter name instead of hard-coded "… 	3 months ago
+	gen_test_data.py 	Make data directory before using it 	a day ago
+	retrieve_data.py 	check ./data dir exists or not 	3 months ago
+README.md
+Menoh
+
+travis Build status Coverity Scan Build Status
+
+Menoh is DNN inference library with C API.
+
+Menoh is released under MIT License.
+
+DISCLAIMER: Menoh is still experimental. Use it at your own risk. In particular not all operators in ONNX are supported, so please check whether the operators used in your model are supported. We have checked that VGG16 and ResNet50 models converted by onnx-chainer work fine.
+
+Document
+
+This codebase contains C API and C++ API.
+Goal
+
+    DNN Inference with CPU
+    ONNX support
+    Easy to use.
+
+Related Projects
+
+    Chainer model to ONNX : onnx-chainer
+    C# wrapper : menoh-sharp
+    Go wrapper : go-menoh
+        (unofficial wrapper gomenoh by kou-m san has been merged)
+    Haskell wrapper : menoh-haskell
+    Node.js wrapper : node-menoh
+    Ruby wrapper : menoh-ruby
+    Rust wrapper : menoh-rs
+        There is also unofficial Rust wrapper by Y-Nak san
+    [Unofficial] ROS interface by Akio Ochiai san : menoh_ros
+    [Unofficial] OCaml wrapper by wkwkes san : Menohcaml
+
+Installation using package manager or binary packages
+
+    For Windows users, prebuild libraries are available (see release ) and Nuget package is available.
+    For macOS user, Homebrew tap repository is available.
+
+Installation from source
+Requirements
+
+    MKL-DNN Library (0.14 or later)
+    Protocol Buffers (2.6.1 or later)
+
+Build
+
+Execute following commands in root directory.
+
+ python retrieve_data.py mkdir build && cd build cmake .. make  
+
+See BUILDING.md for details.
+Installation
+
+Execute following command in build directory created at Build section.
+
+ make install  
+
+Run VGG16 example
+
+Execute following command in root directory.
+
+ ./example/vgg16_example_in_cpp  
+
+Result is here
+
+ vgg16 example -18.1883 -26.5022 -20.0474 13.5325 -0.107129 0.76102 -23.9688 -24.218 -21.6314 14.2164 top 5 categories are 8 0.885836 n01514859 hen 7 0.104591 n01514668 cock 86 0.00313584 n01807496 partridge 82 0.000934658 n01797886 ruffed grouse, partridge, Bonasa umbellus 97 0.000839487 n01847000 drake  
+
+Please give --help option for details
+
+ ./example/vgg16_example_in_cpp --help  
+
+Run test
+
+Setup chainer
+
+Then, execute following commands in root directory.
+
+ python gen_test_data.py cd build cmake -DENABLE_TEST=ON .. make ./test/menoh_test.out  
+
+Current supported operators
+Activation functions
+
+    Elu
+    LeakyRelu
+    Relu
+    Softmax
+    Tanh
+
+Array manipulations
+
+    Concat
+
+Neural network connections
+
+    Conv
+    ConvTranspose
+    FC
+
+Mathematical functions
+
+    Abs
+    Add
+    Sqrt
+    Sum
+
+Normalization functions
+
+    BatchNormalization
+    LRN
+
+Spatial pooling
+
+    AveragePool
+    GlobalAveragePool
+    GlobalMaxPool
+    MaxPool
+
+License
+
+Menoh is released under MIT License. Please see the LICENSE file for details.
+
+Note: retrieve_data.py downloads data/VGG16.onnx . data/VGG16.onnx is generated by onnx-chainer from pre-trained model which is uploaded at http://www.robots.ox.ac.uk/%7Evgg/software/very_deep/caffe/VGG_ILSVRC_16_layers.caffemodel
+
+That pre-trained model is released under Creative Commons Attribution License.
+
+    © 2018 GitHub , Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+You can’t perform that action at this time.
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session.
+Press h to open a hovercard with more details.
