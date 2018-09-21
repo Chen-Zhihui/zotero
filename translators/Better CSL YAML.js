@@ -12,16 +12,18 @@
 	"browserSupport": "gcsv",
 	"priority": 100,
 	"inRepository": false,
-	"lastUpdated": "2018-09-07 18:14:27"
+	"lastUpdated": "2018-09-18 05:44:46"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.201",
+  version: "5.0.204",
   BetterCSLYAML: true,
+  BetterTeX: false,
+  BetterCSL: true,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"0f238e69-043e-4882-93bf-342de007de19","label":"Better CSL YAML","description":"exports references in pandoc-compatible CSL-YAML format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"yaml","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-09-07 18:14:27"},
-  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"0f238e69-043e-4882-93bf-342de007de19","label":"Better CSL YAML","description":"exports references in pandoc-compatible CSL-YAML format, with added citation keys and parsing of metadata","creator":"Emiliano heyns","target":"yaml","minVersion":"4.0.27","maxVersion":"","displayOptions":{"keepUpdated":false},"translatorType":2,"browserSupport":"gcsv","priority":100,"inRepository":false,"lastUpdated":"2018-09-18 05:44:46"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoExportPrimeExportCacheBatch":false,"autoExportPrimeExportCacheThreshold":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {"keepUpdated":false},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -39,7 +41,7 @@ var Translator = {
     if (stage == 'detectImport') {
       this.options = {}
     } else {
-      if (stage == 'doImport') this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
+      this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
 
       this.references = []
 
@@ -51,8 +53,11 @@ var Translator = {
         }
       }
       // special handling
-      this.options.exportPath = Zotero.getOption('exportPath')
-      this.options.exportFilename = Zotero.getOption('exportFilename')
+
+      if (stage === 'doExport') {
+        this.options.exportPath = Zotero.getOption('exportPath')
+        if (this.options.exportPath && !this.options.exportPath.endsWith(this.pathSep)) this.options.exportPath += this.pathSep
+      }
     }
 
     this.preferences = {}
@@ -75,6 +80,8 @@ var Translator = {
     this.preferences.skipFields = this.preferences.skipFields.toLowerCase().trim().split(/\s*,\s*/).filter(function(s) { return s })
     if (!this.preferences.rawLaTag) this.preferences.rawLaTag = '#LaTeX'
     Zotero.debug('prefs loaded: ' + JSON.stringify(this.preferences, null, 2))
+
+    this.caching = !this.options.exportFileData && (!this.BetterTeX || this.preferences.jabrefFormat !== 4)
 
     this.collections = {}
     if (stage == 'doExport' && this.header.configOptions && this.header.configOptions.getCollections && Zotero.nextCollection) {
@@ -208,6 +215,1563 @@ var Translator = {
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "../gen/itemfields.ts":
+/*!****************************!*\
+  !*** ../gen/itemfields.ts ***!
+  \****************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+
+    Zotero.debug('BBT: loading gen/itemfields.ts')
+  ; try { "use strict";
+// tslint:disable:one-line
+Object.defineProperty(exports, "__esModule", { value: true });
+// don't take this from Translator.isZotero because that initializes after library load
+const client = Zotero.BetterBibTeX.version().Zotero;
+const zotero = client.isZotero;
+const jurism = client.isJurisM;
+exports.valid = new Map([
+    ['conferencePaper', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['DOI', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['conferenceName', true],
+            ['date', true],
+            ['extra', true],
+            ['institution', jurism],
+            ['issue', jurism],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['series', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['journalArticle', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['DOI', true],
+            ['ISSN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['issue', true],
+            ['journalAbbreviation', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['pages', true],
+            ['publicationTitle', true],
+            ['rights', true],
+            ['series', true],
+            ['seriesText', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['audioRecording', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['numberOfVolumes', true],
+            ['place', true],
+            ['publisher', true],
+            ['rights', true],
+            ['runningTime', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['book', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', jurism],
+            ['numPages', true],
+            ['numberOfVolumes', true],
+            ['place', true],
+            ['publisher', true],
+            ['rights', true],
+            ['series', true],
+            ['seriesNumber', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['bookSection', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['numberOfVolumes', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['series', true],
+            ['seriesNumber', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['computerProgram', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['libraryCatalog', true],
+            ['place', true],
+            ['programmingLanguage', true],
+            ['publisher', true],
+            ['rights', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['system', true],
+            ['title', true],
+            ['url', true],
+            ['versionNumber', true],
+        ]),
+    ],
+    ['dictionaryEntry', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['numberOfVolumes', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['series', true],
+            ['seriesNumber', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['encyclopediaArticle', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['numberOfVolumes', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['series', true],
+            ['seriesNumber', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['map', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['place', true],
+            ['publisher', true],
+            ['rights', true],
+            ['scale', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['videoRecording', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISBN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['numberOfVolumes', true],
+            ['place', true],
+            ['publisher', true],
+            ['rights', true],
+            ['runningTime', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+            ['websiteTitle', jurism],
+        ]),
+    ],
+    ['magazineArticle', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISSN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['issue', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['pages', true],
+            ['place', jurism],
+            ['publicationTitle', true],
+            ['publisher', jurism],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['newspaperArticle', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['ISSN', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['court', jurism],
+            ['date', true],
+            ['edition', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['rights', true],
+            ['section', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['artwork', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['artworkSize', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['publicationTitle', jurism],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['bill', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archiveLocation', jurism],
+            ['code', true],
+            ['date', true],
+            ['extra', true],
+            ['history', true],
+            ['language', true],
+            ['legislativeBody', true],
+            ['number', true],
+            ['pages', true],
+            ['rights', true],
+            ['section', true],
+            ['session', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['blogPost', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['publicationTitle', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['case', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', jurism],
+            ['archiveLocation', jurism],
+            ['callNumber', jurism],
+            ['court', true],
+            ['date', true],
+            ['extra', true],
+            ['filingDate', jurism],
+            ['history', true],
+            ['issue', jurism],
+            ['language', true],
+            ['number', true],
+            ['pages', true],
+            ['place', jurism],
+            ['publicationTitle', jurism],
+            ['publisher', jurism],
+            ['reporter', zotero],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', true],
+        ]),
+    ],
+    ['classic', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', jurism],
+            ['accessDate', jurism],
+            ['archive', jurism],
+            ['archiveLocation', jurism],
+            ['callNumber', jurism],
+            ['date', jurism],
+            ['extra', jurism],
+            ['language', jurism],
+            ['libraryCatalog', jurism],
+            ['numPages', jurism],
+            ['place', jurism],
+            ['rights', jurism],
+            ['shortTitle', jurism],
+            ['title', jurism],
+            ['type', jurism],
+            ['url', jurism],
+            ['volume', jurism],
+        ]),
+    ],
+    ['document', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['publisher', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['versionNumber', jurism],
+        ]),
+    ],
+    ['email', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['film', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['publisher', true],
+            ['rights', true],
+            ['runningTime', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['forumPost', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['publicationTitle', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['gazette', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', jurism],
+            ['accessDate', jurism],
+            ['code', jurism],
+            ['codeNumber', jurism],
+            ['date', jurism],
+            ['extra', jurism],
+            ['history', jurism],
+            ['language', jurism],
+            ['number', jurism],
+            ['pages', jurism],
+            ['publisher', jurism],
+            ['rights', jurism],
+            ['section', jurism],
+            ['session', jurism],
+            ['shortTitle', jurism],
+            ['title', jurism],
+            ['url', jurism],
+        ]),
+    ],
+    ['hearing', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archiveLocation', jurism],
+            ['committee', true],
+            ['date', true],
+            ['extra', true],
+            ['history', true],
+            ['language', true],
+            ['legislativeBody', true],
+            ['number', true],
+            ['numberOfVolumes', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', jurism],
+            ['publisher', true],
+            ['rights', true],
+            ['session', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+            ['volume', jurism],
+        ]),
+    ],
+    ['instantMessage', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['interview', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['place', jurism],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['letter', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['manuscript', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['numPages', true],
+            ['place', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['patent', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['applicationNumber', true],
+            ['assignee', true],
+            ['country', true],
+            ['date', true],
+            ['extra', true],
+            ['filingDate', true],
+            ['genre', jurism],
+            ['issuingAuthority', true],
+            ['language', true],
+            ['legalStatus', true],
+            ['number', true],
+            ['pages', true],
+            ['place', true],
+            ['priorityNumbers', true],
+            ['references', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['podcast', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', jurism],
+            ['extra', true],
+            ['language', true],
+            ['medium', true],
+            ['number', true],
+            ['publisher', jurism],
+            ['rights', true],
+            ['runningTime', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['presentation', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['meetingName', true],
+            ['place', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['radioBroadcast', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['number', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['runningTime', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['regulation', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', jurism],
+            ['accessDate', jurism],
+            ['code', jurism],
+            ['codeNumber', jurism],
+            ['date', jurism],
+            ['extra', jurism],
+            ['history', jurism],
+            ['language', jurism],
+            ['number', jurism],
+            ['pages', jurism],
+            ['publisher', jurism],
+            ['rights', jurism],
+            ['section', jurism],
+            ['session', jurism],
+            ['shortTitle', jurism],
+            ['title', jurism],
+            ['url', jurism],
+        ]),
+    ],
+    ['report', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['committee', jurism],
+            ['date', true],
+            ['extra', true],
+            ['institution', jurism],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', jurism],
+            ['number', true],
+            ['pages', true],
+            ['place', true],
+            ['publicationTitle', jurism],
+            ['publisher', zotero],
+            ['rights', true],
+            ['seriesTitle', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['standard', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', jurism],
+            ['accessDate', jurism],
+            ['archive', jurism],
+            ['archiveLocation', jurism],
+            ['callNumber', jurism],
+            ['date', jurism],
+            ['extra', jurism],
+            ['language', jurism],
+            ['libraryCatalog', jurism],
+            ['number', jurism],
+            ['publisher', jurism],
+            ['rights', jurism],
+            ['shortTitle', jurism],
+            ['title', jurism],
+            ['url', jurism],
+            ['versionNumber', jurism],
+        ]),
+    ],
+    ['statute', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['code', true],
+            ['codeNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['history', true],
+            ['language', true],
+            ['number', true],
+            ['pages', true],
+            ['publisher', jurism],
+            ['rights', true],
+            ['section', true],
+            ['session', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['thesis', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['numPages', true],
+            ['place', true],
+            ['publisher', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['treaty', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', jurism],
+            ['accessDate', jurism],
+            ['archive', jurism],
+            ['archiveLocation', jurism],
+            ['callNumber', jurism],
+            ['date', jurism],
+            ['extra', jurism],
+            ['language', jurism],
+            ['libraryCatalog', jurism],
+            ['pages', jurism],
+            ['publisher', jurism],
+            ['reporter', jurism],
+            ['rights', jurism],
+            ['section', jurism],
+            ['shortTitle', jurism],
+            ['title', jurism],
+            ['url', jurism],
+            ['volume', jurism],
+        ]),
+    ],
+    ['tvBroadcast', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['archive', true],
+            ['archiveLocation', true],
+            ['callNumber', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['libraryCatalog', true],
+            ['medium', true],
+            ['number', true],
+            ['place', true],
+            ['publicationTitle', true],
+            ['publisher', true],
+            ['rights', true],
+            ['runningTime', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['webpage', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['abstractNote', true],
+            ['accessDate', true],
+            ['date', true],
+            ['extra', true],
+            ['language', true],
+            ['publicationTitle', true],
+            ['rights', true],
+            ['shortTitle', true],
+            ['title', true],
+            ['type', true],
+            ['url', true],
+        ]),
+    ],
+    ['attachment', new Map([
+            ['itemType', true],
+            ['creators', true],
+            ['tags', true],
+            ['attachments', true],
+            ['notes', true],
+            ['seeAlso', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+            ['multi', true],
+            ['accessDate', true],
+            ['title', true],
+            ['url', true],
+        ]),
+    ],
+    ['note', new Map([
+            ['itemType', true],
+            ['tags', true],
+            ['note', true],
+            ['id', true],
+            ['itemID', true],
+            ['dateAdded', true],
+            ['dateModified', true],
+        ]),
+    ],
+]);
+function unalias(item) {
+    // date
+    if (typeof item.dateDecided !== 'undefined') {
+        item.date = item.dateDecided;
+        delete item.dateDecided;
+    }
+    else if (jurism && typeof item.dateEnacted !== 'undefined') {
+        item.date = item.dateEnacted;
+        delete item.dateEnacted;
+    }
+    else if (typeof item.dateEnacted !== 'undefined') {
+        item.date = item.dateEnacted;
+        delete item.dateEnacted;
+    }
+    else if (typeof item.issueDate !== 'undefined') {
+        item.date = item.issueDate;
+        delete item.issueDate;
+    }
+    // medium
+    if (typeof item.artworkMedium !== 'undefined') {
+        item.medium = item.artworkMedium;
+        delete item.artworkMedium;
+    }
+    else if (typeof item.audioFileType !== 'undefined') {
+        item.medium = item.audioFileType;
+        delete item.audioFileType;
+    }
+    else if (typeof item.audioRecordingFormat !== 'undefined') {
+        item.medium = item.audioRecordingFormat;
+        delete item.audioRecordingFormat;
+    }
+    else if (typeof item.interviewMedium !== 'undefined') {
+        item.medium = item.interviewMedium;
+        delete item.interviewMedium;
+    }
+    else if (typeof item.videoRecordingFormat !== 'undefined') {
+        item.medium = item.videoRecordingFormat;
+        delete item.videoRecordingFormat;
+    }
+    // number
+    if (typeof item.billNumber !== 'undefined') {
+        item.number = item.billNumber;
+        delete item.billNumber;
+    }
+    else if (typeof item.docketNumber !== 'undefined') {
+        item.number = item.docketNumber;
+        delete item.docketNumber;
+    }
+    else if (typeof item.documentNumber !== 'undefined') {
+        item.number = item.documentNumber;
+        delete item.documentNumber;
+    }
+    else if (typeof item.episodeNumber !== 'undefined') {
+        item.number = item.episodeNumber;
+        delete item.episodeNumber;
+    }
+    else if (typeof item.patentNumber !== 'undefined') {
+        item.number = item.patentNumber;
+        delete item.patentNumber;
+    }
+    else if (jurism && typeof item.publicLawNumber !== 'undefined') {
+        item.number = item.publicLawNumber;
+        delete item.publicLawNumber;
+    }
+    else if (typeof item.publicLawNumber !== 'undefined') {
+        item.number = item.publicLawNumber;
+        delete item.publicLawNumber;
+    }
+    else if (typeof item.reportNumber !== 'undefined') {
+        item.number = item.reportNumber;
+        delete item.reportNumber;
+    }
+    // pages
+    if (typeof item.codePages !== 'undefined') {
+        item.pages = item.codePages;
+        delete item.codePages;
+    }
+    else if (typeof item.firstPage !== 'undefined') {
+        item.pages = item.firstPage;
+        delete item.firstPage;
+    }
+    // publicationTitle
+    if (typeof item.blogTitle !== 'undefined') {
+        item.publicationTitle = item.blogTitle;
+        delete item.blogTitle;
+    }
+    else if (typeof item.bookTitle !== 'undefined') {
+        item.publicationTitle = item.bookTitle;
+        delete item.bookTitle;
+    }
+    else if (jurism && typeof item.bookTitle !== 'undefined') {
+        item.publicationTitle = item.bookTitle;
+        delete item.bookTitle;
+    }
+    else if (typeof item.dictionaryTitle !== 'undefined') {
+        item.publicationTitle = item.dictionaryTitle;
+        delete item.dictionaryTitle;
+    }
+    else if (typeof item.encyclopediaTitle !== 'undefined') {
+        item.publicationTitle = item.encyclopediaTitle;
+        delete item.encyclopediaTitle;
+    }
+    else if (typeof item.forumTitle !== 'undefined') {
+        item.publicationTitle = item.forumTitle;
+        delete item.forumTitle;
+    }
+    else if (typeof item.proceedingsTitle !== 'undefined') {
+        item.publicationTitle = item.proceedingsTitle;
+        delete item.proceedingsTitle;
+    }
+    else if (typeof item.programTitle !== 'undefined') {
+        item.publicationTitle = item.programTitle;
+        delete item.programTitle;
+    }
+    else if (jurism && typeof item.reporter !== 'undefined') {
+        item.publicationTitle = item.reporter;
+        delete item.reporter;
+    }
+    else if (jurism && typeof item.websiteTitle !== 'undefined') {
+        item.publicationTitle = item.websiteTitle;
+        delete item.websiteTitle;
+    }
+    else if (typeof item.websiteTitle !== 'undefined') {
+        item.publicationTitle = item.websiteTitle;
+        delete item.websiteTitle;
+    }
+    // publisher
+    if (typeof item.company !== 'undefined') {
+        item.publisher = item.company;
+        delete item.company;
+    }
+    else if (typeof item.distributor !== 'undefined') {
+        item.publisher = item.distributor;
+        delete item.distributor;
+    }
+    else if (zotero && typeof item.institution !== 'undefined') {
+        item.publisher = item.institution;
+        delete item.institution;
+    }
+    else if (typeof item.label !== 'undefined') {
+        item.publisher = item.label;
+        delete item.label;
+    }
+    else if (typeof item.network !== 'undefined') {
+        item.publisher = item.network;
+        delete item.network;
+    }
+    else if (typeof item.studio !== 'undefined') {
+        item.publisher = item.studio;
+        delete item.studio;
+    }
+    else if (typeof item.university !== 'undefined') {
+        item.publisher = item.university;
+        delete item.university;
+    }
+    // title
+    if (typeof item.caseName !== 'undefined') {
+        item.title = item.caseName;
+        delete item.caseName;
+    }
+    else if (jurism && typeof item.nameOfAct !== 'undefined') {
+        item.title = item.nameOfAct;
+        delete item.nameOfAct;
+    }
+    else if (typeof item.nameOfAct !== 'undefined') {
+        item.title = item.nameOfAct;
+        delete item.nameOfAct;
+    }
+    else if (typeof item.subject !== 'undefined') {
+        item.title = item.subject;
+        delete item.subject;
+    }
+    // type
+    if (typeof item.genre !== 'undefined') {
+        item.type = item.genre;
+        delete item.genre;
+    }
+    else if (typeof item.letterType !== 'undefined') {
+        item.type = item.letterType;
+        delete item.letterType;
+    }
+    else if (jurism && typeof item.manuscriptType !== 'undefined') {
+        item.type = item.manuscriptType;
+        delete item.manuscriptType;
+    }
+    else if (typeof item.manuscriptType !== 'undefined') {
+        item.type = item.manuscriptType;
+        delete item.manuscriptType;
+    }
+    else if (typeof item.mapType !== 'undefined') {
+        item.type = item.mapType;
+        delete item.mapType;
+    }
+    else if (typeof item.postType !== 'undefined') {
+        item.type = item.postType;
+        delete item.postType;
+    }
+    else if (typeof item.presentationType !== 'undefined') {
+        item.type = item.presentationType;
+        delete item.presentationType;
+    }
+    else if (typeof item.reportType !== 'undefined') {
+        item.type = item.reportType;
+        delete item.reportType;
+    }
+    else if (typeof item.thesisType !== 'undefined') {
+        item.type = item.thesisType;
+        delete item.thesisType;
+    }
+    else if (typeof item.websiteType !== 'undefined') {
+        item.type = item.websiteType;
+        delete item.websiteType;
+    }
+    // volume
+    if (typeof item.codeVolume !== 'undefined') {
+        item.volume = item.codeVolume;
+        delete item.codeVolume;
+    }
+    else if (typeof item.reporterVolume !== 'undefined') {
+        item.volume = item.reporterVolume;
+        delete item.reporterVolume;
+    }
+}
+// import & export translators expect different creator formats... nice
+function simplifyForExport(item) {
+    unalias(item);
+    item.tags = item.tags ? item.tags.map(tag => tag.tag) : [];
+    item.notes = item.notes ? item.notes.map(note => note.note || note) : [];
+    if (item.filingDate)
+        item.filingDate = item.filingDate.replace(/^0000-00-00 /, '');
+    if (item.creators) {
+        for (const creator of item.creators) {
+            if (creator.fieldMode) {
+                creator.name = creator.name || creator.lastName;
+                delete creator.lastName;
+                delete creator.firstName;
+                delete creator.fieldMode;
+            }
+        }
+    }
+    return item;
+}
+exports.simplifyForExport = simplifyForExport;
+function simplifyForImport(item) {
+    unalias(item);
+    if (item.creators) {
+        for (const creator of item.creators) {
+            if (creator.name) {
+                creator.lastName = creator.lastName || creator.name;
+                creator.fieldMode = 1;
+                delete creator.firstName;
+                delete creator.name;
+            }
+        }
+    }
+    return item;
+}
+exports.simplifyForImport = simplifyForImport;
+; 
+    Zotero.debug('BBT: loaded gen/itemfields.ts')
+  ; } catch ($wrap_loader_catcher_gen_itemfields_ts) { 
+    var $wrap_loader_message_gen_itemfields_ts = 'Error: BBT: load of gen/itemfields.ts failed:' + $wrap_loader_catcher_gen_itemfields_ts + '::' + $wrap_loader_catcher_gen_itemfields_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_gen_itemfields_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_gen_itemfields_ts)
+    }
+   };
+
+/***/ }),
 
 /***/ "../node_modules/base64-js/index.js":
 /*!******************************************!*\
@@ -13288,7 +14852,9 @@ module.exports = g;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-Zotero.debug('BBT: loading translators/Better CSL YAML.ts'); try { "use strict";
+
+    Zotero.debug('BBT: loading translators/Better CSL YAML.ts')
+  ; try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const YAML = __webpack_require__(/*! js-yaml */ "../node_modules/js-yaml/index.js");
 const debug_1 = __webpack_require__(/*! ./lib/debug */ "./lib/debug.ts");
@@ -13425,7 +14991,16 @@ csl_1.CSLExporter.serialize = csl => {
 csl_1.CSLExporter.flush = items => `---\nreferences:\n${items.join('\n')}...\n`;
 Translator.initialize = () => csl_1.CSLExporter.initialize();
 Translator.doExport = () => csl_1.CSLExporter.doExport();
-; Zotero.debug('BBT: loaded translators/Better CSL YAML.ts'); } catch ($wrap_loader_catcher_translators_Better_CSL_YAML_ts) { Zotero.logError('Error: BBT: load of translators/Better CSL YAML.ts failed:' + $wrap_loader_catcher_translators_Better_CSL_YAML_ts + '::' + $wrap_loader_catcher_translators_Better_CSL_YAML_ts.stack) };
+; 
+    Zotero.debug('BBT: loaded translators/Better CSL YAML.ts')
+  ; } catch ($wrap_loader_catcher_translators_Better_CSL_YAML_ts) { 
+    var $wrap_loader_message_translators_Better_CSL_YAML_ts = 'Error: BBT: load of translators/Better CSL YAML.ts failed:' + $wrap_loader_catcher_translators_Better_CSL_YAML_ts + '::' + $wrap_loader_catcher_translators_Better_CSL_YAML_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_translators_Better_CSL_YAML_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_translators_Better_CSL_YAML_ts)
+    }
+   };
 
 /***/ }),
 
@@ -13437,9 +15012,12 @@ Translator.doExport = () => csl_1.CSLExporter.doExport();
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-Zotero.debug('BBT: loading translators/csl/csl.ts'); try { "use strict";
+
+    Zotero.debug('BBT: loading translators/csl/csl.ts')
+  ; try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const debug_1 = __webpack_require__(/*! ../lib/debug */ "./lib/debug.ts");
+const itemfields = __webpack_require__(/*! ../../gen/itemfields */ "../gen/itemfields.ts");
 const validCSLTypes = [
     'article',
     'article-magazine',
@@ -13503,7 +15081,7 @@ exports.CSLExporter = new class {
                 items.push(cached.reference);
                 continue;
             }
-            Zotero.BetterBibTeX.simplifyFields(item);
+            itemfields.simplifyForExport(item);
             Object.assign(item, Zotero.BetterBibTeX.extractFields(item));
             if (item.accessDate) { // WTH is Juris-M doing with those dates?
                 item.accessDate = item.accessDate.replace(/T?[0-9]{2}:[0-9]{2}:[0-9]{2}.*/, '').trim();
@@ -13593,7 +15171,16 @@ exports.CSLExporter = new class {
         Zotero.write(this.flush(items));
     }
 };
-; Zotero.debug('BBT: loaded translators/csl/csl.ts'); } catch ($wrap_loader_catcher_translators_csl_csl_ts) { Zotero.logError('Error: BBT: load of translators/csl/csl.ts failed:' + $wrap_loader_catcher_translators_csl_csl_ts + '::' + $wrap_loader_catcher_translators_csl_csl_ts.stack) };
+; 
+    Zotero.debug('BBT: loaded translators/csl/csl.ts')
+  ; } catch ($wrap_loader_catcher_translators_csl_csl_ts) { 
+    var $wrap_loader_message_translators_csl_csl_ts = 'Error: BBT: load of translators/csl/csl.ts failed:' + $wrap_loader_catcher_translators_csl_csl_ts + '::' + $wrap_loader_catcher_translators_csl_csl_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_translators_csl_csl_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_translators_csl_csl_ts)
+    }
+   };
 
 /***/ }),
 
@@ -13605,7 +15192,9 @@ exports.CSLExporter = new class {
 /*! all exports used */
 /***/ (function(module, exports) {
 
-Zotero.debug('BBT: loading translators/lib/debug.ts'); try { "use strict";
+
+    Zotero.debug('BBT: loading translators/lib/debug.ts')
+  ; try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { format } from '../../content/debug-formatter'
 function debug(...msg) {
@@ -13614,7 +15203,16 @@ function debug(...msg) {
     Zotero.BetterBibTeX.debug(Translator.header.label, ...msg);
 }
 exports.debug = debug;
-; Zotero.debug('BBT: loaded translators/lib/debug.ts'); } catch ($wrap_loader_catcher_translators_lib_debug_ts) { Zotero.logError('Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack) };
+; 
+    Zotero.debug('BBT: loaded translators/lib/debug.ts')
+  ; } catch ($wrap_loader_catcher_translators_lib_debug_ts) { 
+    var $wrap_loader_message_translators_lib_debug_ts = 'Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_translators_lib_debug_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_translators_lib_debug_ts)
+    }
+   };
 
 /***/ })
 

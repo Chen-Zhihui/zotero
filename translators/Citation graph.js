@@ -9,16 +9,18 @@
 	"browserSupport": "gcsv",
 	"inRepository": false,
 	"priority": 100,
-	"lastUpdated": "2018-09-07 18:14:18"
+	"lastUpdated": "2018-09-18 05:44:37"
 }
 
 var Translator = {
   initialize: function () {},
-  version: "5.0.201",
+  version: "5.0.204",
   Citationgraph: true,
+  BetterTeX: false,
+  BetterCSL: false,
   // header == ZOTERO_TRANSLATOR_INFO -- maybe pick it from there
-  header: {"translatorID":"19afa3fd-1c7f-4eb8-a37e-8d07768493e8","label":"Citation graph","description":"exports a citation graph in graphml format. Use gephi or yEd to clean up and visualize","creator":"Emiliano heyns","target":"gml","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"priority":100,"lastUpdated":"2018-09-07 18:14:18"},
-  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
+  header: {"translatorID":"19afa3fd-1c7f-4eb8-a37e-8d07768493e8","label":"Citation graph","description":"exports a citation graph in graphml format. Use gephi or yEd to clean up and visualize","creator":"Emiliano heyns","target":"gml","minVersion":"4.0.27","maxVersion":"","translatorType":2,"browserSupport":"gcsv","inRepository":false,"priority":100,"lastUpdated":"2018-09-18 05:44:37"},
+  override: {"DOIandURL":true,"asciiBibLaTeX":true,"asciiBibTeX":true,"autoAbbrev":false,"autoAbbrevStyle":false,"autoExport":false,"autoExportIdleWait":false,"autoExportPrimeExportCacheBatch":false,"autoExportPrimeExportCacheThreshold":false,"autoPin":false,"biblatexExtendedDateFormat":false,"biblatexExtendedNameFormat":true,"bibtexParticleNoOp":true,"bibtexURL":true,"cacheFlushInterval":false,"citeCommand":false,"citekeyFold":false,"citekeyFormat":false,"citeprocNoteCitekey":false,"csquotes":false,"debug":false,"debugLog":false,"itemObserverDelay":false,"jabrefFormat":false,"jurismPreferredLanguage":false,"keyConflictPolicy":false,"keyScope":false,"kuroshiro":false,"lockedInit":false,"parseParticles":false,"postscript":false,"preserveBibTeXVariables":false,"qualityReport":false,"quickCopyMode":false,"quickCopyPandocBrackets":false,"rawLaTag":false,"scrubDatabase":false,"skipFields":false,"skipWords":false,"sorted":false,"strings":false,"suppressTitleCase":false,"testing":false,"warnBulkModify":false},
   options: {},
 
   stringCompare: (new Intl.Collator('en')).compare,
@@ -36,7 +38,7 @@ var Translator = {
     if (stage == 'detectImport') {
       this.options = {}
     } else {
-      if (stage == 'doImport') this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
+      this.pathSep = (Zotero.BetterBibTeX.platform().toLowerCase().startsWith('win')) ? '\\' : '/'
 
       this.references = []
 
@@ -48,8 +50,11 @@ var Translator = {
         }
       }
       // special handling
-      this.options.exportPath = Zotero.getOption('exportPath')
-      this.options.exportFilename = Zotero.getOption('exportFilename')
+
+      if (stage === 'doExport') {
+        this.options.exportPath = Zotero.getOption('exportPath')
+        if (this.options.exportPath && !this.options.exportPath.endsWith(this.pathSep)) this.options.exportPath += this.pathSep
+      }
     }
 
     this.preferences = {}
@@ -72,6 +77,8 @@ var Translator = {
     this.preferences.skipFields = this.preferences.skipFields.toLowerCase().trim().split(/\s*,\s*/).filter(function(s) { return s })
     if (!this.preferences.rawLaTag) this.preferences.rawLaTag = '#LaTeX'
     Zotero.debug('prefs loaded: ' + JSON.stringify(this.preferences, null, 2))
+
+    this.caching = !this.options.exportFileData && (!this.BetterTeX || this.preferences.jabrefFormat !== 4)
 
     this.collections = {}
     if (stage == 'doExport' && this.header.configOptions && this.header.configOptions.getCollections && Zotero.nextCollection) {
@@ -214,7 +221,9 @@ var Translator = {
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-Zotero.debug('BBT: loading translators/Citation graph.ts'); try { "use strict";
+
+    Zotero.debug('BBT: loading translators/Citation graph.ts')
+  ; try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const debug_1 = __webpack_require__(/*! ./lib/debug */ "./lib/debug.ts");
 function node(id, label, style = null) {
@@ -288,7 +297,16 @@ Translator.doExport = () => {
     }
     Zotero.write(']\n');
 };
-; Zotero.debug('BBT: loaded translators/Citation graph.ts'); } catch ($wrap_loader_catcher_translators_Citation_graph_ts) { Zotero.logError('Error: BBT: load of translators/Citation graph.ts failed:' + $wrap_loader_catcher_translators_Citation_graph_ts + '::' + $wrap_loader_catcher_translators_Citation_graph_ts.stack) };
+; 
+    Zotero.debug('BBT: loaded translators/Citation graph.ts')
+  ; } catch ($wrap_loader_catcher_translators_Citation_graph_ts) { 
+    var $wrap_loader_message_translators_Citation_graph_ts = 'Error: BBT: load of translators/Citation graph.ts failed:' + $wrap_loader_catcher_translators_Citation_graph_ts + '::' + $wrap_loader_catcher_translators_Citation_graph_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_translators_Citation_graph_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_translators_Citation_graph_ts)
+    }
+   };
 
 /***/ }),
 
@@ -300,7 +318,9 @@ Translator.doExport = () => {
 /*! all exports used */
 /***/ (function(module, exports) {
 
-Zotero.debug('BBT: loading translators/lib/debug.ts'); try { "use strict";
+
+    Zotero.debug('BBT: loading translators/lib/debug.ts')
+  ; try { "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { format } from '../../content/debug-formatter'
 function debug(...msg) {
@@ -309,7 +329,16 @@ function debug(...msg) {
     Zotero.BetterBibTeX.debug(Translator.header.label, ...msg);
 }
 exports.debug = debug;
-; Zotero.debug('BBT: loaded translators/lib/debug.ts'); } catch ($wrap_loader_catcher_translators_lib_debug_ts) { Zotero.logError('Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack) };
+; 
+    Zotero.debug('BBT: loaded translators/lib/debug.ts')
+  ; } catch ($wrap_loader_catcher_translators_lib_debug_ts) { 
+    var $wrap_loader_message_translators_lib_debug_ts = 'Error: BBT: load of translators/lib/debug.ts failed:' + $wrap_loader_catcher_translators_lib_debug_ts + '::' + $wrap_loader_catcher_translators_lib_debug_ts.stack;
+    if (typeof Zotero.logError === 'function') {
+      Zotero.logError($wrap_loader_message_translators_lib_debug_ts)
+    } else {
+      Zotero.debug($wrap_loader_message_translators_lib_debug_ts)
+    }
+   };
 
 /***/ })
 
