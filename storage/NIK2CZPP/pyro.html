@@ -1,0 +1,2828 @@
+<html id="arve"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Uber Open Sources Pyro, a Deep Probabilistic Programming Language</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="pingback" href="https://eng.uber.com/xmlrpc.php">
+    <link rel="dns-prefetch" href="https://tags.tiqcdn.com/">
+<script src="utag_002.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="linkid.js"></script><script type="text/javascript" async="" src="ec.js"></script><script async="" src="fbevents.txt"></script><script async="" src="analytics.js"></script><script type="text/javascript" async="" src="linkid.js"></script><script type="text/javascript" async="" src="ec.js"></script><script id="facebook-jssdk" src="sdk.txt"></script><script async="" src="fbevents.txt"></script><script type="text/javascript" async="" charset="utf-8" id="tealium-tag-7110" src="analytics.js"></script><script src="utag_002.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="linkid.js"></script><script async="" src="analytics.js"></script><script type="text/javascript">
+var utag_data = {
+    "site_name": "Uber Engineering Blog",
+    "site_description": "Engineering that helps move people places.",
+    "post_category": [
+        "announcement"
+    ],
+    "post_tags": [
+        "ai",
+        "alpha-divergence",
+        "artificial-intelligence",
+        "automatic-default-guides",
+        "automatic-differentiation",
+        "bayesian-modeling",
+        "deep-learning",
+        "edward",
+        "gan-based-loss",
+        "gaussian-processes",
+        "helmholtz-machine",
+        "infovae",
+        "law-of-total-variance",
+        "machine-learning",
+        "markov-chain-monte-carlo",
+        "mcmc",
+        "ml",
+        "monte-carlo",
+        "noah-goodman",
+        "open-source",
+        "os",
+        "ppl",
+        "probabilistic-programming-language",
+        "pyro",
+        "python",
+        "pytorch",
+        "sequential-monte-carlo",
+        "smc",
+        "stanford-university",
+        "uber-ai-labs",
+        "uber-open-source",
+        "webppl",
+        "zoubin-ghahramani"
+    ],
+    "page_type": "post",
+    "post_title": "Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language",
+    "post_author": "Noah Goodman, on behalf of the Pyro Development Team",
+    "post_date": "2017\/11\/03",
+    "edit_lock": [
+        "1532023825:340"
+    ],
+    "edit_last": [
+        "291"
+    ],
+    "thumbnail_id": [
+        "1690"
+    ],
+    "et_monarch_override": [
+        ""
+    ],
+    "yoast_wpseo_primary_category": [
+        "18"
+    ],
+    "blogtype": [
+        "image"
+    ],
+    "image1": [
+        ""
+    ],
+    "image2": [
+        ""
+    ],
+    "image3": [
+        ""
+    ],
+    "yoast_wpseo_opengraph-title": [
+        "Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language"
+    ],
+    "yoast_wpseo_opengraph-description": [
+        "Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI."
+    ],
+    "yoast_wpseo_opengraph-image": [
+        "http:\/\/eng.uber.com\/wp-content\/uploads\/2017\/11\/Facebook-1.png"
+    ],
+    "yoast_wpseo_twitter-title": [
+        "Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language"
+    ],
+    "yoast_wpseo_twitter-description": [
+        "Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI."
+    ],
+    "yoast_wpseo_twitter-image": [
+        "http:\/\/eng.uber.com\/wp-content\/uploads\/2017\/11\/Twitter-1.png"
+    ],
+    "yoast_wpseo_focuskw_text_input": [
+        "Pyro"
+    ],
+    "yoast_wpseo_focuskw": [
+        "Pyro"
+    ],
+    "yoast_wpseo_title": [
+        "Uber Open Sources Pyro, a Deep Probabilistic Programming Language"
+    ],
+    "yoast_wpseo_metadesc": [
+        "Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI."
+    ],
+    "yoast_wpseo_linkdex": [
+        "80"
+    ],
+    "yoast_wpseo_content_score": [
+        "30"
+    ],
+    "et_social_shares_twitter": [
+        "a:3:{s:12:\"force_update\";b:0;s:6:\"counts\";i:142;s:8:\"last_upd\";s:19:\"2017-12-18 22:10:15\";}"
+    ],
+    "et_social_shares_facebook": [
+        "a:3:{s:12:\"force_update\";b:1;s:6:\"counts\";i:0;s:8:\"last_upd\";s:19:\"2017-12-18 23:05:26\";}"
+    ],
+    "et_social_shares_hackernews": [
+        "a:3:{s:12:\"force_update\";b:0;s:6:\"counts\";i:65;s:8:\"last_upd\";s:19:\"2017-12-18 22:10:15\";}"
+    ],
+    "et_social_shares_googleplus": [
+        "a:3:{s:12:\"force_update\";b:1;s:6:\"counts\";i:0;s:8:\"last_upd\";s:19:\"2017-12-18 23:05:26\";}"
+    ],
+    "et_social_shares_linkedin": [
+        "a:3:{s:12:\"force_update\";b:0;s:6:\"counts\";i:1546;s:8:\"last_upd\";s:19:\"2017-12-18 22:10:15\";}"
+    ],
+    "yst_prominent_words_version": [
+        "1"
+    ],
+    "bitly_link_email": [
+        "https:\/\/ubr.to\/2DX2An9"
+    ],
+    "totes": [
+        "4080"
+    ],
+    "bitly_link_linked_in": [
+        "https:\/\/ubr.to\/2E0vSBp"
+    ],
+    "bitly_link_google_plus": [
+        "https:\/\/ubr.to\/2DWNpu9"
+    ],
+    "pinterest_shares": [
+        "4"
+    ],
+    "post_views_count": [
+        "1272"
+    ],
+    "bitly_link": [
+        "https:\/\/ubr.to\/2By2ykv"
+    ],
+    "linkedin_shares": [
+        "0"
+    ],
+    "google_plus_shares": [
+        "0"
+    ],
+    "total_shares": [
+        "4548"
+    ],
+    "swp_pinterest_image_url": [
+        ""
+    ],
+    "swp_cache_timestamp": [
+        "427079"
+    ]
+};
+</script>
+
+<!-- Social Warfare v3.3.2 https://warfareplugins.com -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language">
+<meta name="twitter:description" content="Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI.">
+<meta name="twitter:image" content="http://eng.uber.com/wp-content/uploads/2017/11/Twitter-1.png">
+<meta name="twitter:site" content="@ubereng">
+<meta name="twitter:creator" content="@ubereng"><style type="text/css"> .swp_default_custom_color a {color:white} .swp_social_panel.swp_default_custom_color .nc_tweetContainer { background-color:#000000; border:1px solid #000000; } html body .swp_social_panel.swp_individual_custom_color .nc_tweetContainer:not(.total_shares):hover a {color:white !important} html body .swp_social_panel.swp_individual_custom_color .nc_tweetContainer:not(.total_shares):hover { background-color:#000000!important; border:1px solid #000000!important; } body .swp_social_panel.swp_other_custom_color:hover a {color:white} body .swp_social_panel.swp_other_custom_color:hover .nc_tweetContainer { background-color:#000000; border:1px solid #000000; } </style><style>@font-face {font-family: "sw-icon-font";src:url("https://eng.uber.com/wp-content/plugins/social-warfare/assets/fonts/sw-icon-font.eot?ver=3.3.2");src:url("https://eng.uber.com/wp-content/plugins/social-warfare/assets/fonts/sw-icon-font.eot?ver=3.3.2#iefix") format("embedded-opentype"),url("https://eng.uber.com/wp-content/plugins/social-warfare/assets/fonts/sw-icon-font.woff?ver=3.3.2") format("woff"),
+	url("https://eng.uber.com/wp-content/plugins/social-warfare/assets/fonts/sw-icon-font.ttf?ver=3.3.2") format("truetype"),url("https://eng.uber.com/wp-content/plugins/social-warfare/assets/fonts/sw-icon-font.svg?ver=3.3.2#1445203416") format("svg");font-weight: normal;font-style: normal;}</style>
+<!-- Social Warfare v3.3.2 https://warfareplugins.com -->
+
+<meta property="og:image" content="https://eng.uber.com/wp-content/uploads/2017/11/Header-1.png"><link rel="icon" type="image/png" href="https://eng.uber.com/wp-content/uploads/2018/09/favicons.png">
+<!-- This site is optimized with the Yoast SEO Premium plugin v6.2 - https://yoa.st/1yg?utm_content=6.2 -->
+<meta name="description" content="Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI.">
+<link rel="canonical" href="https://eng.uber.com/pyro/">
+<link rel="publisher" href="https://plus.google.com/u/0/b/107731750887846492390/107731750887846492390">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language">
+<meta property="og:description" content="Pyro is an open source probabilistic programming language that unites modern deep learning with Bayesian modeling for a tool-first approach to AI.">
+<meta property="og:url" content="https://eng.uber.com/pyro/">
+<meta property="og:site_name" content="Uber Engineering Blog">
+<meta property="article:publisher" content="https://www.facebook.com/uberengineering">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Alpha Divergence">
+<meta property="article:tag" content="artificial intelligence">
+<meta property="article:tag" content="Automatic Default Guides">
+<meta property="article:tag" content="Automatic Differentiation">
+<meta property="article:tag" content="Bayesian Modeling">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="Edward">
+<meta property="article:tag" content="GAN-based loss">
+<meta property="article:tag" content="Gaussian processes">
+<meta property="article:tag" content="Helmholtz Machine">
+<meta property="article:tag" content="infoVAE">
+<meta property="article:tag" content="Law of Total Variance">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Markov chain Monte Carlo">
+<meta property="article:tag" content="MCMC">
+<meta property="article:tag" content="ML">
+<meta property="article:tag" content="Monte Carlo">
+<meta property="article:tag" content="Noah Goodman">
+<meta property="article:tag" content="Open Source">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="PPL">
+<meta property="article:tag" content="Probabilistic Programming Language">
+<meta property="article:tag" content="Pyro">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="Sequential Monte Carlo">
+<meta property="article:tag" content="SMC">
+<meta property="article:tag" content="Stanford University">
+<meta property="article:tag" content="Uber AI Labs">
+<meta property="article:tag" content="Uber Open Source">
+<meta property="article:tag" content="WebPPL">
+<meta property="article:tag" content="Zoubin Ghahramani">
+<meta property="article:section" content="Announcement">
+<meta property="article:published_time" content="2017-11-03T05:55:14-07:00">
+<meta property="article:modified_time" content="2018-08-27T13:22:23-07:00">
+<meta property="og:updated_time" content="2018-08-27T13:22:23-07:00">
+<meta property="fb:app_id" content="1471833949804354">
+<meta property="og:image" content="http://eng.uber.com/wp-content/uploads/2017/11/Facebook-1.png">
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/eng.uber.com\/","name":"Uber Engineering Blog","alternateName":"Uber Eng","potentialAction":{"@type":"SearchAction","target":"https:\/\/eng.uber.com\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Organization","url":"https:\/\/eng.uber.com\/pyro\/","sameAs":["https:\/\/www.facebook.com\/uberengineering","https:\/\/www.instagram.com\/uberengineering\/","https:\/\/www.linkedin.com\/company\/uber.com\/careers","https:\/\/plus.google.com\/u\/0\/b\/107731750887846492390\/107731750887846492390","https:\/\/www.youtube.com\/uberengineering","https:\/\/twitter.com\/UberEng"],"@id":"#organization","name":"Uber Technologies","logo":"http:\/\/eng.uber.com\/wp-content\/uploads\/2017\/12\/cropped-uber-eng-avi.png"}</script>
+<!-- / Yoast SEO Premium plugin. -->
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Uber Engineering Blog » Feed" href="https://eng.uber.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Uber Engineering Blog » Comments Feed" href="https://eng.uber.com/comments/feed/">
+<!-- This site uses the Google Analytics by MonsterInsights plugin v7.1.0 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+<script type="text/javascript" data-cfasync="false">
+	var mi_version         = '7.1.0';
+	var mi_track_user      = true;
+	var mi_no_track_reason = '';
+	
+	var disableStr = 'ga-disable-UA-7157694-35';
+
+	/* Function to detect opted out users */
+	function __gaTrackerIsOptedOut() {
+		return document.cookie.indexOf(disableStr + '=true') > -1;
+	}
+
+	/* Disable tracking if the opt-out cookie exists. */
+	if ( __gaTrackerIsOptedOut() ) {
+		window[disableStr] = true;
+	}
+
+	/* Opt-out function */
+	function __gaTrackerOptout() {
+	  document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+	  window[disableStr] = true;
+	}
+	
+	if ( mi_track_user ) {
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+
+		__gaTracker('create', 'UA-7157694-35', 'auto', {'allowAnchor':true});
+		__gaTracker('set', 'forceSSL', true);
+		__gaTracker('require', 'displayfeatures');
+		__gaTracker('require', 'linkid', 'linkid.js');
+		__gaTracker('send','pageview');
+	} else {
+		console.log( "" );
+		(function() {
+			/* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+			var noopfn = function() {
+				return null;
+			};
+			var noopnullfn = function() {
+				return null;
+			};
+			var Tracker = function() {
+				return null;
+			};
+			var p = Tracker.prototype;
+			p.get = noopfn;
+			p.set = noopfn;
+			p.send = noopfn;
+			var __gaTracker = function() {
+				var len = arguments.length;
+				if ( len === 0 ) {
+					return;
+				}
+				var f = arguments[len-1];
+				if ( typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function' ) {
+					console.log( 'Not running function __gaTracker(' + arguments[0] + " ....) because you are not being tracked. " + mi_no_track_reason );
+					return;
+				}
+				try {
+					f.hitCallback();
+				} catch (ex) {
+
+				}
+			};
+			__gaTracker.create = function() {
+				return new Tracker();
+			};
+			__gaTracker.getByName = noopnullfn;
+			__gaTracker.getAll = function() {
+				return [];
+			};
+			__gaTracker.remove = noopfn;
+			window['__gaTracker'] = __gaTracker;
+					})();
+		}
+</script>
+<!-- / Google Analytics by MonsterInsights -->
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/eng.uber.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="wp-emoji-release.js" type="text/javascript" defer="defer"></script><script src="wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="quicklatex-format.css" type="text/css" media="all">
+<link rel="stylesheet" id="perfect-pullquotes-styles-css" href="perfect-pullquotes.css" type="text/css" media="all">
+<link rel="stylesheet" id="social_warfare-css" href="style.css" type="text/css" media="all">
+<link rel="stylesheet" id="td-plugin-multi-purpose-css" href="style_003.css" type="text/css" media="all">
+<link rel="stylesheet" id="google-fonts-style-css" href="css.css" type="text/css" media="all">
+<link rel="stylesheet" id="tablepress-default-css" href="default.css" type="text/css" media="all">
+<link rel="stylesheet" id="mc4wp-form-basic-css" href="form-basic.css" type="text/css" media="all">
+<link rel="stylesheet" id="td-theme-css" href="style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="codecolorer-css" href="codecolorer.css" type="text/css" media="screen">
+<script type="text/javascript">
+/* <![CDATA[ */
+var monsterinsights_frontend = {"js_events_tracking":"true","is_debug_mode":"false","download_extensions":"doc,exe,js,pdf,ppt,tgz,zip,xls","inbound_paths":"","home_url":"https:\/\/eng.uber.com","track_download_as":"event","internal_label":"int","hash_tracking":"false"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="frontend.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery-migrate.js"></script>
+<script type="text/javascript" src="wp-quicklatex-frontend.js"></script>
+<link rel="https://api.w.org/" href="https://eng.uber.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://eng.uber.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://eng.uber.com/wp-includes/wlwmanifest.xml"> 
+<link rel="shortlink" href="https://eng.uber.com/?p=1689">
+<link rel="alternate" type="application/json+oembed" href="https://eng.uber.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Feng.uber.com%2Fpyro%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://eng.uber.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Feng.uber.com%2Fpyro%2F&amp;format=xml">
+<meta property="fb:app_id" content="1471833949804354"><style id="sexy-author-bio-css" type="text/css" media="screen">
+					  #sexy-author-bio { background: #f8f8f8; border-style: solid; border-color: #c4c4c4; color: #09091a; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 4px; border-left-width: 0px; }
+					  #sab-author { font-family: 'ff-clan-web-pro','Helvetica Neue',Helvetica,sans-serif;font-weight: 500;font-size: 19px;line-height: 29.5px;}
+					  #sab-gravatar { width: 100px;}#sab-gravatar a { color: #333333;}
+					  #sab-author a { 
+					    margin-right:10px;text-decoration: none;text-transform: capitalize;color: #333333;}#sab-byline { color: #333333;font-family: 'ff-clan-web-pro','Helvetica Neue',Helvetica,sans-serif;font-weight: 500;font-size: 14px;line-height: 21.8px;text-decoration: none;text-transform: none;}
+					  #sab-description { font-family: 'ff-clan-web-pro','Helvetica Neue',Helvetica,sans-serif;font-weight: 400;font-size: 12px;line-height: 21.8px;}
+					  [id^=sig-] { height: 24px;width: 24px;margin-top: 6px;margin-right: 6px;margin-bottom: 6px;}
+					  #sab-social-wrapper a, #sexy-author-bio a, #sexy-author-bio div a { box-shadow: none; } #sab-author a { margin-right: 10px; text-transform: capitalize; color: inherit; background: transparent; text-decoration: none; -webkit-transition: all 0.14s ease 0s; outline: none; }
+					  @media (min-width: 1200px) {
+					  
+					  }
+					  @media (min-width: 1019px) and (max-width: 1199px) {
+					  
+					  }
+					  @media (min-width: 768px) and (max-width: 1018px) {
+					  
+					  }
+					  @media (max-width: 767px) {
+					  [id^=sig-] { margin-left: 0;margin-right: 6px;}
+					  
+					  }
+					  </style>			<script>
+				window.tdwGlobal = {"adminUrl":"https:\/\/eng.uber.com\/wp-admin\/","wpRestNonce":"4552ef2663","wpRestUrl":"https:\/\/eng.uber.com\/wp-json\/","permalinkStructure":"\/%postname%\/"};
+			</script>
+			<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+    <link rel="amphtml" href="https://eng.uber.com/pyro/amp/">
+<!-- JS generated by theme -->
+
+<script>
+    
+    
+
+	    var tdBlocksArray = []; //here we store all the items for the current page
+
+	    //td_block class - each ajax block uses a object of this class for requests
+	    function tdBlock() {
+		    this.id = '';
+		    this.block_type = 1; //block type id (1-234 etc)
+		    this.atts = '';
+		    this.td_column_number = '';
+		    this.td_current_page = 1; //
+		    this.post_count = 0; //from wp
+		    this.found_posts = 0; //from wp
+		    this.max_num_pages = 0; //from wp
+		    this.td_filter_value = ''; //current live filter value
+		    this.is_ajax_running = false;
+		    this.td_user_action = ''; // load more or infinite loader (used by the animation)
+		    this.header_color = '';
+		    this.ajax_pagination_infinite_stop = ''; //show load more at page x
+	    }
+
+
+        // td_js_generator - mini detector
+        (function(){
+            var htmlTag = document.getElementsByTagName("html")[0];
+
+	        if ( navigator.userAgent.indexOf("MSIE 10.0") > -1 ) {
+                htmlTag.className += ' ie10';
+            }
+
+            if ( !!navigator.userAgent.match(/Trident.*rv\:11\./) ) {
+                htmlTag.className += ' ie11';
+            }
+
+	        if ( navigator.userAgent.indexOf("Edge") > -1 ) {
+                htmlTag.className += ' ieEdge';
+            }
+
+            if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ) {
+                htmlTag.className += ' td-md-is-ios';
+            }
+
+            var user_agent = navigator.userAgent.toLowerCase();
+            if ( user_agent.indexOf("android") > -1 ) {
+                htmlTag.className += ' td-md-is-android';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Mac OS X')  ) {
+                htmlTag.className += ' td-md-is-os-x';
+            }
+
+            if ( /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) ) {
+               htmlTag.className += ' td-md-is-chrome';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Firefox') ) {
+                htmlTag.className += ' td-md-is-firefox';
+            }
+
+            if ( -1 !== navigator.userAgent.indexOf('Safari') && -1 === navigator.userAgent.indexOf('Chrome') ) {
+                htmlTag.className += ' td-md-is-safari';
+            }
+
+            if( -1 !== navigator.userAgent.indexOf('IEMobile') ){
+                htmlTag.className += ' td-md-is-iemobile';
+            }
+
+        })();
+
+
+
+
+        var tdLocalCache = {};
+
+        ( function () {
+            "use strict";
+
+            tdLocalCache = {
+                data: {},
+                remove: function (resource_id) {
+                    delete tdLocalCache.data[resource_id];
+                },
+                exist: function (resource_id) {
+                    return tdLocalCache.data.hasOwnProperty(resource_id) && tdLocalCache.data[resource_id] !== null;
+                },
+                get: function (resource_id) {
+                    return tdLocalCache.data[resource_id];
+                },
+                set: function (resource_id, cachedData) {
+                    tdLocalCache.remove(resource_id);
+                    tdLocalCache.data[resource_id] = cachedData;
+                }
+            };
+        })();
+
+    
+    
+var td_viewport_interval_list=[{"limitBottom":767,"sidebarWidth":228},{"limitBottom":1018,"sidebarWidth":300},{"limitBottom":1140,"sidebarWidth":324}];
+var td_animation_stack_effect="type2";
+var tds_animation_stack=true;
+var td_animation_stack_specific_selectors=".entry-thumb, img[class*=\"wp-image-\"], a.td-sml-link-to-image > img";
+var td_animation_stack_general_selectors=".td-animation-stack .entry-thumb, .post .entry-thumb, .post img[class*=\"wp-image-\"], a.td-sml-link-to-image > img";
+var td_ajax_url="https:\/\/eng.uber.com\/wp-admin\/admin-ajax.php?td_theme_name=Newspaper&v=9.0.1";
+var td_get_template_directory_uri="https:\/\/eng.uber.com\/wp-content\/themes\/Newspaper";
+var tds_snap_menu="";
+var tds_logo_on_sticky="";
+var tds_header_style="2";
+var td_please_wait="Please wait...";
+var td_email_user_pass_incorrect="User or password incorrect!";
+var td_email_user_incorrect="Email or username incorrect!";
+var td_email_incorrect="Email incorrect!";
+var tds_more_articles_on_post_enable="show";
+var tds_more_articles_on_post_time_to_wait="1";
+var tds_more_articles_on_post_pages_distance_from_top=600;
+var tds_theme_color_site_wide="#129299";
+var tds_smart_sidebar="enabled";
+var tdThemeName="Newspaper";
+var td_magnific_popup_translation_tPrev="Previous (Left arrow key)";
+var td_magnific_popup_translation_tNext="Next (Right arrow key)";
+var td_magnific_popup_translation_tCounter="%curr% of %total%";
+var td_magnific_popup_translation_ajax_tError="The content from %url% could not be loaded.";
+var td_magnific_popup_translation_image_tError="The image #%curr% could not be loaded.";
+var tdDateNamesI18n={"month_names":["January","February","March","April","May","June","July","August","September","October","November","December"],"month_names_short":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"day_names":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"day_names_short":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]};
+var td_ad_background_click_link="";
+var td_ad_background_click_target="";
+</script>
+
+<script type="application/ld+json">
+                        {
+                            "@context": "http://schema.org",
+                            "@type": "BreadcrumbList",
+                            "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                                "item": {
+                                "@type": "WebSite",
+                                "@id": "https://eng.uber.com/",
+                                "name": "Home"                                               
+                            }
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                                "item": {
+                                "@type": "WebPage",
+                                "@id": "https://eng.uber.com/category/announcement/",
+                                "name": "Announcement"
+                            }
+                        }    ]
+                        }
+                       </script><link rel="icon" href="https://eng.uber.com/wp-content/uploads/2018/09/favicon.png" sizes="32x32">
+<link rel="icon" href="https://eng.uber.com/wp-content/uploads/2018/09/favicon.png" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="https://eng.uber.com/wp-content/uploads/2018/09/favicon.png">
+<meta name="msapplication-TileImage" content="https://eng.uber.com/wp-content/uploads/2018/09/favicon.png">
+
+<!-- Button style compiled by theme -->
+
+<style>
+    .tdm-menu-active-style3 .tdm-header.td-header-wrap .sf-menu > .current-category-ancestor > a,
+                .tdm-menu-active-style3 .tdm-header.td-header-wrap .sf-menu > .current-menu-ancestor > a,
+                .tdm-menu-active-style3 .tdm-header.td-header-wrap .sf-menu > .current-menu-item > a,
+                .tdm-menu-active-style3 .tdm-header.td-header-wrap .sf-menu > .sfHover > a,
+                .tdm-menu-active-style3 .tdm-header.td-header-wrap .sf-menu > li > a:hover,
+                .tdm_block_column_content:hover .tdm-col-content-title-url .tdm-title,
+                .tds-button2 .tdm-btn-text,
+                .tds-button2 i,
+                .tds-button5:hover .tdm-btn-text,
+                .tds-button5:hover i,
+                .tds-button6 .tdm-btn-text,
+                .tds-button6 i,
+                .tdm_block_list .tdm-list-item i,
+                .tdm_block_pricing .tdm-pricing-feature i,
+                .tdm-social-item i {
+                  color: #129299;
+                }
+                .tdm-menu-active-style5 .td-header-menu-wrap .sf-menu > .current-menu-item > a,
+                .tdm-menu-active-style5 .td-header-menu-wrap .sf-menu > .current-menu-ancestor > a,
+                .tdm-menu-active-style5 .td-header-menu-wrap .sf-menu > .current-category-ancestor > a,
+                .tdm-menu-active-style5 .td-header-menu-wrap .sf-menu > li > a:hover,
+                .tdm-menu-active-style5 .td-header-menu-wrap .sf-menu > .sfHover > a,
+                .tds-button1,
+                .tds-button6:after,
+                .tds-title2 .tdm-title-line:after,
+                .tds-title3 .tdm-title-line:after,
+                .tdm_block_pricing.tdm-pricing-featured:before,
+                .tdm_block_pricing.tds_pricing2_block.tdm-pricing-featured .tdm-pricing-header,
+                .tds-progress-bar1 .tdm-progress-bar:after,
+                .tds-progress-bar2 .tdm-progress-bar:after,
+                .tds-social3 .tdm-social-item {
+                  background-color: #129299;
+                }
+                .tdm-menu-active-style4 .tdm-header .sf-menu > .current-menu-item > a,
+                .tdm-menu-active-style4 .tdm-header .sf-menu > .current-menu-ancestor > a,
+                .tdm-menu-active-style4 .tdm-header .sf-menu > .current-category-ancestor > a,
+                .tdm-menu-active-style4 .tdm-header .sf-menu > li > a:hover,
+                .tdm-menu-active-style4 .tdm-header .sf-menu > .sfHover > a,
+                .tds-button2:before,
+                .tds-button6:before,
+                .tds-progress-bar3 .tdm-progress-bar:after {
+                  border-color: #129299;
+                }
+                .tdm-btn-style1 {
+					background-color: #129299;
+				}
+				.tdm-btn-style2:before {
+				    border-color: #129299;
+				}
+				.tdm-btn-style2 {
+				    color: #129299;
+				}
+				.tdm-btn-style3 {
+				    -webkit-box-shadow: 0 2px 16px #129299;
+                    -moz-box-shadow: 0 2px 16px #129299;
+                    box-shadow: 0 2px 16px #129299;
+				}
+				.tdm-btn-style3:hover {
+				    -webkit-box-shadow: 0 4px 26px #129299;
+                    -moz-box-shadow: 0 4px 26px #129299;
+                    box-shadow: 0 4px 26px #129299;
+				}
+				
+				
+				.tdm-title-xxsm {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tdm-title-xsm {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tdm-title-sm {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tdm-title-md {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tdm-title-bg {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tds-title3 .tdm-title-sub,
+				.tds-title-over-image1 .tdm-title-sub {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm_block_client .tdm-client-name {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm_block_food_menu .tdm-title {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.td_block_fancy_text .tdm-fancy-title {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm-counter-wrap .tdm-counter-title {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm_block_progress_bar .tdm-progress-wrap .tdm-progress-title {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_team_member .tdm-title {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm_block_testimonial .tdm-testimonial-name {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				
+				.tdm_block_call_to_action .tdm-descr {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				.tdm_block_column_content .tdm-descr {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				.tdm_block_fancy_text_image .tdm-descr {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_food_menu .tdm-descr {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_hero .tdm-descr {
+				    font-family:UberMove-Medium;
+	
+				}
+				
+				.tdm_block_icon_box .tdm-descr {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_image_info_box .tdm-image-description p {
+				    font-family:UberMoveText-Light;
+	
+				}
+				
+				.tdm_block.tdm_block_inline_text .tdm-descr {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				.tdm_block_pricing .tdm-descr {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				.tdm_block_team_member .tdm-member-info .tdm-descr {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_testimonial .tdm-testimonial-descr {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				.tdm_block_text_image .tdm-descr {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm_block_list .tdm-list-items {
+				    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+				}
+				
+				
+				.tdm-btn-sm {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm-btn-md {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm-btn-lg {
+				    font-family:UberMoveText-Medium;
+	
+				}
+				
+				.tdm-btn-xlg {
+				    font-family:UberMoveText-Medium;
+	
+				}
+</style>
+
+<!--
+Plugin: Google meta tag Site Verification Plugin
+Tracking Code.
+
+-->
+
+<meta name="google-site-verification" content="r_qBO5P51Sv5ePmNkLpZnw72ZGPGptRNvmk-E7A4NnU">	<style id="tdw-css-placeholder"></style><script type="text/javascript" async="" charset="utf-8" id="utag_uber.main_1410" src="utag.js"></script></head>
+
+<body class="post-template-default single single-post postid-1689 single-format-standard pyro global-block-template-2 single_template_6 td-full-layout" itemscope="itemscope" itemtype="https://schema.org/WebPage">
+
+<!-- Loading script asynchronously -->
+<script type="text/javascript">
+ (function(a,b,c,d){
+ a='//tags.tiqcdn.com/utag/uber/main/prod/utag.js';
+ b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+ a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+ })();
+</script>
+<!-- END: T-WP -->
+
+
+        <div class="td-scroll-up td-scroll-up-visible"><i class="td-icon-menu-up"></i></div>
+    
+    <div class="td-menu-background"></div>
+<div id="td-mobile-nav" style="min-height: 1px;">
+    <div class="td-mobile-container">
+        <!-- mobile menu top section -->
+        <div class="td-menu-socials-wrap">
+            <!-- socials -->
+            <div class="td-menu-socials">
+                
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.facebook.com/uberengineering" title="Facebook">
+                <i class="td-icon-font td-icon-facebook"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://plus.google.com/107731750887846492390" title="Google+">
+                <i class="td-icon-font td-icon-googleplus"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.twitter.com/ubereng" title="Twitter">
+                <i class="td-icon-font td-icon-twitter"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.youtube.com/uberengineering" title="Youtube">
+                <i class="td-icon-font td-icon-youtube"></i>
+            </a>
+        </span>            </div>
+            <!-- close button -->
+            <div class="td-mobile-close">
+                <a href="#"><i class="td-icon-close-mobile"></i></a>
+            </div>
+        </div>
+
+        <!-- login section -->
+        
+        <!-- menu section -->
+        <div class="td-mobile-content">
+                    </div>
+    </div>
+
+    <!-- register/login section -->
+    </div>    <div class="td-search-background"></div>
+<div class="td-search-wrap-mob">
+	<div class="td-drop-down-search" aria-labelledby="td-header-search-button">
+		<form method="get" class="td-search-form" action="https://eng.uber.com/">
+			<!-- close button -->
+			<div class="td-search-close">
+				<a href="#"><i class="td-icon-close-mobile"></i></a>
+			</div>
+			<div role="search" class="td-search-input">
+				<span>Search</span>
+				<input id="td-header-search-mob" name="s" autocomplete="off" type="text">
+			</div>
+		</form>
+		<div id="td-aj-search-mob"></div>
+	</div>
+</div>    
+    
+    <div id="td-outer-wrap" class="td-theme-wrap">
+    
+        <!--
+Header style 2
+-->
+
+
+<div class="td-header-wrap td-header-style-2 ">
+    
+    <div class="td-header-top-menu-full td-container-wrap td_stretch_content">
+        <div class="td-container td-header-row td-header-top-menu">
+            
+    <div class="top-bar-style-1">
+        
+<div class="td-header-sp-top-menu">
+
+
+	        <div class="td_data_time">
+            <div>
+
+                Thursday, September 20, 2018
+            </div>
+        </div>
+    <div class="menu-top-container"><ul id="menu-home-menu" class="top-header-menu sf-js-enabled"><li id="menu-item-3824" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-first td-menu-item td-normal-menu menu-item-3824"><a href="https://eng.uber.com/">Home</a></li>
+<li id="menu-item-3816" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3816"><a href="https://uber.github.io/">Uber Open Source</a></li>
+<li id="menu-item-3817" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3817"><a href="https://ladyeng.uber.com/">Lady Eng</a></li>
+<li id="menu-item-3818" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3818"><a href="https://www.uber.com/careers/list/?city=all&amp;country=all&amp;keywords=&amp;subteam=all&amp;team=engineering">Jobs at Uber</a></li>
+<li id="menu-item-3819" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3819"><a href="https://www.uber.com/">Uber.com</a></li>
+</ul></div></div>
+        <div class="td-header-sp-top-widget">
+            <div class="td-search-btns-wrap">
+            <a id="td-header-search-button" href="#" role="button" class="dropdown-toggle " data-toggle="dropdown"><i class="td-icon-search"></i></a>
+        </div>
+
+
+        <div class="td-drop-down-search" aria-labelledby="td-header-search-button">
+            <form method="get" class="td-search-form" action="https://eng.uber.com/">
+                <div role="search" class="td-head-form-search-wrap">
+                    <input id="td-header-search" name="s" autocomplete="off" type="text"><input class="wpb_button wpb_btn-inverse btn" id="td-header-search-top" value="Search" type="submit">
+                </div>
+            </form>
+            <div id="td-aj-search"></div>
+        </div>
+    
+    
+        
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.facebook.com/uberengineering" title="Facebook">
+                <i class="td-icon-font td-icon-facebook"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://plus.google.com/107731750887846492390" title="Google+">
+                <i class="td-icon-font td-icon-googleplus"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.twitter.com/ubereng" title="Twitter">
+                <i class="td-icon-font td-icon-twitter"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.youtube.com/uberengineering" title="Youtube">
+                <i class="td-icon-font td-icon-youtube"></i>
+            </a>
+        </span>    </div>    </div>
+
+<!-- LOGIN MODAL -->
+        </div>
+    </div>
+
+    <div class="td-header-menu-wrap-full td-container-wrap td_stretch_content">
+        
+        <div class="td-header-menu-wrap td-header-gradient td-header-menu-no-search">
+            <div class="td-container td-header-row td-header-main-menu">
+                <div id="td-header-menu" role="navigation">
+    <div id="td-top-mobile-toggle"><a href="#"><i class="td-icon-font td-icon-mobile"></i></a></div>
+    <div class="td-main-menu-logo td-logo-in-header">
+        		<a class="td-mobile-logo td-sticky-disable" href="https://eng.uber.com/">
+			<img class="td-retina-data" data-retina="https://eng.uber.com/wp-content/uploads/2018/09/uber-eng-mobile-logo-b-h-280.png" src="uber-eng-mobile-logo-b-h-140.png" alt="Uber Engineering" title="Uber Engineering">
+		</a>
+			<a class="td-header-logo td-sticky-disable" href="https://eng.uber.com/">
+			<img class="td-retina-data" data-retina="https://eng.uber.com/wp-content/uploads/2018/09/uber-eng-site-logo-b-h-544.png" src="uber-eng-site-logo-b-h-272.png" alt="Uber Engineering" title="Uber Engineering">
+		</a>
+	    </div>
+    </div>
+
+
+    <div class="td-search-wrapper">
+        <div id="td-top-search">
+            <!-- Search -->
+            <div class="header-search-wrap">
+                <div class="dropdown header-search">
+                    <a id="td-header-search-button-mob" href="#" role="button" class="dropdown-toggle " data-toggle="dropdown"><i class="td-icon-search"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="td-banner-wrap-full td-container-wrap td_stretch_content">
+        <div class="td-container td-header-row td-header-header">
+            <div class="td-header-sp-logo">
+                        <a class="td-main-logo" href="https://eng.uber.com/">
+            <img class="td-retina-data" data-retina="https://eng.uber.com/wp-content/uploads/2018/09/uber-eng-site-logo-b-h-544.png" src="uber-eng-site-logo-b-h-272.png" alt="Uber Engineering" title="Uber Engineering">
+            <span class="td-visual-hidden">Uber Engineering Blog</span>
+        </a>
+                </div>
+                    </div>
+    </div>
+
+</div><article id="post-1689" class="td-post-template-6 post-1689 post type-post status-publish format-standard has-post-thumbnail hentry category-announcement tag-ai tag-alpha-divergence tag-artificial-intelligence tag-automatic-default-guides tag-automatic-differentiation tag-bayesian-modeling tag-deep-learning tag-edward tag-gan-based-loss tag-gaussian-processes tag-helmholtz-machine tag-infovae tag-law-of-total-variance tag-machine-learning tag-markov-chain-monte-carlo tag-mcmc tag-ml tag-monte-carlo tag-noah-goodman tag-open-source tag-os tag-ppl tag-probabilistic-programming-language tag-pyro tag-python tag-pytorch tag-sequential-monte-carlo tag-smc tag-stanford-university tag-uber-ai-labs tag-uber-open-source tag-webppl tag-zoubin-ghahramani td-container-wrap" itemscope="" itemtype="https://schema.org/Article">
+
+    <div class="td-full-screen-header-image-wrap">
+
+        <div id="td-full-screen-header-image" class="td-image-gradient-style6">
+            <div class="td_marker_animation" style="height: 0; width: 0"></div><img class="td-backstretch td-stretch-height" src="Header-1.png" style="opacity: 1; left: 50%; transform: translate3d(-50%, 118px, 0px) scale(1.06, 1.06);">
+        </div>
+
+        <div class="td-container td-post-header">
+
+            <div class="td-post-header-holder">
+                <div class="entry-crumbs"><span><a title="" class="entry-crumb" href="https://eng.uber.com/">Home</a></span> <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> <span class="td-bred-no-url-last">Announcement</span></div>
+                <header class="td-post-title">
+
+                    <ul class="td-category"></ul>                    <h1 class="entry-title">Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language</h1>
+
+                    
+
+                    <div class="td-module-meta-info">
+                                                <span class="td-post-date td-post-date-no-dot"><time class="entry-date updated td-module-date" datetime="2017-11-03T05:55:14+00:00">November 3, 2017</time></span>                                                                    </div>
+
+                </header>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="td-container">
+        <div class="td-pb-row">
+                                    <div class="td-pb-span8 td-main-content" role="main">
+                            <div class="td-ss-main-content">
+                                
+    <div class="td-post-sharing-top"><div id="td_social_sharing_article_top" class="td-post-sharing td-ps-dark-bg td-ps-notext td-post-sharing-style14 "><div class="td-post-sharing-visible" style=""><a class="td-social-sharing-button td-social-sharing-button-js td-social-network td-social-mail" href="mailto:?subject=Uber%20AI%20Labs%20Open%20Sources%20Pyro,%20a%20Deep%20Probabilistic%20Programming%20Language&amp;body=https://eng.uber.com/pyro/" style="transition: opacity 0.2s ease 0s; opacity: 1;">
+                                        <div class="td-social-but-icon"><i class="td-icon-mail"></i></div>
+                                        <div class="td-social-but-text">Email</div>
+                                    </a><a class="td-social-sharing-button td-social-sharing-button-js td-social-network td-social-print" href="#" style="transition: opacity 0.2s ease 0s; opacity: 1;">
+                                        <div class="td-social-but-icon"><i class="td-icon-print"></i></div>
+                                        <div class="td-social-but-text">Print</div>
+                                    </a></div><div class="td-social-sharing-hidden" style="display: none;"><ul class="td-pulldown-filter-list"></ul><a class="td-social-sharing-button td-social-handler td-social-expand-tabs" href="#" data-block-uid="td_social_sharing_article_top">
+                                    <div class="td-social-but-icon"><i class="td-icon-plus td-social-expand-tabs-icon"></i></div>
+                                </a></div></div></div>
+    <div class="td-post-content">
+        <div class="swp_social_panel swp_horizontal_panel  swp_flat_fresh  swp_default_custom_color swp_other_custom_color swp_individual_custom_color  scale-100 scale-full_width" data-min-width="1100" "="" data-float-color="#ffffff" data-float="top" data-float-mobile="bottom" style=""><div class="nc_tweetContainer swp_twitter" data-network="twitter"><a rel="nofollow noreferrer noopener" target="_blank" href="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" data-link="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_twitter_icon"></i><span class="swp_share">Tweet</span></span></span></span></a></div><div class="nc_tweetContainer swp_facebook" data-network="facebook"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_facebook_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_linkedin" data-network="linkedin"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_linkedin_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_hacker_news" data-network="hacker_news"><a rel="nofollow noreferrer noopener" target="_blank" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" data-link="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_hacker_news_icon"></i><span class="swp_share">Vote</span></span></span></span></a></div><div class="nc_tweetContainer swp_reddit" data-network="reddit"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_reddit_icon"></i><span class="swp_share">Reddit</span></span></span></span></a></div><div class="nc_tweetContainer swp_google_plus" data-network="google_plus"><a rel="nofollow noreferrer noopener" target="_blank" href="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_google_plus_icon"></i><span class="swp_share">+1</span></span></span></span></a></div></div><p><span style="font-weight: 400;">Achieving
+ Uber’s goal of bringing reliable transportation to everyone requires 
+effortless prediction and optimization at every turn. Opportunities 
+range from matching riders to drivers, to suggesting optimal routes, 
+finding sensible pool combinations, and even creating the next 
+generation of intelligent vehicles. To solve these challenges, we are 
+combining state-of-the-art artificial intelligence (AI) techniques with 
+the rich expertise of data scientists, engineers, and other users. We 
+are exploring a tool-first approach that will enable us and others to 
+make the next generation of AI solutions.</span></p>
+<p><span style="font-weight: 400;">As part of this initiative, </span><a href="http://uber.ai/" target="_blank" rel="noopener"><span style="font-weight: 400;">Uber AI Labs</span></a><span style="font-weight: 400;"> is excited to announce the open source release of our </span><a href="http://pyro.ai/" target="_blank" rel="noopener"><span style="font-weight: 400;">Pyro probabilistic programming language</span></a><span style="font-weight: 400;">! Pyro is a tool for deep probabilistic modeling, unifying the best of modern deep learning and </span><a href="http://mlg.eng.cam.ac.uk/zoubin/talks/lect1bayes.pdf" target="_blank" rel="noopener"><span style="font-weight: 400;">Bayesian modeling</span></a><span style="font-weight: 400;">.
+ The goal of Pyro is to accelerate research and applications of these 
+techniques, and to make them more accessible to the broader AI 
+community.</span></p>
+<p><span style="font-weight: 400;">Uber AI Labs is diverse both in terms
+ of the applications we are exploring and the techniques we use. We 
+bring together multiple tribes of AI, with experts in deep learning, 
+Bayesian methods, evolutionary computation, and reinforcement learning. 
+Pyro itself brings together the best of modern deep learning, Bayesian 
+modeling, and software abstraction: it is a modern, universal, deep 
+probabilistic programming language.</span></p>
+<p><span style="font-weight: 400;">We believe the critical ideas to 
+solve AI will come from a joint effort among a worldwide community of 
+people pursuing diverse approaches. By open sourcing Pyro, we hope to 
+encourage the scientific world to collaborate on making AI tools more 
+flexible, open, and easy-to-use. We expect the current (alpha!) version 
+of Pyro will be of most interest to probabilistic modelers who want to 
+leverage large data sets and deep networks,&nbsp;</span><a href="http://pytorch.org/" target="_blank" rel="noopener"><span style="font-weight: 400;">PyTorch</span></a><span style="font-weight: 400;"> users who want easy-to-use Bayesian computation, and&nbsp; data scientists ready to explore the ragged edge of new technology.</span></p>
+<p><span style="font-weight: 400;">Below we describe our motivations for
+ creating Pyro, outline its design principles and a few implementation 
+insights, and indicate next steps for further developing this framework.</span></p>
+<p>&nbsp;</p>
+<h3><span style="font-weight: 400;">Why Pyro?</span></h3>
+<p><span style="font-weight: 400;">Probability is the mathematics of 
+reasoning under uncertainty, much as calculus is the mathematics for 
+reasoning about rates of change. Models built in the language of 
+probability can capture complex reasoning, know what they do not know, 
+and uncover structure in data without supervision. Further, probability 
+provides a way for human experts to provide knowledge to AI systems in 
+the form of </span><i><span style="font-weight: 400;">a priori</span></i><span style="font-weight: 400;"> beliefs.</span></p>
+<p><span style="font-weight: 400;">Specifying probabilistic models 
+directly can be cumbersome and implementing them can be very 
+error-prone. Probabilistic programming languages (PPLs) solve these 
+problems by marrying probability with the representational power of 
+programming languages. A probabilistic program is a mix of ordinary 
+deterministic computation and randomly sampled values; this stochastic 
+computation represents a generative story about data. The probabilities 
+are implicit in this representation</span><span style="font-weight: 400;">—</span><span style="font-weight: 400;">there
+ is no need to derive formulas—and yet this specification is also 
+universal: any computable probabilistic model can be written this way. 
+Pyro builds on full <a href="http://www.python.org/" target="_blank" rel="noopener">Python</a> as its base language, making it clear and familiar to many.</span></p>
+<p><span style="font-weight: 400;">By observing the outcome of a 
+probabilistic program, we can describe an inference problem, roughly 
+translated as: “what must be true if this random choice had a certain 
+observed value?” Probabilistic programming systems provide universal 
+inference algorithms that can perform inference with little intervention
+ from the user. Think of this as the compiler for a PPL: it allows us to
+ divide labor between the modeler and the inference expert.</span></p>
+<p><span style="font-weight: 400;">Yet inference is the key challenge 
+for probabilistic modeling, and non-scalable inference is the main 
+failure mode of PPLs. Leveraging the power of deep learning, recent 
+advances have introduced a new approach to probabilistic inference and 
+PPL implementation. The key idea is to describe inference in a model via
+ a second model called an inference model, or </span><i><span style="font-weight: 400;">guide</span></i><span style="font-weight: 400;"> in Pyro. (This is actually an idea that goes back as far as at least the </span><a href="https://en.wikipedia.org/wiki/Helmholtz_machine" target="_blank" rel="noopener"><span style="font-weight: 400;">Helmholtz machine</span></a><span style="font-weight: 400;">.)
+ Just as a model is a generative story for the data, a guide is a 
+generative story for translating the data into latent choices. </span></p>
+<p><span style="font-weight: 400;">Of course, we cannot simply write down the correct guide (that is why inference is hard). Instead, we use the </span><a href="https://en.wikipedia.org/wiki/Variational_Bayesian_methods" target="_blank" rel="noopener"><span style="font-weight: 400;">variational approach</span></a><span style="font-weight: 400;">,
+ specifying a parameterized family of guides and then solving an 
+optimization problem to move the guide toward the posterior distribution
+ of the model. This optimization can be automated thanks to </span><a href="https://en.wikipedia.org/wiki/Automatic_differentiation" target="_blank" rel="noopener"><span style="font-weight: 400;">automatic differentiation</span></a><span style="font-weight: 400;">,
+ a technique for efficiently computing the gradient of a program, and 
+several tricks for estimating the gradient of an expectation. </span></p>
+<p><span style="font-weight: 400;">Pyro builds on the excellent PyTorch 
+library, which includes automatic differentiation using very fast, 
+GPU-accelerated tensor math. PyTorch constructs gradients dynamically, 
+which enables Pyro programs to include </span><span style="font-weight: 400;"><a href="https://en.wikipedia.org/wiki/Stochastic_control" target="_blank" rel="noopener">stochastic control</a> structure</span><span style="font-weight: 400;">,
+ that is, random choices in a Pyro program can control the presence of 
+other random choices in the program. Stochastic control structure is 
+crucial to make a PPL universal. Hence, Pyro can represent any 
+probabilistic model, while providing automatic optimization-based 
+inference that is flexible and scalable to large data sets. </span></p>
+<p><span style="font-weight: 400;">In Pyro, both the generative models 
+and the inference guides can include deep neural networks as components.
+ The resulting deep probabilistic models have shown great promise in 
+recent work, especially for unsupervised and semi-supervised machine 
+learning problems.</span></p>
+<p><span style="font-weight: 400;">In summary:</span></p>
+<ul>
+<li style="font-weight: 400;"><b>Why probabilistic modeling?</b><span style="font-weight: 400;">
+ To correctly capture uncertainty in models and predictions for 
+unsupervised and semi-supervised learning, and to provide AI systems 
+with declarative prior knowledge.</span></li>
+<li style="font-weight: 400;"><b>Why (universal) probabilistic programs?</b><span style="font-weight: 400;"> To provide a clear and high-level, but complete, language for specifying complex models.</span></li>
+<li style="font-weight: 400;"><b>Why deep probabilistic models?</b><span style="font-weight: 400;"> To learn generative knowledge from data and reify knowledge of how to do inference.</span></li>
+<li style="font-weight: 400;"><b>Why inference by optimization?</b><span style="font-weight: 400;"> To enable scaling to large data and leverage advances in modern optimization and variational inference.</span></li>
+</ul>
+<p>&nbsp;</p>
+<h3><span style="font-weight: 400;">Pyro design principles and insights</span></h3>
+<p><span style="font-weight: 400;">In developing Pyro, we have aimed to satisfy four design principles. Pyro was built to be:</span></p>
+<ul>
+<li style="font-weight: 400;"><b>Universal</b><span style="font-weight: 400;">:
+ Pyro is a universal PPL—it can represent any computable probability 
+distribution. How? By starting from a universal language with iteration 
+and recursion (arbitrary Python code), and then adding random sampling, 
+observation, and inference.</span></li>
+<li style="font-weight: 400;"><b>Scalable</b><span style="font-weight: 400;">:
+ Pyro scales to large data sets with little overhead above hand-written 
+code. How? By building modern black box optimization techniques, which 
+use mini-batches of data, to approximate inference.</span></li>
+<li style="font-weight: 400;"><b>Minimal</b><span style="font-weight: 400;">:
+ Pyro is agile and maintainable. How? Pyro is implemented with a small 
+core of powerful, composable abstractions. Wherever possible, the heavy 
+lifting is delegated to PyTorch and other libraries.</span></li>
+<li style="font-weight: 400;"><b>Flexible</b><span style="font-weight: 400;">:
+ Pyro aims for automation when you want it and control when you need it.
+ How? Pyro uses high-level abstractions to express generative and 
+inference models, while allowing experts to easily customize inference.</span></li>
+</ul>
+<p><span style="font-weight: 400;">These principles often pull Pyro’s 
+implementation in opposite directions. Being universal, for instance, 
+requires allowing arbitrary control structure within Pyro programs, but 
+this generality makes it difficult to scale. Similarly, automatic 
+construction of objective functions using minimal abstractions makes it 
+much easier to prototype new models, but this also tends to hide the 
+objective computation from advanced users who want the flexibility to 
+modify the objective. </span></p>
+<p><span style="font-weight: 400;">During our research, we resolved these tensions by borrowing many techniques from other PPL efforts (notably </span><a href="http://webppl.org/" target="_blank" rel="noopener"><span style="font-weight: 400;">WebPPL</span></a><span style="font-weight: 400;"> and </span><a href="http://edwardlib.org/" target="_blank" rel="noopener"><span style="font-weight: 400;">Edward</span></a><span style="font-weight: 400;">)
+ and discovering a few new ideas. For example, we found that composable 
+effect handlers cleanly separate control flow manipulation from 
+computation of the objective function. The basic operations in a PPL are
+ sampling from a distribution, observing sampled values, and inferring 
+the resulting posterior over executions. However, the required behavior 
+of sampling statements depends on the inference context in which they 
+occur. For instance, when computing the standard evidence-lower-bound 
+objective, sampling statements in the guide should actually sample new 
+values, while sampling statements in the model should only reuse these 
+values. The Pyro implementation builds these context-specific effects 
+out of a set of <em>Poutine</em> objects (a tasty portmanteau for Pyro 
+Coroutine), such as Trace, Replay, and Condition. Each Poutine provides a
+ small modification to the handling of Pyro constructs (sampling, 
+parameter construction, etc); layering Poutines together allows us to 
+build the operations needed for different inference algorithms. With 
+this program logic handled by Poutines, the main inference code focuses 
+on constructing objectives and estimating gradients.</span></p>
+<p>&nbsp;</p>
+<h3><span style="font-weight: 400;">Next steps</span></h3>
+<p><span style="font-weight: 400;">Already useful for research in its 
+alpha state, Pyro will continue to change rapidly in the coming months 
+as we further engage with the probabilistic programming and deep 
+learning communities. </span></p>
+<p><span style="font-weight: 400;">Possible directions for extending and
+ improving Pyro are manifold, reflecting both the many application 
+domains of Pyro and the vibrant research community working on deep 
+probabilistic modeling and inference. Some of our highest-priority 
+technical directions include:</span></p>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Improving the abstractions for rapid modeling (e.g. by providing </span><a href="https://arxiv.org/abs/1610.05735" target="_blank" rel="noopener"><span style="font-weight: 400;">automatic default guides</span></a><span style="font-weight: 400;">) and advanced usage (e.g., by refining the composition contract of our Poutine objects).</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Adding additional objectives (e.g.,&nbsp;</span><a href="https://en.wikipedia.org/wiki/R%C3%A9nyi_entropy" target="_blank" rel="noopener"><span style="font-weight: 400;">alpha divergence</span></a><span style="font-weight: 400;">, </span><a href="https://arxiv.org/abs/1706.02262" target="_blank" rel="noopener"><span style="font-weight: 400;">infoVAE</span></a><span style="font-weight: 400;">, and </span><a href="https://arxiv.org/abs/1606.03657" target="_blank" rel="noopener"><span style="font-weight: 400;">GAN-based loss</span></a><span style="font-weight: 400;">) and additional techniques for estimating expectations of gradients.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Adding </span><a href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo" target="_blank" rel="noopener"><span style="font-weight: 400;">Markov chain Monte Carlo</span></a><span style="font-weight: 400;"> (MCMC) and </span><a href="https://en.wikipedia.org/wiki/Particle_filter" target="_blank" rel="noopener"><span style="font-weight: 400;">Sequential Monte Carlo</span></a><span style="font-weight: 400;"> (SMC) inference, especially Hamiltonian Monte Carlo (HMC), and using these within variational inference objectives.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Exploring idioms for </span><a href="https://en.wikipedia.org/wiki/Gaussian_process" target="_blank" rel="noopener"><span style="font-weight: 400;">Gaussian processes</span></a><span style="font-weight: 400;"> and applications such as Bayesian optimization.</span></li>
+</ul>
+<p><span style="font-weight: 400;">Longer term, we hope that the main 
+directions of Pyro development will be driven by applications and the 
+priorities of the emerging Pyro community (as reflected in its </span><a href="https://github.com/uber/pyro" target="_blank" rel="noopener"><span style="font-weight: 400;">Github issues</span></a><span style="font-weight: 400;">).</span></p>
+<p><i><span style="font-weight: 400;">Noah Goodman is a researcher at 
+Uber AI Labs and an Associate Professor of Psychology and Computer 
+Science at Stanford University. </span></i></p>
+<p><i><span style="font-weight: 400;">The Uber development team for Pyro
+ includes Eli Bingham, Jonathan P. Chen, Martin Jankowiak, Theofanis 
+Karaletsos, Fritz Obermeyer, Neeraj Pradhan, Rohit Singh, Paul Szerlip 
+and Noah Goodman.</span></i></p>
+<p><i><span style="font-weight: 400;">Uber is also grateful for contributions and feedback from Paul Horsfall, Dustin Tran, Robert Hawkins, and Andreas Stuhlmueller.</span></i></p>
+<div id="wpdevar_comment_1" style="width:100%;text-align:left;">
+		<span style="padding: 10px;font-size:21px;font-family:ff-clan-web-pro,Helvetica Neue,Helvetica,sans-serif;color:#000000;">Comments</span>
+		<div class="fb-comments" data-href="https://eng.uber.com/pyro/" data-order-by="social" data-numposts="5" data-width="100%" style="display:block;"></div></div><div class="swp_social_panel swp_horizontal_panel  swp_flat_fresh  swp_default_custom_color swp_other_custom_color swp_individual_custom_color  scale-100 scale-full_width" data-min-width="1100" "="" data-float-color="#ffffff" data-float="top" data-float-mobile="bottom" style=""><div class="nc_tweetContainer swp_twitter" data-network="twitter"><a rel="nofollow noreferrer noopener" target="_blank" href="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" data-link="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_twitter_icon"></i><span class="swp_share">Tweet</span></span></span></span></a></div><div class="nc_tweetContainer swp_facebook" data-network="facebook"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_facebook_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_linkedin" data-network="linkedin"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_linkedin_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_hacker_news" data-network="hacker_news"><a rel="nofollow noreferrer noopener" target="_blank" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" data-link="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_hacker_news_icon"></i><span class="swp_share">Vote</span></span></span></span></a></div><div class="nc_tweetContainer swp_reddit" data-network="reddit"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_reddit_icon"></i><span class="swp_share">Reddit</span></span></span></span></a></div><div class="nc_tweetContainer swp_google_plus" data-network="google_plus"><a rel="nofollow noreferrer noopener" target="_blank" href="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_google_plus_icon"></i><span class="swp_share">+1</span></span></span></span></a></div></div><div class="swp-content-locator"></div><div id="sexy-author-bio" style="" class="noah-goodman,-on-behalf-of-the-pyro-development-team"><script type="application/ld+json">
+					{
+					  "@context" : "http://schema.org",
+					  "@type" : "Person",
+					  "name" : "Noah Goodman, on behalf of the Pyro Development Team",
+					  "url" : "",
+					  "sameAs" : [
+					  ]
+					}
+					</script><div id="sab-social-wrapper"></div><div id="sab-author"><a rel="author" href="https://eng.uber.com/author/noah-goodman/" title="Noah Goodman, on behalf of the Pyro Development Team" target="_top">Noah Goodman, on behalf of the Pyro Development Team</a></div><div id="sab-gravatar"><a href="https://eng.uber.com/author/noah-goodman/" target="_top"><img alt="Noah Goodman, on behalf of the Pyro Development Team" src="a2188b71d2a796023f4f46d9fa09c21d.png" srcset="https://secure.gravatar.com/avatar/a2188b71d2a796023f4f46d9fa09c21d?s=200&amp;d=blank&amp;r=g 2x" class="avatar avatar-100 photo" width="100" height="100"></a></div><div id="sab-description"></div></div>    </div>
+
+
+    <footer>
+                
+        <div class="td-post-source-tags">
+                        <ul class="td-tags td-post-small-box clearfix"><li><span>TAGS</span></li><li><a href="https://eng.uber.com/tag/ai/">AI</a></li><li><a href="https://eng.uber.com/tag/alpha-divergence/">Alpha Divergence</a></li><li><a href="https://eng.uber.com/tag/artificial-intelligence/">artificial intelligence</a></li><li><a href="https://eng.uber.com/tag/automatic-default-guides/">Automatic Default Guides</a></li><li><a href="https://eng.uber.com/tag/automatic-differentiation/">Automatic Differentiation</a></li><li><a href="https://eng.uber.com/tag/bayesian-modeling/">Bayesian Modeling</a></li><li><a href="https://eng.uber.com/tag/deep-learning/">Deep Learning</a></li><li><a href="https://eng.uber.com/tag/edward/">Edward</a></li><li><a href="https://eng.uber.com/tag/gan-based-loss/">GAN-based loss</a></li><li><a href="https://eng.uber.com/tag/gaussian-processes/">Gaussian processes</a></li><li><a href="https://eng.uber.com/tag/helmholtz-machine/">Helmholtz Machine</a></li><li><a href="https://eng.uber.com/tag/infovae/">infoVAE</a></li><li><a href="https://eng.uber.com/tag/law-of-total-variance/">Law of Total Variance</a></li><li><a href="https://eng.uber.com/tag/machine-learning/">Machine Learning</a></li><li><a href="https://eng.uber.com/tag/markov-chain-monte-carlo/">Markov chain Monte Carlo</a></li><li><a href="https://eng.uber.com/tag/mcmc/">MCMC</a></li><li><a href="https://eng.uber.com/tag/ml/">ML</a></li><li><a href="https://eng.uber.com/tag/monte-carlo/">Monte Carlo</a></li><li><a href="https://eng.uber.com/tag/noah-goodman/">Noah Goodman</a></li><li><a href="https://eng.uber.com/tag/open-source/">Open Source</a></li><li><a href="https://eng.uber.com/tag/os/">OS</a></li><li><a href="https://eng.uber.com/tag/ppl/">PPL</a></li><li><a href="https://eng.uber.com/tag/probabilistic-programming-language/">Probabilistic Programming Language</a></li><li><a href="https://eng.uber.com/tag/pyro/">Pyro</a></li><li><a href="https://eng.uber.com/tag/python/">Python</a></li><li><a href="https://eng.uber.com/tag/pytorch/">PyTorch</a></li><li><a href="https://eng.uber.com/tag/sequential-monte-carlo/">Sequential Monte Carlo</a></li><li><a href="https://eng.uber.com/tag/smc/">SMC</a></li><li><a href="https://eng.uber.com/tag/stanford-university/">Stanford University</a></li><li><a href="https://eng.uber.com/tag/uber-ai-labs/">Uber AI Labs</a></li><li><a href="https://eng.uber.com/tag/uber-open-source/">Uber Open Source</a></li><li><a href="https://eng.uber.com/tag/webppl/">WebPPL</a></li><li><a href="https://eng.uber.com/tag/zoubin-ghahramani/">Zoubin Ghahramani</a></li></ul>        </div>
+
+                <div class="td-block-row td-post-next-prev"><div class="td-block-span6 td-post-prev-post"><div class="td-post-next-prev-content"><span>Previous article</span><a href="https://eng.uber.com/on-call-dashboard/">Engineering Uber’s On-Call Dashboard</a></div></div><div class="td-next-prev-separator"></div><div class="td-block-span6 td-post-next-post"><div class="td-post-next-prev-content"><span>Next article</span><a href="https://eng.uber.com/machine-learning/">Engineering More Reliable Transportation with Machine Learning and AI at Uber</a></div></div></div>        <div class="td-author-name vcard author" style="display: none"><span class="fn"><a href="https://eng.uber.com/author/noah-goodman/">Noah Goodman, on behalf of the Pyro Development Team</a></span></div>	    <span class="td-page-meta" itemprop="author" itemscope="" itemtype="https://schema.org/Person"><meta itemprop="name" content="Noah Goodman, on behalf of the Pyro Development Team"></span><meta itemprop="datePublished" content="2017-11-03T05:55:14+00:00"><meta itemprop="dateModified" content="2018-08-27T13:22:23+00:00"><meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://eng.uber.com/pyro/"><span class="td-page-meta" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization"><span class="td-page-meta" itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://eng.uber.com/wp-content/uploads/2018/09/uber-eng-site-logo-b-h-272.png"></span><meta itemprop="name" content="Uber Engineering Blog"></span><meta itemprop="headline " content="Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language"><span class="td-page-meta" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://eng.uber.com/wp-content/uploads/2017/11/Header-1.png"><meta itemprop="width" content="792"><meta itemprop="height" content="340"></span>    </footer>
+
+    <div class="td_block_wrap td_block_related_posts td_uid_2_5ba45af84c03e_rand td_with_ajax_pagination td-pb-border-top td_block_template_2" data-td-block-uid="td_uid_2_5ba45af84c03e"><script>var block_td_uid_2_5ba45af84c03e = new tdBlock();
+block_td_uid_2_5ba45af84c03e.id = "td_uid_2_5ba45af84c03e";
+block_td_uid_2_5ba45af84c03e.atts = '{"limit":6,"ajax_pagination":"next_prev","live_filter":"cur_post_same_tags","td_ajax_filter_type":"td_custom_related","class":"td_uid_2_5ba45af84c03e_rand","td_column_number":3,"live_filter_cur_post_id":1689,"live_filter_cur_post_author":"339","block_template_id":"","header_color":"","ajax_pagination_infinite_stop":"","offset":"","td_ajax_preloading":"","td_filter_default_txt":"","td_ajax_filter_ids":"","el_class":"","color_preset":"","border_top":"","css":"","tdc_css":"","tdc_css_class":"td_uid_2_5ba45af84c03e_rand","tdc_css_class_style":"td_uid_2_5ba45af84c03e_rand_style"}';
+block_td_uid_2_5ba45af84c03e.td_column_number = "3";
+block_td_uid_2_5ba45af84c03e.block_type = "td_block_related_posts";
+block_td_uid_2_5ba45af84c03e.post_count = "6";
+block_td_uid_2_5ba45af84c03e.found_posts = "23";
+block_td_uid_2_5ba45af84c03e.header_color = "";
+block_td_uid_2_5ba45af84c03e.ajax_pagination_infinite_stop = "";
+block_td_uid_2_5ba45af84c03e.max_num_pages = "4";
+tdBlocksArray.push(block_td_uid_2_5ba45af84c03e);
+</script><h4 class="td-related-title td-block-title"><a id="td_uid_3_5ba45af851bd4" class="td-related-left td-cur-simple-item" data-td_filter_value="" data-td_block_id="td_uid_2_5ba45af84c03e" href="#">RELATED ARTICLES</a><a id="td_uid_4_5ba45af851c1a" class="td-related-right" data-td_filter_value="td_related_more_from_author" data-td_block_id="td_uid_2_5ba45af84c03e" href="#">MORE FROM AUTHOR</a></h4><div id="td_uid_2_5ba45af84c03e" class="td_block_inner">
+
+	<div class="td-related-row">
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/uber-eats-recommending-marketplace/" rel="bookmark" class="td-image-wrap" title="Food Discovery with Uber Eats: Recommending for the Marketplace"><img class="entry-thumb td-animation-stack-type2-1" src="Uber_Eats_Recommending_Feature_image-218x150.png" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Uber_Eats_Recommending_Feature_image-218x150.png 218w, https://eng.uber.com/wp-content/uploads/2018/09/Uber_Eats_Recommending_Feature_image-100x70.png 100w" sizes="(max-width: 218px) 100vw, 218px" alt="Food Discovery with Uber Eats: Recommending for the Marketplace" title="Food Discovery with Uber Eats: Recommending for the Marketplace" width="218" height="150"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/uber-eats-recommending-marketplace/" rel="bookmark" title="Food Discovery with Uber Eats: Recommending for the Marketplace">Food Discovery with Uber Eats: Recommending for the Marketplace</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 -->
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/forecasting-introduction/" rel="bookmark" class="td-image-wrap" title="Forecasting at Uber: An Introduction"><img class="entry-thumb td-animation-stack-type2-1" src="Header-218x150.png" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Header-218x150.png 218w, https://eng.uber.com/wp-content/uploads/2018/09/Header-100x70.png 100w" sizes="(max-width: 218px) 100vw, 218px" alt="" title="Forecasting at Uber: An Introduction" width="218" height="150"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/forecasting-introduction/" rel="bookmark" title="Forecasting at Uber: An Introduction">Forecasting at Uber: An Introduction</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 -->
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/cota-v2/" rel="bookmark" class="td-image-wrap" title="Scaling Uber’s Customer Support Ticket Assistant (COTA) System with Deep Learning"><img class="entry-thumb td-animation-stack-type2-1" src="Header-Image-1.png" srcset="https://eng.uber.com/wp-content/uploads/2018/08/Header-Image-1.png 1872w, https://eng.uber.com/wp-content/uploads/2018/08/Header-Image-1-300x129.png 300w, https://eng.uber.com/wp-content/uploads/2018/08/Header-Image-1-768x329.png 768w, https://eng.uber.com/wp-content/uploads/2018/08/Header-Image-1-1024x439.png 1024w" sizes="(max-width: 218px) 100vw, 218px" alt="" title="Scaling Uber’s Customer Support Ticket Assistant (COTA) System with Deep Learning" width="218" height="93"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/cota-v2/" rel="bookmark" title="Scaling Uber’s Customer Support Ticket Assistant (COTA) System with Deep Learning">Scaling Uber’s Customer Support Ticket Assistant (COTA) System with Deep Learning</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 --></div><!--./row-fluid-->
+
+	<div class="td-related-row">
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/coordconv/" rel="bookmark" class="td-image-wrap" title="An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution"><img class="entry-thumb td-animation-stack-type2-1" src="Featured-Image-1-218x150.png" srcset="https://eng.uber.com/wp-content/uploads/2018/07/Featured-Image-1-218x150.png 218w, https://eng.uber.com/wp-content/uploads/2018/07/Featured-Image-1-100x70.png 100w" sizes="(max-width: 218px) 100vw, 218px" alt="" title="An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution" width="218" height="150"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/coordconv/" rel="bookmark" title="An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution">An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 -->
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/transforming-financial-forecasting-machine-learning/" rel="bookmark" class="td-image-wrap" title="Transforming Financial Forecasting with Data Science and Machine Learning at Uber"><img class="entry-thumb td-animation-stack-type2-1" src="FF_feature-01.png" srcset="https://eng.uber.com/wp-content/uploads/2018/07/FF_feature-01.png 1400w, https://eng.uber.com/wp-content/uploads/2018/07/FF_feature-01-300x150.png 300w, https://eng.uber.com/wp-content/uploads/2018/07/FF_feature-01-768x384.png 768w, https://eng.uber.com/wp-content/uploads/2018/07/FF_feature-01-1024x512.png 1024w" sizes="(max-width: 218px) 100vw, 218px" alt="World map with stack of gold coins" title="Transforming Financial Forecasting with Data Science and Machine Learning at Uber" width="218" height="109"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/transforming-financial-forecasting-machine-learning/" rel="bookmark" title="Transforming Financial Forecasting with Data Science and Machine Learning at Uber">Transforming Financial Forecasting with Data Science and Machine Learning at Uber</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 -->
+
+	<div class="td-related-span4">
+
+        <div class="td_module_related_posts td-animation-stack td_mod_related_posts">
+            <div class="td-module-image">
+                <div class="td-module-thumb"><a href="https://eng.uber.com/m4-forecasting-competition/" rel="bookmark" class="td-image-wrap" title="M4 Forecasting Competition: Introducing a New Hybrid ES-RNN Model"><img class="entry-thumb td-animation-stack-type2-1" src="Slawek-header.png" srcset="https://eng.uber.com/wp-content/uploads/2018/06/Slawek-header.png 2232w, https://eng.uber.com/wp-content/uploads/2018/06/Slawek-header-300x129.png 300w, https://eng.uber.com/wp-content/uploads/2018/06/Slawek-header-768x329.png 768w, https://eng.uber.com/wp-content/uploads/2018/06/Slawek-header-1024x439.png 1024w" sizes="(max-width: 218px) 100vw, 218px" alt="" title="M4 Forecasting Competition: Introducing a New Hybrid ES-RNN Model" width="218" height="93"></a></div>                            </div>
+            <div class="item-details">
+                <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/m4-forecasting-competition/" rel="bookmark" title="M4 Forecasting Competition: Introducing a New Hybrid ES-RNN Model">M4 Forecasting Competition: Introducing a New Hybrid ES-RNN Model</a></h3>            </div>
+        </div>
+        
+	</div> <!-- ./td-related-span4 --></div><!--./row-fluid--></div><div class="td-next-prev-wrap"><a href="#" class="td-ajax-prev-page ajax-page-disabled" id="prev-page-td_uid_2_5ba45af84c03e" data-td_block_id="td_uid_2_5ba45af84c03e"><i class="td-icon-font td-icon-menu-left"></i></a><a href="#" class="td-ajax-next-page" id="next-page-td_uid_2_5ba45af84c03e" data-td_block_id="td_uid_2_5ba45af84c03e"><i class="td-icon-font td-icon-menu-right"></i></a></div></div> <!-- ./block -->
+	<div class="comments" id="comments">
+            </div> <!-- /.content -->
+                            </div>
+                        </div>
+                        <div class="td-pb-span4 td-main-sidebar" role="complementary">
+                            <div class="td-ss-main-sidebar">
+                                <aside class="td_block_template_2 widget widget_search"><form method="get" class="td-search-form-widget" action="https://eng.uber.com/">
+    <div role="search">
+        <input class="td-widget-search-input" name="s" id="s" type="text"><input class="wpb_button wpb_btn-inverse btn" id="searchsubmit" value="Search" type="submit">
+    </div>
+</form></aside><aside class="td_block_template_2 widget widget_mc4wp_form_widget"><script>(function() {
+	if (!window.mc4wp) {
+		window.mc4wp = {
+			listeners: [],
+			forms    : {
+				on: function (event, callback) {
+					window.mc4wp.listeners.push({
+						event   : event,
+						callback: callback
+					});
+				}
+			}
+		}
+	}
+})();
+</script><!-- MailChimp for WordPress v4.2.5 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-532 mc4wp-form-basic" method="post" data-id="532" data-name="Default sign-up form"><div class="mc4wp-form-fields"><p>
+	<label style="font-family:'ff-clan-web-pro',sans-serif;     font-weight: 500; padding-bottom: 12px;">Sign up for Uber Engineering updates:</label>
+	<input style="font-family: 'ff-clan-web-pro-wide', sans-serif;" name="EMAIL" placeholder="YOUR EMAIL ADDRESS" required="" type="email">
+</p>
+
+<p>
+	<input style="height: 32px; position: text-shadow: none; padding: 7px 15px 8px 15px; line-height: 16px; margin: 0; font-family: ClanPro, ff-clan-web-pro-wide, sans-serif; font-size: 13px; background-color: #222222; border-radius: 0; color: #fff; border: none; font-weight: 500;" value="Subscribe" type="submit">
+</p></div><label style="display: none !important;">Leave this field empty if you're human: <input name="_mc4wp_honeypot" tabindex="-1" autocomplete="off" type="text"></label><input name="_mc4wp_timestamp" value="1537497848" type="hidden"><input name="_mc4wp_form_id" value="532" type="hidden"><input name="_mc4wp_form_element_id" value="mc4wp-form-1" type="hidden"><div class="mc4wp-response"></div></form><!-- / MailChimp for WordPress Plugin --></aside><aside class="td_block_template_2 widget widget_swp_popular_posts_widget"><div class="widget-text swp_widget_box" style="background:transparent;"><h4 class="td-block-title"><span><span class="widgettitle widget-title swp_popular_posts_title" style="">Most Popular Articles</span></span></h4><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/mysql-migration/"><b>Why Uber Engineering Switched from Postgres to MySQL</b><span class="swp_pop_count">23K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/rethinking-gps/"><b>Rethinking GPS: Engineering Next-Gen Location at Uber</b><span class="swp_pop_count">20K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/intrinsic-dimension/"><b>Measuring the Intrinsic Dimension of Objective Landscapes</b><span class="swp_pop_count">19K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/accelerated-neuroevolution/"><b>Accelerating Deep Neuroevolution: Train Atari in Hours on a Single Personal Computer</b><span class="swp_pop_count">16K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/mediation-modeling/"><b>Mediation Modeling at Uber: Understanding Why Product Changes Work (and Don’t Work)</b><span class="swp_pop_count">16K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/benito-sanchez-profile/"><b>From Milking Cows to Writing Code: A Dreamer’s Journey</b><span class="swp_pop_count">12K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/omphalos/"><b>Omphalos, Uber’s Parallel and Language-Extensible Time Series Backtesting Tool</b><span class="swp_pop_count">10K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/emilee-urbanek/"><b>Engineering Confidence: A Beginner’s Guide to Overcoming Imposter Syndrome</b><span class="swp_pop_count">10K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/fusionjs/"><b>Introducing Fusion.js: A Plugin-based Universal Web Framework</b><span class="swp_pop_count">7K Total Shares</span></a></div><div class="swp_clearfix"></div><div class="swp_popular_post"><a style="font-size:100%;" class="swp_popularity" href="https://eng.uber.com/michelangelo/"><b>Meet Michelangelo: Uber’s Machine Learning Platform</b><span class="swp_pop_count">6K Total Shares</span></a></div><div class="swp_clearfix"></div></div></aside><aside class="td_block_template_2 widget widget_categories"><h4 class="td-block-title"><span>Categories</span></h4>		<ul>
+	<li class="cat-item cat-item-844"><a href="https://eng.uber.com/category/articles/ai/">AI</a>
+</li>
+	<li class="cat-item cat-item-18"><a href="https://eng.uber.com/category/announcement/">Announcement</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="https://eng.uber.com/category/articles/architecture/">Architecture</a>
+</li>
+	<li class="cat-item cat-item-6423"><a href="https://eng.uber.com/category/oss-projects/oss-backend/">Backend</a>
+</li>
+	<li class="cat-item cat-item-24"><a href="https://eng.uber.com/category/articles/culture/">Culture</a>
+</li>
+	<li class="cat-item cat-item-3403"><a href="https://eng.uber.com/category/articles/developers/">Developers</a>
+</li>
+	<li class="cat-item cat-item-54"><a href="https://eng.uber.com/category/articles/events-article/">Events</a>
+</li>
+	<li class="cat-item cat-item-32"><a href="https://eng.uber.com/category/articles/general-engineering/">General Engineering</a>
+</li>
+	<li class="cat-item cat-item-22"><a href="https://eng.uber.com/category/articles/mobile/">Mobile</a>
+</li>
+	<li class="cat-item cat-item-5899"><a href="https://eng.uber.com/category/articles/opensource-articles/">Open Source</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="https://eng.uber.com/category/articles/team-profile/">Team Profile</a>
+</li>
+	<li class="cat-item cat-item-21"><a href="https://eng.uber.com/category/articles/uberdata/">Uber Data</a>
+</li>
+		</ul>
+</aside>                            </div>
+                        </div>
+                            </div> <!-- /.td-pb-row -->
+    </div> <!-- /.td-container -->
+</article> <!-- /.post -->
+
+<!-- Instagram -->
+
+
+
+
+	<!-- Footer -->
+	<div class="td-footer-wrapper td-container-wrap td_stretch_content">
+    <div class="td-container">
+
+	    <div class="td-pb-row">
+		    <div class="td-pb-span12">
+                		    </div>
+	    </div>
+
+        <div class="td-pb-row">
+
+            <div class="td-pb-span4">
+                <div class="td_block_wrap td_block_7 td_block_widget td_uid_6_5ba45af8612e7_rand td-pb-border-top td_block_template_1 td-column-1 td_block_padding" data-td-block-uid="td_uid_6_5ba45af8612e7"><script>var block_td_uid_6_5ba45af8612e7 = new tdBlock();
+block_td_uid_6_5ba45af8612e7.id = "td_uid_6_5ba45af8612e7";
+block_td_uid_6_5ba45af8612e7.atts = '{"custom_title":"Newest Articles","custom_url":"\/","block_template_id":"td_block_template_1","header_text_color":"#","accent_text_color":"#","m6_tl":"","limit":"5","offset":"","el_class":"","post_ids":"","category_id":"","category_ids":"","tag_slug":"","autors_id":"","installed_post_types":"","sort":"","td_ajax_filter_type":"","td_ajax_filter_ids":"","td_filter_default_txt":"All","td_ajax_preloading":"","ajax_pagination":"","ajax_pagination_infinite_stop":"","class":"td_block_widget td_uid_6_5ba45af8612e7_rand","separator":"","f_header_font_header":"","f_header_font_title":"Block header","f_header_font_settings":"","f_header_font_family":"","f_header_font_size":"","f_header_font_line_height":"","f_header_font_style":"","f_header_font_weight":"","f_header_font_transform":"","f_header_font_spacing":"","f_header_":"","f_ajax_font_title":"Ajax categories","f_ajax_font_settings":"","f_ajax_font_family":"","f_ajax_font_size":"","f_ajax_font_line_height":"","f_ajax_font_style":"","f_ajax_font_weight":"","f_ajax_font_transform":"","f_ajax_font_spacing":"","f_ajax_":"","f_more_font_title":"Load more button","f_more_font_settings":"","f_more_font_family":"","f_more_font_size":"","f_more_font_line_height":"","f_more_font_style":"","f_more_font_weight":"","f_more_font_transform":"","f_more_font_spacing":"","f_more_":"","m6f_title_font_header":"","m6f_title_font_title":"Article title","m6f_title_font_settings":"","m6f_title_font_family":"","m6f_title_font_size":"","m6f_title_font_line_height":"","m6f_title_font_style":"","m6f_title_font_weight":"","m6f_title_font_transform":"","m6f_title_font_spacing":"","m6f_title_":"","m6f_cat_font_title":"Article category tag","m6f_cat_font_settings":"","m6f_cat_font_family":"","m6f_cat_font_size":"","m6f_cat_font_line_height":"","m6f_cat_font_style":"","m6f_cat_font_weight":"","m6f_cat_font_transform":"","m6f_cat_font_spacing":"","m6f_cat_":"","m6f_meta_font_title":"Article meta info","m6f_meta_font_settings":"","m6f_meta_font_family":"","m6f_meta_font_size":"","m6f_meta_font_line_height":"","m6f_meta_font_style":"","m6f_meta_font_weight":"","m6f_meta_font_transform":"","m6f_meta_font_spacing":"","m6f_meta_":"","css":"","tdc_css":"","td_column_number":1,"header_color":"","color_preset":"","border_top":"","tdc_css_class":"td_uid_6_5ba45af8612e7_rand","tdc_css_class_style":"td_uid_6_5ba45af8612e7_rand_style"}';
+block_td_uid_6_5ba45af8612e7.td_column_number = "1";
+block_td_uid_6_5ba45af8612e7.block_type = "td_block_7";
+block_td_uid_6_5ba45af8612e7.post_count = "5";
+block_td_uid_6_5ba45af8612e7.found_posts = "291";
+block_td_uid_6_5ba45af8612e7.header_color = "";
+block_td_uid_6_5ba45af8612e7.ajax_pagination_infinite_stop = "";
+block_td_uid_6_5ba45af8612e7.max_num_pages = "59";
+tdBlocksArray.push(block_td_uid_6_5ba45af8612e7);
+</script><div class="td-block-title-wrap"><h4 class="block-title td-block-title"><a href="https://eng.uber.com/" class="td-pulldown-size">Newest Articles</a></h4></div><div id="td_uid_6_5ba45af8612e7" class="td_block_inner">
+
+	<div class="td-block-span12">
+
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/joe-zhou-career-move/" rel="bookmark" class="td-image-wrap" title="From Financial Models to iOS Model View Controllers: Making a Career Move to Programming"><img class="entry-thumb td-animation-stack-type2-1" src="image4-100x70.jpg" srcset="https://eng.uber.com/wp-content/uploads/2018/09/image4-100x70.jpg 100w, https://eng.uber.com/wp-content/uploads/2018/09/image4-218x150.jpg 218w" sizes="(max-width: 100px) 100vw, 100px" alt="" title="From Financial Models to iOS Model View Controllers: Making a Career Move to Programming" width="100" height="70"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/joe-zhou-career-move/" rel="bookmark" title="From Financial Models to iOS Model View Controllers: Making a Career Move to Programming">From Financial Models to iOS Model View Controllers: Making a Career...</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2018-09-18T09:00:44+00:00">September 18, 2018</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+	</div> <!-- ./td-block-span12 -->
+
+	<div class="td-block-span12">
+
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/marmaray-hadoop-ingestion-open-source/" rel="bookmark" class="td-image-wrap" title="Marmaray: An Open Source Generic Data Ingestion and Dispersal Framework and Library for Apache Hadoop"><img class="entry-thumb td-animation-stack-type2-1" src="Marmaray_Feature_image-1-100x70.png" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Marmaray_Feature_image-1-100x70.png 100w, https://eng.uber.com/wp-content/uploads/2018/09/Marmaray_Feature_image-1-218x150.png 218w" sizes="(max-width: 100px) 100vw, 100px" alt="Marmaray logo" title="Marmaray: An Open Source Generic Data Ingestion and Dispersal Framework and Library for Apache Hadoop" width="100" height="70"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/marmaray-hadoop-ingestion-open-source/" rel="bookmark" title="Marmaray: An Open Source Generic Data Ingestion and Dispersal Framework and Library for Apache Hadoop">Marmaray: An Open Source Generic Data Ingestion and Dispersal Framework and...</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2018-09-12T06:00:13+00:00">September 12, 2018</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+	</div> <!-- ./td-block-span12 -->
+
+	<div class="td-block-span12">
+
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/safety-data-scientist-sunny-jeon-profile/" rel="bookmark" class="td-image-wrap" title="Talking Safety with Uber Data Scientist Sunny Jeon"><img class="entry-thumb td-animation-stack-type2-1" src="Sunny_Jeon_interview-feature-100x70.jpg" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Sunny_Jeon_interview-feature-100x70.jpg 100w, https://eng.uber.com/wp-content/uploads/2018/09/Sunny_Jeon_interview-feature-218x150.jpg 218w" sizes="(max-width: 100px) 100vw, 100px" alt="Sunny Jeon" title="Talking Safety with Uber Data Scientist Sunny Jeon" width="100" height="70"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/safety-data-scientist-sunny-jeon-profile/" rel="bookmark" title="Talking Safety with Uber Data Scientist Sunny Jeon">Talking Safety with Uber Data Scientist Sunny Jeon</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2018-09-11T09:00:00+00:00">September 11, 2018</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+	</div> <!-- ./td-block-span12 -->
+
+	<div class="td-block-span12">
+
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/uber-eats-recommending-marketplace/" rel="bookmark" class="td-image-wrap" title="Food Discovery with Uber Eats: Recommending for the Marketplace"><img class="entry-thumb td-animation-stack-type2-1" src="Uber_Eats_Recommending_Feature_image-100x70.png" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Uber_Eats_Recommending_Feature_image-100x70.png 100w, https://eng.uber.com/wp-content/uploads/2018/09/Uber_Eats_Recommending_Feature_image-218x150.png 218w" sizes="(max-width: 100px) 100vw, 100px" alt="Food Discovery with Uber Eats: Recommending for the Marketplace" title="Food Discovery with Uber Eats: Recommending for the Marketplace" width="100" height="70"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/uber-eats-recommending-marketplace/" rel="bookmark" title="Food Discovery with Uber Eats: Recommending for the Marketplace">Food Discovery with Uber Eats: Recommending for the Marketplace</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2018-09-10T09:00:08+00:00">September 10, 2018</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+	</div> <!-- ./td-block-span12 -->
+
+	<div class="td-block-span12">
+
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/forecasting-introduction/" rel="bookmark" class="td-image-wrap" title="Forecasting at Uber: An Introduction"><img class="entry-thumb td-animation-stack-type2-1" src="Header-100x70.png" srcset="https://eng.uber.com/wp-content/uploads/2018/09/Header-100x70.png 100w, https://eng.uber.com/wp-content/uploads/2018/09/Header-218x150.png 218w" sizes="(max-width: 100px) 100vw, 100px" alt="" title="Forecasting at Uber: An Introduction" width="100" height="70"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/forecasting-introduction/" rel="bookmark" title="Forecasting at Uber: An Introduction">Forecasting at Uber: An Introduction</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2018-09-06T09:00:05+00:00">September 6, 2018</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+	</div> <!-- ./td-block-span12 --></div></div> <!-- ./block -->            </div>
+
+            <div class="td-pb-span8">
+                <aside class="td_block_template_2 widget widget_media_video"><h4 class="td-block-title"><span>Uber Tech Day 2018: Going Global</span></h4><div class="arve-wrapper" data-mode="normal" data-provider="youtube" id="arve-g4-6LpkpLoc" itemscope="" itemtype="http://schema.org/VideoObject"><div class="arve-embed-container" style="padding-bottom:56.250000%"><meta itemprop="name" content="Uber Tech Day 2018: Going Global"><iframe allow="autoplay; fullscreen" allowfullscreen="" class="arve-iframe fitvidsignore" name="" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups" scrolling="no" src="https://www.youtube-nocookie.com/embed/g4-6LpkpLoc?iv_load_policy=3&amp;modestbranding=1&amp;rel=0&amp;autohide=1&amp;playsinline=1&amp;list=PLLEUtp5eGr7AytzGur7BrSX9Of2z4rtpN&amp;autoplay=0" frameborder="0"></iframe></div></div></aside>            </div>
+        </div>
+    </div>
+
+    <div class="td-footer-bottom-full">
+        <div class="td-container">
+            <div class="td-pb-row">
+                <div class="td-pb-span3"><aside class="footer-logo-wrap"><a href="https://eng.uber.com/"><img class="td-retina-data" src="uber-eng-site-logo-w-h-272-3.png" data-retina="https://eng.uber.com/wp-content/uploads/2018/09/uber-eng-site-logo-w-h-544-3.png" alt="Uber Engineering" title="Uber Engineering" width="272"></a></aside></div><div class="td-pb-span5"><aside class="footer-text-wrap"><div class="block-title"><span>ABOUT US</span></div><div class="footer-email-wrap">Contact us: <a href="mailto:engblog@uber.com">engblog@uber.com</a></div></aside></div><div class="td-pb-span4"><aside class="footer-social-wrap td-social-style-2"><div class="block-title"><span>FOLLOW US</span></div>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.facebook.com/uberengineering" title="Facebook">
+                <i class="td-icon-font td-icon-facebook"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://plus.google.com/107731750887846492390" title="Google+">
+                <i class="td-icon-font td-icon-googleplus"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.twitter.com/ubereng" title="Twitter">
+                <i class="td-icon-font td-icon-twitter"></i>
+            </a>
+        </span>
+        <span class="td-social-icon-wrap">
+            <a target="_blank" href="https://www.youtube.com/uberengineering" title="Youtube">
+                <i class="td-icon-font td-icon-youtube"></i>
+            </a>
+        </span></aside></div>            </div>
+        </div>
+    </div>
+</div>
+	<!-- Sub Footer -->
+	    <div class="td-sub-footer-container td-container-wrap td_stretch_content">
+        <div class="td-container">
+            <div class="td-pb-row">
+                <div class="td-pb-span td-sub-footer-menu">
+                    <div class="menu-footer-menu-container"><ul id="menu-footer-menu" class="td-subfooter-menu"><li id="menu-item-3825" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-first td-menu-item td-normal-menu menu-item-3825"><a href="https://eng.uber.com/">Home</a></li>
+<li id="menu-item-3811" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3811"><a href="https://uber.github.io/">Uber Open Source</a></li>
+<li id="menu-item-3812" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3812"><a href="http://ladyeng.uber.com/">Lady Eng</a></li>
+<li id="menu-item-3813" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3813"><a href="https://www.uber.com/careers/list/?city=all&amp;country=all&amp;keywords=&amp;subteam=all&amp;team=engineering">Jobs at Uber</a></li>
+<li id="menu-item-3814" class="menu-item menu-item-type-custom menu-item-object-custom td-menu-item td-normal-menu menu-item-3814"><a href="https://www.uber.com/">Uber.com</a></li>
+</ul></div>                </div>
+
+                <div class="td-pb-span td-sub-footer-copy">
+                    © 2014-2018 Uber Technologies, Inc. | <a class="privacy-policy-link" href="https://eng.uber.com/privacy-policy/">Privacy Policy</a>                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div><!--close td-outer-wrap-->
+
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1471833949804354&version=v2.3";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>	
+                    <div class="td-more-articles-box">
+                    <i class="td-icon-close td-close-more-articles-box"></i>
+                    <span class="td-more-articles-box-title">MORE STORIES</span>
+                    <div class="td-content-more-articles-box">
+
+                    
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/intro/" rel="bookmark" class="td-image-wrap" title="An Intro to the Uber Engineering Blog"><img class="entry-thumb td-animation-stack-type2-1" src="uber_sf_header.jpg" srcset="https://eng.uber.com/wp-content/uploads/2015/01/uber_sf_header.jpg 2135w, https://eng.uber.com/wp-content/uploads/2015/01/uber_sf_header-300x137.jpg 300w, https://eng.uber.com/wp-content/uploads/2015/01/uber_sf_header-1024x468.jpg 1024w" sizes="(max-width: 100px) 100vw, 100px" alt="" title="An Intro to the Uber Engineering Blog" width="100" height="46"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/intro/" rel="bookmark" title="An Intro to the Uber Engineering Blog">An Intro to the Uber Engineering Blog</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2015-07-28T08:00:57+00:00">July 28, 2015</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/uber-open-source/" rel="bookmark" class="td-image-wrap" title="Announcing Uber Engineering’s Open Source Site"><img class="entry-thumb td-animation-stack-type2-1" src="UberOpenSourceHeader.png" srcset="https://eng.uber.com/wp-content/uploads/2015/08/UberOpenSourceHeader.png 1400w, https://eng.uber.com/wp-content/uploads/2015/08/UberOpenSourceHeader-300x129.png 300w, https://eng.uber.com/wp-content/uploads/2015/08/UberOpenSourceHeader-1024x439.png 1024w" sizes="(max-width: 100px) 100vw, 100px" alt="" title="Announcing Uber Engineering’s Open Source Site" width="100" height="43"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/uber-open-source/" rel="bookmark" title="Announcing Uber Engineering’s Open Source Site">Announcing Uber Engineering’s Open Source Site</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2015-08-25T09:50:08+00:00">August 25, 2015</time></span>                            </div>
+        </div>
+
+        </div>
+
+        
+        <div class="td_module_6 td_module_wrap td-animation-stack">
+
+        <div class="td-module-thumb"><a href="https://eng.uber.com/bug-bounty/" rel="bookmark" class="td-image-wrap" title="Uber Engineering Bug Bounty: The Treasure Map"><img class="entry-thumb td-animation-stack-type2-1" src="bug_bounty_header_.jpg" srcset="https://eng.uber.com/wp-content/uploads/2016/03/bug_bounty_header_.jpg 1400w, https://eng.uber.com/wp-content/uploads/2016/03/bug_bounty_header_-300x129.jpg 300w, https://eng.uber.com/wp-content/uploads/2016/03/bug_bounty_header_-1024x439.jpg 1024w" sizes="(max-width: 100px) 100vw, 100px" alt="" title="Uber Engineering Bug Bounty: The Treasure Map" width="100" height="43"></a></div>
+        <div class="item-details">
+            <h3 class="entry-title td-module-title"><a href="https://eng.uber.com/bug-bounty/" rel="bookmark" title="Uber Engineering Bug Bounty: The Treasure Map">Uber Engineering Bug Bounty: The Treasure Map</a></h3>            <div class="td-module-meta-info">
+                                                <span class="td-post-date"><time class="entry-date updated td-module-date" datetime="2016-03-22T07:57:17+00:00">March 22, 2016</time></span>                            </div>
+        </div>
+
+        </div>
+
+                            </div>
+                </div>
+
+    <!--
+
+        Theme: Newspaper by tagDiv.com 2017
+        Version: 9.0.1 (rara)
+        Deploy mode: deploy
+        Speed booster: v4.9.3
+
+        uid: 5ba45af876078
+    -->
+
+    <script>(function() {function addEventListener(element,event,handler) {
+	if(element.addEventListener) {
+		element.addEventListener(event,handler, false);
+	} else if(element.attachEvent){
+		element.attachEvent('on'+event,handler);
+	}
+}function maybePrefixUrlField() {
+	if(this.value.trim() !== '' && this.value.indexOf('http') !== 0) {
+		this.value = "http://" + this.value;
+	}
+}
+
+var urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]');
+if( urlFields && urlFields.length > 0 ) {
+	for( var j=0; j < urlFields.length; j++ ) {
+		addEventListener(urlFields[j],'blur',maybePrefixUrlField);
+	}
+}/* test if browser supports date fields */
+var testInput = document.createElement('input');
+testInput.setAttribute('type', 'date');
+if( testInput.type !== 'date') {
+
+	/* add placeholder & pattern to all date fields */
+	var dateFields = document.querySelectorAll('.mc4wp-form input[type="date"]');
+	for(var i=0; i<dateFields.length; i++) {
+		if(!dateFields[i].placeholder) {
+			dateFields[i].placeholder = 'YYYY-MM-DD';
+		}
+		if(!dateFields[i].pattern) {
+			dateFields[i].pattern = '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])';
+		}
+	}
+}
+
+})();</script><link rel="stylesheet" id="dashicons-css" href="dashicons.css" type="text/css" media="all">
+<link rel="stylesheet" id="thickbox-css" href="thickbox.css" type="text/css" media="all">
+<link rel="stylesheet" id="sexy-author-bio-styles-css" href="public.css" type="text/css" media="all">
+<link rel="stylesheet" id="advanced-responsive-video-embedder-css" href="arve.css" type="text/css" media="all">
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="tagdiv_theme.js"></script>
+<script type="text/javascript" src="comment-reply.js"></script>
+<script type="text/javascript" src="wp-embed.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"https:\/\/eng.uber.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="thickbox.js"></script>
+<script type="text/javascript" src="arve.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var mc4wp_forms_config = [];
+/* ]]> */
+</script>
+<script type="text/javascript" src="forms-api.js"></script>
+<!--[if lte IE 9]>
+<script type='text/javascript' src='https://eng.uber.com/wp-content/plugins/mailchimp-for-wp/assets/js/third-party/placeholders.min.js?ver=4.2.5'></script>
+<![endif]-->
+<script type="text/javascript">var swpFloatBeforeContent = false;var swpClickTracking = true; swpPinIt={"enabled":false};</script><style data-rh="true">
+  @font-face {
+    font-family: 'UberMove';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Light.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Light.woff')
+        format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMove';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Regular.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Regular.woff')
+        format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMove';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff')
+        format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMove';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Bold.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Bold.woff')
+        format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMoveText';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Light.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Light.woff')
+        format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMoveText';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Regular.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Regular.woff')
+        format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMoveText';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Medium.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Medium.woff')
+        format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'UberMoveText';
+    src: url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Bold.woff2')
+        format('woff2'),
+      url('https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Bold.woff')
+        format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+<!-- JS generated by theme -->
+
+<script>
+    
+jQuery(window).ready(function() {
+(function(){
+var td_backstr_item = new tdBackstr.item();
+td_backstr_item.wrapper_image_jquery_obj = jQuery( "#td-full-screen-header-image" );
+td_backstr_item.image_jquery_obj = td_backstr_item.wrapper_image_jquery_obj.find( 'img:first' );
+tdBackstr.add_item( td_backstr_item );
+})();
+});
+
+                jQuery().ready(function jQuery_ready() {
+                    tdAjaxCount.tdGetViewsCountsAjax("post","[1689]");
+                });
+            
+
+	
+
+		(function(){
+			var html_jquery_obj = jQuery('html');
+
+			if (html_jquery_obj.length && (html_jquery_obj.is('.ie8') || html_jquery_obj.is('.ie9'))) {
+
+				var path = 'https://eng.uber.com/wp-content/themes/Newspaper/style.css';
+
+				jQuery.get(path, function(data) {
+
+					var str_split_separator = '#td_css_split_separator';
+					var arr_splits = data.split(str_split_separator);
+					var arr_length = arr_splits.length;
+
+					if (arr_length > 1) {
+
+						var dir_path = 'https://eng.uber.com/wp-content/themes/Newspaper';
+						var splited_css = '';
+
+						for (var i = 0; i < arr_length; i++) {
+							if (i > 0) {
+								arr_splits[i] = str_split_separator + ' ' + arr_splits[i];
+							}
+							//jQuery('head').append('<style>' + arr_splits[i] + '</style>');
+
+							var formated_str = arr_splits[i].replace(/\surl\(\'(?!data\:)/gi, function regex_function(str) {
+								return ' url(\'' + dir_path + '/' + str.replace(/url\(\'/gi, '').replace(/^\s+|\s+$/gm,'');
+							});
+
+							splited_css += "<style>" + formated_str + "</style>";
+						}
+
+						var td_theme_css = jQuery('link#td-theme-css');
+
+						if (td_theme_css.length) {
+							td_theme_css.after(splited_css);
+						}
+					}
+				});
+			}
+		})();
+
+	
+	
+</script>
+
+
+<!-- Header style compiled by theme -->
+
+<style>
+    
+
+                                    @font-face {
+                                      font-family: "UberMove-Medium";
+                                      src: local("UberMove-Medium"), url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff") format("woff");
+                                    }
+                                
+                                    @font-face {
+                                      font-family: "UberMoveText-Light";
+                                      src: local("UberMoveText-Light"), url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Light.woff") format("woff");
+                                    }
+                                
+                                    @font-face {
+                                      font-family: "UberMoveText-Medium";
+                                      src: local("UberMoveText-Medium"), url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Medium.woff") format("woff");
+                                    }
+                                
+                                    @font-face {
+                                      font-family: "UberMoveText-Bold";
+                                      src: local("UberMoveText-Bold"), url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Bold.woff") format("woff");
+                                    }
+                                
+                                    @font-face {
+                                      font-family: "UberMoveText-Regular";
+                                      src: local("UberMoveText-Regular"), url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMoveText-Regular.woff") format("woff");
+                                    }
+                                
+.td-header-wrap .black-menu .sf-menu > .current-menu-item > a,
+    .td-header-wrap .black-menu .sf-menu > .current-menu-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > .current-category-ancestor > a,
+    .td-header-wrap .black-menu .sf-menu > li > a:hover,
+    .td-header-wrap .black-menu .sf-menu > .sfHover > a,
+    .td-header-style-12 .td-header-menu-wrap-full,
+    .sf-menu > .current-menu-item > a:after,
+    .sf-menu > .current-menu-ancestor > a:after,
+    .sf-menu > .current-category-ancestor > a:after,
+    .sf-menu > li:hover > a:after,
+    .sf-menu > .sfHover > a:after,
+    .td-header-style-12 .td-affix,
+    .header-search-wrap .td-drop-down-search:after,
+    .header-search-wrap .td-drop-down-search .btn:hover,
+    input[type=submit]:hover,
+    .td-read-more a,
+    .td-post-category:hover,
+    .td-grid-style-1.td-hover-1 .td-big-grid-post:hover .td-post-category,
+    .td-grid-style-5.td-hover-1 .td-big-grid-post:hover .td-post-category,
+    .td_top_authors .td-active .td-author-post-count,
+    .td_top_authors .td-active .td-author-comments-count,
+    .td_top_authors .td_mod_wrap:hover .td-author-post-count,
+    .td_top_authors .td_mod_wrap:hover .td-author-comments-count,
+    .td-404-sub-sub-title a:hover,
+    .td-search-form-widget .wpb_button:hover,
+    .td-rating-bar-wrap div,
+    .td_category_template_3 .td-current-sub-category,
+    .dropcap,
+    .td_wrapper_video_playlist .td_video_controls_playlist_wrapper,
+    .wpb_default,
+    .wpb_default:hover,
+    .td-left-smart-list:hover,
+    .td-right-smart-list:hover,
+    .woocommerce-checkout .woocommerce input.button:hover,
+    .woocommerce-page .woocommerce a.button:hover,
+    .woocommerce-account div.woocommerce .button:hover,
+    #bbpress-forums button:hover,
+    .bbp_widget_login .button:hover,
+    .td-footer-wrapper .td-post-category,
+    .td-footer-wrapper .widget_product_search input[type="submit"]:hover,
+    .woocommerce .product a.button:hover,
+    .woocommerce .product #respond input#submit:hover,
+    .woocommerce .checkout input#place_order:hover,
+    .woocommerce .woocommerce.widget .button:hover,
+    .single-product .product .summary .cart .button:hover,
+    .woocommerce-cart .woocommerce table.cart .button:hover,
+    .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover,
+    .td-next-prev-wrap a:hover,
+    .td-load-more-wrap a:hover,
+    .td-post-small-box a:hover,
+    .page-nav .current,
+    .page-nav:first-child > div,
+    .td_category_template_8 .td-category-header .td-category a.td-current-sub-category,
+    .td_category_template_4 .td-category-siblings .td-category a:hover,
+    #bbpress-forums .bbp-pagination .current,
+    #bbpress-forums #bbp-single-user-details #bbp-user-navigation li.current a,
+    .td-theme-slider:hover .slide-meta-cat a,
+    a.vc_btn-black:hover,
+    .td-trending-now-wrapper:hover .td-trending-now-title,
+    .td-scroll-up,
+    .td-smart-list-button:hover,
+    .td-weather-information:before,
+    .td-weather-week:before,
+    .td_block_exchange .td-exchange-header:before,
+    .td_block_big_grid_9.td-grid-style-1 .td-post-category,
+    .td_block_big_grid_9.td-grid-style-5 .td-post-category,
+    .td-grid-style-6.td-hover-1 .td-module-thumb:after,
+    .td-pulldown-syle-2 .td-subcat-dropdown ul:after,
+    .td_block_template_9 .td-block-title:after,
+    .td_block_template_15 .td-block-title:before,
+    div.wpforms-container .wpforms-form div.wpforms-submit-container button[type=submit] {
+        background-color: #129299;
+    }
+
+    .td_block_template_4 .td-related-title .td-cur-simple-item:before {
+        border-color: #129299 transparent transparent transparent !important;
+    }
+
+    .woocommerce .woocommerce-message .button:hover,
+    .woocommerce .woocommerce-error .button:hover,
+    .woocommerce .woocommerce-info .button:hover {
+        background-color: #129299 !important;
+    }
+    
+    
+    .td_block_template_4 .td-related-title .td-cur-simple-item,
+    .td_block_template_3 .td-related-title .td-cur-simple-item,
+    .td_block_template_9 .td-related-title:after {
+        background-color: #129299;
+    }
+
+    .woocommerce .product .onsale,
+    .woocommerce.widget .ui-slider .ui-slider-handle {
+        background: none #129299;
+    }
+
+    .woocommerce.widget.widget_layered_nav_filters ul li a {
+        background: none repeat scroll 0 0 #129299 !important;
+    }
+
+    a,
+    cite a:hover,
+    .td_mega_menu_sub_cats .cur-sub-cat,
+    .td-mega-span h3 a:hover,
+    .td_mod_mega_menu:hover .entry-title a,
+    .header-search-wrap .result-msg a:hover,
+    .td-header-top-menu .td-drop-down-search .td_module_wrap:hover .entry-title a,
+    .td-header-top-menu .td-icon-search:hover,
+    .td-header-wrap .result-msg a:hover,
+    .top-header-menu li a:hover,
+    .top-header-menu .current-menu-item > a,
+    .top-header-menu .current-menu-ancestor > a,
+    .top-header-menu .current-category-ancestor > a,
+    .td-social-icon-wrap > a:hover,
+    .td-header-sp-top-widget .td-social-icon-wrap a:hover,
+    .td-page-content blockquote p,
+    .td-post-content blockquote p,
+    .mce-content-body blockquote p,
+    .comment-content blockquote p,
+    .wpb_text_column blockquote p,
+    .td_block_text_with_title blockquote p,
+    .td_module_wrap:hover .entry-title a,
+    .td-subcat-filter .td-subcat-list a:hover,
+    .td-subcat-filter .td-subcat-dropdown a:hover,
+    .td_quote_on_blocks,
+    .dropcap2,
+    .dropcap3,
+    .td_top_authors .td-active .td-authors-name a,
+    .td_top_authors .td_mod_wrap:hover .td-authors-name a,
+    .td-post-next-prev-content a:hover,
+    .author-box-wrap .td-author-social a:hover,
+    .td-author-name a:hover,
+    .td-author-url a:hover,
+    .td_mod_related_posts:hover h3 > a,
+    .td-post-template-11 .td-related-title .td-related-left:hover,
+    .td-post-template-11 .td-related-title .td-related-right:hover,
+    .td-post-template-11 .td-related-title .td-cur-simple-item,
+    .td-post-template-11 .td_block_related_posts .td-next-prev-wrap a:hover,
+    .comment-reply-link:hover,
+    .logged-in-as a:hover,
+    #cancel-comment-reply-link:hover,
+    .td-search-query,
+    .td-category-header .td-pulldown-category-filter-link:hover,
+    .td-category-siblings .td-subcat-dropdown a:hover,
+    .td-category-siblings .td-subcat-dropdown a.td-current-sub-category,
+    .widget a:hover,
+    .td_wp_recentcomments a:hover,
+    .archive .widget_archive .current,
+    .archive .widget_archive .current a,
+    .widget_calendar tfoot a:hover,
+    .woocommerce a.added_to_cart:hover,
+    .woocommerce-account .woocommerce-MyAccount-navigation a:hover,
+    #bbpress-forums li.bbp-header .bbp-reply-content span a:hover,
+    #bbpress-forums .bbp-forum-freshness a:hover,
+    #bbpress-forums .bbp-topic-freshness a:hover,
+    #bbpress-forums .bbp-forums-list li a:hover,
+    #bbpress-forums .bbp-forum-title:hover,
+    #bbpress-forums .bbp-topic-permalink:hover,
+    #bbpress-forums .bbp-topic-started-by a:hover,
+    #bbpress-forums .bbp-topic-started-in a:hover,
+    #bbpress-forums .bbp-body .super-sticky li.bbp-topic-title .bbp-topic-permalink,
+    #bbpress-forums .bbp-body .sticky li.bbp-topic-title .bbp-topic-permalink,
+    .widget_display_replies .bbp-author-name,
+    .widget_display_topics .bbp-author-name,
+    .footer-text-wrap .footer-email-wrap a,
+    .td-subfooter-menu li a:hover,
+    .footer-social-wrap a:hover,
+    a.vc_btn-black:hover,
+    .td-smart-list-dropdown-wrap .td-smart-list-button:hover,
+    .td_module_17 .td-read-more a:hover,
+    .td_module_18 .td-read-more a:hover,
+    .td_module_19 .td-post-author-name a:hover,
+    .td-instagram-user a,
+    .td-pulldown-syle-2 .td-subcat-dropdown:hover .td-subcat-more span,
+    .td-pulldown-syle-2 .td-subcat-dropdown:hover .td-subcat-more i,
+    .td-pulldown-syle-3 .td-subcat-dropdown:hover .td-subcat-more span,
+    .td-pulldown-syle-3 .td-subcat-dropdown:hover .td-subcat-more i,
+    .td-block-title-wrap .td-wrapper-pulldown-filter .td-pulldown-filter-display-option:hover,
+    .td-block-title-wrap .td-wrapper-pulldown-filter .td-pulldown-filter-display-option:hover i,
+    .td-block-title-wrap .td-wrapper-pulldown-filter .td-pulldown-filter-link:hover,
+    .td-block-title-wrap .td-wrapper-pulldown-filter .td-pulldown-filter-item .td-cur-simple-item,
+    .td_block_template_2 .td-related-title .td-cur-simple-item,
+    .td_block_template_5 .td-related-title .td-cur-simple-item,
+    .td_block_template_6 .td-related-title .td-cur-simple-item,
+    .td_block_template_7 .td-related-title .td-cur-simple-item,
+    .td_block_template_8 .td-related-title .td-cur-simple-item,
+    .td_block_template_9 .td-related-title .td-cur-simple-item,
+    .td_block_template_10 .td-related-title .td-cur-simple-item,
+    .td_block_template_11 .td-related-title .td-cur-simple-item,
+    .td_block_template_12 .td-related-title .td-cur-simple-item,
+    .td_block_template_13 .td-related-title .td-cur-simple-item,
+    .td_block_template_14 .td-related-title .td-cur-simple-item,
+    .td_block_template_15 .td-related-title .td-cur-simple-item,
+    .td_block_template_16 .td-related-title .td-cur-simple-item,
+    .td_block_template_17 .td-related-title .td-cur-simple-item,
+    .td-theme-wrap .sf-menu ul .td-menu-item > a:hover,
+    .td-theme-wrap .sf-menu ul .sfHover > a,
+    .td-theme-wrap .sf-menu ul .current-menu-ancestor > a,
+    .td-theme-wrap .sf-menu ul .current-category-ancestor > a,
+    .td-theme-wrap .sf-menu ul .current-menu-item > a,
+    .td_outlined_btn {
+        color: #129299;
+    }
+
+    a.vc_btn-black.vc_btn_square_outlined:hover,
+    a.vc_btn-black.vc_btn_outlined:hover,
+    .td-mega-menu-page .wpb_content_element ul li a:hover,
+    .td-theme-wrap .td-aj-search-results .td_module_wrap:hover .entry-title a,
+    .td-theme-wrap .header-search-wrap .result-msg a:hover {
+        color: #129299 !important;
+    }
+
+    .td-next-prev-wrap a:hover,
+    .td-load-more-wrap a:hover,
+    .td-post-small-box a:hover,
+    .page-nav .current,
+    .page-nav:first-child > div,
+    .td_category_template_8 .td-category-header .td-category a.td-current-sub-category,
+    .td_category_template_4 .td-category-siblings .td-category a:hover,
+    #bbpress-forums .bbp-pagination .current,
+    .post .td_quote_box,
+    .page .td_quote_box,
+    a.vc_btn-black:hover,
+    .td_block_template_5 .td-block-title > *,
+    .td_outlined_btn {
+        border-color: #129299;
+    }
+
+    .td_wrapper_video_playlist .td_video_currently_playing:after {
+        border-color: #129299 !important;
+    }
+
+    .header-search-wrap .td-drop-down-search:before {
+        border-color: transparent transparent #129299 transparent;
+    }
+
+    .block-title > span,
+    .block-title > a,
+    .block-title > label,
+    .widgettitle,
+    .widgettitle:after,
+    .td-trending-now-title,
+    .td-trending-now-wrapper:hover .td-trending-now-title,
+    .wpb_tabs li.ui-tabs-active a,
+    .wpb_tabs li:hover a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab.vc_active > a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab:hover > a,
+    .td_block_template_1 .td-related-title .td-cur-simple-item,
+    .woocommerce .product .products h2:not(.woocommerce-loop-product__title),
+    .td-subcat-filter .td-subcat-dropdown:hover .td-subcat-more, 
+    .td_3D_btn,
+    .td_shadow_btn,
+    .td_default_btn,
+    .td_round_btn, 
+    .td_outlined_btn:hover {
+    	background-color: #129299;
+    }
+
+    .woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    	background-color: #129299 !important;
+    }
+
+    .block-title,
+    .td_block_template_1 .td-related-title,
+    .wpb_tabs .wpb_tabs_nav,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container,
+    .woocommerce div.product .woocommerce-tabs ul.tabs:before {
+        border-color: #129299;
+    }
+    .td_block_wrap .td-subcat-item a.td-cur-simple-item {
+	    color: #129299;
+	}
+
+
+    
+    .td-grid-style-4 .entry-title
+    {
+        background-color: rgba(18, 146, 153, 0.7);
+    }
+
+    
+    .td-theme-wrap .sf-menu .td-normal-menu .td-menu-item > a:hover,
+    .td-theme-wrap .sf-menu .td-normal-menu .sfHover > a,
+    .td-theme-wrap .sf-menu .td-normal-menu .current-menu-ancestor > a,
+    .td-theme-wrap .sf-menu .td-normal-menu .current-category-ancestor > a,
+    .td-theme-wrap .sf-menu .td-normal-menu .current-menu-item > a {
+        color: #129299;
+    }
+
+    
+    .td-theme-wrap .td_mod_mega_menu:hover .entry-title a,
+    .td-theme-wrap .sf-menu .td_mega_menu_sub_cats .cur-sub-cat {
+        color: #129299;
+    }
+    .td-theme-wrap .sf-menu .td-mega-menu .td-post-category:hover,
+    .td-theme-wrap .td-mega-menu .td-next-prev-wrap a:hover {
+        background-color: #129299;
+    }
+    .td-theme-wrap .td-mega-menu .td-next-prev-wrap a:hover {
+        border-color: #129299;
+    }
+
+    
+    .td-theme-wrap .header-search-wrap .td-drop-down-search .btn:hover {
+        background-color: #129299;
+    }
+    .td-theme-wrap .td-aj-search-results .td_module_wrap:hover .entry-title a,
+    .td-theme-wrap .header-search-wrap .result-msg a:hover {
+        color: #129299 !important;
+    }
+
+    
+    .td-menu-background:before,
+    .td-search-background:before {
+        background: #333145;
+        background: -moz-linear-gradient(top, #333145 0%, #129299 100%);
+        background: -webkit-gradient(left top, left bottom, color-stop(0%, #333145), color-stop(100%, #129299));
+        background: -webkit-linear-gradient(top, #333145 0%, #129299 100%);
+        background: -o-linear-gradient(top, #333145 0%, @mobileu_gradient_two_mob 100%);
+        background: -ms-linear-gradient(top, #333145 0%, #129299 100%);
+        background: linear-gradient(to bottom, #333145 0%, #129299 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333145', endColorstr='#129299', GradientType=0 );
+    }
+
+    
+    .td-mobile-content .current-menu-item > a,
+    .td-mobile-content .current-menu-ancestor > a,
+    .td-mobile-content .current-category-ancestor > a,
+    #td-mobile-nav .td-menu-login-section a:hover,
+    #td-mobile-nav .td-register-section a:hover,
+    #td-mobile-nav .td-menu-socials-wrap a:hover i,
+    .td-search-close a:hover i {
+        color: #129299;
+    }
+
+    
+    .mfp-content .td-login-button {
+        color: #151515;
+    }
+    
+    .mfp-content .td-login-button:active,
+    .mfp-content .td-login-button:hover {
+        color: #151515;
+    }
+    
+    .white-popup-block:after {
+        background: rgba(42, 128, 203, 0.8);
+        background: -moz-linear-gradient(45deg, rgba(42, 128, 203, 0.8) 0%, #129299 100%);
+        background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(42, 128, 203, 0.8)), color-stop(100%, #129299));
+        background: -webkit-linear-gradient(45deg, rgba(42, 128, 203, 0.8) 0%, #129299 100%);
+        background: -o-linear-gradient(45deg, rgba(42, 128, 203, 0.8) 0%, #129299 100%);
+        background: -ms-linear-gradient(45deg, rgba(42, 128, 203, 0.8) 0%, #129299 100%);
+        background: linear-gradient(45deg, rgba(42, 128, 203, 0.8) 0%, #129299 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(42, 128, 203, 0.8)', endColorstr='#129299', GradientType=0 );
+    }
+
+
+    
+    .td-header-wrap .td-logo-text-container .td-logo-text {
+        color: #151515;
+    }
+
+    
+    .td-header-bg:before {
+        opacity: 1;
+    }
+
+
+
+
+
+    
+    .td-footer-wrapper,
+    .td-footer-wrapper .td_block_template_7 .td-block-title > *,
+    .td-footer-wrapper .td_block_template_17 .td-block-title,
+    .td-footer-wrapper .td-block-title-wrap .td-wrapper-pulldown-filter {
+        background-color: #151515;
+    }
+
+    
+    .post blockquote p,
+    .page blockquote p {
+    	color: #444444;
+    }
+    .post .td_quote_box,
+    .page .td_quote_box {
+        border-color: #444444;
+    }
+
+
+    
+    .top-header-menu > li > a,
+    .td-weather-top-widget .td-weather-now .td-big-degrees,
+    .td-weather-top-widget .td-weather-header .td-weather-city,
+    .td-header-sp-top-menu .td_data_time {
+        font-family:UberMoveText-Bold;
+	
+    }
+    
+    .top-header-menu .menu-item-has-children li a {
+    	font-family:UberMoveText-Regular;
+	
+    }
+    
+    ul.sf-menu > .td-menu-item > a,
+    .td-theme-wrap .td-header-menu-social {
+        font-family:UberMoveText-Bold;
+	
+    }
+    
+    .sf-menu ul .td-menu-item a {
+        font-family:UberMoveText-Regular;
+	
+    }
+	
+    .td_mod_mega_menu .item-details a {
+        font-family:UberMove-Medium;
+	
+    }
+    
+    .td_mega_menu_sub_cats .block-mega-child-cats a {
+        font-family:UberMoveText-Regular;
+	
+    }
+    
+    .td-mobile-content .td-mobile-main-menu > li > a {
+        font-family:UberMoveText-Bold;
+	
+    }
+    
+    .td-mobile-content .sub-menu a {
+        font-family:UberMoveText-Bold;
+	
+    }
+    
+    .td-header-wrap .td-logo-text-container .td-logo-text {
+        font-family:UberMove-Medium;
+	
+    }
+    
+    .td-header-wrap .td-logo-text-container .td-tagline-text {
+        font-family:UberMoveText-Medium;
+	
+    }
+
+
+
+	
+    .block-title > span,
+    .block-title > a,
+    .widgettitle,
+    .td-trending-now-title,
+    .wpb_tabs li a,
+    .vc_tta-container .vc_tta-color-grey.vc_tta-tabs-position-top.vc_tta-style-classic .vc_tta-tabs-container .vc_tta-tab > a,
+    .td-theme-wrap .td-related-title a,
+    .woocommerce div.product .woocommerce-tabs ul.tabs li a,
+    .woocommerce .product .products h2:not(.woocommerce-loop-product__title),
+    .td-theme-wrap .td-block-title {
+        font-family:UberMove-Medium;
+	
+    }
+    
+    .td_module_wrap .td-post-author-name a {
+        font-family:UberMoveText-Bold;
+	line-height:16px;
+	
+    }
+    
+    .td-post-date .entry-date {
+        font-family:UberMoveText-Bold;
+	line-height:16px;
+	
+    }
+    
+    .td-module-comments a,
+    .td-post-views span,
+    .td-post-comments a {
+        font-family:UberMoveText-Regular;
+	
+    }
+    
+    .td-big-grid-meta .td-post-category,
+    .td_module_wrap .td-post-category,
+    .td-module-image .td-post-category {
+        font-family:UberMoveText-Regular;
+	
+    }
+    
+    .td-subcat-filter .td-subcat-dropdown a,
+    .td-subcat-filter .td-subcat-list a,
+    .td-subcat-filter .td-subcat-dropdown span {
+        font-family:UberMoveText-Bold;
+	
+    }
+    
+    .td-excerpt,
+    .td_module_14 .td-excerpt {
+        font-family:UberMoveText-Regular;
+	
+    }
+
+
+	
+	.td_module_wrap .td-module-title {
+		font-family:UberMoveText-Regular;
+	
+	}
+     
+	.td_block_trending_now .entry-title,
+	.td-theme-slider .td-module-title,
+    .td-big-grid-post .entry-title {
+		font-family:UberMoveText-Regular;
+	
+	}
+    
+	#td-mobile-nav,
+	#td-mobile-nav .wpb_button,
+	.td-search-wrap-mob {
+		font-family:UberMoveText-Regular;
+	
+	}
+
+
+	
+	.post .td-post-header .entry-title {
+		font-family:UberMoveText-Bold;
+	
+	}
+    
+    .td-post-content p,
+    .td-post-content {
+        font-family:UberMoveText-Regular;
+	
+    }
+    
+    .post .td-category a {
+        font-family:UberMoveText-Light;
+	
+    }
+    
+    .post header .td-post-author-name,
+    .post header .td-post-author-name a {
+        font-family:UberMoveText-Light;
+	
+    }
+    
+    .post header .td-post-date .entry-date {
+        font-family:UberMoveText-Light;
+	
+    }
+    
+    .post header .td-post-views span,
+    .post header .td-post-comments {
+        font-family:UberMoveText-Regular;
+	
+    }
+    
+    .post .td-post-source-tags a,
+    .post .td-post-source-tags span {
+        font-family:UberMoveText-Medium;
+	
+    }
+    
+    .post .td-post-next-prev-content span {
+        font-family:UberMoveText-Medium;
+	
+    }
+    
+    .post .td-post-next-prev-content a {
+        font-family:UberMove-Medium;
+	
+    }
+    
+    .post .author-box-wrap .td-author-name a {
+        font-family:UberMoveText-Medium;
+	
+    }
+    
+    .post .author-box-wrap .td-author-url a {
+        font-family:UberMoveText-Light;
+	
+    }
+    
+    .post .author-box-wrap .td-author-description {
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    .td_block_related_posts .entry-title a {
+        font-family:UberMove-Medium;
+	
+    }
+    
+    .post .td-post-share-title {
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+	.wp-caption-text,
+	.wp-caption-dd {
+		font-family:UberMoveText-Medium;
+	
+	}
+    
+    .td-post-template-default .td-post-sub-title,
+    .td-post-template-1 .td-post-sub-title,
+    .td-post-template-4 .td-post-sub-title,
+    .td-post-template-5 .td-post-sub-title,
+    .td-post-template-9 .td-post-sub-title,
+    .td-post-template-10 .td-post-sub-title,
+    .td-post-template-11 .td-post-sub-title {
+        font-family:UberMoveText-Light;
+	
+    }
+    
+    .td-post-template-2 .td-post-sub-title,
+    .td-post-template-3 .td-post-sub-title,
+    .td-post-template-6 .td-post-sub-title,
+    .td-post-template-7 .td-post-sub-title,
+    .td-post-template-8 .td-post-sub-title {
+        font-family:UberMoveText-Light;
+	
+    }
+
+
+
+
+	
+    .td-page-title,
+    .woocommerce-page .page-title,
+    .td-category-title-holder .td-page-title {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    .td-page-content p,
+    .td-page-content li,
+    .td-page-content .td_block_text_with_title,
+    .woocommerce-page .page-description > p,
+    .wpb_text_column p {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    .td-page-content h1,
+    .wpb_text_column h1 {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    .td-page-content h2,
+    .wpb_text_column h2 {
+    	font-family:UberMoveText-Light;
+	
+    }
+    
+    .td-page-content h3,
+    .wpb_text_column h3 {
+    	font-family:UberMoveText-Light;
+	
+    }
+    
+    .td-page-content h4,
+    .wpb_text_column h4 {
+    	font-family:UberMoveText-Light;
+	
+    }
+    
+    .td-page-content h5,
+    .wpb_text_column h5 {
+    	font-family:UberMoveText-Light;
+	
+    }
+    
+    .td-page-content h6,
+    .wpb_text_column h6 {
+    	font-family:UberMoveText-Light;
+	
+    }
+
+
+
+
+    
+	.footer-text-wrap {
+		font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+	}
+	
+	.td-sub-footer-copy {
+		font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+	}
+	
+	.td-sub-footer-menu ul li a {
+		font-family:UberMoveText-Light;
+	
+	}
+
+
+
+
+	
+    .entry-crumbs a,
+    .entry-crumbs span,
+    #bbpress-forums .bbp-breadcrumb a,
+    #bbpress-forums .bbp-breadcrumb .bbp-breadcrumb-current {
+    	font-family:UberMoveText-Medium;
+	
+    }
+    
+    .category .td-category a {
+    	font-family:UberMoveText-Medium;
+	
+    }
+    
+    .td-trending-now-display-area .entry-title {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    .page-nav a,
+    .page-nav span {
+    	font-family:UberMoveText-Medium;
+	
+    }
+    
+    #td-outer-wrap span.dropcap {
+    	font-family:UberMoveText-Medium;
+	
+    }
+    
+    .widget_archive a,
+    .widget_calendar,
+    .widget_categories a,
+    .widget_nav_menu a,
+    .widget_meta a,
+    .widget_pages a,
+    .widget_recent_comments a,
+    .widget_recent_entries a,
+    .widget_text .textwidget,
+    .widget_tag_cloud a,
+    .widget_search input,
+    .woocommerce .product-categories a,
+    .widget_display_forums a,
+    .widget_display_replies a,
+    .widget_display_topics a,
+    .widget_display_views a,
+    .widget_display_stats {
+    	font-family:UberMoveText-Medium;
+	
+    }
+    
+	input[type="submit"],
+	.td-read-more a,
+	.vc_btn,
+	.woocommerce a.button,
+	.woocommerce button.button,
+	.woocommerce #respond input#submit {
+		font-family:UberMoveText-Medium;
+	
+	}
+	
+	.woocommerce .product a .woocommerce-loop-product__title,
+	.woocommerce .widget.woocommerce .product_list_widget a,
+	.woocommerce-cart .woocommerce .product-name a {
+		font-family:UberMove-Medium;
+	
+	}
+	
+	.woocommerce .product .summary .product_title {
+		font-family:UberMove-Medium;
+	
+	}
+
+	
+	.white-popup-block,
+	.white-popup-block .wpb_button {
+		font-family:UberMoveText-Light;
+	
+	}
+
+
+
+	
+    body, p {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+
+
+
+
+    
+    #bbpress-forums .bbp-header .bbp-forums,
+    #bbpress-forums .bbp-header .bbp-topics,
+    #bbpress-forums .bbp-header {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    #bbpress-forums .hentry .bbp-forum-title,
+    #bbpress-forums .hentry .bbp-topic-permalink {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    #bbpress-forums .bbp-forums-list li {
+    	font-family:UberMove-Medium;
+	
+    }
+    
+    #bbpress-forums .bbp-forum-info .bbp-forum-content {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    #bbpress-forums div.bbp-forum-author a.bbp-author-name,
+    #bbpress-forums div.bbp-topic-author a.bbp-author-name,
+    #bbpress-forums div.bbp-reply-author a.bbp-author-name,
+    #bbpress-forums div.bbp-search-author a.bbp-author-name,
+    #bbpress-forums .bbp-forum-freshness .bbp-author-name,
+    #bbpress-forums .bbp-topic-freshness a:last-child {
+    	font-family:UberMoveText-Light;
+	
+    }
+    
+    #bbpress-forums .hentry .bbp-topic-content p,
+    #bbpress-forums .hentry .bbp-reply-content p {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    #bbpress-forums div.bbp-template-notice p {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    #bbpress-forums .bbp-pagination-count,
+    #bbpress-forums .page-numbers {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+    
+    #bbpress-forums .bbp-topic-started-by,
+    #bbpress-forums .bbp-topic-started-by a,
+    #bbpress-forums .bbp-topic-started-in,
+    #bbpress-forums .bbp-topic-started-in a {
+    	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	
+    }
+</style>
+
+
+
+			<div id="tdw-css-writer" style="display: none" class="tdw-drag-dialog tdc-window-sidebar">
+				<header>
+
+				
+					<a title="Editor" class="tdw-tab tdc-tab-active" href="#" data-tab-content="tdw-tab-editor">Edit with Live CSS</a>
+					<div class="tdw-less-info" title="This will be red when errors are detected in your CSS and LESS"></div>
+				
+				</header>
+				<div class="tdw-content">
+
+					
+					<div class="tdw-tabs-content tdw-tab-editor tdc-tab-content-active">
+
+
+						<script>
+
+							(function(jQuery, undefined) {
+
+								jQuery(window).ready(function() {
+
+									if ( 'undefined' !== typeof tdcAdminIFrameUI ) {
+										var $liveIframe  = tdcAdminIFrameUI.getLiveIframe();
+
+										if ( $liveIframe.length ) {
+											$liveIframe.load(function() {
+												$liveIframe.contents().find( 'body').append( '<textarea class="tdw-css-writer-editor" style="display: none"></textarea>' );
+											});
+										}
+									}
+
+								});
+
+							})(jQuery);
+
+						</script>
+
+
+						<textarea class="tdw-css-writer-editor td_live_css_uid_1_5ba45af876855"></textarea>
+						<div id="td_live_css_uid_1_5ba45af876855" class="td-code-editor"></div>
+
+
+						<script>
+							jQuery(window).load(function (){
+
+								if ( 'undefined' !== typeof tdLiveCssInject ) {
+
+									tdLiveCssInject.init();
+
+
+									var editor_textarea = jQuery('.td_live_css_uid_1_5ba45af876855');
+									var languageTools = ace.require("ace/ext/language_tools");
+									var tdcCompleter = {
+										getCompletions: function (editor, session, pos, prefix, callback) {
+											if (prefix.length === 0) {
+												callback(null, []);
+												return
+											}
+
+											if ('undefined' !== typeof tdcAdminIFrameUI) {
+
+												var data = {
+													error: undefined,
+													getShortcode: ''
+												};
+
+												tdcIFrameData.getShortcodeFromData(data);
+
+												if (!_.isUndefined(data.error)) {
+													tdcDebug.log(data.error);
+												}
+
+												if (!_.isUndefined(data.getShortcode)) {
+
+													var regex = /el_class=\"([A-Za-z0-9_-]*\s*)+\"/g,
+														results = data.getShortcode.match(regex);
+
+													var elClasses = {};
+
+													for (var i = 0; i < results.length; i++) {
+														var currentClasses = results[i]
+															.replace('el_class="', '')
+															.replace('"', '')
+															.split(' ');
+
+														for (var j = 0; j < currentClasses.length; j++) {
+															if (_.isUndefined(elClasses[currentClasses[j]])) {
+																elClasses[currentClasses[j]] = '';
+															}
+														}
+													}
+
+													var arrElClasses = [];
+
+													for (var prop in elClasses) {
+														arrElClasses.push(prop);
+													}
+
+													callback(null, arrElClasses.map(function (item) {
+														return {
+															name: item,
+															value: item,
+															meta: 'in_page'
+														}
+													}));
+												}
+											}
+										}
+									};
+									languageTools.addCompleter(tdcCompleter);
+
+									window.editor = ace.edit("td_live_css_uid_1_5ba45af876855");
+
+									// 'change' handler is written as function because it's called by tdc_on_add_css_live_components (of wp_footer hook)
+									// We did it to reattach the existing compiled css to the new content received from server.
+									window.editorChangeHandler = function () {
+										//tdwState.lessWasEdited = true;
+
+										window.onbeforeunload = function () {
+											if (tdwState.lessWasEdited) {
+												return "You have attempted to leave this page. Are you sure?";
+											}
+											return false;
+										};
+
+										var editorValue = editor.getSession().getValue();
+
+										editor_textarea.val(editorValue);
+
+										if ('undefined' !== typeof tdcAdminIFrameUI) {
+											tdcAdminIFrameUI.getLiveIframe().contents().find('.tdw-css-writer-editor:first').val(editorValue);
+
+											// Mark the content as modified
+											// This is important for showing info when composer closes
+                                            tdcMain.setContentModified();
+										}
+
+										tdLiveCssInject.less();
+									};
+
+									editor.getSession().setValue(editor_textarea.val());
+									editor.getSession().on('change', editorChangeHandler);
+
+									editor.setTheme("ace/theme/textmate");
+									editor.setShowPrintMargin(false);
+									editor.getSession().setMode("ace/mode/less");
+									editor.setOptions({
+										enableBasicAutocompletion: true,
+										enableSnippets: true,
+										enableLiveAutocompletion: false
+									});
+
+								}
+
+							});
+						</script>
+
+					</div>
+				</div>
+
+				<footer>
+
+					
+						<a href="#" class="tdw-save-css">Save</a>
+						<div class="tdw-more-info-text">Write CSS OR LESS and hit save. CTRL + SPACE for auto-complete.</div>
+
+					
+					<div class="tdw-resize"></div>
+				</footer>
+			</div>
+			
+
+<div class="nc_wrapper top" style="background-color: rgb(255, 255, 255); display: none;"><div class="swp_social_panel swp_horizontal_panel  swp_flat_fresh  swp_default_custom_color swp_other_custom_color swp_individual_custom_color  scale-100 scale-full_width nc_floater" data-min-width="1100" "="" data-float-color="#ffffff" data-float="top" data-float-mobile="bottom" style="width: 696px; left: 426px;"><div class="nc_tweetContainer swp_twitter" data-network="twitter"><a rel="nofollow noreferrer noopener" target="_blank" href="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" data-link="https://twitter.com/intent/tweet?text=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language&amp;url=https%3A%2F%2Fubr.to%2F2By2ykv&amp;via=ubereng" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_twitter_icon"></i><span class="swp_share">Tweet</span></span></span></span></a></div><div class="nc_tweetContainer swp_facebook" data-network="facebook"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.facebook.com/share.php?u=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_facebook_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_linkedin" data-network="linkedin"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_linkedin_icon"></i><span class="swp_share">Share</span></span></span></span></a></div><div class="nc_tweetContainer swp_hacker_news" data-network="hacker_news"><a rel="nofollow noreferrer noopener" target="_blank" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" data-link="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fubr.to%2F2By2ykv&amp;t=Uber+AI+Labs+Open+Sources+Pyro%2C+a+Deep+Probabilistic+Programming+Language" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_hacker_news_icon"></i><span class="swp_share">Vote</span></span></span></span></a></div><div class="nc_tweetContainer swp_reddit" data-network="reddit"><a rel="nofollow noreferrer noopener" target="_blank" href="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://www.reddit.com/submit?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_reddit_icon"></i><span class="swp_share">Reddit</span></span></span></span></a></div><div class="nc_tweetContainer swp_google_plus" data-network="google_plus"><a rel="nofollow noreferrer noopener" target="_blank" href="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" data-link="https://plus.google.com/share?url=https%3A%2F%2Fubr.to%2F2By2ykv" class="nc_tweet"><span class="swp_count swp_hide" style="transition: padding 0.1s linear 0s;"><span class="iconFiller"><span class="spaceManWilly"><i class="sw swp_google_plus_icon"></i><span class="swp_share">+1</span></span></span></span></a></div></div></div><iframe sandbox="allow-scripts allow-same-origin" title="Adobe ID Syncing iFrame" id="destination_publishing_iframe_uber_undefined" style="display: none; width: 0px; height: 0px;" src="https://uber.demdex.net/dest5.html?d_nsid=undefined#https%3A%2F%2Feng.uber.com%2Fpyro%2F" class="aamIframeLoaded"></iframe></body></html>

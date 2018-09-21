@@ -1,0 +1,1357 @@
+Bayesian Modelling
+Zoubin Ghahramani
+Department of Engineering University of Cambridge, UK
+zoubin@eng.cam.ac.uk http://learning.eng.cam.ac.uk/zoubin/
+MLSS 2012 La Palma
+
+An Information Revolution?
+• We are in an era of abundant data: – Society: the web, social networks, mobile networks, government, digital archives – Science: large-scale scientiﬁc experiments, biomedical data, climate data, scientiﬁc literature – Business: e-commerce, electronic trading, advertising, personalisation
+• We need tools for modelling, searching, visualising, and understanding large data sets.
+
+Modelling Tools
+Our modelling tools should: • Faithfully represent uncertainty in our model structure
+and parameters and noise in our data • Be automated and adaptive • Exhibit robustness • Scale well to large data sets
+
+Probabilistic Modelling
+• A model describes data that one could observe from a system
+• If we use the mathematics of probability theory to express all forms of uncertainty and noise associated with our model...
+• ...then inverse probability (i.e. Bayes rule) allows us to infer unknown quantities, adapt our models, make predictions and learn from data.
+
+Bayes Rule
+
+P
+
+(hypothesis|data)
+
+=
+
+P (data|hypothesis)P P (data)
+
+(hypothesis)
+
+Rev’d Thomas Bayes (1702–1761)
+
+• Bayes rule tells us how to do inference about hypotheses from data. • Learning and prediction can be seen as forms of inference.
+
+Modeling vs toolbox views of Machine Learning
+• Machine Learning seeks to learn models of data: deﬁne a space of possible models; learn the parameters and structure of the models from data; make predictions and decisions
+• Machine Learning is a toolbox of methods for processing data: feed the data into one of many possible methods; choose methods that have good theoretical or empirical performance; make predictions and decisions
+
+Plan
+• Introduce Foundations • The Intractability Problem • Approximation Tools • Advanced Topics • Limitations and Discussion
+
+Detailed Plan [Some parts will be skipped]
+
+• Introduce Foundations
+
+• Approximation Tools
+
+– Some canonical problems: classiﬁcation, – Laplace’s Approximation
+
+regression, density estimation
+
+– Bayesian Information Criterion (BIC)
+
+– Representing beliefs and the Cox axioms – Variational Approximations
+
+– The Dutch Book Theorem
+
+– Expectation Propagation
+
+– Asymptotic Certainty and Consensus
+
+– MCMC
+
+– Occam’s Razor and Marginal Likelihoods – Exact Sampling
+
+– Choosing Priors ∗ Objective Priors: Noninformative, Jeﬀreys, Reference ∗ Subjective Priors ∗ Hierarchical Priors ∗ Empirical Priors ∗ Conjugate Priors
+• The Intractability Problem
+
+• Advanced Topics – Feature Selection and ARD – Bayesian Discriminative Learning (BPM vs SVM) – From Parametric to Nonparametric Methods ∗ Gaussian Processes ∗ Dirichlet Process Mixtures
+• Limitations and Discussion – Reconciling Bayesian and Frequentist Views
+
+– Limitations and Criticisms of Bayesian Methods
+
+– Discussion
+
+Some Canonical Machine Learning Problems
+• Linear Classiﬁcation • Polynomial Regression • Clustering with Gaussian Mixtures (Density Estimation)
+
+Linear Classiﬁcation
+
+Data: D = {(x(n), y(n))} for n = 1, . . . , N data points
+x(n) ∈ D y(n) ∈ {+1, −1}
+
+x
+
+x
+
+x xxx x
+
+x
+
+x x
+
+xo o
+o o oo o o
+
+Model:
+
+
+
+  P (y(n) = +1|θ, x(n)) =
+
+1
+
+ 0
+
+D
+
+if
+
+θd x(dn) + θ0 ≥ 0
+
+d=1
+
+otherwise
+
+Parameters: θ ∈ D+1 Goal: To infer θ from the data and to predict future labels P (y|D, x)
+
+Polynomial Regression
+
+70
+
+Data: D = {(x(n), y(n))} for n = 1, . . . , N
+
+60
+
+50
+
+40
+
+x(n) ∈
+
+30
+
+20
+
+y(n) ∈
+
+10
+
+0
+
+−10
+
+Model:
+
+−20
+
+0
+
+2
+
+4
+
+6
+
+8
+
+10
+
+y(n) = a0 + a1x(n) + a2x(n)2 . . . + amx(n)m +
+
+where
+
+∼ N (0, σ2)
+
+Parameters: θ = (a0, . . . , am, σ) Goal: To infer θ from the data and to predict future outputs P (y|D, x, m)
+
+Clustering with Gaussian Mixtures (Density Estimation)
+
+Data: D = {x(n)} for n = 1, . . . , N x(n) ∈ D
+
+Model: where
+
+m
+x(n) ∼ πi pi(x(n))
+i=1
+pi(x(n)) = N (µ(i), Σ(i))
+
+Parameters: θ = (µ(1), Σ(1)) . . . , (µ(m), Σ(m)), π
+
+Goal: To infer θ from the data, predict the density p(x|D, m), and infer which points belong to the same cluster.
+
+Bayesian Machine Learning
+
+Everything follows from two simple rules:
+Sum rule: P (x) = y P (x, y) Product rule: P (x, y) = P (x)P (y|x)
+
+P
+
+(θ|D)
+
+=
+
+P (D|θ)P P (D)
+
+(θ)
+
+Prediction:
+
+P (D|θ) likelihood of θ P (θ) prior probability of θ P (θ|D) posterior of θ given D
+
+P (x|D, m) = P (x|θ, D, m)P (θ|D, m)dθ
+
+Model Comparison:
+
+P (m|D)
+
+=
+
+P (D|m)P (m) P (D)
+
+P (D|m) = P (D|θ, m)P (θ|m) dθ
+
+That’s it!
+
+Questions
+• Why be Bayesian? • Where does the prior come from? • How do we do these integrals?
+
+Representing Beliefs (Artiﬁcial Intelligence)
+Consider a robot. In order to behave intelligently the robot should be able to represent beliefs about propositions in the world: “my charging station is at location (x,y,z)” “my rangeﬁnder is malfunctioning” “that stormtrooper is hostile”
+We want to represent the strength of these beliefs numerically in the brain of the robot, and we want to know what mathematical rules we should use to manipulate those beliefs.
+
+Representing Beliefs II
+
+Let’s use b(x) to represent the strength of belief in (plausibility of) proposition x.
+
+0 ≤ b(x) ≤ 1 b(x) = 0 b(x) = 1 b(x|y)
+
+x is deﬁnitely not true x is deﬁnitely true strength of belief that x is true given that we know y is true
+
+Cox Axioms (Desiderata):
+• Strengths of belief (degrees of plausibility) are represented by real numbers • Qualitative correspondence with common sense • Consistency
+– If a conclusion can be reasoned in several ways, then each way should lead to the same answer. – The robot must always take into account all relevant evidence. – Equivalent states of knowledge are represented by equivalent plausibility assignments.
+Consequence: Belief functions (e.g. b(x), b(x|y), b(x, y)) must satisfy the rules of probability theory, including sum rule, product rule and therefore Bayes rule.
+
+(Cox 1946; Jaynes, 1996; van Horn, 2003)
+
+The Dutch Book Theorem
+Assume you are willing to accept bets with odds proportional to the strength of your beliefs. That is, b(x) = 0.9 implies that you will accept a bet:
+x is true win ≥ $1 x is false lose $9 Then, unless your beliefs satisfy the rules of probability theory, including Bayes rule, there exists a set of simultaneous bets (called a “Dutch Book”) which you are willing to accept, and for which you are guaranteed to lose money, no matter what the outcome. The only way to guard against Dutch Books to to ensure that your beliefs are coherent: i.e. satisfy the rules of probability.
+
+Asymptotic Certainty
+
+Assume that data set Dn, consisting of n data points, was generated from some true θ∗, then under some regularity conditions, as long as p(θ∗) > 0
+
+lim
+n→∞
+
+p(θ|Dn)
+
+=
+
+δ(θ
+
+−
+
+θ∗)
+
+In the unrealizable case, where data was generated from some p∗(x) which cannot be modelled by any θ, then the posterior will converge to
+
+lim p(θ|Dn) = δ(θ − θˆ)
+n→∞
+
+where θˆ minimizes KL(p∗(x), p(x|θ)):
+
+θˆ = argmin
+θ
+
+p∗(x)
+
+log
+
+p∗(x) p(x|θ)
+
+dx
+
+=
+
+argmax
+θ
+
+p∗(x) log p(x|θ) dx
+
+Warning: careful with the regularity conditions, these are just sketches of the theoretical results
+
+Asymptotic Consensus
+Consider two Bayesians with diﬀerent priors, p1(θ) and p2(θ), who observe the same data D. Assume both Bayesians agree on the set of possible and impossible values of θ:
+{θ : p1(θ) > 0} = {θ : p2(θ) > 0}
+Then, in the limit of n → ∞, the posteriors, p1(θ|Dn) and p2(θ|Dn) will converge (in uniform distance between distibutions ρ(P1, P2) = sup|P1(E) − P2(E)|)
+E
+coin toss demo: bayescoin
+
+Model Selection
+
+M=0
+
+M=1
+
+M=2
+
+M=3
+
+40
+
+40
+
+40
+
+40
+
+20
+
+20
+
+20
+
+20
+
+0
+
+0
+
+0
+
+0
+
+−20
+
+−20
+
+−20
+
+−20
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+M=4
+
+M=5
+
+M=6
+
+M=7
+
+40
+
+40
+
+40
+
+40
+
+20
+
+20
+
+20
+
+20
+
+0
+
+0
+
+0
+
+0
+
+−20
+
+−20
+
+−20
+
+−20
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+Bayesian Occam’s Razor and Model Selection
+
+Compare model classes, e.g. m and m , using posterior probabilities given D:
+
+p(m|D) = p(D|pm(D) p)(m),
+
+p(D|m) = p(D|θ, m) p(θ|m) dθ
+
+Interpretations of the Marginal Likelihood (“model evidence”):
+
+• The probability that randomly selected parameters from the prior would generate D.
+
+• Probability of the data under the model, averaging over all possible parameter values.
+
+• log2
+
+1 p(D|m)
+
+is the number of bits of surprise at observing data D under model m.
+
+Model classes that are too simple are unlikely to generate the data set.
+Model classes that are too complex can generate many possible data sets, so again, they are unlikely to generate that particular data set at random.
+
+P(D|m)
+
+too simple
+"just right" too complex
+D All possible data sets of size n
+
+Bayesian Model Selection: Occam’s Razor at Work
+
+M=0
+
+M=1
+
+M=2
+
+M=3
+
+40
+
+40
+
+40
+
+40
+
+1
+
+20
+
+20
+
+20
+
+20
+
+0.8
+
+0
+
+0
+
+0
+
+0
+
+P(Y|M)
+
+0.6
+
+−20
+
+−20
+
+−20
+
+−20
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+M=4
+
+M=5
+
+M=6
+
+M=7
+
+0.4
+
+Model Evidence
+
+40
+
+40
+
+40
+
+40
+
+20
+
+20
+
+20
+
+20
+
+0
+
+0
+
+0
+
+0
+
+−20
+
+−20
+
+−20
+
+−20
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+0 5 10
+
+0.2
+0 01234567
+M
+
+For example, for quadratic polynomials (m = 2): y = a0 + a1x + a2x2 + , where ∼ N (0, σ2) and parameters θ = (a0 a1 a2 σ)
+demo: polybayes demo: run simple
+
+On Choosing Priors
+
+• Objective Priors: noninformative priors that attempt to capture ignorance and have good frequentist properties.
+• Subjective Priors: priors should capture our beliefs as well as possible. They are subjective but not arbitrary.
+• Hierarchical Priors: multiple levels of priors:
+
+p(θ) = =
+
+dα p(θ|α)p(α) dα p(θ|α) dβ p(α|β)p(β)
+
+• Empirical Priors: learn some of the parameters of the prior from the data (“Empirical Bayes”)
+
+Subjective Priors
+Priors should capture our beliefs as well as possible. Otherwise we are not coherent.
+How do we know our beliefs? • Think about the problems domain (no black box view of machine learning) • Generate data from the prior. Does it match expectations? Even very vague priors beliefs can be useful, since the data will concentrate the posterior around reasonable models. The key ingredient of Bayesian methods is not the prior, it’s the idea of averaging over diﬀerent possibilities.
+
+Empirical “Priors”
+
+Consider a hierarchical model with parameters θ and hyperparameters α
+
+p(D|α) = p(D|θ)p(θ|α) dθ
+
+Estimate hyperparameters from the data
+
+Prediction:
+
+αˆ = argmax p(D|α) (level II ML)
+α
+p(x|D, αˆ) = p(x|θ)p(θ|D, αˆ) dθ
+
+Advantages: Robust—overcomes some limitations of mis-speciﬁcation of the prior. Problem: Double counting of data / overﬁtting.
+
+Exponential Family and Conjugate Priors
+
+p(x|θ) in the exponential family if it can be written as:
+
+p(x|θ) = f (x)g(θ) exp{φ(θ) s(x)}
+
+φ
+
+vector of natural parameters
+
+s(x)
+
+vector of suﬃcient statistics
+
+f and g positive functions of x and θ, respectively.
+
+The conjugate prior for this is p(θ) = h(η, ν) g(θ)η exp{φ(θ) ν}
+where η and ν are hyperparameters and h is the normalizing function.
+
+The posterior for N data points is also conjugate (by deﬁnition), with hyperparameters η + N and ν + n s(xn). This is computationally convenient.
+
+p(θ|x1, . . . , xN ) = h η + N, ν + s(xn) g(θ)η+N exp φ(θ) (ν + s(xn))
+
+n
+
+n
+
+Bayes Rule Applied to Machine Learning
+
+P
+
+(θ|D)
+
+=
+
+P (D|θ)P P (D)
+
+(θ)
+
+Model Comparison:
+
+P (D|θ) likelihood of θ P (θ) prior on θ P (θ|D) posterior of θ given D
+
+P (m|D)
+
+=
+
+P (D|m)P (m) P (D)
+
+P (D|m) = P (D|θ, m)P (θ|m) dθ
+
+Prediction: P (x|D, m) = P (x|θ, D, m)P (θ|D, m)dθ P (x|D, m) = P (x|θ)P (θ|D, m)dθ (for many models)
+
+Computing Marginal Likelihoods can be Computationally Intractable
+
+Observed data y, hidden variables x, parameters θ, model class m.
+
+p(y|m) = p(y|θ, m) p(θ|m) dθ
+
+• This can be a very high dimensional integral.
+• The presence of latent variables results in additional dimensions that need to be marginalized out.
+
+p(y|m) =
+
+p(y, x|θ, m) p(θ|m) dx dθ
+
+• The likelihood term can be complicated.
+
+Approximation Methods for Posteriors and Marginal Likelihoods
+• Laplace approximation • Bayesian Information Criterion (BIC) • Variational approximations • Expectation Propagation (EP) • Markov chain Monte Carlo methods (MCMC) • Exact Sampling • ...
+Note: there are other deterministic approximations; we won’t review them all.
+
+Laplace Approximation
+
+data set y,
+Model Comparison:
+
+models m, m , . . ., parameter θ, θ . . .
+P (m|y) ∝ P (m)p(y|m)
+
+For large amounts of data (relative to number of parameters, d) the parameter posterior is approximately Gaussian around the MAP estimate θˆ:
+
+p(θ|y,
+
+m)
+
+≈
+
+(2π
+
+)−
+
+d 2
+
+|A|
+
+1 2
+
+exp
+
+1 − (θ
+
+−
+
+θˆ)
+
+A
+
+(θ
+
+−
+
+θˆ)
+
+2
+
+where
+
+−A
+
+is
+
+the
+
+d
+
+×
+
+d
+
+Hessian
+
+of
+
+the
+
+log
+
+posterior
+
+Aij
+
+=
+
+−
+
+d2 dθidθj
+
+ln
+
+p(θ|y, m)
+
+θ=θˆ
+
+p(y|m)
+
+=
+
+p(θ, y|m) p(θ|y, m)
+
+Evaluating the above expression for ln p(y|m) at θˆ:
+
+ln p(y|m) ≈ ln p(θˆ|m) + ln p(y|θˆ, m) + d ln 2π − 1 ln |A|
+
+2
+
+2
+
+This can be used for model comparison/selection.
+
+Bayesian Information Criterion (BIC)
+
+BIC can be obtained from the Laplace approximation:
+
+ln p(y|m) ≈ ln p(θˆ|m) + ln p(y|θˆ, m) + d ln 2π − 1 ln |A|
+
+2
+
+2
+
+by taking the large sample limit (n → ∞) where n is the number of data points:
+
+ln p(y|m) ≈ ln p(y|θˆ, m) − d ln n 2
+
+Properties:
+• Quick and easy to compute • It does not depend on the prior • We can use the ML estimate of θ instead of the MAP estimate • It is equivalent to the MDL criterion • Assumes that as n → ∞ , all the parameters are well-determined (i.e. the model
+is identiﬁable; otherwise, d should be the number of well-determined parameters) • Danger: counting parameters can be deceiving! (c.f. sinusoid, inﬁnite models)
+
+Lower Bounding the Marginal Likelihood
+Variational Bayesian Learning
+
+Let the latent variables be x, observed data y and the parameters θ. We can lower bound the marginal likelihood (Jensen’s inequality):
+
+ln p(y|m) = ln p(y, x, θ|m) dx dθ
+
+= ln
+
+q(x,
+
+p(y, x, θ) q(x,
+
+θ|m) θ)
+
+dx
+
+dθ
+
+≥
+
+q(x,
+
+θ)
+
+ln
+
+p(y, x, q(x,
+
+θ|m) θ)
+
+dx
+
+dθ.
+
+Use a simpler, factorised approximation for q(x, θ) ≈ qx(x)qθ(θ):
+
+ln p(y|m) ≥
+
+qx(x)qθ(θ)
+
+ln
+
+p(y, x, θ|m) qx(x)qθ(θ)
+
+dx
+
+dθ
+
+d=ef Fm(qx(x), qθ(θ), y).
+
+Variational Bayesian Learning . . .
+
+Maximizing this lower bound, Fm, leads to EM-like iterative updates:
+
+qx(t+1)(x) ∝ exp ln p(x,y|θ, m) qθ(t)(θ) dθ
+
+E-like step
+
+qθ(t+1)(θ) ∝ p(θ|m) exp ln p(x,y|θ, m) qx(t+1)(x) dx M-like step
+
+Maximizing Fm is equivalent to minimizing KL-divergence between the approximate posterior, qθ(θ) qx(x) and the true posterior, p(θ, x|y, m):
+
+ln p(y|m) − Fm(qx(x), qθ(θ), y) =
+
+qx(x)
+
+qθ(θ)
+
+ln
+
+qx(x) qθ(θ) p(θ, x|y, m)
+
+dx
+
+dθ
+
+=
+
+KL(q
+
+p)
+
+In the limit as n → ∞, for identiﬁable models, the variational lower bound approaches the BIC criterion.
+
+The Variational Bayesian EM algorithm
+
+EM for MAP estimation Goal: maximize p(θ|y, m) w.r.t. θ E Step: compute
+
+Variational Bayesian EM Goal: lower bound p(y|m) VB-E Step: compute
+
+qx(t+1)(x) = p(x|y, θ(t))
+
+qx(t+1)(x) = p(x|y, φ¯ (t))
+
+M Step:
+
+VB-M Step:
+
+θ(t+1) =argmax qx(t+1)(x) ln p(x, y, θ) dx
+θ
+
+qθ(t+1)(θ) ∝ exp qx(t+1)(x) ln p(x, y, θ) dx
+
+Properties: • Reduces to the EM algorithm if qθ(θ) = δ(θ − θ∗). • Fm increases monotonically, and incorporates the model complexity penalty. • Analytical parameter distributions (but not constrained to be Gaussian).
+• VB-E step has same complexity as corresponding E step.
+• We can use the junction tree, belief propagation, Kalman ﬁlter, etc, algorithms in the VB-E step of VB-EM, but using expected natural parameters, φ¯ .
+
+Variational Bayesian EM
+The Variational Bayesian EM algorithm has been used to approximate Bayesian learning in a wide range of models such as: • probabilistic PCA and factor analysis • mixtures of Gaussians and mixtures of factor analysers • hidden Markov models • state-space models (linear dynamical systems) • independent components analysis (ICA) • discrete graphical models... The main advantage is that it can be used to automatically do model selection and does not suﬀer from overﬁtting to the same extent as ML methods do.
+Also it is about as computationally demanding as the usual EM algorithm.
+See: www.variational-bayes.org
+mixture of Gaussians demo: run simple
+
+Further Topics
+• Bayesian Discriminative Learning (BPM vs SVM) • From Parametric to Nonparametric Methods
+– Gaussian Processes – Dirichlet Process Mixtures • Feature Selection and ARD
+
+Bayesian Discriminative Modeling
+
+Terminology for classiﬁcation with inputs x and classes y:
+
+• Generative Model: models prior p(y) and class-conditional density p(x|y)
+• Discriminative Model: directly models the conditional distribution p(y|x) or the class boundary e.g. {x : p(y = +1|x) = 0.5}
+
+Myth: Bayesian Methods = Generative Models
+For example, it is possible to deﬁne Bayesian kernel classiﬁers (e.g. Bayes point machines, and Gaussian processes) analogous to support vector machines (SVMs).
+
+3
+
+3
+
+3
+
+BPM
+
+BPM
+
+BPM
+
+2
+
+2
+
+2
+
+1
+
+1
+
+1
+
+0
+
+0
+
+0
+
+−1
+
+−1
+
+−1
+
+−2
+
+−2
+
+−2
+
+SVM
+
+SVM
+
+SVM
+
+−3
+
+−3
+
+−3
+
+−3
+
+−2
+
+−1
+
+0
+
+1
+
+2
+
+3 −3
+
+−2
+
+−1
+
+0
+
+1
+
+2
+
+3 −3
+
+−2
+
+−1
+
+0
+
+1
+
+2
+
+3
+
+(ﬁgure adapted from Minka, 2001)
+
+Parametric vs Nonparametric Models
+• Parametric models assume some ﬁnite set of parameters θ. Given the parameters, future predictions, x, are independent of the observed data, D:
+P (x|θ, D) = P (x|θ)
+therefore θ capture everything there is to know about the data.
+• So the complexity of the model is bounded even if the amount of data is unbounded. This makes them not very ﬂexible.
+• Non-parametric models assume that the data distribution cannot be deﬁned in terms of such a ﬁnite set of parameters. But they can often be deﬁned by assuming an inﬁnite dimensional θ. Usually we think of θ as a function.
+• The amount of information that θ can capture about the data D can grow as the amount of data grows. This makes them more ﬂexible.
+
+Nonlinear regression and Gaussian processes
+Consider the problem of nonlinear regression: You want to learn a function f with error bars from data D = {X, y}
+y
+
+x A Gaussian process deﬁnes a distribution over functions p(f ) which can be used for Bayesian regression:
+
+p(f
+
+|D)
+
+=
+
+p(f )p(D|f p(D)
+
+)
+
+Let f = (f (x1), f (x2), . . . , f (xn)) be an n-dimensional vector of function values evaluated at n points xi ∈ X . Note, f is a random variable.
+
+Deﬁnition: p(f ) is a Gaussian process if for any ﬁnite subset {x1, . . . , xn} ⊂ X , the marginal distribution over that subset p(f ) is multivariate Gaussian.
+
+Clustering
+Basic idea: each data point belongs to a cluster
+Many clustering methods exist: • mixture models • hierarchical clustering • spectral clustering Goal: to partition data into groups in an unsupervised manner
+
+A binary matrix representation for clustering
+• Rows are data points • Columns are clusters • Since each data point is assigned to one and only one cluster,
+the rows sum to one. • Finite mixture models: number of columns is ﬁnite • Inﬁnite mixture models: number of columns is countably inﬁnite
+
+Inﬁnite mixture models
+(e.g. Dirichlet Process Mixtures)
+Why? • You might not believe a priori that your data comes from a ﬁnite number of
+mixture components (e.g. strangely shaped clusters; heavy tails; structure at many resolutions)
+• Inﬂexible models (e.g. a mixture of 6 Gaussians) can yield unreasonable inferences and predictions.
+• For many kinds of data, the number of clusters might grow over time: clusters of news stories or emails, classes of objects, etc.
+• You might want your method to automatically infer the number of clusters in the data.
+
+Inﬁnite mixture models
+
+How?
+
+K
+p(x) = πk pk(x)
+k=1
+
+• Start from a ﬁnite mixture model with K components and take the limit1 as number of components K → ∞
+
+• But you have inﬁnitely many parameters!
+
+• Rather than optimize the parameters (ML, MAP), you integrate them out (Bayes) using, e.g:
+– MCMC sampling (Escobar & West 1995; Neal 2000; Rasmussen 2000) – expectation propagation (EP; Minka and Ghahramani, 2003) – variational methods (Blei and Jordan, 2005) – Bayesian hierarchical clustering (Heller and Ghahramani, 2005)
+
+1Dirichlet Process Mixtures; Chinese Restaurant Processes
+
+Discussion
+
+Myths and misconceptions about Bayesian methods
+• Bayesian methods make assumptions where other methods don’t All methods make assumptions! Otherwise it’s impossible to predict. Bayesian methods are transparent in their assumptions whereas other methods are often opaque.
+• If you don’t have the right prior you won’t do well Certainly a poor model will predict poorly but there is no such thing as the right prior! Your model (both prior and likelihood) should capture a reasonable range of possibilities. When in doubt you can choose vague priors (cf nonparametrics).
+• Maximum A Posteriori (MAP) is a Bayesian method MAP is similar to regularization and oﬀers no particular Bayesian advantages. The key ingredient in Bayesian methods is to average over your uncertain variables and parameters, rather than to optimize.
+
+Myths and misconceptions about Bayesian methods
+• Bayesian methods don’t have theoretical guarantees One can often apply frequentist style generalization error bounds to Bayesian methods (e.g. PAC-Bayes). Moreover, it is often possible to prove convergence, consistency and rates for Bayesian methods.
+• Bayesian methods are generative You can use Bayesian approaches for both generative and discriminative learning (e.g. Gaussian process classiﬁcation).
+• Bayesian methods don’t scale well With the right inference methods (variational, MCMC) it is possible to scale to very large datasets (e.g. excellent results for Bayesian Probabilistic Matrix Factorization on the Netﬂix dataset using MCMC), but it’s true that averaging/integration is often more expensive than optimization.
+
+Reconciling Bayesian and Frequentist Views
+Frequentist theory tends to focus on sampling properties of estimators, i.e. what would have happened had we observed other data sets from our model. Also look at minimax performance of methods – i.e. what is the worst case performance if the environment is adversarial. Frequentist methods often optimize some penalized cost function.
+Bayesian methods focus on expected loss under the posterior. Bayesian methods generally do not make use of optimization, except at the point at which decisions are to be made.
+There are some reasons why frequentist procedures are useful to Bayesians:
+• Communication: If Bayesian A wants to convince Bayesians B, C, and D of the validity of some inference (or even non-Bayesians) then he or she must determine that not only does this inference follows from prior pA but also would have followed from pB, pC and pD, etc. For this reason it’s useful sometimes to ﬁnd a prior which has good frequentist (sampling / worst-case) properties, even though acting on the prior would not be coherent with our beliefs.
+• Robustness: Priors with good frequentist properties can be more robust to mis-speciﬁcations of the prior. Two ways of dealing with robustness issues are to make sure that the prior is vague enough, and to make use of a loss function to penalize costly errors.
+also, see PAC-Bayesian frequentist bounds on Bayesian procedures.
+
+Cons and pros of Bayesian methods
+Limitations and Criticisms: • They are subjective. • It is hard to come up with a prior, the assumptions are usually wrong. • The closed world assumption: need to consider all possible hypotheses for the
+data before observing the data. • They can be computationally demanding. • The use of approximations weakens the coherence argument.
+Advantages: • Coherent. • Conceptually straightforward. • Modular. • Often good performance.
+
+Summary
+• Bayesian machine learning treats learning as an probabilistic inference problem.
+• Bayesian methods work well when the models are ﬂexible enough to capture relevant properties of the data.
+• This motivates non-parametric Bayesian methods, e.g.: – Gaussian processes for regression. – Dirichlet process mixtures for clustering.
+Thanks for your patience!
+
+Appendix
+
+Objective Priors
+Non-informative priors: Consider a Gaussian with mean µ and variance σ2.
+The parameter µ informs about the location of the data. If we pick p(µ) = p(µ − a) ∀a then predictions are location invariant
+p(x|x ) = p(x − a|x − a)
+But p(µ) = p(µ − a) ∀a implies p(µ) = Unif(−∞, ∞) which is improper. Similarly, σ informs about the scale of the data, so we can pick p(σ) ∝ 1/σ Problems: It is hard (impossible) to generalize to all parameters of a complicated model. Risk of incoherent inferences (e.g. ExEy[Y |X] = Ey[Y ]), paradoxes, and improper posteriors.
+
+Objective Priors
+Reference Priors:
+Captures the following notion of noninformativeness. Given a model p(x|θ) we wish to ﬁnd the prior on θ such that an experiment involving observing x is expected to provide the most information about θ. That is, most of the information about θ will come from the experiment rather than the prior. The information about θ is:
+I(θ|x) = − p(θ) log p(θ)dθ − (− p(θ, x) log p(θ|x)dθ dx)
+This can be generalized to experiments with n obserations (giving diﬀerent answers)
+Problems: Hard to compute in general (e.g. MCMC schemes), prior depends on the size of data to be observed.
+
+Objective Priors
+
+Jeﬀreys Priors:
+
+Motivated by invariance arguments: the principle for choosing priors should not depend on the parameterization.
+
+p(φ)
+
+=
+
+p(θ)
+
+dθ dφ
+
+p(θ) ∝ h(θ)1/2
+
+h(θ) = −
+
+p(x|θ)
+
+∂2 ∂θ2
+
+log
+
+p(x|θ)
+
+dx
+
+(Fisher information)
+
+Problems: It is hard (impossible) to generalize to all parameters of a complicated model. Risk of incoherent inferences (e.g. ExEy[Y |X] = Ey[Y ]), paradoxes, and improper posteriors.
+
+Expectation Propagation (EP)
+
+Data (iid) D = {x(1) . . . , x(N)}, model p(x|θ), with parameter prior p(θ).
+
+The parameter posterior is:
+
+p(θ|D) = p(1D)p(θ) N p(x(i)|θ)
+i=1
+
+N
+
+N
+
+We can write this as product of factors over θ:
+
+p(θ) p(x(i)|θ) = fi(θ)
+
+i=1
+
+i=0
+
+where f0(θ) d=ef p(θ) and fi(θ) d=ef p(x(i)|θ) and we will ignore the constants.
+
+We wish to approximate this by a product of simpler terms:
+
+N
+q(θ) d=ef f˜i(θ)
+
+i=0
+
+min KL
+q(θ)
+min KL
+f˜i(θ)
+
+N
+
+N
+
+fi(θ) f˜i(θ)
+
+i=0
+
+i=0
+
+fi(θ) f˜i(θ)
+
+(intractable) (simple, non-iterative, inaccurate)
+
+min KL fi(θ) f˜j(θ) f˜i(θ) f˜j(θ)
+
+f˜i(θ)
+
+j=i
+
+j=i
+
+(simple, iterative, accurate) ← EP
+
+Expectation Propagation
+
+Input f0(θ) . . . fN (θ) Initialize f˜0(θ) = f0(θ), f˜i(θ) = 1 for i > 0, q(θ) = i f˜i(θ) repeat
+
+for i = 0 . . . N do
+
+Deletion:
+
+q\i(θ)
+
+←
+
+q(θ) f˜i(θ)
+
+=
+
+f˜j(θ)
+j=i
+
+Projection:
+
+f˜inew(θ)
+
+←
+
+arg
+
+min
+f (θ)
+
+KL(fi(θ)q\i(θ)
+
+f (θ)q\i(θ))
+
+Inclusion: q(θ) ← f˜inew(θ) q\i(θ)
+
+end for
+
+until convergence
+
+The EP algorithm. Some variations are possible: here we assumed that f0 is in the exponential family, and we updated sequentially over i. The names for the steps (deletion, projection, inclusion) are not the same as in (Minka, 2001)
+• Minimizes the opposite KL to variational methods • f˜i(θ) in exponential family → projection step is moment matching • Loopy belief propagation and assumed density ﬁltering are special cases • No convergence guarantee (although convergent forms can be developed)
+
+An Overview of Sampling Methods
+Monte Carlo Methods:
+• Simple Monte Carlo • Rejection Sampling • Importance Sampling • etc.
+Markov Chain Monte Carlo Methods:
+• Gibbs Sampling • Metropolis Algorithm • Hybrid Monte Carlo • etc.
+Exact Sampling Methods
+
+Markov chain Monte Carlo (MCMC) methods
+Assume we are interested in drawing samples from some desired distribution p∗(θ), e.g. p∗(θ) = p(θ|D, m). We deﬁne a Markov chain:
+θ0 → θ1 → θ2 → θ3 → θ4 → θ5 . . .
+where θ0 ∼ p0(θ), θ1 ∼ p1(θ), etc, with the property that:
+pt(θ ) = pt−1(θ) T (θ → θ ) dθ
+where T (θ → θ ) is the Markov chain transition probability from θ to θ . We say that p∗(θ) is an invariant (or stationary) distribution of the Markov chain deﬁned by T iﬀ:
+p∗(θ ) = p∗(θ) T (θ → θ ) dθ
+
+Markov chain Monte Carlo (MCMC) methods
+
+We have a Markov chain θ0 → θ1 → θ2 → θ3 → . . . where θ0 ∼ p0(θ), θ1 ∼ p1(θ), etc, with the property that:
+pt(θ ) = pt−1(θ) T (θ → θ ) dθ
+
+where T (θ → θ ) is the Markov chain transition probability from θ to θ . A useful condition that implies invariance of p∗(θ) is detailed balance:
+
+p∗(θ )T (θ → θ) = p∗(θ)T (θ → θ )
+
+MCMC methods deﬁne ergodic Markov chains, which converge to a unique
+
+stationary distribution (also called an equilibrium distribution) regardless of the
+
+initial conditions p0(θ):
+
+lim pt(θ) = p∗(θ)
+t→∞
+
+Procedure: deﬁne an MCMC method with equilibrium distribution p(θ|D, m), run method and collect samples. There are also sampling methods for p(D|m).
+
+On-screen viewing permitted. Printing not permitted. http://www.cambridge.org/0521642981 See http://www.inference.phy.cam.ac.uk/mackay/itila/ for links.
+
+Exact Sampling
+
+a.k.a. perfect simulation, coupling from the past
+
+250
+
+250
+
+• Coupling: running multiple Markov chains (MCs) using the same
+
+random seeds. E.g. imagine starting a Markov chain at each possible
+
+value of the state (θ).
+
+200
+
+200
+
+• Coalescence: if two coupled MCs end up at the same state at time
+
+t, then they will forever follow the same path.
+
+150
+
+150 • Monotonicity: Rather than running an MC starting from every
+
+state, ﬁnd a partial ordering of the states preserved by the coupled
+
+transitions, and track the highest and lowest elements of the partial
+
+100
+
+100
+
+ordering. When these coalesce, MCs started from all initial states
+
+would have coalesced.
+
+• Running from the past: Start at t = −K in the past, if highest and
+
+50
+
+50
+
+lowest elements of the MC have coalesced by time t = 0 then all
+
+MCs started at t = −∞ would have coalesced, therefore the chain
+
+must be at equilibrium, therefore θ0 ∼ p∗(θ).
+
+0
+
+0
+
+0 15 20
+
+0 5 10 15 20 0 5 Bottom 10 15 20 Line This procedure, when it produces a sample, will produce
+
+(from MacKay 2003) one from the exact distribution p∗(θ).
+
+Feature Selection
+Example: classiﬁcation input x = (x1, . . . , xD) ∈ D output y ∈ {+1, −1}
+2D possible subsets of relevant input features. One approach, consider all models m ∈ {0, 1}D and ﬁnd
+mˆ = argmax p(D|m)
+m
+Problems: intractable, overﬁtting, we should really average
+
+Feature Selection
+• Why are we doing feature selection? • What does it cost us to keep all the features? • Usual answer (overﬁtting) does not apply to fully Bayesian methods, since they
+don’t involve any ﬁtting. • We should only do feature selection if there is a cost associated with measuring
+features or predicting with many features.
+Note: Radford Neal won the NIPS feature selection competition using Bayesian methods that used 100% of the features.
+
+Feature Selection: Automatic Relevance Determination
+
+Bayesian neural network
+
+Data: D = {(x(n), y(n))}nN=1 = (X, y) Parameters (weights): θ = {{wij}, {vk}}
+
+prior posterior evidence prediction
+
+p(θ|α) p(θ|α, D) ∝ p(y|X, θ)p(θ|α) p(y|X, α) = p(y|X, θ)p(θ|α) dθ p(y |D, x , α) = p(y |x , θ)p(θ|D, α) dθ
+
+Automatic Relevance Determination (ARD):
+
+Let the weights from feature xd have variance α−1:
+
+p(wdj|αd) = N (0, α−1)
+
+αd → ∞ variance → 0 weights → 0 (irrelevant) Let’s think about this: αd ∞ ﬁnite variance weight can vary (relevant)
+
+ARD: optimize αˆ = argmax p(y|X, α).
+α
+During optimization some αd will go to ∞, so the model will discover irrelevant inputs.
+
+Two views of machine learning
+• The goal of machine learning is to produce general purpose black-box algorithms for learning. I should be able to put my algorithm online, so lots of people can download it. If people want to apply it to problems A, B, C, D... then it should work regardless of the problem, and the user should not have to think too much.
+• If I want to solve problem A it seems silly to use some general purpose method that was never designed for A. I should really try to understand what problem A is, learn about the properties of the data, and use as much expert knowledge as I can. Only then should I think of designing a method to solve A.
+

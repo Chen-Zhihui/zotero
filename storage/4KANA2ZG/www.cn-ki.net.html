@@ -1,0 +1,280 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>iData-知识检索</title>
+    <meta name="keywords" content="iData, 中国知网免费下载,知网免费账号,知网免费接口,iData知识平台,iData数字出版,iData知识发现,iData知识服务,iData数字图书馆,iData学术文献,iData期刊,iData博士论文,iData硕士论文,iData会议论文,iData报纸,iData年鉴,iData统计数据,iData专利,iData科技成果,iData标准,iData法规,iData古籍,iData工具书,iData引文,iData图片搜索,iData外文文献">
+    <meta name="description" content="iData知识检索—免费下载学术文献,知网免费下载，全球最大的知网镜像。">
+
+    <link rel="stylesheet" href="mdui.css">
+    <link rel="stylesheet" href="common.css">
+    <script src="mdui.js"></script>
+    <script src="jquery_002.js"></script>
+    <script src="jquery.js"></script>
+    <script src="common.js"></script>
+</head>
+<body class="mdui-theme-primary-light-green mdui-theme-accent-indigo mdui-loaded" style="min-height: 750px;">
+
+    <div class="mdui-container-fluid mdui-typo">
+        <div class="mdui-row mdui-shadow-2">
+              <div class="mdui-col-xs-12" style="height: 30px; ">
+
+                  <div class="mdui-container mdui-typo mdui-valign" style="margin-top: 3px;">
+
+                      <div class="mdui-row mdui-valign" style="width: 100%;">
+
+                          <div class="mdui-col-xs-6">
+                             <span><a href="https://www.cn-ki.net/" class="mdui-text-color-black-secondary"> 欢迎使用iData知识搜索 </a></span>
+                          </div>
+
+                          <div class="mdui-col-xs-6">
+                             <span class="mdui-float-right"><a href="https://user.cn-ki.net/usercenter/" class="mdui-text-color-black-secondary"> 我的iData </a></span>
+                          </div>
+
+                      </div>
+
+                  </div>
+
+              </div>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+
+
+        <div class="mdui-row mdui-valign" style="margin-top: 100px;">
+
+            <div class="mdui-col-xs-12" style="text-align: center;">
+                <img src="idata_logo.png" width="180px" height="50px">
+            </div>
+
+        </div>
+
+        <div class="mdui-row mdui-valign mdui-m-t-3">
+
+            <div class="mdui-col-xs-12">
+                <div class="search mdui-center">
+                    <div class="mdui-row">
+                        <ul class="nav" style="display: block;">
+                            <li id="db1" class="item cur" onclick="changeIndexDb('db1')"><a>综合</a></li>
+                            <li id="db2" class="item" onclick="changeIndexDb('db2')"><a>期刊</a></li>
+                            <li id="db3" class="item" onclick="changeIndexDb('db3')"><a>博硕士</a></li>
+                            <li id="db4" class="item" onclick="changeIndexDb('db4')"><a>会议</a></li>
+                            <li id="db5" class="item" onclick="changeIndexDb('db5')"><a>报纸</a></li>
+                            <li id="db6" class="item"><a href="https://en.ehn3.com/" target="_blank">外文</a></li>
+                        </ul>
+                    </div>
+                    <div class="mdui-row">
+                        <form id="searchForm" action="https://www.cn-ki.net/search" method="get" db="SCDB">
+                            <input name="keyword" class="text" id="txt_SearchText" maxlength="100" type="text">
+                            <input class="mainbtn" value="检索" type="submit">
+                            <input id="searchDb" name="db" value="SCDB" hidden="">
+                        </form>
+                    </div>
+
+                    <div class="c">
+                        <div id="advance_link" class="extend mdui-center">
+                            <a href="https://www.cn-ki.net/advance_search">高级检索</a>|<a id="searchByTitle" href="javascript:void(0);" onclick="setSearchByTitle(this);">篇名检索</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="mdui-row mdui-m-t-4 mdui-row-gapless">
+              <div class="mdui-col-xs-12">
+                  <div class="latest mdui-center">
+
+                    <span class="mdui-m-l-0 mdui-col-xs-12 mdui-text-color-black-secondary"><strong>最新检索</strong></span>
+
+                    <div id="related" class="mdui-row-xs-4 mdui-col-xs-12 mdui-m-t-2">
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=" class="mdui-text-color-black-secondary
+                        
+                        "></a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%BF%83%E7%90%86%E9%9A%9C%E7%A2%8D" class="mdui-text-color-black-secondary
+                        
+                        ">大学生心理障碍</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E4%BC%9A%E8%AE%A1%E6%96%B9%E6%B3%95%E5%AF%B9%E4%BC%81%E4%B8%9A%E7%BA%B3%E7%A8%8E%E7%AD%B9%E5%88%92%E7%9A%84%E5%BD%B1%E5%93%8D" class="mdui-text-color-black-secondary
+                        
+                        ">会计方法对企业纳税筹划的影响</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E6%88%90%E7%98%BE" class="mdui-text-color-black-secondary
+                        
+                            mdui-float-right
+                        
+                        ">成瘾</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E6%8A%97BABA%E6%8A%97%E4%BD%93%E8%84%91%E7%82%8E" class="mdui-text-color-black-secondary
+                        
+                        ">抗BABA抗体脑炎</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E6%98%8E%E8%BE%A8%E6%80%A7%E6%80%9D%E7%BB%B4" class="mdui-text-color-black-secondary
+                        
+                        ">明辨性思维</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E5%86%B0%E7%90%83" class="mdui-text-color-black-secondary
+                        
+                        ">冰球</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=PCMX" class="mdui-text-color-black-secondary
+                        
+                            mdui-float-right
+                        
+                        ">PCMX</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E8%8A%82%E7%BB%86%E8%83%9E%E8%83%B6%E8%B4%A8%E7%98%A4" class="mdui-text-color-black-secondary
+                        
+                        ">节细胞胶质瘤</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E4%B8%8D%E5%90%8C%E5%9B%BA%E5%AE%9A%E6%8A%98%E6%97%A7%E6%96%B9%E6%B3%95%E5%AF%B9%E7%A8%8E%E6%94%B6%E7%9A%84%E5%BD%B1%E5%93%8D" class="mdui-text-color-black-secondary
+                        
+                        ">不同固定折旧方法对税收的影响</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E8%91%A3%E4%BA%8B%E5%92%8C%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8" class="mdui-text-color-black-secondary
+                        
+                        ">董事和上市公司</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E9%93%9C%E7%BB%BF%E5%81%87%E5%8D%95%E8%83%9E%E8%8F%8C%E6%8A%97%E7%94%9F%E7%B4%A0%E6%B2%BB%E7%96%97" class="mdui-text-color-black-secondary
+                        
+                            mdui-float-right
+                        
+                        ">铜绿假单胞菌抗生素治疗</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E7%8A%AC%E5%84%92%E6%B4%BE" class="mdui-text-color-black-secondary
+                        
+                        ">犬儒派</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E4%B9%B3%E8%85%BA%E6%91%84%E5%BD%B1%E6%8A%80%E6%9C%AF" class="mdui-text-color-black-secondary
+                        
+                        ">乳腺摄影技术</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E7%B1%BBFenton%20%E6%9F%A0%E6%AA%AC%E9%85%B8%E9%92%A0" class="mdui-text-color-black-secondary
+                        
+                        ">类Fenton 柠檬酸钠</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E5%BE%AE%E5%BB%BA%E7%AD%91%E8%A7%86%E8%A7%92%E4%B8%8B%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E6%B1%BD%E8%BD%A6%E8%88%B1%E5%86%85%E8%A7%86%E7%9F%A5%E8%A7%89%E8%AE%BE%E8%AE%A1%E7%A0%94%E7%A9%B6" class="mdui-text-color-black-secondary
+                        
+                            mdui-float-right
+                        
+                        ">微建筑视角下无人驾驶汽车舱内视知觉设计研究</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E4%B8%AD%E5%9B%BD%E5%A4%96%E8%AF%AD" class="mdui-text-color-black-secondary
+                        
+                        ">中国外语</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E7%9B%B4%E8%85%BF%E6%8A%AC%E9%AB%98%E6%B3%95%E5%9C%A8%E8%85%B0%E6%A4%8E%E9%97%B4%E7%9B%98%E7%AA%81%E5%87%BA%E7%97%87%E4%B8%B4%E5%BA%8A%E5%BA%94%E7%94%A8%E6%A6%82%E5%86%B5" class="mdui-text-color-black-secondary
+                        
+                        ">直腿抬高法在腰椎间盘突出症临床应用概况</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E9%87%8D%E7%97%87%E7%9B%91%E6%8A%A4%E5%AE%A4%20%E6%82%A3%E8%80%85%EF%BC%A9%EF%BC%A3%EF%BC%B5%E7%B6%9C%20%E5%90%88%E5%BE%81%E5%8F%91%E7%94%9F%20%E7%9A%84%E7%9B%B8%20%E5%85%B3%E5%9B%A0%20%E7%B4%A0%E5%88%86%20%E6%9E%90%E5%8F%8A%E6%8A%A4%E7%90%86%E5%AF%B9%E7%AD%96" class="mdui-text-color-black-secondary
+                        
+                        ">重症监护室 患者ＩＣＵ綜 合征发生 的相 关因 素分 析及护理对策</a></div>
+
+                        
+
+                        <div class="mdui-col mdui-m-t-1 mdui-text-truncate"><a href="https://www.cn-ki.net/search?keyword=%E7%BB%8F%E7%9A%AE%E7%A9%B4%E4%BD%8D%E7%94%B5%E5%88%BA%E6%BF%80%E9%A2%84%E9%98%B2%E4%B9%B3%E8%85%BA%E7%99%8C%E6%B7%8B%E5%B7%B4%E6%B0%B4%E8%82%BF" class="mdui-text-color-black-secondary
+                        
+                            mdui-float-right
+                        
+                        ">经皮穴位电刺激预防乳腺癌淋巴水肿</a></div>
+
+                        
+
+                    </div>
+
+                  </div>
+
+              </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div id="ftCon" style="position: absolute; top: 750px;">
+
+      <div class="ftCon-Wrapper">
+        <div id="ftConw">
+          <p id="lh">
+            <a id="setf" href="http://cnki.cn-ki.net/" target="_blank">知网镜像</a>
+              <a href="https://en.ehn3.com/" target="_blank">谷*哥学术镜像</a>
+              <a href="http://www.4243.net/" target="_blank">大木虫学术导航</a>
+            <a href="https://www.kancloud.cn/idata/idata/435827">OpenApi项目</a>
+          </p>
+          <p id="cp">
+            ©2018&nbsp;iData&nbsp;
+            <a href="javascript:%20void(0);" mdui-dialog="{target: '#about-dialog'}">关于iData</a>&nbsp;
+            <a href="mailto:idata@cn-ki.net" class="cp-feedback">意见反馈</a>&nbsp;
+            <a href="mailto:idata@cn-ki.net" class="cp-feedback">联系iData</a>&nbsp;
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mdui-dialog" id="about-dialog">
+      <div class="mdui-dialog-title">关于iData</div>
+      <div class="mdui-dialog-content">
+        
+iData是由北京大学、清华大学、浙江大学、复旦大学等师生学者共同筹建的第三方交流学术成果的公益互联网项目，旨在促进知识的传播和最新学术科技的共
+享，所有信息均来自公开、透明的互联网查询网站和学者上传，iData重新对这些信息进行整合和优化，从而高效地输出有用信息，提高人与知识的连接效率。
+iData从创建之初便提供免费的学术文献浏览和下载。
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-close="">知道了</button>
+      </div>
+    </div>
+
+</body></html>

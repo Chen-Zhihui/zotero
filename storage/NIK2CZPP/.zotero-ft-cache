@@ -1,0 +1,223 @@
+
+Search
+Thursday, September 20, 2018
+
+    Home
+    Uber Open Source
+    Lady Eng
+    Jobs at Uber
+    Uber.com
+
+Uber Engineering Uber Engineering
+Uber Engineering Uber Engineering Blog
+Home Announcement
+
+Uber AI Labs Open Sources Pyro, a Deep Probabilistic Programming Language
+November 3, 2017
+Email
+Print
+
+Tweet
+Share
+Share
+Vote
+Reddit
++1
+
+Achieving Uber’s goal of bringing reliable transportation to everyone requires effortless prediction and optimization at every turn. Opportunities range from matching riders to drivers, to suggesting optimal routes, finding sensible pool combinations, and even creating the next generation of intelligent vehicles. To solve these challenges, we are combining state-of-the-art artificial intelligence (AI) techniques with the rich expertise of data scientists, engineers, and other users. We are exploring a tool-first approach that will enable us and others to make the next generation of AI solutions.
+
+As part of this initiative, Uber AI Labs is excited to announce the open source release of our Pyro probabilistic programming language ! Pyro is a tool for deep probabilistic modeling, unifying the best of modern deep learning and Bayesian modeling . The goal of Pyro is to accelerate research and applications of these techniques, and to make them more accessible to the broader AI community.
+
+Uber AI Labs is diverse both in terms of the applications we are exploring and the techniques we use. We bring together multiple tribes of AI, with experts in deep learning, Bayesian methods, evolutionary computation, and reinforcement learning. Pyro itself brings together the best of modern deep learning, Bayesian modeling, and software abstraction: it is a modern, universal, deep probabilistic programming language.
+
+We believe the critical ideas to solve AI will come from a joint effort among a worldwide community of people pursuing diverse approaches. By open sourcing Pyro, we hope to encourage the scientific world to collaborate on making AI tools more flexible, open, and easy-to-use. We expect the current (alpha!) version of Pyro will be of most interest to probabilistic modelers who want to leverage large data sets and deep networks,  PyTorch users who want easy-to-use Bayesian computation, and  data scientists ready to explore the ragged edge of new technology.
+
+Below we describe our motivations for creating Pyro, outline its design principles and a few implementation insights, and indicate next steps for further developing this framework.
+
+ 
+Why Pyro?
+
+Probability is the mathematics of reasoning under uncertainty, much as calculus is the mathematics for reasoning about rates of change. Models built in the language of probability can capture complex reasoning, know what they do not know, and uncover structure in data without supervision. Further, probability provides a way for human experts to provide knowledge to AI systems in the form of a priori beliefs.
+
+Specifying probabilistic models directly can be cumbersome and implementing them can be very error-prone. Probabilistic programming languages (PPLs) solve these problems by marrying probability with the representational power of programming languages. A probabilistic program is a mix of ordinary deterministic computation and randomly sampled values; this stochastic computation represents a generative story about data. The probabilities are implicit in this representation — there is no need to derive formulas—and yet this specification is also universal: any computable probabilistic model can be written this way. Pyro builds on full Python as its base language, making it clear and familiar to many.
+
+By observing the outcome of a probabilistic program, we can describe an inference problem, roughly translated as: “what must be true if this random choice had a certain observed value?” Probabilistic programming systems provide universal inference algorithms that can perform inference with little intervention from the user. Think of this as the compiler for a PPL: it allows us to divide labor between the modeler and the inference expert.
+
+Yet inference is the key challenge for probabilistic modeling, and non-scalable inference is the main failure mode of PPLs. Leveraging the power of deep learning, recent advances have introduced a new approach to probabilistic inference and PPL implementation. The key idea is to describe inference in a model via a second model called an inference model, or guide in Pyro. (This is actually an idea that goes back as far as at least the Helmholtz machine .) Just as a model is a generative story for the data, a guide is a generative story for translating the data into latent choices.
+
+Of course, we cannot simply write down the correct guide (that is why inference is hard). Instead, we use the variational approach , specifying a parameterized family of guides and then solving an optimization problem to move the guide toward the posterior distribution of the model. This optimization can be automated thanks to automatic differentiation , a technique for efficiently computing the gradient of a program, and several tricks for estimating the gradient of an expectation.
+
+Pyro builds on the excellent PyTorch library, which includes automatic differentiation using very fast, GPU-accelerated tensor math. PyTorch constructs gradients dynamically, which enables Pyro programs to include stochastic control structure , that is, random choices in a Pyro program can control the presence of other random choices in the program. Stochastic control structure is crucial to make a PPL universal. Hence, Pyro can represent any probabilistic model, while providing automatic optimization-based inference that is flexible and scalable to large data sets.
+
+In Pyro, both the generative models and the inference guides can include deep neural networks as components. The resulting deep probabilistic models have shown great promise in recent work, especially for unsupervised and semi-supervised machine learning problems.
+
+In summary:
+
+    Why probabilistic modeling? To correctly capture uncertainty in models and predictions for unsupervised and semi-supervised learning, and to provide AI systems with declarative prior knowledge.
+    Why (universal) probabilistic programs? To provide a clear and high-level, but complete, language for specifying complex models.
+    Why deep probabilistic models? To learn generative knowledge from data and reify knowledge of how to do inference.
+    Why inference by optimization? To enable scaling to large data and leverage advances in modern optimization and variational inference.
+
+ 
+Pyro design principles and insights
+
+In developing Pyro, we have aimed to satisfy four design principles. Pyro was built to be:
+
+    Universal : Pyro is a universal PPL—it can represent any computable probability distribution. How? By starting from a universal language with iteration and recursion (arbitrary Python code), and then adding random sampling, observation, and inference.
+    Scalable : Pyro scales to large data sets with little overhead above hand-written code. How? By building modern black box optimization techniques, which use mini-batches of data, to approximate inference.
+    Minimal : Pyro is agile and maintainable. How? Pyro is implemented with a small core of powerful, composable abstractions. Wherever possible, the heavy lifting is delegated to PyTorch and other libraries.
+    Flexible : Pyro aims for automation when you want it and control when you need it. How? Pyro uses high-level abstractions to express generative and inference models, while allowing experts to easily customize inference.
+
+These principles often pull Pyro’s implementation in opposite directions. Being universal, for instance, requires allowing arbitrary control structure within Pyro programs, but this generality makes it difficult to scale. Similarly, automatic construction of objective functions using minimal abstractions makes it much easier to prototype new models, but this also tends to hide the objective computation from advanced users who want the flexibility to modify the objective.
+
+During our research, we resolved these tensions by borrowing many techniques from other PPL efforts (notably WebPPL and Edward ) and discovering a few new ideas. For example, we found that composable effect handlers cleanly separate control flow manipulation from computation of the objective function. The basic operations in a PPL are sampling from a distribution, observing sampled values, and inferring the resulting posterior over executions. However, the required behavior of sampling statements depends on the inference context in which they occur. For instance, when computing the standard evidence-lower-bound objective, sampling statements in the guide should actually sample new values, while sampling statements in the model should only reuse these values. The Pyro implementation builds these context-specific effects out of a set of Poutine objects (a tasty portmanteau for Pyro Coroutine), such as Trace, Replay, and Condition. Each Poutine provides a small modification to the handling of Pyro constructs (sampling, parameter construction, etc); layering Poutines together allows us to build the operations needed for different inference algorithms. With this program logic handled by Poutines, the main inference code focuses on constructing objectives and estimating gradients.
+
+ 
+Next steps
+
+Already useful for research in its alpha state, Pyro will continue to change rapidly in the coming months as we further engage with the probabilistic programming and deep learning communities.
+
+Possible directions for extending and improving Pyro are manifold, reflecting both the many application domains of Pyro and the vibrant research community working on deep probabilistic modeling and inference. Some of our highest-priority technical directions include:
+
+    Improving the abstractions for rapid modeling (e.g. by providing automatic default guides ) and advanced usage (e.g., by refining the composition contract of our Poutine objects).
+    Adding additional objectives (e.g.,  alpha divergence , infoVAE , and GAN-based loss ) and additional techniques for estimating expectations of gradients.
+    Adding Markov chain Monte Carlo (MCMC) and Sequential Monte Carlo (SMC) inference, especially Hamiltonian Monte Carlo (HMC), and using these within variational inference objectives.
+    Exploring idioms for Gaussian processes and applications such as Bayesian optimization.
+
+Longer term, we hope that the main directions of Pyro development will be driven by applications and the priorities of the emerging Pyro community (as reflected in its Github issues ).
+
+Noah Goodman is a researcher at Uber AI Labs and an Associate Professor of Psychology and Computer Science at Stanford University.
+
+The Uber development team for Pyro includes Eli Bingham, Jonathan P. Chen, Martin Jankowiak, Theofanis Karaletsos, Fritz Obermeyer, Neeraj Pradhan, Rohit Singh, Paul Szerlip and Noah Goodman.
+
+Uber is also grateful for contributions and feedback from Paul Horsfall, Dustin Tran, Robert Hawkins, and Andreas Stuhlmueller.
+Comments
+Tweet
+Share
+Share
+Vote
+Reddit
++1
+Noah Goodman, on behalf of the Pyro Development Team
+Noah Goodman, on behalf of the Pyro Development Team
+
+    TAGS
+    AI
+    Alpha Divergence
+    artificial intelligence
+    Automatic Default Guides
+    Automatic Differentiation
+    Bayesian Modeling
+    Deep Learning
+    Edward
+    GAN-based loss
+    Gaussian processes
+    Helmholtz Machine
+    infoVAE
+    Law of Total Variance
+    Machine Learning
+    Markov chain Monte Carlo
+    MCMC
+    ML
+    Monte Carlo
+    Noah Goodman
+    Open Source
+    OS
+    PPL
+    Probabilistic Programming Language
+    Pyro
+    Python
+    PyTorch
+    Sequential Monte Carlo
+    SMC
+    Stanford University
+    Uber AI Labs
+    Uber Open Source
+    WebPPL
+    Zoubin Ghahramani
+
+Previous article Engineering Uber’s On-Call Dashboard
+Next article Engineering More Reliable Transportation with Machine Learning and AI at Uber
+Noah Goodman, on behalf of the Pyro Development Team
+RELATED ARTICLES MORE FROM AUTHOR
+Food Discovery with Uber Eats: Recommending for the Marketplace
+Food Discovery with Uber Eats: Recommending for the Marketplace
+Forecasting at Uber: An Introduction
+Scaling Uber’s Customer Support Ticket Assistant (COTA) System with Deep Learning
+An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution
+World map with stack of gold coins
+Transforming Financial Forecasting with Data Science and Machine Learning at Uber
+M4 Forecasting Competition: Introducing a New Hybrid ES-RNN Model
+
+Sign up for Uber Engineering updates:
+
+Leave this field empty if you're human:
+Most Popular Articles
+Why Uber Engineering Switched from Postgres to MySQL 23K Total Shares
+Rethinking GPS: Engineering Next-Gen Location at Uber 20K Total Shares
+Measuring the Intrinsic Dimension of Objective Landscapes 19K Total Shares
+Accelerating Deep Neuroevolution: Train Atari in Hours on a Single Personal Computer 16K Total Shares
+Mediation Modeling at Uber: Understanding Why Product Changes Work (and Don’t Work) 16K Total Shares
+From Milking Cows to Writing Code: A Dreamer’s Journey 12K Total Shares
+Omphalos, Uber’s Parallel and Language-Extensible Time Series Backtesting Tool 10K Total Shares
+Engineering Confidence: A Beginner’s Guide to Overcoming Imposter Syndrome 10K Total Shares
+Introducing Fusion.js: A Plugin-based Universal Web Framework 7K Total Shares
+Meet Michelangelo: Uber’s Machine Learning Platform 6K Total Shares
+Categories
+
+    AI
+    Announcement
+    Architecture
+    Backend
+    Culture
+    Developers
+    Events
+    General Engineering
+    Mobile
+    Open Source
+    Team Profile
+    Uber Data
+
+Newest Articles
+From Financial Models to iOS Model View Controllers: Making a Career...
+September 18, 2018
+Marmaray logo
+Marmaray: An Open Source Generic Data Ingestion and Dispersal Framework and...
+September 12, 2018
+Sunny Jeon
+Talking Safety with Uber Data Scientist Sunny Jeon
+September 11, 2018
+Food Discovery with Uber Eats: Recommending for the Marketplace
+Food Discovery with Uber Eats: Recommending for the Marketplace
+September 10, 2018
+Forecasting at Uber: An Introduction
+September 6, 2018
+Uber Tech Day 2018: Going Global
+Uber Engineering
+ABOUT US
+Contact us: engblog@uber.com
+FOLLOW US
+
+    Home
+    Uber Open Source
+    Lady Eng
+    Jobs at Uber
+    Uber.com
+
+© 2014-2018 Uber Technologies, Inc. | Privacy Policy
+MORE STORIES
+An Intro to the Uber Engineering Blog
+July 28, 2015
+Announcing Uber Engineering’s Open Source Site
+August 25, 2015
+Uber Engineering Bug Bounty: The Treasure Map
+March 22, 2016
+Edit with Live CSS
+Save
+Write CSS OR LESS and hit save. CTRL + SPACE for auto-complete.
+Tweet
+Share
+Share
+Vote
+Reddit
++1

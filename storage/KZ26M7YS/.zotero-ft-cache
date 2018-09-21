@@ -1,0 +1,612 @@
+
+Logo
+0.4.1
+version selector ▼
+
+Notes
+
+    Autograd mechanics
+        Excluding subgraphs from backward
+            requires_grad
+        How autograd encodes the history
+        In-place operations with autograd
+        In-place correctness checks
+    Broadcasting semantics
+        General semantics
+        In-place semantics
+        Backwards compatibility
+    CUDA semantics
+        Asynchronous execution
+            CUDA streams
+        Memory management
+        Best practices
+            Device-agnostic code
+            Use pinned memory buffers
+            Use nn.DataParallel instead of multiprocessing
+    Extending PyTorch
+        Extending torch.autograd
+        Extending torch.nn
+            Adding a Module
+        Writing custom C++ extensions
+        Writing custom C extensions
+    Frequently Asked Questions
+        My model reports “cuda runtime error(2): out of memory”
+        My GPU memory isn’t freed properly
+        My data loader workers return identical random numbers
+        My recurrent network doesn’t work with data parallelism
+    Multiprocessing best practices
+        Sharing CUDA tensors
+        Best practices and tips
+            Avoiding and fighting deadlocks
+            Reuse buffers passed through a Queue
+            Asynchronous multiprocess training (e.g. Hogwild)
+                Hogwild
+    Serialization semantics
+        Best practices
+            Recommended approach for saving a model
+    Windows FAQ
+        Building from source
+            Include optional components
+            Speeding CUDA build for Windows
+            One key install script
+        Extension
+            CFFI Extension
+            Cpp Extension
+        Installation
+            Package not found in win-32 channel.
+            Why are there no Python 2 packages for Windows?
+            Import error
+        Usage (multiprocessing)
+            Multiprocessing error without if-clause protection
+            Multiprocessing error “Broken pipe”
+            Multiprocessing error “driver shut down”
+            CUDA IPC operations
+
+Package Reference
+
+    torch
+        Tensors
+            Creation Ops
+            Indexing, Slicing, Joining, Mutating Ops
+        Random sampling
+            In-place random sampling
+        Serialization
+        Parallelism
+        Locally disabling gradient computation
+        Math operations
+            Pointwise Ops
+            Reduction Ops
+            Comparison Ops
+            Spectral Ops
+            Other Operations
+            BLAS and LAPACK Operations
+    torch.Tensor
+    Tensor Attributes
+        torch.dtype
+        torch.device
+        torch.layout
+    torch.sparse
+    torch.cuda
+        Random Number Generator
+        Communication collectives
+        Streams and events
+        Memory management
+        NVIDIA Tools Extension (NVTX)
+    torch.Storage
+    torch.nn
+        Parameters
+        Containers
+            Module
+            Sequential
+            ModuleList
+            ModuleDict
+            ParameterList
+            ParameterDict
+        Convolution layers
+            Conv1d
+            Conv2d
+            Conv3d
+            ConvTranspose1d
+            ConvTranspose2d
+            ConvTranspose3d
+            Unfold
+            Fold
+        Pooling layers
+            MaxPool1d
+            MaxPool2d
+            MaxPool3d
+            MaxUnpool1d
+            MaxUnpool2d
+            MaxUnpool3d
+            AvgPool1d
+            AvgPool2d
+            AvgPool3d
+            FractionalMaxPool2d
+            LPPool1d
+            LPPool2d
+            AdaptiveMaxPool1d
+            AdaptiveMaxPool2d
+            AdaptiveMaxPool3d
+            AdaptiveAvgPool1d
+            AdaptiveAvgPool2d
+            AdaptiveAvgPool3d
+        Padding layers
+            ReflectionPad1d
+            ReflectionPad2d
+            ReplicationPad1d
+            ReplicationPad2d
+            ReplicationPad3d
+            ZeroPad2d
+            ConstantPad1d
+            ConstantPad2d
+            ConstantPad3d
+        Non-linear activations (weighted sum, nonlinearity)
+            ELU
+            Hardshrink
+            Hardtanh
+            LeakyReLU
+            LogSigmoid
+            PReLU
+            ReLU
+            ReLU6
+            RReLU
+            SELU
+            Sigmoid
+            Softplus
+            Softshrink
+            Softsign
+            Tanh
+            Tanhshrink
+            Threshold
+        Non-linear activations (other)
+            Softmin
+            Softmax
+            Softmax2d
+            LogSoftmax
+            AdaptiveLogSoftmaxWithLoss
+        Normalization layers
+            BatchNorm1d
+            BatchNorm2d
+            BatchNorm3d
+            GroupNorm
+            InstanceNorm1d
+            InstanceNorm2d
+            InstanceNorm3d
+            LayerNorm
+            LocalResponseNorm
+        Recurrent layers
+            RNN
+            LSTM
+            GRU
+            RNNCell
+            LSTMCell
+            GRUCell
+        Linear layers
+            Linear
+            Bilinear
+        Dropout layers
+            Dropout
+            Dropout2d
+            Dropout3d
+            AlphaDropout
+        Sparse layers
+            Embedding
+            EmbeddingBag
+        Distance functions
+            CosineSimilarity
+            PairwiseDistance
+        Loss functions
+            L1Loss
+            MSELoss
+            CrossEntropyLoss
+            NLLLoss
+            PoissonNLLLoss
+            KLDivLoss
+            BCELoss
+            BCEWithLogitsLoss
+            MarginRankingLoss
+            HingeEmbeddingLoss
+            MultiLabelMarginLoss
+            SmoothL1Loss
+            SoftMarginLoss
+            MultiLabelSoftMarginLoss
+            CosineEmbeddingLoss
+            MultiMarginLoss
+            TripletMarginLoss
+        Vision layers
+            PixelShuffle
+            Upsample
+            UpsamplingNearest2d
+            UpsamplingBilinear2d
+        DataParallel layers (multi-GPU, distributed)
+            DataParallel
+            DistributedDataParallel
+        Utilities
+            clip_grad_norm_
+            clip_grad_value_
+            parameters_to_vector
+            vector_to_parameters
+            weight_norm
+            remove_weight_norm
+            spectral_norm
+            remove_spectral_norm
+            PackedSequence
+            pack_padded_sequence
+            pad_packed_sequence
+            pad_sequence
+            pack_sequence
+    torch.nn.functional
+        Convolution functions
+            conv1d
+            conv2d
+            conv3d
+            conv_transpose1d
+            conv_transpose2d
+            conv_transpose3d
+            unfold
+            fold
+        Pooling functions
+            avg_pool1d
+            avg_pool2d
+            avg_pool3d
+            max_pool1d
+            max_pool2d
+            max_pool3d
+            max_unpool1d
+            max_unpool2d
+            max_unpool3d
+            lp_pool1d
+            lp_pool2d
+            adaptive_max_pool1d
+            adaptive_max_pool2d
+            adaptive_max_pool3d
+            adaptive_avg_pool1d
+            adaptive_avg_pool2d
+            adaptive_avg_pool3d
+        Non-linear activation functions
+            threshold
+            relu
+            hardtanh
+            relu6
+            elu
+            selu
+            leaky_relu
+            prelu
+            rrelu
+            glu
+            logsigmoid
+            hardshrink
+            tanhshrink
+            softsign
+            softplus
+            softmin
+            softmax
+            softshrink
+            gumbel_softmax
+            log_softmax
+            tanh
+            sigmoid
+        Normalization functions
+            batch_norm
+            instance_norm
+            layer_norm
+            local_response_norm
+            normalize
+        Linear functions
+            linear
+            bilinear
+        Dropout functions
+            dropout
+            alpha_dropout
+            dropout2d
+            dropout3d
+        Sparse functions
+            embedding
+            embedding_bag
+        Distance functions
+            pairwise_distance
+            cosine_similarity
+        Loss functions
+            binary_cross_entropy
+            poisson_nll_loss
+            cosine_embedding_loss
+            cross_entropy
+            hinge_embedding_loss
+            kl_div
+            l1_loss
+            mse_loss
+            margin_ranking_loss
+            multilabel_margin_loss
+            multilabel_soft_margin_loss
+            multi_margin_loss
+            nll_loss
+            binary_cross_entropy_with_logits
+            smooth_l1_loss
+            soft_margin_loss
+            triplet_margin_loss
+        Vision functions
+            pixel_shuffle
+            pad
+            interpolate
+            upsample
+            upsample_nearest
+            upsample_bilinear
+            grid_sample
+            affine_grid
+        DataParallel functions (multi-GPU, distributed)
+            data_parallel
+    torch.nn.init
+    torch.optim
+        How to use an optimizer
+            Constructing it
+            Per-parameter options
+            Taking an optimization step
+                optimizer.step()
+                optimizer.step(closure)
+        Algorithms
+        How to adjust Learning Rate
+    torch.autograd
+        Locally disabling gradient computation
+        In-place operations on Tensors
+            In-place correctness checks
+        Variable (deprecated)
+        Tensor autograd functions
+        Function
+        Numerical gradient checking
+        Profiler
+        Anomaly detection
+    torch.distributions
+        Score function
+        Pathwise derivative
+        Distribution
+        ExponentialFamily
+        Bernoulli
+        Beta
+        Binomial
+        Categorical
+        Cauchy
+        Chi2
+        Dirichlet
+        Exponential
+        FisherSnedecor
+        Gamma
+        Geometric
+        Gumbel
+        HalfCauchy
+        HalfNormal
+        Independent
+        Laplace
+        LogNormal
+        Multinomial
+        MultivariateNormal
+        Normal
+        OneHotCategorical
+        Pareto
+        Poisson
+        RelaxedBernoulli
+        RelaxedOneHotCategorical
+        StudentT
+        TransformedDistribution
+        Uniform
+        KL Divergence
+        Transforms
+        Constraints
+        Constraint Registry
+    torch.multiprocessing
+        Strategy management
+        Sharing CUDA tensors
+        Sharing strategies
+            File descriptor - file_descriptor
+            File system - file_system
+    torch.distributed
+        Basics
+        Initialization
+            TCP initialization
+            Shared file-system initialization
+            Environment variable initialization
+        Groups
+        Point-to-point communication
+        Collective functions
+        Multi-GPU collective functions
+        Launch utility
+    torch.utils.bottleneck
+    torch.utils.checkpoint
+    torch.utils.cpp_extension
+    torch.utils.data
+    torch.utils.dlpack
+    torch.utils.ffi
+    torch.utils.model_zoo
+    torch.onnx
+        Example: End-to-end AlexNet from PyTorch to Caffe2
+        Limitations
+        Supported operators
+        Functions
+    torch.legacy
+
+torchvision Reference
+
+    torchvision
+        torchvision.datasets
+            MNIST
+            Fashion-MNIST
+            EMNIST
+            COCO
+                Captions
+                Detection
+            LSUN
+            ImageFolder
+            DatasetFolder
+            Imagenet-12
+            CIFAR
+            STL10
+            SVHN
+            PhotoTour
+        torchvision.models
+            Alexnet
+            VGG
+            ResNet
+            SqueezeNet
+            DenseNet
+            Inception v3
+        torchvision.transforms
+            Transforms on PIL Image
+            Transforms on torch.*Tensor
+            Conversion Transforms
+            Generic Transforms
+            Functional Transforms
+        torchvision.utils
+
+PyTorch
+
+    Docs »
+    Extending PyTorch
+    View page source
+
+Extending PyTorch ¶
+
+In this note we’ll cover ways of extending torch.nn , torch.autograd , and writing custom C extensions utilizing our C libraries.
+Extending torch.autograd ¶
+
+Adding operations to autograd requires implementing a new Function subclass for each operation. Recall that Function s are what autograd uses to compute the results and gradients, and encode the operation history. Every new function requires you to implement 2 methods:
+
+    forward() - the code that performs the operation. It can take as many arguments as you want, with some of them being optional, if you specify the default values. All kinds of Python objects are accepted here. Tensor arguments that track history (i.e., with requires_grad=True ) will be converted to ones that don’t track history before the call, and their use will be registered in the graph. Note that this logic won’t traverse lists/dicts/any other data structures and will only consider Tensor s that are direct arguments to the call. You can return either a single Tensor output, or a tuple of Tensor s if there are multiple outputs. Also, please refer to the docs of Function to find descriptions of useful methods that can be called only from forward() .
+    backward() - gradient formula. It will be given as many Tensor arguments as there were outputs, with each of them representing gradient w.r.t. that output. It should return as many Tensor s as there were inputs, with each of them containing the gradient w.r.t. its corresponding input. If your inputs didn’t require gradient ( needs_input_grad is a tuple of booleans indicating whether each input needs gradient computation), or were non- Tensor objects, you can return None . Also, if you have optional arguments to forward() you can return more gradients than there were inputs, as long as they’re all None .
+
+Below you can find code for a Linear function from torch.nn , with additional comments:
+
+  # Inherit from Function 
+class  LinearFunction ( Function ): 
+
+    # Note that both forward and backward are @staticmethods 
+    @staticmethod 
+    # bias is an optional argument 
+    def  forward ( ctx ,  input ,  weight ,  bias = None ): 
+        ctx . save_for_backward ( input ,  weight ,  bias ) 
+        output  =  input . mm ( weight . t ()) 
+        if  bias  is  not  None : 
+            output  +=  bias . unsqueeze ( 0 ) . expand_as ( output ) 
+        return  output 
+
+    # This function has only a single output, so it gets only one gradient 
+    @staticmethod 
+    def  backward ( ctx ,  grad_output ): 
+        # This is a pattern that is very convenient - at the top of backward 
+        # unpack saved_tensors and initialize all gradients w.r.t. inputs to 
+        # None. Thanks to the fact that additional trailing Nones are 
+        # ignored, the return statement is simple even when the function has 
+        # optional inputs. 
+        input ,  weight ,  bias  =  ctx . saved_tensors 
+        grad_input  =  grad_weight  =  grad_bias  =  None 
+
+        # These needs_input_grad checks are optional and there only to 
+        # improve efficiency. If you want to make your code simpler, you can 
+        # skip them. Returning gradients for inputs that don't require it is 
+        # not an error. 
+        if  ctx . needs_input_grad [ 0 ]: 
+            grad_input  =  grad_output . mm ( weight ) 
+        if  ctx . needs_input_grad [ 1 ]: 
+            grad_weight  =  grad_output . t () . mm ( input ) 
+        if  bias  is  not  None  and  ctx . needs_input_grad [ 2 ]: 
+            grad_bias  =  grad_output . sum ( 0 ) . squeeze ( 0 ) 
+
+        return  grad_input ,  grad_weight ,  grad_bias 
+
+Now, to make it easier to use these custom ops, we recommend aliasing their apply method:
+
+  linear  =  LinearFunction . apply 
+
+Here, we give an additional example of a function that is parametrized by non-Tensor arguments:
+
+  class  MulConstant ( Function ): 
+    @staticmethod 
+    def  forward ( ctx ,  tensor ,  constant ): 
+        # ctx is a context object that can be used to stash information 
+        # for backward computation 
+        ctx . constant  =  constant 
+        return  tensor  *  constant 
+
+    @staticmethod 
+    def  backward ( ctx ,  grad_output ): 
+        # We return as many input gradients as there were arguments. 
+        # Gradients of non-Tensor arguments to forward must be None. 
+        return  grad_output  *  ctx . constant ,  None 
+
+Note
+
+Inputs to backward , i.e., grad_output , can also be Tensors that track history. So if backward is implemented with differentiable operations, (e.g., invocation of another custom function ), higher order derivatives will work.
+
+You probably want to check if the backward method you implemented actually computes the derivatives of your function. It is possible by comparing with numerical approximations using small finite differences:
+
+  from  torch.autograd  import  gradcheck 
+
+# gradcheck takes a tuple of tensors as input, check if your gradient 
+# evaluated with these tensors are close enough to numerical 
+# approximations and returns True if they all verify this condition. 
+input  =  ( torch . randn ( 20 , 20 , dtype = torch . double , requires_grad = True ),  torch . randn ( 30 , 20 , dtype = torch . double , requires_grad = True )) 
+test  =  gradcheck ( linear ,  input ,  eps = 1e-6 ,  atol = 1e-4 ) 
+print ( test ) 
+
+See Numerical gradient checking for more details on finite-difference gradient comparisons.
+Extending torch.nn ¶
+
+nn exports two kinds of interfaces - modules and their functional versions. You can extend it in both ways, but we recommend using modules for all kinds of layers, that hold any parameters or buffers, and recommend using a functional form parameter-less operations like activation functions, pooling, etc.
+
+Adding a functional version of an operation is already fully covered in the section above.
+Adding a Module ¶
+
+Since nn heavily utilizes autograd , adding a new Module requires implementing a Function that performs the operation and can compute the gradient. From now on let’s assume that we want to implement a Linear module and we have the function implemented as in the listing above. There’s very little code required to add this. Now, there are two functions that need to be implemented:
+
+    __init__ ( optional ) - takes in arguments such as kernel sizes, numbers of features, etc. and initializes parameters and buffers.
+    forward() - instantiates a Function and uses it to perform the operation. It’s very similar to a functional wrapper shown above.
+
+This is how a Linear module can be implemented:
+
+  class  Linear ( nn . Module ): 
+    def  __init__ ( self ,  input_features ,  output_features ,  bias = True ): 
+        super ( Linear ,  self ) . __init__ () 
+        self . input_features  =  input_features 
+        self . output_features  =  output_features 
+
+        # nn.Parameter is a special kind of Tensor, that will get 
+        # automatically registered as Module's parameter once it's assigned 
+        # as an attribute. Parameters and buffers need to be registered, or 
+        # they won't appear in .parameters() (doesn't apply to buffers), and 
+        # won't be converted when e.g. .cuda() is called. You can use 
+        # .register_buffer() to register buffers. 
+        # nn.Parameters require gradients by default. 
+        self . weight  =  nn . Parameter ( torch . Tensor ( output_features ,  input_features )) 
+        if  bias : 
+            self . bias  =  nn . Parameter ( torch . Tensor ( output_features )) 
+        else : 
+            # You should always register all possible parameters, but the 
+            # optional ones can be None if you want. 
+            self . register_parameter ( 'bias' ,  None ) 
+
+        # Not a very smart way to initialize weights 
+        self . weight . data . uniform_ ( - 0.1 ,  0.1 ) 
+        if  bias  is  not  None : 
+            self . bias . data . uniform_ ( - 0.1 ,  0.1 ) 
+
+    def  forward ( self ,  input ): 
+        # See the autograd section for explanation of what happens here. 
+        return  LinearFunction . apply ( input ,  self . weight ,  self . bias ) 
+
+    def  extra_repr ( self ): 
+        # (Optional)Set the extra information about this module. You can test 
+        # it by printing an object of this class. 
+        return  'in_features= {} , out_features= {} , bias= {} ' . format ( 
+            self . in_features ,  self . out_features ,  self . bias  is  not  None 
+        ) 
+
+Writing custom C++ extensions ¶
+
+See this PyTorch tutorial for a detailed explanation and examples.
+
+Documentations are available at torch.utils.cpp_extension .
+Writing custom C extensions ¶
+
+Example available at this GitHub repository .
+Next Previous
+
+© Copyright 2018, Torch Contributors.
+Built with Sphinx using a theme provided by Read the Docs .
