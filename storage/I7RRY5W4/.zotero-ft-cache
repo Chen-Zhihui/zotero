@@ -1,0 +1,6213 @@
+The Matrix Cookbook
+[ http://matrixcookbook.com ]
+Kaare Brandt Petersen Michael Syskind Pedersen Version: November 15, 2012
+1
+
+Introduction
+What is this? These pages are a collection of facts (identities, approximations, inequalities, relations, ...) about matrices and matters relating to them. It is collected in this form for the convenience of anyone who wants a quick desktop reference .
+Disclaimer: The identities, approximations and relations presented here were obviously not invented but collected, borrowed and copied from a large amount of sources. These sources include similar but shorter notes found on the internet and appendices in books - see the references for a full list.
+Errors: Very likely there are errors, typos, and mistakes for which we apologize and would be grateful to receive corrections at cookbook@2302.dk.
+Its ongoing: The project of keeping a large repository of relations involving matrices is naturally ongoing and the version will be apparent from the date in the header.
+Suggestions: Your suggestion for additional content or elaboration of some topics is most welcome acookbook@2302.dk.
+Keywords: Matrix algebra, matrix relations, matrix identities, derivative of determinant, derivative of inverse matrix, diﬀerentiate a matrix.
+Acknowledgements: We would like to thank the following for contributions and suggestions: Bill Baxter, Brian Templeton, Christian Rishøj, Christian Schr¨oppel, Dan Boley, Douglas L. Theobald, Esben Hoegh-Rasmussen, Evripidis Karseras, Georg Martius, Glynne Casteel, Jan Larsen, Jun Bin Gao, Ju¨rgen Struckmeier, Kamil Dedecius, Karim T. Abou-Moustafa, Korbinian Strimmer, Lars Christiansen, Lars Kai Hansen, Leland Wilkinson, Liguo He, Loic Thibaut, Markus Froeb, Michael Hubatka, Miguel Bar˜ao, Ole Winther, Pavel Sakov, Stephan Hattinger, Troels Pedersen, Vasile Sima, Vincent Rabaud, Zhaoshui He. We would also like thank The Oticon Foundation for funding our PhD studies.
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 2
+
+CONTENTS
+
+CONTENTS
+
+Contents
+
+1 Basics
+
+6
+
+1.1 Trace . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+
+1.2 Determinant . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+
+1.3 The Special Case 2x2 . . . . . . . . . . . . . . . . . . . . . . . . . 7
+
+2 Derivatives
+
+8
+
+2.1 Derivatives of a Determinant . . . . . . . . . . . . . . . . . . . . 8
+
+2.2 Derivatives of an Inverse . . . . . . . . . . . . . . . . . . . . . . . 9
+
+2.3 Derivatives of Eigenvalues . . . . . . . . . . . . . . . . . . . . . . 10
+
+2.4 Derivatives of Matrices, Vectors and Scalar Forms . . . . . . . . 10
+
+2.5 Derivatives of Traces . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+2.6 Derivatives of vector norms . . . . . . . . . . . . . . . . . . . . . 14
+
+2.7 Derivatives of matrix norms . . . . . . . . . . . . . . . . . . . . . 14
+
+2.8 Derivatives of Structured Matrices . . . . . . . . . . . . . . . . . 14
+
+3 Inverses
+
+17
+
+3.1 Basic . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+3.2 Exact Relations . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+3.3 Implication on Inverses . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+3.4 Approximations . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+3.5 Generalized Inverse . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+3.6 Pseudo Inverse . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+4 Complex Matrices
+
+24
+
+4.1 Complex Derivatives . . . . . . . . . . . . . . . . . . . . . . . . . 24
+
+4.2 Higher order and non-linear derivatives . . . . . . . . . . . . . . . 26
+
+4.3 Inverse of complex sum . . . . . . . . . . . . . . . . . . . . . . . 27
+
+5 Solutions and Decompositions
+
+28
+
+5.1 Solutions to linear equations . . . . . . . . . . . . . . . . . . . . . 28
+
+5.2 Eigenvalues and Eigenvectors . . . . . . . . . . . . . . . . . . . . 30
+
+5.3 Singular Value Decomposition . . . . . . . . . . . . . . . . . . . . 31
+
+5.4 Triangular Decomposition . . . . . . . . . . . . . . . . . . . . . . 32
+
+5.5 LU decomposition . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+
+5.6 LDM decomposition . . . . . . . . . . . . . . . . . . . . . . . . . 33
+
+5.7 LDL decompositions . . . . . . . . . . . . . . . . . . . . . . . . . 33
+
+6 Statistics and Probability
+
+34
+
+6.1 Deﬁnition of Moments . . . . . . . . . . . . . . . . . . . . . . . . 34
+
+6.2 Expectation of Linear Combinations . . . . . . . . . . . . . . . . 35
+
+6.3 Weighted Scalar Variable . . . . . . . . . . . . . . . . . . . . . . 36
+
+7 Multivariate Distributions
+
+37
+
+7.1 Cauchy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+
+7.2 Dirichlet . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+
+7.3 Normal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+
+7.4 Normal-Inverse Gamma . . . . . . . . . . . . . . . . . . . . . . . 37
+
+7.5 Gaussian . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+
+7.6 Multinomial . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 3
+
+CONTENTS
+
+CONTENTS
+
+7.7 Student’s t . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37 7.8 Wishart . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38 7.9 Wishart, Inverse . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+
+8 Gaussians
+
+40
+
+8.1 Basics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+
+8.2 Moments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+
+8.3 Miscellaneous . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44
+
+8.4 Mixture of Gaussians . . . . . . . . . . . . . . . . . . . . . . . . . 44
+
+9 Special Matrices
+
+46
+
+9.1 Block matrices . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+
+9.2 Discrete Fourier Transform Matrix, The . . . . . . . . . . . . . . 47
+
+9.3 Hermitian Matrices and skew-Hermitian . . . . . . . . . . . . . . 48
+
+9.4 Idempotent Matrices . . . . . . . . . . . . . . . . . . . . . . . . . 49
+
+9.5 Orthogonal matrices . . . . . . . . . . . . . . . . . . . . . . . . . 49
+
+9.6 Positive Deﬁnite and Semi-deﬁnite Matrices . . . . . . . . . . . . 50
+
+9.7 Singleentry Matrix, The . . . . . . . . . . . . . . . . . . . . . . . 52
+
+9.8 Symmetric, Skew-symmetric/Antisymmetric . . . . . . . . . . . . 54
+
+9.9 Toeplitz Matrices . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+
+9.10 Transition matrices . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+
+9.11 Units, Permutation and Shift . . . . . . . . . . . . . . . . . . . . 56
+
+9.12 Vandermonde Matrices . . . . . . . . . . . . . . . . . . . . . . . . 57
+
+10 Functions and Operators
+
+58
+
+10.1 Functions and Series . . . . . . . . . . . . . . . . . . . . . . . . . 58
+
+10.2 Kronecker and Vec Operator . . . . . . . . . . . . . . . . . . . . 59
+
+10.3 Vector Norms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+
+10.4 Matrix Norms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61
+
+10.5 Rank . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 62
+
+10.6 Integral Involving Dirac Delta Functions . . . . . . . . . . . . . . 62
+
+10.7 Miscellaneous . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 63
+
+A One-dimensional Results
+
+64
+
+A.1 Gaussian . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 64
+
+A.2 One Dimensional Mixture of Gaussians . . . . . . . . . . . . . . . 65
+
+B Proofs and Details
+
+66
+
+B.1 Misc Proofs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 4
+
+CONTENTS
+
+CONTENTS
+
+Notation and Nomenclature
+
+A Aij Ai Aij An
+A−1 A+ A1/2 (A)ij Aij [A]ij a ai ai
+a
+
+Matrix Matrix indexed for some purpose Matrix indexed for some purpose Matrix indexed for some purpose Matrix indexed for some purpose or The n.th power of a square matrix The inverse matrix of the matrix A The pseudo inverse matrix of the matrix A (see Sec. 3.6) The square root of a matrix (if unique), not elementwise The (i, j).th entry of the matrix A The (i, j).th entry of the matrix A The ij-submatrix, i.e. A with i.th row and j.th column deleted Vector (column-vector) Vector indexed for some purpose The i.th element of the vector a Scalar
+
+z Real part of a scalar z Real part of a vector Z Real part of a matrix z Imaginary part of a scalar z Imaginary part of a vector Z Imaginary part of a matrix
+
+det(A) Tr(A) diag(A) eig(A) vec(A)
+sup ||A|| AT A−T A∗ AH
+
+Determinant of A Trace of the matrix A Diagonal matrix of the matrix A, i.e. (diag(A))ij = δijAij Eigenvalues of the matrix A The vector-version of the matrix A (see Sec. 10.2.2) Supremum of a set Matrix norm (subscript if any denotes what norm) Transposed matrix The inverse of the transposed and vice versa, A−T = (A−1)T = (AT )−1. Complex conjugated matrix Transposed and complex conjugated matrix (Hermitian)
+
+A ◦ B Hadamard (elementwise) product A ⊗ B Kronecker product
+
+0
+
+The null matrix. Zero in all entries.
+
+I
+
+The identity matrix
+
+Jij The single-entry matrix, 1 at (i, j) and zero elsewhere
+
+Σ A positive deﬁnite matrix
+
+Λ A diagonal matrix
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 5
+
+1 BASICS
+
+1 Basics
+
+(AB)−1 = B−1A−1
+
+(1)
+
+(ABC...)−1 = ...C−1B−1A−1
+
+(2)
+
+(AT )−1 = (A−1)T
+
+(3)
+
+(A + B)T = AT + BT
+
+(4)
+
+(AB)T = BT AT
+
+(5)
+
+(ABC...)T = ...CT BT AT
+
+(6)
+
+(AH )−1 = (A−1)H
+
+(7)
+
+(A + B)H = AH + BH
+
+(8)
+
+(AB)H = BH AH
+
+(9)
+
+(ABC...)H = ...CH BH AH
+
+(10)
+
+1.1 Trace
+
+Tr(A) = iAii
+
+(11)
+
+Tr(A) = iλi, λi = eig(A)
+
+(12)
+
+Tr(A) = Tr(AT )
+
+(13)
+
+Tr(AB) = Tr(BA)
+
+(14)
+
+Tr(A + B) = Tr(A) + Tr(B)
+
+(15)
+
+Tr(ABC) = Tr(BCA) = Tr(CAB)
+
+(16)
+
+aT a = Tr(aaT )
+
+(17)
+
+1.2 Determinant
+Let A be an n × n matrix.
+
+det(A) = iλi λi = eig(A)
+
+(18)
+
+det(cA) = cn det(A), if A ∈ Rn×n
+
+(19)
+
+det(AT ) = det(A)
+
+(20)
+
+det(AB) = det(A) det(B)
+
+(21)
+
+det(A−1) = 1/ det(A)
+
+(22)
+
+det(An) = det(A)n
+
+(23)
+
+det(I + uvT ) = 1 + uT v
+
+(24)
+
+For n = 2:
+
+det(I + A) = 1 + det(A) + Tr(A)
+
+(25)
+
+For n = 3:
+
+det(I + A) = 1 + det(A) + Tr(A) + 1 Tr(A)2 − 1 Tr(A2)
+
+(26)
+
+2
+
+2
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 6
+
+1.3 The Special Case 2x2
+
+1 BASICS
+
+For n = 4:
+
+1 det(I + A) = 1 + det(A) + Tr(A) +
+2
+
++Tr(A)2 − 1 Tr(A2) 2
+
+1 +
+
+Tr(A)3
+
+−
+
+1 Tr(A)Tr(A2)
+
++
+
+1 Tr(A3)
+
+(27)
+
+6
+
+2
+
+3
+
+For small ε, the following approximation holds
+
+det(I + εA) ∼= 1 + det(A) + εTr(A) + 1 ε2Tr(A)2 − 1 ε2Tr(A2)
+
+(28)
+
+2
+
+2
+
+1.3 The Special Case 2x2
+
+Consider the matrix A Determinant and trace
+
+A=
+
+A11 A12 A21 A22
+
+det(A) = A11A22 − A12A21
+
+(29)
+
+Tr(A) = A11 + A22
+
+(30)
+
+Eigenvalues
+
+λ2 − λ · Tr(A) + det(A) = 0
+
+Tr(A) + λ1 = Eigenvectors Inverse
+
+Tr(A)2 − 4 det(A) 2 λ1 + λ2 = Tr(A)
+
+v1 ∝
+
+A12 λ1 − A11
+
+A−1 = 1 det(A)
+
+Tr(A) − Tr(A)2 − 4 det(A)
+
+λ2 =
+
+2
+
+λ1λ2 = det(A)
+
+v2 ∝
+
+A12 λ2 − A11
+
+A22 −A12 −A21 A11
+
+(31)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 7
+
+2 DERIVATIVES
+
+2 Derivatives
+
+This section is covering diﬀerentiation of a number of expressions with respect to a matrix X. Note that it is always assumed that X has no special structure, i.e. that the elements of X are independent (e.g. not symmetric, Toeplitz, positive deﬁnite). See section 2.8 for diﬀerentiation of structured matrices. The basic assumptions can be written in a formula as
+
+∂Xkl ∂Xij
+
+= δikδlj
+
+(32)
+
+that is for e.g. vector forms,
+
+∂x = ∂xi ∂y i ∂y
+
+∂x ∂x =
+∂y i ∂yi
+
+∂x = ∂xi ∂y ij ∂yj
+
+The following rules are general and very useful when deriving the diﬀerential of an expression ([19]):
+
+∂A = 0
+
+(A is a constant) (33)
+
+∂(αX) = α∂X
+
+(34)
+
+∂(X + Y) = ∂X + ∂Y
+
+(35)
+
+∂(Tr(X)) = Tr(∂X)
+
+(36)
+
+∂(XY) = (∂X)Y + X(∂Y)
+
+(37)
+
+∂(X ◦ Y) = (∂X) ◦ Y + X ◦ (∂Y)
+
+(38)
+
+∂(X ⊗ Y) = (∂X) ⊗ Y + X ⊗ (∂Y)
+
+(39)
+
+∂(X−1) = −X−1(∂X)X−1
+
+(40)
+
+∂(det(X)) = Tr(adj(X)∂X)
+
+(41)
+
+∂(det(X)) = det(X)Tr(X−1∂X)
+
+(42)
+
+∂(ln(det(X))) = Tr(X−1∂X)
+
+(43)
+
+∂XT = (∂X)T
+
+(44)
+
+∂XH = (∂X)H
+
+(45)
+
+2.1 Derivatives of a Determinant
+2.1.1 General form
+
+∂ det(Y) = det(Y)Tr Y−1 ∂Y
+
+(46)
+
+∂x
+
+∂x
+
+∂ det(X)
+
+k ∂Xik Xjk = δij det(X)
+
+(47)
+
+∂2 det(Y) ∂x2
+
+=
+
+det(Y)
+
+Tr
+
+Y−1
+
+∂
+
+∂Y ∂x
+
+∂x
+
++Tr Y−1 ∂Y Tr Y−1 ∂Y
+
+∂x
+
+∂x
+
+−Tr Y−1 ∂Y Y−1 ∂Y
+
+(48)
+
+∂x
+
+∂x
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 8
+
+2.2 Derivatives of an Inverse
+
+2 DERIVATIVES
+
+2.1.2 Linear forms
+
+∂ det(X) = det(X)(X−1)T
+
+(49)
+
+∂X
+
+∂ det(X)
+
+k ∂Xik Xjk = δij det(X)
+
+(50)
+
+∂ det(AXB) = det(AXB)(X−1)T = det(AXB)(XT )−1 (51) ∂X
+
+2.1.3 Square forms If X is square and invertible, then
+
+∂ det(XT AX) = 2 det(XT AX)X−T
+
+(52)
+
+∂X
+
+If X is not square but A is symmetric, then
+
+∂ det(XT AX) = 2 det(XT AX)AX(XT AX)−1
+
+(53)
+
+∂X
+
+If X is not square and A is not symmetric, then
+
+∂ det(XT AX) = det(XT AX)(AX(XT AX)−1 + AT X(XT AT X)−1) (54) ∂X
+
+2.1.4 Other nonlinear forms Some special cases are (See [9, 7])
+
+∂ ln det(XT X)| = 2(X+)T
+
+(55)
+
+∂X
+
+∂ ln det(XT X) ∂X+
+
+=
+
+−2XT
+
+(56)
+
+∂ ln | det(X)| = (X−1)T = (XT )−1
+
+(57)
+
+∂X
+
+∂ det(Xk) = k det(Xk)X−T
+
+(58)
+
+∂X
+
+2.2 Derivatives of an Inverse
+From [27] we have the basic identity
+
+∂Y−1 = −Y−1 ∂Y Y−1
+
+(59)
+
+∂x
+
+∂x
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 9
+
+2.3 Derivatives of Eigenvalues
+
+2 DERIVATIVES
+
+from which it follows
+
+∂(X−1)kl ∂Xij
+
+= −(X−1)ki(X−1)jl
+
+(60)
+
+∂aT X−1b = −X−T abT X−T ∂X
+
+(61)
+
+∂ det(X−1) = − det(X−1)(X−1)T
+
+(62)
+
+∂X
+
+∂Tr(AX−1B) = −(X−1BAX−1)T
+
+(63)
+
+∂X
+
+∂Tr((X + A)−1) = −((X + A)−1(X + A)−1)T
+
+(64)
+
+∂X
+
+From [32] we have the following result: Let A be an n × n invertible square
+
+matrix, W be the inverse of A, and J(A) is an n × n -variate and diﬀerentiable
+
+function with respect to A, then the partial diﬀerentials of J with respect to A
+
+and W satisfy
+
+∂J = −A−T ∂J A−T
+
+∂A
+
+∂W
+
+2.3 Derivatives of Eigenvalues
+
+∂
+
+∂
+
+eig(X) =
+
+Tr(X) = I
+
+(65)
+
+∂X
+
+∂X
+
+∂
+
+eig(X) =
+
+∂ det(X)
+
+=
+
+det(X)X−T
+
+(66)
+
+∂X
+
+∂X
+
+If A is real and symmetric, λi and vi are distinct eigenvalues and eigenvectors of A (see (276)) with viT vi = 1, then [33]
+
+∂λi = viT ∂(A)vi
+
+(67)
+
+∂vi = (λiI − A)+∂(A)vi
+
+(68)
+
+2.4 Derivatives of Matrices, Vectors and Scalar Forms
+
+2.4.1 First Order
+
+∂xT a
+
+∂aT x
+
+=
+
+=a
+
+(69)
+
+∂x
+
+∂x
+
+∂aT Xb = abT
+
+(70)
+
+∂X
+
+∂aT XT b = baT
+
+(71)
+
+∂X
+
+∂aT Xa
+
+∂aT XT a
+
+=
+
+=
+
+aaT
+
+(72)
+
+∂X
+
+∂X
+
+∂X = Jij
+
+(73)
+
+∂Xij
+
+∂(XA)ij ∂Xmn
+
+= δim(A)nj
+
+=
+
+(JmnA)ij
+
+(74)
+
+∂(XT A)ij ∂Xmn
+
+= δin(A)mj
+
+=
+
+(JnmA)ij
+
+(75)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 10
+
+2.4 Derivatives of Matrices, Vectors and Scalar Forms 2 DERIVATIVES
+
+2.4.2 Second Order
+
+∂
+
+∂Xij
+
+XklXmn
+klmn
+
+=
+
+2 Xkl
+kl
+
+(76)
+
+∂bT XT Xc = X(bcT + cbT )
+
+(77)
+
+∂X
+
+∂(Bx + b)T C(Dx + d) = BT C(Dx + d) + DT CT (Bx + b)
+
+(78)
+
+∂x
+
+∂(XT BX)kl ∂Xij
+
+= δlj (XT B)ki + δkj (BX)il
+
+(79)
+
+∂(XT BX) = XT BJij + JjiBX ∂Xij
+
+(Jij )kl = δikδjl (80)
+
+See Sec 9.7 for useful properties of the Single-entry matrix Jij
+
+∂xT Bx = (B + BT )x
+
+(81)
+
+∂x
+
+∂bT XT DXc = DT XbcT + DXcbT
+
+(82)
+
+∂X
+
+∂ (Xb + c)T D(Xb + c) = (D + DT )(Xb + c)bT
+
+(83)
+
+∂X
+
+Assume W is symmetric, then
+
+∂ (x − As)T W(x − As) = −2AT W(x − As)
+
+(84)
+
+∂s
+
+∂ (x − s)T W(x − s) = 2W(x − s)
+
+(85)
+
+∂x
+
+∂ (x − s)T W(x − s) = −2W(x − s)
+
+(86)
+
+∂s
+
+∂ (x − As)T W(x − As) = 2W(x − As)
+
+(87)
+
+∂x
+
+∂ (x − As)T W(x − As) = −2W(x − As)sT
+
+(88)
+
+∂A
+
+As a case with complex values the following holds
+
+∂(a − xH b)2 = −2b(a − xH b)∗
+
+(89)
+
+∂x
+
+This formula is also known from the LMS algorithm [14]
+
+2.4.3 Higher-order and non-linear
+
+∂(Xn)kl ∂Xij
+
+n−1
+= (XrJij Xn−1−r)kl
+r=0
+
+For proof of the above, see B.1.3.
+
+(90)
+
+∂
+
+n−1
+aT Xnb = (Xr)T abT (Xn−1−r)T
+
+∂X
+
+r=0
+
+(91)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 11
+
+2.5 Derivatives of Traces
+
+2 DERIVATIVES
+
+∂ aT (Xn)T Xnb
+
+=
+
+n−1
+Xn−1−rabT (Xn)T Xr
+
+∂X
+
+r=0
+
++(Xr)T XnabT (Xn−1−r)T
+
+(92)
+
+See B.1.3 for a proof. Assume s and r are functions of x, i.e. s = s(x), r = r(x), and that A is a constant, then
+
+∂ sT Ar =
+
+∂s
+
+T
+Ar +
+
+∂r
+
+T
+AT s
+
+(93)
+
+∂x
+
+∂x
+
+∂x
+
+∂ (Ax)T (Ax)
+
+∂ xT AT Ax
+
+∂x (Bx)T (Bx) = ∂x xT BT Bx
+
+(94)
+
+AT Ax xT AT AxBT Bx
+
+= 2 xT BBx − 2 (xT BT Bx)2
+
+(95)
+
+2.4.4 Gradient and Hessian
+
+Using the above we have for the gradient and the Hessian
+
+f = xT Ax + bT x
+
+(96)
+
+∂f ∇xf = ∂x
+
+=
+
+(A + AT )x + b
+
+(97)
+
+∂2f ∂x∂xT
+
+= A + AT
+
+(98)
+
+2.5 Derivatives of Traces
+
+Assume F (X) to be a diﬀerentiable function of each of the elements of X. It
+
+then holds that
+
+∂Tr(F (X)) = f (X)T ∂X
+
+where f (·) is the scalar derivative of F (·).
+
+2.5.1 First Order
+
+∂ Tr(X) = I
+∂X
+
+∂ Tr(XA)
+
+=
+
+AT
+
+∂X
+
+∂ Tr(AXB)
+
+=
+
+AT BT
+
+∂X
+
+∂ Tr(AXT B) = BA ∂X
+
+∂ Tr(XT A) = A ∂X
+
+∂ Tr(AXT ) = A ∂X
+
+∂ Tr(A ⊗ X) = Tr(A)I
+∂X
+
+(99) (100) (101) (102) (103) (104) (105)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 12
+
+2.5 Derivatives of Traces
+
+2 DERIVATIVES
+
+2.5.2 Second Order
+
+∂ Tr(X2) = 2XT ∂X
+
+(106)
+
+∂ Tr(X2B) = (XB + BX)T ∂X
+
+(107)
+
+∂ Tr(XT BX) = BX + BT X ∂X
+
+(108)
+
+∂ Tr(BXXT ) = BX + BT X ∂X
+
+(109)
+
+∂ Tr(XXT B) = BX + BT X ∂X
+
+(110)
+
+∂ Tr(XBXT ) = XBT + XB ∂X
+
+(111)
+
+∂ Tr(BXT X) = XBT + XB ∂X
+
+(112)
+
+∂ Tr(XT XB) = XBT + XB ∂X
+
+(113)
+
+∂ Tr(AXBX)
+
+=
+
+AT XT BT + BT XT AT
+
+∂X
+
+(114)
+
+∂ Tr(XT X) = ∂ Tr(XXT ) = 2X (115)
+
+∂X
+
+∂X
+
+∂ Tr(BT XT CXB) = CT XBBT + CXBBT ∂X
+
+(116)
+
+∂ Tr XT BXC = BXC + BT XCT ∂X
+
+(117)
+
+∂ Tr(AXBXT C) = AT CT XBT + CAXB ∂X
+
+(118)
+
+∂ Tr (AXB + C)(AXB + C)T = 2AT (AXB + C)BT ∂X
+
+(119)
+
+∂
+
+∂
+
+Tr(X ⊗ X) =
+
+Tr(X)Tr(X) = 2Tr(X)I(120)
+
+∂X
+
+∂X
+
+See [7].
+
+2.5.3 Higher Order
+
+∂ Tr(Xk) = k(Xk−1)T ∂X
+
+∂ Tr(AXk)
+
+=
+
+k−1
+(Xr AXk−r−1 )T
+
+∂X
+
+r=0
+
+∂ ∂X
+
+Tr
+
+BT XT CXXT CXB
+
+= CXXT CXBBT +CT XBBT XT CT X
+
++CXBBT XT CX
+
++CT XXT CT XBBT
+
+(121) (122)
+(123)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 13
+
+2.6 Derivatives of vector norms
+
+2 DERIVATIVES
+
+2.5.4 Other ∂ Tr(AX−1B) = −(X−1BAX−1)T = −X−T AT BT X−T ∂X
+Assume B and C to be symmetric, then
+
+(124)
+
+∂ Tr (XT CX)−1A ∂X ∂ Tr (XT CX)−1(XT BX) ∂X
+∂ Tr (A + XT CX)−1(XT BX) ∂X
+
+= −(CX(XT CX)−1)(A + AT )(XT CX)−1 (125)
+
+= −2CX(XT CX)−1XT BX(XT CX)−1
+
++2BX(XT CX)−1
+
+(126)
+
+= −2CX(A + XT CX)−1XT BX(A + XT CX)−1
+
++2BX(A + XT CX)−1
+
+(127)
+
+See [7].
+
+∂Tr(sin(X)) = cos(X)T ∂X
+
+2.6 Derivatives of vector norms
+
+2.6.1
+
+Two-norm
+
+∂
+
+x−a
+
+||x − ∂x
+
+a||2
+
+=
+
+||x − a||2
+
+∂ x−a
+
+I
+
+(x − a)(x − a)T
+
+=
+
+−
+
+∂x x − a 2 x − a 2
+
+x−a
+
+3 2
+
+∂||x||22 = ∂||xT x||2 = 2x
+
+∂x
+
+∂x
+
+2.7 Derivatives of matrix norms
+For more on matrix norms, see Sec. 10.4.
+
+(128)
+(129) (130) (131)
+
+2.7.1 Frobenius norm
+
+∂ ∂X
+
+||X||2F
+
+=
+
+∂ Tr(XXH ) ∂X
+
+=
+
+2X
+
+(132)
+
+See (248). Note that this is also a special case of the result in equation 119.
+
+2.8 Derivatives of Structured Matrices
+
+Assume that the matrix A has some structure, i.e. symmetric, toeplitz, etc.
+
+In that case the derivatives of the previous section does not apply in general.
+
+Instead, consider the following general rule for diﬀerentiating a scalar function
+
+f (A)
+
+df =
+
+∂f ∂Akl = Tr
+
+dAij
+
+kl ∂Akl ∂Aij
+
+∂f T ∂A ∂A ∂Aij
+
+(133)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 14
+
+2.8 Derivatives of Structured Matrices
+
+2 DERIVATIVES
+
+The matrix diﬀerentiated with respect to itself is in this document referred to as the structure matrix of A and is deﬁned simply by
+
+∂A = Sij ∂Aij
+
+(134)
+
+If A has no special structure we have simply Sij = Jij, that is, the structure matrix is simply the single-entry matrix. Many structures have a representation in singleentry matrices, see Sec. 9.7.6 for more examples of structure matrices.
+
+2.8.1 The Chain Rule
+Sometimes the objective is to ﬁnd the derivative of a matrix which is a function of another matrix. Let U = f (X), the goal is to ﬁnd the derivative of the function g(U) with respect to X:
+
+∂g(U) ∂g(f (X))
+
+=
+
+∂X
+
+∂X
+
+Then the Chain Rule can then be written the following way:
+
+∂g(U) ∂g(U) M
+
+=
+
+=
+
+N
+
+∂g(U) ∂ukl
+
+∂X
+
+∂xij
+
+k=1 l=1 ∂ukl ∂xij
+
+Using matrix notation, this can be written as:
+
+∂g(U) = Tr
+
+( ∂g(U) )T
+
+∂U
+
+.
+
+∂Xij
+
+∂U ∂Xij
+
+(135) (136) (137)
+
+2.8.2 Symmetric If A is symmetric, then Sij = Jij + Jji − JijJij and therefore
+
+df ∂f
+
+∂f T
+
+∂f
+
+=
+
++
+
+− diag
+
+dA ∂A ∂A
+
+∂A
+
+(138)
+
+That is, e.g., ([5]):
+
+∂Tr(AX) = A + AT − (A ◦ I), see (142) ∂X
+∂ det(X) = det(X)(2X−1 − (X−1 ◦ I)) ∂X
+∂ ln det(X) = 2X−1 − (X−1 ◦ I) ∂X
+
+(139) (140) (141)
+
+2.8.3 Diagonal If X is diagonal, then ([19]):
+∂Tr(AX) = A◦I
+∂X
+
+(142)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 15
+
+2.8 Derivatives of Structured Matrices
+
+2 DERIVATIVES
+
+2.8.4 Toeplitz
+Like symmetric matrices and diagonal matrices also Toeplitz matrices has a special structure which should be taken into account when the derivative with respect to a matrix with Toeplitz structure.
+
+∂Tr(AT) ∂T
+
+(143)
+
+∂Tr(TA) =
+∂T
+
+
+
+Tr(A)
+
+Tr([AT ]n1) Tr([[AT ]1n ]n−1,2)
+
+···
+
+An1
+
+
+
+ 
+
+Tr([AT ]1n ))
+
+=  Tr([[AT ]1n]2,n−1)
+
+
+
+.
+
+
+
+.
+
+.
+
+A1n
+
+Tr(A) ...
+... ···
+
+... ...
+... Tr([[AT ]1n ]2,n−1)
+
+... ...
+... Tr([AT ]1n ))
+
+.
+
+. .
+
+
+
+
+
+
+ Tr([[AT ]1n]n−1,2) 
+
+
+Tr([AT ]n1) Tr(A)
+
+≡ α(A)
+
+As it can be seen, the derivative α(A) also has a Toeplitz structure. Each value in the diagonal is the sum of all the diagonal valued in A, the values in the diagonals next to the main diagonal equal the sum of the diagonal next to the main diagonal in AT . This result is only valid for the unconstrained Toeplitz matrix. If the Toeplitz matrix also is symmetric, the same derivative yields
+
+∂Tr(AT) = ∂Tr(TA) = α(A) + α(A)T − α(A) ◦ I
+
+∂T
+
+∂T
+
+(144)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 16
+
+3 INVERSES
+
+3 Inverses
+
+3.1 Basic
+
+3.1.1 Deﬁnition The inverse A−1 of a matrix A ∈ Cn×n is deﬁned such that
+
+AA−1 = A−1A = I,
+
+(145)
+
+where I is the n × n identity matrix. If A−1 exists, A is said to be nonsingular. Otherwise, A is said to be singular (see e.g. [12]).
+
+3.1.2 Cofactors and Adjoint
+The submatrix of a matrix A, denoted by [A]ij is a (n − 1) × (n − 1) matrix obtained by deleting the ith row and the jth column of A. The (i, j) cofactor of a matrix is deﬁned as
+
+cof(A, i, j) = (−1)i+j det([A]ij),
+
+(146)
+
+The matrix of cofactors can be created from the cofactors
+
+cof(A, 1, 1)
+
+
+
+ cof(A) = 
+
+
+...
+
+
+
+
+
+cof(A, n, 1)
+
+··· cof(A, i, j)
+···
+
+cof(A, 1, n)
+
+
+
+...
+
+  
+
+
+
+
+
+cof(A, n, n)
+
+(147)
+
+The adjoint matrix is the transpose of the cofactor matrix
+
+adj(A) = (cof(A))T ,
+
+(148)
+
+3.1.3 Determinant
+
+The determinant of a matrix A ∈ Cn×n is deﬁned as (see [12])
+
+n
+
+det(A) =
+
+(−1)j+1A1j det ([A]1j )
+
+j=1
+
+n
+
+=
+
+A1jcof(A, 1, j).
+
+j=1
+
+3.1.4 Construction The inverse matrix can be constructed, using the adjoint matrix, by
+A−1 = 1 · adj(A) det(A)
+For the case of 2 × 2 matrices, see section 1.3.
+
+(149) (150)
+(151)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 17
+
+3.2 Exact Relations
+
+3 INVERSES
+
+3.1.5 Condition number
+The condition number of a matrix c(A) is the ratio between the largest and the smallest singular value of a matrix (see Section 5.3 on singular values),
+
+c(A) = d+ d−
+
+(152)
+
+The condition number can be used to measure how singular a matrix is. If the condition number is large, it indicates that the matrix is nearly singular. The condition number can also be estimated from the matrix norms. Here
+
+c(A) = A · A−1 ,
+
+(153)
+
+where · is a norm such as e.g the 1-norm, the 2-norm, the ∞-norm or the Frobenius norm (see Sec 10.4 for more on matrix norms).
+The 2-norm of A equals (max(eig(AH A))) [12, p.57]. For a symmetric matrix, this reduces to ||A||2 = max(|eig(A)|) [12, p.394]. If the matrix is symmetric and positive deﬁnite, ||A||2 = max(eig(A)). The condition number based on the 2-norm thus reduces to
+
+A
+
+2
+
+A−1
+
+2 = max(eig(A)) max(eig(A−1)) =
+
+max(eig(A)) .
+min(eig(A))
+
+(154)
+
+3.2 Exact Relations
+
+3.2.1 Basic
+
+(AB)−1 = B−1A−1
+
+(155)
+
+3.2.2 The Woodbury identity
+The Woodbury identity comes in many variants. The latter of the two can be found in [12]
+
+(A + CBCT )−1 = A−1 − A−1C(B−1 + CT A−1C)−1CT A−1 (156) (A + UBV)−1 = A−1 − A−1U(B−1 + VA−1U)−1VA−1 (157)
+
+If P, R are positive deﬁnite, then (see [30]) (P−1 + BT R−1B)−1BT R−1 = PBT (BPBT + R)−1
+
+(158)
+
+3.2.3 The Kailath Variant (A + BC)−1 = A−1 − A−1B(I + CA−1B)−1CA−1
+See [4, page 153].
+
+(159)
+
+3.2.4
+
+Sherman-Morrison
+
+(A
+
++
+
+bcT
+
+)−1
+
+=
+
+A−1
+
+−
+
+A−1bcT A−1 1 + cT A−1b
+
+(160)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 18
+
+3.2 Exact Relations
+
+3 INVERSES
+
+3.2.5 The Searle Set of Identities
+The following set of identities, can be found in [25, page 151],
+(I + A−1)−1 = A(A + I)−1 (A + BBT )−1B = A−1B(I + BT A−1B)−1 (A−1 + B−1)−1 = A(A + B)−1B = B(A + B)−1A A − A(A + B)−1A = B − B(A + B)−1B
+A−1 + B−1 = A−1(A + B)B−1 (I + AB)−1 = I − A(I + BA)−1B (I + AB)−1A = A(I + BA)−1
+
+(161) (162) (163) (164) (165) (166) (167)
+
+3.2.6 Rank-1 update of inverse of inner product
+
+Denote A = (XT X)−1 and that X is extended to include a new column vector in the end X˜ = [X v]. Then [34]
+
+(X˜ T X˜ )−1 =
+
+A
+
++
+
+AXT vvT XAT vT v−vT XAXT v
+
+−vT XAT
+
+vT v−vT XAXT v
+
+−AXT v vT v−vT XAXT v
+1 vT v−vT XAXT v
+
+3.2.7 Rank-1 update of Moore-Penrose Inverse
+
+The following is a rank-1 update for the Moore-Penrose pseudo-inverse of real valued matrices and proof can be found in [18]. The matrix G is deﬁned below:
+
+(A + cdT )+ = A+ + G
+
+(168)
+
+Using the the notation
+
+β = 1 + dT A+c v = A+c n = (A+)T d w = (I − AA+)c m = (I − A+A)T d
+
+(169) (170) (171) (172) (173)
+
+the solution is given as six diﬀerent cases, depending on the entities ||w||,
+
+||m||, and β. Please note, that for any (column) vector v it holds that v+ =
+
+vT (vT v)−1
+
+=
+
+vT ||v||2
+
+.
+
+The
+
+solution
+
+is:
+
+Case 1 of 6: If ||w|| = 0 and ||m|| = 0. Then
+
+G = −vw+ − (m+)T nT + β(m+)T w+
+
+=
+
+−
+
+1 ||w||2
+
+vwT
+
+−
+
+1 ||m||2
+
+mnT
+
++
+
+β ||m||2||w||2
+
+mwT
+
+Case 2 of 6: If ||w|| = 0 and ||m|| = 0 and β = 0. Then
+
+G = −vv+A+ − (m+)T nT
+
+=
+
+−
+
+1 ||v||2
+
+vvT
+
+A+
+
+−
+
+1 ||m||2
+
+mnT
+
+(174) (175)
+(176) (177)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 19
+
+3.3 Implication on Inverses
+
+3 INVERSES
+
+Case 3 of 6: If ||w|| = 0 and β = 0. Then
+
+G
+
+=
+
+1 mvT A+ β
+
+−
+
+β ||v||2||m||2
+
++
+
+|β|2
+
+||v||2 m+v
+β
+
+||m||2 (A+)T v + n T β
+
+(178)
+
+Case 4 of 6: If ||w|| = 0 and ||m|| = 0 and β = 0. Then
+
+G = −A+nn+ − vw+
+
+=
+
+−
+
+1 ||n||2
+
+A+nnT
+
+−
+
+1 ||w||2
+
+vwT
+
+(179) (180)
+
+Case 5 of 6: If ||m|| = 0 and β = 0. Then
+
+G
+
+=
+
+1 A+nwT β
+
+−
+
+β ||n||2||w||2
+
++
+
+|β|2
+
+||w||2 A+n + v β
+
+||n||2
+
+T
+
+w + n (181)
+
+β
+
+Case 6 of 6: If ||w|| = 0 and ||m|| = 0 and β = 0. Then
+
+G = −vv+A+ − A+nn+ + v+A+nvn+
+
+=
+
+−
+
+1 ||v||2
+
+vvT
+
+A+
+
+−
+
+1 ||n||2
+
+A+
+
+nnT
+
++
+
+vT A+n ||v||2||n||2
+
+vnT
+
+(182) (183)
+
+3.3 Implication on Inverses
+If (A + B)−1 = A−1 + B−1 then See [25].
+
+AB−1A = BA−1B
+
+(184)
+
+3.3.1 A PosDef identity Assume P, R to be positive deﬁnite and invertible, then
+(P−1 + BT R−1B)−1BT R−1 = PBT (BPBT + R)−1 See [30].
+
+(185)
+
+3.4 Approximations
+
+The following identity is known as the Neuman series of a matrix, which holds when |λi| < 1 for all eigenvalues λi
+
+∞
+(I − A)−1 = An
+n=0
+
+(186)
+
+which is equivalent to
+
+∞
+(I + A)−1 = (−1)nAn
+
+(187)
+
+n=0
+
+When |λi| < 1 for all eigenvalues λi, it holds that A → 0 for n → ∞, and the following approximations holds
+
+(I − A)−1 ∼= I + A + A2 (I + A)−1 ∼= I − A + A2
+
+(188) (189)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 20
+
+3.5 Generalized Inverse
+
+3 INVERSES
+
+The following approximation is from [22] and holds when A large and symmetric
+
+A − A(I + A)−1A ∼= I − A−1
+
+(190)
+
+If σ2 is small compared to Q and M then
+
+(Q + σ2M)−1 ∼= Q−1 − σ2Q−1MQ−1
+
+(191)
+
+Proof:
+
+(Q + σ2M)−1 = (QQ−1Q + σ2MQ−1Q)−1 =
+((I + σ2MQ−1)Q)−1 = Q−1(I + σ2MQ−1)−1
+
+(192) (193) (194) (195)
+
+This can be rewritten using the Taylor expansion:
+
+Q−1(I + σ2MQ−1)−1 =
+
+(196)
+
+Q−1(I − σ2MQ−1 + (σ2MQ−1)2 − ...) ∼= Q−1 − σ2Q−1MQ−1 (197)
+
+3.5 Generalized Inverse
+
+3.5.1 Deﬁnition
+
+A generalized inverse matrix of the matrix A is any matrix A− such that (see
+
+[26])
+
+AA−A = A
+
+(198)
+
+The matrix A− is not unique.
+
+3.6 Pseudo Inverse
+3.6.1 Deﬁnition
+The pseudo inverse (or Moore-Penrose inverse) of a matrix A is the matrix A+ that fulﬁls
+I AA+A = A II A+AA+ = A+ III AA+ symmetric IV A+A symmetric
+The matrix A+ is unique and does always exist. Note that in case of complex matrices, the symmetric condition is substituted by a condition of being Hermitian.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 21
+
+3.6 Pseudo Inverse
+
+3 INVERSES
+
+3.6.2 Properties Assume A+ to be the pseudo-inverse of A, then (See [3] for some of them)
+
+(A+)+ = A (AT )+ = (A+)T (AH )+ = (A+)H (A∗)+ = (A+)∗ (A+A)AH = AH (A+A)AT = AT (cA)+ = (1/c)A+
+A+ = (AT A)+AT A+ = AT (AAT )+ (AT A)+ = A+(AT )+ (AAT )+ = (AT )+A+ A+ = (AH A)+AH A+ = AH (AAH )+ (AH A)+ = A+(AH )+ (AAH )+ = (AH )+A+ (AB)+ = (A+AB)+(ABB+)+ f (AH A) − f (0)I = A+[f (AAH ) − f (0)I]A f (AAH ) − f (0)I = A[f (AH A) − f (0)I]A+
+
+(199) (200) (201) (202) (203) (204) (205) (206) (207) (208) (209) (210) (211) (212) (213) (214) (215) (216)
+
+where A ∈ Cn×m. Assume A to have full rank, then
+(AA+)(AA+) = AA+ (A+A)(A+A) = A+A
+Tr(AA+) = rank(AA+) Tr(A+A) = rank(A+A)
+
+(See [26]) (See [26])
+
+(217) (218) (219) (220)
+
+For two matrices it hold that
+(AB)+ = (A+AB)+(ABB+)+ (A ⊗ B)+ = A+ ⊗ B+
+
+(221) (222)
+
+3.6.3 Construction
+
+Assume that A has full rank, then
+
+A n × n Square rank(A) = n ⇒ A+ = A−1
+
+A n × m Broad rank(A) = n ⇒ A+ = AT (AAT )−1
+
+A n × m Tall
+
+rank(A) = m ⇒ A+ = (AT A)−1AT
+
+The so-called ”broad version” is also known as right inverse and the ”tall version” as the left inverse.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 22
+
+3.6 Pseudo Inverse
+
+3 INVERSES
+
+Assume A does not have full rank, i.e. A is n × m and rank(A) = r < min(n, m). The pseudo inverse A+ can be constructed from the singular value decomposition A = UDVT , by
+
+A+ = VrD−r 1UTr
+
+(223)
+
+where Ur, Dr, and Vr are the matrices with the degenerated rows and columns deleted. A diﬀerent way is this: There do always exist two matrices C n × r and D r × m of rank r, such that A = CD. Using these matrices it holds that
+
+A+ = DT (DDT )−1(CT C)−1CT
+
+(224)
+
+See [3].
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 23
+
+4 COMPLEX MATRICES
+
+4 Complex Matrices
+
+The complex scalar product r = pq can be written as
+
+r r
+
+=
+
+p −p pp
+
+q q
+
+(225)
+
+4.1 Complex Derivatives
+In order to diﬀerentiate an expression f (z) with respect to a complex z, the Cauchy-Riemann equations have to be satisﬁed ([7]):
+
+df (z) ∂ (f (z)) ∂ (f (z))
+
+=
+
++i
+
+dz
+
+∂z
+
+∂z
+
+and
+
+df (z)
+
+∂ (f (z)) ∂ (f (z))
+
+= −i
+
++
+
+dz
+
+∂z
+
+∂z
+
+or in a more compact form:
+
+(226) (227)
+
+∂f (z) ∂f (z)
+
+=i
+
+.
+
+∂z ∂z
+
+(228)
+
+A complex function that satisﬁes the Cauchy-Riemann equations for points in a region R is said yo be analytic in this region R. In general, expressions involving complex conjugate or conjugate transpose do not satisfy the Cauchy-Riemann equations. In order to avoid this problem, a more generalized deﬁnition of complex derivative is used ([24], [6]):
+
+• Generalized Complex Derivative:
+
+df (z) 1 ∂f (z) ∂f (z)
+
+=
+
+−i
+
+.
+
+dz 2 ∂ z ∂ z
+
+(229)
+
+• Conjugate Complex Derivative
+
+df (z) 1 ∂f (z) ∂f (z)
+
+dz∗
+
+= 2
+
++i ∂z ∂z
+
+.
+
+(230)
+
+The Generalized Complex Derivative equals the normal derivative, when f is an
+
+analytic function. For a non-analytic function such as f (z) = z∗, the derivative
+
+equals zero. The Conjugate Complex Derivative equals zero, when f is an
+
+analytic function. The Conjugate Complex Derivative has e.g been used by [21]
+
+when deriving a complex gradient.
+
+Notice:
+
+df (z) ∂f (z) ∂f (z)
+
+=
+
++i
+
+.
+
+dz ∂ z ∂ z
+
+(231)
+
+• Complex Gradient Vector: If f is a real function of a complex vector z, then the complex gradient vector is given by ([14, p. 798])
+
+df (z) ∇f (z) = 2 dz∗
+
+∂f (z) ∂f (z)
+
+=
+
++i
+
+.
+
+∂z ∂z
+
+(232)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 24
+
+4.1 Complex Derivatives
+
+4 COMPLEX MATRICES
+
+• Complex Gradient Matrix: If f is a real function of a complex matrix Z, then the complex gradient matrix is given by ([2])
+
+df (Z) ∇f (Z) = 2 dZ∗
+
+∂f (Z) ∂f (Z)
+
+=
+
++i
+
+.
+
+∂Z ∂Z
+
+These expressions can be used for gradient descent algorithms.
+
+(233)
+
+4.1.1 The Chain Rule for complex numbers
+
+The chain rule is a little more complicated when the function of a complex u = f (x) is non-analytic. For a non-analytic function, the following chain rule can be applied ([7])
+
+∂g(u)
+
+∂g ∂u ∂g ∂u∗
+
+∂x = ∂u ∂x + ∂u∗ ∂x
+
+∂g ∂u ∂g∗ ∗ ∂u∗
+
+=
+
++
+
+∂u ∂x ∂u ∂x
+
+(234)
+
+Notice, if the function is analytic, the second term reduces to zero, and the function is reduced to the normal well-known chain rule. For the matrix derivative of a scalar function g(U), the chain rule can be written the following way:
+
+∂g(U)
+
+=
+
+Tr((
+
+∂
+
+g(U) ∂U
+
+)T
+
+∂U)
+
++
+
+Tr((
+
+∂g(U) ∂U∗
+
+)T
+
+∂
+
+U∗
+
+)
+
+.
+
+∂X
+
+∂X
+
+∂X
+
+(235)
+
+4.1.2 Complex Derivatives of Traces
+
+If the derivatives involve complex numbers, the conjugate transpose is often involved. The most useful way to show complex derivative is to show the derivative with respect to the real and the imaginary part separately. An easy example is:
+
+∂Tr(X∗) ∂Tr(XH )
+
+=
+
+=I
+
+∂X
+
+∂X
+
+∂Tr(X∗) ∂Tr(XH )
+
+i
+
+=i
+
+=I
+
+∂X
+
+∂X
+
+(236) (237)
+
+Since the two results have the same sign, the conjugate complex derivative (230) should be used.
+
+∂Tr(X) ∂Tr(XT )
+
+=
+
+=I
+
+∂X
+
+∂X
+
+∂Tr(X) ∂Tr(XT )
+
+i
+
+=i
+
+= −I
+
+∂X
+
+∂X
+
+(238) (239)
+
+Here, the two results have diﬀerent signs, and the generalized complex derivative (229) should be used. Hereby, it can be seen that (100) holds even if X is a complex number.
+
+∂Tr(AXH ) =A
+∂X
+
+∂Tr(AXH )
+
+i
+
+=A
+
+∂X
+
+(240) (241)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 25
+
+4.2 Higher order and non-linear derivatives
+
+4 COMPLEX MATRICES
+
+∂Tr(AX∗) = AT ∂X
+
+∂Tr(AX∗) i
+
+=
+
+AT
+
+∂X
+
+(242) (243)
+
+∂Tr(XXH ) ∂Tr(XH X)
+
+=
+
+= 2X
+
+∂X
+
+∂X
+
+∂Tr(XXH ) ∂Tr(XH X)
+
+i
+
+=i
+
+= i2 X
+
+∂X
+
+∂X
+
+(244) (245)
+
+By inserting (244) and (245) in (229) and (230), it can be seen that
+
+∂Tr(XXH ) = X∗ ∂X
+∂Tr(XXH ) ∂X∗ = X
+
+(246) (247)
+
+Since the function Tr(XXH ) is a real function of the complex matrix X, the complex gradient matrix (233) is given by
+
+∇Tr(XXH )
+
+=
+
+∂Tr(XXH ) 2 ∂X∗
+
+=
+
+2X
+
+(248)
+
+4.1.3 Complex Derivative Involving Determinants
+Here, a calculation example is provided. The objective is to ﬁnd the derivative of det(XH AX) with respect to X ∈ Cm×n. The derivative is found with respect to the real part and the imaginary part of X, by use of (42) and (37), det(XH AX) can be calculated as (see App. B.1.4 for details)
+
+∂ det(XH AX)
+
+1 ∂ det(XH AX) ∂ det(XH AX)
+
+=
+
+−i
+
+∂X
+
+2
+
+∂X
+
+∂X
+
+= det(XH AX) (XH AX)−1XH A T
+
+(249)
+
+and the complex conjugate derivative yields
+
+∂ det(XH AX)
+
+1 ∂ det(XH AX) ∂ det(XH AX)
+
+∂X∗
+
+= 2
+
+∂X
+
++i ∂X
+
+= det(XH AX)AX(XH AX)−1
+
+(250)
+
+4.2 Higher order and non-linear derivatives
+
+∂ (Ax)H (Ax)
+
+∂ xH AH Ax
+
+∂x (Bx)H (Bx) = ∂x xH BH Bx
+
+AH Ax xH AH AxBH Bx = 2 xH BBx − 2 (xH BH Bx)2
+
+(251) (252)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 26
+
+4.3 Inverse of complex sum
+
+4 COMPLEX MATRICES
+
+4.3 Inverse of complex sum
+Given real matrices A, B ﬁnd the inverse of the complex sum A + iB. Form the auxiliary matrices
+
+E = A + tB F = B − tA,
+
+(253) (254)
+
+and ﬁnd a value of t such that E−1 exists. Then
+
+(A + iB)−1 = (1 − it)(E + iF)−1
+
+(255)
+
+= (1 − it)((E + FE−1F)−1 − i(E + FE−1F)−1FE−1)(256)
+
+= (1 − it)(E + FE−1F)−1(I − iFE−1)
+
+(257)
+
+= (E + FE−1F)−1((I − tFE−1) − i(tI + FE−1)) (258)
+
+= (E + FE−1F)−1(I − tFE−1)
+
+−i(E + FE−1F)−1(tI + FE−1)
+
+(259)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 27
+
+5 SOLUTIONS AND DECOMPOSITIONS
+
+5 Solutions and Decompositions
+
+5.1 Solutions to linear equations
+
+5.1.1 Simple Linear Regression
+
+Assume we have data (xn, yn) for n = 1, ..., N and are seeking the parameters a, b ∈ R such that yi ∼= axi + b. With a least squares error function, the optimal values for a, b can be expressed using the notation
+
+x = (x1, ..., xN )T y = (y1, ..., yN )T 1 = (1, ..., 1)T ∈ RN×1
+
+and
+
+Rxx = xT x Rx1 = xT 1 R11 = 1T 1 Ryx = yT x Ry1 = yT 1
+
+as
+
+a b
+
+=
+
+Rxx Rx1 −1 Rx1 R11
+
+Rx,y Ry1
+
+(260)
+
+5.1.2 Existence in Linear Systems Assume A is n × m and consider the linear system
+
+Ax = b
+
+Construct the augmented matrix B = [A b] then
+
+Condition rank(A) = rank(B) = m rank(A) = rank(B) < m rank(A) < rank(B)
+
+Solution Unique solution x Many solutions x No solutions x
+
+(261)
+
+5.1.3 Standard Square Assume A is square and invertible, then
+Ax = b ⇒
+
+x = A−1b
+
+(262)
+
+5.1.4 Degenerated Square
+Assume A is n × n but of rank r < n. In that case, the system Ax = b is solved by
+x = A+b
+where A+ is the pseudo-inverse of the rank-deﬁcient matrix, constructed as described in section 3.6.3.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 28
+
+5.1 Solutions to linear equations5 SOLUTIONS AND DECOMPOSITIONS
+
+5.1.5 Cramer’s rule
+
+The equation
+
+Ax = b,
+
+(263)
+
+where A is square has exactly one solution x if the ith element in x can be
+
+found as
+
+det B
+
+xi
+
+=
+
+, det A
+
+(264)
+
+where B equals A, but the ith column in A has been substituted by b.
+
+5.1.6 Over-determined Rectangular
+
+Assume A to be n × m, n > m (tall) and rank(A) = m, then Ax = b ⇒ x = (AT A)−1AT b = A+b
+
+(265)
+
+that is if there exists a solution x at all! If there is no solution the following
+
+can be useful:
+
+Ax = b
+
+⇒
+
+xmin = A+b
+
+(266)
+
+Now xmin is the vector x which minimizes ||Ax − b||2, i.e. the vector which is ”least wrong”. The matrix A+ is the pseudo-inverse of A. See [3].
+
+5.1.7 Under-determined Rectangular
+
+Assume A is n × m and n < m (”broad”) and rank(A) = n.
+
+Ax = b
+
+⇒
+
+xmin = AT (AAT )−1b
+
+(267)
+
+The equation have many solutions x. But xmin is the solution which minimizes ||Ax − b||2 and also the solution with the smallest norm ||x||2. The same holds
+for a matrix version: Assume A is n × m, X is m × n and B is n × n, then
+
+AX = B
+
+⇒
+
+Xmin = A+B
+
+(268)
+
+The equation have many solutions X. But Xmin is the solution which minimizes ||AX − B||2 and also the solution with the smallest norm ||X||2. See [3].
+Similar but diﬀerent: Assume A is square n × n and the matrices B0, B1 are n × N , where N > n, then if B0 has maximal rank
+
+AB0 = B1
+
+⇒
+
+Amin = B1BT0 (B0BT0 )−1
+
+(269)
+
+where Amin denotes the matrix which is optimal in a least square sense. An interpretation is that A is the linear approximation which maps the columns vectors of B0 into the columns vectors of B1.
+
+5.1.8 Linear form and zeros Ax = 0, ∀x ⇒ A = 0
+
+(270)
+
+5.1.9 Square form and zeros If A is symmetric, then
+xT Ax = 0, ∀x ⇒ A = 0
+
+(271)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 29
+
+5.2 Eigenvalues and Eigenvectors5 SOLUTIONS AND DECOMPOSITIONS
+
+5.1.10 The Lyapunov Equation
+
+AX + XB = C vec(X) = (I ⊗ A + BT ⊗ I)−1vec(C)
+
+(272) (273)
+
+Sec 10.2.1 and 10.2.2 for details on the Kronecker product and the vec operator.
+
+5.1.11 Encapsulating Sum
+
+nAnXBn = C
+
+vec(X) =
+
+nBTn ⊗ An −1 vec(C)
+
+(274) (275)
+
+See Sec 10.2.1 and 10.2.2 for details on the Kronecker product and the vec operator.
+
+5.2 Eigenvalues and Eigenvectors
+5.2.1 Deﬁnition The eigenvectors vi and eigenvalues λi are the ones satisfying
+Avi = λivi
+
+(276)
+
+5.2.2 Decompositions
+
+For matrices A with as many distinct eigenvalues as dimensions, the following holds, where the columns of V are the eigenvectors and (D)ij = δijλi,
+
+AV = VD
+
+(277)
+
+For defective matrices A, which is matrices which has fewer distinct eigenvalues
+
+than dimensions, the following decomposition called Jordan canonical form,
+
+holds
+
+AV = VJ
+
+(278)
+
+where J is a block diagonal matrix with the blocks Ji = λiI + N. The matrices Ji have dimensionality as the number of identical eigenvalues equal to λi, and N is square matrix of same size with 1 on the super diagonal and zero elsewhere.
+It also holds that for all matrices A there exists matrices V and R such that
+
+AV = VR
+
+(279)
+
+where R is upper triangular with the eigenvalues λi on its diagonal.
+
+5.2.3 General Properties Assume that A ∈ Rn×m and B ∈ Rm×n,
+eig(AB) = eig(BA) rank(A) = r ⇒ At most r non-zero λi
+
+(280) (281)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 30
+
+5.3 Singular Value Decompositio5n SOLUTIONS AND DECOMPOSITIONS
+
+5.2.4 Symmetric
+
+Assume A is symmetric, then
+
+VVT = I (i.e. V is orthogonal)
+
+λi ∈ R (i.e. λi is real)
+
+Tr(Ap) =
+
+iλpi
+
+eig(I + cA) = 1 + cλi
+
+eig(A − cI) = λi − c eig(A−1) = λ−i 1
+
+For a symmetric, positive matrix A,
+
+eig(AT A) = eig(AAT ) = eig(A) ◦ eig(A)
+
+(282) (283) (284) (285) (286) (287)
+(288)
+
+5.2.5 Characteristic polynomial
+
+The characteristic polynomial for the matrix A is
+
+0 = det(A − λI) = λn − g1λn−1 + g2λn−2 − ... + (−1)ngn
+
+(289) (290)
+
+Note that the coeﬃcients gj for j = 1, ..., n are the n invariants under rotation of A. Thus, gj is the sum of the determinants of all the sub-matrices of A taken j rows and columns at a time. That is, g1 is the trace of A, and g2 is the sum of the determinants of the n(n − 1)/2 sub-matrices that can be formed from A
+by deleting all but two rows and columns, and so on – see [17].
+
+5.3 Singular Value Decomposition
+
+Any n × m matrix A can be written as A = UDVT ,
+
+where
+
+U = eigenvectors of AAT n × n
+D = diag(eig(AAT )) n × m V = eigenvectors of AT A m × m
+
+(291) (292)
+
+5.3.1 Symmetric Square decomposed into squares
+
+Assume A to be n × n and symmetric. Then A = V D VT ,
+
+(293)
+
+where D is diagonal with the eigenvalues of A, and V is orthogonal and the eigenvectors of A.
+
+5.3.2 Square decomposed into squares
+
+Assume A ∈ Rn×n. Then
+
+A = V D UT ,
+
+(294)
+
+where D is diagonal with the square root of the eigenvalues of AAT , V is the eigenvectors of AAT and UT is the eigenvectors of AT A.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 31
+
+5.4 Triangular Decomposition 5 SOLUTIONS AND DECOMPOSITIONS
+
+5.3.3 Square decomposed into rectangular
+
+Assume V∗D∗UT∗ = 0 then we can expand the SVD of A into
+
+A = V V∗
+
+D0 0 D∗
+
+UT UT∗
+
+,
+
+where the SVD of A is A = VDUT .
+
+(295)
+
+5.3.4 Rectangular decomposition I Assume A is n × m, V is n × n, D is n × n, UT is n × m
+
+A =V D
+
+UT
+
+,
+
+(296)
+
+where D is diagonal with the square root of the eigenvalues of AAT , V is the eigenvectors of AAT and UT is the eigenvectors of AT A.
+
+5.3.5 Rectangular decomposition II
+
+Assume A is n × m, V is n × m, D is m × m, UT is m × m
+
+
+
+
+
+
+
+A = V  D   UT 
+
+(297)
+
+5.3.6 Rectangular decomposition III
+
+Assume A is n × m, V is n × n, D is n × m, UT is m × m
+
+A =V
+
+
+
+
+
+D  UT  ,
+
+(298)
+
+where D is diagonal with the square root of the eigenvalues of AAT , V is the eigenvectors of AAT and UT is the eigenvectors of AT A.
+
+5.4 Triangular Decomposition
+
+5.5 LU decomposition
+
+Assume A is a square matrix with non-zero leading principal minors, then
+
+A = LU
+
+(299)
+
+where L is a unique unit lower triangular matrix and U is a unique upper triangular matrix.
+
+5.5.1 Cholesky-decomposition Assume A is a symmetric positive deﬁnite square matrix, then
+A = UT U = LLT ,
+
+(300)
+
+where U is a unique upper triangular matrix and L is a lower triangular matrix.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 32
+
+5.6 LDM decomposition
+
+5 SOLUTIONS AND DECOMPOSITIONS
+
+5.6 LDM decomposition
+Assume A is a square matrix with non-zero leading principal minors1, then
+
+A = LDMT
+
+(301)
+
+where L, M are unique unit lower triangular matrices and D is a unique diagonal matrix.
+
+5.7 LDL decompositions
+
+The LDL decomposition are special cases of the LDM decomposition. Assume A is a non-singular symmetric deﬁnite square matrix, then
+
+A = LDLT = LT DL
+
+(302)
+
+where L is a unit lower triangular matrix and D is a diagonal matrix. If A is also positive deﬁnite, then D has strictly positive diagonal entries.
+1If the matrix that corresponds to a principal minor is a quadratic upper-left part of the larger matrix (i.e., it consists of matrix elements in rows and columns from 1 to k), then the principal minor is called a leading principal minor. For an n times n square matrix, there are n leading principal minors. [31]
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 33
+
+6 STATISTICS AND PROBABILITY
+
+6 Statistics and Probability
+6.1 Deﬁnition of Moments
+Assume x ∈ Rn×1 is a random variable
+
+6.1.1 Mean The vector of means, m, is deﬁned by
+(m)i = xi
+
+(303)
+
+6.1.2 Covariance The matrix of covariance M is deﬁned by
+
+(M)ij = (xi − xi )(xj − xj )
+
+or alternatively as
+
+M = (x − m)(x − m)T
+
+(304) (305)
+
+6.1.3 Third moments
+
+The matrix of third centralized moments – in some contexts referred to as coskewness – is deﬁned using the notation
+
+m(ij3k) = (xi − xi )(xj − xj )(xk − xk )
+
+(306)
+
+as
+
+M3 = m(::31)m(::32)...m(::3n)
+
+(307)
+
+where ’:’ denotes all elements within the given index. M3 can alternatively be
+
+expressed as
+
+M3 = (x − m)(x − m)T ⊗ (x − m)T
+
+(308)
+
+6.1.4 Fourth moments
+The matrix of fourth centralized moments – in some contexts referred to as cokurtosis – is deﬁned using the notation
+
+m(ij4k)l = (xi − xi )(xj − xj )(xk − xk )(xl − xl ) as
+M4 = m(::41)1m(::42)1...m(::4n)1|m(::41)2m(::42)2...m(::4n)2|...|m(::41)nm(::42)n...m(::4n)n
+
+(309) (310)
+
+or alternatively as
+
+M4 = (x − m)(x − m)T ⊗ (x − m)T ⊗ (x − m)T
+
+(311)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 34
+
+6.2 Expectation of Linear Combinatio6ns STATISTICS AND PROBABILITY
+
+6.2 Expectation of Linear Combinations
+6.2.1 Linear Forms
+Assume X and x to be a matrix and a vector of random variables. Then (see See [26])
+
+E[AXB + C] = AE[X]B + C Var[Ax] = AVar[x]AT
+Cov[Ax, By] = ACov[x, y]BT
+
+(312) (313) (314)
+
+Assume x to be a stochastic vector with mean m, then (see [7])
+
+E[Ax + b] = Am + b E[Ax] = Am
+E[x + b] = m + b
+
+(315) (316) (317)
+
+6.2.2 Quadratic Forms
+
+Assume A is symmetric, c = E[x] and Σ = Var[x]. Assume also that all coordinates xi are independent, have the same central moments µ1, µ2, µ3, µ4 and denote a = diag(A). Then (See [26])
+
+E[xT Ax] = Tr(AΣ) + cT Ac
+
+(318)
+
+Var[xT Ax] = 2µ22Tr(A2) + 4µ2cT A2c + 4µ3cT Aa + (µ4 − 3µ22)aT a (319)
+
+Also, assume x to be a stochastic vector with mean m, and covariance M. Then (see [7])
+
+E[(Ax + a)(Bx + b)T ] = AMBT + (Am + a)(Bm + b)T E[xxT ] = M + mmT
+E[xaT x] = (M + mmT )a E[xT axT ] = aT (M + mmT ) E[(Ax)(Ax)T ] = A(M + mmT )AT E[(x + a)(x + a)T ] = M + (m + a)(m + a)T
+
+(320) (321) (322) (323) (324) (325)
+
+E[(Ax + a)T (Bx + b)] = Tr(AMBT ) + (Am + a)T (Bm + b) (326)
+
+E[xT x] = Tr(M) + mT m
+
+(327)
+
+E[xT Ax] = Tr(AM) + mT Am
+
+(328)
+
+E[(Ax)T (Ax)] = Tr(AMAT ) + (Am)T (Am)
+
+(329)
+
+E[(x + a)T (x + a)] = Tr(M) + (m + a)T (m + a)
+
+(330)
+
+See [7].
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 35
+
+6.3 Weighted Scalar Variable
+
+6 STATISTICS AND PROBABILITY
+
+6.2.3 Cubic Forms
+Assume x to be a stochastic vector with independent coordinates, mean m, covariance M and central moments v3 = E[(x − m)3]. Then (see [7])
+E[(Ax + a)(Bx + b)T (Cx + c)] = Adiag(BT C)v3 +Tr(BMCT )(Am + a) +AMCT (Bm + b) +(AMBT + (Am + a)(Bm + b)T )(Cm + c)
+E[xxT x] = v3 + 2Mm + (Tr(M) + mT m)m E[(Ax + a)(Ax + a)T (Ax + a)] = Adiag(AT A)v3
++[2AMAT + (Ax + a)(Ax + a)T ](Am + a) +Tr(AMAT )(Am + a) E[(Ax + a)bT (Cx + c)(Dx + d)T ] = (Ax + a)bT (CMDT + (Cm + c)(Dm + d)T ) +(AMCT + (Am + a)(Cm + c)T )b(Dm + d)T +bT (Cm + c)(AMDT − (Am + a)(Dm + d)T )
+
+6.3 Weighted Scalar Variable
+Assume x ∈ Rn×1 is a random variable, w ∈ Rn×1 is a vector of constants and y is the linear combination y = wT x. Assume further that m, M2, M3, M4 denotes the mean, covariance, and central third and fourth moment matrix of the variable x. Then it holds that
+
+y (y − y )2 (y − y )3 (y − y )4
+
+= wT m = wT M2w = wT M3w ⊗ w = wT M4w ⊗ w ⊗ w
+
+(331) (332) (333) (334)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 36
+
+7 MULTIVARIATE DISTRIBUTIONS
+
+7 Multivariate Distributions
+
+7.1 Cauchy
+
+The density function for a Cauchy distributed vector t ∈ RP ×1, is given by
+
+p(t|µ,
+
+Σ)
+
+=
+
+π −P /2
+
+Γ(
+
+1+P 2
+
+)
+
+Γ(1/2)
+
+det(Σ)−1/2 1 + (t − µ)TΣ−1(t − µ) (1+P )/2
+
+(335)
+
+where µ is the location, Σ is positive deﬁnite, and Γ denotes the gamma function. The Cauchy distribution is a special case of the Student-t distribution.
+
+7.2 Dirichlet
+
+The Dirichlet distribution is a kind of “inverse” distribution compared to the
+
+multinomial distribution on the bounded continuous variate x = [x1, . . . , xP ] [16, p. 44]
+
+Γ
+
+P p
+
+αp
+
+p(x|α) =
+
+P p
+
+Γ(αp)
+
+P
+xpαp−1
+p
+
+7.3 Normal
+The normal distribution is also known as a Gaussian distribution. See sec. 8.
+
+7.4 Normal-Inverse Gamma 7.5 Gaussian
+See sec. 8.
+
+7.6 Multinomial
+If the vector n contains counts, i.e. (n)i ∈ 0, 1, 2, ..., then the discrete multinomial disitrbution for n is given by
+
+n! P (n|a, n) =
+n1! . . . nd!
+
+d i
+
+ani i ,
+
+d
+ni = n
+i
+
+(336)
+
+where ai are probabilities, i.e. 0 ≤ ai ≤ 1 and i ai = 1.
+
+7.7 Student’s t
+
+The density of a Student-t distributed vector t ∈ RP ×1, is given by
+
+p(t|µ,
+
+Σ,
+
+ν)
+
+=
+
+(π ν )−P /2
+
+Γ(
+
+ν+P 2
+
+)
+
+Γ(ν/2)
+
+det(Σ)−1/2 1 + ν−1(t − µ)TΣ−1(t − µ) (ν+P )/2
+
+(337)
+
+where µ is the location, the scale matrix Σ is symmetric, positive deﬁnite, ν is the degrees of freedom, and Γ denotes the gamma function. For ν = 1, the Student-t distribution becomes the Cauchy distribution (see sec 7.1).
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 37
+
+7.8 Wishart
+
+7 MULTIVARIATE DISTRIBUTIONS
+
+7.7.1 Mean
+
+E(t) = µ, ν > 1
+
+(338)
+
+7.7.2 Variance
+
+ν
+
+cov(t) =
+
+Σ,
+
+ν−2
+
+ν>2
+
+7.7.3 Mode The notion mode meaning the position of the most probable value
+
+mode(t) = µ
+
+(339) (340)
+
+7.7.4 Full Matrix Version
+
+If instead of a vector t ∈ RP ×1 one has a matrix T ∈ RP ×N , then the Student-t distribution for T is
+
+p(T|M, Ω, Σ, ν)
+
+=
+
+π−N P /2
+
+P
+
+Γ [(ν + P − p + 1)/2] ×
+
+Γ [(ν − p + 1)/2]
+
+p=1
+
+ν det(Ω)−ν/2 det(Σ)−N/2 ×
+
+det
+
+Ω−1 + (T − M)Σ−1(T − M)T
+
+−(ν+P )/2
+(341)
+
+where M is the location, Ω is the rescaling matrix, Σ is positive deﬁnite, ν is the degrees of freedom, and Γ denotes the gamma function.
+
+7.8 Wishart
+The central Wishart distribution for M ∈ RP ×P , M is positive deﬁnite, where m can be regarded as a degree of freedom parameter [16, equation 3.8.1] [8, section 2.5],[11]
+
+1
+
+p(M|Σ, m) =
+
+2mP/2πP (P −1)/4
+
+P p
+
+Γ[
+
+1 2
+
+(m
+
++
+
+1
+
+−
+
+p)]
+
+×
+
+det(Σ)−m/2 det(M)(m−P −1)/2 ×
+
+exp − 1 Tr(Σ−1M) 2
+
+(342)
+
+7.8.1 Mean
+
+E(M) = mΣ
+
+(343)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 38
+
+7.9 Wishart, Inverse
+
+7 MULTIVARIATE DISTRIBUTIONS
+
+7.9 Wishart, Inverse
+The (normal) Inverse Wishart distribution for M ∈ RP ×P , M is positive deﬁnite, where m can be regarded as a degree of freedom parameter [11]
+
+1
+
+p(M|Σ, m) =
+
+2mP/2πP (P −1)/4
+
+P p
+
+Γ[
+
+1 2
+
+(m
+
++
+
+1
+
+−
+
+p)]
+
+×
+
+det(Σ)m/2 det(M)−(m−P −1)/2 ×
+
+exp − 1 Tr(ΣM−1) 2
+
+(344)
+
+7.9.1 Mean
+
+1 E(M) = Σ
+m−P −1
+
+(345)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 39
+
+8 GAUSSIANS
+
+8 Gaussians
+
+8.1 Basics
+8.1.1 Density and normalization The density of x ∼ N (m, Σ) is
+
+p(x) =
+
+1
+
+exp − 1 (x − m)T Σ−1(x − m)
+
+det(2πΣ)
+
+2
+
+(346)
+
+Note that if x is d-dimensional, then det(2πΣ) = (2π)d det(Σ). Integration and normalization
+
+exp − 1 (x − m)T Σ−1(x − m) dx = 2
+exp − 1 xT Σ−1x + mT Σ−1x dx = 2 exp − 1 xT Ax + cT x dx = 2
+
+det(2πΣ)
+det(2πΣ) exp 1 mT Σ−1m 2
+det(2πA−1) exp 1 cT A−T c 2
+
+If X = [x1x2...xn] and C = [c1c2...cn], then
+
+exp − 1 Tr(XT AX) + Tr(CT X) dX = det(2πA−1)n exp 1 Tr(CT A−1C)
+
+2
+
+2
+
+The derivatives of the density are
+
+∂p(x) = −p(x)Σ−1(x − m) ∂x
+
+∂2p ∂x∂xT
+
+= p(x) Σ−1(x − m)(x − m)T Σ−1 − Σ−1
+
+(347) (348)
+
+8.1.2 Marginal Distribution
+
+Assume x ∼ Nx(µ, Σ) where
+
+x=
+
+xa xb
+
+µ=
+
+µa µb
+
+then
+
+Σ=
+
+Σa Σc ΣTc Σb
+
+(349)
+
+p(xa) = Nxa (µa, Σa) p(xb) = Nxb (µb, Σb)
+
+(350) (351)
+
+8.1.3 Conditional Distribution
+
+Assume x ∼ Nx(µ, Σ) where
+
+x=
+
+xa xb
+
+µ=
+
+µa µb
+
+Σ=
+
+Σa Σc ΣTc Σb
+
+(352)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 40
+
+8.1 Basics
+
+8 GAUSSIANS
+
+then
+
+p(xa|xb) = Nxa (µˆa, Σˆ a) p(xb|xa) = Nxb (µˆb, Σˆ b)
+
+µˆ a Σˆ a
+
+= =
+
+µa + ΣcΣ−b 1(xb − µb) Σa − ΣcΣ−b 1ΣTc
+
+(353)
+
+µˆ b Σˆ b
+
+= =
+
+µb + ΣTc Σ−a 1(xa − µa) Σb − ΣTc Σ−a 1Σc
+
+(354)
+
+Note, that the covariance matrices are the Schur complement of the block matrix, see 9.1.5 for details.
+
+8.1.4 Linear combination Assume x ∼ N (mx, Σx) and y ∼ N (my, Σy) then
+Ax + By + c ∼ N (Amx + Bmy + c, AΣxAT + BΣyBT )
+
+(355)
+
+8.1.5 Rearranging Means
+
+NAx[m, Σ] = det(2π(AT Σ−1A)−1) Nx[A−1m, (AT Σ−1A)−1] det(2πΣ)
+If A is square and invertible, it simpliﬁes to
+
+NAx[m, Σ]
+
+=
+
+|
+
+1 det(A)|
+
+Nx[A−1
+
+m,
+
+(AT
+
+Σ−1A)−1
+
+]
+
+(356) (357)
+
+8.1.6 Rearranging into squared form
+
+If A is symmetric, then
+
+− 1 xT Ax + bT x
+
+=
+
+1 − (x
+
+−
+
+A−1b)T
+
+A(x
+
+−
+
+A−1b)
+
++
+
+1 bT A−1b
+
+2
+
+2
+
+2
+
+− 1 Tr(XT AX) + Tr(BT X)
+
+=
+
+1 − Tr[(X
+
+−
+
+A−1B)T
+
+A(X
+
+−
+
+A−1B)]
+
++
+
+1 Tr(BT A−1B)
+
+2
+
+2
+
+2
+
+8.1.7 Sum of two squared forms
+
+In vector formulation (assuming Σ1, Σ2 are symmetric)
+
+−
+
+1 2
+
+(x
+
+−
+
+m1
+
+)T
+
+Σ−1 1(x
+
+−
+
+m1
+
+)
+
+−
+
+1 2
+
+(x
+
+−
+
+m2
+
+)T
+
+Σ−2 1(x
+
+−
+
+m2
+
+)
+
+=
+
+−
+
+1 2
+
+(x
+
+−
+
+mc
+
+)T
+
+Σ−c 1(x
+
+−
+
+mc
+
+)
+
++
+
+C
+
+(358) (359) (360)
+
+Σ−c 1 = Σ−1 1 + Σ−2 1
+
+(361)
+
+mc = (Σ−1 1 + Σ−2 1)−1(Σ−1 1m1 + Σ−2 1m2)
+
+(362)
+
+C
+
+=
+
+1 2
+
+(mT1
+
+Σ−1 1
+
++
+
+mT2
+
+Σ−2 1)(Σ−1 1
+
++
+
+Σ−2 1)−1(Σ−1 1m1
+
++
+
+Σ−2 1m2)(363)
+
+1 −
+2
+
+mT1 Σ−1 1m1 + mT2 Σ−2 1m2
+
+(364)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 41
+
+8.2 Moments
+
+8 GAUSSIANS
+
+In a trace formulation (assuming Σ1, Σ2 are symmetric)
+
+−
+
+1 2
+
+Tr((X
+
+−
+
+M1
+
+)T
+
+Σ−1 1(X
+
+−
+
+M1))
+
+−
+
+1 2
+
+Tr((X
+
+−
+
+M2
+
+)T
+
+Σ−2 1(X
+
+−
+
+M2))
+
+=
+
+−
+
+1 2
+
+Tr[(X
+
+−
+
+Mc)T
+
+Σ−c 1
+
+(X
+
+−
+
+Mc
+
+)]
+
++
+
+C
+
+(365) (366) (367)
+
+Σ−c 1 = Σ−1 1 + Σ−2 1
+
+(368)
+
+Mc = (Σ−1 1 + Σ−2 1)−1(Σ−1 1M1 + Σ−2 1M2)
+
+(369)
+
+C
+
+=
+
+1 Tr
+2
+
+(Σ−1 1M1 + Σ−2 1M2)T (Σ−1 1 + Σ−2 1)−1(Σ−1 1M1 + Σ−2 1M2)
+
+−
+
+1 2
+
+Tr(MT1
+
+Σ−1 1M1
+
++
+
+MT2
+
+Σ−2 1M2)
+
+(370)
+
+8.1.8 Product of gaussian densities Let Nx(m, Σ) denote a density of x, then
+Nx(m1, Σ1) · Nx(m2, Σ2) = ccNx(mc, Σc)
+
+(371)
+
+cc = Nm1 (m2, (Σ1 + Σ2))
+
+=
+
+1 exp
+det(2π(Σ1 + Σ2))
+
+−
+
+1 2
+
+(m1
+
+−
+
+m2)T
+
+(Σ1
+
++
+
+Σ2)−1(m1
+
+−
+
+m2)
+
+mc = (Σ−1 1 + Σ−2 1)−1(Σ−1 1m1 + Σ−2 1m2) Σc = (Σ−1 1 + Σ−2 1)−1
+
+but note that the product is not normalized as a density of x.
+
+8.2 Moments
+8.2.1 Mean and covariance of linear forms First and second moments. Assume x ∼ N (m, Σ)
+E(x) = m
+
+(372)
+
+Cov(x, x) = Var(x) = Σ = E(xxT ) − E(x)E(xT ) = E(xxT ) − mmT (373)
+
+As for any other distribution is holds for gaussians that
+
+E[Ax] = AE[x] Var[Ax] = AVar[x]AT Cov[Ax, By] = ACov[x, y]BT
+
+(374) (375) (376)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 42
+
+8.2 Moments
+
+8 GAUSSIANS
+
+8.2.2 Mean and variance of square forms
+
+Mean and variance of square forms: Assume x ∼ N (m, Σ)
+
+E(xxT ) = Σ + mmT
+
+(377)
+
+E[xT Ax] = Tr(AΣ) + mT Am
+
+(378)
+
+Var(xT Ax) = Tr[AΣ(A + AT )Σ] + ...
+
++mT (A + AT )Σ(A + AT )m
+
+(379)
+
+E[(x − m )T A(x − m )] = (m − m )T A(m − m ) + Tr(AΣ) (380)
+
+If Σ = σ2I and A is symmetric, then
+
+Var(xT Ax) = 2σ4Tr(A2) + 4σ2mT A2m
+
+(381)
+
+Assume x ∼ N (0, σ2I) and A and B to be symmetric, then
+
+Cov(xT Ax, xT Bx) = 2σ4Tr(AB)
+
+(382)
+
+8.2.3 Cubic forms
+
+Assume x to be a stochastic vector with independent coordinates, mean m and covariance M
+
+E[xbT xxT ] = mbT (M + mmT ) + (M + mmT )bmT +bT m(M − mmT )
+
+(383)
+
+8.2.4 Mean of Quartic Forms
+
+E[xxT xxT ] = 2(Σ + mmT )2 + mT m(Σ − mmT ) +Tr(Σ)(Σ + mmT )
+E[xxT AxxT ] = (Σ + mmT )(A + AT )(Σ + mmT ) +mT Am(Σ − mmT ) + Tr[AΣ](Σ + mmT )
+E[xT xxT x] = 2Tr(Σ2) + 4mT Σm + (Tr(Σ) + mT m)2 E[xT AxxT Bx] = Tr[AΣ(B + BT )Σ] + mT (A + AT )Σ(B + BT )m
++(Tr(AΣ) + mT Am)(Tr(BΣ) + mT Bm)
+
+E[aT xbT xcT xdT x] = (aT (Σ + mmT )b)(cT (Σ + mmT )d)
++(aT (Σ + mmT )c)(bT (Σ + mmT )d) +(aT (Σ + mmT )d)(bT (Σ + mmT )c) − 2aT mbT mcT mdT m
+
+E[(Ax + a)(Bx + b)T (Cx + c)(Dx + d)T ] = [AΣBT + (Am + a)(Bm + b)T ][CΣDT + (Cm + c)(Dm + d)T ]
++[AΣCT + (Am + a)(Cm + c)T ][BΣDT + (Bm + b)(Dm + d)T ] +(Bm + b)T (Cm + c)[AΣDT − (Am + a)(Dm + d)T ] +Tr(BΣCT )[AΣDT + (Am + a)(Dm + d)T ]
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 43
+
+8.3 Miscellaneous
+
+8 GAUSSIANS
+
+E[(Ax + a)T (Bx + b)(Cx + c)T (Dx + d)] = Tr[AΣ(CT D + DT C)ΣBT ]
++[(Am + a)T B + (Bm + b)T A]Σ[CT (Dm + d) + DT (Cm + c)] +[Tr(AΣBT ) + (Am + a)T (Bm + b)][Tr(CΣDT ) + (Cm + c)T (Dm + d)]
+See [7].
+
+8.2.5 Moments
+
+E[x] = Cov(x) =
+
+ρk mk
+k
+ρkρk (Σk + mkmTk − mkmTk )
+kk
+
+(384) (385)
+
+8.3 Miscellaneous
+
+8.3.1 Whitening
+
+Assume x ∼ N (m, Σ) then z = Σ−1/2(x − m) ∼ N (0, I)
+
+(386)
+
+Conversely having z ∼ N (0, I) one can generate data x ∼ N (m, Σ) by setting
+
+x = Σ1/2z + m ∼ N (m, Σ)
+
+(387)
+
+Note that Σ1/2 means the matrix which fulﬁls Σ1/2Σ1/2 = Σ, and that it exists and is unique since Σ is positive deﬁnite.
+
+8.3.2 The Chi-Square connection
+
+Assume x ∼ N (m, Σ) and x to be n dimensional, then
+
+z = (x − m)T Σ−1(x − m) ∼ χ2n
+
+(388)
+
+where χ2n denotes the Chi square distribution with n degrees of freedom.
+
+8.3.3 Entropy Entropy of a D-dimensional gaussian
+D H(x) = − N (m, Σ) ln N (m, Σ)dx = ln det(2πΣ) +
+2
+
+(389)
+
+8.4 Mixture of Gaussians
+
+8.4.1 Density
+
+The variable x is distributed as a mixture of gaussians if it has the density
+
+K
+p(x) = ρk
+k=1
+
+1 exp
+det(2πΣk)
+
+−
+
+1 2
+
+(x
+
+−
+
+mk
+
+)T
+
+Σ−k 1(x
+
+−
+
+mk
+
+)
+
+where ρk sum to 1 and the Σk all are positive deﬁnite.
+
+(390)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 44
+
+8.4 Mixture of Gaussians
+
+8 GAUSSIANS
+
+8.4.2 Derivatives
+
+Deﬁning p(s) = k ρkNs(µk, Σk) one get
+
+∂ ln p(s) =
+∂ρj =
+∂ ln p(s) =
+∂µj =
+∂ ln p(s) =
+∂Σj =
+
+ρj Ns(µj , Σj ) k ρkNs(µk, Σk)
+
+∂ ∂ρj
+
+ln[ρj Ns (µj ,
+
+Σj )]
+
+(391)
+
+ρj Ns(µj , Σj ) 1 k ρkNs(µk, Σk) ρj
+
+(392)
+
+ρj Ns(µj , Σj ) k ρkNs(µk, Σk)
+
+∂ ∂µj
+
+ln[ρjNs(µj, Σj)]
+
+(393)
+
+ρj Ns(µj , Σj ) k ρkNs(µk, Σk)
+
+Σ−j 1(s − µj )
+
+(394)
+
+ρj Ns(µj , Σj ) k ρkNs(µk, Σk)
+
+∂ ∂Σj
+
+ln[ρj Ns (µj ,
+
+Σj )]
+
+(395)
+
+ρj Ns(µj , Σj ) 1 k ρkNs(µk, Σk) 2
+
+−Σ−j 1 + Σ−j 1(s − µj )(s − µj )T Σ−j (1396)
+
+But ρk and Σk needs to be constrained.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 45
+
+9 SPECIAL MATRICES
+
+9 Special Matrices
+
+9.1 Block matrices
+Let Aij denote the ijth block of A.
+
+9.1.1 Multiplication Assuming the dimensions of the blocks matches we have
+
+A11 A12 A21 A22
+
+B11 B12 B21 B22
+
+=
+
+A11B11 + A12B21 A11B12 + A12B22 A21B11 + A22B21 A21B12 + A22B22
+
+9.1.2 The Determinant
+
+The determinant can be expressed as by the use of
+
+C1 = A11 − A12A−221A21 C2 = A22 − A21A−111A12
+
+(397) (398)
+
+as
+
+det
+
+A11 A12 A21 A22
+
+= det(A22) · det(C1) = det(A11) · det(C2)
+
+9.1.3 The Inverse The inverse can be expressed as by the use of
+
+C1 = A11 − A12A−221A21 C2 = A22 − A21A−111A12
+
+as
+
+A11 A21
+
+A12 A22
+
+−1
+=
+
+C−1 1
+
+−A−111A12C−2 1
+
+−C−2 1A21A−111
+
+C−2 1
+
+=
+
+A−111 + A−111A12C−2 1A21A−111
+
+−C−1 1A12A−221
+
+−A−221A21C−1 1
+
+A−221 + A−221A21C−1 1A12A−221
+
+(399) (400)
+
+9.1.4 Block diagonal
+
+For block diagonal matrices we have
+
+A11 0
+
+0 A22
+
+−1
+
+=
+
+(A11)−1
+
+0
+
+0
+
+(A22)−1
+
+det
+
+A11 0 0 A22
+
+= det(A11) · det(A22)
+
+(401) (402)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 46
+
+9.2 Discrete Fourier Transform Matrix, The
+
+9 SPECIAL MATRICES
+
+9.1.5 Schur complement
+
+Regard the matrix
+
+A11 A12 A21 A22
+
+The Schur complement of block A11 of the matrix above is the matrix (denoted
+
+C2 in the text above)
+
+A22 − A21A−111A12
+
+The Schur complement of block A22 of the matrix above is the matrix (denoted
+
+C1 in the text above)
+
+A11 − A12A−221A21
+
+Using the Schur complement, one can rewrite the inverse of a block matrix
+
+A11 A12 −1 A21 A22
+
+I
+
+0
+
+=
+
+−A−221A21 I
+
+(A11 − A12A−221A21)−1 0
+
+0
+
+A−221
+
+I −A12A−221
+
+0
+
+I
+
+The Schur complement is useful when solving linear systems of the form
+
+A11 A12 A21 A22
+
+x1 x2
+
+=
+
+b1 b2
+
+which has the following equation for x1
+(A11 − A12A−221A21)x1 = b1 − A12A−221b2
+When the appropriate inverses exists, this can be solved for x1 which can then be inserted in the equation for x2 to solve for x2.
+
+9.2 Discrete Fourier Transform Matrix, The
+
+The DFT matrix is an N × N symmetric matrix WN , where the k, nth element
+
+is given by
+
+W = e kn
+N
+
+−j2πkn N
+
+(403)
+
+Thus the discrete Fourier transform (DFT) can be expressed as
+
+N −1
+X(k) = x(n)WNkn.
+n=0
+
+(404)
+
+Likewise the inverse discrete Fourier transform (IDFT) can be expressed as
+
+x(n)
+
+=
+
+1 N
+
+N −1
+X (k)WN−kn .
+
+k=0
+
+(405)
+
+The DFT of the vector x = [x(0), x(1), · · · , x(N − 1)]T can be written in matrix
+
+form as
+
+X = WN x,
+
+(406)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 47
+
+9.3 Hermitian Matrices and skew-Hermitian
+
+9 SPECIAL MATRICES
+
+where X = [X(0), X(1), · · · , x(N − 1)]T . The IDFT is similarly given as
+
+x = W−N1X.
+
+(407)
+
+Some properties of WN exist:
+
+W−N1
+
+=
+
+1 N
+
+W∗N
+
+WN W∗N = N I
+
+W∗N = WHN
+
+(408) (409) (410)
+
+−j2π
+If WN = e N , then [23]
+
+WNm+N/2 = −WNm
+
+(411)
+
+Notice, the DFT matrix is a Vandermonde Matrix. The following important relation between the circulant matrix and the dis-
+crete Fourier transform (DFT) exists
+
+TC = W−N1(I ◦ (WN t))WN , where t = [t0, t1, · · · , tn−1]T is the ﬁrst row of TC .
+
+(412)
+
+9.3 Hermitian Matrices and skew-Hermitian
+A matrix A ∈ Cm×n is called Hermitian if AH = A
+
+For real valued matrices, Hermitian and symmetric matrices are equivalent.
+
+A is Hermitian ⇔ xH Ax ∈ R, ∀x ∈ Cn×1 A is Hermitian ⇔ eig(A) ∈ R
+
+(413) (414)
+
+Note that
+
+A = B + iC
+
+where B, C are hermitian, then
+
+A + AH
+
+B=
+
+,
+
+2
+
+A − AH C=
+2i
+
+9.3.1 Skew-Hermitian A matrix A is called skew-hermitian if
+A = −AH
+
+For real valued matrices, skew-Hermitian and skew-symmetric matrices are equivalent.
+
+A Hermitian ⇔ iA is skew-hermitian A skew-Hermitian ⇔ xH Ay = −xH AH y, ∀x, y A skew-Hermitian ⇒ eig(A) = iλ, λ ∈ R
+
+(415) (416) (417)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 48
+
+9.4 Idempotent Matrices
+
+9 SPECIAL MATRICES
+
+9.4 Idempotent Matrices
+
+A matrix A is idempotent if
+
+AA = A
+
+Idempotent matrices A and B, have the following properties
+
+An = A, forn = 1, 2, 3, ...
+
+I−A AH
+I − AH
+
+is idempotent is idempotent is idempotent
+
+If AB = BA ⇒ AB is idempotent
+
+rank(A) = Tr(A)
+
+A(I − A) = 0
+
+(I − A)A = 0 A+ = A
+
+f (sI + tA) = (I − A)f (s) + Af (s + t)
+
+Note that A − I is not necessarily idempotent.
+
+9.4.1 Nilpotent
+
+A matrix A is nilpotent if
+
+A2 = 0
+
+A nilpotent matrix has the following property:
+
+f (sI + tA) = If (s) + tAf (s)
+
+9.4.2 Unipotent
+
+A matrix A is unipotent if
+
+AA = I
+
+A unipotent matrix has the following property:
+
+f (sI + tA) = [(I + A)f (s + t) + (I − A)f (s − t)]/2
+
+9.5 Orthogonal matrices
+If a square matrix Q is orthogonal, if and only if, QT Q = QQT = I
+and then Q has the following properties • Its eigenvalues are placed on the unit circle. • Its eigenvectors are unitary, i.e. have length one. • The inverse of an orthogonal matrix is orthogonal too.
+
+(418) (419) (420) (421) (422) (423) (424) (425) (426) (427)
+(428)
+(429)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 49
+
+9.6 Positive Deﬁnite and Semi-deﬁnite Matrices 9 SPECIAL MATRICES
+
+Basic properties for the orthogonal matrix Q Q−1 = QT Q−T = Q QQT = I QT Q = I
+det(Q) = ±1
+
+9.5.1 Ortho-Sym
+
+A matrix Q+ which simultaneously is orthogonal and symmetric is called an ortho-sym matrix [20]. Hereby
+
+QT+Q+ = I Q+ = QT+
+
+(430) (431)
+
+The powers of an ortho-sym matrix are given by the following rule
+
+Qk+
+
+=
+
+1 + (−1)k 1 + (−1)k+1
+
+I+ 2
+
+2
+
+Q+
+
+1 + cos(kπ) 1 − cos(kπ)
+
+=
+
+I+ 2
+
+2
+
+Q+
+
+(432) (433)
+
+9.5.2 Ortho-Skew
+
+A matrix which simultaneously is orthogonal and antisymmetric is called an ortho-skew matrix [20]. Hereby
+
+QH− Q− = I Q− = −QH−
+
+(434) (435)
+
+The powers of an ortho-skew matrix are given by the following rule
+
+Qk−
+
+=
+
+ik + (−i)k
+
+ik − (−i)k
+
+2 I − i 2 Q−
+
+π
+
+π
+
+= cos(k 2 )I + sin(k 2 )Q−
+
+(436) (437)
+
+9.5.3 Decomposition
+
+A square matrix A can always be written as a sum of a symmetric A+ and an
+
+antisymmetric matrix A−
+
+A = A+ + A−
+
+(438)
+
+9.6 Positive Deﬁnite and Semi-deﬁnite Matrices
+
+9.6.1 Deﬁnitions
+
+A matrix A is positive deﬁnite if and only if xT Ax > 0, ∀x = 0
+
+(439)
+
+A matrix A is positive semi-deﬁnite if and only if xT Ax ≥ 0, ∀x
+
+(440)
+
+Note that if A is positive deﬁnite, then A is also positive semi-deﬁnite.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 50
+
+9.6 Positive Deﬁnite and Semi-deﬁnite Matrices 9 SPECIAL MATRICES
+
+9.6.2 Eigenvalues
+
+The following holds with respect to the eigenvalues:
+
+A pos. def. A pos. semi-def.
+
+⇔
+
+eig(
+
+A+AH 2
+
+)
+
+>
+
+0
+
+⇔
+
+eig(
+
+A+AH 2
+
+)
+
+≥
+
+0
+
+9.6.3 Trace The following holds with respect to the trace:
+
+A pos. def. ⇒ Tr(A) > 0 A pos. semi-def. ⇒ Tr(A) ≥ 0
+
+(441) (442)
+
+9.6.4 Inverse If A is positive deﬁnite, then A is invertible and A−1 is also positive deﬁnite.
+
+9.6.5 Diagonal If A is positive deﬁnite, then Aii > 0, ∀i
+9.6.6 Decomposition I The matrix A is positive semi-deﬁnite of rank r ⇔ there exists a matrix B of rank r such that A = BBT
+The matrix A is positive deﬁnite ⇔ there exists an invertible matrix B such that A = BBT
+
+9.6.7 Decomposition II
+Assume A is an n × n positive semi-deﬁnite, then there exists an n × r matrix B of rank r such that BT AB = I.
+
+9.6.8 Equation with zeros Assume A is positive semi-deﬁnite, then XT AX = 0 ⇒ AX = 0
+
+9.6.9 Rank of product Assume A is positive deﬁnite, then rank(BABT ) = rank(B)
+
+9.6.10 Positive deﬁnite property
+If A is n × n positive deﬁnite and B is r × n of rank r, then BABT is positive deﬁnite.
+
+9.6.11 Outer Product If X is n × r, where n ≤ r and rank(X) = n, then XXT is positive deﬁnite.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 51
+
+9.7 Singleentry Matrix, The
+
+9 SPECIAL MATRICES
+
+9.6.12 Small pertubations
+If A is positive deﬁnite and B is symmetric, then A − tB is positive deﬁnite for suﬃciently small t.
+
+9.6.13 Hadamard inequality
+
+If A is a positive deﬁnite or semi-deﬁnite matrix, then
+
+See [15, pp.477]
+
+det(A) ≤ Aii
+i
+
+9.6.14 Hadamard product relation
+
+Assume that P = AAT and Q = BBT are semi positive deﬁnite matrices, it
+
+then holds that
+
+P ◦ Q = RRT
+
+where the columns of R are constructed as follows: ri+(j−1)NA = ai ◦ bj, for i = 1, 2, ..., NA and j = 1, 2, ..., NB. The result is unpublished, but reported by Pavel Sakov and Craig Bishop.
+
+9.7 Singleentry Matrix, The
+
+9.7.1 Deﬁnition
+
+The single-entry matrix Jij ∈ Rn×n is deﬁned as the matrix which is zero
+
+everywhere except in the entry (i, j) in which it is 1. In a 4 × 4 example one
+
+might have
+
+0 0 0 0
+
+J23
+
+=
+
+ 
+
+
+
+0 0
+
+0 0
+
+1 0
+
+0
+
+0
+
+ 
+
+(443)
+
+0000
+
+The single-entry matrix is very useful when working with derivatives of expressions involving matrices.
+
+9.7.2 Swap and Zeros
+
+Assume A to be n × m and Jij to be m × p
+
+AJij = 0 0 . . . Ai . . . 0
+
+(444)
+
+i.e. an n × p matrix of zeros with the i.th column of A in place of the j.th column. Assume A to be n × m and Jij to be p × n
+
+0
+
+ 
+
+...
+
+ 
+
+ 
+
+0
+
+ 
+
+Jij
+
+A
+
+=
+
+ 
+
+Aj
+
+ 
+
+ 
+
+0
+
+ 
+
+  
+
+...
+
+  
+
+0
+
+(445)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 52
+
+9.7 Singleentry Matrix, The
+
+9 SPECIAL MATRICES
+
+i.e. an p × m matrix of zeros with the j.th row of A in the placed of the i.th row.
+
+9.7.3 Rewriting product of elements
+
+AkiBjl = (AeieTj B)kl = (AJij B)kl AikBlj = (AT eieTj BT )kl = (AT Jij BT )kl
+AikBjl = (AT eieTj B)kl = (AT Jij B)kl AkiBlj = (AeieTj BT )kl = (AJij BT )kl
+
+9.7.4 Properties of the Singleentry Matrix
+
+If i = j
+
+Jij Jij = Jij
+
+(Jij )T (Jij )T = Jij
+
+Jij (Jij )T = Jij
+
+(Jij )T Jij = Jij
+
+If i = j
+
+Jij Jij = 0 (Jij )T (Jij )T = 0
+
+Jij (Jij )T = Jii
+
+(Jij )T Jij = Jjj
+
+(446) (447) (448) (449)
+
+9.7.5 The Singleentry Matrix in Scalar Expressions Assume A is n × m and J is m × n, then
+Tr(AJij) = Tr(JijA) = (AT )ij
+Assume A is n × n, J is n × m and B is m × n, then
+Tr(AJij B) = (AT BT )ij Tr(AJjiB) = (BA)ij Tr(AJij Jij B) = diag(AT BT )ij
+Assume A is n × n, Jij is n × m B is m × n, then
+xT AJij Bx = (AT xxT BT )ij xT AJij Jij Bx = diag(AT xxT BT )ij
+
+9.7.6 Structure Matrices The structure matrix is deﬁned by
+∂A = Sij ∂Aij If A has no special structure then Sij = Jij
+
+If A is symmetric then
+
+Sij = Jij + Jji − Jij Jij
+
+(450)
+(451) (452) (453)
+(454) (455)
+(456)
+(457) (458)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 53
+
+9.8 Symmetric, Skew-symmetric/Antisymmetric 9 SPECIAL MATRICES
+
+9.8 Symmetric, Skew-symmetric/Antisymmetric
+9.8.1 Symmetric The matrix A is said to be symmetric if
+A = AT
+
+(459)
+
+Symmetric matrices have many important properties, e.g. that their eigenvalues are real and eigenvectors orthogonal.
+
+9.8.2 Skew-symmetric/Antisymmetric
+
+The antisymmetric matrix is also known as the skew symmetric matrix. It has the following property from which it is deﬁned
+
+A = −AT
+
+(460)
+
+Hereby, it can be seen that the antisymmetric matrices always have a zero diagonal. The n × n antisymmetric matrices also have the following properties.
+
+det(AT ) = det(−A) = (−1)n det(A) − det(A) = det(−A) = 0, if n is odd
+
+(461) (462)
+
+The eigenvalues of an antisymmetric matrix are placed on the imaginary axis and the eigenvectors are unitary.
+
+9.8.3 Decomposition
+
+A square matrix A can always be written as a sum of a symmetric A+ and an
+
+antisymmetric matrix A−
+
+A = A+ + A−
+
+(463)
+
+Such a decomposition could e.g. be
+
+A + AT A − AT A = 2 + 2 = A+ + A−
+
+(464)
+
+9.9 Toeplitz Matrices
+A Toeplitz matrix T is a matrix where the elements of each diagonal is the same. In the n × n square case, it has the following structure:
+
+ t11 t12 · · · t1n   t0
+
+t1 · · · tn−1 
+
+
+
+T
+
+=
+
+ 
+
+
+
+
+
+t21 ...
+
+... ...
+
+... ...
+
+...
+
+
+
+ 
+
+=
+
+ 
+
+ t12  
+
+t−1 ...
+
+... ... ... ...
+
+...
+
+ 
+
+
+
+ t1 
+
+tn1 · · · t21 t11
+
+t−(n−1) · · · t−1 t0
+
+(465)
+
+A Toeplitz matrix is persymmetric. If a matrix is persymmetric (or orthosymmetric), it means that the matrix is symmetric about its northeast-southwest diagonal (anti-diagonal) [12]. Persymmetric matrices is a larger class of matrices, since a persymmetric matrix not necessarily has a Toeplitz structure. There
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 54
+
+9.10 Transition matrices
+
+9 SPECIAL MATRICES
+
+are some special cases of Toeplitz matrices. The symmetric Toeplitz matrix is
+
+given by:
+
+ t0
+
+
+
+T
+
+=
+
+ 
+
+
+
+
+
+t1 ...
+
+t1 · · · tn−1 
+
+... ...
+
+...
+
+ 
+
+... ...
+
+  t1 
+
+(466)
+
+tn−1 · · · t1 t0
+
+The circular Toeplitz matrix:
+
+ t0 t1 · · · tn−1 
+
+TC
+
+
+
+=
+
+ 
+
+
+
+
+
+tn−1 ...
+
+... ...
+
+... ...
+
+...
+
+ 
+
+
+
+ t1 
+
+t1 · · · tn−1 t0
+
+(467)
+
+The upper triangular Toeplitz matrix:
+
+ t0 t1 · · · tn−1 
+
+
+
+TU
+
+=
+
+ 
+
+
+
+
+
+0 ...
+
+... ...
+
+... ...
+
+...
+
+
+
+ 
+
+,
+
+ t1 
+
+0 · · · 0 t0
+
+(468)
+
+and the lower triangular Toeplitz matrix:
+
+ t0
+
+
+
+TL
+
+=
+
+ 
+
+
+
+
+
+t−1 ...
+
+0 ··· 0 
+
+... ...
+
+...
+
+ 
+
+...
+
+...
+
+  0
+
+t−(n−1) · · · t−1 t0
+
+(469)
+
+9.9.1 Properties of Toeplitz Matrices
+The Toeplitz matrix has some computational advantages. The addition of two Toeplitz matrices can be done with O(n) ﬂops, multiplication of two Toeplitz matrices can be done in O(n ln n) ﬂops. Toeplitz equation systems can be solved in O(n2) ﬂops. The inverse of a positive deﬁnite Toeplitz matrix can be found in O(n2) ﬂops too. The inverse of a Toeplitz matrix is persymmetric. The product of two lower triangular Toeplitz matrices is a Toeplitz matrix. More information on Toeplitz matrices and circulant matrices can be found in [13, 7].
+
+9.10 Transition matrices
+A square matrix P is a transition matrix, also known as stochastic matrix or probability matrix, if
+
+0 ≤ (P)ij ≤ 1,
+
+(P)ij = 1
+j
+
+The transition matrix usually describes the probability of moving from state i to j in one step and is closely related to markov processes. Transition matrices
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 55
+
+9.11 Units, Permutation and Shift
+
+9 SPECIAL MATRICES
+
+have the following properties
+
+Prob[i → j in 1 step] = (P)ij Prob[i → j in 2 steps] = (P2)ij Prob[i → j in k steps] = (Pk)ij If all rows are identical ⇒ Pn = P
+αP = α, α is called invariant
+
+(470) (471) (472) (473) (474)
+
+where α is a so-called stationary probability vector, i.e., 0 ≤ αi ≤ 1 and i αi = 1.
+
+9.11 Units, Permutation and Shift
+9.11.1 Unit vector Let ei ∈ Rn×1 be the ith unit vector, i.e. the vector which is zero in all entries except the ith at which it is 1.
+
+9.11.2 Rows and Columns
+
+i.th row of A = eTi A j.th column of A = Aej
+
+(475) (476)
+
+9.11.3 Permutations
+
+Let P be some permutation matrix, e.g.
+
+0 1 0 P= 1 0 0 =
+001
+
+e2 e1 e3
+
+ eT2  =  eT1 
+eT3
+
+For permutation matrices it holds that
+
+PPT = I
+
+(477) (478)
+
+and that
+
+AP = Ae2 Ae1 Ae3
+
+ eT2 A  PA =  eT1 A 
+eT3 A
+
+(479)
+
+That is, the ﬁrst is a matrix which has columns of A but in permuted sequence and the second is a matrix which has the rows of A but in the permuted sequence.
+
+9.11.4 Translation, Shift or Lag Operators
+
+Let L denote the lag (or ’translation’ or ’shift’) operator deﬁned on a 4 × 4
+
+example by
+
+0 0 0 0
+
+L
+
+=
+
+ 
+
+
+
+1 0
+
+0 1
+
+0 0
+
+0
+
+0
+
+ 
+
+(480)
+
+0010
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 56
+
+9.12 Vandermonde Matrices
+
+9 SPECIAL MATRICES
+
+i.e. a matrix of zeros with one on the sub-diagonal, (L)ij = δi,j+1. With some
+
+signal xt for t = 1, ..., N , the n.th power of the lag operator shifts the indices,
+
+i.e.
+
+(Lnx)t =
+
+0 for t = 1, .., n xt−n for t = n + 1, ..., N
+
+(481)
+
+A related but slightly diﬀerent matrix is the ’recurrent shifted’ operator deﬁned
+
+on a 4x4 example by
+
+0 0 0 1
+
+Lˆ
+
+=
+
+ 
+
+
+
+1 0
+
+0 1
+
+0 0
+
+0
+
+0
+
+ 
+
+(482)
+
+0010
+
+i.e. a matrix deﬁned by (Lˆ )ij = δi,j+1 + δi,1δj,dim(L). On a signal x it has the
+
+eﬀect
+
+(Lˆnx)t = xt , t = [(t − n) mod N ] + 1
+
+(483)
+
+That is, Lˆ is like the shift operator L except that it ’wraps’ the signal as if it
+was periodic and shifted (substituting the zeros with the rear end of the signal). Note that Lˆ is invertible and orthogonal, i.e.
+
+Lˆ −1 = Lˆ T
+
+(484)
+
+9.12 Vandermonde Matrices
+
+A Vandermonde matrix has the form [15]
+
+ 1 v1 v12 · · · v1n−1 
+
+1
+
+V=  
+
+...
+
+v2 ...
+
+v22 ...
+
+···
+
+v2n−1 ...
+
+ .  
+
+1 vn vn2 · · · vnn−1
+
+(485)
+
+The transpose of V is also said to a Vandermonde matrix. The determinant is
+
+given by [29]
+
+det V = (vi − vj)
+
+(486)
+
+i>j
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 57
+
+10 FUNCTIONS AND OPERATORS
+
+10 Functions and Operators
+10.1 Functions and Series
+10.1.1 Finite Series (Xn − I)(X − I)−1 = I + X + X2 + ... + Xn−1
+
+(487)
+
+10.1.2 Taylor Expansion of Scalar Function
+
+Consider some scalar function f (x) which takes the vector x as an argument. This we can Taylor expand around x0
+
+f (x)
+
+∼=
+
+f (x0)
+
++
+
+g(x0)T
+
+(x
+
+−
+
+x0)
+
++
+
+1 (x
+2
+
+−
+
+x0)T H(x0)(x
+
+−
+
+x0)
+
+(488)
+
+where
+
+∂f (x) g(x0) = ∂x x0
+
+∂2f (x) H(x0) = ∂x∂xT x0
+
+10.1.3 Matrix Functions by Inﬁnite Series
+
+As for analytical functions in one dimension, one can deﬁne a matrix function for square matrices X by an inﬁnite series
+
+∞
+f (X) = cnXn
+n=0
+
+(489)
+
+assuming the limit exists and is ﬁnite. If the coeﬃcients cn fulﬁls n cnxn < ∞, then one can prove that the above series exists and is ﬁnite, see [1]. Thus for any analytical function f (x) there exists a corresponding matrix function f (x) constructed by the Taylor expansion. Using this one can prove the following results: 1) A matrix A is a zero of its own characteristic polynomium [1]:
+
+p(λ) = det(Iλ − A) = cnλn ⇒ p(A) = 0
+n
+2) If A is square it holds that [1]
+A = UBU−1 ⇒ f (A) = Uf (B)U−1
+
+(490) (491)
+
+3) A useful fact when using power series is that An → 0forn → ∞ if |A| < 1
+
+(492)
+
+10.1.4 Identity and commutations It holds for an analytical matrix function f (X) that
+f (AB)A = Af (BA) see B.1.2 for a proof.
+
+(493)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 58
+
+10.2 Kronecker and Vec Operator 10 FUNCTIONS AND OPERATORS
+
+10.1.5 Exponential Matrix Function
+
+In analogy to the ordinary scalar exponential function, one can deﬁne exponential and logarithmic matrix functions:
+
+eA ≡ ∞ 1 An = I + A + 1 A2 + ...
+
+n!
+
+2
+
+n=0
+
+e−A ≡ ∞ 1 (−1)nAn = I − A + 1 A2 − ...
+
+n!
+
+2
+
+n=0
+
+etA ≡ ∞ 1 (tA)n = I + tA + 1 t2A2 + ...
+
+n!
+
+2
+
+n=0
+
+ln(I + A) ≡ ∞ (−1)n−1 An = A − 1 A2 + 1 A3 − ...
+
+n
+
+2
+
+3
+
+n=1
+
+(494) (495) (496) (497)
+
+Some of the properties of the exponential function are [1]
+
+eAeB = eA+B
+
+if
+
+(eA)−1 = e−A
+
+d etA = AetA = etAA, dt d Tr(etA) = Tr(AetA) dt det(eA) = eTr(A)
+
+AB = BA t∈R
+
+(498) (499) (500)
+(501) (502)
+
+10.1.6 Trigonometric Functions
+
+sin(A) ≡ ∞ (−1)nA2n+1 = A − 1 A3 + 1 A5 − ...
+
+(2n + 1)!
+
+3!
+
+5!
+
+n=0
+
+cos(A) ≡ ∞ (−1)nA2n = I − 1 A2 + 1 A4 − ...
+
+(2n)!
+
+2!
+
+4!
+
+n=0
+
+(503) (504)
+
+10.2 Kronecker and Vec Operator
+
+10.2.1 The Kronecker Product
+
+The Kronecker product of an m × n matrix A and an r × q matrix B, is an mr × nq matrix, A ⊗ B deﬁned as
+
+ A11B A12B ... A1nB 
+
+ A21B A22B ... A2nB 
+
+A⊗B=  
+
+...
+
+...
+
+  
+
+Am1B Am2B ... AmnB
+
+(505)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 59
+
+10.2 Kronecker and Vec Operator 10 FUNCTIONS AND OPERATORS
+
+The Kronecker product has the following properties (see [19])
+
+A ⊗ (B + C) = A ⊗ B + A ⊗ C A ⊗ B = B ⊗ A in general
+A ⊗ (B ⊗ C) = (A ⊗ B) ⊗ C (αAA ⊗ αBB) = αAαB(A ⊗ B)
+(A ⊗ B)T = AT ⊗ BT (A ⊗ B)(C ⊗ D) = AC ⊗ BD
+(A ⊗ B)−1 = A−1 ⊗ B−1 (A ⊗ B)+ = A+ ⊗ B+ rank(A ⊗ B) = rank(A)rank(B) Tr(A ⊗ B) = Tr(A)Tr(B) = Tr(ΛA ⊗ ΛB) det(A ⊗ B) = det(A)rank(B) det(B)rank(A) {eig(A ⊗ B)} = {eig(B ⊗ A)} if A, B are square {eig(A ⊗ B)} = {eig(A)eig(B)T }
+if A, B are symmetric and square eig(A ⊗ B) = eig(A) ⊗ eig(B)
+
+(506) (507) (508) (509) (510) (511) (512) (513) (514) (515) (516) (517) (518)
+(519)
+
+Where {λi} denotes the set of values λi, that is, the values in no particular order or structure, and ΛA denotes the diagonal matrix with the eigenvalues of A.
+
+10.2.2 The Vec Operator
+
+The vec-operator applied on a matrix A stacks the columns into a vector, i.e. for a 2 × 2 matrix
+
+A=
+
+A11 A12 A21 A22
+
+ A11 
+
+vec(A)
+
+=
+
+ 
+
+
+
+A21 A12
+
+  
+
+A22
+
+Properties of the vec-operator include (see [19])
+
+vec(AXB) = (BT ⊗ A)vec(X) Tr(AT B) = vec(A)T vec(B)
+vec(A + B) = vec(A) + vec(B) vec(αA) = α · vec(A)
+aT XBXT c = vec(X)T (B ⊗ caT )vec(X)
+
+(520) (521) (522) (523) (524)
+
+See B.1.1 for a proof for Eq. 524.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 60
+
+10.3 Vector Norms
+
+10 FUNCTIONS AND OPERATORS
+
+10.3 Vector Norms
+10.3.1 Examples
+
+||x||1 =
+
+|xi|
+
+i
+
+||x||22 = xH x
+
+1/p
+
+||x||p =
+
+|xi|p
+
+i
+
+||x||∞ = max |xi|
+i
+
+Further reading in e.g. [12, p. 52]
+
+(525) (526) (527) (528)
+
+10.4 Matrix Norms
+10.4.1 Deﬁnitions A matrix norm is a mapping which fulﬁls
+||A|| ≥ 0 ||A|| = 0 ⇔ A = 0 ||cA|| = |c|||A||, c ∈ R ||A + B|| ≤ ||A|| + ||B||
+
+(529) (530) (531) (532)
+
+10.4.2 Induced Norm or Operator Norm An induced norm is a matrix norm induced by a vector norm by the following
+
+||A|| = sup{||Ax|| | ||x|| = 1}
+
+(533)
+
+where || · || on the left side is the induced matrix norm, while || · || on the right side denotes the vector norm. For induced norms it holds that
+
+||I|| = 1 ||Ax|| ≤ ||A|| · ||x||, ||AB|| ≤ ||A|| · ||B||,
+
+for all A, x for all A, B
+
+(534) (535) (536)
+
+10.4.3 Examples
+
+||A||1
+||A||2 ||A||p ||A||∞
+||A||F
+
+= max |Aij|
+j i
+= max eig(AH A) = ( max ||Ax||p)1/p
+||x||p =1
+= max |Aij|
+i j
+
+=
+
+|Aij|2 = Tr(AAH )
+
+ij
+
+(Frobenius)
+
+(537) (538) (539) (540)
+(541)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 61
+
+10.5 Rank
+
+10 FUNCTIONS AND OPERATORS
+
+||A||max = max |Aij|
+ij
+||A||KF = ||sing(A)||1
+
+(Ky Fan)
+
+where sing(A) is the vector of singular values of the matrix A.
+
+(542) (543)
+
+10.4.4 Inequalities
+
+E. H. Rasmussen has in yet unpublished material derived and collected the following inequalities. They are collected in a table as below, assuming A is an m × n, and d = rank(A)
+
+||A||max ||A||1 ||A||∞ ||A||2 ||A||F ||A||KF
+
+||A||max
+m √n √mn √ mn
+mnd
+
+||A||1 1
+√n √n √n
+nd
+
+||A||∞ 1 m
+√ √m √m
+md
+
+||A||2 √1 √m
+n
+√ d d
+
+which are to be read as, e.g. √
+||A||2 ≤ m · ||A||∞
+
+||A||F √1 √m
+n 1
+√ d
+
+||A||KF √1 √m n 1 1
+
+(544)
+
+10.4.5 Condition Number
+
+The 2-norm of A equals (max(eig(AT A))) [12, p.57]. For a symmetric, positive deﬁnite matrix, this reduces to max(eig(A)) The condition number based on the 2-norm thus reduces to
+
+A
+
+2
+
+A−1
+
+2 = max(eig(A)) max(eig(A−1)) =
+
+max(eig(A)) .
+min(eig(A))
+
+(545)
+
+10.5 Rank
+10.5.1 Sylvester’s Inequality If A is m × n and B is n × r, then
+rank(A) + rank(B) − n ≤ rank(AB) ≤ min{rank(A), rank(B)}
+
+(546)
+
+10.6 Integral Involving Dirac Delta Functions
+
+Assuming A to be square, then
+
+p(s)δ(x − As)ds = 1 p(A−1x) det(A)
+
+Assuming A to be ”underdetermined”, i.e. ”tall”, then
+
+p(s)δ(x − As)ds =
+
+√ 1 p(A+x) if x = AA+x
+det(AT A)
+
+0
+
+elsewhere
+
+See [9].
+
+(547) (548)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 62
+
+10.7 Miscellaneous
+
+10 FUNCTIONS AND OPERATORS
+
+10.7 Miscellaneous
+For any A it holds that rank(A) = rank(AT ) = rank(AAT ) = rank(AT A)
+It holds that A is positive deﬁnite ⇔ ∃B invertible, such that A = BBT
+
+(549) (550)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 63
+
+A ONE-DIMENSIONAL RESULTS
+
+A One-dimensional Results
+
+A.1 Gaussian
+A.1.1 Density
+
+1
+
+(x − µ)2
+
+p(x) = √ exp − 2πσ2
+
+2σ2
+
+A.1.2 Normalization
+
+e ds −
+
+(s−µ)2 2σ2
+
+=
+
+√ 2πσ2
+
+e−(ax2+bx+c)dx = ec2x2+c1x+c0 dx =
+
+π
+
+b2 − 4ac
+
+exp
+
+a
+
+4a
+
+π exp c21 − 4c2c0
+
+−c2
+
+−4c2
+
+A.1.3 Derivatives
+
+∂p(x)
+
+(x − µ)
+
+∂µ = p(x) σ2
+
+∂ ln p(x)
+
+(x − µ)
+
+∂µ
+
+=
+
+σ2
+
+∂p(x)
+
+1 (x − µ)2
+
+= p(x)
+
+∂σ
+
+σ
+
+σ2 − 1
+
+∂ ln p(x)
+
+1 (x − µ)2
+
+∂σ
+
+= σ
+
+σ2 − 1
+
+A.1.4 or
+
+Completing the Squares
+
+c2x2 + c1x + c0 = −a(x − b)2 + w
+
+−a = c2
+
+b = 1 c1 2 c2
+
+w
+
+=
+
+1 4
+
+c21 c2
+
++
+
+c0
+
+c2x2
+
++
+
+c1x
+
++
+
+c0
+
+=
+
+1 − 2σ2
+
+(x
+
+−
+
+µ)2
+
++
+
+d
+
+µ = −c1 2c2
+
+σ2 = −1 2c2
+
+d
+
+=
+
+c0
+
+−
+
+c21 4c2
+
+A.1.5 Moments
+
+If the density is expressed by
+
+1
+
+(s − µ)2
+
+p(x) = √ exp − 2πσ2
+
+2σ2
+
+or p(x) = C exp(c2x2 + c1x)
+
+then the ﬁrst few basic moments are
+
+(551) (552) (553) (554) (555) (556) (557) (558)
+(559)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 64
+
+A.2 One Dimensional Mixture of GaussiAans ONE-DIMENSIONAL RESULTS
+
+x =µ
+
+=
+
+−c1 2c2
+
+2
+
+x2 = σ2 + µ2
+
+=
+
+−1 2c2
+
++
+
+−c1 2c2
+
+x3 = 3σ2µ + µ3
+
+=
+
+3 − c1
+
+c21
+
+(2c2 )2
+
+2c2
+
+4
+
+2
+
+2
+
+x4 = µ4 + 6µ2σ2 + 3σ4 =
+
+c1 2c2
+
++6
+
+c1 2c2
+
+−1 2c2
+
++3
+
+1 2c2
+
+and the central moments are
+
+(x − µ) (x − µ)2 (x − µ)3
+(x − µ)4
+
+=0 =0
+
+= σ2
+
+=
+
+−1 2c2
+
+=0 =0
+
+2
+
+=
+
+3σ4
+
+=
+
+3
+
+1 2c2
+
+A kind of pseudo-moments (un-normalized integrals) can easily be derived as
+
+exp(c2x2 + c1x)xndx = Z xn =
+
+π exp
+
+c21
+
+−c2
+
+−4c2
+
+xn
+
+(560)
+
+¿From the un-centralized moments one can derive other entities like
+
+x2 − x 2 x3 − x2 x
+x4 − x2 2
+
+= σ2 = 2σ2µ
+
+= =
+
+−1
+2c22c1 (2c2 )2
+
+=
+
+2σ4 + 4µ2σ2
+
+=
+
+2 (2c2 )2
+
+1
+
+−
+
+4
+
+c21 2c2
+
+A.2 One Dimensional Mixture of Gaussians
+
+A.2.1 Density and Normalization
+
+K
+p(s) =
+k
+
+ρk exp 2πσk2
+
+−
+
+1 2
+
+(s
+
+− µk σk2
+
+)2
+
+(561)
+
+A.2.2 Moments A useful fact of MoG, is that
+
+xn = ρk xn k
+k
+
+(562)
+
+where · k denotes average with respect to the k.th component. We can calculate the ﬁrst four moments from the densities
+
+p(x) = p(x) =
+
+ρk
+k
+
+1 exp
+2πσk2
+
+−
+
+1 2
+
+(x
+
+− µk σk2
+
+)2
+
+ρkCk exp ck2x2 + ck1x
+
+k
+
+(563) (564)
+
+as
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 65
+
+B PROOFS AND DETAILS
+
+x= x2 = x3 = x4 =
+
+k ρkµk
+
+=
+
+k ρk(σk2 + µ2k)
+
+=
+
+k ρk(3σk2µk + µ3k)
+
+=
+
+k ρk(µ4k + 6µ2kσk2 + 3σk4) =
+
+k ρk k ρk k ρk k ρk
+
+−ck1 2ck2
+
+−1 2ck2
+
++
+
+2 −ck1 2ck2
+
+3 − ck1
+(2ck2 )2
+
+c2k1 2ck2
+
+2 1 2ck2
+
+ck1 2ck2
+
+2
+
+− 6 c2k1
+2ck2
+
++3
+
+If all the gaussians are centered, i.e. µk = 0 for all k, then
+
+x =0
+
+=0
+
+x2 =
+
+k ρkσk2 =
+
+k ρk
+
+−1 2ck2
+
+x3 = 0
+
+=0
+
+x4 =
+
+k ρk3σk4 =
+
+2
+
+k ρk3
+
+−1 2ck2
+
+¿From the un-centralized moments one can derive other entities like
+
+x2 − x 2
+
+=
+
+x3 − x2 x =
+
+x4 − x2 2
+
+=
+
+k,k ρkρk k,k ρkρk k,k ρkρk
+
+µ2k + σk2 − µkµk 3σk2µk + µ3k − (σk2 + µ2k)µk µ4k + 6µ2kσk2 + 3σk4 − (σk2 + µ2k)(σk2 + µ2k )
+
+A.2.3 Derivatives
+
+Deﬁning p(s) = k ρkNs(µk, σk2) we get for a parameter θj of the j.th compo-
+
+nent
+
+∂ ln p(s) =
+∂θj
+
+ρj Ns(µj , σj2) ∂ ln(ρj Ns(µj , σj2))
+
+k ρkNs(µk, σk2)
+
+∂θj
+
+(565)
+
+that is,
+
+∂ ln p(s) =
+∂ρj ∂ ln p(s)
+= ∂µj ∂ ln p(s)
+= ∂σj
+
+ρj Ns(µj , σj2) 1 k ρkNs(µk, σk2) ρj ρj Ns(µj , σj2) (s − µj ) k ρkNs(µk, σk2) σj2
+
+ρj Ns(µj , σj2) 1 k ρkNs(µk, σk2) σj
+
+(s
+
+− µj )2 σj2
+
+−
+
+1
+
+(566) (567) (568)
+
+Note that ρk must be constrained to be proper ratios. Deﬁning the ratios by ρj = erj / k erk , we obtain
+
+∂ ln p(s) =
+
+∂ ln p(s) ∂ρl
+
+∂rj
+
+l ∂ρl ∂rj
+
+where
+
+∂ρl ∂rj
+
+= ρl(δlj
+
+− ρj)
+
+(569)
+
+B Proofs and Details
+
+B.1 Misc Proofs
+B.1.1 Proof of Equation 524
+The following proof is work of Florian Roemer. Note the the vectors and matrices below can be complex and the notation XH is used for transpose and conjugated, while XT is only transpose of the complex matrix.
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 66
+
+B.1 Misc Proofs
+
+B PROOFS AND DETAILS
+
+Deﬁne the row vector y = aH XB and the column vector z = XH c. Then aT XBXT c = yz = zT yT
+Note that y can be rewritten as vec(y)T which is the same as vec(conj(y))H = vec(aT conj(X)conj(B))H
+where ”conj” means complex conjugated. Applying the vec rule for linear forms Eq 520, we get
+y = (BH ⊗ aT vec(conj(X))H = vec(X)T (B ⊗ conj(a))
+where we have also used the rule for transpose of Kronecker products. For yT this yields (BT ⊗ aH )vec(X). Similarly we can rewrite z which is the same as vec(zT ) = vec(cT conj(X)). Applying again Eq 520, we get
+z = (I ⊗ cT )vec(conj(X))
+where I is the identity matrix. For zT we obtain vec(X)(I ⊗ c). Finally, the original expression is zT yT which now takes the form
+vec(X)H (I ⊗ c)(BT ⊗ aH )vec(X)
+the ﬁnal step is to apply the rule for products of Kronecker products and by that combine the Kronecker products. This gives
+vec(X)H (BT ⊗ caH )vec(X)
+which is the desired result.
+
+B.1.2 Proof of Equation 493 For any analytical function f (X) of a matrix argument X, it holds that
+
+∞
+
+f (AB)A =
+
+cn(AB)n A
+
+n=0
+
+∞
+
+=
+
+cn(AB)nA
+
+n=0
+
+∞
+
+=
+
+cnA(BA)n
+
+n=0
+
+∞
+= A cn(BA)n
+
+n=0
+
+= Af (BA)
+
+B.1.3 Proof of Equation 91 Essentially we need to calculate
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 67
+
+B.1 Misc Proofs
+
+B PROOFS AND DETAILS
+
+∂(Xn)kl ∂Xij
+
+∂
+
+=
+
+∂Xij
+
+Xk,u1 Xu1,u2 ...Xun−1,l
+u1 ,...,un−1
+
+= δk,iδu1,j Xu1,u2 ...Xun−1,l
+
++Xk,u1 δu1,iδu2,j ...Xun−1,l
+
+...
+
++Xk,u1 Xu1,u2 ...δun−1,iδl,j
+
+n−1
+
+=
+
+(Xr )ki (Xn−1−r )j l
+
+r=0
+
+n−1
+
+=
+
+(XrJij Xn−1−r)kl
+
+r=0
+
+Using the properties of the single entry matrix found in Sec. 9.7.4, the result follows easily.
+
+B.1.4 Details on Eq. 571
+
+∂ det(XH AX) = det(XH AX)Tr[(XH AX)−1∂(XH AX)] = det(XH AX)Tr[(XH AX)−1(∂(XH )AX + XH ∂(AX))] = det(XH AX) Tr[(XH AX)−1∂(XH )AX] +Tr[(XH AX)−1XH ∂(AX)] = det(XH AX) Tr[AX(XH AX)−1∂(XH )] +Tr[(XH AX)−1XH A∂(X)]
+
+First, the derivative is found with respect to the real part of X
+
+∂ det(XH AX) = det(XH AX) Tr[AX(XH AX)−1∂(XH )]
+
+∂X
+
+∂X
+
+Tr[(XH AX)−1XH A∂(X)] +
+∂X
+
+= det(XH AX) AX(XH AX)−1 + ((XH AX)−1XH A)T
+
+Through the calculations, (100) and (240) were used. In addition, by use of (241), the derivative is found with respect to the imaginary part of X
+
+∂ det(XH AX) i
+
+=
+
+i det(XH AX) Tr[AX(XH AX)−1∂(XH )]
+
+∂X
+
+∂X
+
+Tr[(XH AX)−1XH A∂(X)] +
+∂X
+
+= det(XH AX) AX(XH AX)−1 − ((XH AX)−1XH A)T
+
+Hence, derivative yields
+
+∂ det(XH AX)
+
+1 ∂ det(XH AX) ∂ det(XH AX)
+
+=
+
+−i
+
+∂X
+
+2
+
+∂X
+
+∂X
+
+= det(XH AX) (XH AX)−1XH A T
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 68
+
+B.1 Misc Proofs
+
+B PROOFS AND DETAILS
+
+and the complex conjugate derivative yields
+
+∂ det(XH AX)
+
+1 ∂ det(XH AX) ∂ det(XH AX)
+
+∂X∗
+
+= 2
+
+∂X
+
++i ∂X
+
+= det(XH AX)AX(XH AX)−1
+
+Notice, for real X, A, the sum of (249) and (250) is reduced to (54). Similar calculations yield
+
+∂ det(XAXH )
+
+1 ∂ det(XAXH ) ∂ det(XAXH )
+
+=
+
+−i
+
+∂X
+
+2
+
+∂X
+
+∂X
+
+= det(XAXH ) AXH (XAXH )−1 T
+
+and
+
+∂ det(XAXH )
+
+1 ∂ det(XAXH ) ∂ det(XAXH )
+
+∂X∗
+
+= 2
+
+∂X
+
++i ∂X
+
+= det(XAXH )(XAXH )−1XA
+
+(570) (571)
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 69
+
+REFERENCES
+
+REFERENCES
+
+References
+[1] Karl Gustav Andersson and Lars-Christer Boiers. Ordinaera diﬀerentialekvationer. Studenterlitteratur, 1992.
+[2] J¨orn Anemu¨ller, Terrence J. Sejnowski, and Scott Makeig. Complex independent component analysis of frequency-domain electroencephalographic data. Neural Networks, 16(9):1311–1323, November 2003.
+[3] S. Barnet. Matrices. Methods and Applications. Oxford Applied Mathematics and Computin Science Series. Clarendon Press, 1990.
+[4] Christopher Bishop. Neural Networks for Pattern Recognition. Oxford University Press, 1995.
+[5] Robert J. Boik. Lecture notes: Statistics 550. Online, April 22 2002. Notes.
+[6] D. H. Brandwood. A complex gradient operator and its application in adaptive array theory. IEE Proceedings, 130(1):11–16, February 1983. PTS. F and H.
+[7] M. Brookes. Matrix Reference Manual, 2004. Website May 20, 2004.
+[8] Contradsen K., En introduktion til statistik, IMM lecture notes, 1984.
+[9] Mads Dyrholm. Some matrix results, 2004. Website August 23, 2004.
+[10] Nielsen F. A., Formula, Neuro Research Unit and Technical university of Denmark, 2002.
+[11] Gelman A. B., J. S. Carlin, H. S. Stern, D. B. Rubin, Bayesian Data Analysis, Chapman and Hall / CRC, 1995.
+[12] Gene H. Golub and Charles F. van Loan. Matrix Computations. The Johns Hopkins University Press, Baltimore, 3rd edition, 1996.
+[13] Robert M. Gray. Toeplitz and circulant matrices: A review. Technical report, Information Systems Laboratory, Department of Electrical Engineering,Stanford University, Stanford, California 94305, August 2002.
+[14] Simon Haykin. Adaptive Filter Theory. Prentice Hall, Upper Saddle River, NJ, 4th edition, 2002.
+[15] Roger A. Horn and Charles R. Johnson. Matrix Analysis. Cambridge University Press, 1985.
+[16] Mardia K. V., J.T. Kent and J.M. Bibby, Multivariate Analysis, Academic Press Ltd., 1979.
+[17] Mathpages on ”Eigenvalue Problems and Matrix Invariants”,
+
+http://www.mathpages.com/home/kmath128.htm [18] Carl D. Meyer. Generalized inversion of modiﬁed matrices. SIAM Journal
+of Applied Mathematics, 24(3):315–323, May 1973.
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 70
+
+REFERENCES
+
+REFERENCES
+
+[19] Thomas P. Minka. Old and new matrix algebra useful for statistics, December 2000. Notes.
+[20] Daniele Mortari Ortho–Skew and Ortho–Sym Matrix Trigonometry John Lee Junkins Astrodynamics Symposium, AAS 03–265, May 2003. Texas A&M University, College Station, TX
+[21] L. Parra and C. Spence. Convolutive blind separation of non-stationary sources. In IEEE Transactions Speech and Audio Processing, pages 320– 327, May 2000.
+[22] Kaare Brandt Petersen, Jiucang Hao, and Te-Won Lee. Generative and ﬁltering approaches for overcomplete representations. Neural Information Processing - Letters and Reviews, vol. 8(1), 2005.
+[23] John G. Proakis and Dimitris G. Manolakis. Digital Signal Processing. Prentice-Hall, 1996.
+[24] Laurent Schwartz. Cours d’Analyse, volume II. Hermann, Paris, 1967. As referenced in [14].
+[25] Shayle R. Searle. Matrix Algebra Useful for Statistics. John Wiley and Sons, 1982.
+[26] G. Seber and A. Lee. Linear Regression Analysis. John Wiley and Sons, 2002.
+[27] S. M. Selby. Standard Mathematical Tables. CRC Press, 1974.
+[28] Inna Stainvas. Matrix algebra in diﬀerential calculus. Neural Computing Research Group, Information Engeneering, Aston University, UK, August 2002. Notes.
+[29] P. P. Vaidyanathan. Multirate Systems and Filter Banks. Prentice Hall, 1993.
+[30] Max Welling. The Kalman Filter. Lecture Note.
+[31] Wikipedia on minors: ”Minor (linear algebra)”,
+
+http://en.wikipedia.org/wiki/Minor_(linear_algebra)
+[32] Zhaoshui He, Shengli Xie, et al, ”Convolutive blind source separation in frequency domain based on sparse representation”, IEEE Transactions on Audio, Speech and Language Processing, vol.15(5):1551-1563, July 2007.
+[33] Karim T. Abou-Moustafa On Derivatives of Eigenvalues and Eigenvectors of the Generalized Eigenvalue Problem. McGill Technical Report, October 2010.
+[34] Mohammad Emtiyaz Khan Updating Inverse of a Matrix When a Column is Added/Removed. Emt CS,UBC February 27, 2008
+
+Petersen & Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 71
+
+Index
+Anti-symmetric, 54
+Block matrix, 46
+Chain rule, 15 Cholesky-decomposition, 32 Co-kurtosis, 34 Co-skewness, 34 Condition number, 62 Cramers Rule, 29
+Derivative of a complex matrix, 24 Derivative of a determinant, 8 Derivative of a trace, 12 Derivative of an inverse, 9 Derivative of symmetric matrix, 15 Derivatives of Toeplitz matrix, 16 Dirichlet distribution, 37
+Eigenvalues, 30 Eigenvectors, 30 Exponential Matrix Function, 59
+Gaussian, conditional, 40 Gaussian, entropy, 44 Gaussian, linear combination, 41 Gaussian, marginal, 40 Gaussian, product of densities, 42 Generalized inverse, 21
+Hadamard inequality, 52 Hermitian, 48
+Idempotent, 49
+Kronecker product, 59
+LDL decomposition, 33 LDM-decomposition, 33 Linear regression, 28 LU decomposition, 32 Lyapunov Equation, 30
+Moore-Penrose inverse, 21 Multinomial distribution, 37
+Nilpotent, 49 Norm of a matrix, 61 Norm of a vector, 61
+
+Normal-Inverse Gamma distribution, 37 Normal-Inverse Wishart distribution, 39
+Orthogonal, 49
+Power series of matrices, 58 Probability matrix, 55 Pseudo-inverse, 21
+Schur complement, 41, 47 Single entry matrix, 52 Singular Valued Decomposition (SVD),
+31 Skew-Hermitian, 48 Skew-symmetric, 54 Stochastic matrix, 55 Student-t, 37 Sylvester’s Inequality, 62 Symmetric, 54
+Taylor expansion, 58 Toeplitz matrix, 54 Transition matrix, 55 Trigonometric functions, 59
+Unipotent, 49
+Vandermonde matrix, 57 Vec operator, 59, 60
+Wishart distribution, 38 Woodbury identity, 18
+
+72
+

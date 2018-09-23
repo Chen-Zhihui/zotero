@@ -1,0 +1,1138 @@
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+arXiv:1612.02295v4 [stat.ML] 17 Nov 2017
+
+Weiyang Liu1† Yandong Wen2† Zhiding Yu3 Meng Yang4
+
+WYLIU@PKU.EDU.CN WEN.YANDONG@MAIL.SCUT.EDU.CN
+YZHIDING@ANDREW.CMU.EDU YANG.MENG@SZU.EDU.CN
+
+1School of ECE, Peking University 2School of EIE, South China University of Technology 3Dept. of ECE, Carnegie Mellon University 4College of CS & SE, Shenzhen University
+
+Abstract
+Cross-entropy loss together with softmax is arguably one of the most common used supervision components in convolutional neural networks (CNNs). Despite its simplicity, popularity and excellent performance, the component does not explicitly encourage discriminative learning of features. In this paper, we propose a generalized large-margin softmax (L-Softmax) loss which explicitly encourages intra-class compactness and inter-class separability between learned features. Moreover, L-Softmax not only can adjust the desired margin but also can avoid overﬁtting. We also show that the L-Softmax loss can be optimized by typical stochastic gradient descent. Extensive experiments on four benchmark datasets demonstrate that the deeply-learned features with L-softmax loss become more discriminative, hence signiﬁcantly boosting the performance on a variety of visual classiﬁcation and veriﬁcation tasks.
+1. Introduction
+Over the past several years, convolutional neural networks (CNNs) have signiﬁcantly boosted the state-of-the-art performance in many visual classiﬁcation tasks such as object recognition, (Krizhevsky et al., 2012; Sermanet et al., 2014; He et al., 2015b;a), face veriﬁcation (Taigman et al., 2014; Sun et al., 2014; 2015) and hand-written digit recognition (Wan et al., 2013). The layered learning architecture, together with convolution and pooling which carefully extract features from local to global, renders the strong visual representation ability of CNNs as well as their current signiﬁcant positions in large-scale visual recognition tasks.
+Proceedings of the 33 rd International Conference on Machine Learning, New York, NY, USA, 2016. JMLR: W&CP volume 48. Copyright 2016 by the author(s).
+
+Training Data
+
+Convolutional Feature Learning
+
+Convolution Units
+
+Fully Connected Layer (Feature Extraction)
+
+Fully Connected Layer (Classifier)
+
+Softmax Function
+
+Softmax Loss
+
+Cross-entropy Loss
+
+Figure 1. Standard CNNs can be viewed as convolutional feature learning machines that are supervised by the softmax loss.
+
+Facing the increasingly more complex data, CNNs have continuously been improved with deeper structures (Simonyan & Zisserman, 2014; Szegedy et al., 2015), smaller strides (Simonyan & Zisserman, 2014) and new non-linear activations (Goodfellow et al., 2013; Nair & Hinton, 2010; He et al., 2015b). While beneﬁting from the strong learning ability, CNNs also have to face the crucial issue of overﬁlling. Considerable effort such as large-scale training data (Russakovsky et al., 2014), dropout (Krizhevsky et al., 2012), data augmentation (Krizhevsky et al., 2012; Szegedy et al., 2015), regularization (Hinton et al., 2012; Srivastava et al., 2014; Wan et al., 2013; Goodfellow et al., 2013) and stochastic pooling (Zeiler & Fergus, 2013) has been put to address the issue.
+A recent trend towards learning with even stronger features is to reinforce CNNs with more discriminative information. Intuitively, the learned features are good if their intra-class compactness and inter-class separability are simultaneously maximized. While this may not be easy due to the inherent large intra-class variations in many tasks, the strong representation ability of CNNs make it possible to learn invariant features towards this direction. Inspired by such idea, the contrastive loss (Hadsell et al., 2006) and triplet loss (Schroff et al., 2015) were proposed to enforce extra intra-class compactness and inter-class separability.
+†Authors contributed equally. Code is available at https: //github.com/wy1iu/LargeMargin_Softmax_Loss
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+100 50
+50
+
+0
+
+0
+
+-50 -50
+-100
+
+-150 -100 -50 0 50 100
+
+-100 -100 -50 0 50 100
+
+Training Set (m=1, Softmax)
+
+Training Set (m=2)
+
+100 0
+-100
+-200 -100 0 100
+Training Set (m=3)
+
+200 100
+0 -100 -200
+-200 -100 0 100 200
+Training Set (m=4)
+
+200
+
+100
+
+0
+
+50
+
+1
+
+50
+
+100
+
+100
+
+2
+
+3
+
+0
+
+0
+
+0
+
+0
+
+4 5
+
+-50 -100 -150
+
+-50 -100
+
+-100
+
+-100 -200
+
+6 7 8 9
+
+-100 -50 0 50 100
+
+-100 -50 0 50 100
+
+-200 -100 0 100
+
+-200 -100 0 100 200
+
+Testing Set (m=1, Softmax)
+
+Testing Set (m=2)
+
+Testing Set (m=3)
+
+Testing Set (m=4)
+
+Testing Accuracy: 98.45%
+
+Testing Accuracy: 98.96%
+
+Testing Accuracy: 99.22%
+
+Testing Accuracy: 99.34%
+
+Figure 2. CNN-leanrned features visualization (Softmax Loss (m=1) vs. L-Softmax loss (m=2,3,4)) in MNIST dataset. Speciﬁcally, we set the feature (input of the L-Softmax loss) dimension as 2, and then plot them by class. We omit the constant term in the fully connected layer, since it just complicates our analysis and nearly does not affect the performance. Note that, the reason why the testing accuracy is not as good as in Table. 2 is that we only use 2D features to classify the digits here.
+
+A consequent problem, however, is that the number of training pairs and triplets can theoretically go up to O(N 2) where N is the total number of training samples. Considering that CNNs often handle large-scale training sets, a subset of training samples need to be carefully selected for these losses. The softmax function is widely adopted by many CNNs (Krizhevsky et al., 2012; He et al., 2015a;b) due to its simplicity and probabilistic interpretation. Together with the cross-entropy loss, they form arguably one of the most commonly used components in CNN architectures. In this paper, we deﬁne the softmax loss as the combination of a cross-entropy loss, a softmax function and the last fully connected layer (see Fig. 1). Under such deﬁnition, many prevailing CNN models can be viewed as the combination of a convolutional feature learning component and a softmax loss component, as shown in Fig. 1. Despite its popularity, current softmax loss does not explicitly encourage intra-class compactness and interclass-separability. Our key intuition is that the separability between sample and parameter can be factorized into amplitude ones and angular ones with cosine similarity: Wcx = Wc 2 x 2 cos(θc), where c is the class index, and the corresponding parameters Wc of the last fully connected layer can be regarded as the linear classiﬁer of class c. Under softmax loss, the label prediction decision rule is largely determined by the angular similarity to each class since softmax loss uses cosine distance as classiﬁcation score. The purpose of this paper, therefore, is to generalize the softmax loss to a more general large-margin softmax (L-Softmax) loss in terms of angular similarity, leading to potentially larger angular separability between learned features. This is done by incorporating a preset constant m
+
+multiplying with the angle between sample and the classiﬁer of ground truth class. m determines the strength of getting closer to the ground truth class, producing an angular margin. One shall see, the conventional softmax loss becomes a special case of the L-Softmax loss under our proposed framework. Our idea is veriﬁed by Fig. 2 where the learned features by L-Softmax become much more compact and well separated.
+The L-Softmax loss is a ﬂexible learning objective with adjustable inter-class angular margin constraint. It presents a learning task of adjustable difﬁculty where the difﬁculty gradually increases as the required margin becomes larger. The L-Softmax loss has several desirable advantages. First, it encourages angular decision margin between classes, generating more discriminative features. Its geometric interpretation is very clear and intuitive, as elaborated in Section 3.2. Second, it partially avoids overﬁtting by deﬁning a more difﬁcult learning target, casting a different viewpoint to the overﬁtting problem. Third, L-Softmax beneﬁts not only classiﬁcation problems, but also veriﬁcation problems where ideally learned features should have the minimum inter-class distance being greater than the maximum intraclass distance. In this case, learning well separated features can signiﬁcantly improve the performance.
+Our experiments validate that L-Softmax can effectively boost the performance in both classiﬁcation and veriﬁcation tasks. More intuitively, the visualizations of the learned features in Fig. 2 and Fig. 5 show great discriminativeness of the L-Softmax loss. As a straightforward generalization of softmax loss, L-Softmax loss not only inherits all merits from softmax loss but also learns features with
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+large angular margin between different classes. Besides that, the L-Softmax loss is also well motivated with clear geometric interpretation as elaborated in Section 3.3.
+
+2. Related Work and Preliminaries
+
+Current widely used data loss functions in CNNs include Euclidean loss, (square) hinge loss, information gain loss, contrastive loss, triplet loss, Softmax loss, etc. To enhance the intra-class compactness and inter-class separability, (Sun et al., 2014) trains the CNN with the combination of softmax loss and contrastive loss. The contrastive loss inputs the CNNs with pairs of training samples. If the input pair belongs to the same class, the contrastive loss will require their features are as similar as possible. Otherwise, the contrastive loss will require their distance larger than a margin. (Schroff et al., 2015) uses the triplet loss to encourage a distance constraint similar to the contrastive loss. Differently, the triplet loss requires 3 (or a multiple of 3) training samples as input at a time. The triplet loss minimizes the distance between an anchor sample and a positive sample (of the same identity), and maximizes the distance between the anchor sample and a negative sample (of different identity). Both triplet loss and contrastive loss require a carefully designed pair selection procedure. Both (Sun et al., 2014) and (Schroff et al., 2015) suggest that enforcing such a distance constraint that encourages intraclass compactness and inter-class separability can greatly boost the feature discriminativeness, which motivates us to employ a margin constraint in the original softmax loss.
+Unlike any previous work, our work cast a novel view on generalizing the original softmax loss. We deﬁne the i-th input feature xi with the label yi. Then the original softmax loss can be written as
+
+1
+
+1
+
+efyi
+
+L= N
+
+Li = N
+
+− log
+
+i
+
+i
+
+j efj
+
+(1)
+
+where fj denotes the j-th element (j ∈ [1, K], K is the number of classes) of the vector of class scores f , and N
+is the number of training data. In the softmax loss, f is
+usually the activations of a fully connected layer W , so fyi can be written as fyi = WyTi xi in which Wyi is the yi-th column of W . Note that, we omit the constant b in fj, ∀j here to simplify analysis, but our L-Softmax loss can still
+be easily modiﬁed to work with b. (In fact, the performance
+is nearly of no difference, so we do not make it complicated
+here.) Because fj is the inner product between Wj and xi, it can be also formulated as fj = Wj xi cos(θj) where θj (0 ≤ θj ≤ π) is the angle between the vector Wj and xi. Thus the loss becomes
+
+e Wyi xi cos(θyi )
+
+Li = − log
+
+e Wj xi cos(θj )
+j
+
+(2)
+
+3. Large-Margin Softmax Loss
+
+3.1. Intuition
+
+We give a simple example to describe our intuition. Con-
+
+sider the binary classiﬁcation and we have a sample x from
+
+class 1. The original softmax is to force W1T x > W2T x (i.e. W1 x cos(θ1) > W2 x cos(θ2)) in order
+
+to classify x correctly. However, we want to make the
+
+classiﬁcation more rigorous in order to produce a deci-
+
+sion margin. So we instead require W1 x cos(mθ1) >
+
+W2
+
+x
+
+cos(θ2) (0
+
+≤ θ1
+
+≤
+
+π m
+
+)
+
+where
+
+m
+
+is
+
+a
+
+positive
+
+integer. Because the following inequality holds:
+
+W1 x cos(θ1) ≥ W1 x cos(mθ1) (3)
+> W2 x cos(θ2).
+Therefore, W1 x cos(θ1) > W2 x cos(θ2) has to hold. So the new classiﬁcation criteria is a stronger requirement to correctly classify x, producing a more rigorous decision boundary for class 1.
+
+3.2. Deﬁnition
+
+Following the notation in the preliminaries, the L-Softmax loss is deﬁned as
+
+Li = − log
+
+e Wyi
+
+e Wyi + xi ψ(θyi )
+
+in which we generally require
+
+xi ψ(θyi )
+j=yi e Wj
+
+xi cos(θj )
+(4)
+
+  cos(mθ),
+
+0≤θ≤ π
+
+ψ(θ) =  D(θ),
+
+π
+
+m <θ≤π
+
+m
+
+(5)
+
+where m is a integer that is closely related to the classi-
+
+ﬁcation margin. With larger m, the classiﬁcation margin
+
+becomes larger and the learning objective also becomes
+
+harder. Meanwhile, D(θ) is required to be a monotonically
+
+decreasing
+
+function
+
+and
+
+D(
+
+π m
+
+)
+
+should
+
+equal
+
+cos(
+
+π m
+
+).
+
+1
+
+0
+
+-1
+
+-2
+
+A(3) for Softmax Loss
+
+A(3) for L-Softmax Loss (m=2)
+
+-3 0 20 40 60 80 100 120 140 160 180
+
+Figure 3. ψ(θ) for softmax loss and L-Softmax loss.
+
+To simplify the forward and backward propagation, we construct a speciﬁc ψ(θi) in this paper:
+ψ(θ) = (−1)k cos(mθ) − 2k, θ ∈ [ kπ , (k + 1)π ] (6) mm
+where k ∈ [0, m − 1] and k is an integer. Combining Eq. (1), Eq. (4) and Eq. (6), we have the L-Softmax loss that
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+W1
+
+W1 = W2
+
+W1
+Decision Boundary for Class 1
+
+Decision
+
+x
+
+Boundary
+
+θ1
+
+θ2
+
+W2
+
+x
+
+θ1
+
+Decision Boundary
+
+Decision
+
+for Class 2
+
+Margin
+
+θ2
+
+W2
+
+Original Softmax Loss
+
+L-Softmax Loss
+
+W1
+
+W1 > W2
+
+W1
+
+x Decision
+
+Boundary
+
+θ1
+
+θ2
+
+W2
+
+Original Softmax Loss
+
+θ1 θ2
+
+x
+Decision Margin
+
+Decision Boundary for Class 1
+Decision Boundary for Class 2
+W2
+
+L-Softmax Loss
+
+W1 x θ1 θ2
+
+Decision Boundary
+
+W1 < W2
+
+θ1
+
+W2
+
+θ2
+
+W1 Decision Boundary
+for Class 1
+x
+
+Decision Margin
+
+Decision Boundary for Class 2
+
+W2
+
+Original Softmax Loss
+
+L-Softmax Loss
+
+Figure 4. Examples of Geometric Interpretation.
+
+is used throughout the paper. For forward and backward
+
+propagation, we need to replace cos(θj) with
+
+, WjT xi
+Wj xi
+
+and replace cos(mθyi ) with
+
+cos(mθyi ) = Cm0 cosm(θyi ) − Cm2 cosm−2(θyi )(1 − cos2(θyi )) + Cm4 cosm−4(θyi )(1 − cos2(θyi ))2 + · · · (−1)nCm2n cosm−2n(θyi )(1 − cos2(θyi ))n + · · · (7)
+where n is an integer and 2n ≤ m. After getting rid of θ, we could perform derivation with respect to x and W . It is also trivial to perform derivation with mini-batch input.
+
+3.3. Geometric Interpretation
+We aim to encourage aa angle margin between classes via the L-Softmax loss. To simplify the geometric interpretation, we analyze the binary classiﬁcation case where there are only W1 and W2.
+First, we consider the W1 = W2 scenario as shown in Fig. 4. With W1 = W2 , the classiﬁcation result depends entirely on the angles between x and W1(W2). In the training stage, the original softmax loss requires θ1 < θ2 to classify the sample x as class 1, while the L-Softmax loss requires mθ1 < θ2 to make the same decision. We can see the L-Softmax loss is more rigor about the classiﬁcation criteria, which leads to a classiﬁcation margin between class 1 and class 2. If we assume both softmax
+
+loss and L-Softmax loss are optimized to the same value
+
+and all training features can be perfectly classiﬁed, then
+
+the angle margin between class 1 and class 2 is given by
+
+m−1 m+1
+
+θ1,2
+
+where
+
+θ1,2
+
+is
+
+the
+
+angle
+
+between
+
+classiﬁer
+
+vector
+
+W1 and W2. The L-Softmax loss also makes the decision
+
+boundaries for class 1 and class 2 different as shown in Fig
+
+4, while originally the decision boundaries are the same.
+
+From another viewpoint, we let θ1 = mθ1 and assume that both the original softmax loss and the L-Softmax loss can
+
+be optimized to the same value. Then we can know θ1 in the original softmax loss is m−1 times larger than θ1 in the
+
+L-Softmax loss. As a result, the angle between the learned
+
+feature and W1 will become smaller. For every class, the
+
+same conclusion holds. In essence, the L-Softmax loss narrows the feasible angle1 for every class and produces an
+
+angle margin between these classes.
+
+For both the W1 > W2 and W1 < W2 scenarios, the geometric interpretation is a bit more complicated. Because the length of W1 and W2 is different, the feasible angles of class 1 and class 2 are also different (see the decision boundary of original softmax loss in Fig. 4). Normally, the larger Wj is, the larger the feasible angle of its corresponding class is. As a result, the L-Softmax loss also produces different feasible angles for different classes. Similar to the analysis of the W1 = W2 scenario, the proposed loss will also generate a decision margin between class 1 and class 2.
+
+3.4. Discussion
+The L-Softmax loss utilizes a simple modiﬁcation over the original softmax loss, achieving a classiﬁcation angle margin between classes. By assigning different values for m, we deﬁne a ﬂexible learning task with adjustable difﬁculty for CNNs. The L-Softmax loss is endowed with some nice properties such as
+
+• The L-Softmax loss has a clear geometric interpretation. m controls the margin among classes. With bigger m (under the same training loss), the ideal margin between classes becomes larger and the learning difﬁculty is also increased. With m = 1, the L-Softmax loss becomes identical to the original softmax loss.
+• The L-Softmax loss deﬁnes a relatively difﬁcult learning objective with adjustable margin (difﬁculty). A difﬁcult learning objective can effectively avoid overﬁtting and take full advantage of the strong learning ability from deep and wide architectures.
+• The L-Softmax loss can be easily used as a dropin replacement for standard loss, as well as used in
+1Feasible angle of the i-th class refers to the possible angle between x and Wi that is learned by CNNs.
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+tandem with other performance-boosting approaches and modules, including learning activation functions, data augmentation, pooling functions or other modiﬁed network architectures.
+
+4. Optimization
+
+It is easy to compute the forward and backward propagation
+for the L-Softmax loss, so it is also trivial to optimize the
+L-Softmax loss using typical stochastic gradient descent. For Li, the only difference between the original softmax loss and the L-Softmax loss lies in fyi . Thus we only need to compute fyi in forward and backward propagation while fj, j = yi is the same as the original softmax loss. Putting in Eq. (6) and Eq. (7), fyi is written as
+
+fyi =(−1)k · Wyi xi cos(mθi) − 2k · Wyi xi
+
+=(−1)k · Wyi xi
+
+Cm0
+
+WyTi xi Wyi xi
+
+m−
+
+Cm2
+
+WyTi xi Wyi xi
+
+m−2(1 −
+
+WyTi xi 2) + · · · Wyi xi
+
+− 2k · Wyi xi
+
+(8)
+
+where
+
+WyTi x Wyi x
+
+∈
+
+[cos(
+
+kπ m
+
+),
+
+cos(
+
+(k+1)π m
+
+)]
+
+and
+
+k
+
+is
+
+an
+
+in-
+
+teger that belongs to [0, m − 1]. For the backward propaga-
+
+tion, we use the chain rule to compute the partial derivative:
+
+∂Li ∂xi
+
+=
+
+∂Li ∂fj j ∂fj ∂xi
+
+and
+
+∂Li ∂ Wyi
+
+=
+
+j
+
+. ∂Li ∂fj
+∂fj ∂Wyi
+
+Because
+
+∂Li ∂fj
+
+and
+
+∂fj ∂xi
+
+,
+
+∂fj ∂ Wyi
+
+,
+
+∀j
+
+=
+
+yi
+
+are the same for both orig-
+
+inal softmax loss and L-Softmax loss, we leave it out for
+
+simplicity.
+
+∂ fyi ∂xi
+
+and
+
+∂ fyi ∂ Wyi
+
+can be computed via
+
+∂fyi = (−1)k · ∂xi
+
+Cm0
+
+m(WyTi ( Wyi
+
+xi )m−1 Wyi xi )m−1
+
+−
+
+Cm0
+
+(m − 1)(WyTi xi Wyi m−1 xi
+
+)mxi
+m+1
+
+−
+
+Cm2
+
+(m
+
+− (
+
+2)(WyTi xi)m−3Wyi Wyi xi )m−3
+
++
+
+Cm2
+
+(m − 3)(WyTi Wyi m−3
+
+xi )m−2 xi xi m−1
+
++
+
+Cm2
+
+m(WyTi xi)m−1Wyi ( Wyi xi )m−1
+
+−
+
+Cm2
+
+(m − 1)(WyTi xi)mxi Wyi m−1 xi m+1
+
++···
+
+− 2k · Wyi xi , xi
+
+(9)
+
+∂fyi = (−1)k · ∂ Wyi
+
+Cm0
+
+m(WyTi ( Wyi
+
+xi )m−1 xi xi )m−1
+
+−
+
+Cm0
+
+(m − 1)(WyTi Wyi m+1
+
+xi )m Wyi xi m−1
+
+−
+
+Cm2
+
+(m − 2)(WyTi xi)m−3xi ( Wyi xi )m−3
+
++
+
+Cm2
+
+(m
+
+− 3)(WyTi xi)m−2Wyi Wyi m−1 xi m−3
+
++
+
+Cm2
+
+m(WyTi ( Wyi
+
+xi )m−1 xi xi )m−1
+
+−
+
+Cm2
+
+(m − 1)(WyTi Wyi m+1
+
+xi )m Wyi xi m−1
+
++···
+
+− 2k · xi Wyi . Wyi (10)
+
+In implementation, k can be efﬁciently computed by con-
+
+structing a look-up table for
+
+WyTi xi Wyi xi
+
+(i.e. cos(θyi )). To
+
+be speciﬁc, we give an example of the forward and backward propagation when m = 2. Thus fi is written as
+
+fi
+
+=
+
+(−1)k
+
+2(WyTi xi)2 Wyi xi
+
+−
+
+2k + (−1)k
+
+Wyi
+
+xi
+
+(11)
+
+
+ 1, where, k =
+ 0,
+
+WyTi xi Wyi xi
+WyTi xi Wyi xi
+
+≤
+
+cos(
+
+π 2
+
+)
+
+>
+
+cos(
+
+π 2
+
+)
+
+.
+
+In the backward propagation,
+
+∂ fyi ∂xi
+
+and
+
+∂ fyi ∂ Wyi
+
+can be com-
+
+puted with
+
+∂fyi =(−1)k 4WyTi xiWyi − 2(WyTi xi)2xi
+
+∂xi
+
+Wyi xi
+
+Wyi xi 3
+
+(12)
+
+− 2k + (−1)k Wyi xi ,
+
+xi
+
+∂fyi =(−1)k ∂ Wyi
+
+4WyTi xixi − 2(WyTi xi)2Wyi
+
+Wyi xi
+
+xi Wyi 3
+
+− 2k + (−1)k xi Wyi . Wyi
+
+(13)
+
+While m ≥ 3, we can still use Eq. (8), Eq. (9) and Eq. (10) to compute the forward and backward propagation.
+
+5. Experiments and Results
+5.1. Experimental Settings
+We evaluate the generalized softmax loss in two typical vision applications: visual classiﬁcation and face veriﬁcation. In visual classiﬁcation, we use three standard benchmark datasets: MNIST (LeCun et al., 1998), CIFAR10 (Krizhevsky, 2009), and CIFAR100 (Krizhevsky, 2009). In face veriﬁcation, we evaluate our method on the widely used LFW dataset (Huang et al., 2007). We only use a single model in all baseline CNNs to compare our performance. For convenience, we use L-Softmax to denote the L-Softmax loss. Both Softmax and L-Softmax in the experiments use the same CNN shown in Table 1.
+General Settings: We follow the design philosophy of VGG-net (Simonyan & Zisserman, 2014) in two aspects: (1) for convolution layers, the kernel size is 3×3 and 1 padding (if not speciﬁed) to keep the feature map unchanged. (2) for pooling layers, if the feature map size is halved, the number of ﬁlters is doubled in order to preserve the time complexity per layer. Our CNN architectures are described in Table 1. In convolution layers, the stride is set to 1 if not speciﬁed. We implement the CNNs using the Caffe library (Jia et al., 2014) with our modiﬁcations. For all experiments, we adopt the PReLU (He et al., 2015b) as the activation functions, and the batch size is 256. We use a weight decay of 0.0005 and momentum of 0.9. The weight initialization in (He et al., 2015b)
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+Layer
+Conv0.x Conv1.x
+Pool1 Conv2.x
+Pool2 Conv3.x
+Pool3 Conv4.x Fully Connected
+
+MNIST (for Fig. 2) N/A
+[5×5, 32]×2, Padding 2
+[5×5, 64]×2, Padding 2
+[5×5, 128]×2, Padding 2
+N/A 2
+
+MNIST [3×3, 64]×1 [3×3, 64]×3
+[3×3, 64]×3
+[3×3, 64]×3
+N/A 256
+
+CIFAR10/CIFAR10+
+[3×3, 64]×1 [3×3, 64]×4 2×2 Max, Stride 2 [3×3, 96]×4 2×2 Max, Stride 2 [3×3, 128]×4 2×2 Max, Stride 2
+N/A 256
+
+CIFAR100 [3×3, 96]×1 [3×3, 96]×4
+[3×3, 192]×4
+[3×3, 384]×4
+N/A 512
+
+LFW [3×3, 64]×1, Stride 2
+[3×3, 64]×4
+[3×3, 256]×4
+[3×3, 256]×4
+[3×3, 256]×4 512
+
+Table 1. Our CNN architectures for different benchmark datasets. Conv1.x, Conv2.x and Conv3.x denote convolution units that may contain multiple convolution layers. E.g., [3×3, 64]×4 denotes 4 cascaded convolution layers with 64 ﬁlters of size 3×3.
+
+CIFAR10 Softmax
+
+CIFAR10+ Softmax
+
+CIFAR100 Softmax
+
+CIFAR10 L-Softmax(m=4)
+
+CIFAR10+ L-Softmax(m=4)
+
+CIFAR100 L-Softmax(m=4)
+
+Figure 5. Confusion matrix on CIFAR10, CIFAR10+ and CIFAR100.
+
+and batch normalization (Ioffe & Szegedy, 2015) are used
+
+in our networks but without dropout. Note that we only
+
+perform the mean substraction preprocessing for training
+
+and testing data. For optimization, normally the stochas-
+
+tic gradient descent will work well. However, when train-
+
+ing data has too many subjects (such as CASIA-WebFace
+
+dataset), the convergence of L-Softmax will be more dif-
+
+ﬁcult than softmax loss. For those cases that L-Softmax
+
+has difﬁculty converging, we use a learning strategy by let-
+
+ting fyi = λ Wyi
+
+xi cos(θyi )+ Wyi 1+λ
+
+xi ψ(θyi ) and start
+
+the gradient descent with a very large λ (it is similar to op-
+
+timize the original softmax). Then we gradually reduce λ
+
+during iteration. Ideally λ can be gradually reduced to zero,
+
+but in practice, a small value will usually sufﬁce.
+
+MNIST, CIFAR10, CIFAR100: We start with a learning rate of 0.1, divide it by 10 at 12k and 15k iterations, and eventually terminate training at 18k iterations, which is de-
+
+termined on a 45k/5k train/val split.
+Face Veriﬁcation: The learning rate is set to 0.1, 0.01, 0.001 and is switched when the training loss plateaus. The total number of epochs is about is about 30 for our models.
+Testing: we use the softmax to classify the testing samples in MNIST, CIFAR10 and CIFAR100 dataset. In LFW dataset, we use the simple cosine distance and the nearest neighbor rule for face veriﬁcation.
+5.2. Visual Classiﬁcation
+MNIST: Our network architecture is shown in Table 1. Table 2 shows the previous best results and those for our proposed L-Softmax loss. From the results, the L-Softmax loss not only outperforms the original softmax loss using the same network but also achieves the state-of-the-art performance compared to the other deep CNN architectures.
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+Method
+CNN (Jarrett et al., 2009) DropConnect (Wan et al., 2013)
+FitNet (Romero et al., 2015) NiN (Lin et al., 2014)
+Maxout (Goodfellow et al., 2013) DSN (Lee et al., 2015)
+R-CNN (Liang & Hu, 2015) GenPool (Lee et al., 2016)
+Hinge Loss Softmax
+L-Softmax (m=2) L-Softmax (m=3) L-Softmax (m=4)
+
+Error Rate
+0.53 0.57 0.51 0.47 0.45 0.39 0.31 0.31
+0.47 0.40 0.32 0.31 0.31
+
+Method
+FitNet (Romero et al., 2015) NiN (Lin et al., 2014)
+Maxout (Goodfellow et al., 2013) DSN (Lee et al., 2015)
+dasNet (Stollenga et al., 2014) All-CNN (Springenberg et al., 2015)
+R-CNN (Liang & Hu, 2015) GenPool (Lee et al., 2016)
+Hinge Loss Softmax
+L-Softmax (m=2) L-Softmax (m=3) L-Softmax (m=4)
+
+Error Rate
+35.04 35.68 38.57 34.57 33.78 33.71 31.75 32.37
+32.90 32.74 29.95 29.87 29.53
+
+Table 2. Recognition error rate (%) on MNIST dataset.
+
+Table 4. Recognition error rate (%) on CIFAR100 dataset.
+
+Method
+DropConnect (Wan et al., 2013) FitNet (Romero et al., 2015)
+NiN + LA units (Lin et al., 2014) Maxout (Goodfellow et al., 2013)
+DSN (Lee et al., 2015) All-CNN (Springenberg et al., 2015)
+R-CNN (Liang & Hu, 2015) ResNet (He et al., 2015a) GenPool (Lee et al., 2016)
+Hinge Loss Softmax
+L-Softmax (m=2) L-Softmax (m=3) L-Softmax (m=4)
+
+CIFAR10
+9.41 N/A 10.47 11.68 9.69 9.08 8.69 N/A 7.62
+9.91 9.05 7.73 7.66 7.58
+
+CIFAR10+
+9.32 8.39 8.81 9.38 7.97 7.25 7.09 6.43 6.05
+6.96 6.50 6.01 5.94 5.92
+
+Table 3. Recognition error rate (%) on CIFAR10 dataset. CIFAR10 denotes the performance without data augmentation, while CIFAR10+ is with data augmentation.
+
+In Fig. 2, we also visualize the learned features by the LSoftmax loss and compare them to the original softmax loss. Fig. 2 validates the effectiveness of the large margin constraint within L-Softmax loss. With larger m, we indeed obtain a larger angular decision margin.
+CIFAR10: We use two commonly used comparison protocols in CIFAR10 dataset. We ﬁrst compare our L-Softmax loss under no data augmentation setup. For the data augmentation experiment, we follow the standard data augmentation in (Lee et al., 2015) for training: 4 pixels are padded on each side, and a 32×32 crop is randomly sampled from the padded image or its horizontal ﬂip. In testing, we only evaluate the single view of the original 32×32 image. The results are shown in Table 3. One can observe that our L-Softmax loss greatly boosts the accuracy, achieving 1%-2% improvement over the original softmax loss and the other state-of-the-art CNNs.
+CIFAR100: We also evaluate the generalize softmax loss on the CIFAR100 dataset. The CNN architecture refers to Table 1. One can notice that the L-Softmax loss outperform
+
+Method
+FaceNet (Schroff et al., 2015) Deep FR (Parkhi et al., 2015) DeepID2+ (Sun et al., 2015)
+(Yi et al., 2014) (Ding & Tao, 2015)
+Softmax Softmax + Contrastive
+L-Softmax (m=2) L-Softmax (m=3) L-Softmax (m=4)
+
+Outside Data
+200M* 2.6M 300K*
+WebFace WebFace
+WebFace WebFace WebFace WebFace WebFace
+
+Accuracy
+99.65 98.95 98.70
+97.73 98.43
+96.53 97.31 97.81 98.27 98.71
+
+Table 5. Veriﬁcation performance (%) on LFW dataset. * denotes the outside data is private (not publicly available).
+
+the CNN with softmax loss and all the other competitive methods. The L-Softmax loss improves more than 2.5% accuracy over the CNN and more than 1% over the current state-of-the-art CNN.
+Confusion Matrix Visualization: We also give the confusion matrix comparison between the softmax baseline and the L-Softmax loss (m=4) in Fig. 5. Speciﬁcally we normalize the learned features and then calculate the cosine distance between these features. From Fig. 5, one can see that the intra-class compactness is greatly enhanced while the inter-class separability is also enlarged.
+Error Rate vs. Iteration: Fig. 6 illustrates the relation between the error rate and the iteration number with different m in the L-Softmax loss. We use the same CNN (same as the CIFAR10 network) to optimize the L-Softmax loss with m = 1, 2, 3, 4, and then plot their training and testing error rate. One can observe that the original softmax suffers from severe overﬁtting problem (training loss is very low but testing loss is higher), while the L-Softmax loss can greatly avoid such problem. Fig. 7 shows the relation between the error rate and the iteration number with different number of ﬁlters in the L-Softmax loss (m=4). We use four different CNN architecture to optimize the L-Softmax loss with m = 4, and then plot their training and testing error rate.
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+1
+
+1
+
+Softmax
+
+Softmax
+
+0.8
+
+m=2
+
+m=2
+
+m=3
+
+0.8
+
+m=3
+
+m=4
+
+m=4
+
+0.6
+
+Error (%)
+
+0.6
+
+0.4
+
+0.4 0.2
+
+Error (%)
+
+0 0
+
+0.5
+
+1
+
+1.5
+
+2 x 104
+
+0.2 0
+
+0.5
+
+1
+
+1.5
+
+2 x 104
+
+Iteration
+
+Iteration
+
+Figure 6. Error vs. iteration with different value of m on CIFAR100. The left shows training error and the right shows testing error.
+
+Error (%)
+
+1
+
+1
+
+32/32/64/128
+
+32/32/64/128
+
+0.8
+
+48/48/96/192
+
+64/64/126/256
+
+0.8
+
+48/48/96/192 64/64/126/256
+
+96/96/192/384
+
+96/96/192/384
+
+0.6
+
+Error (%)
+
+0.6
+
+0.4
+
+0.4 0.2
+
+0 0
+
+0.5
+
+1
+
+1.5
+
+2 x 104
+
+0.2 0
+
+0.5
+
+1
+
+1.5
+
+2 x 104
+
+Iteration
+
+Iteration
+
+Figure 7. Error vs. iteration (m=4) with different number of ﬁlters on CIFAR100. The left (right) presents training (testing) error.
+
+These four CNN architectures have the same structure and only differ in the number of ﬁlters (e.g. 32/32/64/128 denotes that there are 32, 32, 64 and 128 ﬁlters in every convolution layer of Conv0.x, Conv1.x Conv2.x and Conv3.x, respectively). On both the training set and testing set, the L-Softmax loss with larger number of ﬁlters performs better than those with smaller number of ﬁlters, indicating LSoftmax loss does not easily suffer from overﬁtting. The results also show that our L-Softmax loss can be optimized easily. Therefore, one can learn that the L-Softmax loss can make full use of the stronger learning ability of CNNs, since stronger learning ability leads to performance gain.
+5.3. Face Veriﬁcation
+To further evaluate the learned features, we conduct an experiment on the famous LFW dataset (Huang et al., 2007). The dataset collects 13,233 face images from 5749 persons from uncontrolled conditions. Following the unrestricted with labeled outside data protocol (Huang et al., 2007), we train on the publicly available CASIA-WebFace (Yi et al., 2014) outside dataset (490k labeled face images belonging to over 10,000 individuals) and test on the 6,000 face pairs on LFW. People overlapping between the outside training data and the LFW testing data are excluded. As preprocess-
+
+ing, we use IntraFace (Asthana et al., 2014) to align the face images and then crop them based on 5 points. Then we train a single network for feature extraction, so we only compare the single model performance of current state-ofthe-art CNNs. Finally PCA is used to form a compact feature vector. The results are given in Table 5. The generalize softmax loss achieves the current best results while only trained with the CASIA-WebFace outside data, and is also comparable to the current state-of-the-art CNNs with private outside data. Experimental results well validate the conclusion that the L-Softmax loss encourages the intraclass compactness and inter-class separability.
+6. Concluding Remarks
+We proposed the Large-Margin Softmax loss for the convolutional neural networks. The large-margin softmax loss deﬁnes a ﬂexible learning task with adjustable margin. We can set the parameter m to control the margin. With larger m, the decision margin between classes also becomes larger. More appealingly, the Large-Margin Softmax loss has very clear intuition and geometric interpretation. The extensive experimental results on several benchmark datasets show clear advantages over current state-ofthe-art CNNs and all the compared baselines.
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+
+Acknowledgement
+The authors would like to thank Prof. Le Song (Georgia Tech) for constructive suggestions. This work is partially supported by the National Natural Science Foundation for Young Scientists of China (Grant no.61402289) and National Science Foundation of Guangdong Province (Grant no. 2014A030313558).
+References
+Asthana, Akshay, Zafeiriou, Stefanos, Cheng, Shiyang, and Pantic, Maja. Incremental face alignment in the wild. In CVPR, 2014.
+Ding, Changxing and Tao, Dacheng. Robust face recognition via multimodal deep face representation. IEEE TMM, 17(11): 2049–2058, 2015.
+Goodfellow, Ian J, Warde-Farley, David, Mirza, Mehdi, Courville, Aaron, and Bengio, Yoshua. Maxout networks. arXiv preprint arXiv:1302.4389, 2013.
+Hadsell, Raia, Chopra, Sumit, and LeCun, Yann. Dimensionality reduction by learning an invariant mapping. In CVPR, 2006.
+He, Kaiming, Zhang, Xiangyu, Ren, Shaoqing, and Sun, Jian. Deep residual learning for image recognition. arXiv preprint arXiv:1512.03385, 2015a.
+He, Kaiming, Zhang, Xiangyu, Ren, Shaoqing, and Sun, Jian. Delving deep into rectiﬁers: Surpassing human-level performance on imagenet classiﬁcation. In ICCV, 2015b.
+Hinton, Geoffrey E, Srivastava, Nitish, Krizhevsky, Alex, Sutskever, Ilya, and Salakhutdinov, Ruslan R. Improving neural networks by preventing co-adaptation of feature detectors. arXiv preprint arXiv:1207.0580, 2012.
+Huang, Gary B, Ramesh, Manu, Berg, Tamara, and LearnedMiller, Erik. Labeled faces in the wild: A database for studying face recognition in unconstrained environments. Technical report, Technical Report, 2007.
+Ioffe, Sergey and Szegedy, Christian. Batch normalization: Accelerating deep network training by reducing internal covariate shift. In ICML, 2015.
+Jarrett, Kevin, Kavukcuoglu, Koray, Ranzato, Marc’Aurelio, and LeCun, Yann. What is the best multi-stage architecture for object recognition? In ICCV, 2009.
+Jia, Yangqing, Shelhamer, Evan, Donahue, Jeff, Karayev, Sergey, Long, Jonathan, Girshick, Ross, Guadarrama, Sergio, and Darrell, Trevor. Caffe: Convolutional architecture for fast feature embedding. arXiv preprint arXiv:1408.5093, 2014.
+Krizhevsky, Alex. Learning multiple layers of features from tiny images. Technical Report, 2009.
+Krizhevsky, Alex, Sutskever, Ilya, and Hinton, Geoffrey E. Imagenet classiﬁcation with deep convolutional neural networks. In NIPS, 2012.
+LeCun, Yann, Cortes, Corinna, and Burges, Christopher JC. The mnist database of handwritten digits, 1998.
+
+Lee, Chen-Yu, Xie, Saining, Gallagher, Patrick, Zhang, Zhengyou, and Tu, Zhuowen. Deeply-supervised nets. In AISTATS, 2015.
+Lee, Chen-Yu, Gallagher, Patrick W, and Tu, Zhuowen. Generalizing pooling functions in convolutional neural networks: Mixed, gated, and tree. In AISTATS, 2016.
+Liang, Ming and Hu, Xiaolin. Recurrent convolutional neural network for object recognition. In CVPR, 2015.
+Lin, Min, Chen, Qiang, and Yan, Shuicheng. Network in network. In ICLR, 2014.
+Nair, Vinod and Hinton, Geoffrey E. Rectiﬁed linear units improve restricted boltzmann machines. In ICML, 2010.
+Parkhi, Omkar M, Vedaldi, Andrea, and Zisserman, Andrew. Deep face recognition. In BMVC, 2015.
+Romero, Adriana, Ballas, Nicolas, Kahou, Samira Ebrahimi, Chassang, Antoine, Gatta, Carlo, and Bengio, Yoshua. Fitnets: Hints for thin deep nets. In ICLR, 2015.
+Russakovsky, Olga, Deng, Jia, Su, Hao, Krause, Jonathan, Satheesh, Sanjeev, Ma, Sean, Huang, Zhiheng, Karpathy, Andrej, Khosla, Aditya, Bernstein, Michael, et al. Imagenet large scale visual recognition challenge. IJCV, pp. 1–42, 2014.
+Schroff, Florian, Kalenichenko, Dmitry, and Philbin, James. Facenet: A uniﬁed embedding for face recognition and clustering. In CVPR, 2015.
+Sermanet, Pierre, Eigen, David, Zhang, Xiang, Mathieu, Michae¨l, Fergus, Rob, and LeCun, Yann. Overfeat: Integrated recognition, localization and detection using convolutional networks. ICLR, 2014.
+Simonyan, Karen and Zisserman, Andrew. Very deep convolutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556, 2014.
+Springenberg, Jost Tobias, Dosovitskiy, Alexey, Brox, Thomas, and Riedmiller, Martin. Striving for simplicity. In ICLR, 2015.
+Srivastava, Nitish, Hinton, Geoffrey, Krizhevsky, Alex, Sutskever, Ilya, and Salakhutdinov, Ruslan. Dropout: A simple way to prevent neural networks from overﬁtting. JMLR, 15(1):1929– 1958, 2014.
+Stollenga, Marijn F, Masci, Jonathan, Gomez, Faustino, and Schmidhuber, Ju¨rgen. Deep networks with internal selective attention through feedback connections. In NIPS, 2014.
+Sun, Yi, Chen, Yuheng, Wang, Xiaogang, and Tang, Xiaoou. Deep learning face representation by joint identiﬁcationveriﬁcation. In NIPS, 2014.
+Sun, Yi, Wang, Xiaogang, and Tang, Xiaoou. Deeply learned face representations are sparse, selective, and robust. In CVPR, 2015.
+Szegedy, Christian, Liu, Wei, Jia, Yangqing, Sermanet, Pierre, Reed, Scott, Anguelov, Dragomir, Erhan, Dumitru, Vanhoucke, Vincent, and Rabinovich, Andrew. Going deeper with convolutions. In CVPR, 2015.
+
+Large-Margin Softmax Loss for Convolutional Neural Networks
+Taigman, Yaniv, Yang, Ming, Ranzato, Marc’Aurelio, and Wolf, Lars. Deepface: Closing the gap to human-level performance in face veriﬁcation. In CVPR, 2014.
+Wan, Li, Zeiler, Matthew, Zhang, Sixin, Cun, Yann L, and Fergus, Rob. Regularization of neural networks using dropconnect. In ICML, 2013.
+Yi, Dong, Lei, Zhen, Liao, Shengcai, and Li, Stan Z. Learning face representation from scratch. arXiv preprint arXiv:1411.7923, 2014.
+Zeiler, Matthew D and Fergus, Rob. Stochastic pooling for regularization of deep convolutional neural networks. arXiv preprint arXiv:1301.3557, 2013.
+
