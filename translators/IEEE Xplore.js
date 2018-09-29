@@ -9,11 +9,11 @@
 	"priority": 100,
 	"inRepository": true,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2018-08-16 01:30:00"
+	"lastUpdated": "2018-09-29 02:10:00"
 }
 
 function detectWeb(doc, url) {
-	if(doc.defaultView !== doc.defaultView.top) return;
+	if (doc.defaultView !== doc.defaultView.top) return;
 	
 	if (/[?&]arnumber=(\d+)/i.test(url) || /\/document\/\d+/i.test(url)) {
 		return "journalArticle";
@@ -91,7 +91,7 @@ function doWeb(doc, url) {
 }
 
 function scrape (doc, url) {
-	var arnumber = (url.match(/arnumber=(\d+)/) || url.match(/\/document\/(\d+)\//))[1];
+	var arnumber = (url.match(/arnumber=(\d+)/) || url.match(/\/document\/(\d+)/))[1];
 	var pdf = "/stamp/stamp.jsp?tp=&arnumber=" + arnumber;
 	//Z.debug("arNumber = " + arnumber);
 	var post = "recordIds=" + arnumber + "&fromPage=&citations-format=citation-abstract&download-format=download-bibtex";
