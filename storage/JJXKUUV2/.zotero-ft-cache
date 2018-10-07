@@ -1,0 +1,96 @@
+Conﬁguration Files
+Conﬁguration ﬁle support in the Util library.
+
+Overview
+> AbstractConﬁguration > INI Files > Property Files > XML Files > Other conﬁguration data sources
+
+AbstractConfiguration
+> Poco::Util::AbstractConﬁguration provides a common interface
+for accessing conﬁguration information from diﬀerent sources.
+> Conﬁguration settings are basically key/value pairs, where both
+key and value are strings.
+> Keys have a hierarchical structure, consisting of names separated
+by periods.
+> Values can be converted to integers, doubles and booleans. > An optional default value can be speciﬁed in the getter functions.
+
+AbstractConfiguration Members
+> bool hasProperty(const std::string& key) > std::string getString(const std::string& key
+[, const std::string& default])
+> int getInt(const std::string& key [, int default]) > getDouble(), getBool() > setString(), setInt(), setDouble(), setBool() > keys()
+
+ConfigurationViews
+> ConﬁgurationView allows you to create a "view" into a sub
+hierarchy of another conﬁguration.
+> Say, you have:
+conﬁg.value1, conﬁg.value2, conﬁg.sub.value
+> Create a view on preﬁx conﬁg, the in the view, you have
+value1, value2, sub.value
+
+INI Files
+> Poco::Util::IniFileConﬁguration supports plain old INI ﬁles, as used
+mostly on Windows.
+> Key names are not case sensitive. > Leading and trailing whitespace is removed from both keys and
+values.
+> read-only
+
+; comment
+[MyApplication] somePath = C:\test.dat someValue = 123
+using Poco::AutoPtr; using Poco::Util::IniFileConfiguration;
+AutoPtr<IniFileConfiguration> pConf(new IniFileConfiguration("test.ini"));
+std::string path = pConf->getString("MyApplication.somePath"); int value = pConf->getInt("MyApplication.someValue"); value = pConf->getInt("myapplication.SomeValue"); value = pConf->getInt("myapplication.SomeOtherValue", 456);
+
+Property Files
+> Property Files are known mainly from Java. > Key names are case sensitive. > The backslash is used for escaping, so be careful when specifying
+Windows path names.
+> writable
+
+# a comment ! another comment
+key1 = value1 key2: 123 key3.longValue = this is a very \ long value path = c:\\test.dat
+using Poco::AutoPtr; using Poco::Util::PropertyFileConfiguration;
+AutoPtr<PropertyFileConfiguration> pConf; pConf = new PropertyFileConfiguration("test.properties");
+std::string key1 = pConf->getString("key1"); int value = pConf->getInt("key2"); std::string longVal = pConf->getString("key3.longValue");
+
+XML Configuration Files
+> XML conﬁguration ﬁles are parsed with the DOM parser and thus
+fully loaded into memory.
+> Both text in elements, as well as attribute values can be accessed,
+using a XPath-like syntax.
+> writable (fully writable since 1.3.4)
+
+<config> <prop1>value1</prop1> <prop2>123</prop2> <prop3> <prop4 attr="value3"/> <prop4 attr="value4"/> </prop3>
+</config>
+using Poco::AutoPtr; using Poco::Util::XMLConfiguration;
+AutoPtr<XMLConfiguration> pConf(new XMLConfiguration("test.xml"));
+std::string prop1 = pConf->getString("prop1"); int prop2 = pConf->getInt("prop2"); std::string prop3 = pConf->getString("prop3"); // "" std::string prop4 = pConf->getString("prop3.prop4"); // "" prop4 = pConf->getString("prop3.prop4[@attr]"); // "value3" prop4 = pConf->getString("prop3.prop4[1][@attr]"); // "value4"
+
+Other Configurations
+> FilesystemConﬁguration:
+a separate ﬁle for each conﬁguration property, stored in a directory hierarchy.
+> LayeredConﬁguration:
+allows layering of multiple conﬁgurations
+> MapConﬁguration:
+stored in a std::map<std::string, std::string>
+> SystemConﬁguration:
+system.osName, system.osVersion, system.currentDir, etc.
+> WinRegistryConﬁguration (Windows only)
+
+LayeredConfiguration
+> A LayeredConﬁguration consists of a number of
+AbstractConﬁguration instances.
+> When reading a conﬁguration property, all added conﬁgurations
+are searched, in order of their priority.
+> Conﬁgurations with lower priority values have precedence. > When setting a property, the property is always written to the
+ﬁrst writeable conﬁguration (see addWriteable()).
+> If no writeable conﬁguration has been added to the
+LayeredConﬁguration, and an attempt is made to set a property, a RuntimeException is thrown.
+
+LayeredConfiguration (cont'd)
+> Every conﬁguration added to the LayeredConﬁguration has a
+priority value (int).
+> The priority determines the position where the conﬁguration is
+inserted, with lower priority values coming before higher priority values.
+> If no priority is speciﬁed, a priority of 0 is assumed.
+
+Copyright © 2006-2010 by Applied Informatics Software Engineering GmbH. Some rights reserved.
+www.appinf.com | info@appinf.com T +43 4253 32596 | F +43 4253 32096
+

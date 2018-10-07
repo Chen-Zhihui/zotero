@@ -1,0 +1,3049 @@
+Learning
+OpenCV 3
+COMPUTER VISION IN C++ WITH THE OPENCV LIBRARY
+Adrian Kaehler & Gary Bradski
+
+Learning OpenCV 3
+Computer Vision in C++ with the OpenCV Library
+Adrian Kaehler and Gary Bradski
+Beijing Boston Farnham Sebastopol Tokyo
+
+Learning OpenCV 3
+by Adrian Kaehler and Gary Bradski Copyright © 2017 Adrian Kaehler, Gary Bradski. All rights reserved. Printed in the United States of America. Published by O’Reilly Media, Inc., 1005 Gravenstein Highway North, Sebastopol, CA 95472. O’Reilly books may be purchased for educational, business, or sales promotional use. Online editions are also available for most titles (http://www.oreilly.com/safari). For more information, contact our corpo‐ rate/institutional sales department: 800-998-9938 or corporate@oreilly.com.
+
+Editor: Dawn Schanafelt Production Editor: Kristen Brown Copyeditor: Rachel Monaghan Proofreader: James Fraleigh
+
+Indexer: Ellen Troutman Interior Designer: David Futato Cover Designer: Karen Montgomery Illustrator: Rebecca Demarest
+
+December 2016: First Edition
+
+Revision History for the First Edition 2016-12-09: First Release
+
+See http://oreilly.com/catalog/errata.csp?isbn=9781491937990 for release details.
+
+The O’Reilly logo is a registered trademark of O’Reilly Media, Inc. Learning OpenCV 3, the cover image, and related trade dress are trademarks of O’Reilly Media, Inc. While the publisher and the authors have used good faith efforts to ensure that the information and instructions contained in this work are accurate, the publisher and the authors disclaim all responsibility for errors or omissions, including without limitation responsibility for damages resulting from the use of or reliance on this work. Use of the information and instructions contained in this work is at your own risk. If any code samples or other technology this work contains or describes is subject to open source licenses or the intellectual property rights of others, it is your responsibility to ensure that your use thereof complies with such licenses and/or rights.
+
+978-1-491-93799-0 [M]
+
+Table of Contents
+
+Preface. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xv
+
+1. Overview. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+
+What Is OpenCV?
+
+1
+
+Who Uses OpenCV?
+
+2
+
+What Is Computer Vision?
+
+3
+
+The Origin of OpenCV
+
+6
+
+OpenCV Block Diagram
+
+8
+
+Speeding Up OpenCV with IPP
+
+9
+
+Who Owns OpenCV?
+
+10
+
+Downloading and Installing OpenCV
+
+10
+
+Installation
+
+10
+
+Getting the Latest OpenCV via Git
+
+13
+
+More OpenCV Documentation
+
+13
+
+Supplied Documentation
+
+14
+
+Online Documentation and the Wiki
+
+14
+
+OpenCV Contribution Repository
+
+17
+
+Downloading and Building Contributed Modules
+
+17
+
+Portability
+
+18
+
+Summary
+
+19
+
+Exercises
+
+19
+
+2. Introduction to OpenCV. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+Include Files
+
+21
+
+Resources
+
+22
+
+First Program—Display a Picture
+
+23
+
+Second Program—Video
+
+25
+
+Moving Around
+
+27
+
+iii
+
+A Simple Transformation
+
+31
+
+A Not-So-Simple Transformation
+
+32
+
+Input from a Camera
+
+35
+
+Writing to an AVI File
+
+36
+
+Summary
+
+38
+
+Exercises
+
+38
+
+3. Getting to Know OpenCV Data Types. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+
+The Basics
+
+41
+
+OpenCV Data Types
+
+41
+
+Overview of the Basic Types
+
+42
+
+Basic Types: Getting Down to Details
+
+44
+
+Helper Objects
+
+52
+
+Utility Functions
+
+60
+
+The Template Structures
+
+67
+
+Summary
+
+68
+
+Exercises
+
+69
+
+4. Images and Large Array Types. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 71
+
+Dynamic and Variable Storage
+
+71
+
+The cv::Mat Class: N-Dimensional Dense Arrays
+
+72
+
+Creating an Array
+
+73
+
+Accessing Array Elements Individually
+
+78
+
+The N-ary Array Iterator: NAryMatIterator
+
+81
+
+Accessing Array Elements by Block
+
+84
+
+Matrix Expressions: Algebra and cv::Mat
+
+85
+
+Saturation Casting
+
+87
+
+More Things an Array Can Do
+
+88
+
+The cv::SparseMat Class: Sparse Arrays
+
+89
+
+Accessing Sparse Array Elements
+
+90
+
+Functions Unique to Sparse Arrays
+
+92
+
+Template Structures for Large Array Types
+
+94
+
+Summary
+
+97
+
+Exercises
+
+97
+
+5. Array Operations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 99
+
+More Things You Can Do with Arrays
+
+99
+
+cv::abs()
+
+102
+
+cv::absdiff()
+
+103
+
+cv::add()
+
+103
+
+cv::addWeighted()
+
+104
+
+cv::bitwise_and()
+
+106
+
+iv | Table of Contents
+
+cv::bitwise_not() cv::bitwise_or() cv::bitwise_xor() cv::calcCovarMatrix() cv::cartToPolar() cv::checkRange() cv::compare() cv::completeSymm() cv::convertScaleAbs() cv::countNonZero() cv::cvarrToMat() cv::dct() cv::dft() cv::cvtColor() cv::determinant() cv::divide() cv::eigen() cv::exp() cv::extractImageCOI() cv::flip() cv::gemm() cv::getConvertElem() and cv::getConvertScaleElem() cv::idct() cv::idft() cv::inRange() cv::insertImageCOI() cv::invert() cv::log() cv::LUT() cv::magnitude() cv::Mahalanobis() cv::max() cv::mean() cv::meanStdDev() cv::merge() cv::min() cv::minMaxIdx() cv::minMaxLoc() cv::mixChannels() cv::mulSpectrums() cv::multiply() cv::mulTransposed()
+
+107 107 108 108 110 111 111 112 112 113 113 114 115 117 119 120 120 121 121 122 122 123 124 124 124 125 126 126 127 127 128 129 130 130 131 131 132 133 134 136 136 136
+Table of Contents | v
+
+cv::norm()
+
+137
+
+cv::normalize()
+
+139
+
+cv::perspectiveTransform()
+
+140
+
+cv::phase()
+
+141
+
+cv::polarToCart()
+
+142
+
+cv::pow()
+
+142
+
+cv::randu()
+
+143
+
+cv::randn()
+
+143
+
+cv::randShuffle()
+
+144
+
+cv::reduce()
+
+144
+
+cv::repeat()
+
+145
+
+cv::scaleAdd()
+
+146
+
+cv::setIdentity()
+
+146
+
+cv::solve()
+
+147
+
+cv::solveCubic()
+
+148
+
+cv::solvePoly()
+
+149
+
+cv::sort()
+
+149
+
+cv::sortIdx()
+
+149
+
+cv::split()
+
+150
+
+cv::sqrt()
+
+150
+
+cv::subtract()
+
+152
+
+cv::sum()
+
+152
+
+cv::trace()
+
+152
+
+cv::transform()
+
+153
+
+cv::transpose()
+
+153
+
+Summary
+
+154
+
+Exercises
+
+154
+
+6. Drawing and Annotating. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
+
+Drawing Things
+
+157
+
+Line Art and Filled Polygons
+
+158
+
+Fonts and Text
+
+165
+
+Summary
+
+167
+
+Exercises
+
+167
+
+7. Functors in OpenCV. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+
+Objects That “Do Stuff”
+
+169
+
+Principal Component Analysis (cv::PCA)
+
+169
+
+Singular Value Decomposition (cv::SVD)
+
+173
+
+Random Number Generator (cv::RNG)
+
+176
+
+Summary
+
+179
+
+Exercises
+
+180
+
+vi | Table of Contents
+
+8. Image, Video, and Data Files. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 183
+
+HighGUI: Portable Graphics Toolkit
+
+183
+
+Working with Image Files
+
+185
+
+Loading and Saving Images
+
+185
+
+A Note About Codecs
+
+188
+
+Compression and Decompression
+
+188
+
+Working with Video
+
+189
+
+Reading Video with the cv::VideoCapture Object
+
+190
+
+Writing Video with the cv::VideoWriter Object
+
+196
+
+Data Persistence
+
+198
+
+Writing to a cv::FileStorage
+
+198
+
+Reading from a cv::FileStorage
+
+200
+
+cv::FileNode
+
+201
+
+Summary
+
+204
+
+Exercises
+
+204
+
+9. Cross-Platform and Native Windows. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 207
+
+Working with Windows
+
+207
+
+HighGUI Native Graphical User Interface
+
+208
+
+Working with the Qt Backend
+
+220
+
+Integrating OpenCV with Full GUI Toolkits
+
+232
+
+Summary
+
+247
+
+Exercises
+
+247
+
+10. Filters and Convolution. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 249
+
+Overview
+
+249
+
+Before We Begin
+
+249
+
+Filters, Kernels, and Convolution
+
+249
+
+Border Extrapolation and Boundary Conditions
+
+251
+
+Threshold Operations
+
+255
+
+Otsu’s Algorithm
+
+258
+
+Adaptive Threshold
+
+259
+
+Smoothing
+
+261
+
+Simple Blur and the Box Filter
+
+262
+
+Median Filter
+
+265
+
+Gaussian Filter
+
+266
+
+Bilateral Filter
+
+267
+
+Derivatives and Gradients
+
+269
+
+The Sobel Derivative
+
+269
+
+Scharr Filter
+
+272
+
+The Laplacian
+
+273
+
+Image Morphology
+
+275
+
+Table of Contents | vii
+
+Dilation and Erosion
+
+276
+
+The General Morphology Function
+
+281
+
+Opening and Closing
+
+281
+
+Morphological Gradient
+
+285
+
+Top Hat and Black Hat
+
+287
+
+Making Your Own Kernel
+
+289
+
+Convolution with an Arbitrary Linear Filter
+
+290
+
+Applying a General Filter with cv::filter2D()
+
+291
+
+Applying a General Separable Filter with cv::sepFilter2D
+
+292
+
+Kernel Builders
+
+292
+
+Summary
+
+294
+
+Exercises
+
+294
+
+11. General Image Transforms. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 299
+
+Overview
+
+299
+
+Stretch, Shrink, Warp, and Rotate
+
+299
+
+Uniform Resize
+
+300
+
+Image Pyramids
+
+302
+
+Nonuniform Mappings
+
+306
+
+Affine Transformation
+
+308
+
+Perspective Transformation
+
+313
+
+General Remappings
+
+316
+
+Polar Mappings
+
+317
+
+LogPolar
+
+318
+
+Arbitrary Mappings
+
+322
+
+Image Repair
+
+323
+
+Inpainting
+
+324
+
+Denoising
+
+325
+
+Histogram Equalization
+
+328
+
+cv::equalizeHist(): Contrast equalization
+
+331
+
+Summary
+
+331
+
+Exercises
+
+332
+
+12. Image Analysis. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 335
+
+Overview
+
+335
+
+Discrete Fourier Transform
+
+336
+
+cv::dft(): The Discrete Fourier Transform
+
+336
+
+cv::idft(): The Inverse Discrete Fourier Transform
+
+339
+
+cv::mulSpectrums(): Spectrum Multiplication
+
+339
+
+Convolution Using Discrete Fourier Transforms
+
+340
+
+cv::dct(): The Discrete Cosine Transform
+
+342
+
+cv::idct(): The Inverse Discrete Cosine Transform
+
+343
+
+viii | Table of Contents
+
+Integral Images
+
+343
+
+cv::integral() for Standard Summation Integral
+
+346
+
+cv::integral() for Squared Summation Integral
+
+346
+
+cv::integral() for Tilted Summation Integral
+
+346
+
+The Canny Edge Detector
+
+347
+
+cv::Canny()
+
+349
+
+Hough Transforms
+
+349
+
+Hough Line Transform
+
+349
+
+Hough Circle Transform
+
+354
+
+Distance Transformation
+
+358
+
+cv::distanceTransform() for Unlabeled Distance Transform
+
+359
+
+cv::distanceTransform() for Labeled Distance Transform
+
+360
+
+Segmentation
+
+360
+
+Flood Fill
+
+361
+
+Watershed Algorithm
+
+365
+
+Grabcuts
+
+366
+
+Mean-Shift Segmentation
+
+368
+
+Summary
+
+370
+
+Exercises
+
+371
+
+13. Histograms and Templates. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 373
+
+Histogram Representation in OpenCV
+
+376
+
+cv::calcHist(): Creating a Histogram from Data
+
+377
+
+Basic Manipulations with Histograms
+
+380
+
+Histogram Normalization
+
+380
+
+Histogram Threshold
+
+380
+
+Finding the Most Populated Bin
+
+380
+
+Comparing Two Histograms
+
+382
+
+Histogram Usage Examples
+
+385
+
+Some More Sophisticated Histograms Methods
+
+388
+
+Earth Mover’s Distance
+
+389
+
+Back Projection
+
+394
+
+Template Matching
+
+397
+
+Square Difference Matching Method (cv::TM_SQDIFF)
+
+399
+
+Normalized Square Difference Matching Method
+
+(cv::TM_SQDIFF_NORMED)
+
+400
+
+Correlation Matching Methods (cv::TM_CCORR)
+
+400
+
+Normalized Cross-Correlation Matching Method
+
+(cv::TM_CCORR_NORMED)
+
+400
+
+Correlation Coefficient Matching Methods (cv::TM_CCOEFF)
+
+400
+
+Normalized Correlation Coefficient Matching Method
+
+(cv::TM_CCOEFF_NORMED)
+
+401
+
+Table of Contents | ix
+
+Summary
+
+404
+
+Exercises
+
+404
+
+14. Contours. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 407
+
+Contour Finding
+
+407
+
+Contour Hierarchies
+
+408
+
+Drawing Contours
+
+413
+
+A Contour Example
+
+414
+
+Another Contour Example
+
+416
+
+Fast Connected Component Analysis
+
+417
+
+More to Do with Contours
+
+420
+
+Polygon Approximations
+
+420
+
+Geometry and Summary Characteristics
+
+421
+
+Geometrical Tests
+
+428
+
+Matching Contours and Images
+
+429
+
+Moments
+
+429
+
+More About Moments
+
+431
+
+Matching and Hu Moments
+
+435
+
+Using Shape Context to Compare Shapes
+
+436
+
+Summary
+
+441
+
+Exercises
+
+442
+
+15. Background Subtraction. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 445
+
+Overview of Background Subtraction
+
+445
+
+Weaknesses of Background Subtraction
+
+446
+
+Scene Modeling
+
+447
+
+A Slice of Pixels
+
+447
+
+Frame Differencing
+
+451
+
+Averaging Background Method
+
+452
+
+Accumulating Means, Variances, and Covariances
+
+458
+
+A More Advanced Background Subtraction Method
+
+467
+
+Structures
+
+470
+
+Learning the Background
+
+472
+
+Learning with Moving Foreground Objects
+
+474
+
+Background Differencing: Finding Foreground Objects
+
+475
+
+Using the Codebook Background Model
+
+477
+
+A Few More Thoughts on Codebook Models
+
+477
+
+Connected Components for Foreground Cleanup
+
+477
+
+A Quick Test
+
+481
+
+Comparing Two Background Methods
+
+483
+
+OpenCV Background Subtraction Encapsulation
+
+485
+
+The cv::BackgroundSubtractor Base Class
+
+485
+
+x | Table of Contents
+
+KaewTraKuPong and Bowden Method
+
+486
+
+Zivkovic Method
+
+488
+
+Summary
+
+490
+
+Exercises
+
+491
+
+16. Keypoints and Descriptors. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 493
+
+Keypoints and the Basics of Tracking
+
+493
+
+Corner Finding
+
+494
+
+Introduction to Optical Flow
+
+498
+
+Lucas-Kanade Method for Sparse Optical Flow
+
+500
+
+Generalized Keypoints and Descriptors
+
+511
+
+Optical Flow, Tracking, and Recognition
+
+513
+
+How OpenCV Handles Keypoints and Descriptors, the General Case
+
+514
+
+Core Keypoint Detection Methods
+
+526
+
+Keypoint Filtering
+
+571
+
+Matching Methods
+
+573
+
+Displaying Results
+
+580
+
+Summary
+
+583
+
+Exercises
+
+584
+
+17. Tracking. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 587
+
+Concepts in Tracking
+
+587
+
+Dense Optical Flow
+
+588
+
+The Farnebäck Polynomial Expansion Algorithm
+
+589
+
+The Dual TV-L1 Algorithm
+
+592
+
+The Simple Flow Algorithm
+
+596
+
+Mean-Shift and Camshift Tracking
+
+600
+
+Mean-Shift
+
+601
+
+Camshift
+
+604
+
+Motion Templates
+
+605
+
+Estimators
+
+613
+
+The Kalman Filter
+
+615
+
+A Brief Note on the Extended Kalman Filter
+
+633
+
+Summary
+
+634
+
+Exercises
+
+634
+
+18. Camera Models and Calibration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 637
+
+Camera Model
+
+638
+
+The Basics of Projective Geometry
+
+641
+
+Rodrigues Transform
+
+643
+
+Lens Distortions
+
+644
+
+Calibration
+
+648
+
+Table of Contents | xi
+
+Rotation Matrix and Translation Vector
+
+650
+
+Calibration Boards
+
+652
+
+Homography
+
+660
+
+Camera Calibration
+
+665
+
+Undistortion
+
+677
+
+Undistortion Maps
+
+678
+
+Converting Undistortion Maps Between Representations with
+
+cv::convertMaps()
+
+679
+
+Computing Undistortion Maps with cv::initUndistortRectifyMap()
+
+680
+
+Undistorting an Image with cv::remap()
+
+682
+
+Undistortion with cv::undistort()
+
+683
+
+Sparse Undistortion with cv::undistortPoints()
+
+683
+
+Putting Calibration All Together
+
+684
+
+Summary
+
+687
+
+Exercises
+
+688
+
+19. Projection and Three-Dimensional Vision. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 691
+
+Projections
+
+692
+
+Affine and Perspective Transformations
+
+694
+
+Bird’s-Eye-View Transform Example
+
+695
+
+Three-Dimensional Pose Estimation
+
+700
+
+Pose Estimation from a Single Camera
+
+700
+
+Stereo Imaging
+
+703
+
+Triangulation
+
+704
+
+Epipolar Geometry
+
+708
+
+The Essential and Fundamental Matrices
+
+710
+
+Computing Epipolar Lines
+
+720
+
+Stereo Calibration
+
+721
+
+Stereo Rectification
+
+726
+
+Stereo Correspondence
+
+737
+
+Stereo Calibration, Rectification, and Correspondence Code Example
+
+752
+
+Depth Maps from Three-Dimensional Reprojection
+
+759
+
+Structure from Motion
+
+761
+
+Fitting Lines in Two and Three Dimensions
+
+762
+
+Summary
+
+765
+
+Exercises
+
+766
+
+20. The Basics of Machine Learning in OpenCV. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 769
+
+What Is Machine Learning?
+
+770
+
+Training and Test Sets
+
+770
+
+Supervised and Unsupervised Learning
+
+771
+
+Generative and Discriminative Models
+
+773
+
+xii | Table of Contents
+
+OpenCV ML Algorithms
+
+774
+
+Using Machine Learning in Vision
+
+776
+
+Variable Importance
+
+778
+
+Diagnosing Machine Learning Problems
+
+779
+
+Legacy Routines in the ML Library
+
+785
+
+K-Means
+
+786
+
+Mahalanobis Distance
+
+793
+
+Summary
+
+797
+
+Exercises
+
+797
+
+21. StatModel: The Standard Model for Learning in OpenCV. . . . . . . . . . . . . . . . . . . . . . . . . 799
+
+Common Routines in the ML Library
+
+799
+
+Training and the cv::ml::TrainData Structure
+
+802
+
+Prediction
+
+809
+
+Machine Learning Algorithms Using cv::StatModel
+
+810
+
+Naïve/Normal Bayes Classifier
+
+810
+
+Binary Decision Trees
+
+816
+
+Boosting
+
+830
+
+Random Trees
+
+837
+
+Expectation Maximization
+
+842
+
+K-Nearest Neighbors
+
+846
+
+Multilayer Perceptron
+
+849
+
+Support Vector Machine
+
+859
+
+Summary
+
+870
+
+Exercises
+
+871
+
+22. Object Detection. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 875
+
+Tree-Based Object Detection Techniques
+
+875
+
+Cascade Classifiers
+
+876
+
+Supervised Learning and Boosting Theory
+
+879
+
+Learning New Objects
+
+888
+
+Object Detection Using Support Vector Machines
+
+897
+
+Latent SVM for Object Detection
+
+898
+
+The Bag of Words Algorithm and Semantic Categorization
+
+901
+
+Summary
+
+907
+
+Exercises
+
+907
+
+23. Future of OpenCV. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 909
+
+Past and Present
+
+909
+
+OpenCV 3.x
+
+910
+
+How Well Did Our Predictions Go Last Time?
+
+911
+
+Future Functions
+
+912
+
+Table of Contents | xiii
+
+Current GSoC Work
+
+913
+
+Community Contributions
+
+915
+
+OpenCV.org
+
+916
+
+Some AI Speculation
+
+917
+
+Afterword
+
+920
+
+A. Planar Subdivisions. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 923
+
+B. opencv_contrib. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 939
+
+C. Calibration Patterns. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 943
+
+Bibliography. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 949
+
+Index. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 967
+
+xiv | Table of Contents
+
+Preface
+This book provides a working guide to the C++ Open Source Computer Vision Library (OpenCV) version 3.x and gives a general background on the field of com‐ puter vision sufficient to help readers use OpenCV effectively.
+Purpose of This Book
+Computer vision is a rapidly growing field largely because of four trends: • The advent of mobile phones put millions of cameras in people’s hands. • The Internet and search engines aggregated the resulting giant flows of image and video data into huge databases. • Computer processing power became a cheap commodity. • Vision algorithms themselves became more mature (now with the advent of deep neural networks, which OpenCV is increasingly supporting; see dnn at opencv_contrib [opencv_contrib]).
+OpenCV has played a role in the growth of computer vision by enabling hundreds of thousands of people to do more productive work in vision. OpenCV 3.x now allows students, researchers, professionals, and entrepreneurs to efficiently implement projects and jump-start research by providing them with a coherent C++ computer vision architecture that is optimized over many platforms. The purpose of this book is to:
+• Comprehensively document OpenCV by detailing what function calling conven‐ tions really mean and how to use them correctly
+• Give the reader an intuitive understanding of how the vision algorithms work • Give the reader some sense of what algorithm to use and when to use it
+Preface | xv
+
+• Give the reader a boost in implementing computer vision and machine learning algorithms by providing many working code examples to start from
+• Suggest ways to fix some of the more advanced routines when something goes wrong
+This book documents OpenCV in a way that allows the reader to rapidly do interest‐ ing and fun things in computer vision. It gives an intuitive understanding of how the algorithms work, which serves to guide the reader in designing and debugging vision applications and also makes the formal descriptions of computer vision and machine learning algorithms in other texts easier to comprehend and remember.
+Who This Book Is For
+This book contains descriptions, working code examples, and explanations of the C++ computer vision tools contained in the OpenCV 3.x library. Thus, it should be helpful to many different kinds of users: Professionals and entrepreneurs
+For practicing professionals who need to rapidly prototype or professionally implement computer vision systems, the sample code provides a quick frame‐ work with which to start. Our descriptions of the algorithms can quickly teach or remind the reader how they work. OpenCV 3.x sits on top of a hardware acceler‐ ation layer (HAL) so that implemented algorithms can run efficiently, seamlessly taking advantage of a variety of hardware platforms. Students This is the text we wish had back in school. The intuitive explanations, detailed documentation, and sample code will allow you to boot up faster in computer vision, work on more interesting class projects, and ultimately contribute new research to the field. Teachers Computer vision is a fast-moving field. We’ve found it effective to have students rapidly cover an accessible text while the instructor fills in formal exposition where needed and supplements that with current papers or guest lectures from experts. The students can meanwhile start class projects earlier and attempt more ambitious tasks. Hobbyists Computer vision is fun—here’s how to hack it. We have a strong focus on giving readers enough intuition, documentation, and working code to enable rapid implementation of real-time vision applications.
+xvi | Preface
+
+What This Book Is Not
+This book is not a formal text. We do go into mathematical detail at various points,1 but it is all in the service of developing deeper intuitions behind the algorithms or to clarify the implications of any assumptions built into those algorithms. We have not attempted a formal mathematical exposition here and might even incur some wrath along the way from those who do write formal expositions. This book has more of an “applied” nature. It will certainly be of general help, but is not aimed at any of the specialized niches in computer vision (e.g., medical imaging or remote sensing analysis). That said, we believe that by reading the explanations here first, a student will not only learn the theory better, but remember it longer as well. Therefore, this book would make a good adjunct text to a theoretical course and would be a great text for an introductory or project-centric course.
+About the Programs in This Book
+All the program examples in this book are based on OpenCV version 3.x. The code should work under Linux, Windows, and OS X. Using references online, OpenCV 3.x has full support to run on Android and iOS. Source code for the examples in the book can be fetched from this book’s website; source code for OpenCV is available on GitHub; and prebuilt versions of OpenCV can be loaded from its SourceForge site. OpenCV is under ongoing development, with official releases occurring quarterly. To stay completely current, you should obtain your code updates from the aforemen‐ tioned GitHub site. OpenCV maintains a website at http://opencv.org; for developers, there is a wiki at https://github.com/opencv/opencv/wiki.
+Prerequisites
+For the most part, readers need only know how to program in C++. Many of the math sections in this book are optional and are labeled as such. The mathematics involve simple algebra and basic matrix algebra, and assume some familiarity with solution methods to least-squares optimization problems as well as some basic knowledge of Gaussian distributions, Bayes’ law, and derivatives of simple functions. The math in this book is in support of developing intuition for the algorithms. The reader may skip the math and the algorithm descriptions, using only the function definitions and code examples to get vision applications up and running.
+
+1 Always with a warning to more casual users that they may skip such sections.
+
+Preface | xvii
+
+How This Book Is Best Used
+This text need not be read in order. It can serve as a kind of user manual: look up the function when you need it, and read the function’s description if you want the gist of how it works “under the hood.” However, the intent of this book is tutorial. It gives you a basic understanding of computer vision along with details of how and when to use selected algorithms. This book is written to allow its use as an adjunct or primary textbook for an under‐ graduate or graduate course in computer vision. The basic strategy with this method is for students to read the book for a rapid overview and then supplement that read‐ ing with more formal sections in other textbooks and with papers in the field. There are exercises at the end of each chapter to help test the student’s knowledge and to develop further intuitions. You could approach this text in any of the following ways: Grab bag
+Go through Chapters 1–5 in the first sitting, and then just hit the appropriate chapters or sections as you need them. This book does not have to be read in sequence, except for Chapters 18 and 19 (which cover camera calibration and stereo imaging) and Chapters 20, 21, and 22 (which cover machine learning). Entrepreneurs and students doing project-based courses might go this way. Good progress Read just two chapters a week until you’ve covered Chapters 1–22 in 11 weeks (Chapter 23 will go by in an instant). Start on projects and dive into details on selected areas in the field, using additional texts and papers as appropriate. The sprint Cruise through the book as fast as your comprehension allows, covering Chap‐ ters 1–23. Then get started on projects and go into detail on selected areas in the field using additional texts and papers. This is probably the choice for professio‐ nals, but it might also suit a more advanced computer vision course. Chapter 20 is a brief chapter that gives general background on machine learning, which is followed by Chapters 21 and 22, which give more details on the machine learning algorithms implemented in OpenCV and how to use them. Of course, machine learning is integral to object recognition and a big part of computer vision, but it’s a field worthy of its own book. Professionals should find this text a suitable launching point for further explorations of the literature—or for just getting down to business with the code in that part of the library. The machine learning interface has been substantially simplified and unified in OpenCV 3.x. This is how we like to teach computer vision: sprint through the course content at a level where the students get the gist of how things work; then get students started on
+xviii | Preface
+
+meaningful class projects while supplying depth and formal rigor in selected areas by drawing from other texts or papers in the field. This same method works for quarter, semester, or two-term classes. Students can get quickly up and running with a general understanding of their vision task and working code to match. As they begin more challenging and time-consuming projects, the instructor helps them develop and debug complex systems. For longer courses, the projects themselves can become instructional in terms of project management. Build up working systems first; refine them with more knowl‐ edge, detail, and research later. The goal in such courses is for each project to be wor‐ thy of a conference publication and with a few project papers being published subsequent to further (post-course) work. In OpenCV 3.x, the C++ code framework, Buildbots, GitHub use, pull request reviews, unit and regression tests, and documen‐ tation are together a good example of the kind of professional software infrastructure a startup or other business should put together.
+Conventions Used in This Book
+The following typographical conventions are used in this book: Italic
+Indicates new terms, URLs, email addresses, filenames, file extensions, path‐ names, directories, and Unix utilities. Constant width Indicates commands, options, switches, variables, attributes, keys, functions, types, classes, namespaces, methods, modules, properties, parameters, values, objects, events, event handlers, XMLtags, HTMLtags, the contents of files, or the output from commands. Constant width bold Shows commands or other text that should be typed literally by the user. Also used for emphasis in code samples. Constant width italic Shows text that should be replaced with user-supplied values. [...] Indicates a reference to the bibliography.
+This icon signifies a tip, suggestion, or general note.
+Preface | xix
+
+This icon indicates a warning or caution.
+Using Code Examples
+Supplemental material (code examples, exercises, etc.) is available for download at https://github.com/oreillymedia/Learning-OpenCV-3_examples. OpenCV is free for commercial or research use, and we have the same policy on the code examples in the book. Use them at will for homework, research, or for commer‐ cial products! We would very much appreciate you referencing this book when you do so, but it is not required. An attribution usually includes the title, author, pub‐ lisher, and ISBN. For example: “Learning OpenCV 3 by Adrian Kaehler and Gary Bradski (O’Reilly). Copyright 2017 Adrian Kaehler, Gary Bradski, 978-1-491-93799-0.” Other than hearing how it helped with your homework projects (which is best kept a secret), we would love to hear how you are using computer vision for academic research, teaching courses, and in commercial products when you do use OpenCV to help you. Again, it’s not required, but you are always invited to drop us a line.
+O’Reilly Safari
+Safari (formerly Safari Books Online) is a membership-based training and reference platform for enterprise, government, educators, and individuals.
+Members have access to thousands of books, training videos, Learning Paths, interac‐ tive tutorials, and curated playlists from over 250 publishers, including O’Reilly Media, Harvard Business Review, Prentice Hall Professional, Addison-Wesley Pro‐ fessional, Microsoft Press, Sams, Que, Peachpit Press, Adobe, Focal Press, Cisco Press, John Wiley & Sons, Syngress, Morgan Kaufmann, IBM Redbooks, Packt, Adobe Press, FT Press, Apress, Manning, New Riders, McGraw-Hill, Jones & Bartlett, and Course Technology, among others. For more information, please visit http://oreilly.com/safari.
+We’d Like to Hear from You
+Please address comments and questions concerning this book to the publisher:
+xx | Preface
+
+O’Reilly Media, Inc. 1005 Gravenstein Highway North Sebastopol, CA 95472 800-998-9938 (in the United States or Canada) 707-829-0515 (international or local) 707-829-0104 (fax) We have a web page for this book, where we list examples and any plans for future editions. You can access this information at: http://bit.ly/learningOpenCV3. To comment or ask technical questions about this book, send email to bookques‐ tions@oreilly.com. For more information about our books, courses, conferences, and news, see our web‐ site at http://www.oreilly.com. Find us on Facebook: http://facebook.com/oreilly Follow us on Twitter: http://twitter.com/oreillymedia Watch us on YouTube: http://www.youtube.com/oreillymedia
+Acknowledgments
+A long-term open source effort sees many people come and go, each contributing in different ways. The list of contributors to this library is far too long to list here, but see the .../opencv/docs/HTML/Contributors/doc_contributors.html file that ships with OpenCV.
+Thanks for Help on OpenCV
+Intel is where the library was born and deserves great thanks for supporting this project as it started and grew. From time to time, Intel still funds contests and con‐ tributes work to OpenCV. Intel also donated the built-in performance primitives code, which provides for seamless speedup on Intel architectures. Thank you for that. Google has been a steady funder of development for OpenCV by sponsoring interns for OpenCV under its Google Summer of Code project; much great work has been done through this funding. Willow Garage provided several years of funding that enabled OpenCV to go from version 2.x through to version 3.0. During this time, the computer vision R&D company Itseez (recently bought by Intel Corporation) has provided extensive engineering support and web services hosting over the years. Intel has indicated verbal agreement to continue this support (thanks!). On the software side, some individuals stand out for special mention, especially on the Russian software team. Chief among these is the Russian lead programmer
+Preface | xxi
+
+Vadim Pisarevsky, who is the largest single contributor to the library. Vadim also managed and nurtured the library through the lean times when boom had turned to bust and then bust to boom; he, if anyone, is the true hero of the library. His technical insights have also been of great help during the writing of this book. Giving him managerial support has been Victor Eruhimov, a cofounder of Itseez [Itseez] and now CEO of Itseez3D. Several people consistently help out with managing the library during weekly meet‐ ings: Grace Vesom, Vincent Rabaud, Stefano Fabri, and of course, Vadim Pisarevsky. The developer notes for these meetings can be seen at https://github.com/opencv/ opencv/wiki/Meeting_notes. Many people have contributed to OpenCV over time; a list of more recent ones is: Dinar Ahmatnurov, Pablo Alcantarilla, Alexander Alekhin, Daniel Angelov, Dmitriy Anisimov, Anatoly Baksheev, Cristian Balint, Alexandre Benoit, Laurent Berger, Leo‐ nid Beynenson, Alexander Bokov, Alexander Bovyrin, Hilton Bristow, Vladimir Bystritsky, Antonella Cascitelli, Manuela Chessa, Eric Christiansen, Frederic Dever‐ nay, Maria Dimashova, Roman Donchenko, Vladimir Dudnik, Victor Eruhimov, Georgios Evangelidis, Stefano Fabri, Sergio Garrido, Harris Gasparakis, Yuri Gitman, Lluis Gomez, Yury Gorbachev, Elena Gvozdeva, Philipp Hasper, Fernando J. Iglesias Garcia, Alexander Kalistratov, Andrey Kamaev, Alexander Karsakov, Rahul Kavi, Pat O’Keefe, Siddharth Kherada, Eugene Khvedchenya, Anna Kogan, Marina Kolpakova, Kirill Kornyakov, Ivan Korolev, Maxim Kostin, Evgeniy Kozhinov, Ilya Krylov, Lak‐ sono Kurnianggoro, Baisheng Lai, Ilya Lavrenov, Alex Leontiev, Gil Levi, Bo Li, Ilya Lysenkov, Vitaliy Lyudvichenko, Bence Magyar, Nikita Manovich, Juan Manuel Perez Rua, Konstantin Matskevich, Patrick Mihelich, Alexander Mordvintsev, Fedor Morozov, Gregory Morse, Marius Muja, Mircea Paul Muresan, Sergei Nosov, Daniil Osokin, Seon-Wook Park, Andrey Pavlenko, Alexander Petrikov, Philip aka Dikay900, Prasanna, Francesco Puja, Steven Puttemans, Vincent Rabaud, Edgar Riba, Cody Rigney, Pavel Rojtberg, Ethan Rublee, Alfonso Sanchez-Beato, Andrew Senin, Maksim Shabunin, Vlad Shakhuro, Adi Shavit, Alexander Shishkov, Sergey Sivolgin, Marvin Smith, Alexander Smorkalov, Fabio Solari, Adrian Stratulat, Evgeny Talanin, Manuele Tamburrano, Ozan Tonkal, Vladimir Tyan, Yannick Verdie, PierreEmmanuel Viel, Vladislav Vinogradov, Pavel Vlasov, Philipp Wagner, Yida Wang, Jiaolong Xu, Marian Zajko, Zoran Zivkovic. Other contributors show up over time at https://github.com/opencv/opencv/wiki/ ChangeLog. Finally, Arraiy [Arraiy] is now also helping maintain OpenCV.org (the free and open codebase).
+Thanks for Help on This Book
+While preparing this book and the previous version of this book, we’d like to thank John Markoff, science reporter at the New York Times, for encouragement, key con‐
+xxii | Preface
+
+tacts, and general writing advice born of years in the trenches. We also thank our many editors at O’Reilly, especially Dawn Schanafelt, who had the patience to con‐ tinue on as slips became the norm while the errant authors were off trying to found a startup. This book has been a long project that slipped from OpenCV 2.x to the cur‐ rent OpenCV 3.x release. Many thanks to O’Reilly for sticking with us through all that.
+Adrian Adds...
+In the first edition (Learning OpenCV) I singled out some of the great teachers who helped me reach the point where a work like this would be possible. In the interven‐ ing years, the value of the guidance received from each of them has only grown more clear. My many thanks go out to each of them. I would like to add to this list of extra‐ ordinary mentors Tom Tombrello, to whom I owe a great debt, and in whose mem‐ ory I would like to dedicate my contribution to this book. He was a man of exceptional intelligence and deep wisdom, and I am honored to have been given the opportunity to follow in his footsteps. Finally, deep thanks are due the OpenCV com‐ munity, for welcoming the first edition of this book and for your patience through the many exciting, but perhaps distracting, endeavors that have transpired while this edition was being written. This edition of the book has been a long time coming. During those intervening years, I have had the fortune to work with dozens of different companies advising, consulting, and helping them build their technology. As a board member, advisory board member, technical fellow, consultant, technical contributor, and founder, I have had the fortune to see and love every dimension of the technology development process. Many of those years were spent with Applied Minds, Inc., building and run‐ ning our robotics division there, or at Applied Invention corporation, a spinout of Applied Minds, as a Fellow there. I was constantly pleased to find OpenCV at the heart of outstanding projects along the way, ranging from health care and agriculture to aviation, defense, and national security. I have been equally pleased to find the first edition of this book on people’s desks in almost every institution along the way. The technology that Gary and I used to build Stanley has become integral to countless projects since, not the least of which are the many self-driving car projects now under way—any one of which, or perhaps all of which, stand ready to change and improve daily life for countless people. What a joy it is to be part of all of this! The number of incredible minds that I have encountered over the years—who have told me what benefit the first edition was to them in the classes they took, the classes they taught, the careers they built, and the great accomplishments that they completed—has been a continuous source of happiness and wonder. I am hopeful that this new edition of the book will continue to serve you all, as well as to inspire and enable a new genera‐ tion of scientists, engineers, and inventors.
+Preface | xxiii
+
+As the last chapter of this book closes, we start new chapters in our lives working in robotics, AI, vision, and beyond. Personally, I am deeply grateful for all of the people who have contributed the many works that have enabled this next step in my own life: teachers, mentors, and writers of books. I hope that this new edition of our book will enable others to make the next important step in their own lives, and I hope to see you there!
+Gary Adds...
+I founded OpenCV in 1999 with the goal to accelerate computer vision and artificial intelligence and give everyone the infrastructure to work with that I saw at only the top labs at the time. So few goals actually work out as intended in life, and I’m thank‐ ful this goal did work out 17 (!) years later. Much of the credit for accomplishing that goal was due to the help, over the years, of many friends and contributors too numer‐ ous to mention.2 But I will single out the original Russian group I started working with at Intel, who ran a successful computer vision company (Itseez.com) that was eventually bought back into Intel; we started out as coworkers but have since become deep friends. With three teenagers at home, my wife, Sonya Bradski, put in more work to enable this book than I did. Many thanks and love to her. The teenagers I love, but I can’t say they accelerated the book. :) This version of the book was started back at the former startup I helped found, Industrial Perception Inc., which sold to Google in 2013. Work continued in fits and starts on random weekends and late nights ever since. Somehow it’s now 2016—time flies when you are overwhelmed! Some of the speculation that I do toward the end of Chapter 23 was inspired by the nature of robot minds that I experienced with the PR2, a two-armed robot built by Willow Garage, and with the Stanley project at Stan‐ ford—the robot that won the $2 million DARPA Grand Challenge. As we close the writing of this book, we hope to see you in startups, research labs, academic sites, conferences, workshops, VC offices, and cool company projects down the road. Feel free to say hello and chat about cool new stuff that you’re doing. I started OpenCV to support and accelerate computer vision and AI for the common good; what’s left is your part. We live in a creative universe where someone can create a pot, the next person turns that pot into a drum, and so on. Create! Use OpenCV to create something uncommonly good for us all!
+2 We now have many contributors, as you can see by scrolling past the updates in the change logs at https:// github.com/opencv/opencv/wiki/ChangeLog. We get so many new algorithms and apps that we now store the best in self-maintaining and self-contained modules in opencv_contrib).
+xxiv | Preface
+
+CHAPTER 1
+Overview
+What Is OpenCV?
+OpenCV [OpenCV] is an open source (see http://opensource.org) computer vision library available from http://opencv.org. In 1999 Gary Bradski [Bradski], working at Intel Corporation, launched OpenCV with the hopes of accelerating computer vision and artificial intelligence by providing a solid infrastructure for everyone working in the field. The library is written in C and C++ and runs under Linux, Windows, and Mac OS X. There is active development on interfaces for Python, Java, MATLAB, and other languages, including porting the library to Android and iOS for mobile applica‐ tions. OpenCV has received much of its support over the years from Intel and Goo‐ gle, but especially from Itseez [Itseez] (recently acquired by Intel), which did the bulk of the early development work. Finally, Arraiy [Arraiy] has joined in to maintain the always open and free OpenCV.org [OpenCV]. OpenCV was designed for computational efficiency and with a strong focus on realtime applications. It is written in optimized C++ and can take advantage of multicore processors. If you desire further automatic optimization on Intel architectures [Intel], you can buy Intel’s Integrated Performance Primitives (IPP) libraries [IPP], which consist of low-level optimized routines in many different algorithmic areas. OpenCV automatically uses the appropriate IPP library at runtime if that library is installed. Starting with OpenCV 3.0, Intel granted the OpenCV team and OpenCV community a free-of-charge subset of IPP (nicknamed IPPICV), which is built into and acceler‐ ates OpenCV by default. One of OpenCV’s goals is to provide a simple-to-use computer vision infrastructure that helps people build fairly sophisticated vision applications quickly. The OpenCV library contains over 500 functions that span many areas in vision, including factory product inspection, medical imaging, security, user interface, camera calibration,
+1
+
+stereo vision, and robotics. Because computer vision and machine learning often go hand-in-hand, OpenCV also contains a full, general-purpose Machine Learning library (ML module). This sublibrary is focused on statistical pattern recognition and clustering. The ML module is highly useful for the vision tasks that are at the core of OpenCV’s mission, but it is general enough to be used for any machine learning problem.
+Who Uses OpenCV?
+Most computer scientists and practical programmers are aware of some facet of com‐ puter vision’s role, but few people are aware of all the ways in which computer vision is used. For example, most people are somewhat aware of its use in surveillance, and many also know that it is increasingly being used for images and video on the Web. A few have seen some use of computer vision in game interfaces. Yet fewer people real‐ ize that most aerial and street-map images (such as in Google’s Street View) make heavy use of camera calibration and image stitching techniques. Some are aware of niche applications in safety monitoring, unmanned flying vehicles, or biomedical analysis. But few are aware how pervasive machine vision has become in manufactur‐ ing: virtually everything that is mass-produced has been automatically inspected at some point using computer vision. The open source license for OpenCV has been structured such that you can build a commercial product using all or part of OpenCV. You are under no obligation to open-source your product or to return improvements to the public domain, though we hope you will. In part because of these liberal licensing terms, there is a large user community that includes people from major companies (IBM, Microsoft, Intel, SONY, Siemens, and Google, to name only a few) and research centers (such as Stan‐ ford, MIT, CMU, Cambridge, and INRIA). There is a Yahoo Groups forum where users can post questions and discussion; it has almost 50,000 members. OpenCV is popular around the world, with large user communities in China, Japan, Russia, Europe, and Israel. Since its alpha release in January 1999, OpenCV has been used in many applications, products, and research efforts. These applications include stitching images together in satellite and web maps, image scan alignment, medical image noise reduction, object analysis, security and intrusion detection systems, automatic monitoring and safety systems, manufacturing inspection systems, camera calibration, military appli‐ cations, and unmanned aerial, ground, and underwater vehicles. It has even been used in sound and music recognition, where vision recognition techniques are applied to sound spectrogram images. OpenCV was a key part of the vision system in the robot from Stanford, “Stanley,” which won the $2M DARPA Grand Challenge desert robot race [Thrun06].
+2 | Chapter 1: Overview
+
+What Is Computer Vision?
+Computer vision1 is the transformation of data from a still or video camera into either a decision or a new representation. All such transformations are done to ach‐ ieve some particular goal. The input data may include some contextual information such as “the camera is mounted in a car” or “laser range finder indicates an object is 1 meter away.” The decision might be “there is a person in this scene” or “there are 14 tumor cells on this slide.” A new representation might mean turning a color image into a grayscale image or removing camera motion from an image sequence. Because we are such visual creatures, it is easy to be fooled into thinking that com‐ puter vision tasks are easy. How hard can it be to find, say, a car when you are staring at it in an image? Your initial intuitions can be quite misleading. The human brain divides the vision signal into many channels that stream different kinds of informa‐ tion into your brain. Your brain has an attention system that identifies, in a taskdependent way, important parts of an image to examine while suppressing examination of other areas. There is massive feedback in the visual stream that is, as yet, little understood. There are widespread associative inputs from muscle control sensors and all of the other senses that allow the brain to draw on cross-associations made from years of living in the world. The feedback loops in the brain go back to all stages of processing, including the hardware sensors themselves (the eyes), which mechanically control lighting via the iris and tune the reception on the surface of the retina. In a machine vision system, however, a computer receives a grid of numbers from the camera or from disk, and that’s it. For the most part, there’s no built-in pattern rec‐ ognition, no automatic control of focus and aperture, no cross-associations with years of experience. For the most part, vision systems are still fairly naïve. Figure 1-1 shows a picture of an automobile. In that picture we see a side mirror on the driver’s side of the car. What the computer “sees” is just a grid of numbers. Any given num‐ ber within that grid has a rather large noise component and so by itself gives us little information, but this grid of numbers is all the computer “sees.” Our task, then, becomes to turn this noisy grid of numbers into the perception “side mirror.” Figure 1-2 gives some more insight into why computer vision is so hard.
+1 Computer vision is a vast field. This book will give you a basic grounding in the field, but we also recommend texts by Trucco [Trucco98] for a simple introduction, Forsyth [Forsyth03] as a comprehensive reference, and Hartley [Hartley06] and Faugeras [Faugeras93] for a discussion of how 3D vision really works. What Is Computer Vision? | 3
+
+Figure 1-1. To a computer, the car’s side mirror is just a grid of numbers
+Figure 1-2. The ill-posed nature of vision: the 2D appearance of objects can change rad‐ ically with viewpoint
+4 | Chapter 1: Overview
+
+In fact, the problem, as we have posed it thus far, is worse than hard: it is formally impossible to solve. Given a two-dimensional (2D) view of a 3D world, there is no unique way to reconstruct the 3D signal. Formally, such an ill-posed problem has no unique or definitive solution. The same 2D image could represent any of an infinite combination of 3D scenes, even if the data were perfect. However, as already men‐ tioned, the data is corrupted by noise and distortions. Such corruption stems from variations in the world (weather, lighting, reflections, movements), imperfections in the lens and mechanical setup, finite integration time on the sensor (motion blur), electrical noise in the sensor or other electronics, and compression artifacts after image capture. Given these daunting challenges, how can we make any progress? In the design of a practical system, additional contextual knowledge can often be used to work around the limitations imposed on us by visual sensors. Consider the exam‐ ple of a mobile robot that must find and pick up staplers in a building. The robot might use the facts that a desk is an object found inside offices and that staplers are mostly found on desks. This gives an implicit size reference; staplers must be able to fit on desks. It also helps to eliminate falsely “recognizing” staplers in impossible places (e.g., on the ceiling or a window). The robot can safely ignore a 200-foot advertising blimp shaped like a stapler because the blimp lacks the prerequisite wood-grained background of a desk. In contrast, with tasks such as image retrieval, all stapler images in a database may be of real staplers, and so large sizes and other unusual configurations may have been implicitly precluded by the assumptions of those who took the photographs; that is, the photographer perhaps took pictures only of real, normal-sized staplers. People also tend to center objects when taking pictures and tend to put them in characteristic orientations. Thus, there is often quite a bit of unintentional implicit information within photos taken by people. Contextual information can also be modeled explicitly with machine learning techni‐ ques. Hidden variables such as size, orientation to gravity, and so on can then be cor‐ related with their values in a labeled training set. Alternatively, one may attempt to measure hidden bias variables by using additional sensors. The use of a laser range finder to measure depth allows us to accurately measure the size of an object. The next problem facing computer vision is noise. We typically deal with noise by using statistical methods. For example, it may be impossible to detect an edge in an image merely by comparing a point to its immediate neighbors. But if we look at the statistics over a local region, edge detection becomes much easier. A real edge should appear as a string of such immediate neighbor responses over a local region, each of whose orientation is consistent with its neighbors. It is also possible to compensate for noise by taking statistics over time. Still other techniques account for noise or dis‐ tortions by building explicit models learned directly from the available data. For example, because lens distortions are well understood, one need only learn the parameters for a simple polynomial model in order to describe—and thus correct almost completely—such distortions.
+What Is Computer Vision? | 5
+
+The actions or decisions that computer vision attempts to make based on camera data are performed in the context of a specific purpose or task. We may want to remove noise or damage from an image so that our security system will issue an alert if someone tries to climb a fence or because we need a monitoring system that counts how many people cross through an area in an amusement park. Vision software for robots that wander through office buildings will employ different strategies than vision software for stationary security cameras because the two systems have signifi‐ cantly different contexts and objectives. As a general rule, the more constrained a computer vision context is, the more we can rely on those constraints to simplify the problem and the more reliable our final solution will be. OpenCV is aimed at providing the basic tools needed to solve computer vision prob‐ lems. In some cases, high-level functionalities in the library will be sufficient to solve the more complex problems in computer vision. Even when this is not the case, the basic components in the library are complete enough to enable creation of a complete solution of your own to almost any computer vision problem. In the latter case, there are several tried-and-true methods of using the library; all of them start with solving the problem using as many available library components as possible. Typically, after you’ve developed this first-draft solution, you can see where the solution has weak‐ nesses and then fix those weaknesses using your own code and cleverness (better known as “solve the problem you actually have, not the one you imagine”). You can then use your draft solution as a benchmark to assess the improvements you have made. From that point, you can tackle whatever weaknesses remain by exploiting the context of the larger system in which your solution is embedded.
+The Origin of OpenCV
+OpenCV grew out of an Intel research initiative to advance CPU-intensive applica‐ tions. Toward this end, Intel launched many projects, including real-time ray tracing and 3D display walls. One of the authors, Gary Bradski [Bradski], working for Intel at that time, was visiting universities and noticed that some top university groups, such as the MIT Media Lab, had well-developed and internally open computer vision infrastructures—code that was passed from student to student and that gave each new student a valuable head start in developing his or her own vision application. Instead of reinventing the basic functions from scratch, a new student could begin by building on top of what came before. Thus, OpenCV was conceived as a way to make computer vision infrastructure uni‐ versally available. With the aid of Intel’s Performance Library Team,2 OpenCV started with a core of implemented code and algorithmic specifications being sent to
+2 Shinn Lee was of key help.
+6 | Chapter 1: Overview
+
+members of Intel’s Russian library team. This is the “where” of OpenCV: it started in Intel’s research lab with collaboration from the Software Performance Libraries group and implementation and optimization expertise in Russia. Chief among the Russian team members was Vadim Pisarevsky, who managed, coded, and optimized much of OpenCV and who is still at the center of much of the OpenCV effort. Along with him, Victor Eruhimov helped develop the early infra‐ structure, and Valery Kuriakin managed the Russian lab and greatly supported the effort. There were several goals for OpenCV at the outset:
+• Advance vision research by providing not only open but also optimized code for basic vision infrastructure. No more reinventing the wheel.
+• Disseminate vision knowledge by providing a common infrastructure that devel‐ opers could build on, so that code would be more readily readable and transferable.
+• Advance vision-based commercial applications by making portable, performance-optimized code available for free—with a license that did not require commercial applications to be open or free themselves.
+Those goals constitute the “why” of OpenCV. Enabling computer vision applications would increase the need for fast processors. Driving upgrades to faster processors would generate more income for Intel than selling some extra software. Perhaps that is why this open and free code arose from a hardware vendor rather than a software company. Sometimes, there is more room to be innovative at software within a hard‐ ware company. In any open source effort, it’s important to reach a critical mass at which the project becomes self-sustaining. There have now been approximately 11 million downloads of OpenCV, and this number is growing by an average of 160,000 downloads a month. OpenCV receives many user contributions, and central development has largely moved outside of Intel.3 OpenCV’s timeline is shown in Figure 1-3. Along the way, OpenCV was affected by the dot-com boom and bust and also by numerous changes of management and direction. During these fluctuations, there were times when OpenCV had no one at Intel working on it at all. However, with the advent of multicore processors and the many new applications of computer vision, OpenCV’s value began to rise. Similarly, rapid growth in the field of robotics has driven much use and development of the library. After becoming an open source library, OpenCV spent several years under active development at Willow Garage, and now is sup‐ ported by the OpenCV foundation. Today, OpenCV is actively being developed by
+3 As of this writing, Willow Garage, a robotics research institute and incubator, is actively supporting general OpenCV maintenance and new development in the area of robotics applications.
+The Origin of OpenCV | 7
+
+the foundation as well as by several public and private institutions. For more infor‐ mation on the future of OpenCV, see Chapter 23.
+Figure 1-3. OpenCV timeline
+OpenCV Block Diagram
+OpenCV is built in layers. At the top is the OS under which OpenCV operates. Next comes the language bindings and sample applications. Below that is the contributed code in opencv_contrib, which contains mostly higher-level functionality. After that is the core of OpenCV, and at the bottom are the various hardware optimizations in the hardware acceleration layer (HAL). Figure 1-4 shows this organization.
+8 | Chapter 1: Overview
+
+Figure 1-4. Block diagram of OpenCV with supported operating systems
+Speeding Up OpenCV with IPP
+If available on Intel processors, OpenCV exploits a royalty-free subset of Intel’s Inte‐ grated Performance Primitives (IPP) library, IPP 8.x (IPPICV). IPPICV can be linked into OpenCV at compile stage and if so, it replaces the corresponding low-level opti‐ mized C code (in cmake WITH_IPP=ON/OFF, ON by default). The improvement in speed from using IPP can be substantial. Figure 1-5 shows the relative speedup when IPP is used.
+Figure 1-5. Relative speedup when OpenCV uses IPPICV on an Intel Haswell Processor
+The Origin of OpenCV | 9
+
+Who Owns OpenCV?
+Although Gary Bradski started OpenCV at Intel, the library is and always was intended to promote commercial and research use; that is its mission. It is therefore open and free, and the code itself may be used or embedded (in whole or in part) in other applications, whether commercial or research. It does not force your applica‐ tion code to be open or free. It does not require that you return improvements back to the library—but we hope that you will.
+Downloading and Installing OpenCV
+From the main OpenCV site, you can download the complete source code for the lat‐ est release, as well as many recent releases. The downloads themselves are found at the downloads page. However, the most up-to-date version is always found on Git‐ Hub, where the active development branch is stored. For more recent, higher-level functionality, you can also download and build opencv_contrib [opencv_contrib] (https://github.com/opencv/opencv_contrib).
+Installation
+In modern times, OpenCV uses Git as its development version control system, and CMake to build.4 In many cases, you will not need to worry about building, as com‐ piled libraries exist for many environments. However, as you become a more advanced user, you will inevitably want to be able to recompile the libraries with spe‐ cific options tailored to your application.
+Windows
+At http://opencv.org/downloads.html, you will see a link to download the latest ver‐ sion of OpenCV for Windows. This link will download an executable file, which is a self-extracting archive with prebuilt OpenCV binaries for various versions of Visual Studio. You are now almost ready to start using OpenCV.5
+4 In olden times, OpenCV developers used Subversion for version control and automake to build. Those days, however, are long gone.
+5 It is important to know that, although the Windows distribution contains binary libraries for release builds, it does not contain the debug builds of these libraries. It is therefore likely that, before developing with OpenCV, you will want to open the solution file and build these libraries yourself.
+10 | Chapter 1: Overview
+
+The one additional detail is that you will want to add an OPENCV_DIR environment variable to make it easier to tell your compiler where to find the OpenCV binaries. You can set this by going to a command prompt and typing:6
+setx -m OPENCV_DIR D:\OpenCV\Build\x64\vc10
+If you want to link OpenCV statically, this is all you will need. If you want to use OpenCV dynamic link libraries (DLLs), then you will also need to tell your system where to find the binary library. To do this, simply add %OPENCV_DIR%\bin to your library path. (For example, in Windows 10, right-click on your computer icon, select Properties, and then click on Advanced System Settings. Finally, select Environment Variables and add the OpenCV binary path to the Path variable.) OpenCV 3 comes with IPP linked in, so you get the performance advantage of more or less modern x86 and x64 CPUs. You can also build OpenCV from a source tarball as follows:
+1. Run the CMake GUI. 2. Specify paths to the OpenCV source tree and the build directory (they must be
+different!). 3. Press Configure twice (choose the appropriate Visual Studio generator, or
+MinGW makefiles if you use MinGW), and then press Generate. 4. Open the generated solution within Visual Studio, and build it. In the case of
+MinGW, use the Linux instructions that follow.
+Linux
+Prebuilt binaries for Linux are not included with the Linux version of OpenCV owing to the large variety of versions of GCC and GLIBC in different distributions (SuSE, Debian, Ubuntu, etc.). In many cases, however, your distribution will include OpenCV. If your distribution doesn’t offer OpenCV, you will have to build it from sources. As with the Windows installation, you can start at http://opencv.org/down loads.html, but in this case the link will send you to SourceForge, where you can select the tarball for the current OpenCV source code bundle. To build the libraries and demos, you’ll need GTK+ 2.x or higher, including headers. You’ll also need gcc and the essential development packages, cmake and libtbb (Intel thread building blocks), and optionally zlib, libpng, libjpeg, libtiff, and libjasper with development files (i.e., the versions with -dev at the end of their package names).
+6 Of course, the exact path will vary depending on your installation; for example, if you are installing on a 32bit machine, then the path will include x86 instead of x64.
+Downloading and Installing OpenCV | 11
+
+You’ll need Python 2.6 or later with headers installed (developer package), as well as NumPy in order to make Python bindings work. You will also need libavcodec and the other libav* libraries (including headers) from ffmpeg. For the latter, install libav/ffmpeg packages supplied with your distribution or down‐ load ffmpeg from http://www.ffmpeg.org. The ffmpeg library has a Lesser General Pub‐ lic License (LGPL), but some of its components have the stricter General Public License (GPL). To use it with non-GPL software (such as OpenCV), build and use a shared ffmpg library:
+$> ./configure --enable-shared $> make $> sudo make install
+(When you link an LGPL library dynamically, you are not obliged to use GPL license for your code.) You will end up with /usr/local/lib/libavcodec.so.*, /usr/local/lib/libav‐ format.so.*, /usr/local/lib/libavutil.so.*, and include files under various /usr/local/ include/libav* paths. To actually build the library, you will need to unpack the .tar.gz file and go into the created source directory, and do the following:
+mkdir release cd release cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. make sudo make install # optional
+The first and second commands create a new subdirectory and move you into it. The third command tells CMake how to configure your build. The example options we give are probably the right ones to get you started, but other options allow you to enable various options, determine what examples are built, add Python support, add CUDA GPU support, and more. By default, OpenCV’s cmake configuration script attempts to find and use as many third-party libraries as possible. For example, if it finds CUDA SDK, it will enable GPU-accelerated OpenCV functionality. The last two commands actually build the library and install the results into the proper places. Note that you do not need to install OpenCV in order to use it in your CMake-based projects; you just need to specify the path to generate OpenCVConfig.cmake. In the preceding case, the file will be placed in the release directory. If you decided to run sudo make install instead, OpenCVConfig.cmake would be placed in /usr/local/ share/OpenCV. Just like in the Windows case, the Linux build of OpenCV will automatically take advantage of IPP once it’s installed. Starting from OpenCV 3.0, OpenCV’s cmake configuration script will automatically download and link a free subset of IPP (IPPICV). To explicitly disable IPP if you do not want it, pass the -D WITH_IPP=OFF option to CMake.
+12 | Chapter 1: Overview
+
+Mac OS X
+Installation on OS X is very similar to Linux, except that OS X comes with its own development environment, Xcode, which includes almost everything you’ll need except for CMake; you do not need GTK+, TBB, libjpeg, ffmpeg, and so on:
+• By default, Cocoa is used instead of GTK+. • By default, QTKit is used instead of ffmpeg. • Grand Dispatch Central (GDC) is used instead of TBB and OpenMP. The installation steps are then exactly the same. You may want to pass the -G Xcode option to CMake to generate an Xcode project for OpenCV (and for your applica‐ tions) in order to build and debug the code conveniently within Xcode.
+Getting the Latest OpenCV via Git
+OpenCV is under active development, and bugs are often fixed rapidly when bug reports contain accurate descriptions and code that demonstrates the bug. However, official OpenCV releases occur only once or twice a year. If you are seriously devel‐ oping a project or product, you will probably want code fixes and updates as soon as they become available. To get these, you will need to access OpenCV’s Git repository on GitHub. This isn’t the place for a tutorial in Git usage. If you’ve worked with other open source projects, then you’re probably familiar with it already. If you haven’t, check out Version Control with Git by Jon Loeliger (O’Reilly). A command-line Git client is available for Linux, OS X, and most UNIX-like systems. For Windows users, we rec‐ ommend TortoiseGit; for OS X the SourceTree app may suit you. On Windows, if you want the latest OpenCV from the Git repository, you’ll need to access the directory at https://github.com/opencv/opencv.git. On Linux, you can just use the following command:
+git clone https://github.com/opencv/opencv.git
+More OpenCV Documentation
+The primary documentation for OpenCV is the HTML documentation available at http://opencv.org. In addition to this, there are in-depth tutorials on many subjects at http://docs.opencv.org/2.4.13/doc/tutorials/tutorials.html, and an OpenCV wiki (cur‐ rently located at https://github.com/opencv/opencv/wiki).
+Getting the Latest OpenCV via Git | 13
+
+Supplied Documentation
+OpenCV 2.x comes with a complete reference manual and a bunch of tutorials, all in PDF format; check opencv/doc. Starting from OpenCV 3.x, there is no offline docu‐ mentation anymore.
+Online Documentation and the Wiki
+As we just mentioned, there is extensive documentation as well as a wiki available at http://opencv.org. The documentation there is divided into several major compo‐ nents: Reference
+This section contains the functions, their arguments, and some information on how to use them. Tutorials There is a large collection of tutorials; these tell you how to accomplish various things. There are tutorials for basic subjects, like how to install OpenCV or create OpenCV projects on various platforms, and more advanced topics like back‐ ground subtraction of object detection. Quick Start This is a tightly curated subset of the tutorials, containing just ones that help you get up and running on specific platforms. Cheat Sheet This is actually a single .pdf file that contains a truly excellent compressed refer‐ ence to almost the entire library. Thank Vadim Pisarevsky for this excellent ref‐ erence as you pin these two beautiful pages to your cubicle wall. Wiki The wiki contains everything you could possibly want and more. This is where you’ll find the roadmap, as well as news, open issues, bugs tracking, and count‐ less deeper topics like how to become a contributor to OpenCV. Q&A This is a vast archive of literally thousands of questions people have asked and answered. You can go there to ask questions of the OpenCV community, or to help others by answering their questions. All of these are accessible under the Documentation button on the OpenCV.org homepage. Of all of those great resources, one warrants a little more discussion here —the Reference. The Reference is divided into several sections, each of which per‐ tains to a module in the library. The exact module list has evolved over time, but the
+14 | Chapter 1: Overview
+
+modules are the primary organizational structure in the library. Every function in the library is part of one module. Here are the current modules: core
+The “core” is the section of the library that contains all of the basic object types and their basic operations. imgproc The image processing module contains basic transformations on images, includ‐ ing filters and similar convolutional operators. highgui (split to imgcodecs, videoio, and highgui in OpenCV 3.0) This module contains user interface functions that can be used to display images or take simple user input. It can be thought of as a very lightweight window UI toolkit. video The video library contains the functions you need to read and write video streams. calib3d This module contains implementations of algorithms you will need to calibrate single cameras as well as stereo or multicamera arrays. features2d This module contains algorithms for detecting, describing, and matching key‐ point features. objdetect This module contains algorithms for detecting specific objects, such as faces or pedestrians. You can train the detectors to detect other objects as well. ml The Machine Learning library is actually an entire library in itself, and contains a wide array of machine learning algorithms implemented in such a way as to work with the natural data structures of OpenCV. flann FLANN stands for “Fast Library for Approximate Nearest Neighbors.” This library contains methods you will not likely use directly, but which are used by other functions in other modules for doing nearest neighbor searches in large data sets.
+More OpenCV Documentation | 15
+
+gpu (split to multiple cuda* modules in OpenCV 3.0) The GPU library contains implementations of most of the rest of the library functions optimized for operation on CUDA GPUs. There are also some func‐ tions that are implemented only for GPU operation. Some of these provide excel‐ lent results but require computational resources sufficiently high that implementation on non-GPU hardware would provide little utility.
+photo This is a relatively new module that contains tools useful for computational photography.
+stitching This entire module implements a sophisticated image stitching pipeline. This is new functionality in the library, but, like the photo module, it is an area where future growth is expected.
+nonfree (moved to opencv_contrib/xfeatures2d in OpenCV 3.0) OpenCV contains some implementations of algorithms that are patented or otherwise burdened by usage restrictions (e.g., the SIFT algorithm). Those algo‐ rithms are segregated into their own module to indicate that you will need to do some kind of special work in order to use them in a commercial product.
+contrib (melted into a few opencv_contrib modules in OpenCV 3.0) This module contains new things that have yet to be integrated into the whole of the library.
+legacy (disappeared in OpenCV 3.0) This module contains old things that have yet to be banished from the library altogether.
+ocl (disappeared in OpenCV 3.0; replaced with T-API technology) This is a newer module that could be considered analogous to the GPU module, except that it implements the Khronos OpenCL standard for open parallel pro‐ gramming. Though much less featured than the GPU module at this time, the ocl module aims to provide implementations that can run on any GPU or other Khronos-capable parallel device. (This is in contrast to the gpu module, which explicitly makes use of the NVidia CUDA toolkit and so will work only on NVidia GPU devices.)
+Despite the ever-increasing quality of this online documentation, one task that is not within its scope is to provide a proper understanding of the algorithms implemented or of the exact meaning of the parameters these algorithms require. This book aims to provide this information, as well as a more in-depth understanding of all of the basic building blocks of the library.
+16 | Chapter 1: Overview
+
+OpenCV Contribution Repository
+In OpenCV 3.0, the previously monolithic library has been split into two parts: mature opencv and the current state of the art in larger vision functionality at opencv_contrib [opencv_contrib]. The former is maintained by the core OpenCV team and contains (mostly) stable code, whereas the latter is less mature, is main‐ tained and developed mostly by the community, may have parts under non-OpenCV license, and may include patented algorithms. Here are some of the modules available in the opencv_contrib repository (see Appen‐ dix B for a full list at the time of this writing):
+Dnn Deep neural networks
+face Face recognition
+text Text detection and recognition; may optionally use open source OCR Tesseract as backend
+rgbd Processing RGB + depth maps, obtained with Kinect and other depth sensors (or simply computed with stereo correspondence algorithms)
+bioinspired Biologically inspired vision
+ximgproc, xphoto Advanced image processing and computational photography algorithms
+tracking Modern object-tracking algorithms
+Downloading and Building Contributed Modules
+On Linux and OS X, you can just use the following command to download opencv_contrib:
+git clone https://github.com/opencv/opencv_contrib.git
+On Windows, feed this address to TortoiseGit or another such client. Then you need to reconfigure OpenCV with CMake:
+cmake –D CMAKE_BUILD_TYPE=Release \ –D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules ..
+OpenCV Contribution Repository | 17
+
+and rebuild it as usual. The built contributed modules will be put into the same direc‐ tory as regular OpenCV binaries, and you may use them without any extra steps.
+Portability
+OpenCV was designed to be portable. It was originally written to compile by any compliant C++ compiler. This meant that the C and C++ code had to be fairly stan‐ dard in order to make cross-platform support easier. Table 1-1 shows the platforms on which OpenCV is known to run. Support for Intel and AMD 32-bit and 64-bit architectures (x86, x64) is the most mature, and the ARM support is rapidly improv‐ ing too. Among operating systems, OpenCV fully supports Windows, Linux, OS X, Android, and iOS. If an architecture or OS doesn’t appear in Table 1-1, this doesn’t mean there are no OpenCV ports to it. OpenCV has been ported to almost every commercial system, from Amazon Cloud and 40-core Intel Xeon Phi to Raspberry Pi and robotic dogs.
+
+Table 1-1. OpenCV portability guide for release 1.0
+
+x86/x64
+
+ARM
+
+Other: MIPs, PPC
+
+Windows
+
+SIMD, IPP, Parallel, I/O
+
+SIMD, Parallel (3.0), I/O N/A
+
+Linux
+
+SIMD, IPP, Parallel,a I/O
+
+SIMD, Parallel,a I/O Parallel,a I/O*
+
+Android
+
+SIMD, IPP (3.0), Parallel,b I/O SIMD, Parallel,b I/O MIPS—basic support
+
+OS X/iOS
+
+SIMD, IPP (3.0), Parallel, I/O SIMD, Parallel, I/O
+
+N/A
+
+Other: BSD, QNX, ... SIMD
+
+SIMD
+
+a Parallelization in Linux is done via a third-party library or by enabling OpenMP. b Parallelization in Android is done via Intel TBB.
+
+Here is the legend for Table 1-1: SIMD
+Vector instructions are used to gain the speed: SSE on x86/x64, NEON on ARM. IPP
+Intel IPP is available. Starting from 3.0, there is free specialized IPP subset (IPPICV). Parallel Some standard or third-party threading framework is used to distribute process‐ ing across multiple cores. I/O Some standard or third-party API can be used to grab or write video.
+
+18 | Chapter 1: Overview
+
+Summary
+In this chapter we went over OpenCV’s [OpenCV] history from its founding by Gary Bradski [Bradski] at Intel in 1999 to its current state of support by Arraiy [Arraiy]. We covered the motivation for OpenCV and some of its content. We discussed how the core library, OpenCV, has been separated from newer functionality in opencv_contrib (see Appendix B) along with an extensive set of links to the OpenCVrelated content online. This chapter also covered how to download and install OpenCV, together with its performance and portability.
+Exercises
+1. Download and install the latest release of OpenCV. Compile it in debug and release mode.
+2. Download and build the latest trunk version of OpenCV using Git. 3. Describe at least three ambiguous aspects of converting 3D inputs into a 2D rep‐
+resentation. How would you overcome these ambiguities?
+Summary | 19
+
+CHAPTER 2
+Introduction to OpenCV
+Include Files
+After installing the OpenCV library and setting up our programming environment, our next task is to make something interesting happen with code. In order to do this, we’ll have to discuss header files. Fortunately, the headers reflect the new, modular structure of OpenCV introduced in Chapter 1. The main header file of interest is .../ include/opencv2/opencv.hpp; it just calls the header files for each OpenCV module: #include "opencv2/core/core_c.h"
+Old C data structures and arithmetic routines #include "opencv2/core/core.hpp"
+New C++ data structures and arithmetic routines #include "opencv2/flann/miniflann.hpp"
+Approximate nearest neighbor matching functions #include "opencv2/imgproc/imgproc_c.h"
+Old C image processing functions #include "opencv2/imgproc/imgproc.hpp"
+New C++ image processing functions #include "opencv2/video/photo.hpp"
+Algorithms specific to handling and restoring photographs #include "opencv2/video/video.hpp"
+Video tracking and background segmentation routines #include "opencv2/features2d/features2d.hpp"
+Two-dimensional feature tracking support
+21
+
+#include "opencv2/objdetect/objdetect.hpp" Cascade face detector; latent SVM; HoG; planar patch detector
+#include "opencv2/calib3d/calib3d.hpp" Calibration and stereo
+#include "opencv2/ml/ml.hpp" Machine learning: clustering, pattern recognition
+#include "opencv2/highgui/highgui_c.h" Old C image display, sliders, mouse interaction, I/O
+#include "opencv2/highgui/highgui.hpp" New C++ image display, sliders, buttons, mouse, I/O
+#include "opencv2/contrib/contrib.hpp" User-contributed code: flesh detection, fuzzy mean-shift tracking, spin images, self-similar features
+You may use the include file opencv.hpp to include any and every possible OpenCV function, but it will slow down compile time. If you are using only, say, image pro‐ cessing functions, compile time will be faster if you include only opencv2/imgproc/ imgproc.hpp. These include files are located on disk under the .../modules directory. For example, imgproc.hpp is located at .../modules/imgproc/include/opencv2/imgproc/ imgproc.hpp. Similarly, the sources for the functions themselves are located under their corresponding src directory. For example, cv::Canny() in the imgproc module is located in .../modules/improc/src/canny.cpp. With the preceding include files, we can start our first C++ OpenCV program.
+You can include legacy code such as the older blob tracking, Hid‐ den Markov Model (HMM) face detection, condensation tracker, and Eigen objects using opencv2/legacy/legacy.hpp, which is located in .../modules/legacy/include/opencv2/legacy/legacy.hpp.
+Resources
+There are several good introductory PowerPoint files on the Web that provide over‐ views of OpenCV:
+• A high-level overview of the whole library can be found at http://is.gd/niZvJu. • Speedups are discussed at http://is.gd/ShvMZE. • Modules are described at http://is.gd/izlOrM.
+22 | Chapter 2: Introduction to OpenCV
+
+First Program—Display a Picture
+OpenCV provides utilities for reading from a wide array of image file types, as well as from video and cameras. These utilities are part of a toolkit called HighGUI, which is included in the OpenCV package. We will use some of these utilities to create a sim‐ ple program that opens an image and displays it on the screen (Example 2-1).
+Example 2-1. A simple OpenCV program that loads an image from disk and displays it on the screen
+#include <opencv2/opencv.hpp> //Include file for every supported OpenCV function
+int main( int argc, char** argv ) { cv::Mat img = cv::imread(argv[1],-1); if( img.empty() ) return -1; cv::namedWindow( "Example1", cv::WINDOW_AUTOSIZE ); cv::imshow( "Example1", img ); cv::waitKey( 0 ); cv::destroyWindow( "Example1" ); return 0;
+}
+Note that OpenCV functions live within a namespace called cv. To call OpenCV functions, you must explicitly tell the compiler that you are talking about the cv namespace by prepending cv:: to each function call. To get out of this bookkeeping chore, we can employ the using namespace cv; directive as shown in Example 2-2.1 This tells the compiler to assume that functions might belong to that namespace. Note also the difference in include files between Examples 2-1 and 2-2; in the former, we used the general include opencv.hpp, whereas in the latter, we used only the neces‐ sary include file to improve compile time.
+Example 2-2. Same as Example 2-1 but employing the “using namespace” directive
+#include "opencv2/highgui/highgui.hpp"
+using namespace cv;
+int main( int argc, char** argv ) {
+Mat img = imread( argv[1], -1 );
+1 Of course, once you do this, you risk conflicting names with other potential namespaces. If the function foo() exists, say, in the cv and std namespaces, you must specify which function you are talking about using either cv::foo() or std::foo() as you intend. In this book, other than in our specific example of Example 2-2, we will use the explicit form cv:: for objects in the OpenCV namespace, as this is generally considered to be better programming style.
+First Program—Display a Picture | 23
+
+if( img.empty() ) return -1; namedWindow( "Example1", cv::WINDOW_AUTOSIZE ); imshow( "Example1", img ); waitKey( 0 ); destroyWindow( "Example1" ); }
+When compiled2 and run from the command line with a single argument, Example 2-1 loads an image into memory and displays it on the screen. It then waits until the user presses a key, at which time it closes the window and exits. Let’s go through the program line by line and take a moment to understand what each com‐ mand is doing.
+cv::Mat img = cv::imread( argv[1], -1 );
+This line loads the image.3 The function cv::imread() is a high-level routine that determines the file format to be loaded based on the filename; it also automatically allocates the memory needed for the image data structure. Note that cv::imread() can read a wide variety of image formats, including BMP, DIB, JPEG, JPE, PNG, PBM, PGM, PPM, SR, RAS, and TIFF. A cv::Mat structure is returned. This struc‐ ture is the OpenCV construct with which you will deal the most. OpenCV uses this structure to handle all kinds of images: single-channel, multichannel, integer-valued, floating-point-valued, and so on. The line immediately following:
+if( img.empty() ) return -1;
+checks to see if an image was in fact read. Another high-level function, cv::named Window(), opens a window on the screen that can contain and display an image.
+cv::namedWindow( "Example1", cv::WINDOW_AUTOSIZE );
+This function, provided by the HighGUI library, also assigns a name to the window (in this case, "Example1"). Future HighGUI calls that interact with this window will refer to it by this name.
+2 Clearly, build instructions are highly platform dependent. In this book we do not generally cover platformspecific details, but here is an example of what a build instruction might look like in a UNIX-like environ‐ ment: gcc -v example2_2.cpp -I/usr/local/include/ -L/usr/lib/ -lstdc++ -L/usr/local/lib -lopencv_highgui -lopencv_core - -o example2_2. Note that the various components of the library are usually linked separately. In the upcoming Example 2-3 where we will include video, it would be necessary to add: -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_video -lopencv_videostab.
+3 A proper program would check for the existence of argv[1] and, in its absence, deliver an instructional error message to the user. We will abbreviate such necessities in this book and assume that the reader is cultured enough to understand the importance of error-handling code.
+24 | Chapter 2: Introduction to OpenCV
+
+The second argument to cv::namedWindow() defines window properties. It may be set either to 0 (the default value) or to cv::WINDOW_AUTOSIZE. In the former case, the size of the window will be the same regardless of the image size, and the image will be scaled to fit within the window. In the latter case, the window will expand or contract automatically when an image is loaded so as to accommodate the image’s true size, but may be resized by the user.
+cv::imshow( "Example1", img );
+Whenever we have an image in a cv::Mat structure, we can display it in an existing window with cv::imshow(). The cv::imshow() function creates a window if one does not exist (created by cv::namedWindow()). On the call to cv::imshow(), the window will be redrawn with the appropriate image in it, and the window will resize itself as appropriate if it was created with the cv::WINDOW_AUTOSIZE flag.
+cv::waitKey( 0 );
+The cv::waitKey() function asks the program to stop and wait for a keystroke. If a positive argument is given, the program will wait for that number of milliseconds and then continue even if nothing is pressed. If the argument is set to 0 or to a negative number, the program will wait indefinitely for a key-press. With cv::Mat, images are automatically deallocated when they go out of scope, simi‐ lar to the Standard Template Library (STL)-style container classes. This automatic deallocation is controlled by an internal reference counter. For the most part, this means we no longer need to worry about the allocation and deallocation of images, which relieves the programmer from much of the tedious bookkeeping that the OpenCV 1.0 IplImage imposed.
+cv::destroyWindow( "Example1" );
+Finally, we can destroy the window itself. The function cv::destroyWindow() will close the window and deallocate any associated memory usage. For short programs, we will skip this step. For longer, more complex programs, the programmer should make sure to tidy up the windows before they go out of scope to avoid memory leaks. Our next task is to construct a very simple—almost as simple as this one—program to read in and display a video file. After that, we will start to tinker a little more with the actual images.
+Second Program—Video
+Playing a video with OpenCV is almost as easy as displaying a single picture. The only new issue we face is that we need some kind of loop to read each frame in sequence; we may also need some way to get out of that loop if the movie is too bor‐ ing. See Example 2-3.
+Second Program—Video | 25
+
+Example 2-3. A simple OpenCV program for playing a video file from disk
+
+#include "opencv2/highgui/highgui.hpp" #include "opencv2/imgproc/imgproc.hpp"
+
+int main( int argc, char** argv ) {
+
+cv::namedWindow( "Example3", cv::WINDOW_AUTOSIZE ); cv::VideoCapture cap; cap.open( string(argv[1]) );
+
+cv::Mat frame; for(;;) {
+cap >> frame; if( frame.empty() ) break; cv::imshow( "Example3", frame ); if( cv::waitKey(33) >= 0 ) break; }
+
+// Ran out of film
+
+return 0; }
+Here we begin the function main() with the usual creation of a named window (in this case, named "Example3"). The video capture object cv::VideoCapture is then instantiated. This object can open and close video files of as many types as ffmpeg supports.
+cap.open(string(argv[1])); cv::Mat frame;
+The capture object is given a string containing the path and filename of the video to be opened. Once opened, the capture object will contain all of the information about the video file being read, including state information. When created in this way, the cv::VideoCapture object is initialized to the beginning of the video. In the program, cv::Mat frame instantiates a data object to hold video frames.
+cap >> frame; if( frame.empty() ) break; cv::imshow( "Example3", frame );
+Once inside of the while() loop, the video file is read frame by frame from the cap‐ ture object stream. The program checks to see if data was actually read from the video file—if(frame.empty())—and, if not, quits. If a video frame was successfully read in, it is displayed through cv::imshow().
+if( cv::waitKey(33) >= 0 ) break;
+
+26 | Chapter 2: Introduction to OpenCV
+
+Once we have displayed the frame, we then wait 33 ms.4 If the user hits a key during that time, we will exit the read loop. Otherwise, 33 ms will pass and we will execute the loop again. On exit, all the allocated data is automatically released when it goes out of scope.
+Moving Around
+Now it’s time to tinker around, enhance our toy programs, and explore a little more of the available functionality. The first thing we might notice about the video player in Example 2-3 is that users have no way to move around quickly within the video. So our next task is to add a slider trackbar, which will give users this ability. For more control, we will also allow the user to single-step the video by pressing the S key and to go into run mode by pressing the R key, and whenever the user jumps to a new location in the video with the trackbar, we’ll pause there in single-step mode. The HighGUI toolkit provides a number of simple instruments for working with images and video beyond the simple display functions we have just demonstrated. One especially useful mechanism is the aforementioned trackbar, which enables users to jump easily from one part of a video to another. To create a trackbar, we call cv::createTrackbar() and indicate which window we would like the trackbar to appear in. In order to obtain the desired functionality, we need a callback that will perform the relocation. Example 2-4 gives the details.
+Example 2-4. Adding a trackbar slider to the basic viewer window for moving around within the video file
+#include "opencv2/highgui/highgui.hpp" #include "opencv2/imgproc/imgproc.hpp" #include <iostream> #include <fstream> using namespace std; int g_slider_position = 0; int g_run = 1, g_dontset = 0; //start out in single step mode cv::VideoCapture g_cap; void onTrackbarSlide( int pos, void *) {
+g_cap.set( cv::CAP_PROP_POS_FRAMES, pos );
+4 You can wait any amount of time you like. In this case, we are simply assuming that it is correct to play the video at 30 frames per second and allow user input to interrupt between each frame (thus we pause for input 33 ms between each frame). In practice, it is better to check the cv::VideoCapture structure in order to deter‐ mine the actual frame rate of the video (more on this in Chapter 8).
+Moving Around | 27
+
+if( !g_dontset ) g_run = 1;
+g_dontset = 0;
+}
+int main( int argc, char** argv ) {
+cv::namedWindow( "Example2_4", cv::WINDOW_AUTOSIZE ); g_cap.open( string(argv[1]) ); int frames = (int) g_cap.get(cv::CAP_PROP_FRAME_COUNT); int tmpw = (int) g_cap.get(cv::CAP_PROP_FRAME_WIDTH); int tmph = (int) g_cap.get(cv::CAP_PROP_FRAME_HEIGHT); cout << "Video has " << frames << " frames of dimensions("
+<< tmpw << ", " << tmph << ")." << endl;
+cv::createTrackbar("Position", "Example2_4", &g_slider_position, frames, onTrackbarSlide);
+cv::Mat frame; for(;;) {
+if( g_run != 0 ) {
+g_cap >> frame; if(frame.empty()) break; int current_pos = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); g_dontset = 1;
+cv::setTrackbarPos("Position", "Example2_4", current_pos); cv::imshow( "Example2_4", frame );
+g_run-=1;
+}
+char c = (char) cv::waitKey(10); if( c == 's' ) // single step
+{g_run = 1; cout << "Single step, run = " << g_run << endl;} if( c == 'r' ) // run mode
+{g_run = -1; cout << "Run mode, run = " << g_run <<endl;} if( c == 27 )
+break;
+} return(0);
+}
+In essence, the strategy is to add a global variable to represent the trackbar position and then add a callback that updates this variable and relocates the read position in
+28 | Chapter 2: Introduction to OpenCV
+
+the video. One call creates the trackbar and attaches the callback, and we are off and running.5 Let’s look at the details starting with the global variables.
+
+int g_slider_position = 0;
+
+int g_run
+
+= 1;
+
+int g_dontset
+
+= 0;
+
+VideoCapture g_cap;
+
+// start out in single-step mode
+
+First we define a global variable, g_slider_position, to keep the trackbar slider posi‐ tion state. The callback will need access to the capture object g_cap, so we promote that to a global variable as well. Because we are considerate developers and like our code to be readable and easy to understand, we adopt the convention of adding a leading g_ to any global variable. We also instantiate another global variable, g_run, which displays new frames as long it is different from zero. A positive number indi‐ cates how many frames are displayed before stopping; a negative number means the system runs in continuous video mode.
+
+To avoid confusion, when the user clicks on the trackbar to jump to a new location in the video, we’ll leave the video paused there in the single-step state by setting g_run = 1. This, however, brings up a subtle problem: as the video advances, we’d like the slider trackbar’s position in the display window to advance according to our location in the video. We do this by having the main program call the trackbar callback func‐ tion to update the slider’s position each time we get a new video frame. However, we don’t want these programmatic calls to the trackbar callback to put us into single-step mode. To avoid this, we introduce a final global variable, g_dontset, to allow us to update the trackbar’s position without triggering single-step mode.
+
+void onTrackbarSlide(int pos, void *) {
+
+g_cap.set(cv::CAP_PROP_POS_FRAMES, pos);
+
+if( !g_dontset ) g_run = 1;
+g_dontset = 0;
+
+}
+Now we define a callback routine to be used when the user slides the trackbar. This routine will be passed a 32-bit integer, pos, which will be the new trackbar position. Inside this callback, we use the new requested position in g_cap.set() to actually advance the video playback to the new position. The if() statement sets the program to go into single-step mode after the next new frame comes in, but only if the callback was triggered by a user click, not if it was called from the main function (which sets g_dontset).
+
+5 Note that some AVI and mpeg encodings do not allow you to move backward in the video. Moving Around | 29
+
+The call to g_cap.set() is one we will see often in the future, along with its counter‐ part g_cap.get(). These routines allow us to configure (or query, in the latter case) various properties of the cv::VideoCapture object. In this case, we pass the argu‐ ment cv::CAP_PROP_POS_FRAMES, which indicates that we would like to set the read position in units of frames.6
+int frames = (int) g_cap.get(cv::CAP_PROP_FRAME_COUNT); int tmpw = (int) g_cap.get(cv::CAP_PROP_FRAME_WIDTH); int tmph = (int) g_cap.get(cv::CAP_PROP_FRAME_HEIGHT); cout << "Video has " << frames << " frames of dimensions("
+<< tmpw << ", " << tmph << ")." << endl;
+The core of the main program is the same as in Example 2-3, so we’ll focus on what we’ve added. The first difference after opening the video is that we use g_cap.get() to determine the number of frames in the video and the width and height of the video images. These numbers are printed out. We’ll need the number of frames in the video to calibrate the slider trackbar (in the next step).
+createTrackbar("Position", "Example2_4", &g_slider_position, frames, onTrackbarSlide);
+Next we create the trackbar itself. The function cv::createTrackbar() allows us to give the trackbar a label7 (in this case, Position) and to specify a window in which to put the trackbar. We then provide a variable that will be bound to the trackbar, the maximum value of the trackbar (the number of frames in the video), and a callback (or NULL if we don’t want one) for when the slider is moved.
+if( g_run != 0 ) {
+g_cap >> frame; if(!frame.data) break; int current_pos = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES); g_dontset = 1;
+cv::setTrackbarPos("Position", "Example2_4", current_pos); cv::imshow( "Example2_4", frame );
+g_run-=1;
+}
+6 Because HighGUI is highly civilized, when a new video position is requested, it will automatically handle issues such as the possibility that the frame we have requested is not a keyframe; it will start at the previous keyframe and fast-forward up to the requested frame without us having to fuss with such details.
+7 Because HighGUI is a lightweight, easy-to-use toolkit, cv::createTrackbar() does not distinguish between the name of the trackbar and the label that actually appears on the screen next to the trackbar. You may already have noticed that cv::namedWindow() likewise does not distinguish between the name of the window and the label that appears on the window in the GUI.
+30 | Chapter 2: Introduction to OpenCV
+
+In the while loop, in addition to reading and displaying the video frame, we also get our current position in the video, set the g_dontset so that the next trackbar callback will not put us into single-step mode, and then invoke the trackbar callback to update the position of the slider trackbar displayed to the user. The global g_run is decre‐ mented, which has the effect of either keeping us in single-step mode or letting the video run depending on its prior state set by a user keypress, as we’ll see next.
+char c = (char) cv::waitKey(10); if( c == 's' ) // single step
+{g_run = 1; cout << "Single step, run = " << g_run << endl;} if( c == 'r' ) // run mode
+{g_run = -1; cout << "Run mode, run = " << g_run <<endl;} if( c == 27 )
+break;
+At the bottom of the while loop, we look for keyboard input from the user. If S has been pressed, we go into single-step mode (g_run is set to 1, which allows reading of a single frame). If R is pressed, we go into continuous video mode (g_run is set to -1 and further decrementing leaves it negative for any conceivable video size). Finally, if Esc is pressed, the program will terminate. Note again, for short programs, we’ve omitted the step of cleaning up the window storage using cv::destroyWindow().
+A Simple Transformation
+Great, so now you can use OpenCV to create your own video player, which will not be much different from countless video players out there already. But we are interes‐ ted in computer vision, so we want to do some of that. Many basic vision tasks involve the application of filters to a video stream. We will modify the program we already have to do a simple operation on every frame of the video as it plays. One particularly simple operation is smoothing an image, which effectively reduces the information content of the image by convolving it with a Gaussian or other simi‐ lar kernel function. OpenCV makes such convolutions exceptionally easy to do. We can start by creating a new window called "Example4-out", where we can display the results of the processing. Then, after we have called cv::imshow() to display the newly captured frame in the input window, we can compute and display the smoothed image in the output window. See Example 2-5.
+Example 2-5. Loading and then smoothing an image before it is displayed on the screen
+#include <opencv2/opencv.hpp>
+void example2_5( const cv::Mat & image ) {
+// Create some windows to show the input // and output images in.
+A Simple Transformation | 31
+
+// cv::namedWindow( "Example2_5-in", cv::WINDOW_AUTOSIZE ); cv::namedWindow( "Example2_5-out", cv::WINDOW_AUTOSIZE );
+// Create a window to show our input image // cv::imshow( "Example2_5-in", image );
+// Create an image to hold the smoothed output // cv::Mat out;
+// Do the smoothing // ( Note: Could use GaussianBlur(), blur(), medianBlur() or bilateralFilter(). ) // cv::GaussianBlur( image, out, cv::Size(5,5), 3, 3); cv::GaussianBlur( out, out, cv::Size(5,5), 3, 3);
+// Show the smoothed image in the output window // cv::imshow( "Example2_5-out", out );
+// Wait for the user to hit a key, windows will self destruct // cv::waitKey( 0 );
+}
+The first call to cv::imshow() is no different than in our previous example. In the next call, we allocate another image structure. Next, the C++ object cv::Mat makes life simpler for us; we just instantiate an output matrix, out, and it will automatically resize/reallocate and deallocate itself as necessary as it is used. To make this point clear, we use it in two consecutive calls to cv::GaussianBlur(). In the first call, the input image is blurred by a 5 × 5 Gaussian convolution filter and written to out. The size of the Gaussian kernel should always be given in odd numbers since the Gaus‐ sian kernel (specified here by cv::Size(5,5)) is computed at the center pixel in that area. In the next call to cv::GaussianBlur(), out is used as both the input and out‐ put since temporary storage is assigned for us in this case. The resulting doubleblurred image is displayed, and the routine then waits for any user keyboard input before terminating and cleaning up allocated data as it goes out of scope.
+A Not-So-Simple Transformation
+That was pretty good, and we are learning to do more interesting things. In Example 2-5, we used Gaussian blurring for no particular purpose. We will now use a function that uses Gaussian blurring to downsample an image by a factor of 2 [Rose‐ nfeld80]. If we downsample the image several times, we form a scale space (also
+32 | Chapter 2: Introduction to OpenCV
+
+known as an image pyramid) that is commonly used in computer vision to handle the changing scales in which a scene or object is observed. For those who know some signal processing and the Nyquist-Shannon Sampling Theorem [Shannon49], downsampling a signal (in this case, creating an image where we are sampling every other pixel) is equivalent to convolving with a series of delta functions (think of these as “spikes”). Such sampling introduces high frequencies into the resulting signal (image). To avoid this, we want to first run a high-pass filter over the signal to band-limit its frequencies so that they are all below the sampling fre‐ quency. In OpenCV, this Gaussian blurring and downsampling is accomplished by the function cv::pyrDown(), which we implement in Example 2-6. Example 2-6. Using cv::pyrDown() to create a new image that is half the width and height of the input image
+#include <opencv2/opencv.hpp> int main( int argc, char** argv ) {
+cv::Mat img1,img2; cv::namedWindow( "Example1", cv::WINDOW_AUTOSIZE ); cv::namedWindow( "Example2", cv::WINDOW_AUTOSIZE ); img = cv::imread( argv[1] ); cv::imshow( "Example1", img1 ); cv::pyrDown( img1, img2); cv::imshow( "Example2", img2 ); cv::waitKey(0); return 0; };
+Let’s now look at a similar but slightly more complex example involving the Canny edge detector [Canny86] cv::Canny(); see Example 2-7. In this case, the edge detector generates an image that is the full size of the input image but needs only a singlechannel image to write to, so we convert to a grayscale, single-channel image first using cv::cvtColor() with the flag to convert blue, green, red (BGR) images to gray‐ scale, cv::COLOR_BGR2GRAY.
+A Not-So-Simple Transformation | 33
+
+Example 2-7. The Canny edge detector writes its output to a single-channel (grayscale) image
+#include <opencv2/opencv.hpp>
+int main( int argc, char** argv ) {
+cv::Mat img_rgb, img_gry, img_cny;
+cv::namedWindow( "Example Gray", cv::WINDOW_AUTOSIZE ); cv::namedWindow( "Example Canny", cv::WINDOW_AUTOSIZE );
+img_rgb = cv::imread( argv[1] );
+cv::cvtColor( img_rgb, img_gry, cv::COLOR_BGR2GRAY); cv::imshow( "Example Gray", img_gry );
+cv::Canny( img_gry, img_cny, 10, 100, 3, true ); cv::imshow( "Example Canny", img_cny );
+cv::waitKey(0);
+}
+This allows us to string together various operators quite easily. For example, if we wanted to shrink the image twice and then look for lines that were present in the twice-reduced image, we could proceed as in Example 2-8.
+Example 2-8. Combining the pyramid down operator (twice) and the Canny subroutine in a simple image pipeline
+cv::cvtColor( img_rgb, img_gry, cv::BGR2GRAY ); cv::pyrDown( img_gry, img_pyr ); cv::pyrDown( img_pyr, img_pyr2 ); cv::Canny( img_pyr2, img_cny, 10, 100, 3, true ); // do whatever with 'img_cny' // ...
+In Example 2-9, we show a simple way to read and write pixel values from Example 2-8.
+Example 2-9. Getting and setting pixels in Example 2-8
+int x = 16, y = 32; cv::Vec3b intensity = img_rgb.at< cv::Vec3b >(y, x);
+// ( Note: We could write img_rgb.at< cv::Vec3b >(x,y)[0] ) //
+34 | Chapter 2: Introduction to OpenCV
+
+uchar blue = intensity[0]; uchar green = intensity[1]; uchar red = intensity[2];
+std::cout << "At (x,y) = (" << x << ", " << y << "): (blue, green, red) = (" << (unsigned int)blue << ", " << (unsigned int)green << ", " << (unsigned int)red << ")" << std::endl;
+std::cout << "Gray pixel there is: " << (unsigned int)img_gry.at<uchar>(y, x) << std::endl;
+x /= 4; y /= 4; std::cout << "Pyramid2 pixel there is: " <<
+(unsigned int)img_pyr2.at<uchar>(y, x) << std::endl;
+img_cny.at<uchar>(x, y) = 128; // Set the Canny pixel there to 128
+Input from a Camera
+“Vision” can mean many things in the world of computers. In some cases, we are analyzing still frames loaded from elsewhere. In other cases, we are analyzing video that is being read from disk. In still other cases, we want to work with real-time data streaming in from some kind of camera device. OpenCV—or more specifically, the HighGUI portion of the OpenCV library—pro‐ vides us with an easy way to handle this situation. The method is analogous to how we read videos from disk since the cv::VideoCapture object works the same for files on disk or from a camera. For the former, you give it a path/filename, and for the latter, you give it a camera ID number (typically 0 if only one camera is connected to the system). The default value is –1, which means “just pick one”; naturally, this works quite well when there is only one camera to pick (see Chapter 8 for more details). Video capture from a file or from a camera is demonstrated in Example 2-10.
+
+Example 2-10. The same object can load videos from a camera or a file
+
+#include <opencv2/opencv.hpp> #include <iostream>
+
+int main( int argc, char** argv ) {
+
+cv::namedWindow( "Example2_10", cv::WINDOW_AUTOSIZE );
+
+cv::VideoCapture cap; if (argc==1) {
+cap.open(0); } else {
+cap.open(argv[1]);
+
+// open the first camera
+
+Input from a Camera | 35
+
+} if( !cap.isOpened() ) { // check if we succeeded
+std::cerr << "Couldn't open capture." << std::endl; return -1; }
+// The rest of program proceeds as in Example 2-3 ...
+In Example 2-10, if a filename is supplied, OpenCV opens that file just like in Example 2-3, and if no filename is given, it attempts to open camera zero (0). We have added a check to confirm that something actually opened; if it didn’t, an error is reported.
+Writing to an AVI File
+In many applications, we will want to record streaming input or even disparate cap‐ tured images to an output video stream, and OpenCV provides a straightforward method for doing this. Just as we are able to create a capture device that allows us to grab frames one at a time from a video stream, we are able to create a writer device that allows us to place frames one by one into a video file. The object that allows us to do this is cv::VideoWriter. Once this call has been made, we may stream each frame to the cv::VideoWriter object, and finally call its cv::VideoWriter.release() method when we are done. Just to make things more interesting, Example 2-11 describes a program that opens a video file, reads the contents, converts them to a log-polar format (something like what your eye actually sees, as described in Chapter 11), and writes out the log-polar image to a new video file.
+Example 2-11. A complete program to read in a color video and write out the log-polartransformed video
+#include <opencv2/opencv.hpp> #include <iostream>
+int main( int argc, char* argv[] ) {
+cv::namedWindow( "Example2_11", cv::WINDOW_AUTOSIZE ); cv::namedWindow( "Log_Polar", cv::WINDOW_AUTOSIZE );
+// ( Note: could capture from a camera by giving a camera id as an int.) // cv::VideoCapture capture( argv[1] );
+double fps = capture.get( cv::CAP_PROP_FPS ); cv::Size size(
+(int)capture.get( cv::CAP_PROP_FRAME_WIDTH ),
+36 | Chapter 2: Introduction to OpenCV
+
+(int)capture.get( cv::CAP_PROP_FRAME_HEIGHT ) );
+
+cv::VideoWriter writer; writer.open( argv[2], CV_FOURCC('M','J','P','G'), fps, size );
+
+cv::Mat logpolar_frame, bgr_frame; for(;;) {
+
+capture >> bgr_frame; if( bgr_frame.empty() ) break; // end if done
+
+cv::imshow( "Example2_11", bgr_frame );
+
+cv::logPolar( bgr_frame, logpolar_frame, cv::Point2f( bgr_frame.cols/2, bgr_frame.rows/2 ), 40, cv::WARP_FILL_OUTLIERS
+);
+
+// Input color frame // Output log-polar frame // Centerpoint for log-polar transformation // x // y
+// Magnitude (scale parameter) // Fill outliers with 'zero'
+
+cv::imshow( "Log_Polar", logpolar_frame ); writer << logpolar_frame;
+
+char c = cv::waitKey(10); if( c == 27 ) break; }
+
+// allow the user to break out
+
+capture.release(); }
+Looking over this program reveals mostly familiar elements. We open one video and read some properties (frames per second, image width and height) that we’ll need to open a file for the cv::VideoWriter object. We then read the video frame by frame from the cv::VideoReader object, convert the frame to log-polar format, and write the log-polar frames to this new video file one at a time until there are none left or until the user quits by pressing Esc. Then we close up. The call to the cv::VideoWriter object contains several parameters that we should understand. The first is just the filename for the new file. The second is the video codec with which the video stream will be compressed. There are countless such codecs in circulation, but whichever codec you choose must be available on your machine (codecs are installed separately from OpenCV). In our case, we choose the relatively popular MJPG codec; we indicate this choice to OpenCV by using the macro CV_FOURCC(), which takes four characters as arguments. These characters con‐
+
+Writing to an AVI File | 37
+
+stitute the “four-character code” of the codec, and every codec has such a code. The four-character code for motion jpeg is “MJPG,” so we specify that as CV_FOURCC(’M’,’J’,’P’,’G’). The next two arguments are the replay frame rate and the size of the images we will be using. In our case, we set these to the values we got from the original (color) video.
+Summary
+Before moving on to the next chapter, we should take a moment to take stock of where we are and look ahead to what is coming. We have seen that the OpenCV API provides us with a variety of easy-to-use tools for reading and writing still images and videos from and to files along with capturing video from cameras. We have also seen that the library contains primitive functions for manipulating these images. What we have not yet seen are the powerful elements of the library, which allow for more sophisticated manipulation of the entire set of abstract data types that are important in solving practical vision problems. In the next few chapters, we will delve more deeply into the basics and come to understand in greater detail both the interface-related functions and the image data types. We will investigate the primitive image manipulation operators and, later, some much more advanced ones. Thereafter, we will be ready to explore the many specialized services that the API provides for tasks as diverse as camera calibration, tracking, and recognition. Ready? Let’s go!
+Exercises
+Download and install OpenCV if you have not already done so. Systematically go through the directory structure. Note in particular the docs directory, where you can load index.htm, which links to the main documentation of the library. Further explore the main areas of the library. The core module contains the basic data struc‐ tures and algorithms, imgproc contains the image processing and vision algorithms, ml includes algorithms for machine learning and clustering, and highgui contains the I/O functions. Check out the .../samples/cpp directory, where many useful examples are stored.
+1. Using the install and build instructions in this book or at http://opencv.org, build the library in both the debug and the release versions. This may take some time, but you will need the resulting library and dll files. Make sure you set the cmake file to build the samples .../opencv/samples/ directory.
+2. Go to where you built the .../opencv/samples/ directory (we build in .../trunk/ eclipse_build/bin) and look for lkdemo.cpp (this is an example motion-tracking program). Attach a camera to your system and run the code. With the display window selected, type r to initialize tracking. You can add points by clicking on
+38 | Chapter 2: Introduction to OpenCV
+
+video positions with the mouse. You can also switch to watching only the points (and not the image) by typing n. Typing n again will toggle between “night” and “day” views. 3. Use the capture and store code in Example 2-11 together with the PyrDown() code of Example 2-6 to create a program that reads from a camera and stores downsampled color images to disk. 4. Modify the code in Exercise 3 and combine it with the window display code in Example 2-2 to display the frames as they are processed. 5. Modify the program of Exercise 4 with a trackbar slider control from Example 2-4 so that the user can dynamically vary the pyramid downsampling reduction level by factors of between 2 and 8. You may skip writing this to disk, but you should display the results.
+Exercises | 39
+
+CHAPTER 3
+Getting to Know OpenCV Data Types
+The Basics
+In the next few chapters, we will see all of the basic data types of OpenCV, from the primitives to the larger structures that are used to handle arrays such as images and large matrices. Along the way, we will also cover the vast menagerie of functions that allow us to manipulate this data in a host of useful ways. In this chapter, we will start out by learning about the basic data types and will cover some useful utility functions that the library provides.
+OpenCV Data Types
+OpenCV has many data types, which are designed to make the representation and handling of important computer vision concepts relatively easy and intuitive. At the same time, many algorithm developers require a set of relatively powerful primitives that can be generalized or extended for their particular needs. This library attempts to address both of these needs through the use of templates for fundamental data types, and specializations of those templates that make everyday operations easier. From an organizational perspective, it is convenient to divide the data types into three major categories. First, the basic data types are those that are assembled directly from C++ primitives (int, float, etc.). These types include simple vectors and matri‐ ces, as well as representations of simple geometric concepts like points, rectangles, sizes, and the like. The second category contains helper objects. These objects repre‐ sent more abstract concepts such as the garbage-collecting pointer class, range objects used for slicing, and abstractions such as termination criteria. The third cate‐ gory is what might be called large array types. These are objects whose fundamental purpose is to contain arrays or other assemblies of primitives or, more often, the basic data types. The star example of this category is the cv::Mat class, which is used
+41
+
+to represent arbitrary-dimensional arrays containing arbitrary basic elements. Objects such as images are specialized uses of the cv::Mat class, but—unlike in ear‐ lier versions of OpenCV (i.e., before version 2.1)—such specific use does not require a different class or type. In addition to cv::Mat, this category contains related objects such as the sparse matrix cv::SparseMat class, which is more naturally suited to nondense data such as histograms. The cv::Mat and cv::SparseMat classes will be the subjects of the next chapter. In addition to these types, OpenCV also makes heavy use of the Standard Template Library (STL). OpenCV particularly relies on the vector class, and many OpenCV library functions now have vector template objects in their argument lists. We will not cover STL in this book,1 other than as necessary to explain relevant functionality. If you are already comfortable with STL, many of the template mechanisms used “under the hood” in OpenCV will be familiar to you.
+Overview of the Basic Types
+The most straightforward of the basic data types is the template class cv::Vec<>, a container class for primitives,2 which we will refer to as the fixed vector classes. Why not just use STL classes? The key difference is that the fixed vector classes are intended for small vectors whose dimensions are known at compile time. This allows for particularly efficient code to handle small common operations. What “small” means in practice is that if you have more than just a few elements, you are probably using the wrong class. (In fact, as of version 2.2, this number cannot exceed nine in any case.) In the next chapter, we will look at the cv::Mat class, which is the right way to handle big arrays of any number of dimensions, but for now, think of the fixed vector classes as being handy and speedy for little guys. Even though cv::Vec<> is a template, you will not tend to see or use it in that form most of the time. Instead, there are aliases (typedefs) for common instantiations of the cv::Vec<> template. They have names like cv::Vec2i, cv::Vec3i, and cv::Vec4d (for a two-element integer vector, a three-element integer vector, or a four-element double-precision floating-point vector, respectively). In general, anything of the form
+1 Readers unfamiliar with the Standard Template Library can find many excellent references online. In addi‐ tion, the authors highly recommend Nicolai M. Josuttis’s classic The C++ Standard Library, Second Edition: A Tutorial and Reference (Addison-Wesley, 2012) or Scott Meyers’ excellent Effective STL: 50 Specific Ways to Improve Your Use of the Standard Template Library (Addison-Wesley, 2001).
+2 Actually, this is an oversimplification that we will clear up a little later in the chapter. In fact, cv::Vec<> is a vector container for anything, and uses templating to create this functionality. As a result, cv::Vec<> can contain other class objects, either from OpenCV or elsewhere. In most usages, however, cv::Vec is used as a container for C primitive types like int or float.
+42 | Chapter 3: Getting to Know OpenCV Data Types
+
+cv::Vec{2,3,4,6}{b,w,s,i,f,d} is valid for any combination of two to four dimensions and the six data types.3 In addition to the fixed vector classes, there are also fixed matrix classes. They are associated with the template cv::Matx<>. Just like the fixed vector classes, cv::Matx<> is not intended to be used for large arrays, but rather is designed for the handling of certain specific small matrix operations. In computer vision, there are a lot of 2 × 2 or 3 × 3 matrices around, and a few 4 × 4, which are used for various transformations. cv::Matx<> is designed to hold these sorts of objects. As with cv::Vec<>, cv::Matx<> is normally accessed through aliases of the form cv::Matx{1,2,3,4,6}{1,2,3,4,6}{f,d}. It is important to notice that with the fixed matrix classes (like the fixed vector classes, but unlike next chapter’s cv::Mat), the dimen‐ sionality of the fixed matrix classes must be known at compile time. Of course, it is precisely this knowledge that makes operations with the fixed matrix classes highly efficient and eliminates many dynamic memory allocation operations. Closely related to the fixed vector classes are the point classes, which are containers for two or three values of one of the primitive types. The point classes are derived from their own template, so they are not directly descended from the fixed vector classes, but they can be cast to and from them. The main difference between the point classes and the fixed vector classes is that their members are accessed by named vari‐ ables (mypoint.x, mypoint.y, etc.) rather than by a vector index (myvec[0], myvec[1], etc.). As with cv::Vec<>, the point classes are typically invoked via aliases for the instantiation of an appropriate template. Those aliases have names like cv::Point2i, cv::Point2f, and cv::Point2d, or cv::Point3i, cv::Point3f, and cv::Point3d. The class cv::Scalar is essentially a four-dimensional point. As with the point classes, cv::Scalar is actually associated with a template that can generate an arbi‐ trary four-component vector, but the keyword cv::Scalar specifically is aliased to a four-component vector with double-precision components. Unlike the point classes, the elements of a cv::Scalar object are accessed with an integer index, the same as cv::Vec<>. This is because cv::Scalar is directly derived from an instantiation of cv::Vec<> (specifically, from cv::Vec<double,4>). Next on our tour are cv::Size and cv::Rect. As with the point classes, these two are derived from their own templates. cv::Size is mainly distinguished by having data members width and height rather than x and y, while cv::Rect has all four. The class cv::Size is actually an alias for cv::Size2i, which is itself an alias of a more
+3 The six data types referred to here have the following conventional abbreviation in the library: b = unsigned char, w = unsigned short, s = short, i = int, f = float, d = double.
+OpenCV Data Types | 43
+
+general template in the case of width and height being integers. For floating-point values of width and height, use the alias cv::Size2f. Similarly, cv::Rect is an alias for the integer form of rectangle. There is also a class to represent a rectangle that is not axis-aligned. It is called cv::RotatedRect and contains a cv::Point2f called cen ter, a cv::Size2f called size, and one additional float called angle.
+Basic Types: Getting Down to Details
+Each of the basic types is actually a relatively complicated object, supporting its own interface functions, overloaded operators, and the like. In this section, we will take a somewhat more encyclopedic look at what each type offers, and how some of the otherwise seemingly similar types differ from one another. As we go over these classes, we will try to hit the high points of their interfaces, but not get into every gory detail. Instead, we will provide examples that should convey what you can and can’t do with these objects. For the low-level details, you should consult .../opencv2/core/core.hpp.
+The point classes
+Of the OpenCV basic types, the point classes are probably the simplest. As we men‐ tioned earlier, these are implemented based on a template structure, such that there can be points of any type: integer, floating-point, and so on. There are actually two such templates, one for two-dimensional and one for three-dimensional points. The big advantage of the point classes is that they are simple and have very little overhead. Natively, they do not have a lot of operations defined on them, but they can be cast to somewhat more generalized types, such as the fixed vector classes or the fixed matrix classes (discussed later), when needed. In most programs, the point classes are instantiated via aliases that take forms like cv::Point2i or cv::Point3f, with the last letter indicating the desired primitive from which the point is to be constructed. (Here, b is an unsigned character, s is a short integer, i is a 32-bit integer, f is a 32-bit floating-point number, and d is a 64bit floating-point number.) Table 3-1 is the (relatively short) list of functions natively supported by the point classes. Note that there are several very important operations that are supported, but they are supported indirectly through implicit casting to the fixed vector classes (described in “The fixed vector classes” on page 51). These operations notably contain
+44 | Chapter 3: Getting to Know OpenCV Data Types
+
+all of the vector and singleton4 overloaded algebraic operators and comparison operators.
+
+Table 3-1. Operations supported directly by the point classes
+
+Operation Default constructors
+
+Example
+cv::Point2i p; cv::Point3f p;
+
+Copy constructor
+
+cv::Point3f p2( p1 );
+
+Value constructors
+
+cv::Point2i p( x0, x1 ); cv::Point3d p( x0, x1, x2 );
+
+Cast to the fixed vector classes
+Member access
+
+(cv::Vec3f) p;
+p.x; p.y; // and for three-dimensional // point classes: p.z
+
+Dot product
+
+float x = p1.dot( p2 )
+
+Double-precision dot product double x = p1.ddot( p2 )
+
+Cross product
+
+p1.cross( p2 ) // (for three-dimensional point // classes only)
+
+Query if point p is inside rectangle r
+
+p.inside( r ) // (for two-dimensional point // classes only)
+
+These types can be cast to and from the old C interface types CvPoint and CvPoint2D32f. In cases in which a floating-point-valued instance of one of the point classes is cast to CvPoint, the values will automatically be rounded.
+The cv::Scalar class
+cv::Scalar is really a four-dimensional point class. Like the others, it is actually associated with a template class, but the alias for accessing it returns an instantiation of that template in which all of the members are double-precision floating-point numbers. The cv::Scalar class also has some special member functions associated with uses of four-component vectors in computer vision. Table 3-2 lists the opera‐ tions supported by cv::Scalar.
+
+4 You might have expected us to use the word scalar here, but we avoided doing so because cv::Scalar is an existing class in the library. As you will see shortly, a cv::Scalar in OpenCV is (somewhat confusingly) an array of four numbers, approximately equivalent to a cv::Vec with four elements! In this context, the word singleton can be understood to mean “a single object of whatever type the vector is an array of.” OpenCV Data Types | 45
+
+Table 3-2. Operations supported directly by cv::Scalar
+
+Operation Default constructors
+
+Example
+cv::Scalar s;
+
+Copy constructor
+
+cv::Scalar s2( s1 );
+
+Value constructors
+
+cv::Scalar s( x0 ); cv::Scalar s( x0, x1, x2, x3 );
+
+Element-wise multiplication s1.mul( s2 );
+
+(Quaternion) conjugation s.conj(); // (returns cv::Scalar(s0,-s1,-s2,-s2))
+
+(Quaternion) real test
+
+s.isReal(); // (returns true iff s1==s2==s3==0)
+
+You will notice that for cv::Scalar, the operation “cast to the fixed vector classes” does not appear in Table 3-2 (as it did in Table 3-1). This is because, unlike the point classes, cv::Scalar inherits directly from an instantiation of the fixed vector class template. As a result, it inherits all of the vector algebra operations, member access functions (i.e., operator[]), and other properties from the fixed vector classes. We will get to that class later, but for now, just keep in mind that cv::Scalar is short‐ hand for a four-dimensional double-precision vector that has a few special member functions attached that are useful for various kinds of four-vectors. The cv::Scalar class can be freely cast to and from the old C interface CvScalar type.
+The size classes
+The size classes are, in practice, similar to the corresponding point classes, and can be cast to and from them. The primary difference between the two is that the point classes’ data members are named x and y, while the corresponding data members in the size classes are named width and height. The three aliases for the size classes are cv::Size, cv::Size2i, and cv::Size2f. The first two of these are equivalent and imply integer size, while the last is for 32-bit floating-point sizes. As with the point classes, the size classes can be cast to and from the corresponding old-style OpenCV classes (in this case, CvSize and CvSize2D32f). Table 3-3 lists the operations sup‐ ported by the size classes.
+
+Table 3-3. Operations supported directly by the size classes
+
+Operation Default constructors
+
+Example
+cv::Size sz; cv::Size2i sz; cv::Size2f sz;
+
+Copy constructor
+
+cv::Size sz2( sz1 );
+
+46 | Chapter 3: Getting to Know OpenCV Data Types
+
+Operation Value constructors
+Member access
+Compute area
+
+Example
+cv::Size2f sz( w, h );
+sz.width; sz.height;
+sz.area();
+
+Unlike the point classes, the size classes do not support casting to the fixed vector classes. This means that the size classes have more restricted utility. On the other hand, the point classes and the fixed vector classes can be cast to the size classes without any problem.
+The cv::Rect class
+The rectangle classes include the members x and y of the point class (representing the upper-left corner of the rectangle) and the members width and height of the size class (representing the rectangle’s size). The rectangle classes, however, do not inherit from the point or size classes, and so in general they do not inherit operators from them (see Table 3-4).
+
+Table 3-4. Operations supported directly by cv::Rect
+
+Operation Default constructors
+
+Example
+cv::Rect r;
+
+Copy constructor
+
+cv::Rect r2( r1 );
+
+Value constructors
+
+cv::Rect( x, y, w, h );
+
+Construct from origin and size cv::Rect( p, sz );
+
+Construct from two corners cv::Rect( p1, p2 );
+
+Member access
+
+r.x; r.y; r.width; r.height;
+
+Compute area
+
+r.area();
+
+Extract upper-left corner
+
+r.tl();
+
+Extract bottom-right corner r.br();
+
+Determine if point p is inside r.contains( p ); rectangle r
+
+Cast operators and copy constructors exist to allow cv::Rect to be computed from or cast to the old-style cv::CvRect type as well. cv::Rect is actually an alias for a rec‐ tangle template instantiated with integer members.
+
+OpenCV Data Types | 47
+
+As Table 3-5 shows, cv::Rect also supports a variety of overloaded operators that can be used for the computation of various geometrical properties of two rectangles or a rectangle and another object.
+
+Table 3-5. Overloaded operators that take objects of type cv::Rect
+
+Operation
+Intersection of rectangles r1 and r2
+
+Example
+cv::Rect r3 = r1 & r2; r1 &= r2;
+
+Minimum area rectangle containing rectangles r1 and r2
+Translate rectangle r by an amount x
+
+cv::Rect r3 = r1 | r2; r1 |= r2;
+cv::Rect rx = r + x; r += x;
+
+Enlarge a rectangle r by an amount given by size s
+
+cv::Rect rs = r + s; r += s;
+
+Compare rectangles r1 and r2 for exact equality
+Compare rectangles r1 and r2 for inequality
+
+bool eq = (r1 == r2); bool ne = (r1 != r2);
+
+The cv::RotatedRect class
+The cv::RotatedRect class is one of the few classes in the C++ OpenCV interface that is not a template underneath. Instead, it is a container that holds a cv::Point2f called center, a cv::Size2f called size, and one additional float called angle, with the latter representing the rotation of the rectangle around center. One very impor‐ tant difference between cv::RotatedRect and cv::Rect is the convention that a cv::RotatedRect is located in “space” relative to its center, while the cv::Rect is located relative to its upper-left corner. Table 3-6 lists the operations that are sup‐ ported directly by cv::RotatedRect.
+
+Table 3-6. Operations supported directly by cv::RotatedRect
+
+Operation Default constructors
+
+Example
+cv::RotatedRect rr();
+
+Copy constructor
+
+cv::RotatedRect rr2( rr1 );
+
+Construct from two corners cv::RotatedRect( p1, p2 );
+
+Value constructors; takes a point, a size, and an angle
+Member access
+
+cv::RotatedRect rr( p, sz, theta ) ; rr.center; rr.size; rr.angle;
+
+Return a list of the corners rr.points( pts[4] );
+
+48 | Chapter 3: Getting to Know OpenCV Data Types
+
+The fixed matrix classes
+The fixed matrix classes are for matrices whose dimensions are known at compile time (hence “fixed”). As a result, all memory for their data is allocated on the stack, which means that they allocate and clean up quickly. Operations on them are fast, and there are specially optimized implementations for small matrices (2 × 2, 3 × 3, etc.). The fixed matrix classes are also central to many of the other basic types in the C++ interface to OpenCV. The fixed vector class derives from the fixed matrix classes, and other classes either derive from the fixed vector class (like cv::Scalar) or they rely on casting to the fixed vector class for many important operations. As usual, the fixed matrix classes are really a template. The template is called cv::Matx<>, but individual matrices are usually allocated through aliases. The basic form of such an alias is cv::Matx{1,2,...}{1,2,...}{f,d}, where the numbers can be any number from one to six, and the trailing letter has the same meaning as with the pre‐ vious types.5 In general, you should use the fixed matrix classes when you are representing some‐ thing that is really a matrix with which you are going to do matrix algebra. If your object is really a big data array, like an image or a huge list of points, the fixed matrix classes are not the correct solution; you should be using cv::Mat (which we will get to in the next chapter). Fixed matrix classes are for small matrices where you know the size at compile time (e.g., a camera matrix). Table 3-7 lists the operations sup‐ ported by cv::Matx.
+
+Table 3-7. Operations supported by cv::Matx
+
+Operation Default constructor
+
+Example
+cv::Matx33f m33f; cv::Matx43d m43d;
+
+Copy constructor
+
+cv::Matx22d m22d( n22d );
+
+Value constructors
+
+cv::Matx21f m(x0,x1); cv::Matx44d m(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15);
+
+Matrix of identical elements m33f = cv::Matx33f::all( x );
+
+Matrix of zeros
+
+m23d = cv::Matx23d::zeros();
+
+Matrix of ones
+
+m16f = cv::Matx16f::ones();
+
+Create a unit matrix
+
+m33f = cv::Matx33f::eye();
+
+5 At the time of writing, the relevant header file called core.hpp does not actually contain every possible combi‐ nation of these integers. For example, there is no 1 × 1 matrix alias, nor is there a 5 × 5. This may or may not change in later releases, but you will pretty much never want the missing ones anyway. If you really do want one of the odd ones, you can just instantiate the template yourself (e.g., cv::Matx<5,5,float>). OpenCV Data Types | 49
+
+Operation
+
+Example
+
+Create a matrix that can hold m31f = cv::Matx33f::diag(); // Create a matrix of
+
+the diagonal of another
+
+// size 3-by-1 of floats
+
+Create a matrix with uniformly distributed entries
+Create a matrix with normally distributed entries
+Member access
+
+m33f = cv::Matx33f::randu( min, max );
+m33f = cv::Matx33f::nrandn( mean, variance );
+m( i, j ), m( i ); // one argument for // one-dimensional matrices only
+
+Matrix algebra
+
+m1 = m0; m0 * m1; m0 + m1; m0 – m1;
+
+Singleton algebra
+
+m * a; a * m; m / a;
+
+Comparison
+
+m1 == m2; m1 != m2;
+
+Dot product
+
+m1.dot( m2 ); // (sum of element-wise // multiplications, precision of m)
+
+Dot product
+
+m1.ddot( m2 ); // (sum of element-wise multiplications, // double precision)
+
+Reshape a matrix
+
+m91f = m33f.reshape<9,1>();
+
+Cast operators
+
+m44f = (Matx44f) m44d
+
+Extract 2 × 2 submatrix at (i, j)
+Extract row i
+
+m44f.get_minor<2, 2>( i, j ); m14f = m44f.row( i );
+
+Extract column j
+
+m41f = m44f.col( j );
+
+Extract matrix diagonal
+
+m41f = m44f.diag();
+
+Compute transpose
+
+n44f = m44f.t();
+
+Invert matrix
+
+n44f = m44f.inv( method ); // (default method is // cv::DECOMP_LU)
+
+Solve linear system
+
+m31f = m33f.solve( rhs31f, method ) m32f = m33f.solve<2>( rhs32f, method ); // (template forma);
+// default method is DECOMP_LU)
+
+Per-element multiplication m1.mul( m2 );
+
+a The template form is used when the righthand side of the implied matrix equation has multiple columns. In this case, we are essentially solving for k different systems at once. This value of k must be supplied as the template argument to solve<>(). It will also determine the number of columns in the result matrix.
+
+Note that many of the fixed matrix functions are static relative to the class (i.e., you access them directly as members of the class rather than as members of a particular object). For example, if you would like to construct a 3 × 3 identity matrix, you have a handy class function for it: cv::Mat33f::eye(). Note that, in this example, eye()
+
+50 | Chapter 3: Getting to Know OpenCV Data Types
+
+does not need any arguments because it is a member of the class, and the class is already a specialization of the cv::Matx<> template to 3 × 3.
+The fixed vector classes
+The fixed vector classes are derived from the fixed matrix classes. They are really just convenience functions for cv::Matx<>. In the proper sense of C++ inheritance, it is correct to say that the fixed vector template cv::Vec<> is a cv::Matx<> whose num‐ ber of columns is one. The readily available aliases for specific instantiations of cv::Vec<> are of the form cv::Vec{2,3,4,6}{b,s,w,i,f,d}, where the last character has the usual meanings (with the addition of w, which indicates an unsigned short). Table 3-8 shows the operations cv::Vec supports.
+
+Table 3-8. Operations supported by cv::Vec
+
+Operation Default constructor
+
+Example
+Vec2s v2s; Vec6f v6f; // etc...
+
+Copy constructor
+
+Vec3f u3f( v3f );
+
+Value constructors
+
+Vec2f v2f(x0,x1); Vec6d v6d(x0,x1,x2,x3,x4,x5);
+
+Member access
+
+v4f[ i ]; v3w( j ); // (operator() and operator[] // both work)
+
+Vector cross-product
+
+v3f.cross( u3f );
+
+The primary conveniences of the fixed vector classes are the ability to access elements with a single ordinal, and a few specific additional functions that would not make sense for a general matrix (e.g., cross product). We can see this in Table 3-8 by the relatively small number of novel methods added to the large number of methods inherited from the fixed matrix classes.
+The complex number classes
+One more class type should be included in the basic types: the complex number classes. The OpenCV complex number classes are not identical to, but are compatible with—and can be cast to and from—the classes associated with the STL complex number class template complex<>. The most substantial difference between the OpenCV and STL complex number classes is in member access. In the STL classes, the real and imaginary parts are accessed through the member functions real() and imag(), while in the OpenCV class, they are directly accessible as (public) member variables re and im. Table 3-9 lists the operations supported by the complex number classes.
+
+OpenCV Data Types | 51
+
+Table 3-9. Operations supported by the OpenCV complex number classes
+
+Operation Default constructor
+
+Example
+cv::Complexf z1; cv::Complexd z2;
+
+Copy constructor
+
+cv::Complexf z2( z1 );
+
+Value constructors
+
+cv::Complexd z1(re0); cv::Complexd(re0,im1) ;
+
+Copy constructor
+
+cv::Complexf u2f( v2f );
+
+Member access
+
+z1.re; z1.im;
+
+Complex conjugate
+
+z2 = z1.conj();
+
+Like many basic types, the complex classes are aliases for underlying templates. cv::Complexf and cv::Complexd are aliases for single- and double-precision com‐ plex numbers, respectively.
+Helper Objects
+In addition to the basic types and the big containers (which we will get to in the next section), there is a family of helper objects that are important for controlling various algorithms (such as termination criteria) or for doing various operations on the con‐ tainers (such as “ranges” or “slices”). There is also one very important object, the “smart” pointer object cv::Ptr. Looking into cv::Ptr, we will examine the garbagecollecting system, which is integral to the C++ interface to OpenCV. This system frees us from worrying about the details of object allocation and deallocation in the manner that was so onerous in the earlier C-based OpenCV interface (i.e., before ver‐ sion 2.1).
+The cv::TermCriteria class
+Many algorithms require a stopping condition to know when to quit. Generally, stop‐ ping criteria take the form of either some finite number of iterations that are allowed (called COUNT or MAX_ITER) or some kind of error parameter that basically says, “if you are this close, you can quit” (called EPS—short for epsilon, everyone’s favorite tiny number). In many cases, it is desirable to have both of these at once so that if the algorithm never gets “close enough,” it will still quit at some point. The cv::TermCriteria objects encapsulate one or both of the stopping criteria so that they can be passed conveniently to an OpenCV algorithm function. They have three member variables—type, maxCount, and epsilon—which can be set directly (they are public) or, more often, are just set by the constructor with the form TermCri teria( int type, int maxCount, double epsilon ). The variable type is set to either cv::TermCriteria::COUNT or TermCriteria::EPS. You can also “or” (i.e., |) the two together. The value cv::TermCriteria::COUNT is a synonym for cv::Term
+
+52 | Chapter 3: Getting to Know OpenCV Data Types
+
+Criteria::MAX_ITER, so you can use that if you prefer. If the termination criterion includes cv::TermCriteria::COUNT, then you are telling the algorithm to terminate after maxCount iterations. If the termination criterion includes cv::TermCrite ria::EPS, then you are telling the algorithm to terminate after some metric associ‐ ated with the algorithm’s convergence falls below epsilon.6 The type argument has to be set accordingly for maxCount or epsilon to be used.
+The cv::Range class
+The cv::Range class is used to specify a continuous sequence of integers. cv::Range objects have two elements, start and end, which—similar to cv::TermCriteria—are often set with the constructor cv::Range( int start, int end ). Ranges are inclu‐ sive of their start value, but not inclusive of their end value, so cv::Range rng( 0, 4 ) includes the values 0, 1, 2, and 3, but not 4. Using size(), you can find the number of elements in a range. In the preceding example, rng.size() would be equal to 4. There is also a member, empty(), that tests if a range has no elements. Finally, cv::Range::all() can be used anywhere a range is required to indicate whatever range the object has available.
+The cv::Ptr template and Garbage Collection 101
+One very useful object type in C++ is the “smart” pointer.7 This pointer allows us to create a reference to something, and then pass it around. You can create more refer‐ ences to that thing, and then all of those references will be counted. As references go out of scope, the reference count for the smart pointer is decremented. Once all of the references (instances of the pointer) are gone, the “thing” will automatically be cleaned up (deallocated). You, the programmer, don’t have to do this bookkeeping anymore. Here’s how this all works. First, you define an instance of the pointer template for the class object that you want to “wrap.” You do this with a call like cv::Ptr<Matx33f> p( new cv::Matx33f ), or cv::Ptr<Matx33f> p = makePtr<cv::Matx33f>(). The constructor for the template object takes a pointer to the object to be pointed to. Once you do this, you have your smart pointer p, which is a sort of pointer-like object that you can pass around and use just like a normal pointer (i.e., it supports operators such as operator*() and operator->()). Once you have p, you can create other
+6 The exact termination criteria are clearly algorithm dependent, but the documentation will always be clear as to how a particular algorithm interprets epsilon.
+7 If you are familiar with some of the more recent additions to the C++ standard, you will recognize a similarity between the OpenCV cv::Ptr<> template and the smart_ptr<> template. Similarly, there is a smart pointer shared_ptr<> in the Boost library. Ultimately, they all function more or less the same.
+OpenCV Data Types | 53
+
+objects of the same type without passing them a pointer to a new object. For example, you could create Ptr<Mat33f> q, and when you assign the value of p to q, somewhere behind the scenes, the “smart” action of the smart pointer comes into play. You see, just like a usual pointer, there is still only one actual cv::Mat33f object out there that p and q both point to. The difference is that both p and q know that they are each one of two pointers. Should p disappear (such as by falling out of scope), q knows that it is the only remaining reference to the original matrix. If q should then disappear and its destructor is called (implicitly), q will know that is the last one left, and that it should deallocate the original matrix. You can think of this like the last person out of a build‐ ing being responsible for turning out the lights and locking the door (and in this case, burning the building to the ground as well). The cv::Ptr<> template class supports several additional functions in its interface related to the reference-counting functionality of the smart pointer. Specifically, the functions addref() and release() increment and decrement the internal reference counter of the pointer. These are relatively dangerous functions to use, but are avail‐ able in case you need to micromanage the reference counters yourself. There is also a function called empty(), which you can use to determine if a smart pointer is pointing to an object that has been deallocated. This could happen if you called release() on the object one or more times. In this case, you would still have a smart pointer around, but the object pointed to might already have been destroyed. There is a second application of empty(), which is to determine if the internal object pointer inside the smart pointer object happens to be NULL for some other reason. For example, this might occur if you assigned the smart pointer by calling a function that might just return NULL in the first place (cvLoadImage(), fopen(), etc.).8 The final member of Ptr<> that you will want to know about is delete_obj(). This is a function that gets called automatically when the reference count gets to zero. By default, this function is defined but does nothing. It is there so that you can overload it in the case of instantiation of cv::Ptr<>, which points to a class that requires some specific operation in order to clean up the class to which it points. For example, let’s say that you are working with an old-style (pre–version 2.1) IplImage.9 In the old days, you might, for example, have called cvLoadImage() to load that image from disk. In the C interface, that would have looked like this:
+8 For the purposes of this example, we will make reference to IplImage and cvLoadImge(), both constructs from the ancient pre–version 2.1 interface that are now deprecated. We won’t really cover them in detail in this book, but all you need to know for this example is that IplImage is the old data structure for images, and cvLoadImage() was the old function to get an image from disk and return a pointer to the resulting image structure.
+9 This example might seem a bit artificial, but in fact, if you have a large body of pre-v2.1 code you are trying to modernize, you will likely find yourself doing an operation like this quite often.
+54 | Chapter 3: Getting to Know OpenCV Data Types
+
+IplImage* img_p = cvLoadImage( ... );
+The modern version of this (while still using IplImage rather than cv::Mat, which we are still working our way up to) would look like this:
+
+cv::Ptr<IplImage> img_p = cvLoadImage( "an_image" );
+or (if you prefer) this:
+
+cv::Ptr<IplImage> img_p( cvLoadImage("an_image" ) );
+Now you can use img_p in exactly the same way as a pointer (which is to say, for readers experienced with the pre–version 2.1 interface, “exactly as you would have back then”). Conveniently, this particular template instantiation is actually already defined for you somewhere in the vast sea of header files that make up OpenCV. If you were to go search it out, you would find the following template function defined:
+
+template<> inline void cv::Ptr<IplImage>::delete_obj() { cvReleaseImage(&obj);
+}
+(The variable obj is the name of the class member variable inside Ptr<> that actually holds the pointer to the allocated object.) As a result of this definition, you will not need to deallocate the IplImage* pointer you got from cvLoadImage(). Instead, it will be automatically deallocated for you when img_p falls out of scope.
+This example was a somewhat special (though highly relevant) situation, in that the case of a smart pointer to IplImage is sufficiently salient that it was defined for you by the library. In a somewhat more typical case, when the clean-up function does not exist for what you want, you will have to define it yourself. Consider the example of creating a file handle using a smart pointer to FILE.10 In this case, we define our own overloaded version of delete_obj() for the cv::Ptr<FILE> template:
+
+template<> inline void cv::Ptr<FILE>::delete_obj() { fclose(obj);
+}
+Then you could go ahead and use that pointer to open a file, do whatever with it, and later, just let the pointer fall out of scope (at which time the file handle would auto‐ matically be closed for you):
+
+{
+
+cv::Ptr<FILE> f(fopen("myfile.txt", "r"));
+
+if(f.empty())
+
+throw ...;
+
+// Throw an exception, we will get to this later on...
+
+fprintf(f, ...);
+
+...
+
+}
+
+10 In this case, by FILE we mean struct FILE, as defined in the C standard library. OpenCV Data Types | 55
+
+At the final brace, f falls out of scope, the internal reference count in f goes to zero, delete_obj() is called by f’s destructor, and (thus) fclose() is called on the file handle pointer (stored in obj).
+A tip for gurus: a serious programmer might worry that the incre‐ menting and decrementing of the reference count might not be sufficiently atomic for the Ptr<> template to be safe in multithrea‐ ded applications. This, however, is not the case, and Ptr<> is thread safe. Similarly, the other reference-counting objects in OpenCV are all thread safe in this same sense.
+The cv::Exception class and exception handling
+OpenCV uses exceptions to handle errors. OpenCV defines its own exception type, cv::Exception, which is derived from the STL exception class std::exception. Really, this exception type has nothing special about it, other than being in the cv:: namespace and thus distinguishable from other objects that are also derived from std::exception. The type cv::Exception has members code, err, func, file, and line, which are (respectively) a numerical error code, a string indicating the nature of the error that generated the exception, the name of the function in which the error occurred, the file in which the error occurred, and an integer indicating the line on which the error occurred in that file. err, func, and file are all STL strings. There are several built-in macros for generating exceptions yourself. CV_Error( errorcode, description ) will generate and throw an exception with a fixed text description. CV_Error_( errorcode, printf_fmt_str, [printf-args] ) works the same, but allows you to replace the fixed description with a printf-like format string and arguments. Finally, CV_Assert( condition ) and CV_DbgAs sert( condition ) will both test your condition and throw an exception if the con‐ dition is not met. The latter version, however, will only operate in debug builds. These macros are the strongly preferred method of throwing exceptions, as they will automatically take care of the fields func, file, and line for you.
+The cv::DataType<> template
+When OpenCV library functions need to communicate the concept of a particular data type, they do so by creating an object of type cv::DataType<>. cv::DataType<> itself is a template, and so the actual objects passed around are specializations of this template. This is an example of what in C++ are generally called traits. This allows the cv::DataType<> object to contain both runtime information about the type, as
+56 | Chapter 3: Getting to Know OpenCV Data Types
+
+well as typedef statements in its own definition that allow it to refer to the same type at compile time. This might sound a bit confusing, and it is, but that is an inevitable consequence of trying to mix runtime information and compile-time information in C++.11 An example will help clarify. Here’s the template class definition for DataType:
+
+template<typename _Tp> class DataType
+
+{
+
+typedef _Tp
+
+value_type;
+
+typedef value_type work_type;
+
+typedef value_type channel_type;
+
+typedef value_type vec_type;
+
+enum {
+
+generic_type = 1,
+
+depth
+
+= -1,
+
+channels = 1,
+
+fmt
+
+= 0,
+
+type
+
+= CV_MAKETYPE(depth, channels)
+
+};
+
+};
+
+Let’s try to understand what this means, and then follow it with an example. First, we can see that cv::DataType<> is a template, and expects to be specialized to a class called _Tp. It then has four typedef statements that allow the type of the cv::Data Type<>, as well as some other related types, to be extracted from the cv::DataType<> instantiated object at compile time. In the template definition, these are all the same, but we will see in our example of a template specialization that they do not have to be (and often should not be). The next section is an enum that contains several compo‐ nents.12 These are the generic_type, the depth, the number of channels, the format fmt, and the type. To see what all of these components mean, we’ll look at two exam‐ ple specializations of cv::DataType<>, from core.hpp. The first is the cv::DataType<> definition for float:
+
+template<> class DataType<float>
+
+{
+
+public:
+
+typedef float
+
+value_type;
+
+typedef value_type work_type;
+
+typedef value_type channel_type;
+
+11 You don’t have this sort of problem in languages that support variable introspection and have an intrinsic runtime concept of data types.
+12 If this construct is awkward to you, remember that you can always assign integer values to the “options” in an enum declaration. In effect, this is a way of stashing a bunch of integer constants that will be fixed at compile time.
+OpenCV Data Types | 57
+
+typedef value_type vec_type;
+
+enum {
+
+generic_type = 0,
+
+depth
+
+= DataDepth<channel_type>::value,
+
+channels = 1,
+
+fmt
+
+= DataDepth<channel_type>::fmt,
+
+type
+
+= CV_MAKETYPE(depth, channels)
+
+};
+
+};
+
+The first thing to notice is that this is a definition for a C++ built-in type. It is useful to have such definitions for the built-in types, but we can also make them for more complicated objects. In this case, the value_type is of course float, and the work_type, channel_type, and vec_type are all the same. We will see more clearly what these are for in the next example. For the constants in the enum, this example will do just fine. The first variable, generic_type, is set to 0, as it is zero for all types defined in core.hpp. The depth variable is the data type identifier used by OpenCV. For example, cv::DataDepth<float>::value resolves to the constant CV_32F. The entry channels is 1 because float is just a single number; we will see an alternative to this in the next example. The variable fmt gives a single-character representation of the format. In this case, cv::DataDepth<float>::fmt resolves to f. The last entry is type, which is a representation similar to depth, but includes the number of channels (in this case, one). CV_MAKETYPE(CV_32F,1) resolves to CV_32FC1.
+
+The important thing about DataType<>, however, is to communicate the nature of more complicated constructs. This is essential, for example, for allowing algorithms to be implemented in a manner that is agnostic to the incoming data type (i.e., algo‐ rithms that use introspection to determine how to proceed with incoming data). Consider the example of an instantiation of cv::DataType<> for a cv::Rect<> (itself containing an as-yet-unspecialized type _Tp):
+
+template<typename _Tp> class DataType<Rect_<_Tp> >
+
+{
+
+public:
+
+typedef Rect_<_Tp>
+
+value_type;
+
+typedef Rect_<typename DataType<_Tp>::work_type> work_type;
+
+typedef _Tp
+
+channel_type;
+
+typedef Vec<channel_type, channels>
+
+vec_type;
+
+enum {
+
+generic_type = 0,
+
+depth
+
+= DataDepth<channel_type>::value,
+
+channels = 4,
+
+fmt
+
+= ((channels-1)<<8) + DataDepth<channel_type>::fmt,
+
+type
+
+= CV_MAKETYPE(depth, channels)
+
+};
+
+};
+
+58 | Chapter 3: Getting to Know OpenCV Data Types
+
+This is a much more complicated example. First, notice that cv::Rect itself does not appear. You will recall that earlier we mentioned that cv::Rect was actually an alias for a template, and that template is called cv::Rect_<>. So this template could be specialized as cv::DataType<Rect> or, for example, cv::DataType< Rect_<float> >. For the case cv::DataType<Rect>, recall that all of the elements are integers, so if we consider that case, all of the instantiations of the template parameter _Tp resolve to int. We can see that the value_type is just the compile-time name of the thing that the cv::DataType<> is describing (namely Rect). The work_type, however, is defined to be the work_type of cv::DataType<int> (which, not surprisingly, is int). What we see is that the work_type is telling us what kind of variables the cv::DataType<> is made of (i.e., what we “do work” on). The channel type is also int. This means that if we want to represent this variable as a multichannel object, it should be represented as some number of int objects. Finally, just as channel_type tells us how to repre‐ sent this cv::DataType<> as a multichannel object, vec_type tells us how to repre‐ sent it as an object of type cv::Vec<>. The alias cv::DataType<Rect>::vec_type will resolve to cv::Vec<int,4>. Moving on to the runtime constants: generic_type is again 0, depth is CV_32S, chan nels is 4 (because there are actually four values, the same reason the vec_type instantiated to a cv::Vec<> of size 4), fmt resolves to 0x3069 (since i is 0x69), and type resolves to CV_32SC4.
+The cv::InputArray and cv::OutputArray classes
+Many OpenCV functions take arrays as arguments and return arrays as return values, but in OpenCV, there are many kinds of arrays. We have already seen that OpenCV supports some small array types (cv::Scalar, cv::Vec, cv::Matx) and STL’s std::vector<> in addition to the large array types discussed in the next chapter (cv::Mat and cv::SparseMat). In order to keep the interface from becoming oner‐ ously complicated (and repetitive), OpenCV defines the types cv::InputArray and cv::OutputArray. In effect, these types mean “any of the above” with respect to the many array forms supported by the library. There is even a cv::InputOutputArray, specifying an array for in-place computation. The primary difference between cv::InputArray and cv::OutputArray is that the former is assumed to be const (i.e., read only). You will typically see these two types used in the definitions of library routines. You will not tend to use them yourself, but when you are being introduced to library functions, their presence means that you can use any array type, including a single cv::Scalar, and the result should be what you expect.
+OpenCV Data Types | 59
+
+Related to cv::InputArray is the special function cv::noArray() that returns a cv::InputArray. The returned object can be passed to any input requiring cv::InputArray to indicate that this input is not being used. Certain functions also have optional output arrays, where you may pass cv::noArray() when you do not need the corresponding output.
+Utility Functions
+In addition to providing the specialized primitive data types that we have seen so far in this chapter, the OpenCV library also provides some specialized functions that can be used to more efficiently handle mathematical and other operations which arise commonly in computer vision applications. In the context of the library, these are known as the utility functions. The utility functions include tools for mathematical operations, tests, error generations, memory and thread handling, optimization, and more. Table 3-10 lists these functions and summarizes their functionalities; detailed descriptions then follow.
+
+Table 3-10. Utility and system functions
+
+Function cv::alignPtr() cv::alignSize() cv::allocate() cvCeil()a cv::cubeRoot() cv::CV_Assert() CV_Error() CV_Error_() cv::deallocate() cv::error() cv::fastAtan2() cv::fastFree() cv::fastMalloc() cvFloor() cv::format() cv::getCPUTickCount() cv::getNumThreads() cv::getOptimalDFTSize() cv::getThreadNum() cv::getTickCount() cv::getTickFrequency() cvIsInf()
+
+Description Align pointer to given number of bytes Align buffer size to given number of bytes Allocate a C-style array of objects Round float number x to nearest integer not smaller than x Compute the cube root of a number Throw an exception if a given condition is not true Macro to build a cv::Exception (from a fixed string) and throw it Macro to build a cv::Exception (from a formatted string) and throw it Deallocate a C-style array of objects Indicate an error and throw an exception Calculate two-dimensional angle of a vector in degrees Deallocate a memory buffer Allocate an aligned memory buffer Round float number x to nearest integer not larger than x Create an STL string using sprintf-like formatting Get tick count from internal CPU timer Count number of threads currently used by OpenCV Compute the best size for an array that you plan to pass to cv::DFT() Get index of the current thread Get tick count from system Get number or ticks per second (see cv::getTickCount()) Check if a floating-point number x is infinity
+
+60 | Chapter 3: Getting to Know OpenCV Data Types
+
+Function
+
+Description
+
+cvIsNaN()
+
+Check if a floating-point number x is “Not a Number”
+
+cvRound()
+
+Round float number x to the nearest integer
+
+cv::setNumThreads()
+
+Set number of threads used by OpenCV
+
+cv::setUseOptimized()
+
+Enables or disables the use of optimized code (SSE2, etc.)
+
+cv::useOptimized()
+
+Indicates status of optimized code enabling (see cv::setUseOpti mized())
+
+a This function has something of a legacy interface. It is a C definition, not C++ (see core .../types_c.h) where it is defined as an inline function. There are several others with a similar interface.
+
+cv::alignPtr()
+
+template<T> T* cv::alignPtr( T* ptr, int n = sizeof(T)
+);
+
+// Return aligned pointer of type T* // pointer, unaligned // align to block size, a power of 2
+
+Given a pointer of any type, this function computes an aligned pointer of the same type according to the following computation:
+
+(T*)(((size_t)ptr + n+1) & -n)
+
+On some architectures, it is not even possible to read a multibyte object from an address that is not evenly divisible by the size of the object (i.e., by 4 for a 32-bit integer). On architectures such as x86, the CPU handles this for you automatically by using multiple reads and assembling your value from those reads at the cost of a sub‐ stantial penalty in performance.
+
+cv::alignSize()
+
+size_t cv::alignSize( size_t sz, int n = sizeof(T)
+);
+
+// minimum size >='sz' divisible by 'n' // size of buffer // align to block size, a power of 2
+
+Given a number n (typically a return value from sizeof()), and a size for a buffer sz, cv::alignSize() computes the size that this buffer should be in order to contain an integer number of objects of size n—that is, the minimum number that is greater or equal to sz yet divisible by n. The following formula is used:
+
+(sz + n-1) & -n
+
+cv::allocate()
+template<T> T* cv::allocate( size_t sz
+);
+
+// Return pointer to allocated buffer // buffer size, multiples of sizeof(T)
+
+OpenCV Data Types | 61
+
+The function cv::allocate() functions similarly to the array form of new, in that it allocates a C-style array of n objects of type T, calls the default constructor for each object, and returns a pointer to the first object in the array.
+
+cv::deallocate()
+
+template<T> void cv::deallocate( T* ptr, size_t sz
+);
+
+// Pointer to buffer to free // size of buffer, multiples of sizeof(T)
+
+The function cv::deallocate() functions similarly to the array form of delete, in that it deallocates a C-style array of n objects of type T, and calls the destructor for each object. cv::deallocate() is used to deallocate objects allocated with cv::allo cate(). The number of elements n passed to cv::deallocate() must be the same as the number of objects originally allocated with cv::allocate().
+
+cv::fastAtan2()
+
+float cv::fastAtan2( float y, float x
+);
+
+// Return value is 32-bit float // y input value (32-bit float) // x input value (32-bit float)
+
+This function computes the arctangent of an x,y pair and returns the angle from the origin to the indicated point. The result is reported in degrees ranging from 0.0 to 360.0, inclusive of 0.0 but not inclusive of 360.0.
+
+cvCeil()
+
+int cvCeil( float x
+);
+
+// Return the smallest int >= x // input value (32-bit float)
+
+Given a floating-point number x, cvCeil() computes the smallest integer not smaller than x. If the input value is outside of the range representable by a 32-bit integer, the result is undefined.
+
+cv::cubeRoot()
+
+float cv::cubeRoot( float x
+);
+
+// Return value is 32-bit float // input value (32-bit float)
+
+This function computes the cubed root of the argument x. Negative values of x are handled correctly (i.e., the return value is negative).
+
+62 | Chapter 3: Getting to Know OpenCV Data Types
+
+cv::CV_Assert() and CV_DbgAssert()
+// example CV_Assert( x!=0 )
+CV_Assert() is a macro that will test the expression passed to it and, if that expres‐ sion evaluates to False (or 0), it will throw an exception. The CV_Assert() macro is always tested. Alternatively, you can use CV_DbgAssert(), which will be tested only in debug compilations.
+
+cv::CV_Error() and CV_Error_()
+// example CV_Error( ecode, estring ) CV_Error_( ecode, fmt, ... )
+The macro CV_Error() allows you to pass in an error code ecode and a fixed C-style character string estring, which it then packages up into a cv::Exception that it then passes to cv::error() to be handled. The variant macro CV_Error_() is used if you need to construct the message string on the fly. CV_Error_() accepts the same ecode as CV_Error(), but then expects a sprintf()-style format string followed by a vari‐ able number of arguments, as would be expected by sprintf().
+
+cv::error()
+
+void cv::error( const cv::Exception& ex
+);
+
+// Exception to be thrown
+
+This function is mostly called from CV_Error() and CV_Error_(). If your code is compiled in a nondebug build, it will throw the exception ex. If your code is com‐ piled in a debug build, it will deliberately provoke a memory access violation so that the execution stack and all of the parameters will be available for whatever debugger you are running.
+
+You will probably not call cv::error() directly, but rather rely on the macros CV_Error() and CV_Error_() to throw the error for you. These macros take the information you want displayed in the exception, package it up for you, and pass the resulting exception to cv::error().
+
+cv::fastFree()
+
+void cv::fastFree( void* ptr
+);
+
+// Pointer to buffer to be freed
+
+This routine deallocates buffers that were allocated with cv::fastMalloc() (covered next).
+
+OpenCV Data Types | 63
+
+cv::fastMalloc()
+
+void* cv::fastMalloc( size_t size
+);
+
+// Pointer to allocated buffer // Size of buffer to allocate
+
+cv::FastMalloc() works just like the malloc() you are familiar with, except that it is often faster, and it does buffer size alignment for you. This means that if the buffer size passed is more than 16 bytes, the returned buffer will be aligned to a 16-byte boundary.
+
+cvFloor()
+
+int cvFloor( float x
+};
+
+// Return the largest int <= x // input value (32-bit float)
+
+Given a floating-point number x, cv::Floor() computes the largest integer not larger than x. If the input value is outside of the range representable by a 32-bit inte‐ ger, the result is undefined.
+
+cv::format()
+
+string cv::format( const char* fmt, ...
+);
+
+// Return STL-string // formatting string, as sprintf() // vargs, as sprintf()
+
+This function is essentially the same as sprintf() from the standard library, but rather than requiring a character buffer from the caller, it constructs an STL string object and returns that. It is particularly handy for formatting error messages for the Exception() constructor (which expects STL strings in its arguments).
+
+cv::getCPUTickCount()
+
+int64 cv::getCPUTickCount( void );
+
+// long int CPU for tick count
+
+This function reports the number of CPU ticks on those architectures that have such a construct (including, but not limited to, x86 architectures). It is important to know, however, that the return value of this function can be very difficult to interpret on many architectures. In particular, because on a multicore system a thread can be put to sleep on one core and wake up on another, the difference between the results to two subsequent calls to cv::getCPUTickCount() can be misleading or completely meaningless. Therefore, unless you are certain you know what you are doing, it is
+
+64 | Chapter 3: Getting to Know OpenCV Data Types
+
+best to use cv::getTickCount() for timing measurements.13 This function is best for tasks like initializing random number generators.
+
+cv::getNumThreads()
+
+int cv::getNumThreads( void );
+
+// total threads allocated to OpenCV
+
+Return the current number of threads being used by OpenCV.
+
+cv::getOptimalDFTSize()
+
+int cv::getOptimalDFTSize( int n );
+
+// best size array to use for dft, >= n
+
+When you are making calls to cv::dft(), the algorithm used by OpenCV to compute the transform is extremely sensitive to the size of the array passed to cv::dft(). The preferred sizes do obey a rule for their generation, but that rule is sufficiently compli‐ cated that it is (at best) an annoyance to compute the correct size to which to pad your array every time. The function cv::getOptimalDFTSize() takes as an argument the size of the array you would have passed to cv::dft(), and returns the size of the array you should pass to cv::dft(). OpenCV uses this information to create a larger array into which you can copy your data and pad out the rest with zeros.
+
+cv::getThreadNum()
+
+int cv::getThreadNum( void );
+
+// int, id of this particular thread
+
+If your OpenCV library was compiled with OpenMP support, it will return the index (starting from zero) of the currently executing thread.
+
+cv::getTickCount()
+
+int64 cv::getTickCount( void );
+
+// long int CPU for tick count
+
+This function returns a tick count relative to some architecture-dependent time. The rate of ticks is also architecture and operating system dependent, however; the time per tick can be computed by cv::getTickFrequency() (described next). This func‐ tion is preferable to cv::getCPUTickCount() for most timing applications, as it is not affected by low-level issues such as which core your thread is running on and auto‐ matic throttling of CPU frequency (which most modern processors do for powermanagement reasons).
+
+13 Of course, if you really do know what you are doing, then there is no more accurate way to get detailed timing information than from the CPU timers themselves. OpenCV Data Types | 65
+
+cv::getTickFrequency()
+
+double cv::getTickFrequency( void );
+
+// Tick frequency in seconds as 64-bit
+
+When cv::getTickCount() is used for timing analysis, the exact meaning of a tick is, in general, architecture dependent. The function cv::getTickFrequency() computes the conversion between clock time (i.e., seconds) and abstract “ticks.”
+
+To compute the time required for some specific thing to happen (such as a function to execute), you need only call cv::getTick Count() before and after the function call, subtract the results, and divide by the value of cv::getTickFrequency().
+
+cvIsInf()
+
+int cvIsInf( double x );
+
+// return 1 if x is IEEE754 "infinity"
+
+The return value of cvIsInf() is 1 if x is plus or minus infinity and 0 otherwise. The infinity test is the test implied by the IEEE754 standard.
+
+cvIsNaN()
+
+int cvIsNan( double x );
+
+// return 1 if x is IEEE754 "Not a number"
+
+The return value of cvIsNaN() is 1 if x is “not a number” and 0 otherwise. The NaN test is the test implied by the IEEE754 standard.
+
+cvRound()
+
+int cvRound( double x );
+
+// Return integer nearest to 'x'
+
+Given a floating-point number x, cvRound() computes the integer closest to x. If the input value is outside of the range representable by a 32-bit integer, the result is undefined. In OpenCV 3.0 there is overloaded cvRound( float x ) (as well as cvFloor and cvCeil), which is faster on ARM.
+
+cv::setNumThreads()
+void cv::setNumThreads( int nthreads ); // Set number of threads OpenCV can use
+When OpenCV is compiled with OpenMP support, this function sets the number of threads that OpenCV will use in parallel OpenMP regions. The default value for the number of threads is the number of logical cores on the CPU (i.e., if we have four cores each with two hyperthreads, there will be eight threads by default). If nthreads is set to 0, the number of threads will be returned to this default value.
+
+66 | Chapter 3: Getting to Know OpenCV Data Types
+
+cv::setUseOptimized()
+void cv::setUseOptimized( bool on_off ); // If false, turn off optimized routines
+Though early versions of OpenCV relied on outside libraries (such as IPP, the Intel Performance Primitives library) for access to high-performance optimizations such as SSE2 instructions, later versions have increasingly moved to containing that code in the OpenCV itself. By default, the use of these optimized routines is enabled, unless you specifically disabled it when you built your installation of the library. However, you can turn the use of these optimizations on and off at any time with cv::setUseOptimized().
+The test of the global flag for optimizations usage is done at a rela‐ tively high level inside the OpenCV library functions. The implica‐ tion is that you should not call cv::setUseOptimized() while any other routines might be running (on any threads). You should make sure to call this routine only when you can be certain you know what is and what is not running, preferably from the very top level of your application.
+cv::useOptimized()
+bool cv::useOptimized( void ); // return true if optimizations are enabled
+At any time, you can check the state of the global flag, which enables the use of highperformance optimizations (see cv::setUseOptimized()) by calling cv::useOpti mized(). True will be returned only if these optimizations are currently enabled; otherwise, this function will return False.
+The Template Structures
+Thus far in this chapter, we have regularly alluded to the existence of template forms for almost all of the basic types. In fact, most programmers can get quite far into OpenCV without ever digging down into the templates.14 OpenCV versions 2.1 and later are built on a template metaprogramming style simi‐ lar to STL, Boost, and similar libraries. This sort of library design can be extremely powerful, both in terms of the quality and speed of the final code, as well as the flexi‐ bility it allows the developer. In particular, template structures of the kind used in OpenCV allow for algorithms to be implemented in an abstracted way that does not specifically rely on the primitive types that are native to C++ or even native to OpenCV.
+14 In fact, if your C++ programming skills are not entirely up to par, you can probably just skim or skip over this little section entirely.
+OpenCV Data Types | 67
+
+In this chapter, we started with the cv::Point class. Though the class was introduced as a primitive, in fact when you instantiate an object of type cv::Point, you are actually instantiating an even more fundamental template object of type cv::Point_<int>.15 This template could have been instantiated with a different type than int, obviously. In fact, it could have been instantiated with any type that sup‐ ports the same basic set of operators as int (i.e., addition, subtraction, multiplication, etc.). For example, OpenCV provides a type cv::Complex that you could have used. You also could have used the STL complex type std::complex, which has nothing to do with OpenCV at all. The same is true for some other types of your own construc‐ tion. This same concept generalizes to other type templates such as cv::Scalar_<> and cv::Rect_<>, as well as cv::Matx_<> and cv::Vec_<>. When instantiating these templates on your own, you must provide the unitary type that is to be used to compose the template, as well as (where relevant) the dimensions of the template. The arguments to the common templates are shown in Table 3-11.
+
+Table 3-11. Common fixed length templates
+
+Function cv::Point_<Type T> cv::Rect_<Type T> cv::Vec<Type T, int H> cv::Matx<Type T, int H, int W> cv::Scalar_<Type T>
+
+Description A point consisting of a pair of objects of type T. A location, width, and height, all of type T. A set of H objects of type T. A set of H*W objects of type T. A set of four objects of type T (identical to cv::Vec<T, 4>).
+
+In the next chapter, we will see that the large array types, cv::Mat and cv::Sparse Mat, also have corresponding template types cv::Mat<> and cv::SparseMat_<>, which are similar but differ in a few important ways.
+Summary
+In this chapter, we covered in detail the basic data types that are used by the OpenCV library to handle compact collections. These collections include points, but also small vectors and matrices that are often used to represent things like color (channel) vec‐ tors or coordinate vectors, as well as small matrices that operate in these spaces. We covered both the template representations used, mostly internally, by the library for
+
+15 Note the trailing underscore—this is a common, but not universal, convention in the library used to indicate a template. In the 2.x version of the library, it was essentially universal. Since 3.x, the underscore was dropped where not specifically necessary. Thus cv::Point_<> still has the underscore to distinguish from the nontem‐ plate class cv::Point, while cv::Vec<> does not have an underscore. (It was cv::Vec_<> in the 2.x version of the library.)
+68 | Chapter 3: Getting to Know OpenCV Data Types
+
+such objects, as well as the classes that are specializations of those templates. These specialization classes make up the majority of what you will use on a daily basis. In addition to these data classes, we also covered the helper objects that allow us to express concepts such as termination criteria and value ranges. Finally, we concluded the chapter by surveying the utility functions that the library provides. These func‐ tions provide optimized implementations of important tasks that computer vision applications often encounter. Important examples of operations include special arith‐ metic and memory management tools.
+Exercises
+1. Find and open .../opencv/cxcore/include/cxtypes.h. Read through and find the many conversion helper functions. a. Choose a negative floating-point number. b. Take its absolute value, round it, and then take its ceiling and floor. c. Generate some random numbers. d. Create a floating-point cv::Point2f and convert it to an integer cv::Point. Convert a cv::Point to a cv::Point2f.
+2. Compact matrix and vector types: a. Using the cv::Mat33f and cv::Vec3f objects (respectively), create a 3 × 3 matrix and 3-row vector. b. Can you multiply them together directly? If not, why not?
+3. Compact matrix and vector template types: a. Using the cv::Mat<> and cv::Vec<> templates (respectively), create a 3 × 3 matrix and 3-row vector. b. Can you multiply them together directly? If not, why not? c. Try type-casting the vector object to a 3 × 1 matrix, using the cv::Mat<> tem‐ plate. What happens now?
+Exercises | 69
+
+CHAPTER 4
+Images and Large Array Types
+Dynamic and Variable Storage
+The next stop on our journey brings us to the large array types. Chief among these is cv::Mat, which could be considered the epicenter of the entire C++ implementation of the OpenCV library. The overwhelming majority of functions in the OpenCV library are members of the cv::Mat class, take a cv::Mat as an argument, or return cv::Mat as a return value; quite a few are or do all three. The cv::Mat class is used to represent dense arrays of any number of dimensions. In this context, dense means that for every entry in the array, there is a data value stored in memory corresponding to that entry, even if that entry is zero. Most images, for example, are stored as dense arrays. The alternative would be a sparse array. In the case of a sparse array, only nonzero entries are typically stored. This can result in a great savings of storage space if many of the entries are in fact zero, but can be very wasteful if the array is relatively dense. A common case for using a sparse array rather than a dense array would be a histogram. For many histograms, most of the entries are zero, and storing all those zeros is not necessary. For the case of sparse arrays, OpenCV has the alternative data structure, cv::SparseMat.
+If you are familiar with the C interface (pre–version 2.1 implemen‐ tation) of the OpenCV library, you will remember the data types IplImage and CvMat. You might also recall CvArr. In the C++ implementation, these are all gone, replaced with cv::Mat. This means no more dubious casting of void* pointers in function arguments, and in general is a tremendous enhancement in the internal cleanliness of the library.
+71
+
+The cv::Mat Class: N-Dimensional Dense Arrays
+The cv::Mat class can be used for arrays of any number of dimensions. The data is stored in the array in what can be thought of as an n-dimensional analog of “raster scan order.” This means that in a one-dimensional array, the elements are sequential. In a two-dimensional array, the data is organized into rows, and each row appears one after the other. For three-dimensional arrays, each plane is filled out row by row, and then the planes are packed one after the other. Each matrix contains a flags element signaling the contents of the array, a dims ele‐ ment indicating the number of dimensions, rows and cols elements indicating the number of rows and columns (these are not valid for dims>2), a data pointer to where the array data is stored, and a refcount reference counter analogous to the ref‐ erence counter used by cv::Ptr<>. This latter member allows cv::Mat to behave very much like a smart pointer for the data contained in data. The memory layout in data is described by the array step[]. The data array is laid out such that the address of an element whose indices are given by (i0, ii, … , ) iNd−1 is:
+In the simple case of a two-dimensional array, this reduces to: &(mtxi, j) = mtx.data + mtx.step 0 *i + mtx.step 1 * j
+The data contained in cv::Mat is not required to be simple primitives. Each element of the data in a cv::Mat can itself be either a single number or multiple numbers. In the case of multiple numbers, this is what the library refers to as a multichannel array. In fact, an n-dimensional array and an (n–1)-dimensional multichannel array are actually very similar objects, but because there are many occasions in which it is use‐ ful to think of an array as a vector-valued array, the library contains special provisions for such structures.1 One reason for this distinction is memory access. By definition, an element of an array is the part that may be vector-valued. For example, an array might be said to be
+1 Pre-2.1 OpenCV array types had an explicit element IplImage::nChannels, which indicated the number of channels. Because of the more general way in which such concepts are captured in the cv::Mat object, this information is no longer directly stored in a class variable. Rather, it is returned by a member function, cv::channels().
+72 | Chapter 4: Images and Large Array Types
+
+a two-dimensional three-channel array of 32-bit floats; in this case, the element of the array is the three 32-bit floats with a size of 12 bytes. When laid out in memory, rows of an array may not be absolutely sequential; there may be small gaps that buffer each row before the next.2 The difference between an n-dimensional single-channel array and an (n–1)-dimensional multichannel array is that this padding will always occur at the end of full rows (i.e., the channels in an element will always be sequential).
+Creating an Array
+You can create an array simply by instantiating a variable of type cv::Mat. An array created in this manner has no size and no data type. You can, however, later ask it to allocate data by using a member function such as create(). One variation of cre ate() takes as arguments a number of rows, a number of columns, and a type, and configures the array to represent a two-dimensional object. The type of an array determines what kind of elements it has. Valid types in this context specify both the fundamental type of element as well as the number of channels. All such types are defined in the library header, and have the form CV_{8U,16S,16U,32S,32F,64F}C{1,2,3}.3 For example, CV_32FC3 would imply a 32-bit floating-point three-channel array. If you prefer, you can also specify these things when you first allocate the matrix. There are many constructors for cv::Mat, one of which takes the same arguments as create() (and an optional fourth argument with which to initialize all of the ele‐ ments in your new array). For example:
+cv::Mat m; // Create data area for 3 rows and 10 columns of 3-channel 32-bit floats m.create( 3, 10, CV_32FC3 ); // Set the values in the 1st channel to 1.0, the 2nd to 0.0, and the 3rd to 1.0 m.setTo( cv::Scalar( 1.0f, 0.0f, 1.0f ) );
+is equivalent to:
+cv::Mat m( 3, 10, CV_32FC3, cv::Scalar( 1.0f, 0.0f, 1.0f ) );
+2 The purpose of this padding is to improve memory access speed. 3 OpenCV allows for arrays with more than three channels, but to construct one of these, you will have to call
+one of the functions CV_{8U,16S,16U,32S,32F,64F}C(). These functions take a single argument, which is the number of channels. So CV_8UC(3) is equivalent to CV_8UC3, but since there is no macro for CV_8UC7, to get this you would have to call CV_8UC(7).
+Dynamic and Variable Storage | 73
+
+The Most Important Paragraph in the Book
+It is critical to understand that the data in an array is not attached rigidly to the array object. The cv::Mat object is really a header for a data area, which—in principle—is an entirely separate thing. For example, it is possible to assign one matrix n to another matrix m (i.e., m=n). In this case, the data pointer inside of m will be changed to point to the same data as n. The data pointed to previously by the data element of m (if any) will be deallocated.4 At the same time, the reference counter for the data area that they both now share will be incremented. Last but not least, the members of m that char‐ acterize its data (such as rows, cols, and flags) will be updated to accurately describe the data now pointed to by data in m. This all results in a very convenient behavior, in which arrays can be assigned to one another, and the work necessary to do this takes place automatically behind the scenes to give the correct result.
+
+Table 4-1 is a complete list of the constructors available for cv::Mat. The list appears rather unwieldy, but in fact you will use only a small fraction of these most of the time. Having said that, when you need one of the more obscure ones, you will proba‐ bly be glad it is there.
+
+Table 4-1. cv::Mat constructors that do not copy data
+
+Constructor
+cv::Mat;
+
+Description Default constructor
+
+cv::Mat( int rows, int cols, int type );
+
+Two-dimensional arrays by type
+
+cv::Mat( int rows, int cols, int type, const Scalar& s
+);
+
+Two-dimensional arrays by type with initialization value
+
+cv::Mat( int rows, int cols, int type, void* data, size_t step=AUTO_STEP
+);
+
+Two-dimensional arrays by type with preexisting data
+
+cv::Mat( cv::Size sz, int type );
+
+Two-dimensional arrays by type (size in sz)
+
+cv::Mat( cv::Size sz, int type, const Scalar& s
+);
+
+Two-dimensional arrays by type with initialization value (size in sz)
+
+4 Technically, it will only be deallocated if m was the last cv::Mat that pointed to that particular data. 74 | Chapter 4: Images and Large Array Types
+
